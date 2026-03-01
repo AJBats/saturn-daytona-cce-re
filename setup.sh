@@ -2,19 +2,18 @@
 # setup.sh — Daytona USA CCE Project Setup
 #
 # Single entrypoint for bootstrapping this project from a fresh clone.
-# You need: a legally obtained Daytona USA Circuit Edition disc dump in BIN/CUE format.
 #
 # Usage:
-#   ./setup.sh                  Full setup (extract disc, build Mednafen)
+#   ./setup.sh                  Full setup (build Mednafen)
 #   ./setup.sh clean            Wipe all derived artifacts back to ground zero
 #   ./setup.sh status           Show what's present and what's missing
 #
 # What this does:
-#   1. Checks prerequisites (Python 3, gcc, make, wget, SDL2)
-#   2. Extracts the game binary from your disc image
+#   1. Checks prerequisites (Python 3, gcc, make, SDL2)
+#   2. Extracts game files from disc image
 #   3. Builds debug Mednafen emulator (from mednafen/ submodule)
 #
-# Disc image location (place yours here before running):
+# Disc image location (place yours here — extraction TBD):
 #   external_resources/Daytona USA - Circuit Edition (Japan)/
 
 set -e
@@ -53,20 +52,19 @@ do_status() {
         miss "Disc image not found (place at external_resources/Daytona USA - Circuit Edition (Japan)/)"
     fi
 
-    # Extracted binary
-    GAME_BIN="$PROJ_ROOT/build/disc/files/APROG.BIN"
-    if [ -f "$GAME_BIN" ]; then
-        SIZE=$(stat -c%s "$GAME_BIN" 2>/dev/null || stat -f%z "$GAME_BIN" 2>/dev/null)
-        ok "Game binary extracted ($SIZE bytes)"
+    # Extracted game files
+    if [ -d "$PROJ_ROOT/build/disc/files" ] && [ "$(ls -A "$PROJ_ROOT/build/disc/files" 2>/dev/null)" ]; then
+        COUNT=$(ls "$PROJ_ROOT/build/disc/files" | wc -l | tr -d ' ')
+        ok "Game files extracted ($COUNT files in build/disc/files/)"
     else
-        miss "Game binary not extracted"
+        miss "Game files not extracted (run ./setup.sh)"
     fi
 
     # Mednafen
     if [ -f "$PROJ_ROOT/mednafen/src/mednafen" ]; then
         ok "Mednafen debug emulator"
     else
-        miss "Mednafen not built"
+        miss "Mednafen not built (run ./setup.sh)"
     fi
 
     echo ""
@@ -121,13 +119,6 @@ do_setup() {
         READY=false
     fi
 
-    if command -v wget &>/dev/null; then
-        ok "wget"
-    else
-        miss "wget not found (sudo apt install wget)"
-        READY=false
-    fi
-
     if pkg-config --exists sdl2 2>/dev/null; then
         ok "SDL2 ($(pkg-config --modversion sdl2))"
     else
@@ -145,10 +136,8 @@ do_setup() {
 
     step "2. Disc extraction"
 
-    GAME_BIN="$PROJ_ROOT/build/disc/files/APROG.BIN"
-
-    if [ -f "$GAME_BIN" ]; then
-        ok "Game binary already extracted"
+    if [ -d "$PROJ_ROOT/build/disc/files" ] && [ "$(ls -A "$PROJ_ROOT/build/disc/files" 2>/dev/null)" ]; then
+        ok "Game files already extracted"
     else
         if [ ! -d "$DISC_DIR" ]; then
             miss "Disc image not found"
@@ -163,9 +152,8 @@ do_setup() {
         echo "  Extracting disc image..."
         $PYTHON "$PROJ_ROOT/tools/extract_disc.py"
 
-        if [ -f "$GAME_BIN" ]; then
-            SIZE=$(stat -c%s "$GAME_BIN" 2>/dev/null || stat -f%z "$GAME_BIN" 2>/dev/null)
-            ok "Game binary extracted ($SIZE bytes)"
+        if [ -d "$PROJ_ROOT/build/disc/files" ] && [ "$(ls -A "$PROJ_ROOT/build/disc/files")" ]; then
+            ok "Game files extracted"
         else
             miss "Extraction failed"
             exit 1
@@ -228,7 +216,7 @@ case "$CMD" in
         echo "Usage: ./setup.sh [command]"
         echo ""
         echo "Commands:"
-        echo "  (none)    Full setup — extract disc, build Mednafen"
+        echo "  (none)    Full setup — build Mednafen"
         echo "  clean     Remove all derived artifacts (ground zero)"
         echo "  status    Show what's present and what's missing"
         echo "  help      This message"
