@@ -1,0 +1,9 @@
+/* Auto-generated symbol table for ending */
+/* 6 function symbols */
+
+FUN_06000000 = 0x06000000;
+FUN_06000184 = 0x06000184;
+FUN_06000320 = 0x06000320;
+FUN_060005E8 = 0x060005E8;
+FUN_06000680 = 0x06000680;
+FUN_06000784 = 0x06000784;

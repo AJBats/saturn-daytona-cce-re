@@ -20,6 +20,9 @@ external_resources/*
 # Toolchain binaries
 tools/sh-elf/
 
+# Claude session memory (auto-generated, not tracked)
+.claude/memory/
+
 # OS junk
 .DS_Store
 Thumbs.db

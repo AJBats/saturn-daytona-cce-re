@@ -67,6 +67,14 @@ do_status() {
         miss "Mednafen not built (run ./setup.sh)"
     fi
 
+    # Module disassembly
+    if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
+        COUNT=$(ls "$PROJ_ROOT/src" | wc -l | tr -d ' ')
+        ok "Modules disassembled ($COUNT modules in src/)"
+    else
+        miss "Modules not disassembled (run ./setup.sh)"
+    fi
+
     echo ""
 }
 
@@ -193,6 +201,23 @@ do_setup() {
             ok "Mednafen built"
         else
             miss "Mednafen build failed"
+            exit 1
+        fi
+    fi
+
+    # ── Module disassembly (L2 byte-pair .s files) ────────────────
+
+    step "4. Module disassembly"
+
+    if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
+        ok "Modules already disassembled (src/)"
+    else
+        echo "  Running split_modules.py..."
+        $PYTHON "$PROJ_ROOT/tools/split_modules.py"
+        if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
+            ok "Modules disassembled (src/)"
+        else
+            miss "Module disassembly failed"
             exit 1
         fi
     fi
