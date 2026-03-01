@@ -1,0 +1,11 @@
+/* FUN_0601AB74  0x0601AB74 */
+
+    .section .text.FUN_0601AB74
+    .global FUN_0601AB74
+    .type FUN_0601AB74, @function
+FUN_0601AB74:
+    .byte 0x2F, 0xE6  /* 0601AB74: mov.l r14,@-r15 */
+    .byte 0x2F, 0xD6  /* 0601AB76: mov.l r13,@-r15 */
+    .byte 0x2F, 0xC6  /* 0601AB78: mov.l r12,@-r15 */
+    .byte 0xED, 0x04  /* 0601AB7A: mov #4,r13 */
+    .byte 0xDE, 0x31  /* 0601AB7C: mov.l @(0xC4,PC),r14  {[0x0601AC44] = 0x06053644} */

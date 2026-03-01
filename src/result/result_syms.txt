@@ -1,4 +1,0 @@
-/* Auto-generated symbol table for result */
-/* 1 function symbols */
-
-FUN_06000000 = 0x06000000;

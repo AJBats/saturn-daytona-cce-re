@@ -6,7 +6,7 @@
 # This Makefile is designed to run from WSL. From Windows: wsl make
 # The sh-elf toolchain is shared with the '95 project.
 #
-#   make              — build all 10 modules
+#   make              — build all 8 code modules (demo/result are data, not built)
 #   make validate     — byte-compare each rebuilt bin against original extracted files
 #   make disc         — build all + inject into a copy of the retail disc image
 #   make disc-validate — rebuild disc + verify it is byte-identical to retail
@@ -20,14 +20,14 @@ AS      := $(TOOLDIR)/sh-elf-as
 LD      := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 
-MODULES := main init race select result result2p name demo backup ending
+MODULES := main init race select result2p name backup ending
 
 # Declare 'all' first so it is the default goal (eval'd rules come later)
 .PHONY: all validate disc disc-validate clean info
 all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod).bin)
 	@echo ""
 	@echo "========================================"
-	@echo "  All 10 modules built."
+	@echo "  All 8 code modules built."
 	@echo "========================================"
 	@echo ""
 
@@ -43,11 +43,14 @@ define module_rules
 $(PROJDIR)/build/$(1):
 	mkdir -p $$@
 
-$(PROJDIR)/build/$(1)/$(1).o: $(PROJDIR)/src/$(1)/$(1).s | $(PROJDIR)/build/$(1)
+SRCS_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
+OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRCS_$(1)))
+
+$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/src/$(1)/%.s | $(PROJDIR)/build/$(1)
 	$(AS) -big -o $$@ $$<
 
-$(PROJDIR)/build/$(1)/$(1).elf: $(PROJDIR)/build/$(1)/$(1).o $(PROJDIR)/src/$(1)/$(1).ld
-	$(LD) -T $(PROJDIR)/src/$(1)/$(1).ld -o $$@ $$<
+$(PROJDIR)/build/$(1)/$(1).elf: $$(OBJS_$(1)) $(PROJDIR)/src/$(1)/$(1).ld
+	$(LD) -T $(PROJDIR)/src/$(1)/$(1).ld -o $$@ $$(OBJS_$(1))
 
 $(PROJDIR)/build/$(1)/$(1).bin: $(PROJDIR)/build/$(1)/$(1).elf
 	$(OBJCOPY) -O binary $$< $$@

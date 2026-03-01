@@ -17,16 +17,15 @@ FILES_DIR = os.path.join(PROJDIR, 'build', 'disc', 'files')
 BUILD_DIR = os.path.join(PROJDIR, 'build')
 
 # Registry: (module_name, original_path_relative_to_FILES_DIR)
-# Must match the MODULES list in tools/split_modules.py
+# Only the 8 code modules — demo (DEMOTTL.BIN) and result (RESULT.BIN) are
+# VDP2 graphics data bundles, not code; they are not built or validated here.
 MODULES = [
     ('main',     '0'),
     ('init',     os.path.join('DAYTONA', '0')),
     ('race',     os.path.join('DAYTONA', 'RACE.BIN')),
     ('select',   os.path.join('DAYTONA', 'SLCT.BIN')),
-    ('result',   os.path.join('DAYTONA', 'RESULT.BIN')),
     ('result2p', os.path.join('DAYTONA', 'RESULT2P.BIN')),
     ('name',     os.path.join('DAYTONA', 'NAME.BIN')),
-    ('demo',     os.path.join('DAYTONA', 'DEMOTTL.BIN')),
     ('backup',   os.path.join('DAYTONA', 'BKUP.BIN')),
     ('ending',   os.path.join('DAYTONA', 'ENDING.BIN')),
 ]

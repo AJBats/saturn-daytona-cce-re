@@ -38,15 +38,16 @@ SYNC_PATTERN = bytes([0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 
 # Modules to inject: (module_name, iso_path_using_forward_slashes)
 # iso_path is relative to ISO root, case-insensitive match against directory entries
+# Only the 8 code modules — demo (DEMOTTL.BIN) and result (RESULT.BIN) are
+# VDP2 graphics data bundles; they are never modified so their disc sectors
+# remain unchanged from the retail image copy.
 MODULES = [
     ('main',     '0'),
     ('init',     'DAYTONA/0'),
     ('race',     'DAYTONA/RACE.BIN'),
     ('select',   'DAYTONA/SLCT.BIN'),
-    ('result',   'DAYTONA/RESULT.BIN'),
     ('result2p', 'DAYTONA/RESULT2P.BIN'),
     ('name',     'DAYTONA/NAME.BIN'),
-    ('demo',     'DAYTONA/DEMOTTL.BIN'),
     ('backup',   'DAYTONA/BKUP.BIN'),
     ('ending',   'DAYTONA/ENDING.BIN'),
 ]

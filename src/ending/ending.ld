@@ -13,14 +13,14 @@
 
 OUTPUT_FORMAT("elf32-sh")
 OUTPUT_ARCH(sh)
-ENTRY(_start)
+ENTRY(FUN_06000000)
 
 SECTIONS
 {
     . = 0x06000000;
 
     .text : {
-        *(.text)
+        *(SORT_BY_NAME(.text.FUN_*))
     }
 
     /DISCARD/ : {

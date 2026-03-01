@@ -1,0 +1,17 @@
+/* FUN_06004BF0  0x06004BF0 */
+
+    .section .text.FUN_06004BF0
+    .global FUN_06004BF0
+    .type FUN_06004BF0, @function
+FUN_06004BF0:
+    .byte 0x2F, 0xE6  /* 06004BF0: mov.l r14,@-r15 */
+    .byte 0x2F, 0xD6  /* 06004BF2: mov.l r13,@-r15 */
+    .byte 0x2F, 0xC6  /* 06004BF4: mov.l r12,@-r15 */
+    .byte 0xEC, 0x01  /* 06004BF6: mov #1,r12 */
+    .byte 0xDD, 0x22  /* 06004BF8: mov.l @(0x88,PC),r13  {[0x06004C84] = 0x0605329E} */
+    .byte 0x2F, 0xB6  /* 06004BFA: mov.l r11,@-r15 */
+    .byte 0x2F, 0xA6  /* 06004BFC: mov.l r10,@-r15 */
+    .byte 0x2F, 0x96  /* 06004BFE: mov.l r9,@-r15 */
+    .byte 0x2F, 0x86  /* 06004C00: mov.l r8,@-r15 */
+    .byte 0xE8, 0x03  /* 06004C02: mov #3,r8 */
+    .byte 0xD9, 0x1C  /* 06004C04: mov.l @(0x70,PC),r9  {[0x06004C78] = 0x06053970} */
