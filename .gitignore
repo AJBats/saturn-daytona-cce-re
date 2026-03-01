@@ -1,0 +1,31 @@
+# Build artifacts
+build/
+reimpl/build/
+*.o
+*.elf
+*.map
+*.bin
+*.BIN
+
+# Disc images (large, copyrighted) — keep the folder, ignore contents
+external_resources/*
+!external_resources/.gitkeep
+*.cue
+*.bin
+*.iso
+*.img
+*.mds
+*.mdf
+
+# Toolchain binaries
+tools/sh-elf/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
+*~
