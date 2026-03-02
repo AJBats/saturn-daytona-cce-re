@@ -30,9 +30,7 @@ FUN_002810FC:
     .byte 0x6E, 0xF6  /* 0028112A: mov.l @r15+,r14 */
     .byte 0x00, 0x0B  /* 0028112C: rts */
     .byte 0x68, 0xF6  /* 0028112E: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 00281130: clrmac */
-    .byte 0x1E, 0x18  /* 00281132: mov.l r1,@(0x20,r14) */
-    .byte 0x00, 0x28  /* 00281134: clrmac */
-    .byte 0x23, 0xF4  /* 00281136: mov.b r15,@-r3 */
+    .4byte DAT_00281E18  /* 00281130 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte DAT_002823F4  /* 00281134 = 0x002823F4 (FUN_002823B6 + 0x3E) */
     .byte 0x2F, 0x86  /* 00281138: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028113A: mov.l r9,@-r15 */

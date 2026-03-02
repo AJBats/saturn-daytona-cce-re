@@ -19,5 +19,4 @@ FUN_002860FA:
     .byte 0x68, 0xF6  /* 00286112: mov.l @r15+,r8 */
     .byte 0x00, 0x0B  /* 00286114: rts */
     .byte 0xCA, 0x01  /* 00286116: xor #0x01,r0 */
-    .byte 0x00, 0x28  /* 00286118: clrmac  -> FUN_002862C8 */
-    .byte 0x62, 0xC8  /* 0028611A: swap.b r12,r2 */
+    .4byte FUN_002862C8  /* 00286118 = 0x002862C8 */

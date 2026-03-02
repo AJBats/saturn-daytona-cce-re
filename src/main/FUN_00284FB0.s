@@ -44,7 +44,5 @@ FUN_00284FB0:
     .byte 0x03, 0x3C  /* 00284FFA: mov.b @(r0,r3),r3 */
     .byte 0x03, 0x40  /* 00284FFC: .word 0x0340 */
     .byte 0x03, 0x44  /* 00284FFE: mov.b r4,@(r0,r3) */
-    .byte 0x00, 0x28  /* 00285000: clrmac */
-    .byte 0xB0, 0x84  /* 00285002: bsr 0x0028510E */
-    .byte 0x00, 0x28  /* 00285004: clrmac */
-    .byte 0x5B, 0x20  /* 00285006: mov.l @(0x0,r2),r11 */
+    .4byte sym_0028B084  /* 00285000 = 0x0028B084 */
+    .4byte DAT_00285B20  /* 00285004 = 0x00285B20 (FUN_00285A86 + 0x9A) */

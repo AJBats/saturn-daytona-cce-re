@@ -148,14 +148,10 @@ FUN_002833BC:
     .byte 0x1E, 0xA4  /* 002834D6: mov.l r10,@(0x10,r14) */
     .byte 0x00, 0x96  /* 002834D8: mov.l r9,@(r0,r0) */
     .byte 0x00, 0x00  /* 002834DA: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002834DC: clrmac */
-    .byte 0x33, 0x2C  /* 002834DE: add r2,r3 */
-    .byte 0x00, 0x28  /* 002834E0: clrmac */
-    .byte 0x32, 0x0C  /* 002834E2: add r0,r2 */
-    .byte 0x00, 0x28  /* 002834E4: clrmac */
-    .byte 0x32, 0xB8  /* 002834E6: sub r11,r2 */
-    .byte 0x00, 0x28  /* 002834E8: clrmac */
-    .byte 0x32, 0x64  /* 002834EA: div1 r6,r2 */
+    .4byte DAT_0028332C  /* 002834DC = 0x0028332C (FUN_00283306 + 0x26) */
+    .4byte DAT_0028320C  /* 002834E0 = 0x0028320C (FUN_00283158 + 0xB4) */
+    .4byte DAT_002832B8  /* 002834E4 = 0x002832B8 (FUN_0028326C + 0x4C) */
+    .4byte DAT_00283264  /* 002834E8 = 0x00283264 (FUN_0028323A + 0x2A) */
     .byte 0x33, 0x17  /* 002834EC: cmp/gt r1,r3 */
     .byte 0x8D, 0x1B  /* 002834EE: bt/s 0x00283528 */
     .byte 0x60, 0x9E  /* 002834F0: exts.b r9,r0 */
@@ -324,10 +320,8 @@ FUN_002833BC:
     .byte 0x61, 0x11  /* 00283636: mov.w @r1,r1 */
     .byte 0xA0, 0x0D  /* 00283638: bra 0x00283656 */
     .byte 0x22, 0x11  /* 0028363A: mov.w r1,@r2 */
-    .byte 0x00, 0x28  /* 0028363C: clrmac */
-    .byte 0x32, 0x0C  /* 0028363E: add r0,r2 */
-    .byte 0x00, 0x28  /* 00283640: clrmac */
-    .byte 0x33, 0xA8  /* 00283642: sub r10,r3 */
+    .4byte DAT_0028320C  /* 0028363C = 0x0028320C (FUN_00283158 + 0xB4) */
+    .4byte DAT_002833A8  /* 00283640 = 0x002833A8 (FUN_00283334 + 0x74) */
     .byte 0x8F, 0x08  /* 00283644: bf/s 0x00283658 */
     .byte 0x59, 0xE1  /* 00283646: mov.l @(0x4,r14),r9 */
     .byte 0xD1, 0x33  /* 00283648: mov.l @(0xCC,PC),r1  {[0x00283718] = 0x002833AC} */
@@ -434,11 +428,7 @@ FUN_002833BC:
     .byte 0x00, 0x0B  /* 00283712: rts */
     .byte 0x68, 0xF6  /* 00283714: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 00283716: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00283718: clrmac */
-    .byte 0x33, 0xAC  /* 0028371A: add r10,r3 */
-    .byte 0x00, 0x28  /* 0028371C: clrmac */
-    .byte 0x33, 0x04  /* 0028371E: div1 r0,r3 */
-    .byte 0x00, 0x28  /* 00283720: clrmac */
-    .byte 0x32, 0x0C  /* 00283722: add r0,r2 */
-    .byte 0x00, 0x28  /* 00283724: clrmac */
-    .byte 0x32, 0x38  /* 00283726: sub r3,r2 */
+    .4byte DAT_002833AC  /* 00283718 = 0x002833AC (FUN_00283334 + 0x78) */
+    .4byte DAT_00283304  /* 0028371C = 0x00283304 (FUN_002832BE + 0x46) */
+    .4byte DAT_0028320C  /* 00283720 = 0x0028320C (FUN_00283158 + 0xB4) */
+    .4byte DAT_00283238  /* 00283724 = 0x00283238 (FUN_0028320E + 0x2A) */

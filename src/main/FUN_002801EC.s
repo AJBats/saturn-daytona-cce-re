@@ -18,8 +18,7 @@ FUN_002801EC:
     .byte 0x00, 0x0B  /* 00280202: rts */
     .byte 0x6E, 0xF6  /* 00280204: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 00280206: .word 0x0000 */
-    .byte 0x25, 0x88  /* 00280208: tst r8,r5 */
-    .byte 0x50, 0x29  /* 0028020A: mov.l @(0x24,r2),r0 */
+    .4byte sym_25885029  /* 00280208 = 0x25885029 */
     .byte 0x2F, 0x86  /* 0028020C: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028020E: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00280210: mov.l r10,@-r15 */

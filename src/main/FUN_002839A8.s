@@ -58,10 +58,8 @@ FUN_002839A8:
     .byte 0x69, 0xF6  /* 00283A0E: mov.l @r15+,r9 */
     .byte 0x00, 0x0B  /* 00283A10: rts */
     .byte 0x68, 0xF6  /* 00283A12: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 00283A14: clrmac */
-    .byte 0x3B, 0x24  /* 00283A16: div1 r2,r11 */
-    .byte 0x00, 0x28  /* 00283A18: clrmac  -> FUN_00284280 */
-    .byte 0x42, 0x80  /* 00283A1A: .word 0x4280 */
+    .4byte DAT_00283B24  /* 00283A14 = 0x00283B24 (FUN_00283A24 + 0x100) */
+    .4byte FUN_00284280  /* 00283A18 = 0x00284280 */
     .byte 0x2F, 0x86  /* 00283A1C: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00283A1E: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00283A20: mov.l r10,@-r15 */

@@ -148,28 +148,17 @@ FUN_00282810:
     .byte 0x00, 0xAC  /* 0028292A: mov.b @(r0,r10),r0 */
     .byte 0x00, 0xB0  /* 0028292C: .word 0x00B0 */
     .byte 0x00, 0x00  /* 0028292E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00282930: clrmac */
-    .byte 0x2B, 0x64  /* 00282932: mov.b r6,@-r11 */
-    .byte 0x00, 0x28  /* 00282934: clrmac */
-    .byte 0xB0, 0x7C  /* 00282936: bsr 0x00282A32 */
-    .byte 0x00, 0x28  /* 00282938: clrmac */
-    .byte 0xB0, 0x78  /* 0028293A: bsr 0x00282A2E */
-    .byte 0x00, 0x28  /* 0028293C: clrmac */
-    .byte 0x2C, 0x38  /* 0028293E: tst r3,r12 */
-    .byte 0x00, 0x28  /* 00282940: clrmac  -> FUN_00284884 */
-    .byte 0x48, 0x84  /* 00282942: .word 0x4884 */
-    .byte 0x00, 0x28  /* 00282944: clrmac */
-    .byte 0x2C, 0xF8  /* 00282946: tst r15,r12 */
-    .byte 0x00, 0x28  /* 00282948: clrmac */
-    .byte 0x48, 0x5C  /* 0028294A: shad r5,r8 */
-    .byte 0x00, 0x28  /* 0028294C: clrmac  -> FUN_00284828 */
-    .byte 0x48, 0x28  /* 0028294E: shll16 r8 */
-    .byte 0x00, 0x28  /* 00282950: clrmac */
-    .byte 0x4E, 0x44  /* 00282952: .word 0x4E44 */
-    .byte 0x00, 0x28  /* 00282954: clrmac */
-    .byte 0xB0, 0x70  /* 00282956: bsr 0x00282A3A */
-    .byte 0x00, 0x28  /* 00282958: clrmac  -> FUN_0028489C */
-    .byte 0x48, 0x9C  /* 0028295A: shad r9,r8 */
+    .4byte DAT_00282B64  /* 00282930 = 0x00282B64 (FUN_00282B14 + 0x50) */
+    .4byte sym_0028B07C  /* 00282934 = 0x0028B07C */
+    .4byte sym_0028B078  /* 00282938 = 0x0028B078 */
+    .4byte DAT_00282C38  /* 0028293C = 0x00282C38 (FUN_00282BFC + 0x3C) */
+    .4byte FUN_00284884  /* 00282940 = 0x00284884 */
+    .4byte DAT_00282CF8  /* 00282944 = 0x00282CF8 (FUN_00282C3E + 0xBA) */
+    .4byte DAT_0028485C  /* 00282948 = 0x0028485C (FUN_00284828 + 0x34) */
+    .4byte FUN_00284828  /* 0028294C = 0x00284828 */
+    .4byte DAT_00284E44  /* 00282950 = 0x00284E44 (FUN_00284DEC + 0x58) */
+    .4byte sym_0028B070  /* 00282954 = 0x0028B070 */
+    .4byte FUN_0028489C  /* 00282958 = 0x0028489C */
     .byte 0x2F, 0x86  /* 0028295C: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028295E: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00282960: mov.l r10,@-r15 */

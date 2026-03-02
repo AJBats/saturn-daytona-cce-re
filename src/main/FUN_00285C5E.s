@@ -165,18 +165,12 @@ FUN_00285C5E:
     .byte 0x03, 0x50  /* 00285D9A: .word 0x0350 */
     .byte 0x01, 0x00  /* 00285D9C: .word 0x0100 */
     .byte 0x00, 0x00  /* 00285D9E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00285DA0: clrmac */
-    .byte 0xB0, 0x84  /* 00285DA2: bsr 0x00285EAE */
-    .byte 0x00, 0x28  /* 00285DA4: clrmac */
-    .byte 0x6E, 0x58  /* 00285DA6: swap.b r5,r14 */
-    .byte 0x00, 0x28  /* 00285DA8: clrmac  -> FUN_0028619C */
-    .byte 0x61, 0x9C  /* 00285DAA: extu.b r9,r1 */
-    .byte 0x00, 0x28  /* 00285DAC: clrmac  -> FUN_00286E24 */
-    .byte 0x6E, 0x24  /* 00285DAE: mov.b @r2+,r14 */
-    .byte 0x00, 0x28  /* 00285DB0: clrmac  -> FUN_00286C2C */
-    .byte 0x6C, 0x2C  /* 00285DB2: extu.b r2,r12 */
-    .byte 0x00, 0x28  /* 00285DB4: clrmac */
-    .byte 0x60, 0xF8  /* 00285DB6: swap.b r15,r0 */
+    .4byte sym_0028B084  /* 00285DA0 = 0x0028B084 */
+    .4byte DAT_00286E58  /* 00285DA4 = 0x00286E58 (FUN_00286E24 + 0x34) */
+    .4byte FUN_0028619C  /* 00285DA8 = 0x0028619C */
+    .4byte FUN_00286E24  /* 00285DAC = 0x00286E24 */
+    .4byte FUN_00286C2C  /* 00285DB0 = 0x00286C2C */
+    .4byte DAT_002860F8  /* 00285DB4 = 0x002860F8 (FUN_00285FBE + 0x13A) */
     .byte 0x2F, 0x86  /* 00285DB8: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00285DBA: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00285DBC: mov.l r10,@-r15 */

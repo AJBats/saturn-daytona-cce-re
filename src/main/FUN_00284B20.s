@@ -26,5 +26,4 @@ FUN_00284B20:
     .byte 0x6F, 0xE3  /* 00284B46: mov r14,r15 */
     .byte 0x00, 0x0B  /* 00284B48: rts */
     .byte 0x6E, 0xF6  /* 00284B4A: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00284B4C: clrmac */
-    .byte 0xB0, 0x84  /* 00284B4E: bsr 0x00284C5A */
+    .4byte sym_0028B084  /* 00284B4C = 0x0028B084 */

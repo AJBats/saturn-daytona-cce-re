@@ -56,14 +56,10 @@ FUN_00280DC8:
     .byte 0x00, 0xA8  /* 00280E2A: .word 0x00A8 */
     .byte 0x00, 0xA4  /* 00280E2C: mov.b r10,@(r0,r0) */
     .byte 0x00, 0x00  /* 00280E2E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00280E30: clrmac */
-    .byte 0xB0, 0x70  /* 00280E32: bsr 0x00280F16 */
-    .byte 0x00, 0x28  /* 00280E34: clrmac  -> FUN_00284198 */
-    .byte 0x41, 0x98  /* 00280E36: .word 0x4198 */
-    .byte 0x00, 0x28  /* 00280E38: clrmac */
-    .byte 0x0E, 0xF4  /* 00280E3A: mov.b r15,@(r0,r14) */
-    .byte 0x00, 0x28  /* 00280E3C: clrmac  -> FUN_00281BF4 */
-    .byte 0x1B, 0xF4  /* 00280E3E: mov.l r15,@(0x10,r11) */
+    .4byte sym_0028B070  /* 00280E30 = 0x0028B070 */
+    .4byte FUN_00284198  /* 00280E34 = 0x00284198 */
+    .4byte DAT_00280EF4  /* 00280E38 = 0x00280EF4 (FUN_00280E46 + 0xAE) */
+    .4byte FUN_00281BF4  /* 00280E3C = 0x00281BF4 */
     .byte 0x2F, 0x86  /* 00280E40: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00280E42: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00280E44: mov.l r10,@-r15 */

@@ -50,15 +50,9 @@ FUN_00284060:
     .byte 0x4F, 0x26  /* 002840B6: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 002840B8: rts */
     .byte 0x6E, 0xF6  /* 002840BA: mov.l @r15+,r14 */
-    .byte 0x0F, 0xFF  /* 002840BC: mac.l @r15+,@r15+ */
-    .byte 0xFF, 0xFF  /* 002840BE: .word 0xFFFF */
-    .byte 0xFF, 0xE0  /* 002840C0: .word 0xFFE0 */
-    .byte 0x00, 0x00  /* 002840C2: .word 0x0000 */
-    .byte 0x00, 0x0F  /* 002840C4: mac.l @r0+,@r0+ */
-    .byte 0xFF, 0xFF  /* 002840C6: .word 0xFFFF */
-    .byte 0xFE, 0x00  /* 002840C8: .word 0xFE00 */
-    .byte 0x00, 0x00  /* 002840CA: .word 0x0000 */
-    .byte 0x03, 0x8F  /* 002840CC: mac.l @r8+,@r3+ */
-    .byte 0xFF, 0xFF  /* 002840CE: .word 0xFFFF */
-    .byte 0x00, 0x28  /* 002840D0: clrmac */
-    .byte 0x37, 0x64  /* 002840D2: div1 r6,r7 */
+    .4byte 0x0FFFFFFF  /* 002840BC = 0x0FFFFFFF */
+    .4byte 0xFFE00000  /* 002840C0 = 0xFFE00000 */
+    .4byte 0x000FFFFF  /* 002840C4 = 0x000FFFFF */
+    .4byte 0xFE000000  /* 002840C8 = 0xFE000000 */
+    .4byte sym_038FFFFF  /* 002840CC = 0x038FFFFF */
+    .4byte DAT_00283764  /* 002840D0 = 0x00283764 (FUN_00283728 + 0x3C) */

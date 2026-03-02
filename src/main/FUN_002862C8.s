@@ -12,5 +12,4 @@ FUN_002862C8:
     .byte 0x00, 0x0B  /* 002862D2: rts */
     .byte 0x60, 0x1D  /* 002862D4: extu.w r1,r0 */
     .byte 0x00, 0x00  /* 002862D6: .word 0x0000 */
-    .byte 0x25, 0x89  /* 002862D8: and r8,r5 */
-    .byte 0x00, 0x08  /* 002862DA: clrt */
+    .4byte sym_25890008  /* 002862D8 = 0x25890008 */

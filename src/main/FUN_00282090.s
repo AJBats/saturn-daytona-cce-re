@@ -122,12 +122,9 @@ FUN_00282090:
     .byte 0x07, 0xFF  /* 00282176: mac.l @r15+,@r7+ */
     .byte 0x08, 0x00  /* 00282178: .word 0x0800 */
     .byte 0x00, 0x00  /* 0028217A: .word 0x0000 */
-    .byte 0x00, 0x28  /* 0028217C: clrmac */
-    .byte 0xB0, 0x70  /* 0028217E: bsr 0x00282262 */
-    .byte 0x00, 0x28  /* 00282180: clrmac */
-    .byte 0x1F, 0xC8  /* 00282182: mov.l r12,@(0x20,r15) */
-    .byte 0x00, 0x28  /* 00282184: clrmac */
-    .byte 0x86, 0x76  /* 00282186: .word 0x8676 */
+    .4byte sym_0028B070  /* 0028217C = 0x0028B070 */
+    .4byte DAT_00281FC8  /* 00282180 = 0x00281FC8 (FUN_00281F76 + 0x52) */
+    .4byte DAT_00288676  /* 00282184 = 0x00288676 (FUN_002884FC + 0x17A) */
     .byte 0x2F, 0x86  /* 00282188: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028218A: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 0028218C: mov.l r10,@-r15 */

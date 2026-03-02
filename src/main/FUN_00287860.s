@@ -126,5 +126,4 @@ FUN_00287860:
     .byte 0x02, 0x00  /* 0028794E: .word 0x0200 */
     .byte 0x01, 0x00  /* 00287950: .word 0x0100 */
     .byte 0xFE, 0x71  /* 00287952: .word 0xFE71 */
-    .byte 0xFF, 0xFF  /* 00287954: .word 0xFFFF */
-    .byte 0x3F, 0xFF  /* 00287956: addv r15,r15 */
+    .4byte 0xFFFF3FFF  /* 00287954 = 0xFFFF3FFF */

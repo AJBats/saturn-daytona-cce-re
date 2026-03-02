@@ -58,6 +58,5 @@ FUN_00286D38:
     .byte 0x4F, 0x26  /* 00286D9E: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 00286DA0: rts */
     .byte 0x6E, 0xF6  /* 00286DA2: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00286DA4: clrmac  -> FUN_002873C4 */
-    .byte 0x73, 0xC4  /* 00286DA6: add #-60,r3 */
+    .4byte FUN_002873C4  /* 00286DA4 = 0x002873C4 */
     .byte 0x2F, 0x86  /* 00286DA8: mov.l r8,@-r15 */

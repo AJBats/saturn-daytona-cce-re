@@ -14,14 +14,10 @@ FUN_00284198:
     .byte 0x00, 0x0B  /* 002841A6: rts */
     .byte 0x6E, 0xF6  /* 002841A8: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 002841AA: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002841AC: clrmac */
-    .byte 0x43, 0xFC  /* 002841AE: shad r15,r3 */
-    .byte 0x00, 0x28  /* 002841B0: clrmac */
-    .byte 0x46, 0xA0  /* 002841B2: .word 0x46A0 */
-    .byte 0x00, 0x28  /* 002841B4: clrmac */
-    .byte 0x47, 0x80  /* 002841B6: .word 0x4780 */
-    .byte 0x00, 0x28  /* 002841B8: clrmac */
-    .byte 0x47, 0xC4  /* 002841BA: .word 0x47C4 */
+    .4byte DAT_002843FC  /* 002841AC = 0x002843FC (FUN_002843D6 + 0x26) */
+    .4byte DAT_002846A0  /* 002841B0 = 0x002846A0 (FUN_002845AE + 0xF2) */
+    .4byte FUN_00284780  /* 002841B4 = 0x00284780 */
+    .4byte DAT_002847C4  /* 002841B8 = 0x002847C4 (FUN_002847B8 + 0xC) */
     .byte 0x00, 0x00  /* 002841BC: .word 0x0000 */
     .byte 0x00, 0x00  /* 002841BE: .word 0x0000 */
     .byte 0x00, 0x00  /* 002841C0: .word 0x0000 */

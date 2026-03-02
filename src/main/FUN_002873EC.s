@@ -50,9 +50,6 @@ FUN_002873EC:
     .byte 0x00, 0x0B  /* 00287442: rts */
     .byte 0x68, 0xF6  /* 00287444: mov.l @r15+,r8 */
     .byte 0xFF, 0x0F  /* 00287446: .word 0xFF0F */
-    .byte 0x00, 0x28  /* 00287448: clrmac */
-    .byte 0x63, 0xE8  /* 0028744A: swap.b r14,r3 */
-    .byte 0x00, 0x28  /* 0028744C: clrmac */
-    .byte 0xB0, 0x40  /* 0028744E: bsr 0x002874D2 */
-    .byte 0x00, 0x28  /* 00287450: clrmac  -> FUN_00287494 */
-    .byte 0x74, 0x94  /* 00287452: add #-108,r4 */
+    .4byte DAT_002863E8  /* 00287448 = 0x002863E8 (FUN_00286390 + 0x58) */
+    .4byte sym_0028B040  /* 0028744C = 0x0028B040 */
+    .4byte FUN_00287494  /* 00287450 = 0x00287494 */

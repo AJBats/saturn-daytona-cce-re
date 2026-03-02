@@ -45,6 +45,5 @@ FUN_0028709A:
     .byte 0x69, 0xF6  /* 002870E6: mov.l @r15+,r9 */
     .byte 0x00, 0x0B  /* 002870E8: rts */
     .byte 0x68, 0xF6  /* 002870EA: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 002870EC: clrmac  -> FUN_002873AC */
-    .byte 0x73, 0xAC  /* 002870EE: add #-84,r3 */
+    .4byte FUN_002873AC  /* 002870EC = 0x002873AC */
     .byte 0x2F, 0x86  /* 002870F0: mov.l r8,@-r15 */

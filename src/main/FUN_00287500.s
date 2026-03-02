@@ -60,16 +60,11 @@ FUN_00287500:
     .byte 0x23, 0x22  /* 0028756A: mov.l r2,@r3 */
     .byte 0x00, 0x0B  /* 0028756C: rts */
     .byte 0x6E, 0xF6  /* 0028756E: mov.l @r15+,r14 */
-    .byte 0x25, 0xFE  /* 00287570: mulu.w r15,r5 */
-    .byte 0x00, 0x00  /* 00287572: .word 0x0000 */
-    .byte 0x25, 0xFE  /* 00287574: mulu.w r15,r5 */
-    .byte 0x00, 0x04  /* 00287576: mov.b r0,@(r0,r0) */
-    .byte 0x25, 0xFE  /* 00287578: mulu.w r15,r5 */
-    .byte 0x00, 0x08  /* 0028757A: clrt */
-    .byte 0x25, 0xFE  /* 0028757C: mulu.w r15,r5 */
-    .byte 0x00, 0x0C  /* 0028757E: mov.b @(r0,r0),r0 */
-    .byte 0x25, 0xFE  /* 00287580: mulu.w r15,r5 */
-    .byte 0x00, 0x14  /* 00287582: mov.b r1,@(r0,r0) */
+    .4byte sym_25FE0000  /* 00287570 = 0x25FE0000 */
+    .4byte sym_25FE0004  /* 00287574 = 0x25FE0004 */
+    .4byte sym_25FE0008  /* 00287578 = 0x25FE0008 */
+    .4byte sym_25FE000C  /* 0028757C = 0x25FE000C */
+    .4byte sym_25FE0014  /* 00287580 = 0x25FE0014 */
     .byte 0x2F, 0x86  /* 00287584: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00287586: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00287588: mov.l r10,@-r15 */

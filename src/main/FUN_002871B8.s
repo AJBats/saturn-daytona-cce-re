@@ -28,9 +28,7 @@ FUN_002871B8:
     .byte 0x69, 0xF6  /* 002871E2: mov.l @r15+,r9 */
     .byte 0x00, 0x0B  /* 002871E4: rts */
     .byte 0x68, 0xF6  /* 002871E6: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 002871E8: clrmac  -> FUN_002862C8 */
-    .byte 0x62, 0xC8  /* 002871EA: swap.b r12,r2 */
-    .byte 0x00, 0x28  /* 002871EC: clrmac  -> FUN_002873AC */
-    .byte 0x73, 0xAC  /* 002871EE: add #-84,r3 */
+    .4byte FUN_002862C8  /* 002871E8 = 0x002862C8 */
+    .4byte FUN_002873AC  /* 002871EC = 0x002873AC */
     .byte 0x2F, 0x86  /* 002871F0: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 002871F2: mov.l r9,@-r15 */

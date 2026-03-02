@@ -33,7 +33,5 @@ FUN_00283796:
     .byte 0x60, 0x83  /* 002837CA: mov r8,r0 */
     .byte 0x00, 0x0B  /* 002837CC: rts */
     .byte 0x68, 0xF6  /* 002837CE: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 002837D0: clrmac  -> FUN_002837EC */
-    .byte 0x37, 0xEC  /* 002837D2: add r14,r7 */
-    .byte 0x00, 0x28  /* 002837D4: clrmac  -> FUN_002837D8 */
-    .byte 0x37, 0xD8  /* 002837D6: sub r13,r7 */
+    .4byte FUN_002837EC  /* 002837D0 = 0x002837EC */
+    .4byte FUN_002837D8  /* 002837D4 = 0x002837D8 */

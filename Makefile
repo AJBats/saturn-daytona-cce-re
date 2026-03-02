@@ -10,6 +10,8 @@
 #   make validate     — byte-compare each rebuilt bin against original extracted files
 #   make disc         — build all + inject into a copy of the retail disc image
 #   make disc-validate — rebuild disc + verify it is byte-identical to retail
+#   make validate-free — build main with free.ld (zero shift), verify byte-identical
+#   make disc-4shift  — build main with +4 shift, inject, ready for boot test
 #   make clean        — remove build/<name>/ directories (never touches src/)
 #   make info         — print configuration
 
@@ -22,8 +24,11 @@ OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 
 MODULES := main init race select result2p name backup ending
 
+# Shift variable for free.ld testing (0 = no shift, 4 = +4 byte shift test)
+SHIFT ?= 0
+
 # Declare 'all' first so it is the default goal (eval'd rules come later)
-.PHONY: all validate disc disc-validate clean info
+.PHONY: all validate disc disc-validate validate-free disc-4shift clean info
 all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod).bin)
 	@echo ""
 	@echo "========================================"
@@ -81,7 +86,45 @@ clean:
 	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
 	@echo "Build directories cleaned."
 
+# ─── Free-layout build (main module) ──────────────────────────────────────────
+#
+# Builds main with main_free.ld instead of main.ld.  Supports --defsym
+# __pad_size=N to shift all function addresses for relocation validation.
+# Depends on 'all' to ensure .o files are compiled first, then re-links
+# using the free linker script.
+
+MAIN_FREE_LD := $(PROJDIR)/src/main/main_free.ld
+ORIG_MAIN    := $(PROJDIR)/build/disc/files/0
+
+LDFLAGS_FREE := -T $(MAIN_FREE_LD)
+ifneq ($(SHIFT),0)
+LDFLAGS_FREE += --defsym __pad_size=$(SHIFT)
+endif
+
+main-free-bin: all
+	$(LD) $(LDFLAGS_FREE) -o $(PROJDIR)/build/main/main_free.elf \
+		$(wildcard $(PROJDIR)/build/main/FUN_*.o)
+	$(OBJCOPY) -O binary $(PROJDIR)/build/main/main_free.elf \
+		$(PROJDIR)/build/main/main_free.bin
+	@echo "  built (free): main_free.bin (shift=$(SHIFT))"
+
+validate-free: main-free-bin
+	@if cmp -s "$(ORIG_MAIN)" "$(PROJDIR)/build/main/main_free.bin"; then \
+		echo "PASS: main_free.bin is byte-identical to original (shift=$(SHIFT))"; \
+	else \
+		echo "FAIL: main_free.bin differs from original"; \
+		cmp -l "$(ORIG_MAIN)" "$(PROJDIR)/build/main/main_free.bin" 2>/dev/null | head -5; \
+	fi
+
+disc-4shift: all
+	$(MAKE) SHIFT=4 main-free-bin
+	@python3 $(PROJDIR)/tools/inject_disc.py --override main:$(PROJDIR)/build/main/main_free.bin
+	@echo ""
+	@echo "  Shifted disc ready for boot test."
+	@echo "  Output: build/disc/rebuilt_disc/"
+
 info:
 	@echo "Modules  : $(MODULES)"
 	@echo "Toolchain: $(TOOLDIR)"
 	@echo "Projdir  : $(PROJDIR)"
+	@echo "Shift    : $(SHIFT)"

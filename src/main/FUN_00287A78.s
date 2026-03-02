@@ -28,519 +28,261 @@ FUN_00287A78:
     .byte 0x00, 0x0B  /* 00287AA2: rts */
     .byte 0x6E, 0xF6  /* 00287AA4: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 00287AA6: .word 0x0000 */
-    .byte 0x1F, 0xFF  /* 00287AA8: mov.l r15,@(0x3C,r15) */
-    .byte 0xFF, 0xF0  /* 00287AAA: .word 0xFFF0 */
-    .byte 0x40, 0x00  /* 00287AAC: shll r0 */
-    .byte 0x00, 0x00  /* 00287AAE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00287AB0: clrmac */
-    .byte 0x7E, 0xF0  /* 00287AB2: add #-16,r14 */
-    .byte 0x00, 0x28  /* 00287AB4: clrmac */
-    .byte 0x7E, 0xF6  /* 00287AB6: add #-10,r14 */
-    .byte 0x00, 0x28  /* 00287AB8: clrmac */
-    .byte 0x7E, 0xFC  /* 00287ABA: add #-4,r14 */
-    .byte 0x00, 0x28  /* 00287ABC: clrmac */
-    .byte 0x7F, 0x02  /* 00287ABE: add #2,r15 */
-    .byte 0x00, 0x28  /* 00287AC0: clrmac */
-    .byte 0x7F, 0x08  /* 00287AC2: add #8,r15 */
-    .byte 0x00, 0x28  /* 00287AC4: clrmac */
-    .byte 0x7F, 0x0E  /* 00287AC6: add #14,r15 */
-    .byte 0x00, 0x28  /* 00287AC8: clrmac */
-    .byte 0x7F, 0x14  /* 00287ACA: add #20,r15 */
-    .byte 0x00, 0x28  /* 00287ACC: clrmac */
-    .byte 0x7F, 0x1A  /* 00287ACE: add #26,r15 */
-    .byte 0x00, 0x28  /* 00287AD0: clrmac */
-    .byte 0x7F, 0x20  /* 00287AD2: add #32,r15 */
-    .byte 0x00, 0x28  /* 00287AD4: clrmac */
-    .byte 0x7F, 0x26  /* 00287AD6: add #38,r15 */
-    .byte 0x00, 0x28  /* 00287AD8: clrmac */
-    .byte 0x7F, 0x2C  /* 00287ADA: add #44,r15 */
-    .byte 0x00, 0x28  /* 00287ADC: clrmac */
-    .byte 0x7F, 0x32  /* 00287ADE: add #50,r15 */
-    .byte 0x00, 0x28  /* 00287AE0: clrmac */
-    .byte 0x7F, 0x38  /* 00287AE2: add #56,r15 */
-    .byte 0x00, 0x28  /* 00287AE4: clrmac */
-    .byte 0x7F, 0x3E  /* 00287AE6: add #62,r15 */
-    .byte 0x00, 0x28  /* 00287AE8: clrmac */
-    .byte 0x7F, 0x44  /* 00287AEA: add #68,r15 */
-    .byte 0x00, 0x28  /* 00287AEC: clrmac */
-    .byte 0x7F, 0x4A  /* 00287AEE: add #74,r15 */
-    .byte 0x00, 0x28  /* 00287AF0: clrmac */
-    .byte 0x7F, 0x50  /* 00287AF2: add #80,r15 */
-    .byte 0x00, 0x28  /* 00287AF4: clrmac */
-    .byte 0x7F, 0x56  /* 00287AF6: add #86,r15 */
-    .byte 0x00, 0x28  /* 00287AF8: clrmac */
-    .byte 0x7F, 0x5C  /* 00287AFA: add #92,r15 */
-    .byte 0x00, 0x28  /* 00287AFC: clrmac */
-    .byte 0x7F, 0x62  /* 00287AFE: add #98,r15 */
-    .byte 0x00, 0x28  /* 00287B00: clrmac */
-    .byte 0x7F, 0x68  /* 00287B02: add #104,r15 */
-    .byte 0x00, 0x28  /* 00287B04: clrmac */
-    .byte 0x7F, 0x6E  /* 00287B06: add #110,r15 */
-    .byte 0x00, 0x28  /* 00287B08: clrmac */
-    .byte 0x7F, 0x74  /* 00287B0A: add #116,r15 */
-    .byte 0x00, 0x28  /* 00287B0C: clrmac */
-    .byte 0x7F, 0x7A  /* 00287B0E: add #122,r15 */
-    .byte 0x00, 0x28  /* 00287B10: clrmac */
-    .byte 0x7F, 0x80  /* 00287B12: add #-128,r15 */
-    .byte 0x00, 0x28  /* 00287B14: clrmac */
-    .byte 0x7F, 0x86  /* 00287B16: add #-122,r15 */
-    .byte 0x00, 0x28  /* 00287B18: clrmac */
-    .byte 0x7F, 0x8C  /* 00287B1A: add #-116,r15 */
-    .byte 0x00, 0x28  /* 00287B1C: clrmac */
-    .byte 0x7F, 0x92  /* 00287B1E: add #-110,r15 */
-    .byte 0x00, 0x28  /* 00287B20: clrmac */
-    .byte 0x7F, 0x98  /* 00287B22: add #-104,r15 */
-    .byte 0x00, 0x28  /* 00287B24: clrmac */
-    .byte 0x7F, 0x9E  /* 00287B26: add #-98,r15 */
-    .byte 0x00, 0x28  /* 00287B28: clrmac */
-    .byte 0x7F, 0xA4  /* 00287B2A: add #-92,r15 */
-    .byte 0x00, 0x28  /* 00287B2C: clrmac */
-    .byte 0x7F, 0xAA  /* 00287B2E: add #-86,r15 */
-    .byte 0x00, 0x28  /* 00287B30: clrmac */
-    .byte 0x7F, 0xB0  /* 00287B32: add #-80,r15 */
-    .byte 0x00, 0x28  /* 00287B34: clrmac */
-    .byte 0x7F, 0xB6  /* 00287B36: add #-74,r15 */
-    .byte 0x00, 0x28  /* 00287B38: clrmac */
-    .byte 0x7F, 0xBC  /* 00287B3A: add #-68,r15 */
-    .byte 0x00, 0x28  /* 00287B3C: clrmac */
-    .byte 0x7F, 0xC2  /* 00287B3E: add #-62,r15 */
-    .byte 0x00, 0x28  /* 00287B40: clrmac */
-    .byte 0x7F, 0xC8  /* 00287B42: add #-56,r15 */
-    .byte 0x00, 0x28  /* 00287B44: clrmac */
-    .byte 0x7F, 0xCE  /* 00287B46: add #-50,r15 */
-    .byte 0x00, 0x28  /* 00287B48: clrmac */
-    .byte 0x7F, 0xD4  /* 00287B4A: add #-44,r15 */
-    .byte 0x00, 0x28  /* 00287B4C: clrmac */
-    .byte 0x7F, 0xDA  /* 00287B4E: add #-38,r15 */
-    .byte 0x00, 0x28  /* 00287B50: clrmac */
-    .byte 0x7F, 0xE0  /* 00287B52: add #-32,r15 */
-    .byte 0x00, 0x28  /* 00287B54: clrmac */
-    .byte 0x7F, 0xE6  /* 00287B56: add #-26,r15 */
-    .byte 0x00, 0x28  /* 00287B58: clrmac */
-    .byte 0x7F, 0xEC  /* 00287B5A: add #-20,r15 */
-    .byte 0x00, 0x28  /* 00287B5C: clrmac */
-    .byte 0x7F, 0xF2  /* 00287B5E: add #-14,r15 */
-    .byte 0x00, 0x28  /* 00287B60: clrmac */
-    .byte 0x7F, 0xF8  /* 00287B62: add #-8,r15 */
-    .byte 0x00, 0x28  /* 00287B64: clrmac */
-    .byte 0x7F, 0xFE  /* 00287B66: add #-2,r15 */
-    .byte 0x00, 0x28  /* 00287B68: clrmac */
-    .byte 0x80, 0x04  /* 00287B6A: mov.b r0,@(0x4,r0) */
-    .byte 0x00, 0x28  /* 00287B6C: clrmac */
-    .byte 0x80, 0x0A  /* 00287B6E: mov.b r0,@(0xA,r0) */
-    .byte 0x00, 0x28  /* 00287B70: clrmac */
-    .byte 0x80, 0x10  /* 00287B72: mov.b r0,@(0x0,r1) */
-    .byte 0x00, 0x28  /* 00287B74: clrmac */
-    .byte 0x80, 0x16  /* 00287B76: mov.b r0,@(0x6,r1) */
-    .byte 0x00, 0x28  /* 00287B78: clrmac */
-    .byte 0x80, 0x1C  /* 00287B7A: mov.b r0,@(0xC,r1) */
-    .byte 0x00, 0x28  /* 00287B7C: clrmac */
-    .byte 0x80, 0x22  /* 00287B7E: mov.b r0,@(0x2,r2) */
-    .byte 0x00, 0x28  /* 00287B80: clrmac */
-    .byte 0x80, 0x28  /* 00287B82: mov.b r0,@(0x8,r2) */
-    .byte 0x00, 0x28  /* 00287B84: clrmac */
-    .byte 0x80, 0x2E  /* 00287B86: mov.b r0,@(0xE,r2) */
-    .byte 0x00, 0x28  /* 00287B88: clrmac */
-    .byte 0x80, 0x34  /* 00287B8A: mov.b r0,@(0x4,r3) */
-    .byte 0x00, 0x28  /* 00287B8C: clrmac */
-    .byte 0x80, 0x3A  /* 00287B8E: mov.b r0,@(0xA,r3) */
-    .byte 0x00, 0x28  /* 00287B90: clrmac */
-    .byte 0x80, 0x40  /* 00287B92: mov.b r0,@(0x0,r4) */
-    .byte 0x00, 0x28  /* 00287B94: clrmac */
-    .byte 0x80, 0x46  /* 00287B96: mov.b r0,@(0x6,r4) */
-    .byte 0x00, 0x28  /* 00287B98: clrmac */
-    .byte 0x80, 0x4C  /* 00287B9A: mov.b r0,@(0xC,r4) */
-    .byte 0x00, 0x28  /* 00287B9C: clrmac */
-    .byte 0x80, 0x52  /* 00287B9E: mov.b r0,@(0x2,r5) */
-    .byte 0x00, 0x28  /* 00287BA0: clrmac */
-    .byte 0x80, 0x58  /* 00287BA2: mov.b r0,@(0x8,r5) */
-    .byte 0x00, 0x28  /* 00287BA4: clrmac */
-    .byte 0x80, 0x5E  /* 00287BA6: mov.b r0,@(0xE,r5) */
-    .byte 0x00, 0x28  /* 00287BA8: clrmac */
-    .byte 0x80, 0x64  /* 00287BAA: mov.b r0,@(0x4,r6) */
-    .byte 0x00, 0x28  /* 00287BAC: clrmac */
-    .byte 0x80, 0x6A  /* 00287BAE: mov.b r0,@(0xA,r6) */
-    .byte 0x00, 0x28  /* 00287BB0: clrmac */
-    .byte 0x80, 0x70  /* 00287BB2: mov.b r0,@(0x0,r7) */
-    .byte 0x00, 0x28  /* 00287BB4: clrmac */
-    .byte 0x80, 0x76  /* 00287BB6: mov.b r0,@(0x6,r7) */
-    .byte 0x00, 0x28  /* 00287BB8: clrmac */
-    .byte 0x80, 0x7C  /* 00287BBA: mov.b r0,@(0xC,r7) */
-    .byte 0x00, 0x28  /* 00287BBC: clrmac */
-    .byte 0x80, 0x82  /* 00287BBE: mov.b r0,@(0x2,r8) */
-    .byte 0x00, 0x28  /* 00287BC0: clrmac */
-    .byte 0x80, 0x88  /* 00287BC2: mov.b r0,@(0x8,r8) */
-    .byte 0x00, 0x28  /* 00287BC4: clrmac */
-    .byte 0x80, 0x8E  /* 00287BC6: mov.b r0,@(0xE,r8) */
-    .byte 0x00, 0x28  /* 00287BC8: clrmac */
-    .byte 0x80, 0x94  /* 00287BCA: mov.b r0,@(0x4,r9) */
-    .byte 0x00, 0x28  /* 00287BCC: clrmac */
-    .byte 0x80, 0x9A  /* 00287BCE: mov.b r0,@(0xA,r9) */
-    .byte 0x00, 0x28  /* 00287BD0: clrmac */
-    .byte 0x80, 0xA0  /* 00287BD2: mov.b r0,@(0x0,r10) */
-    .byte 0x00, 0x28  /* 00287BD4: clrmac */
-    .byte 0x80, 0xA6  /* 00287BD6: mov.b r0,@(0x6,r10) */
-    .byte 0x00, 0x28  /* 00287BD8: clrmac */
-    .byte 0x80, 0xAC  /* 00287BDA: mov.b r0,@(0xC,r10) */
-    .byte 0x00, 0x28  /* 00287BDC: clrmac */
-    .byte 0x80, 0xB2  /* 00287BDE: mov.b r0,@(0x2,r11) */
-    .byte 0x00, 0x28  /* 00287BE0: clrmac */
-    .byte 0x80, 0xB8  /* 00287BE2: mov.b r0,@(0x8,r11) */
-    .byte 0x00, 0x28  /* 00287BE4: clrmac */
-    .byte 0x80, 0xBE  /* 00287BE6: mov.b r0,@(0xE,r11) */
-    .byte 0x00, 0x28  /* 00287BE8: clrmac */
-    .byte 0x80, 0xC4  /* 00287BEA: mov.b r0,@(0x4,r12) */
-    .byte 0x00, 0x28  /* 00287BEC: clrmac */
-    .byte 0x80, 0xCA  /* 00287BEE: mov.b r0,@(0xA,r12) */
-    .byte 0x00, 0x28  /* 00287BF0: clrmac */
-    .byte 0x80, 0xD0  /* 00287BF2: mov.b r0,@(0x0,r13) */
-    .byte 0x00, 0x28  /* 00287BF4: clrmac */
-    .byte 0x80, 0xD6  /* 00287BF6: mov.b r0,@(0x6,r13) */
-    .byte 0x00, 0x28  /* 00287BF8: clrmac */
-    .byte 0x80, 0xDC  /* 00287BFA: mov.b r0,@(0xC,r13) */
-    .byte 0x00, 0x28  /* 00287BFC: clrmac */
-    .byte 0x80, 0xE2  /* 00287BFE: mov.b r0,@(0x2,r14) */
-    .byte 0x00, 0x28  /* 00287C00: clrmac */
-    .byte 0x80, 0xE8  /* 00287C02: mov.b r0,@(0x8,r14) */
-    .byte 0x00, 0x28  /* 00287C04: clrmac */
-    .byte 0x80, 0xEE  /* 00287C06: mov.b r0,@(0xE,r14) */
-    .byte 0x00, 0x28  /* 00287C08: clrmac */
-    .byte 0x80, 0xF4  /* 00287C0A: mov.b r0,@(0x4,r15) */
-    .byte 0x00, 0x28  /* 00287C0C: clrmac */
-    .byte 0x80, 0xFA  /* 00287C0E: mov.b r0,@(0xA,r15) */
-    .byte 0x00, 0x28  /* 00287C10: clrmac */
-    .byte 0x81, 0x00  /* 00287C12: mov.w r0,@(0x0,r0) */
-    .byte 0x00, 0x28  /* 00287C14: clrmac */
-    .byte 0x81, 0x06  /* 00287C16: mov.w r0,@(0xC,r0) */
-    .byte 0x00, 0x28  /* 00287C18: clrmac */
-    .byte 0x81, 0x0C  /* 00287C1A: mov.w r0,@(0x18,r0) */
-    .byte 0x00, 0x28  /* 00287C1C: clrmac */
-    .byte 0x81, 0x12  /* 00287C1E: mov.w r0,@(0x4,r1) */
-    .byte 0x00, 0x28  /* 00287C20: clrmac */
-    .byte 0x81, 0x18  /* 00287C22: mov.w r0,@(0x10,r1) */
-    .byte 0x00, 0x28  /* 00287C24: clrmac */
-    .byte 0x81, 0x1E  /* 00287C26: mov.w r0,@(0x1C,r1) */
-    .byte 0x00, 0x28  /* 00287C28: clrmac */
-    .byte 0x81, 0x24  /* 00287C2A: mov.w r0,@(0x8,r2) */
-    .byte 0x00, 0x28  /* 00287C2C: clrmac */
-    .byte 0x81, 0x2A  /* 00287C2E: mov.w r0,@(0x14,r2) */
-    .byte 0x00, 0x28  /* 00287C30: clrmac */
-    .byte 0x81, 0x30  /* 00287C32: mov.w r0,@(0x0,r3) */
-    .byte 0x00, 0x28  /* 00287C34: clrmac */
-    .byte 0x81, 0x36  /* 00287C36: mov.w r0,@(0xC,r3) */
-    .byte 0x00, 0x28  /* 00287C38: clrmac */
-    .byte 0x81, 0x3C  /* 00287C3A: mov.w r0,@(0x18,r3) */
-    .byte 0x00, 0x28  /* 00287C3C: clrmac */
-    .byte 0x81, 0x42  /* 00287C3E: mov.w r0,@(0x4,r4) */
-    .byte 0x00, 0x28  /* 00287C40: clrmac */
-    .byte 0x81, 0x48  /* 00287C42: mov.w r0,@(0x10,r4) */
-    .byte 0x00, 0x28  /* 00287C44: clrmac */
-    .byte 0x81, 0x4E  /* 00287C46: mov.w r0,@(0x1C,r4) */
-    .byte 0x00, 0x28  /* 00287C48: clrmac */
-    .byte 0x81, 0x54  /* 00287C4A: mov.w r0,@(0x8,r5) */
-    .byte 0x00, 0x28  /* 00287C4C: clrmac */
-    .byte 0x81, 0x5A  /* 00287C4E: mov.w r0,@(0x14,r5) */
-    .byte 0x00, 0x28  /* 00287C50: clrmac */
-    .byte 0x81, 0x60  /* 00287C52: mov.w r0,@(0x0,r6) */
-    .byte 0x00, 0x28  /* 00287C54: clrmac */
-    .byte 0x81, 0x66  /* 00287C56: mov.w r0,@(0xC,r6) */
-    .byte 0x00, 0x28  /* 00287C58: clrmac */
-    .byte 0x81, 0x6C  /* 00287C5A: mov.w r0,@(0x18,r6) */
-    .byte 0x00, 0x28  /* 00287C5C: clrmac */
-    .byte 0x81, 0x72  /* 00287C5E: mov.w r0,@(0x4,r7) */
-    .byte 0x00, 0x28  /* 00287C60: clrmac */
-    .byte 0x81, 0x78  /* 00287C62: mov.w r0,@(0x10,r7) */
-    .byte 0x00, 0x28  /* 00287C64: clrmac */
-    .byte 0x81, 0x7E  /* 00287C66: mov.w r0,@(0x1C,r7) */
-    .byte 0x00, 0x28  /* 00287C68: clrmac */
-    .byte 0x81, 0x84  /* 00287C6A: mov.w r0,@(0x8,r8) */
-    .byte 0x00, 0x28  /* 00287C6C: clrmac */
-    .byte 0x81, 0x8A  /* 00287C6E: mov.w r0,@(0x14,r8) */
-    .byte 0x00, 0x28  /* 00287C70: clrmac */
-    .byte 0x81, 0x90  /* 00287C72: mov.w r0,@(0x0,r9) */
-    .byte 0x00, 0x28  /* 00287C74: clrmac */
-    .byte 0x81, 0x96  /* 00287C76: mov.w r0,@(0xC,r9) */
-    .byte 0x00, 0x28  /* 00287C78: clrmac */
-    .byte 0x81, 0x9C  /* 00287C7A: mov.w r0,@(0x18,r9) */
-    .byte 0x00, 0x28  /* 00287C7C: clrmac */
-    .byte 0x81, 0xA2  /* 00287C7E: mov.w r0,@(0x4,r10) */
-    .byte 0x00, 0x28  /* 00287C80: clrmac */
-    .byte 0x81, 0xA8  /* 00287C82: mov.w r0,@(0x10,r10) */
-    .byte 0x00, 0x28  /* 00287C84: clrmac */
-    .byte 0x81, 0xAE  /* 00287C86: mov.w r0,@(0x1C,r10) */
-    .byte 0x00, 0x28  /* 00287C88: clrmac */
-    .byte 0x81, 0xB4  /* 00287C8A: mov.w r0,@(0x8,r11) */
-    .byte 0x00, 0x28  /* 00287C8C: clrmac */
-    .byte 0x81, 0xBA  /* 00287C8E: mov.w r0,@(0x14,r11) */
-    .byte 0x00, 0x28  /* 00287C90: clrmac */
-    .byte 0x81, 0xC0  /* 00287C92: mov.w r0,@(0x0,r12) */
-    .byte 0x00, 0x28  /* 00287C94: clrmac */
-    .byte 0x81, 0xC6  /* 00287C96: mov.w r0,@(0xC,r12) */
-    .byte 0x00, 0x28  /* 00287C98: clrmac */
-    .byte 0x81, 0xCC  /* 00287C9A: mov.w r0,@(0x18,r12) */
-    .byte 0x00, 0x28  /* 00287C9C: clrmac */
-    .byte 0x81, 0xD2  /* 00287C9E: mov.w r0,@(0x4,r13) */
-    .byte 0x00, 0x28  /* 00287CA0: clrmac */
-    .byte 0x81, 0xD8  /* 00287CA2: mov.w r0,@(0x10,r13) */
-    .byte 0x00, 0x28  /* 00287CA4: clrmac */
-    .byte 0x81, 0xDE  /* 00287CA6: mov.w r0,@(0x1C,r13) */
-    .byte 0x00, 0x28  /* 00287CA8: clrmac */
-    .byte 0x81, 0xE4  /* 00287CAA: mov.w r0,@(0x8,r14) */
-    .byte 0x00, 0x28  /* 00287CAC: clrmac */
-    .byte 0x81, 0xEA  /* 00287CAE: mov.w r0,@(0x14,r14) */
-    .byte 0x00, 0x28  /* 00287CB0: clrmac */
-    .byte 0x81, 0xF0  /* 00287CB2: mov.w r0,@(0x0,r15) */
-    .byte 0x00, 0x28  /* 00287CB4: clrmac */
-    .byte 0x81, 0xF6  /* 00287CB6: mov.w r0,@(0xC,r15) */
-    .byte 0x00, 0x28  /* 00287CB8: clrmac */
-    .byte 0x81, 0xFC  /* 00287CBA: mov.w r0,@(0x18,r15) */
-    .byte 0x00, 0x28  /* 00287CBC: clrmac */
-    .byte 0x82, 0x02  /* 00287CBE: .word 0x8202 */
-    .byte 0x00, 0x28  /* 00287CC0: clrmac */
-    .byte 0x82, 0x08  /* 00287CC2: .word 0x8208 */
-    .byte 0x00, 0x28  /* 00287CC4: clrmac */
-    .byte 0x82, 0x0E  /* 00287CC6: .word 0x820E */
-    .byte 0x00, 0x28  /* 00287CC8: clrmac */
-    .byte 0x82, 0x14  /* 00287CCA: .word 0x8214 */
-    .byte 0x00, 0x28  /* 00287CCC: clrmac */
-    .byte 0x82, 0x1A  /* 00287CCE: .word 0x821A */
-    .byte 0x00, 0x28  /* 00287CD0: clrmac */
-    .byte 0x82, 0x20  /* 00287CD2: .word 0x8220 */
-    .byte 0x00, 0x28  /* 00287CD4: clrmac */
-    .byte 0x82, 0x26  /* 00287CD6: .word 0x8226 */
-    .byte 0x00, 0x28  /* 00287CD8: clrmac */
-    .byte 0x82, 0x2C  /* 00287CDA: .word 0x822C */
-    .byte 0x00, 0x28  /* 00287CDC: clrmac */
-    .byte 0x82, 0x32  /* 00287CDE: .word 0x8232 */
-    .byte 0x00, 0x28  /* 00287CE0: clrmac */
-    .byte 0x82, 0x38  /* 00287CE2: .word 0x8238 */
-    .byte 0x00, 0x28  /* 00287CE4: clrmac */
-    .byte 0x82, 0x3E  /* 00287CE6: .word 0x823E */
-    .byte 0x00, 0x28  /* 00287CE8: clrmac */
-    .byte 0x82, 0x44  /* 00287CEA: .word 0x8244 */
-    .byte 0x00, 0x28  /* 00287CEC: clrmac */
-    .byte 0x82, 0x4A  /* 00287CEE: .word 0x824A */
-    .byte 0x00, 0x28  /* 00287CF0: clrmac */
-    .byte 0x82, 0x50  /* 00287CF2: .word 0x8250 */
-    .byte 0x00, 0x28  /* 00287CF4: clrmac */
-    .byte 0x82, 0x56  /* 00287CF6: .word 0x8256 */
-    .byte 0x00, 0x28  /* 00287CF8: clrmac */
-    .byte 0x82, 0x5C  /* 00287CFA: .word 0x825C */
-    .byte 0x00, 0x28  /* 00287CFC: clrmac */
-    .byte 0x82, 0x62  /* 00287CFE: .word 0x8262 */
-    .byte 0x00, 0x28  /* 00287D00: clrmac */
-    .byte 0x82, 0x68  /* 00287D02: .word 0x8268 */
-    .byte 0x00, 0x28  /* 00287D04: clrmac */
-    .byte 0x82, 0x6E  /* 00287D06: .word 0x826E */
-    .byte 0x00, 0x28  /* 00287D08: clrmac */
-    .byte 0x82, 0x74  /* 00287D0A: .word 0x8274 */
-    .byte 0x00, 0x28  /* 00287D0C: clrmac */
-    .byte 0x82, 0x7A  /* 00287D0E: .word 0x827A */
-    .byte 0x00, 0x28  /* 00287D10: clrmac */
-    .byte 0x82, 0x80  /* 00287D12: .word 0x8280 */
-    .byte 0x00, 0x28  /* 00287D14: clrmac */
-    .byte 0x82, 0x86  /* 00287D16: .word 0x8286 */
-    .byte 0x00, 0x28  /* 00287D18: clrmac */
-    .byte 0x82, 0x8C  /* 00287D1A: .word 0x828C */
-    .byte 0x00, 0x28  /* 00287D1C: clrmac */
-    .byte 0x82, 0x92  /* 00287D1E: .word 0x8292 */
-    .byte 0x00, 0x28  /* 00287D20: clrmac */
-    .byte 0x82, 0x98  /* 00287D22: .word 0x8298 */
-    .byte 0x00, 0x28  /* 00287D24: clrmac */
-    .byte 0x82, 0x9E  /* 00287D26: .word 0x829E */
-    .byte 0x00, 0x28  /* 00287D28: clrmac */
-    .byte 0x82, 0xA4  /* 00287D2A: .word 0x82A4 */
-    .byte 0x00, 0x28  /* 00287D2C: clrmac */
-    .byte 0x82, 0xAA  /* 00287D2E: .word 0x82AA */
-    .byte 0x00, 0x28  /* 00287D30: clrmac */
-    .byte 0x82, 0xB0  /* 00287D32: .word 0x82B0 */
-    .byte 0x00, 0x28  /* 00287D34: clrmac */
-    .byte 0x82, 0xB6  /* 00287D36: .word 0x82B6 */
-    .byte 0x00, 0x28  /* 00287D38: clrmac */
-    .byte 0x82, 0xBC  /* 00287D3A: .word 0x82BC */
-    .byte 0x00, 0x28  /* 00287D3C: clrmac */
-    .byte 0x82, 0xC2  /* 00287D3E: .word 0x82C2 */
-    .byte 0x00, 0x28  /* 00287D40: clrmac */
-    .byte 0x82, 0xC8  /* 00287D42: .word 0x82C8 */
-    .byte 0x00, 0x28  /* 00287D44: clrmac */
-    .byte 0x82, 0xCE  /* 00287D46: .word 0x82CE */
-    .byte 0x00, 0x28  /* 00287D48: clrmac */
-    .byte 0x82, 0xD4  /* 00287D4A: .word 0x82D4 */
-    .byte 0x00, 0x28  /* 00287D4C: clrmac */
-    .byte 0x82, 0xDA  /* 00287D4E: .word 0x82DA */
-    .byte 0x00, 0x28  /* 00287D50: clrmac */
-    .byte 0x82, 0xE0  /* 00287D52: .word 0x82E0 */
-    .byte 0x00, 0x28  /* 00287D54: clrmac */
-    .byte 0x82, 0xE6  /* 00287D56: .word 0x82E6 */
-    .byte 0x00, 0x28  /* 00287D58: clrmac */
-    .byte 0x82, 0xEC  /* 00287D5A: .word 0x82EC */
-    .byte 0x00, 0x28  /* 00287D5C: clrmac */
-    .byte 0x82, 0xF2  /* 00287D5E: .word 0x82F2 */
-    .byte 0x00, 0x28  /* 00287D60: clrmac */
-    .byte 0x82, 0xF8  /* 00287D62: .word 0x82F8 */
-    .byte 0x00, 0x28  /* 00287D64: clrmac */
-    .byte 0x82, 0xFE  /* 00287D66: .word 0x82FE */
-    .byte 0x00, 0x28  /* 00287D68: clrmac */
-    .byte 0x83, 0x04  /* 00287D6A: .word 0x8304 */
-    .byte 0x00, 0x28  /* 00287D6C: clrmac */
-    .byte 0x83, 0x0A  /* 00287D6E: .word 0x830A */
-    .byte 0x00, 0x28  /* 00287D70: clrmac */
-    .byte 0x83, 0x10  /* 00287D72: .word 0x8310 */
-    .byte 0x00, 0x28  /* 00287D74: clrmac */
-    .byte 0x83, 0x16  /* 00287D76: .word 0x8316 */
-    .byte 0x00, 0x28  /* 00287D78: clrmac */
-    .byte 0x83, 0x1C  /* 00287D7A: .word 0x831C */
-    .byte 0x00, 0x28  /* 00287D7C: clrmac */
-    .byte 0x83, 0x22  /* 00287D7E: .word 0x8322 */
-    .byte 0x00, 0x28  /* 00287D80: clrmac */
-    .byte 0x83, 0x28  /* 00287D82: .word 0x8328 */
-    .byte 0x00, 0x28  /* 00287D84: clrmac */
-    .byte 0x83, 0x2E  /* 00287D86: .word 0x832E */
-    .byte 0x00, 0x28  /* 00287D88: clrmac */
-    .byte 0x83, 0x34  /* 00287D8A: .word 0x8334 */
-    .byte 0x00, 0x28  /* 00287D8C: clrmac */
-    .byte 0x83, 0x3A  /* 00287D8E: .word 0x833A */
-    .byte 0x00, 0x28  /* 00287D90: clrmac */
-    .byte 0x83, 0x40  /* 00287D92: .word 0x8340 */
-    .byte 0x00, 0x28  /* 00287D94: clrmac */
-    .byte 0x83, 0x46  /* 00287D96: .word 0x8346 */
-    .byte 0x00, 0x28  /* 00287D98: clrmac */
-    .byte 0x83, 0x4C  /* 00287D9A: .word 0x834C */
-    .byte 0x00, 0x28  /* 00287D9C: clrmac */
-    .byte 0x83, 0x52  /* 00287D9E: .word 0x8352 */
-    .byte 0x00, 0x28  /* 00287DA0: clrmac */
-    .byte 0x83, 0x58  /* 00287DA2: .word 0x8358 */
-    .byte 0x00, 0x28  /* 00287DA4: clrmac */
-    .byte 0x83, 0x5E  /* 00287DA6: .word 0x835E */
-    .byte 0x00, 0x28  /* 00287DA8: clrmac */
-    .byte 0x83, 0x64  /* 00287DAA: .word 0x8364 */
-    .byte 0x00, 0x28  /* 00287DAC: clrmac */
-    .byte 0x83, 0x6A  /* 00287DAE: .word 0x836A */
-    .byte 0x00, 0x28  /* 00287DB0: clrmac */
-    .byte 0x83, 0x70  /* 00287DB2: .word 0x8370 */
-    .byte 0x00, 0x28  /* 00287DB4: clrmac */
-    .byte 0x83, 0x76  /* 00287DB6: .word 0x8376 */
-    .byte 0x00, 0x28  /* 00287DB8: clrmac */
-    .byte 0x83, 0x7C  /* 00287DBA: .word 0x837C */
-    .byte 0x00, 0x28  /* 00287DBC: clrmac */
-    .byte 0x83, 0x82  /* 00287DBE: .word 0x8382 */
-    .byte 0x00, 0x28  /* 00287DC0: clrmac */
-    .byte 0x83, 0x88  /* 00287DC2: .word 0x8388 */
-    .byte 0x00, 0x28  /* 00287DC4: clrmac */
-    .byte 0x83, 0x8E  /* 00287DC6: .word 0x838E */
-    .byte 0x00, 0x28  /* 00287DC8: clrmac */
-    .byte 0x83, 0x94  /* 00287DCA: .word 0x8394 */
-    .byte 0x00, 0x28  /* 00287DCC: clrmac */
-    .byte 0x83, 0x9A  /* 00287DCE: .word 0x839A */
-    .byte 0x00, 0x28  /* 00287DD0: clrmac */
-    .byte 0x83, 0xA0  /* 00287DD2: .word 0x83A0 */
-    .byte 0x00, 0x28  /* 00287DD4: clrmac */
-    .byte 0x83, 0xA6  /* 00287DD6: .word 0x83A6 */
-    .byte 0x00, 0x28  /* 00287DD8: clrmac */
-    .byte 0x83, 0xAC  /* 00287DDA: .word 0x83AC */
-    .byte 0x00, 0x28  /* 00287DDC: clrmac */
-    .byte 0x83, 0xB2  /* 00287DDE: .word 0x83B2 */
-    .byte 0x00, 0x28  /* 00287DE0: clrmac */
-    .byte 0x83, 0xB8  /* 00287DE2: .word 0x83B8 */
-    .byte 0x00, 0x28  /* 00287DE4: clrmac */
-    .byte 0x83, 0xBE  /* 00287DE6: .word 0x83BE */
-    .byte 0x00, 0x28  /* 00287DE8: clrmac */
-    .byte 0x83, 0xC4  /* 00287DEA: .word 0x83C4 */
-    .byte 0x00, 0x28  /* 00287DEC: clrmac */
-    .byte 0x83, 0xCA  /* 00287DEE: .word 0x83CA */
-    .byte 0x00, 0x28  /* 00287DF0: clrmac */
-    .byte 0x83, 0xD0  /* 00287DF2: .word 0x83D0 */
-    .byte 0x00, 0x28  /* 00287DF4: clrmac */
-    .byte 0x83, 0xD6  /* 00287DF6: .word 0x83D6 */
-    .byte 0x00, 0x28  /* 00287DF8: clrmac */
-    .byte 0x83, 0xDC  /* 00287DFA: .word 0x83DC */
-    .byte 0x00, 0x28  /* 00287DFC: clrmac */
-    .byte 0x83, 0xE2  /* 00287DFE: .word 0x83E2 */
-    .byte 0x00, 0x28  /* 00287E00: clrmac */
-    .byte 0x83, 0xE8  /* 00287E02: .word 0x83E8 */
-    .byte 0x00, 0x28  /* 00287E04: clrmac */
-    .byte 0x83, 0xEE  /* 00287E06: .word 0x83EE */
-    .byte 0x00, 0x28  /* 00287E08: clrmac */
-    .byte 0x83, 0xF4  /* 00287E0A: .word 0x83F4 */
-    .byte 0x00, 0x28  /* 00287E0C: clrmac */
-    .byte 0x83, 0xFA  /* 00287E0E: .word 0x83FA */
-    .byte 0x00, 0x28  /* 00287E10: clrmac */
-    .byte 0x84, 0x00  /* 00287E12: mov.b @(0x0,r0),r0 */
-    .byte 0x00, 0x28  /* 00287E14: clrmac */
-    .byte 0x84, 0x06  /* 00287E16: mov.b @(0x6,r0),r0 */
-    .byte 0x00, 0x28  /* 00287E18: clrmac */
-    .byte 0x84, 0x0C  /* 00287E1A: mov.b @(0xC,r0),r0 */
-    .byte 0x00, 0x28  /* 00287E1C: clrmac */
-    .byte 0x84, 0x12  /* 00287E1E: mov.b @(0x2,r1),r0 */
-    .byte 0x00, 0x28  /* 00287E20: clrmac */
-    .byte 0x84, 0x18  /* 00287E22: mov.b @(0x8,r1),r0 */
-    .byte 0x00, 0x28  /* 00287E24: clrmac */
-    .byte 0x84, 0x1E  /* 00287E26: mov.b @(0xE,r1),r0 */
-    .byte 0x00, 0x28  /* 00287E28: clrmac */
-    .byte 0x84, 0x24  /* 00287E2A: mov.b @(0x4,r2),r0 */
-    .byte 0x00, 0x28  /* 00287E2C: clrmac */
-    .byte 0x84, 0x2A  /* 00287E2E: mov.b @(0xA,r2),r0 */
-    .byte 0x00, 0x28  /* 00287E30: clrmac */
-    .byte 0x84, 0x30  /* 00287E32: mov.b @(0x0,r3),r0 */
-    .byte 0x00, 0x28  /* 00287E34: clrmac */
-    .byte 0x84, 0x36  /* 00287E36: mov.b @(0x6,r3),r0 */
-    .byte 0x00, 0x28  /* 00287E38: clrmac */
-    .byte 0x84, 0x3C  /* 00287E3A: mov.b @(0xC,r3),r0 */
-    .byte 0x00, 0x28  /* 00287E3C: clrmac */
-    .byte 0x84, 0x42  /* 00287E3E: mov.b @(0x2,r4),r0 */
-    .byte 0x00, 0x28  /* 00287E40: clrmac */
-    .byte 0x84, 0x48  /* 00287E42: mov.b @(0x8,r4),r0 */
-    .byte 0x00, 0x28  /* 00287E44: clrmac */
-    .byte 0x84, 0x4E  /* 00287E46: mov.b @(0xE,r4),r0 */
-    .byte 0x00, 0x28  /* 00287E48: clrmac */
-    .byte 0x84, 0x54  /* 00287E4A: mov.b @(0x4,r5),r0 */
-    .byte 0x00, 0x28  /* 00287E4C: clrmac */
-    .byte 0x84, 0x5A  /* 00287E4E: mov.b @(0xA,r5),r0 */
-    .byte 0x00, 0x28  /* 00287E50: clrmac */
-    .byte 0x84, 0x60  /* 00287E52: mov.b @(0x0,r6),r0 */
-    .byte 0x00, 0x28  /* 00287E54: clrmac */
-    .byte 0x84, 0x66  /* 00287E56: mov.b @(0x6,r6),r0 */
-    .byte 0x00, 0x28  /* 00287E58: clrmac */
-    .byte 0x84, 0x6C  /* 00287E5A: mov.b @(0xC,r6),r0 */
-    .byte 0x00, 0x28  /* 00287E5C: clrmac */
-    .byte 0x84, 0x72  /* 00287E5E: mov.b @(0x2,r7),r0 */
-    .byte 0x00, 0x28  /* 00287E60: clrmac */
-    .byte 0x84, 0x78  /* 00287E62: mov.b @(0x8,r7),r0 */
-    .byte 0x00, 0x28  /* 00287E64: clrmac */
-    .byte 0x84, 0x7E  /* 00287E66: mov.b @(0xE,r7),r0 */
-    .byte 0x00, 0x28  /* 00287E68: clrmac */
-    .byte 0x84, 0x84  /* 00287E6A: mov.b @(0x4,r8),r0 */
-    .byte 0x00, 0x28  /* 00287E6C: clrmac */
-    .byte 0x84, 0x8A  /* 00287E6E: mov.b @(0xA,r8),r0 */
-    .byte 0x00, 0x28  /* 00287E70: clrmac */
-    .byte 0x84, 0x90  /* 00287E72: mov.b @(0x0,r9),r0 */
-    .byte 0x00, 0x28  /* 00287E74: clrmac */
-    .byte 0x84, 0x96  /* 00287E76: mov.b @(0x6,r9),r0 */
-    .byte 0x00, 0x28  /* 00287E78: clrmac */
-    .byte 0x84, 0x9C  /* 00287E7A: mov.b @(0xC,r9),r0 */
-    .byte 0x00, 0x28  /* 00287E7C: clrmac */
-    .byte 0x84, 0xA2  /* 00287E7E: mov.b @(0x2,r10),r0 */
-    .byte 0x00, 0x28  /* 00287E80: clrmac */
-    .byte 0x84, 0xA8  /* 00287E82: mov.b @(0x8,r10),r0 */
-    .byte 0x00, 0x28  /* 00287E84: clrmac */
-    .byte 0x84, 0xAE  /* 00287E86: mov.b @(0xE,r10),r0 */
-    .byte 0x00, 0x28  /* 00287E88: clrmac */
-    .byte 0x84, 0xB4  /* 00287E8A: mov.b @(0x4,r11),r0 */
-    .byte 0x00, 0x28  /* 00287E8C: clrmac */
-    .byte 0x84, 0xBA  /* 00287E8E: mov.b @(0xA,r11),r0 */
-    .byte 0x00, 0x28  /* 00287E90: clrmac */
-    .byte 0x84, 0xC0  /* 00287E92: mov.b @(0x0,r12),r0 */
-    .byte 0x00, 0x28  /* 00287E94: clrmac */
-    .byte 0x84, 0xC6  /* 00287E96: mov.b @(0x6,r12),r0 */
-    .byte 0x00, 0x28  /* 00287E98: clrmac */
-    .byte 0x84, 0xCC  /* 00287E9A: mov.b @(0xC,r12),r0 */
-    .byte 0x00, 0x28  /* 00287E9C: clrmac */
-    .byte 0x84, 0xD2  /* 00287E9E: mov.b @(0x2,r13),r0 */
-    .byte 0x00, 0x28  /* 00287EA0: clrmac */
-    .byte 0x84, 0xD8  /* 00287EA2: mov.b @(0x8,r13),r0 */
-    .byte 0x00, 0x28  /* 00287EA4: clrmac */
-    .byte 0x84, 0xDE  /* 00287EA6: mov.b @(0xE,r13),r0 */
-    .byte 0x00, 0x28  /* 00287EA8: clrmac */
-    .byte 0x84, 0xE4  /* 00287EAA: mov.b @(0x4,r14),r0 */
-    .byte 0x00, 0x28  /* 00287EAC: clrmac */
-    .byte 0x84, 0xEA  /* 00287EAE: mov.b @(0xA,r14),r0 */
+    .4byte 0x1FFFFFF0  /* 00287AA8 = 0x1FFFFFF0 */
+    .4byte 0x40000000  /* 00287AAC = 0x40000000 */
+    .4byte DAT_00287EF0  /* 00287AB0 = 0x00287EF0 (FUN_00287EDC + 0x14) */
+    .4byte DAT_00287EF6  /* 00287AB4 = 0x00287EF6 (FUN_00287EDC + 0x1A) */
+    .4byte DAT_00287EFC  /* 00287AB8 = 0x00287EFC (FUN_00287EDC + 0x20) */
+    .4byte DAT_00287F02  /* 00287ABC = 0x00287F02 (FUN_00287EDC + 0x26) */
+    .4byte DAT_00287F08  /* 00287AC0 = 0x00287F08 (FUN_00287EDC + 0x2C) */
+    .4byte DAT_00287F0E  /* 00287AC4 = 0x00287F0E (FUN_00287EDC + 0x32) */
+    .4byte DAT_00287F14  /* 00287AC8 = 0x00287F14 (FUN_00287EDC + 0x38) */
+    .4byte DAT_00287F1A  /* 00287ACC = 0x00287F1A (FUN_00287EDC + 0x3E) */
+    .4byte DAT_00287F20  /* 00287AD0 = 0x00287F20 (FUN_00287EDC + 0x44) */
+    .4byte DAT_00287F26  /* 00287AD4 = 0x00287F26 (FUN_00287EDC + 0x4A) */
+    .4byte DAT_00287F2C  /* 00287AD8 = 0x00287F2C (FUN_00287EDC + 0x50) */
+    .4byte DAT_00287F32  /* 00287ADC = 0x00287F32 (FUN_00287EDC + 0x56) */
+    .4byte DAT_00287F38  /* 00287AE0 = 0x00287F38 (FUN_00287EDC + 0x5C) */
+    .4byte DAT_00287F3E  /* 00287AE4 = 0x00287F3E (FUN_00287EDC + 0x62) */
+    .4byte DAT_00287F44  /* 00287AE8 = 0x00287F44 (FUN_00287EDC + 0x68) */
+    .4byte DAT_00287F4A  /* 00287AEC = 0x00287F4A (FUN_00287EDC + 0x6E) */
+    .4byte DAT_00287F50  /* 00287AF0 = 0x00287F50 (FUN_00287EDC + 0x74) */
+    .4byte DAT_00287F56  /* 00287AF4 = 0x00287F56 (FUN_00287EDC + 0x7A) */
+    .4byte DAT_00287F5C  /* 00287AF8 = 0x00287F5C (FUN_00287EDC + 0x80) */
+    .4byte DAT_00287F62  /* 00287AFC = 0x00287F62 (FUN_00287EDC + 0x86) */
+    .4byte DAT_00287F68  /* 00287B00 = 0x00287F68 (FUN_00287EDC + 0x8C) */
+    .4byte DAT_00287F6E  /* 00287B04 = 0x00287F6E (FUN_00287EDC + 0x92) */
+    .4byte DAT_00287F74  /* 00287B08 = 0x00287F74 (FUN_00287EDC + 0x98) */
+    .4byte DAT_00287F7A  /* 00287B0C = 0x00287F7A (FUN_00287EDC + 0x9E) */
+    .4byte DAT_00287F80  /* 00287B10 = 0x00287F80 (FUN_00287EDC + 0xA4) */
+    .4byte DAT_00287F86  /* 00287B14 = 0x00287F86 (FUN_00287EDC + 0xAA) */
+    .4byte DAT_00287F8C  /* 00287B18 = 0x00287F8C (FUN_00287EDC + 0xB0) */
+    .4byte DAT_00287F92  /* 00287B1C = 0x00287F92 (FUN_00287EDC + 0xB6) */
+    .4byte DAT_00287F98  /* 00287B20 = 0x00287F98 (FUN_00287EDC + 0xBC) */
+    .4byte DAT_00287F9E  /* 00287B24 = 0x00287F9E (FUN_00287EDC + 0xC2) */
+    .4byte DAT_00287FA4  /* 00287B28 = 0x00287FA4 (FUN_00287EDC + 0xC8) */
+    .4byte DAT_00287FAA  /* 00287B2C = 0x00287FAA (FUN_00287EDC + 0xCE) */
+    .4byte DAT_00287FB0  /* 00287B30 = 0x00287FB0 (FUN_00287EDC + 0xD4) */
+    .4byte DAT_00287FB6  /* 00287B34 = 0x00287FB6 (FUN_00287EDC + 0xDA) */
+    .4byte DAT_00287FBC  /* 00287B38 = 0x00287FBC (FUN_00287EDC + 0xE0) */
+    .4byte DAT_00287FC2  /* 00287B3C = 0x00287FC2 (FUN_00287EDC + 0xE6) */
+    .4byte DAT_00287FC8  /* 00287B40 = 0x00287FC8 (FUN_00287EDC + 0xEC) */
+    .4byte DAT_00287FCE  /* 00287B44 = 0x00287FCE (FUN_00287EDC + 0xF2) */
+    .4byte DAT_00287FD4  /* 00287B48 = 0x00287FD4 (FUN_00287EDC + 0xF8) */
+    .4byte DAT_00287FDA  /* 00287B4C = 0x00287FDA (FUN_00287EDC + 0xFE) */
+    .4byte DAT_00287FE0  /* 00287B50 = 0x00287FE0 (FUN_00287EDC + 0x104) */
+    .4byte DAT_00287FE6  /* 00287B54 = 0x00287FE6 (FUN_00287EDC + 0x10A) */
+    .4byte DAT_00287FEC  /* 00287B58 = 0x00287FEC (FUN_00287EDC + 0x110) */
+    .4byte DAT_00287FF2  /* 00287B5C = 0x00287FF2 (FUN_00287EDC + 0x116) */
+    .4byte DAT_00287FF8  /* 00287B60 = 0x00287FF8 (FUN_00287EDC + 0x11C) */
+    .4byte DAT_00287FFE  /* 00287B64 = 0x00287FFE (FUN_00287EDC + 0x122) */
+    .4byte DAT_00288004  /* 00287B68 = 0x00288004 (FUN_00287EDC + 0x128) */
+    .4byte DAT_0028800A  /* 00287B6C = 0x0028800A (FUN_00287EDC + 0x12E) */
+    .4byte DAT_00288010  /* 00287B70 = 0x00288010 (FUN_00287EDC + 0x134) */
+    .4byte DAT_00288016  /* 00287B74 = 0x00288016 (FUN_00287EDC + 0x13A) */
+    .4byte DAT_0028801C  /* 00287B78 = 0x0028801C (FUN_00287EDC + 0x140) */
+    .4byte DAT_00288022  /* 00287B7C = 0x00288022 (FUN_00287EDC + 0x146) */
+    .4byte DAT_00288028  /* 00287B80 = 0x00288028 (FUN_00287EDC + 0x14C) */
+    .4byte DAT_0028802E  /* 00287B84 = 0x0028802E (FUN_00287EDC + 0x152) */
+    .4byte DAT_00288034  /* 00287B88 = 0x00288034 (FUN_00287EDC + 0x158) */
+    .4byte DAT_0028803A  /* 00287B8C = 0x0028803A (FUN_00287EDC + 0x15E) */
+    .4byte DAT_00288040  /* 00287B90 = 0x00288040 (FUN_00287EDC + 0x164) */
+    .4byte DAT_00288046  /* 00287B94 = 0x00288046 (FUN_00287EDC + 0x16A) */
+    .4byte DAT_0028804C  /* 00287B98 = 0x0028804C (FUN_00287EDC + 0x170) */
+    .4byte DAT_00288052  /* 00287B9C = 0x00288052 (FUN_00287EDC + 0x176) */
+    .4byte DAT_00288058  /* 00287BA0 = 0x00288058 (FUN_00287EDC + 0x17C) */
+    .4byte DAT_0028805E  /* 00287BA4 = 0x0028805E (FUN_00287EDC + 0x182) */
+    .4byte DAT_00288064  /* 00287BA8 = 0x00288064 (FUN_00287EDC + 0x188) */
+    .4byte DAT_0028806A  /* 00287BAC = 0x0028806A (FUN_00287EDC + 0x18E) */
+    .4byte DAT_00288070  /* 00287BB0 = 0x00288070 (FUN_00287EDC + 0x194) */
+    .4byte DAT_00288076  /* 00287BB4 = 0x00288076 (FUN_00287EDC + 0x19A) */
+    .4byte DAT_0028807C  /* 00287BB8 = 0x0028807C (FUN_00287EDC + 0x1A0) */
+    .4byte DAT_00288082  /* 00287BBC = 0x00288082 (FUN_00287EDC + 0x1A6) */
+    .4byte DAT_00288088  /* 00287BC0 = 0x00288088 (FUN_00287EDC + 0x1AC) */
+    .4byte DAT_0028808E  /* 00287BC4 = 0x0028808E (FUN_00287EDC + 0x1B2) */
+    .4byte DAT_00288094  /* 00287BC8 = 0x00288094 (FUN_00287EDC + 0x1B8) */
+    .4byte DAT_0028809A  /* 00287BCC = 0x0028809A (FUN_00287EDC + 0x1BE) */
+    .4byte DAT_002880A0  /* 00287BD0 = 0x002880A0 (FUN_00287EDC + 0x1C4) */
+    .4byte DAT_002880A6  /* 00287BD4 = 0x002880A6 (FUN_00287EDC + 0x1CA) */
+    .4byte DAT_002880AC  /* 00287BD8 = 0x002880AC (FUN_00287EDC + 0x1D0) */
+    .4byte DAT_002880B2  /* 00287BDC = 0x002880B2 (FUN_00287EDC + 0x1D6) */
+    .4byte DAT_002880B8  /* 00287BE0 = 0x002880B8 (FUN_00287EDC + 0x1DC) */
+    .4byte DAT_002880BE  /* 00287BE4 = 0x002880BE (FUN_00287EDC + 0x1E2) */
+    .4byte DAT_002880C4  /* 00287BE8 = 0x002880C4 (FUN_00287EDC + 0x1E8) */
+    .4byte DAT_002880CA  /* 00287BEC = 0x002880CA (FUN_00287EDC + 0x1EE) */
+    .4byte DAT_002880D0  /* 00287BF0 = 0x002880D0 (FUN_00287EDC + 0x1F4) */
+    .4byte DAT_002880D6  /* 00287BF4 = 0x002880D6 (FUN_00287EDC + 0x1FA) */
+    .4byte DAT_002880DC  /* 00287BF8 = 0x002880DC (FUN_00287EDC + 0x200) */
+    .4byte DAT_002880E2  /* 00287BFC = 0x002880E2 (FUN_00287EDC + 0x206) */
+    .4byte DAT_002880E8  /* 00287C00 = 0x002880E8 (FUN_00287EDC + 0x20C) */
+    .4byte DAT_002880EE  /* 00287C04 = 0x002880EE (FUN_00287EDC + 0x212) */
+    .4byte DAT_002880F4  /* 00287C08 = 0x002880F4 (FUN_00287EDC + 0x218) */
+    .4byte DAT_002880FA  /* 00287C0C = 0x002880FA (FUN_00287EDC + 0x21E) */
+    .4byte DAT_00288100  /* 00287C10 = 0x00288100 (FUN_00287EDC + 0x224) */
+    .4byte DAT_00288106  /* 00287C14 = 0x00288106 (FUN_00287EDC + 0x22A) */
+    .4byte DAT_0028810C  /* 00287C18 = 0x0028810C (FUN_00287EDC + 0x230) */
+    .4byte DAT_00288112  /* 00287C1C = 0x00288112 (FUN_00287EDC + 0x236) */
+    .4byte DAT_00288118  /* 00287C20 = 0x00288118 (FUN_00287EDC + 0x23C) */
+    .4byte DAT_0028811E  /* 00287C24 = 0x0028811E (FUN_00287EDC + 0x242) */
+    .4byte DAT_00288124  /* 00287C28 = 0x00288124 (FUN_00287EDC + 0x248) */
+    .4byte DAT_0028812A  /* 00287C2C = 0x0028812A (FUN_00287EDC + 0x24E) */
+    .4byte DAT_00288130  /* 00287C30 = 0x00288130 (FUN_00287EDC + 0x254) */
+    .4byte DAT_00288136  /* 00287C34 = 0x00288136 (FUN_00287EDC + 0x25A) */
+    .4byte DAT_0028813C  /* 00287C38 = 0x0028813C (FUN_00287EDC + 0x260) */
+    .4byte DAT_00288142  /* 00287C3C = 0x00288142 (FUN_00287EDC + 0x266) */
+    .4byte DAT_00288148  /* 00287C40 = 0x00288148 (FUN_00287EDC + 0x26C) */
+    .4byte DAT_0028814E  /* 00287C44 = 0x0028814E (FUN_00287EDC + 0x272) */
+    .4byte DAT_00288154  /* 00287C48 = 0x00288154 (FUN_00287EDC + 0x278) */
+    .4byte DAT_0028815A  /* 00287C4C = 0x0028815A (FUN_00287EDC + 0x27E) */
+    .4byte DAT_00288160  /* 00287C50 = 0x00288160 (FUN_00287EDC + 0x284) */
+    .4byte DAT_00288166  /* 00287C54 = 0x00288166 (FUN_00287EDC + 0x28A) */
+    .4byte DAT_0028816C  /* 00287C58 = 0x0028816C (FUN_00287EDC + 0x290) */
+    .4byte DAT_00288172  /* 00287C5C = 0x00288172 (FUN_00287EDC + 0x296) */
+    .4byte DAT_00288178  /* 00287C60 = 0x00288178 (FUN_00287EDC + 0x29C) */
+    .4byte DAT_0028817E  /* 00287C64 = 0x0028817E (FUN_00287EDC + 0x2A2) */
+    .4byte DAT_00288184  /* 00287C68 = 0x00288184 (FUN_00287EDC + 0x2A8) */
+    .4byte DAT_0028818A  /* 00287C6C = 0x0028818A (FUN_00287EDC + 0x2AE) */
+    .4byte DAT_00288190  /* 00287C70 = 0x00288190 (FUN_00287EDC + 0x2B4) */
+    .4byte DAT_00288196  /* 00287C74 = 0x00288196 (FUN_00287EDC + 0x2BA) */
+    .4byte DAT_0028819C  /* 00287C78 = 0x0028819C (FUN_00287EDC + 0x2C0) */
+    .4byte DAT_002881A2  /* 00287C7C = 0x002881A2 (FUN_00287EDC + 0x2C6) */
+    .4byte DAT_002881A8  /* 00287C80 = 0x002881A8 (FUN_00287EDC + 0x2CC) */
+    .4byte DAT_002881AE  /* 00287C84 = 0x002881AE (FUN_00287EDC + 0x2D2) */
+    .4byte DAT_002881B4  /* 00287C88 = 0x002881B4 (FUN_00287EDC + 0x2D8) */
+    .4byte DAT_002881BA  /* 00287C8C = 0x002881BA (FUN_00287EDC + 0x2DE) */
+    .4byte DAT_002881C0  /* 00287C90 = 0x002881C0 (FUN_00287EDC + 0x2E4) */
+    .4byte DAT_002881C6  /* 00287C94 = 0x002881C6 (FUN_00287EDC + 0x2EA) */
+    .4byte DAT_002881CC  /* 00287C98 = 0x002881CC (FUN_00287EDC + 0x2F0) */
+    .4byte DAT_002881D2  /* 00287C9C = 0x002881D2 (FUN_00287EDC + 0x2F6) */
+    .4byte DAT_002881D8  /* 00287CA0 = 0x002881D8 (FUN_00287EDC + 0x2FC) */
+    .4byte DAT_002881DE  /* 00287CA4 = 0x002881DE (FUN_00287EDC + 0x302) */
+    .4byte DAT_002881E4  /* 00287CA8 = 0x002881E4 (FUN_00287EDC + 0x308) */
+    .4byte DAT_002881EA  /* 00287CAC = 0x002881EA (FUN_00287EDC + 0x30E) */
+    .4byte DAT_002881F0  /* 00287CB0 = 0x002881F0 (FUN_00287EDC + 0x314) */
+    .4byte DAT_002881F6  /* 00287CB4 = 0x002881F6 (FUN_00287EDC + 0x31A) */
+    .4byte DAT_002881FC  /* 00287CB8 = 0x002881FC (FUN_00287EDC + 0x320) */
+    .4byte DAT_00288202  /* 00287CBC = 0x00288202 (FUN_00287EDC + 0x326) */
+    .4byte DAT_00288208  /* 00287CC0 = 0x00288208 (FUN_00287EDC + 0x32C) */
+    .4byte DAT_0028820E  /* 00287CC4 = 0x0028820E (FUN_00287EDC + 0x332) */
+    .4byte DAT_00288214  /* 00287CC8 = 0x00288214 (FUN_00287EDC + 0x338) */
+    .4byte DAT_0028821A  /* 00287CCC = 0x0028821A (FUN_00287EDC + 0x33E) */
+    .4byte DAT_00288220  /* 00287CD0 = 0x00288220 (FUN_00287EDC + 0x344) */
+    .4byte DAT_00288226  /* 00287CD4 = 0x00288226 (FUN_00287EDC + 0x34A) */
+    .4byte DAT_0028822C  /* 00287CD8 = 0x0028822C (FUN_00287EDC + 0x350) */
+    .4byte DAT_00288232  /* 00287CDC = 0x00288232 (FUN_00287EDC + 0x356) */
+    .4byte DAT_00288238  /* 00287CE0 = 0x00288238 (FUN_00287EDC + 0x35C) */
+    .4byte DAT_0028823E  /* 00287CE4 = 0x0028823E (FUN_00287EDC + 0x362) */
+    .4byte DAT_00288244  /* 00287CE8 = 0x00288244 (FUN_00287EDC + 0x368) */
+    .4byte DAT_0028824A  /* 00287CEC = 0x0028824A (FUN_00287EDC + 0x36E) */
+    .4byte DAT_00288250  /* 00287CF0 = 0x00288250 (FUN_00287EDC + 0x374) */
+    .4byte DAT_00288256  /* 00287CF4 = 0x00288256 (FUN_00287EDC + 0x37A) */
+    .4byte DAT_0028825C  /* 00287CF8 = 0x0028825C (FUN_00287EDC + 0x380) */
+    .4byte DAT_00288262  /* 00287CFC = 0x00288262 (FUN_00287EDC + 0x386) */
+    .4byte DAT_00288268  /* 00287D00 = 0x00288268 (FUN_00287EDC + 0x38C) */
+    .4byte DAT_0028826E  /* 00287D04 = 0x0028826E (FUN_00287EDC + 0x392) */
+    .4byte DAT_00288274  /* 00287D08 = 0x00288274 (FUN_00287EDC + 0x398) */
+    .4byte DAT_0028827A  /* 00287D0C = 0x0028827A (FUN_00287EDC + 0x39E) */
+    .4byte DAT_00288280  /* 00287D10 = 0x00288280 (FUN_00287EDC + 0x3A4) */
+    .4byte DAT_00288286  /* 00287D14 = 0x00288286 (FUN_00287EDC + 0x3AA) */
+    .4byte DAT_0028828C  /* 00287D18 = 0x0028828C (FUN_00287EDC + 0x3B0) */
+    .4byte DAT_00288292  /* 00287D1C = 0x00288292 (FUN_00287EDC + 0x3B6) */
+    .4byte DAT_00288298  /* 00287D20 = 0x00288298 (FUN_00287EDC + 0x3BC) */
+    .4byte DAT_0028829E  /* 00287D24 = 0x0028829E (FUN_00287EDC + 0x3C2) */
+    .4byte DAT_002882A4  /* 00287D28 = 0x002882A4 (FUN_00287EDC + 0x3C8) */
+    .4byte DAT_002882AA  /* 00287D2C = 0x002882AA (FUN_00287EDC + 0x3CE) */
+    .4byte DAT_002882B0  /* 00287D30 = 0x002882B0 (FUN_00287EDC + 0x3D4) */
+    .4byte DAT_002882B6  /* 00287D34 = 0x002882B6 (FUN_00287EDC + 0x3DA) */
+    .4byte DAT_002882BC  /* 00287D38 = 0x002882BC (FUN_00287EDC + 0x3E0) */
+    .4byte DAT_002882C2  /* 00287D3C = 0x002882C2 (FUN_00287EDC + 0x3E6) */
+    .4byte DAT_002882C8  /* 00287D40 = 0x002882C8 (FUN_00287EDC + 0x3EC) */
+    .4byte DAT_002882CE  /* 00287D44 = 0x002882CE (FUN_00287EDC + 0x3F2) */
+    .4byte DAT_002882D4  /* 00287D48 = 0x002882D4 (FUN_00287EDC + 0x3F8) */
+    .4byte DAT_002882DA  /* 00287D4C = 0x002882DA (FUN_00287EDC + 0x3FE) */
+    .4byte DAT_002882E0  /* 00287D50 = 0x002882E0 (FUN_00287EDC + 0x404) */
+    .4byte DAT_002882E6  /* 00287D54 = 0x002882E6 (FUN_00287EDC + 0x40A) */
+    .4byte DAT_002882EC  /* 00287D58 = 0x002882EC (FUN_00287EDC + 0x410) */
+    .4byte DAT_002882F2  /* 00287D5C = 0x002882F2 (FUN_00287EDC + 0x416) */
+    .4byte DAT_002882F8  /* 00287D60 = 0x002882F8 (FUN_00287EDC + 0x41C) */
+    .4byte DAT_002882FE  /* 00287D64 = 0x002882FE (FUN_00287EDC + 0x422) */
+    .4byte DAT_00288304  /* 00287D68 = 0x00288304 (FUN_00287EDC + 0x428) */
+    .4byte DAT_0028830A  /* 00287D6C = 0x0028830A (FUN_00287EDC + 0x42E) */
+    .4byte DAT_00288310  /* 00287D70 = 0x00288310 (FUN_00287EDC + 0x434) */
+    .4byte DAT_00288316  /* 00287D74 = 0x00288316 (FUN_00287EDC + 0x43A) */
+    .4byte DAT_0028831C  /* 00287D78 = 0x0028831C (FUN_00287EDC + 0x440) */
+    .4byte DAT_00288322  /* 00287D7C = 0x00288322 (FUN_00287EDC + 0x446) */
+    .4byte DAT_00288328  /* 00287D80 = 0x00288328 (FUN_00287EDC + 0x44C) */
+    .4byte DAT_0028832E  /* 00287D84 = 0x0028832E (FUN_00287EDC + 0x452) */
+    .4byte DAT_00288334  /* 00287D88 = 0x00288334 (FUN_00287EDC + 0x458) */
+    .4byte DAT_0028833A  /* 00287D8C = 0x0028833A (FUN_00287EDC + 0x45E) */
+    .4byte DAT_00288340  /* 00287D90 = 0x00288340 (FUN_00287EDC + 0x464) */
+    .4byte DAT_00288346  /* 00287D94 = 0x00288346 (FUN_00287EDC + 0x46A) */
+    .4byte DAT_0028834C  /* 00287D98 = 0x0028834C (FUN_00287EDC + 0x470) */
+    .4byte DAT_00288352  /* 00287D9C = 0x00288352 (FUN_00287EDC + 0x476) */
+    .4byte DAT_00288358  /* 00287DA0 = 0x00288358 (FUN_00287EDC + 0x47C) */
+    .4byte DAT_0028835E  /* 00287DA4 = 0x0028835E (FUN_00287EDC + 0x482) */
+    .4byte DAT_00288364  /* 00287DA8 = 0x00288364 (FUN_00287EDC + 0x488) */
+    .4byte DAT_0028836A  /* 00287DAC = 0x0028836A (FUN_00287EDC + 0x48E) */
+    .4byte DAT_00288370  /* 00287DB0 = 0x00288370 (FUN_00287EDC + 0x494) */
+    .4byte DAT_00288376  /* 00287DB4 = 0x00288376 (FUN_00287EDC + 0x49A) */
+    .4byte DAT_0028837C  /* 00287DB8 = 0x0028837C (FUN_00287EDC + 0x4A0) */
+    .4byte DAT_00288382  /* 00287DBC = 0x00288382 (FUN_00287EDC + 0x4A6) */
+    .4byte DAT_00288388  /* 00287DC0 = 0x00288388 (FUN_00287EDC + 0x4AC) */
+    .4byte DAT_0028838E  /* 00287DC4 = 0x0028838E (FUN_00287EDC + 0x4B2) */
+    .4byte DAT_00288394  /* 00287DC8 = 0x00288394 (FUN_00287EDC + 0x4B8) */
+    .4byte DAT_0028839A  /* 00287DCC = 0x0028839A (FUN_00287EDC + 0x4BE) */
+    .4byte DAT_002883A0  /* 00287DD0 = 0x002883A0 (FUN_00287EDC + 0x4C4) */
+    .4byte DAT_002883A6  /* 00287DD4 = 0x002883A6 (FUN_00287EDC + 0x4CA) */
+    .4byte DAT_002883AC  /* 00287DD8 = 0x002883AC (FUN_00287EDC + 0x4D0) */
+    .4byte DAT_002883B2  /* 00287DDC = 0x002883B2 (FUN_00287EDC + 0x4D6) */
+    .4byte DAT_002883B8  /* 00287DE0 = 0x002883B8 (FUN_00287EDC + 0x4DC) */
+    .4byte DAT_002883BE  /* 00287DE4 = 0x002883BE (FUN_00287EDC + 0x4E2) */
+    .4byte DAT_002883C4  /* 00287DE8 = 0x002883C4 (FUN_00287EDC + 0x4E8) */
+    .4byte DAT_002883CA  /* 00287DEC = 0x002883CA (FUN_00287EDC + 0x4EE) */
+    .4byte DAT_002883D0  /* 00287DF0 = 0x002883D0 (FUN_00287EDC + 0x4F4) */
+    .4byte DAT_002883D6  /* 00287DF4 = 0x002883D6 (FUN_00287EDC + 0x4FA) */
+    .4byte DAT_002883DC  /* 00287DF8 = 0x002883DC (FUN_00287EDC + 0x500) */
+    .4byte DAT_002883E2  /* 00287DFC = 0x002883E2 (FUN_00287EDC + 0x506) */
+    .4byte DAT_002883E8  /* 00287E00 = 0x002883E8 (FUN_00287EDC + 0x50C) */
+    .4byte DAT_002883EE  /* 00287E04 = 0x002883EE (FUN_00287EDC + 0x512) */
+    .4byte DAT_002883F4  /* 00287E08 = 0x002883F4 (FUN_00287EDC + 0x518) */
+    .4byte DAT_002883FA  /* 00287E0C = 0x002883FA (FUN_00287EDC + 0x51E) */
+    .4byte DAT_00288400  /* 00287E10 = 0x00288400 (FUN_00287EDC + 0x524) */
+    .4byte DAT_00288406  /* 00287E14 = 0x00288406 (FUN_00287EDC + 0x52A) */
+    .4byte DAT_0028840C  /* 00287E18 = 0x0028840C (FUN_00287EDC + 0x530) */
+    .4byte DAT_00288412  /* 00287E1C = 0x00288412 (FUN_00287EDC + 0x536) */
+    .4byte DAT_00288418  /* 00287E20 = 0x00288418 (FUN_00287EDC + 0x53C) */
+    .4byte DAT_0028841E  /* 00287E24 = 0x0028841E (FUN_00287EDC + 0x542) */
+    .4byte DAT_00288424  /* 00287E28 = 0x00288424 (FUN_00287EDC + 0x548) */
+    .4byte DAT_0028842A  /* 00287E2C = 0x0028842A (FUN_00287EDC + 0x54E) */
+    .4byte DAT_00288430  /* 00287E30 = 0x00288430 (FUN_00287EDC + 0x554) */
+    .4byte DAT_00288436  /* 00287E34 = 0x00288436 (FUN_00287EDC + 0x55A) */
+    .4byte DAT_0028843C  /* 00287E38 = 0x0028843C (FUN_00287EDC + 0x560) */
+    .4byte DAT_00288442  /* 00287E3C = 0x00288442 (FUN_00287EDC + 0x566) */
+    .4byte DAT_00288448  /* 00287E40 = 0x00288448 (FUN_00287EDC + 0x56C) */
+    .4byte DAT_0028844E  /* 00287E44 = 0x0028844E (FUN_00287EDC + 0x572) */
+    .4byte DAT_00288454  /* 00287E48 = 0x00288454 (FUN_00287EDC + 0x578) */
+    .4byte DAT_0028845A  /* 00287E4C = 0x0028845A (FUN_00287EDC + 0x57E) */
+    .4byte DAT_00288460  /* 00287E50 = 0x00288460 (FUN_00287EDC + 0x584) */
+    .4byte DAT_00288466  /* 00287E54 = 0x00288466 (FUN_00287EDC + 0x58A) */
+    .4byte DAT_0028846C  /* 00287E58 = 0x0028846C (FUN_00287EDC + 0x590) */
+    .4byte DAT_00288472  /* 00287E5C = 0x00288472 (FUN_00287EDC + 0x596) */
+    .4byte DAT_00288478  /* 00287E60 = 0x00288478 (FUN_00287EDC + 0x59C) */
+    .4byte DAT_0028847E  /* 00287E64 = 0x0028847E (FUN_00287EDC + 0x5A2) */
+    .4byte DAT_00288484  /* 00287E68 = 0x00288484 (FUN_00287EDC + 0x5A8) */
+    .4byte DAT_0028848A  /* 00287E6C = 0x0028848A (FUN_00287EDC + 0x5AE) */
+    .4byte DAT_00288490  /* 00287E70 = 0x00288490 (FUN_00287EDC + 0x5B4) */
+    .4byte DAT_00288496  /* 00287E74 = 0x00288496 (FUN_00287EDC + 0x5BA) */
+    .4byte DAT_0028849C  /* 00287E78 = 0x0028849C (FUN_00287EDC + 0x5C0) */
+    .4byte DAT_002884A2  /* 00287E7C = 0x002884A2 (FUN_00287EDC + 0x5C6) */
+    .4byte DAT_002884A8  /* 00287E80 = 0x002884A8 (FUN_00287EDC + 0x5CC) */
+    .4byte DAT_002884AE  /* 00287E84 = 0x002884AE (FUN_00287EDC + 0x5D2) */
+    .4byte DAT_002884B4  /* 00287E88 = 0x002884B4 (FUN_00287EDC + 0x5D8) */
+    .4byte DAT_002884BA  /* 00287E8C = 0x002884BA (FUN_00287EDC + 0x5DE) */
+    .4byte DAT_002884C0  /* 00287E90 = 0x002884C0 (FUN_00287EDC + 0x5E4) */
+    .4byte DAT_002884C6  /* 00287E94 = 0x002884C6 (FUN_00287EDC + 0x5EA) */
+    .4byte DAT_002884CC  /* 00287E98 = 0x002884CC (FUN_00287EDC + 0x5F0) */
+    .4byte DAT_002884D2  /* 00287E9C = 0x002884D2 (FUN_00287EDC + 0x5F6) */
+    .4byte DAT_002884D8  /* 00287EA0 = 0x002884D8 (FUN_00287EDC + 0x5FC) */
+    .4byte DAT_002884DE  /* 00287EA4 = 0x002884DE (FUN_00287EDC + 0x602) */
+    .4byte DAT_002884E4  /* 00287EA8 = 0x002884E4 (FUN_00287EDC + 0x608) */
+    .4byte DAT_002884EA  /* 00287EAC = 0x002884EA (FUN_00287EDC + 0x60E) */

@@ -116,10 +116,8 @@ FUN_0028528C:
     .byte 0x01, 0xE4  /* 00285366: mov.b r14,@(r0,r1) */
     .byte 0x01, 0xE8  /* 00285368: .word 0x01E8 */
     .byte 0x01, 0xEC  /* 0028536A: mov.b @(r0,r14),r1 */
-    .byte 0x00, 0x28  /* 0028536C: clrmac */
-    .byte 0xB0, 0x84  /* 0028536E: bsr 0x0028547A */
-    .byte 0x00, 0x28  /* 00285370: clrmac */
-    .byte 0x5F, 0xB4  /* 00285372: mov.l @(0x10,r11),r15 */
+    .4byte sym_0028B084  /* 0028536C = 0x0028B084 */
+    .4byte DAT_00285FB4  /* 00285370 = 0x00285FB4 (FUN_00285DC0 + 0x1F4) */
     .byte 0x2F, 0x86  /* 00285374: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00285376: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00285378: mov.l r10,@-r15 */

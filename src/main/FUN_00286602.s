@@ -45,9 +45,7 @@ FUN_00286602:
     .byte 0x00, 0x0B  /* 0028664E: rts */
     .byte 0x68, 0xF6  /* 00286650: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 00286652: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00286654: clrmac  -> FUN_002873AC */
-    .byte 0x73, 0xAC  /* 00286656: add #-84,r3 */
-    .byte 0x00, 0xFF  /* 00286658: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 0028665A: .word 0xFFFF */
+    .4byte FUN_002873AC  /* 00286654 = 0x002873AC */
+    .4byte 0x00FFFFFF  /* 00286658 = 0x00FFFFFF */
     .byte 0x2F, 0x86  /* 0028665C: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028665E: mov.l r9,@-r15 */

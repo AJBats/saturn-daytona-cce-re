@@ -63,12 +63,9 @@ FUN_00283B2A:
     .byte 0x00, 0x0B  /* 00283B9A: rts */
     .byte 0x68, 0xF6  /* 00283B9C: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 00283B9E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00283BA0: clrmac */
-    .byte 0x85, 0xA0  /* 00283BA2: mov.w @(0x0,r10),r0 */
-    .byte 0x00, 0x28  /* 00283BA4: clrmac  -> FUN_00284108 */
-    .byte 0x41, 0x08  /* 00283BA6: shll2 r1 */
-    .byte 0x00, 0x28  /* 00283BA8: clrmac  -> FUN_00284234 */
-    .byte 0x42, 0x34  /* 00283BAA: .word 0x4234 */
+    .4byte DAT_002885A0  /* 00283BA0 = 0x002885A0 (FUN_002884FC + 0xA4) */
+    .4byte FUN_00284108  /* 00283BA4 = 0x00284108 */
+    .4byte FUN_00284234  /* 00283BA8 = 0x00284234 */
     .byte 0x2F, 0x86  /* 00283BAC: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00283BAE: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00283BB0: mov.l r10,@-r15 */

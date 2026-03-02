@@ -80,10 +80,8 @@ FUN_00281C38:
     .byte 0x04, 0x38  /* 00281CCA: .word 0x0438 */
     .byte 0x04, 0x4C  /* 00281CCC: mov.b @(r0,r4),r4 */
     .byte 0x00, 0x00  /* 00281CCE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00281CD0: clrmac */
-    .byte 0xB0, 0x70  /* 00281CD2: bsr 0x00281DB6 */
-    .byte 0x00, 0x28  /* 00281CD4: clrmac  -> FUN_00281C00 */
-    .byte 0x1C, 0x00  /* 00281CD6: mov.l r0,@(0x0,r12) */
+    .4byte sym_0028B070  /* 00281CD0 = 0x0028B070 */
+    .4byte FUN_00281C00  /* 00281CD4 = 0x00281C00 */
     .byte 0x2F, 0x86  /* 00281CD8: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00281CDA: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00281CDC: mov.l r10,@-r15 */

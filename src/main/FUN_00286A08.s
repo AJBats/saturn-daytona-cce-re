@@ -50,12 +50,9 @@ FUN_00286A08:
     .byte 0x00, 0x0B  /* 00286A5E: rts */
     .byte 0x68, 0xF6  /* 00286A60: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 00286A62: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00286A64: clrmac  -> FUN_002864E8 */
-    .byte 0x64, 0xE8  /* 00286A66: swap.b r14,r4 */
-    .byte 0x00, 0x28  /* 00286A68: clrmac */
-    .byte 0x6A, 0x70  /* 00286A6A: mov.b @r7,r10 */
-    .byte 0x00, 0x28  /* 00286A6C: clrmac  -> FUN_0028630C */
-    .byte 0x63, 0x0C  /* 00286A6E: extu.b r0,r3 */
+    .4byte FUN_002864E8  /* 00286A64 = 0x002864E8 */
+    .4byte DAT_00286A70  /* 00286A68 = 0x00286A70 (FUN_00286A08 + 0x68) */
+    .4byte FUN_0028630C  /* 00286A6C = 0x0028630C */
     .byte 0x2F, 0x86  /* 00286A70: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00286A72: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00286A74: mov.l r10,@-r15 */

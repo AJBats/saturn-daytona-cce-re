@@ -55,25 +55,14 @@ FUN_00280566:
     .byte 0x00, 0x0B  /* 002805C6: rts */
     .byte 0x68, 0xF6  /* 002805C8: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 002805CA: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002805CC: clrmac */
-    .byte 0x97, 0x68  /* 002805CE: mov.w @(0xD0,PC),r7  {0x002806A2} */
-    .byte 0x00, 0x28  /* 002805D0: clrmac */
-    .byte 0x0C, 0x14  /* 002805D2: mov.b r1,@(r0,r12) */
-    .byte 0x00, 0x28  /* 002805D4: clrmac */
-    .byte 0x07, 0xC0  /* 002805D6: .word 0x07C0 */
-    .byte 0x00, 0x28  /* 002805D8: clrmac */
-    .byte 0x0C, 0x7C  /* 002805DA: mov.b @(r0,r7),r12 */
-    .byte 0x00, 0x28  /* 002805DC: clrmac */
-    .byte 0xA6, 0x80  /* 002805DE: bra 0x002812E2 */
-    .byte 0x00, 0x28  /* 002805E0: clrmac */
-    .byte 0xA6, 0x8C  /* 002805E2: bra 0x002812FE */
-    .byte 0x00, 0x28  /* 002805E4: clrmac */
-    .byte 0x0B, 0x6C  /* 002805E6: mov.b @(r0,r6),r11 */
-    .byte 0x00, 0x28  /* 002805E8: clrmac */
-    .byte 0x05, 0x50  /* 002805EA: .word 0x0550 */
-    .byte 0x06, 0x00  /* 002805EC: .word 0x0600 */
-    .byte 0x60, 0x00  /* 002805EE: mov.b @r0,r0 */
-    .byte 0x00, 0x28  /* 002805F0: clrmac */
-    .byte 0x11, 0xD4  /* 002805F2: mov.l r13,@(0x10,r1) */
-    .byte 0x06, 0x00  /* 002805F4: .word 0x0600 */
-    .byte 0x60, 0x02  /* 002805F6: mov.l @r0,r0 */
+    .4byte DAT_00289768  /* 002805CC = 0x00289768 (FUN_00288764 + 0x1004) */
+    .4byte DAT_00280C14  /* 002805D0 = 0x00280C14 (FUN_00280B70 + 0xA4) */
+    .4byte DAT_002807C0  /* 002805D4 = 0x002807C0 (FUN_0028079C + 0x24) */
+    .4byte DAT_00280C7C  /* 002805D8 = 0x00280C7C (FUN_00280C16 + 0x66) */
+    .4byte DAT_0028A680  /* 002805DC = 0x0028A680 (FUN_00288764 + 0x1F1C) */
+    .4byte DAT_0028A68C  /* 002805E0 = 0x0028A68C (FUN_00288764 + 0x1F28) */
+    .4byte DAT_00280B6C  /* 002805E4 = 0x00280B6C (FUN_00280A8C + 0xE0) */
+    .4byte DAT_00280550  /* 002805E8 = 0x00280550 (FUN_002803C8 + 0x188) */
+    .4byte sym_06006000  /* 002805EC = 0x06006000 */
+    .4byte DAT_002811D4  /* 002805F0 = 0x002811D4 (FUN_002811AC + 0x28) */
+    .4byte sym_06006002  /* 002805F4 = 0x06006002 */

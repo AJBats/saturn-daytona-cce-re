@@ -26,7 +26,5 @@ FUN_002864E8:
     .byte 0x00, 0x0B  /* 0028650E: rts */
     .byte 0x6E, 0xF6  /* 00286510: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 00286512: .word 0x0000 */
-    .byte 0x25, 0x89  /* 00286514: and r8,r5 */
-    .byte 0x00, 0x08  /* 00286516: clrt */
-    .byte 0x00, 0x23  /* 00286518: braf r0 */
-    .byte 0xFF, 0xFF  /* 0028651A: .word 0xFFFF */
+    .4byte sym_25890008  /* 00286514 = 0x25890008 */
+    .4byte sym_0023FFFF  /* 00286518 = 0x0023FFFF */

@@ -34,5 +34,4 @@ FUN_00287454:
     .byte 0xE0, 0x00  /* 0028748A: mov #0,r0 */
     .byte 0xFF, 0x0F  /* 0028748C: .word 0xFF0F */
     .byte 0x00, 0x00  /* 0028748E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00287490: clrmac */
-    .byte 0xB0, 0x40  /* 00287492: bsr 0x00287516 */
+    .4byte sym_0028B040  /* 00287490 = 0x0028B040 */

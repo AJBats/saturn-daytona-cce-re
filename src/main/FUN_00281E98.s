@@ -34,6 +34,5 @@ FUN_00281E98:
     .byte 0xE0, 0xFF  /* 00281ECE: mov #-1,r0 */
     .byte 0x00, 0x0B  /* 00281ED0: rts */
     .byte 0x6E, 0xF6  /* 00281ED2: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00281ED4: clrmac */
-    .byte 0xB0, 0x70  /* 00281ED6: bsr 0x00281FBA */
+    .4byte sym_0028B070  /* 00281ED4 = 0x0028B070 */
     .byte 0x2F, 0x86  /* 00281ED8: mov.l r8,@-r15 */

@@ -38,5 +38,4 @@ FUN_00287494:
     .byte 0x00, 0x0B  /* 002874D2: rts */
     .byte 0x6E, 0xF6  /* 002874D4: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 002874D6: .word 0x0000 */
-    .byte 0x00, 0xFF  /* 002874D8: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 002874DA: .word 0xFFFF */
+    .4byte 0x00FFFFFF  /* 002874D8 = 0x00FFFFFF */

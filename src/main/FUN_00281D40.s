@@ -38,5 +38,4 @@ FUN_00281D40:
     .byte 0x6E, 0xF6  /* 00281D7E: mov.l @r15+,r14 */
     .byte 0x0C, 0x60  /* 00281D80: .word 0x0C60 */
     .byte 0x00, 0xA8  /* 00281D82: .word 0x00A8 */
-    .byte 0x00, 0x28  /* 00281D84: clrmac */
-    .byte 0xB0, 0x70  /* 00281D86: bsr 0x00281E6A */
+    .4byte sym_0028B070  /* 00281D84 = 0x0028B070 */

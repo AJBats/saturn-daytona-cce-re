@@ -16,7 +16,5 @@ FUN_00280730:
     .byte 0x00, 0x0B  /* 00280742: rts */
     .byte 0x6E, 0xF6  /* 00280744: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 00280746: .word 0x0000 */
-    .byte 0x25, 0xFE  /* 00280748: mulu.w r15,r5 */
-    .byte 0x00, 0xB0  /* 0028074A: .word 0x00B0 */
-    .byte 0x25, 0x7F  /* 0028074C: muls.w r7,r5 */
-    .byte 0xFF, 0xFC  /* 0028074E: .word 0xFFFC */
+    .4byte sym_25FE00B0  /* 00280748 = 0x25FE00B0 */
+    .4byte sym_257FFFFC  /* 0028074C = 0x257FFFFC */

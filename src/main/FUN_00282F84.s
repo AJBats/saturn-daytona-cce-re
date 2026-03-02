@@ -50,16 +50,11 @@ FUN_00282F84:
     .byte 0x69, 0xF6  /* 00282FDA: mov.l @r15+,r9 */
     .byte 0x00, 0x0B  /* 00282FDC: rts */
     .byte 0x68, 0xF6  /* 00282FDE: mov.l @r15+,r8 */
-    .byte 0x00, 0x03  /* 00282FE0: bsrf r0 */
-    .byte 0x00, 0x00  /* 00282FE2: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00282FE4: clrmac  -> FUN_00285688 */
-    .byte 0x56, 0x88  /* 00282FE6: mov.l @(0x20,r8),r6 */
-    .byte 0x00, 0x28  /* 00282FE8: clrmac  -> FUN_00285218 */
-    .byte 0x52, 0x18  /* 00282FEA: mov.l @(0x20,r1),r2 */
-    .byte 0x00, 0x28  /* 00282FEC: clrmac */
-    .byte 0x54, 0x88  /* 00282FEE: mov.l @(0x20,r8),r4 */
-    .byte 0x00, 0x28  /* 00282FF0: clrmac */
-    .byte 0x56, 0x9C  /* 00282FF2: mov.l @(0x30,r9),r6 */
+    .4byte 0x00030000  /* 00282FE0 = 0x00030000 */
+    .4byte FUN_00285688  /* 00282FE4 = 0x00285688 */
+    .4byte FUN_00285218  /* 00282FE8 = 0x00285218 */
+    .4byte DAT_00285488  /* 00282FEC = 0x00285488 (FUN_00285450 + 0x38) */
+    .4byte DAT_0028569C  /* 00282FF0 = 0x0028569C (FUN_00285688 + 0x14) */
     .byte 0x2F, 0x86  /* 00282FF4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00282FF6: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 00282FF8: mov.l r10,@-r15 */

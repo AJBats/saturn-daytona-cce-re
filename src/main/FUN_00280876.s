@@ -59,8 +59,7 @@ FUN_00280876:
     .byte 0x00, 0x0B  /* 002808DE: rts */
     .byte 0x68, 0xF6  /* 002808E0: mov.l @r15+,r8 */
     .byte 0xFF, 0x00  /* 002808E2: .word 0xFF00 */
-    .byte 0x00, 0x28  /* 002808E4: clrmac */
-    .byte 0xAE, 0x30  /* 002808E6: bra 0x0028054A */
+    .4byte DAT_0028AE30  /* 002808E4 = 0x0028AE30 (FUN_00288764 + 0x26CC) */
     .byte 0x46, 0x4C  /* 002808E8: shad r4,r6 */
     .byte 0x44, 0x20  /* 002808EA: shal r4 */
     .byte 0x56, 0x65  /* 002808EC: mov.l @(0x14,r6),r6 */

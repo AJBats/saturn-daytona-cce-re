@@ -20,9 +20,6 @@ FUN_00287EB0:
     .byte 0x4F, 0x26  /* 00287ECA: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 00287ECC: rts */
     .byte 0x6E, 0xF6  /* 00287ECE: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00287ED0: clrmac */
-    .byte 0xB0, 0x90  /* 00287ED2: bsr 0x00287FF6 */
-    .byte 0x00, 0x28  /* 00287ED4: clrmac */
-    .byte 0x7A, 0xB0  /* 00287ED6: add #-80,r10 */
-    .byte 0x06, 0x00  /* 00287ED8: .word 0x0600 */
-    .byte 0x03, 0x00  /* 00287EDA: .word 0x0300 */
+    .4byte sym_0028B090  /* 00287ED0 = 0x0028B090 */
+    .4byte DAT_00287AB0  /* 00287ED4 = 0x00287AB0 (FUN_00287A78 + 0x38) */
+    .4byte sym_06000300  /* 00287ED8 = 0x06000300 */

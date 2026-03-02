@@ -34,5 +34,4 @@ FUN_00283ECC:
     .byte 0x00, 0x0B  /* 00283F02: rts */
     .byte 0x6E, 0xF6  /* 00283F04: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 00283F06: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00283F08: clrmac  -> FUN_002840D4 */
-    .byte 0x40, 0xD4  /* 00283F0A: .word 0x40D4 */
+    .4byte FUN_002840D4  /* 00283F08 = 0x002840D4 */

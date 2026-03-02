@@ -10,5 +10,4 @@ FUN_002807F0:
     .byte 0x60, 0x12  /* 002807F6: mov.l @r1,r0 */
     .byte 0x00, 0x0B  /* 002807F8: rts */
     .byte 0x6E, 0xF6  /* 002807FA: mov.l @r15+,r14 */
-    .byte 0x06, 0x00  /* 002807FC: .word 0x0600 */
-    .byte 0x03, 0x48  /* 002807FE: .word 0x0348 */
+    .4byte sym_06000348  /* 002807FC = 0x06000348 */

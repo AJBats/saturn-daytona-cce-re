@@ -96,9 +96,7 @@ FUN_00284CE4:
     .byte 0x00, 0x0B  /* 00284D96: rts */
     .byte 0x68, 0xF6  /* 00284D98: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 00284D9A: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00284D9C: clrmac */
-    .byte 0xB0, 0x84  /* 00284D9E: bsr 0x00284EAA */
-    .byte 0x00, 0x28  /* 00284DA0: clrmac */
-    .byte 0x56, 0xD8  /* 00284DA2: mov.l @(0x20,r13),r6 */
+    .4byte sym_0028B084  /* 00284D9C = 0x0028B084 */
+    .4byte DAT_002856D8  /* 00284DA0 = 0x002856D8 (FUN_0028569E + 0x3A) */
     .byte 0x2F, 0x86  /* 00284DA4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00284DA6: mov.l r9,@-r15 */

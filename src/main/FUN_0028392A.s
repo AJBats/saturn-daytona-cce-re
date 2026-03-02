@@ -63,7 +63,6 @@ FUN_0028392A:
     .byte 0x68, 0xF6  /* 0028399A: mov.l @r15+,r8 */
     .byte 0x00, 0x0B  /* 0028399C: rts */
     .byte 0x60, 0x23  /* 0028399E: mov r2,r0 */
-    .byte 0x00, 0x28  /* 002839A0: clrmac */
-    .byte 0x3A, 0x1C  /* 002839A2: add r1,r10 */
+    .4byte DAT_00283A1C  /* 002839A0 = 0x00283A1C (FUN_002839A8 + 0x74) */
     .byte 0x2F, 0x86  /* 002839A4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 002839A6: mov.l r9,@-r15 */

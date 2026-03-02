@@ -20,9 +20,7 @@ FUN_00281B00:
     .byte 0x6E, 0xF6  /* 00281B1A: mov.l @r15+,r14 */
     .byte 0x00, 0x0B  /* 00281B1C: rts */
     .byte 0x60, 0x23  /* 00281B1E: mov r2,r0 */
-    .byte 0x06, 0x00  /* 00281B20: .word 0x0600 */
-    .byte 0x0C, 0xCC  /* 00281B22: mov.b @(r0,r12),r12 */
-    .byte 0x06, 0x00  /* 00281B24: .word 0x0600 */
-    .byte 0x0C, 0xCD  /* 00281B26: mov.w @(r0,r12),r12 */
+    .4byte sym_06000CCC  /* 00281B20 = 0x06000CCC */
+    .4byte sym_06000CCD  /* 00281B24 = 0x06000CCD */
     .byte 0x2F, 0x86  /* 00281B28: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00281B2A: mov.l r9,@-r15 */

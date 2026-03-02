@@ -211,7 +211,23 @@ def generate_cue(orig_cue_path, out_dir, cue_out_path):
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
+def parse_overrides(args):
+    """Parse --override module:path arguments into a dict."""
+    overrides = {}
+    i = 0
+    while i < len(args):
+        if args[i] == '--override' and i + 1 < len(args):
+            parts = args[i + 1].split(':', 1)
+            if len(parts) == 2:
+                overrides[parts[0]] = parts[1]
+            i += 2
+        else:
+            i += 1
+    return overrides
+
+
 def main():
+    overrides = parse_overrides(sys.argv[1:])
     disc_src_dir = os.path.join(
         PROJDIR, 'external_resources',
         'Daytona USA - Circuit Edition (Japan)'
@@ -273,7 +289,10 @@ def main():
 
     print('Injecting modules:')
     for mod_name, disc_path in MODULES:
-        bin_path = os.path.join(PROJDIR, 'build', mod_name, mod_name + '.bin')
+        if mod_name in overrides:
+            bin_path = overrides[mod_name]
+        else:
+            bin_path = os.path.join(PROJDIR, 'build', mod_name, mod_name + '.bin')
         if not os.path.isfile(bin_path):
             print('  SKIP  %-12s  (rebuilt bin not found: %s)' % (mod_name, bin_path))
             skipped += 1

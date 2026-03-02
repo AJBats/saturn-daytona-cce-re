@@ -70,5 +70,4 @@ FUN_0028555C:
     .byte 0x01, 0xE0  /* 002855DA: .word 0x01E0 */
     .byte 0x03, 0x60  /* 002855DC: .word 0x0360 */
     .byte 0x00, 0x00  /* 002855DE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002855E0: clrmac */
-    .byte 0xB0, 0x84  /* 002855E2: bsr 0x002856EE */
+    .4byte sym_0028B084  /* 002855E0 = 0x0028B084 */

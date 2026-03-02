@@ -14,5 +14,4 @@ FUN_002873AC:
     .byte 0x4F, 0x26  /* 002873BA: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 002873BC: rts */
     .byte 0x6E, 0xF6  /* 002873BE: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 002873C0: clrmac */
-    .byte 0x73, 0xE4  /* 002873C2: add #-28,r3 */
+    .4byte DAT_002873E4  /* 002873C0 = 0x002873E4 (FUN_002873C4 + 0x20) */

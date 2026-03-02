@@ -40,13 +40,9 @@ FUN_00280100:
     .byte 0x6E, 0xF6  /* 00280142: mov.l @r15+,r14 */
     .byte 0x59, 0xFF  /* 00280144: mov.l @(0x3C,r15),r9 */
     .byte 0x00, 0x00  /* 00280146: .word 0x0000 */
-    .byte 0x00, 0x00  /* 00280148: .word 0x0000 */
-    .byte 0xA1, 0xFF  /* 0028014A: bra 0x0028054C */
-    .byte 0x00, 0x00  /* 0028014C: .word 0x0000 */
-    .byte 0xD1, 0xFF  /* 0028014E: mov.l @(0x3FC,PC),r1  {[0x0028054C] = 0x0028090C} */
-    .byte 0x00, 0x00  /* 00280150: .word 0x0000 */
-    .byte 0xE9, 0xFF  /* 00280152: mov #-1,r9 */
-    .byte 0x00, 0x00  /* 00280154: .word 0x0000 */
-    .byte 0xB9, 0xFF  /* 00280156: bsr 0x0027F558 */
+    .4byte 0x0000A1FF  /* 00280148 = 0x0000A1FF */
+    .4byte 0x0000D1FF  /* 0028014C = 0x0000D1FF */
+    .4byte 0x0000E9FF  /* 00280150 = 0x0000E9FF */
+    .4byte 0x0000B9FF  /* 00280154 = 0x0000B9FF */
     .byte 0x2F, 0x86  /* 00280158: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028015A: mov.l r9,@-r15 */

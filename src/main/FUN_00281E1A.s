@@ -63,7 +63,5 @@ FUN_00281E1A:
     .byte 0x00, 0x0B  /* 00281E8A: rts */
     .byte 0x68, 0xF6  /* 00281E8C: mov.l @r15+,r8 */
     .byte 0x00, 0xB8  /* 00281E8E: .word 0x00B8 */
-    .byte 0x00, 0x28  /* 00281E90: clrmac */
-    .byte 0xB0, 0x80  /* 00281E92: bsr 0x00281F96 */
-    .byte 0x00, 0x28  /* 00281E94: clrmac */
-    .byte 0xB0, 0x70  /* 00281E96: bsr 0x00281F7A */
+    .4byte sym_0028B080  /* 00281E90 = 0x0028B080 */
+    .4byte sym_0028B070  /* 00281E94 = 0x0028B070 */

@@ -32,8 +32,7 @@ FUN_002863EC:
     .byte 0x00, 0x0B  /* 0028641E: rts */
     .byte 0x68, 0xF6  /* 00286420: mov.l @r15+,r8 */
     .byte 0xFF, 0x0F  /* 00286422: .word 0xFF0F */
-    .byte 0x00, 0x28  /* 00286424: clrmac */
-    .byte 0x64, 0x28  /* 00286426: swap.b r2,r4 */
+    .4byte DAT_00286428  /* 00286424 = 0x00286428 (FUN_002863EC + 0x3C) */
     .byte 0x2F, 0x86  /* 00286428: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0028642A: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 0028642C: mov.l r10,@-r15 */

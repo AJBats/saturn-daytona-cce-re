@@ -22,5 +22,4 @@ FUN_002841DC:
     .byte 0x00, 0x0B  /* 002841FA: rts */
     .byte 0x6E, 0xF6  /* 002841FC: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 002841FE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00284200: clrmac */
-    .byte 0x41, 0xAC  /* 00284202: shad r10,r1 */
+    .4byte DAT_002841AC  /* 00284200 = 0x002841AC (FUN_00284198 + 0x14) */

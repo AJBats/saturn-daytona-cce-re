@@ -16,5 +16,4 @@ FUN_002861C8:
     .byte 0x00, 0x0B  /* 002861DA: rts */
     .byte 0x6E, 0xF6  /* 002861DC: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 002861DE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002861E0: clrmac */
-    .byte 0xB0, 0x84  /* 002861E2: bsr 0x002862EE */
+    .4byte sym_0028B084  /* 002861E0 = 0x0028B084 */

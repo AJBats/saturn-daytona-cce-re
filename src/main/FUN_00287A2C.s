@@ -40,5 +40,4 @@ FUN_00287A2C:
     .byte 0x6E, 0xF6  /* 00287A6E: mov.l @r15+,r14 */
     .byte 0xFE, 0x92  /* 00287A70: .word 0xFE92 */
     .byte 0x00, 0xC0  /* 00287A72: .word 0x00C0 */
-    .byte 0x60, 0x00  /* 00287A74: mov.b @r0,r0 */
-    .byte 0x00, 0x00  /* 00287A76: .word 0x0000 */
+    .4byte 0x60000000  /* 00287A74 = 0x60000000 */

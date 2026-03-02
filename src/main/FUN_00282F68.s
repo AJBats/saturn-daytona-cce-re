@@ -14,7 +14,6 @@ FUN_00282F68:
     .byte 0x4F, 0x26  /* 00282F76: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 00282F78: rts */
     .byte 0x6E, 0xF6  /* 00282F7A: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00282F7C: clrmac */
-    .byte 0x2F, 0x80  /* 00282F7E: mov.b r8,@r15 */
+    .4byte DAT_00282F80  /* 00282F7C = 0x00282F80 (FUN_00282F68 + 0x18) */
     .byte 0x2F, 0x86  /* 00282F80: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00282F82: mov.l r9,@-r15 */

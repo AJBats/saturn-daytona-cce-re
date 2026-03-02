@@ -125,26 +125,16 @@ FUN_002802A6:
     .byte 0x00, 0x80  /* 00280392: .word 0x0080 */
     .byte 0x00, 0xF0  /* 00280394: .word 0x00F0 */
     .byte 0x00, 0x00  /* 00280396: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00280398: clrmac */
-    .byte 0xAE, 0x0C  /* 0028039A: bra 0x0027FFB6 */
-    .byte 0x00, 0x28  /* 0028039C: clrmac */
-    .byte 0xAE, 0x10  /* 0028039E: bra 0x0027FFC2 */
-    .byte 0x00, 0x28  /* 002803A0: clrmac */
-    .byte 0x02, 0x0C  /* 002803A2: mov.b @(r0,r0),r2 */
-    .byte 0x00, 0x28  /* 002803A4: clrmac  -> FUN_0028081C */
-    .byte 0x08, 0x1C  /* 002803A6: mov.b @(r0,r1),r8 */
-    .byte 0x00, 0x28  /* 002803A8: clrmac  -> FUN_00280800 */
-    .byte 0x08, 0x00  /* 002803AA: .word 0x0800 */
-    .byte 0x20, 0x10  /* 002803AC: mov.b r1,@r0 */
-    .byte 0x00, 0x63  /* 002803AE: .word 0x0063 */
-    .byte 0x00, 0x28  /* 002803B0: clrmac  -> FUN_00280780 */
-    .byte 0x07, 0x80  /* 002803B2: .word 0x0780 */
-    .byte 0x20, 0x10  /* 002803B4: mov.b r1,@r0 */
-    .byte 0x00, 0x1F  /* 002803B6: mac.l @r1+,@r0+ */
-    .byte 0x00, 0x98  /* 002803B8: .word 0x0098 */
-    .byte 0x96, 0x80  /* 002803BA: mov.w @(0x100,PC),r6  {0x002804BE} */
-    .byte 0x00, 0x28  /* 002803BC: clrmac */
-    .byte 0xAE, 0x12  /* 002803BE: bra 0x0027FFE6 */
+    .4byte DAT_0028AE0C  /* 00280398 = 0x0028AE0C (FUN_00288764 + 0x26A8) */
+    .4byte DAT_0028AE10  /* 0028039C = 0x0028AE10 (FUN_00288764 + 0x26AC) */
+    .4byte DAT_0028020C  /* 002803A0 = 0x0028020C (FUN_002801EC + 0x20) */
+    .4byte FUN_0028081C  /* 002803A4 = 0x0028081C */
+    .4byte FUN_00280800  /* 002803A8 = 0x00280800 */
+    .4byte sym_20100063  /* 002803AC = 0x20100063 */
+    .4byte FUN_00280780  /* 002803B0 = 0x00280780 */
+    .4byte sym_2010001F  /* 002803B4 = 0x2010001F */
+    .4byte 0x00989680  /* 002803B8 = 0x00989680 */
+    .4byte DAT_0028AE12  /* 002803BC = 0x0028AE12 (FUN_00288764 + 0x26AE) */
     .byte 0x2F, 0x86  /* 002803C0: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 002803C2: mov.l r9,@-r15 */
     .byte 0x2F, 0xA6  /* 002803C4: mov.l r10,@-r15 */

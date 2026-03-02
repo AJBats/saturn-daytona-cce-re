@@ -33,7 +33,6 @@ FUN_002823B6:
     .byte 0x00, 0x0B  /* 002823EA: rts */
     .byte 0x68, 0xF6  /* 002823EC: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 002823EE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 002823F0: clrmac */
-    .byte 0x27, 0x50  /* 002823F2: mov.b r5,@r7 */
+    .4byte DAT_00282750  /* 002823F0 = 0x00282750 (FUN_00282612 + 0x13E) */
     .byte 0x2F, 0x86  /* 002823F4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 002823F6: mov.l r9,@-r15 */

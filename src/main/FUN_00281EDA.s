@@ -29,7 +29,5 @@ FUN_00281EDA:
     .byte 0x6E, 0xF6  /* 00281F06: mov.l @r15+,r14 */
     .byte 0x00, 0x0B  /* 00281F08: rts */
     .byte 0x68, 0xF6  /* 00281F0A: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 00281F0C: clrmac  -> FUN_00281E98 */
-    .byte 0x1E, 0x98  /* 00281F0E: mov.l r9,@(0x20,r14) */
-    .byte 0x00, 0x28  /* 00281F10: clrmac */
-    .byte 0xB0, 0x70  /* 00281F12: bsr 0x00281FF6 */
+    .4byte FUN_00281E98  /* 00281F0C = 0x00281E98 */
+    .4byte sym_0028B070  /* 00281F10 = 0x0028B070 */

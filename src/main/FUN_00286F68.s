@@ -40,7 +40,5 @@ FUN_00286F68:
     .byte 0x69, 0xF6  /* 00286FAA: mov.l @r15+,r9 */
     .byte 0x00, 0x0B  /* 00286FAC: rts */
     .byte 0x68, 0xF6  /* 00286FAE: mov.l @r15+,r8 */
-    .byte 0x00, 0x28  /* 00286FB0: clrmac  -> FUN_00286FB8 */
-    .byte 0x6F, 0xB8  /* 00286FB2: swap.b r11,r15 */
-    .byte 0x00, 0x28  /* 00286FB4: clrmac  -> FUN_002873C4 */
-    .byte 0x73, 0xC4  /* 00286FB6: add #-60,r3 */
+    .4byte FUN_00286FB8  /* 00286FB0 = 0x00286FB8 */
+    .4byte FUN_002873C4  /* 00286FB4 = 0x002873C4 */

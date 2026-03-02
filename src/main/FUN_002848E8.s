@@ -222,40 +222,22 @@ FUN_002848E8:
     .byte 0x04, 0x60  /* 00284A96: .word 0x0460 */
     .byte 0x00, 0xFF  /* 00284A98: mac.l @r15+,@r0+ */
     .byte 0x00, 0xFC  /* 00284A9A: mov.b @(r0,r15),r0 */
-    .byte 0x00, 0x28  /* 00284A9C: clrmac */
-    .byte 0xB0, 0x84  /* 00284A9E: bsr 0x00284BAA */
-    .byte 0x00, 0x28  /* 00284AA0: clrmac */
-    .byte 0xB0, 0x88  /* 00284AA2: bsr 0x00284BB6 */
-    .byte 0x00, 0x28  /* 00284AA4: clrmac */
-    .byte 0xB0, 0x80  /* 00284AA6: bsr 0x00284BAA */
-    .byte 0x00, 0x28  /* 00284AA8: clrmac  -> FUN_0028611C */
-    .byte 0x61, 0x1C  /* 00284AAA: extu.b r1,r1 */
-    .byte 0x00, 0x28  /* 00284AAC: clrmac  -> FUN_002848B4 */
-    .byte 0x48, 0xB4  /* 00284AAE: .word 0x48B4 */
-    .byte 0x00, 0x28  /* 00284AB0: clrmac */
-    .byte 0x50, 0x38  /* 00284AB2: mov.l @(0x20,r3),r0 */
-    .byte 0x00, 0x28  /* 00284AB4: clrmac */
-    .byte 0x66, 0xEC  /* 00284AB6: extu.b r14,r6 */
-    .byte 0x00, 0x28  /* 00284AB8: clrmac */
-    .byte 0x69, 0x58  /* 00284ABA: swap.b r5,r9 */
-    .byte 0x00, 0x28  /* 00284ABC: clrmac  -> FUN_00286AC8 */
-    .byte 0x6A, 0xC8  /* 00284ABE: swap.b r12,r10 */
-    .byte 0x00, 0x03  /* 00284AC0: bsrf r0 */
-    .byte 0x00, 0x00  /* 00284AC2: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00284AC4: clrmac */
-    .byte 0x60, 0xF8  /* 00284AC6: swap.b r15,r0 */
-    .byte 0x00, 0x28  /* 00284AC8: clrmac  -> FUN_002862DC */
-    .byte 0x62, 0xDC  /* 00284ACA: extu.b r13,r2 */
-    .byte 0x00, 0x28  /* 00284ACC: clrmac */
-    .byte 0x6A, 0x70  /* 00284ACE: mov.b @r7,r10 */
-    .byte 0x00, 0x28  /* 00284AD0: clrmac */
-    .byte 0xB0, 0x70  /* 00284AD2: bsr 0x00284BB6 */
-    .byte 0x00, 0x28  /* 00284AD4: clrmac */
-    .byte 0x68, 0xCC  /* 00284AD6: extu.b r12,r8 */
-    .byte 0x00, 0x28  /* 00284AD8: clrmac */
-    .byte 0x69, 0x1C  /* 00284ADA: extu.b r1,r9 */
-    .byte 0x40, 0x00  /* 00284ADC: shll r0 */
-    .byte 0x00, 0x00  /* 00284ADE: .word 0x0000 */
-    .byte 0x00, 0x28  /* 00284AE0: clrmac  -> FUN_00286F30 */
-    .byte 0x6F, 0x30  /* 00284AE2: mov.b @r3,r15 */
+    .4byte sym_0028B084  /* 00284A9C = 0x0028B084 */
+    .4byte sym_0028B088  /* 00284AA0 = 0x0028B088 */
+    .4byte sym_0028B080  /* 00284AA4 = 0x0028B080 */
+    .4byte FUN_0028611C  /* 00284AA8 = 0x0028611C */
+    .4byte FUN_002848B4  /* 00284AAC = 0x002848B4 */
+    .4byte DAT_00285038  /* 00284AB0 = 0x00285038 (FUN_00285008 + 0x30) */
+    .4byte DAT_002866EC  /* 00284AB4 = 0x002866EC (FUN_002866B8 + 0x34) */
+    .4byte DAT_00286958  /* 00284AB8 = 0x00286958 (FUN_0028691E + 0x3A) */
+    .4byte FUN_00286AC8  /* 00284ABC = 0x00286AC8 */
+    .4byte 0x00030000  /* 00284AC0 = 0x00030000 */
+    .4byte DAT_002860F8  /* 00284AC4 = 0x002860F8 (FUN_00285FBE + 0x13A) */
+    .4byte FUN_002862DC  /* 00284AC8 = 0x002862DC */
+    .4byte DAT_00286A70  /* 00284ACC = 0x00286A70 (FUN_00286A08 + 0x68) */
+    .4byte sym_0028B070  /* 00284AD0 = 0x0028B070 */
+    .4byte DAT_002868CC  /* 00284AD4 = 0x002868CC (FUN_00286866 + 0x66) */
+    .4byte DAT_0028691C  /* 00284AD8 = 0x0028691C (FUN_002868D0 + 0x4C) */
+    .4byte 0x40000000  /* 00284ADC = 0x40000000 */
+    .4byte FUN_00286F30  /* 00284AE0 = 0x00286F30 */
     .byte 0x2F, 0x86  /* 00284AE4: mov.l r8,@-r15 */

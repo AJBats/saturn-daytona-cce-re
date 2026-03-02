@@ -34,28 +34,16 @@ FUN_00283728:
     .byte 0x24, 0x10  /* 0028375E: mov.b r1,@r4 */
     .byte 0x00, 0x0B  /* 00283760: rts */
     .byte 0x6E, 0xF6  /* 00283762: mov.l @r15+,r14 */
-    .byte 0x00, 0x28  /* 00283764: clrmac */
-    .byte 0x3C, 0x08  /* 00283766: sub r0,r12 */
-    .byte 0x00, 0x28  /* 00283768: clrmac */
-    .byte 0x3C, 0x14  /* 0028376A: div1 r1,r12 */
-    .byte 0x00, 0x28  /* 0028376C: clrmac */
-    .byte 0x3C, 0xB0  /* 0028376E: cmp/eq r11,r12 */
-    .byte 0x00, 0x28  /* 00283770: clrmac */
-    .byte 0x3E, 0x18  /* 00283772: sub r1,r14 */
-    .byte 0x00, 0x28  /* 00283774: clrmac */
-    .byte 0x3E, 0x30  /* 00283776: cmp/eq r3,r14 */
-    .byte 0x00, 0x28  /* 00283778: clrmac */
-    .byte 0x3E, 0x54  /* 0028377A: div1 r5,r14 */
-    .byte 0x00, 0x28  /* 0028377C: clrmac */
-    .byte 0x3E, 0x6C  /* 0028377E: add r6,r14 */
-    .byte 0x00, 0x28  /* 00283780: clrmac */
-    .byte 0x3E, 0x84  /* 00283782: div1 r8,r14 */
-    .byte 0x00, 0x28  /* 00283784: clrmac */
-    .byte 0x3E, 0xA8  /* 00283786: sub r10,r14 */
-    .byte 0x00, 0x28  /* 00283788: clrmac */
-    .byte 0x3E, 0xC0  /* 0028378A: cmp/eq r12,r14 */
-    .byte 0x00, 0x28  /* 0028378C: clrmac */
-    .byte 0x3E, 0xCC  /* 0028378E: add r12,r14 */
-    .byte 0x00, 0x28  /* 00283790: clrmac */
-    .byte 0x3F, 0x0C  /* 00283792: add r0,r15 */
+    .4byte FUN_00283C08  /* 00283764 = 0x00283C08 */
+    .4byte DAT_00283C14  /* 00283768 = 0x00283C14 (FUN_00283C08 + 0xC) */
+    .4byte FUN_00283CB0  /* 0028376C = 0x00283CB0 */
+    .4byte FUN_00283E18  /* 00283770 = 0x00283E18 */
+    .4byte FUN_00283E30  /* 00283774 = 0x00283E30 */
+    .4byte FUN_00283E54  /* 00283778 = 0x00283E54 */
+    .4byte FUN_00283E6C  /* 0028377C = 0x00283E6C */
+    .4byte FUN_00283E84  /* 00283780 = 0x00283E84 */
+    .4byte FUN_00283EA8  /* 00283784 = 0x00283EA8 */
+    .4byte FUN_00283EC0  /* 00283788 = 0x00283EC0 */
+    .4byte FUN_00283ECC  /* 0028378C = 0x00283ECC */
+    .4byte FUN_00283F0C  /* 00283790 = 0x00283F0C */
     .byte 0x2F, 0x86  /* 00283794: mov.l r8,@-r15 */

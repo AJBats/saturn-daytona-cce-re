@@ -57,7 +57,5 @@ FUN_0028513A:
     .byte 0x03, 0x50  /* 0028519E: .word 0x0350 */
     .byte 0x03, 0x54  /* 002851A0: mov.b r5,@(r0,r3) */
     .byte 0x03, 0x58  /* 002851A2: .word 0x0358 */
-    .byte 0x00, 0x28  /* 002851A4: clrmac */
-    .byte 0xB0, 0x84  /* 002851A6: bsr 0x002852B2 */
-    .byte 0x00, 0x28  /* 002851A8: clrmac */
-    .byte 0x5C, 0x54  /* 002851AA: mov.l @(0x10,r5),r12 */
+    .4byte sym_0028B084  /* 002851A4 = 0x0028B084 */
+    .4byte DAT_00285C54  /* 002851A8 = 0x00285C54 (FUN_00285B28 + 0x12C) */
