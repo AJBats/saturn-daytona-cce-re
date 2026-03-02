@@ -22,6 +22,11 @@ SECTIONS
 {
     . = 0x00280000;
 
+    /* Pin entry function at module base so boot code can find it. */
+    /* It stays at the original address; its pool refs resolve to */
+    /* shifted targets, so the jump lands in the right place.      */
+    .entry : { *(.text.FUN_00280000) }
+
     .text : {
         . = . + __pad_size;
         *(SORT_BY_NAME(.text.FUN_*))
