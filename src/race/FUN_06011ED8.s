@@ -176,18 +176,12 @@ FUN_06011ED8:
     .byte 0x01, 0xC2  /* 0601202A: .word 0x01C2 */
     .byte 0xEF, 0xFF  /* 0601202C: mov #-1,r15 */
     .byte 0xFF, 0xFF  /* 0601202E: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06012030: mov.w r0,@(r0,r6) */
-    .byte 0x2E, 0x58  /* 06012032: tst r5,r14 */
-    .byte 0x06, 0x03  /* 06012034: bsrf r6 */
-    .byte 0x9A, 0xA4  /* 06012036: mov.w @(0x148,PC),r10  {0x06012182} */
-    .byte 0x00, 0x01  /* 06012038: .word 0x0001 */
-    .byte 0x00, 0x00  /* 0601203A: .word 0x0000 */
-    .byte 0x00, 0x2D  /* 0601203C: mov.w @(r0,r2),r0 */
-    .byte 0xF2, 0x8C  /* 0601203E: .word 0xF28C */
-    .byte 0x06, 0x04  /* 06012040: mov.b r0,@(r0,r6) */
-    .byte 0xC8, 0x24  /* 06012042: tst #0x24,r0 */
-    .byte 0x00, 0x2D  /* 06012044: mov.w @(r0,r2),r0 */
-    .byte 0xF2, 0x94  /* 06012046: .word 0xF294 */
+    .4byte sym_06052E58  /* 06012030 = 0x06052E58 */
+    .4byte sym_06039AA4  /* 06012034 = 0x06039AA4 */
+    .4byte 0x00010000  /* 06012038 = 0x00010000 */
+    .4byte sym_002DF28C  /* 0601203C = 0x002DF28C */
+    .4byte sym_0604C824  /* 06012040 = 0x0604C824 */
+    .4byte sym_002DF294  /* 06012044 = 0x002DF294 */
     .byte 0x8B, 0x03  /* 06012048: bf 0x06012052 */
     .byte 0xE6, 0x18  /* 0601204A: mov #24,r6 */
     .byte 0xE5, 0x00  /* 0601204C: mov #0,r5 */
@@ -314,10 +308,8 @@ FUN_06011ED8:
     .byte 0x00, 0xB4  /* 0601213E: mov.b r11,@(r0,r0) */
     .byte 0x01, 0xBC  /* 06012140: mov.b @(r0,r11),r1 */
     .byte 0xFF, 0xFF  /* 06012142: .word 0xFFFF */
-    .byte 0x00, 0x2F  /* 06012144: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x1D  /* 06012146: mov.l r0,@(0x74,GBR) */
-    .byte 0x06, 0x00  /* 06012148: .word 0x0600 */
-    .byte 0x8B, 0x10  /* 0601214A: bf 0x0601216E */
+    .4byte sym_002FC21D  /* 06012144 = 0x002FC21D */
+    .4byte DAT_06008B10  /* 06012148 = 0x06008B10 (FUN_06008AFA + 0x16) */
     .byte 0x90, 0x28  /* 0601214C: mov.w @(0x50,PC),r0  {0x060121A0} */
     .byte 0x65, 0x33  /* 0601214E: mov r3,r5 */
     .byte 0x00, 0xEE  /* 06012150: mov.l @(r0,r14),r0 */

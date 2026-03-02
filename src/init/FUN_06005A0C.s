@@ -4,8 +4,7 @@
     .global FUN_06005A0C
     .type FUN_06005A0C, @function
 FUN_06005A0C:
-    .byte 0x4F, 0x22  /* 06005A0C: sts.l pr,@-r15 */
-    .byte 0x7F, 0xFC  /* 06005A0E: add #-4,r15 */
+    .4byte 0x4F227FFC  /* 06005A0C = 0x4F227FFC */
     .byte 0x8B, 0x05  /* 06005A10: bf 0x06005A1E */
     .byte 0xE4, 0xF5  /* 06005A12: mov #-11,r4 */
     .byte 0x7F, 0x04  /* 06005A14: add #4,r15 */

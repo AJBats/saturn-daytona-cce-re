@@ -235,28 +235,17 @@ FUN_0600F672:
     .byte 0xA0, 0x1F  /* 0600F83A: bra 0x0600F87C */
     .byte 0x00, 0x09  /* 0600F83C: nop */
     .byte 0xFF, 0xFF  /* 0600F83E: .word 0xFFFF */
-    .byte 0x06, 0x03  /* 0600F840: bsrf r6 */
-    .byte 0x6D, 0x00  /* 0600F842: mov.b @r0,r13 */
-    .byte 0x06, 0x05  /* 0600F844: mov.w r0,@(r0,r6) */
-    .byte 0x6A, 0x18  /* 0600F846: swap.b r1,r10 */
-    .byte 0x00, 0x2F  /* 0600F848: mac.l @r2+,@r0+ */
-    .byte 0xD7, 0x2A  /* 0600F84A: mov.l @(0xA8,PC),r7  {[0x0600F8F4] = 0x4B0B0009} */
-    .byte 0x06, 0x03  /* 0600F84C: bsrf r6 */
-    .byte 0x59, 0xF4  /* 0600F84E: mov.l @(0x10,r15),r9 */
-    .byte 0x06, 0x03  /* 0600F850: bsrf r6 */
-    .byte 0x56, 0x44  /* 0600F852: mov.l @(0x10,r4),r6 */
-    .byte 0x06, 0x03  /* 0600F854: bsrf r6 */
-    .byte 0x66, 0x52  /* 0600F856: mov.l @r5,r6 */
-    .byte 0x06, 0x03  /* 0600F858: bsrf r6 */
-    .byte 0x66, 0x3E  /* 0600F85A: exts.b r3,r6 */
-    .byte 0x06, 0x03  /* 0600F85C: bsrf r6 */
-    .byte 0x60, 0x4A  /* 0600F85E: negc r4,r0 */
-    .byte 0x06, 0x05  /* 0600F860: mov.w r0,@(r0,r6) */
-    .byte 0x6A, 0x44  /* 0600F862: mov.b @r4+,r10 */
-    .byte 0x00, 0x00  /* 0600F864: .word 0x0000 */
-    .byte 0xF1, 0x11  /* 0600F866: .word 0xF111 */
-    .byte 0x06, 0x05  /* 0600F868: mov.w r0,@(r0,r6) */
-    .byte 0x6A, 0x20  /* 0600F86A: mov.b @r2,r10 */
+    .4byte sym_06036D00  /* 0600F840 = 0x06036D00 */
+    .4byte sym_06056A18  /* 0600F844 = 0x06056A18 */
+    .4byte sym_002FD72A  /* 0600F848 = 0x002FD72A */
+    .4byte sym_060359F4  /* 0600F84C = 0x060359F4 */
+    .4byte sym_06035644  /* 0600F850 = 0x06035644 */
+    .4byte sym_06036652  /* 0600F854 = 0x06036652 */
+    .4byte sym_0603663E  /* 0600F858 = 0x0603663E */
+    .4byte sym_0603604A  /* 0600F85C = 0x0603604A */
+    .4byte sym_06056A44  /* 0600F860 = 0x06056A44 */
+    .4byte 0x0000F111  /* 0600F864 = 0x0000F111 */
+    .4byte sym_06056A20  /* 0600F868 = 0x06056A20 */
     .byte 0x6B, 0xBC  /* 0600F86C: extu.b r11,r11 */
     .byte 0x2B, 0xB8  /* 0600F86E: tst r11,r11 */
     .byte 0x89, 0x01  /* 0600F870: bt 0x0600F876 */

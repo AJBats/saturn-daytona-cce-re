@@ -99,35 +99,19 @@ FUN_0600FA06:
     .byte 0x00, 0x0B  /* 0600FABE: rts */
     .byte 0x21, 0x00  /* 0600FAC0: mov.b r0,@r1 */
     .byte 0xFF, 0xFF  /* 0600FAC2: .word 0xFFFF */
-    .byte 0x06, 0x03  /* 0600FAC4: bsrf r6 */
-    .byte 0x67, 0x00  /* 0600FAC6: mov.b @r0,r7 */
-    .byte 0x06, 0x03  /* 0600FAC8: bsrf r6 */
-    .byte 0x67, 0xC4  /* 0600FACA: mov.b @r12+,r7 */
-    .byte 0x06, 0x03  /* 0600FACC: bsrf r6 */
-    .byte 0x67, 0x56  /* 0600FACE: mov.l @r5+,r7 */
-    .byte 0x00, 0x21  /* 0600FAD0: .word 0x0021 */
-    .byte 0x0F, 0x00  /* 0600FAD2: .word 0x0F00 */
-    .byte 0x00, 0x21  /* 0600FAD4: .word 0x0021 */
-    .byte 0x3F, 0x00  /* 0600FAD6: cmp/eq r0,r15 */
-    .byte 0x00, 0x21  /* 0600FAD8: .word 0x0021 */
-    .byte 0x6F, 0x00  /* 0600FADA: mov.b @r0,r15 */
-    .byte 0x00, 0x21  /* 0600FADC: .word 0x0021 */
-    .byte 0x9F, 0x00  /* 0600FADE: mov.w @(0x0,PC),r15  {0x0600FAE2} */
-    .byte 0x00, 0x21  /* 0600FAE0: .word 0x0021 */
-    .byte 0xCF, 0x00  /* 0600FAE2: or.b #0x00,@(r0,GBR) */
-    .byte 0x06, 0x03  /* 0600FAE4: bsrf r6 */
-    .byte 0x68, 0x5E  /* 0600FAE6: exts.b r5,r8 */
-    .byte 0x06, 0x03  /* 0600FAE8: bsrf r6 */
-    .byte 0x68, 0x20  /* 0600FAEA: mov.b @r2,r8 */
-    .byte 0x00, 0x2F  /* 0600FAEC: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x88  /* 0600FAEE: mov.b r0,@(0x88,GBR) */
-    .byte 0x00, 0x2F  /* 0600FAF0: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x87  /* 0600FAF2: mov.b r0,@(0x87,GBR) */
-    .byte 0x06, 0x05  /* 0600FAF4: mov.w r0,@(r0,r6) */
-    .byte 0x39, 0xCC  /* 0600FAF6: add r12,r9 */
-    .byte 0x00, 0x2F  /* 0600FAF8: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x89  /* 0600FAFA: mov.b r0,@(0x89,GBR) */
-    .byte 0x00, 0x2F  /* 0600FAFC: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x8A  /* 0600FAFE: mov.b r0,@(0x8A,GBR) */
-    .byte 0x06, 0x05  /* 0600FB00: mov.w r0,@(r0,r6) */
-    .byte 0x39, 0xD0  /* 0600FB02: cmp/eq r13,r9 */
+    .4byte sym_06036700  /* 0600FAC4 = 0x06036700 */
+    .4byte sym_060367C4  /* 0600FAC8 = 0x060367C4 */
+    .4byte sym_06036756  /* 0600FACC = 0x06036756 */
+    .4byte sym_00210F00  /* 0600FAD0 = 0x00210F00 */
+    .4byte sym_00213F00  /* 0600FAD4 = 0x00213F00 */
+    .4byte sym_00216F00  /* 0600FAD8 = 0x00216F00 */
+    .4byte sym_00219F00  /* 0600FADC = 0x00219F00 */
+    .4byte sym_0021CF00  /* 0600FAE0 = 0x0021CF00 */
+    .4byte sym_0603685E  /* 0600FAE4 = 0x0603685E */
+    .4byte sym_06036820  /* 0600FAE8 = 0x06036820 */
+    .4byte sym_002FC088  /* 0600FAEC = 0x002FC088 */
+    .4byte sym_002FC087  /* 0600FAF0 = 0x002FC087 */
+    .4byte sym_060539CC  /* 0600FAF4 = 0x060539CC */
+    .4byte sym_002FC089  /* 0600FAF8 = 0x002FC089 */
+    .4byte sym_002FC08A  /* 0600FAFC = 0x002FC08A */
+    .4byte sym_060539D0  /* 0600FB00 = 0x060539D0 */

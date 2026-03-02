@@ -108,12 +108,9 @@ FUN_06004A14:
     .byte 0x01, 0x54  /* 06004ADE: mov.b r5,@(r0,r1) */
     .byte 0x00, 0xFF  /* 06004AE0: mac.l @r15+,@r0+ */
     .byte 0xFF, 0xFF  /* 06004AE2: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06004AE4: mov.w r0,@(r0,r6) */
-    .byte 0x1C, 0x2C  /* 06004AE6: mov.l r2,@(0x30,r12) */
-    .byte 0x06, 0x05  /* 06004AE8: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0x98  /* 06004AEA: tst r9,r0 */
-    .byte 0x00, 0x00  /* 06004AEC: .word 0x0000 */
-    .byte 0xFF, 0xFF  /* 06004AEE: .word 0xFFFF */
+    .4byte sym_06051C2C  /* 06004AE4 = 0x06051C2C */
+    .4byte sym_06052098  /* 06004AE8 = 0x06052098 */
+    .4byte 0x0000FFFF  /* 06004AEC = 0x0000FFFF */
     .byte 0x25, 0x58  /* 06004AF0: tst r5,r5 */
     .byte 0x8B, 0x02  /* 06004AF2: bf 0x06004AFA */
     .byte 0x60, 0xE3  /* 06004AF4: mov r14,r0 */

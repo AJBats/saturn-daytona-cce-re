@@ -25,14 +25,10 @@ FUN_06025E9A:
     .byte 0xA0, 0x0B  /* 06025EBE: bra 0x06025ED8 */
     .byte 0x2B, 0xAB  /* 06025EC0: or r10,r11 */
     .byte 0x00, 0x00  /* 06025EC2: .word 0x0000 */
-    .byte 0x00, 0x1E  /* 06025EC4: mov.l @(r0,r1),r0 */
-    .byte 0x00, 0x00  /* 06025EC6: .word 0x0000 */
-    .byte 0x06, 0x04  /* 06025EC8: mov.b r0,@(r0,r6) */
-    .byte 0x7E, 0x0C  /* 06025ECA: add #12,r14 */
-    .byte 0x00, 0x00  /* 06025ECC: .word 0x0000 */
-    .byte 0x80, 0x00  /* 06025ECE: mov.b r0,@(0x0,r0) */
-    .byte 0xFF, 0xFF  /* 06025ED0: .word 0xFFFF */
-    .byte 0x00, 0x00  /* 06025ED2: .word 0x0000 */
+    .4byte sym_001E0000  /* 06025EC4 = 0x001E0000 */
+    .4byte sym_06047E0C  /* 06025EC8 = 0x06047E0C */
+    .4byte 0x00008000  /* 06025ECC = 0x00008000 */
+    .4byte 0xFFFF0000  /* 06025ED0 = 0xFFFF0000 */
     .byte 0xDA, 0x15  /* 06025ED4: mov.l @(0x54,PC),r10  {[0x06025F2C] = 0x0000FFFF} */
     .byte 0x2B, 0xA9  /* 06025ED6: and r10,r11 */
     .byte 0x4B, 0x11  /* 06025ED8: cmp/pz r11 */

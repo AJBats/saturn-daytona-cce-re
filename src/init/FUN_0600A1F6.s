@@ -81,12 +81,9 @@ FUN_0600A1F6:
     .byte 0x01, 0xDC  /* 0600A28A: mov.b @(r0,r13),r1 */
     .byte 0x02, 0x00  /* 0600A28C: .word 0x0200 */
     .byte 0xFF, 0xFF  /* 0600A28E: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 0600A290: .word 0x0600 */
-    .byte 0xC8, 0xB8  /* 0600A292: tst #0xB8,r0 */
-    .byte 0x06, 0x00  /* 0600A294: .word 0x0600 */
-    .byte 0xC8, 0x90  /* 0600A296: tst #0x90,r0 */
-    .byte 0x06, 0x00  /* 0600A298: .word 0x0600 */
-    .byte 0xC9, 0x08  /* 0600A29A: and #0x08,r0 */
+    .4byte DAT_0600C8B8  /* 0600A290 = 0x0600C8B8 (FUN_0600B7A0 + 0x1118) */
+    .4byte DAT_0600C890  /* 0600A294 = 0x0600C890 (FUN_0600B7A0 + 0x10F0) */
+    .4byte DAT_0600C908  /* 0600A298 = 0x0600C908 (FUN_0600B7A0 + 0x1168) */
     .byte 0x84, 0xDB  /* 0600A29C: mov.b @(0xB,r13),r0 */
     .byte 0x60, 0x0C  /* 0600A29E: extu.b r0,r0 */
     .byte 0xC8, 0x02  /* 0600A2A0: tst #0x02,r0 */

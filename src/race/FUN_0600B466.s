@@ -23,8 +23,7 @@ FUN_0600B466:
     .byte 0x60, 0xCD  /* 0600B486: extu.w r12,r0 */
     .byte 0x88, 0x05  /* 0600B488: cmp/eq #5,r0 */
     .byte 0x8B, 0x04  /* 0600B48A: bf 0x0600B496 */
-    .byte 0xE7, 0x02  /* 0600B48C: mov #2,r7 */
-    .byte 0xE6, 0x01  /* 0600B48E: mov #1,r6 */
+    .4byte 0xE702E601  /* 0600B48C = 0xE702E601 */
     .byte 0x65, 0xD3  /* 0600B490: mov r13,r5 */
     .byte 0x4E, 0x0B  /* 0600B492: jsr @r14 */
     .byte 0x64, 0x93  /* 0600B494: mov r9,r4 */

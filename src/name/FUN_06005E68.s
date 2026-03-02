@@ -40,27 +40,15 @@ FUN_06005E68:
     .byte 0x00, 0x0B  /* 06005EAA: rts */
     .byte 0x6E, 0xF6  /* 06005EAC: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06005EAE: .word 0xFFFF */
-    .byte 0x25, 0xF0  /* 06005EB0: mov.b r15,@r5 */
-    .byte 0x00, 0x00  /* 06005EB2: .word 0x0000 */
-    .byte 0x25, 0xE0  /* 06005EB4: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 06005EB6: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06005EB8: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06005EBA: .word 0x0000 */
-    .byte 0x06, 0x00  /* 06005EBC: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 06005EBE: .word 0x8A5C */
-    .byte 0x06, 0x03  /* 06005EC0: bsrf r6 */
-    .byte 0xA8, 0x60  /* 06005EC2: bra 0x06004F86 */
-    .byte 0x25, 0xF0  /* 06005EC4: mov.b r15,@r5 */
-    .byte 0x00, 0xF0  /* 06005EC6: .word 0x00F0 */
-    .byte 0x25, 0xE0  /* 06005EC8: mov.b r14,@r5 */
-    .byte 0x90, 0x00  /* 06005ECA: mov.w @(0x0,PC),r0  {0x06005ECE} */
-    .byte 0x25, 0xE6  /* 06005ECC: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 06005ECE: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06005ED0: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06005ED2: .word 0x0000 */
-    .byte 0x25, 0xF0  /* 06005ED4: mov.b r15,@r5 */
-    .byte 0x00, 0x20  /* 06005ED6: .word 0x0020 */
-    .byte 0x25, 0xE0  /* 06005ED8: mov.b r14,@r5 */
-    .byte 0x20, 0x00  /* 06005EDA: mov.b r0,@r0 */
-    .byte 0x00, 0x00  /* 06005EDC: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06005EDE: .word 0x0000 */
+    .4byte sym_25F00000  /* 06005EB0 = 0x25F00000 */
+    .4byte sym_25E00000  /* 06005EB4 = 0x25E00000 */
+    .4byte 0x00000000  /* 06005EB8 = 0x00000000 */
+    .4byte DAT_06008A5C  /* 06005EBC = 0x06008A5C (FUN_060067F6 + 0x2266) */
+    .4byte sym_0603A860  /* 06005EC0 = 0x0603A860 */
+    .4byte sym_25F000F0  /* 06005EC4 = 0x25F000F0 */
+    .4byte sym_25E09000  /* 06005EC8 = 0x25E09000 */
+    .4byte sym_25E60000  /* 06005ECC = 0x25E60000 */
+    .4byte 0x00000000  /* 06005ED0 = 0x00000000 */
+    .4byte sym_25F00020  /* 06005ED4 = 0x25F00020 */
+    .4byte sym_25E02000  /* 06005ED8 = 0x25E02000 */
+    .4byte 0x00000000  /* 06005EDC = 0x00000000 */

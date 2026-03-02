@@ -75,31 +75,17 @@ FUN_0600202E:
     .byte 0x43, 0x2B  /* 060020B6: jmp @r3 */
     .byte 0x6E, 0xF6  /* 060020B8: mov.l @r15+,r14 */
     .byte 0x0A, 0xF0  /* 060020BA: .word 0x0AF0 */
-    .byte 0x00, 0x2F  /* 060020BC: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 060020BE: mov.l r0,@(0xCC,GBR) */
-    .byte 0x00, 0x2F  /* 060020C0: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x30  /* 060020C2: mov.l r0,@(0xC0,GBR) */
-    .byte 0x00, 0x2F  /* 060020C4: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x2F  /* 060020C6: mov.l r0,@(0xBC,GBR) */
-    .byte 0x00, 0x2F  /* 060020C8: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x35  /* 060020CA: mov.l r0,@(0xD4,GBR) */
-    .byte 0x06, 0x01  /* 060020CC: .word 0x0601 */
-    .byte 0x33, 0x60  /* 060020CE: cmp/eq r6,r3 */
-    .byte 0x00, 0x2F  /* 060020D0: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x00  /* 060020D2: mov.b r0,@(0x0,GBR) */
-    .byte 0x00, 0x2F  /* 060020D4: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x08  /* 060020D6: mov.b r0,@(0x8,GBR) */
-    .byte 0x00, 0x2F  /* 060020D8: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x80  /* 060020DA: trapa #0x80 */
-    .byte 0x06, 0x00  /* 060020DC: .word 0x0600 */
-    .byte 0x8B, 0x10  /* 060020DE: bf 0x06002102 */
-    .byte 0x00, 0x2F  /* 060020E0: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x7C  /* 060020E2: trapa #0x7C */
-    .byte 0x00, 0x2F  /* 060020E4: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x80  /* 060020E6: mov.b r0,@(0x80,GBR) */
-    .byte 0x00, 0x2F  /* 060020E8: mac.l @r2+,@r0+ */
-    .byte 0xC0, 0x84  /* 060020EA: mov.b r0,@(0x84,GBR) */
-    .byte 0x06, 0x02  /* 060020EC: stc sr,r6 */
-    .byte 0xC0, 0x9C  /* 060020EE: mov.b r0,@(0x9C,GBR) */
-    .byte 0x06, 0x02  /* 060020F0: stc sr,r6 */
-    .byte 0xC3, 0x40  /* 060020F2: trapa #0x40 */
+    .4byte sym_002FC233  /* 060020BC = 0x002FC233 */
+    .4byte sym_002FC230  /* 060020C0 = 0x002FC230 */
+    .4byte sym_002FC22F  /* 060020C4 = 0x002FC22F */
+    .4byte sym_002FC235  /* 060020C8 = 0x002FC235 */
+    .4byte DAT_06013360  /* 060020CC = 0x06013360 (FUN_06012928 + 0xA38) */
+    .4byte sym_002FC000  /* 060020D0 = 0x002FC000 */
+    .4byte sym_002FC008  /* 060020D4 = 0x002FC008 */
+    .4byte sym_002FC380  /* 060020D8 = 0x002FC380 */
+    .4byte DAT_06008B10  /* 060020DC = 0x06008B10 (FUN_060067F6 + 0x231A) */
+    .4byte sym_002FC37C  /* 060020E0 = 0x002FC37C */
+    .4byte sym_002FC080  /* 060020E4 = 0x002FC080 */
+    .4byte sym_002FC084  /* 060020E8 = 0x002FC084 */
+    .4byte sym_0602C09C  /* 060020EC = 0x0602C09C */
+    .4byte sym_0602C340  /* 060020F0 = 0x0602C340 */

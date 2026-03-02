@@ -54,8 +54,7 @@ FUN_06003DDC:
     .byte 0x52, 0xC5  /* 06003E3A: mov.l @(0x14,r12),r2 */
     .byte 0x23, 0x22  /* 06003E3C: mov.l r2,@r3 */
     .byte 0x85, 0xC4  /* 06003E3E: mov.w @(0x8,r12),r0 */
-    .byte 0x6D, 0x03  /* 06003E40: mov r0,r13 */
-    .byte 0x7D, 0xF8  /* 06003E42: add #-8,r13 */
+    .4byte 0x6D037DF8  /* 06003E40 = 0x6D037DF8 */
     .byte 0x68, 0x4F  /* 06003E44: exts.w r4,r8 */
     .byte 0x48, 0x15  /* 06003E46: cmp/pl r8 */
     .byte 0x8F, 0x2B  /* 06003E48: bf/s 0x06003EA2 */

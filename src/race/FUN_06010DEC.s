@@ -100,10 +100,8 @@ FUN_06010DEC:
     .byte 0x01, 0x70  /* 06010EA6: .word 0x0170 */
     .byte 0x01, 0x9C  /* 06010EA8: mov.b @(r0,r9),r1 */
     .byte 0xFF, 0xFF  /* 06010EAA: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06010EAC: mov.w r0,@(r0,r6) */
-    .byte 0x27, 0xD4  /* 06010EAE: mov.b r13,@-r7 */
-    .byte 0x06, 0x05  /* 06010EB0: mov.w r0,@(r0,r6) */
-    .byte 0x27, 0xD0  /* 06010EB2: mov.b r13,@r7 */
+    .4byte sym_060527D4  /* 06010EAC = 0x060527D4 */
+    .4byte sym_060527D0  /* 06010EB0 = 0x060527D0 */
     .byte 0xE0, 0x12  /* 06010EB4: mov #18,r0 */
     .byte 0x00, 0xEC  /* 06010EB6: mov.b @(r0,r14),r0 */
     .byte 0x40, 0x00  /* 06010EB8: shll r0 */

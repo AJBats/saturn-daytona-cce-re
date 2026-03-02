@@ -5,8 +5,7 @@
     .type FUN_06006AE6, @function
 FUN_06006AE6:
     .byte 0x4F, 0x22  /* 06006AE6: sts.l pr,@-r15 */
-    .byte 0xD3, 0x1F  /* 06006AE8: mov.l @(0x7C,PC),r3  {[0x06006B68] = 0x002FC233} */
-    .byte 0x60, 0x30  /* 06006AEA: mov.b @r3,r0 */
+    .4byte 0xD31F6030  /* 06006AE8 = 0xD31F6030 */
     .byte 0x88, 0x02  /* 06006AEC: cmp/eq #2,r0 */
     .byte 0x8D, 0x03  /* 06006AEE: bt/s 0x06006AF8 */
     .byte 0x65, 0x03  /* 06006AF0: mov r0,r5 */

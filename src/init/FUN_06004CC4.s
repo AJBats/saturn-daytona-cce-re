@@ -34,11 +34,7 @@ FUN_06004CC4:
     .byte 0x6E, 0xF6  /* 06004CFA: mov.l @r15+,r14 */
     .byte 0x00, 0x82  /* 06004CFC: .word 0x0082 */
     .byte 0xFF, 0xFF  /* 06004CFE: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06004D00: .word 0x0600 */
-    .byte 0xA1, 0xAC  /* 06004D02: bra 0x0600505E */
-    .byte 0x06, 0x00  /* 06004D04: .word 0x0600 */
-    .byte 0xA0, 0x2C  /* 06004D06: bra 0x06004D62 */
-    .byte 0x06, 0x00  /* 06004D08: .word 0x0600 */
-    .byte 0xC9, 0xC0  /* 06004D0A: and #0xC0,r0 */
-    .byte 0x00, 0xFF  /* 06004D0C: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 06004D0E: .word 0xFFFF */
+    .4byte DAT_0600A1AC  /* 06004D00 = 0x0600A1AC (FUN_0600A10E + 0x9E) */
+    .4byte DAT_0600A02C  /* 06004D04 = 0x0600A02C (FUN_06009FD6 + 0x56) */
+    .4byte DAT_0600C9C0  /* 06004D08 = 0x0600C9C0 (FUN_0600B7A0 + 0x1220) */
+    .4byte 0x00FFFFFF  /* 06004D0C = 0x00FFFFFF */

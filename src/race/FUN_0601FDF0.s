@@ -16,8 +16,7 @@ FUN_0601FDF0:
     .byte 0x00, 0x0B  /* 0601FE02: rts */
     .byte 0x00, 0x09  /* 0601FE04: nop */
     .byte 0x00, 0x00  /* 0601FE06: .word 0x0000 */
-    .byte 0x00, 0x06  /* 0601FE08: mov.l r0,@(r0,r0) */
-    .byte 0x48, 0x7F  /* 0601FE0A: .word 0x487F */
+    .4byte 0x0006487F  /* 0601FE08 = 0x0006487F */
     .byte 0x60, 0x43  /* 0601FE0C: mov r4,r0 */
     .byte 0x20, 0x5B  /* 0601FE0E: or r5,r0 */
     .byte 0x20, 0x08  /* 0601FE10: tst r0,r0 */

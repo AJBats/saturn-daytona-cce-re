@@ -108,10 +108,8 @@ FUN_0600ACB4:
     .byte 0x00, 0xFF  /* 0600AD7E: mac.l @r15+,@r0+ */
     .byte 0x01, 0xE4  /* 0600AD80: mov.b r14,@(r0,r1) */
     .byte 0x01, 0xDC  /* 0600AD82: mov.b @(r0,r13),r1 */
-    .byte 0x06, 0x01  /* 0600AD84: .word 0x0601 */
-    .byte 0x05, 0x94  /* 0600AD86: mov.b r9,@(r0,r5) */
-    .byte 0x06, 0x01  /* 0600AD88: .word 0x0601 */
-    .byte 0x36, 0xEC  /* 0600AD8A: add r14,r6 */
+    .4byte DAT_06010594  /* 0600AD84 = 0x06010594 (FUN_0600EA84 + 0x1B10) */
+    .4byte DAT_060136EC  /* 0600AD88 = 0x060136EC (FUN_0600EA84 + 0x4C68) */
     .byte 0x67, 0xE2  /* 0600AD8C: mov.l @r14,r7 */
     .byte 0x65, 0x43  /* 0600AD8E: mov r4,r5 */
     .byte 0x93, 0xAB  /* 0600AD90: mov.w @(0x156,PC),r3  {0x0600AEEA} */

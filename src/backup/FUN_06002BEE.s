@@ -69,29 +69,16 @@ FUN_06002BEE:
     .byte 0x03, 0x00  /* 06002C6A: .word 0x0300 */
     .byte 0x3C, 0x00  /* 06002C6C: cmp/eq r0,r12 */
     .byte 0xFF, 0xFF  /* 06002C6E: .word 0xFFFF */
-    .byte 0x25, 0xE2  /* 06002C70: mov.l r14,@r5 */
-    .byte 0x00, 0x00  /* 06002C72: .word 0x0000 */
-    .byte 0x25, 0xE6  /* 06002C74: mov.l r14,@-r5 */
-    .byte 0x40, 0x00  /* 06002C76: shll r0 */
-    .byte 0x06, 0x02  /* 06002C78: stc sr,r6 */
-    .byte 0xB9, 0xD0  /* 06002C7A: bsr 0x0600201E */
-    .byte 0x25, 0xE6  /* 06002C7C: mov.l r14,@-r5 */
-    .byte 0x60, 0x00  /* 06002C7E: mov.b @r0,r0 */
-    .byte 0x06, 0x02  /* 06002C80: stc sr,r6 */
-    .byte 0xBC, 0x44  /* 06002C82: bsr 0x0600250E */
-    .byte 0x00, 0x22  /* 06002C84: stc vbr,r0 */
-    .byte 0x18, 0xEA  /* 06002C86: mov.l r14,@(0x28,r8) */
-    .byte 0x00, 0x22  /* 06002C88: stc vbr,r0 */
-    .byte 0x16, 0xEA  /* 06002C8A: mov.l r14,@(0x28,r6) */
-    .byte 0x06, 0x03  /* 06002C8C: bsrf r6 */
-    .byte 0xE2, 0xC0  /* 06002C8E: mov #-64,r2 */
-    .byte 0x06, 0x03  /* 06002C90: bsrf r6 */
-    .byte 0xE2, 0xE0  /* 06002C92: mov #-32,r2 */
-    .byte 0x06, 0x03  /* 06002C94: bsrf r6 */
-    .byte 0xA6, 0xF4  /* 06002C96: bra 0x06003A82 */
-    .byte 0x06, 0x02  /* 06002C98: stc sr,r6 */
-    .byte 0xBC, 0x64  /* 06002C9A: bsr 0x06002566 */
-    .byte 0x06, 0x03  /* 06002C9C: bsrf r6 */
-    .byte 0xA6, 0xB8  /* 06002C9E: bra 0x06003A12 */
-    .byte 0x06, 0x02  /* 06002CA0: stc sr,r6 */
-    .byte 0xBC, 0x84  /* 06002CA2: bsr 0x060025AE */
+    .4byte sym_25E20000  /* 06002C70 = 0x25E20000 */
+    .4byte sym_25E64000  /* 06002C74 = 0x25E64000 */
+    .4byte sym_0602B9D0  /* 06002C78 = 0x0602B9D0 */
+    .4byte sym_25E66000  /* 06002C7C = 0x25E66000 */
+    .4byte sym_0602BC44  /* 06002C80 = 0x0602BC44 */
+    .4byte sym_002218EA  /* 06002C84 = 0x002218EA */
+    .4byte sym_002216EA  /* 06002C88 = 0x002216EA */
+    .4byte sym_0603E2C0  /* 06002C8C = 0x0603E2C0 */
+    .4byte sym_0603E2E0  /* 06002C90 = 0x0603E2E0 */
+    .4byte sym_0603A6F4  /* 06002C94 = 0x0603A6F4 */
+    .4byte sym_0602BC64  /* 06002C98 = 0x0602BC64 */
+    .4byte sym_0603A6B8  /* 06002C9C = 0x0603A6B8 */
+    .4byte sym_0602BC84  /* 06002CA0 = 0x0602BC84 */

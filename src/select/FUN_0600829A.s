@@ -27,32 +27,19 @@ FUN_0600829A:
     .byte 0xA0, 0x1C  /* 060082C2: bra 0x060082FE */
     .byte 0x6B, 0x53  /* 060082C4: mov r5,r11 */
     .byte 0xFF, 0xFF  /* 060082C6: .word 0xFFFF */
-    .byte 0x00, 0x2F  /* 060082C8: mac.l @r2+,@r0+ */
-    .byte 0xD7, 0x31  /* 060082CA: mov.l @(0xC4,PC),r7  {[0x06008390] = 0x64D27F10} */
-    .byte 0x25, 0xE0  /* 060082CC: mov.b r14,@r5 */
-    .byte 0xC0, 0x00  /* 060082CE: mov.b r0,@(0x0,GBR) */
-    .byte 0x00, 0x2C  /* 060082D0: mov.b @(r0,r2),r0 */
-    .byte 0x30, 0x42  /* 060082D2: cmp/hs r4,r0 */
-    .byte 0x06, 0x02  /* 060082D4: stc sr,r6 */
-    .byte 0x8B, 0x80  /* 060082D6: bf 0x060081DA */
-    .byte 0x25, 0xE0  /* 060082D8: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 060082DA: .word 0x0000 */
-    .byte 0x00, 0x28  /* 060082DC: clrmac */
-    .byte 0x4E, 0x16  /* 060082DE: lds.l @r14+,macl */
-    .byte 0x25, 0xE6  /* 060082E0: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 060082E2: .word 0x0000 */
-    .byte 0x06, 0x02  /* 060082E4: stc sr,r6 */
-    .byte 0xEB, 0x6C  /* 060082E6: mov #108,r11 */
-    .byte 0x06, 0x04  /* 060082E8: mov.b r0,@(r0,r6) */
-    .byte 0x23, 0x69  /* 060082EA: and r6,r3 */
-    .byte 0x00, 0x2F  /* 060082EC: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x30  /* 060082EE: mov.l r0,@(0xC0,GBR) */
-    .byte 0x00, 0x28  /* 060082F0: clrmac */
-    .byte 0x51, 0x6A  /* 060082F2: mov.l @(0x28,r6),r1 */
-    .byte 0x06, 0x02  /* 060082F4: stc sr,r6 */
-    .byte 0x99, 0x1C  /* 060082F6: mov.w @(0x38,PC),r9  {0x06008332} */
-    .byte 0x06, 0x03  /* 060082F8: bsrf r6 */
-    .byte 0xF6, 0x2C  /* 060082FA: .word 0xF62C */
+    .4byte sym_002FD731  /* 060082C8 = 0x002FD731 */
+    .4byte sym_25E0C000  /* 060082CC = 0x25E0C000 */
+    .4byte sym_002C3042  /* 060082D0 = 0x002C3042 */
+    .4byte DAT_06028B80  /* 060082D4 = 0x06028B80 (FUN_060175D0 + 0x115B0) */
+    .4byte sym_25E00000  /* 060082D8 = 0x25E00000 */
+    .4byte sym_00284E16  /* 060082DC = 0x00284E16 */
+    .4byte sym_25E60000  /* 060082E0 = 0x25E60000 */
+    .4byte DAT_0602EB6C  /* 060082E4 = 0x0602EB6C (FUN_060175D0 + 0x1759C) */
+    .4byte sym_06042369  /* 060082E8 = 0x06042369 */
+    .4byte sym_002FC230  /* 060082EC = 0x002FC230 */
+    .4byte sym_0028516A  /* 060082F0 = 0x0028516A */
+    .4byte DAT_0602991C  /* 060082F4 = 0x0602991C (FUN_060175D0 + 0x1234C) */
+    .4byte sym_0603F62C  /* 060082F8 = 0x0603F62C */
     .byte 0xEB, 0x09  /* 060082FC: mov #9,r11 */
     .byte 0x64, 0x53  /* 060082FE: mov r5,r4 */
     .byte 0xD8, 0x0A  /* 06008300: mov.l @(0x28,PC),r8  {[0x0600832C] = 0x0028540A} */
@@ -77,14 +64,10 @@ FUN_0600829A:
     .byte 0x00, 0x23  /* 06008326: braf r0 */
     .byte 0x00, 0x09  /* 06008328: nop */
     .byte 0xFF, 0xFF  /* 0600832A: .word 0xFFFF */
-    .byte 0x00, 0x28  /* 0600832C: clrmac */
-    .byte 0x54, 0x0A  /* 0600832E: mov.l @(0x28,r0),r4 */
-    .byte 0x00, 0x28  /* 06008330: clrmac */
-    .byte 0x53, 0xB0  /* 06008332: mov.l @(0x0,r11),r3 */
-    .byte 0x00, 0x28  /* 06008334: clrmac */
-    .byte 0x53, 0x56  /* 06008336: mov.l @(0x18,r5),r3 */
-    .byte 0x00, 0x2F  /* 06008338: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x30  /* 0600833A: mov.l r0,@(0xC0,GBR) */
+    .4byte sym_0028540A  /* 0600832C = 0x0028540A */
+    .4byte sym_002853B0  /* 06008330 = 0x002853B0 */
+    .4byte sym_00285356  /* 06008334 = 0x00285356 */
+    .4byte sym_002FC230  /* 06008338 = 0x002FC230 */
     .byte 0x00, 0x32  /* 0600833C: .word 0x0032 */
     .byte 0x00, 0x32  /* 0600833E: .word 0x0032 */
     .byte 0x00, 0x28  /* 06008340: clrmac */
@@ -127,8 +110,7 @@ FUN_0600829A:
     .byte 0x76, 0x04  /* 0600838A: add #4,r6 */
     .byte 0xD2, 0x80  /* 0600838C: mov.l @(0x200,PC),r2  {[0x06008590] = 0x0602991C} */
     .byte 0x42, 0x0B  /* 0600838E: jsr @r2 */
-    .byte 0x64, 0xD2  /* 06008390: mov.l @r13,r4 */
-    .byte 0x7F, 0x10  /* 06008392: add #16,r15 */
+    .4byte 0x64D27F10  /* 06008390 = 0x64D27F10 */
     .byte 0xD3, 0x7F  /* 06008394: mov.l @(0x1FC,PC),r3  {[0x06008594] = 0x06042369} */
     .byte 0x60, 0x30  /* 06008396: mov.b @r3,r0 */
     .byte 0x88, 0x0C  /* 06008398: cmp/eq #12,r0 */

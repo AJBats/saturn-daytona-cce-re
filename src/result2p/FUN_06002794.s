@@ -22,27 +22,18 @@ FUN_06002794:
     .byte 0x00, 0x0B  /* 060027B2: rts */
     .byte 0x00, 0x09  /* 060027B4: nop */
     .byte 0x00, 0x00  /* 060027B6: .word 0x0000 */
-    .byte 0x06, 0x02  /* 060027B8: stc sr,r6 */
-    .byte 0xCB, 0xD0  /* 060027BA: or #0xD0,r0 */
-    .byte 0x06, 0x02  /* 060027BC: stc sr,r6 */
-    .byte 0xCD, 0xF2  /* 060027BE: and.b #0xF2,@(r0,GBR) */
-    .byte 0x06, 0x02  /* 060027C0: stc sr,r6 */
-    .byte 0xA8, 0xC8  /* 060027C2: bra 0x06001956 */
-    .byte 0x06, 0x05  /* 060027C4: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 060027C6: add #0,r12 */
-    .byte 0x06, 0x02  /* 060027C8: stc sr,r6 */
-    .byte 0xA8, 0x08  /* 060027CA: bra 0x060017DE */
-    .byte 0x06, 0x05  /* 060027CC: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 060027CE: add #0,r8 */
-    .byte 0x06, 0x02  /* 060027D0: stc sr,r6 */
-    .byte 0xA6, 0xEC  /* 060027D2: bra 0x060035AE */
+    .4byte DAT_0602CBD0  /* 060027B8 = 0x0602CBD0 (FUN_06009C40 + 0x22F90) */
+    .4byte DAT_0602CDF2  /* 060027BC = 0x0602CDF2 (FUN_06009C40 + 0x231B2) */
+    .4byte DAT_0602A8C8  /* 060027C0 = 0x0602A8C8 (FUN_06009C40 + 0x20C88) */
+    .4byte DAT_06057C00  /* 060027C4 = 0x06057C00 (FUN_06045CCA + 0x11F36) */
+    .4byte DAT_0602A808  /* 060027C8 = 0x0602A808 (FUN_06009C40 + 0x20BC8) */
+    .4byte DAT_06057800  /* 060027CC = 0x06057800 (FUN_06045CCA + 0x11B36) */
+    .4byte DAT_0602A6EC  /* 060027D0 = 0x0602A6EC (FUN_06009C40 + 0x20AAC) */
     .byte 0xD4, 0x01  /* 060027D4: mov.l @(0x4,PC),r4  {[0x060027DC] = 0x0602A8C8} */
     .byte 0xDE, 0x02  /* 060027D6: mov.l @(0x8,PC),r14  {[0x060027E0] = 0x06057C00} */
     .byte 0xA0, 0x06  /* 060027D8: bra 0x060027E8 */
     .byte 0x00, 0x09  /* 060027DA: nop */
-    .byte 0x06, 0x02  /* 060027DC: stc sr,r6 */
-    .byte 0xA8, 0xC8  /* 060027DE: bra 0x06001972 */
-    .byte 0x06, 0x05  /* 060027E0: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 060027E2: add #0,r12 */
+    .4byte DAT_0602A8C8  /* 060027DC = 0x0602A8C8 (FUN_06009C40 + 0x20C88) */
+    .4byte DAT_06057C00  /* 060027E0 = 0x06057C00 (FUN_06045CCA + 0x11F36) */
     .byte 0xD4, 0x72  /* 060027E4: mov.l @(0x1C8,PC),r4  {[0x060029B0] = 0x0602A808} */
     .byte 0xDE, 0x73  /* 060027E6: mov.l @(0x1CC,PC),r14  {[0x060029B4] = 0x06057800} */

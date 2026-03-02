@@ -26,8 +26,7 @@ FUN_06018B48:
     .byte 0x00, 0x0B  /* 06018B6E: rts */
     .byte 0x00, 0x09  /* 06018B70: nop */
     .byte 0xFF, 0xFF  /* 06018B72: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06018B74: .word 0x0600 */
-    .byte 0x03, 0x54  /* 06018B76: mov.b r5,@(r0,r3) */
+    .4byte DAT_06000354  /* 06018B74 = 0x06000354 (FUN_06000000 + 0x354) */
     .byte 0x42, 0x55  /* 06018B78: .word 0x4255 */
     .byte 0x50, 0x20  /* 06018B7A: mov.l @(0x0,r2),r0 */
     .byte 0x56, 0x65  /* 06018B7C: mov.l @(0x14,r6),r6 */

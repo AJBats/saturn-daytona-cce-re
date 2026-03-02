@@ -124,8 +124,6 @@ FUN_0601E7B4:
     .byte 0x00, 0x0B  /* 0601E89E: rts */
     .byte 0x00, 0x09  /* 0601E8A0: nop */
     .byte 0xFF, 0x00  /* 0601E8A2: .word 0xFF00 */
-    .byte 0x06, 0x05  /* 0601E8A4: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 0601E8A6: add #0,r8 */
-    .byte 0x06, 0x05  /* 0601E8A8: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 0601E8AA: add #0,r12 */
+    .4byte sym_06057800  /* 0601E8A4 = 0x06057800 */
+    .4byte sym_06057C00  /* 0601E8A8 = 0x06057C00 */
     .byte 0x4F, 0x13  /* 0601E8AC: .word 0x4F13 */

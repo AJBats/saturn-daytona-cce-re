@@ -71,14 +71,10 @@ FUN_0600EAB6:
     .byte 0x4F, 0x26  /* 0600EB36: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600EB38: rts */
     .byte 0xE0, 0xFF  /* 0600EB3A: mov #-1,r0 */
-    .byte 0x00, 0x80  /* 0600EB3C: .word 0x0080 */
-    .byte 0x00, 0x00  /* 0600EB3E: .word 0x0000 */
-    .byte 0xFF, 0x80  /* 0600EB40: .word 0xFF80 */
-    .byte 0x00, 0x00  /* 0600EB42: .word 0x0000 */
-    .byte 0x08, 0x00  /* 0600EB44: .word 0x0800 */
-    .byte 0x00, 0x00  /* 0600EB46: .word 0x0000 */
-    .byte 0xF8, 0x00  /* 0600EB48: .word 0xF800 */
-    .byte 0x00, 0x00  /* 0600EB4A: .word 0x0000 */
+    .4byte 0x00800000  /* 0600EB3C = 0x00800000 */
+    .4byte 0xFF800000  /* 0600EB40 = 0xFF800000 */
+    .4byte 0x08000000  /* 0600EB44 = 0x08000000 */
+    .4byte 0xF8000000  /* 0600EB48 = 0xF8000000 */
     .byte 0x6E, 0xF6  /* 0600EB4C: mov.l @r15+,r14 */
     .byte 0x6D, 0xF6  /* 0600EB4E: mov.l @r15+,r13 */
     .byte 0x6C, 0xF6  /* 0600EB50: mov.l @r15+,r12 */

@@ -24,7 +24,5 @@ FUN_060058CC:
     .byte 0x6E, 0xF6  /* 060058EE: mov.l @r15+,r14 */
     .byte 0x00, 0x0B  /* 060058F0: rts */
     .byte 0x00, 0x09  /* 060058F2: nop */
-    .byte 0x06, 0x02  /* 060058F4: stc sr,r6 */
-    .byte 0xD7, 0x4C  /* 060058F6: mov.l @(0x130,PC),r7  {[0x06005A28] = 0x6043C200} */
-    .byte 0x06, 0x05  /* 060058F8: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 060058FA: add #0,r8 */
+    .4byte sym_0602D74C  /* 060058F4 = 0x0602D74C */
+    .4byte sym_06057800  /* 060058F8 = 0x06057800 */

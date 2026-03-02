@@ -98,8 +98,7 @@ FUN_0600A34C:
     .byte 0x0B, 0x1A  /* 0600A402: sts macl,r11 */
     .byte 0x0A, 0x47  /* 0600A404: mul.l r4,r10 */
     .byte 0x0A, 0x1A  /* 0600A406: sts macl,r10 */
-    .byte 0x09, 0x47  /* 0600A408: mul.l r4,r9 */
-    .byte 0x6A, 0xAB  /* 0600A40A: neg r10,r10 */
+    .4byte 0x09476AAB  /* 0600A408 = 0x09476AAB */
     .byte 0x94, 0x5A  /* 0600A40C: mov.w @(0xB4,PC),r4  {0x0600A4C4} */
     .byte 0x09, 0x1A  /* 0600A40E: sts macl,r9 */
     .byte 0x69, 0x9B  /* 0600A410: neg r9,r9 */
@@ -194,22 +193,14 @@ FUN_0600A34C:
     .byte 0x03, 0x20  /* 0600A4C2: .word 0x0320 */
     .byte 0x00, 0xB8  /* 0600A4C4: .word 0x00B8 */
     .byte 0x7D, 0xE0  /* 0600A4C6: add #-32,r13 */
-    .byte 0x06, 0x05  /* 0600A4C8: mov.w r0,@(r0,r6) */
-    .byte 0x23, 0x20  /* 0600A4CA: mov.b r2,@r3 */
-    .byte 0x06, 0x05  /* 0600A4CC: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x2A  /* 0600A4CE: lds r9,pr */
-    .byte 0x00, 0x01  /* 0600A4D0: .word 0x0001 */
-    .byte 0x00, 0x00  /* 0600A4D2: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0600A4D4: .word 0x0000 */
-    .byte 0xE6, 0x66  /* 0600A4D6: mov #102,r6 */
-    .byte 0x06, 0x00  /* 0600A4D8: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 0600A4DA: .word 0x8A5C */
-    .byte 0x06, 0x05  /* 0600A4DC: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x10  /* 0600A4DE: dt r9 */
-    .byte 0x06, 0x04  /* 0600A4E0: mov.b r0,@(r0,r6) */
-    .byte 0x7D, 0x68  /* 0600A4E2: add #104,r13 */
-    .byte 0x00, 0x00  /* 0600A4E4: .word 0x0000 */
-    .byte 0x87, 0x20  /* 0600A4E6: .word 0x8720 */
+    .4byte sym_06052320  /* 0600A4C8 = 0x06052320 */
+    .4byte sym_0605492A  /* 0600A4CC = 0x0605492A */
+    .4byte 0x00010000  /* 0600A4D0 = 0x00010000 */
+    .4byte 0x0000E666  /* 0600A4D4 = 0x0000E666 */
+    .4byte DAT_06008A5C  /* 0600A4D8 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte sym_06054910  /* 0600A4DC = 0x06054910 */
+    .4byte sym_06047D68  /* 0600A4E0 = 0x06047D68 */
+    .4byte 0x00008720  /* 0600A4E4 = 0x00008720 */
     .byte 0xD3, 0x5D  /* 0600A4E8: mov.l @(0x174,PC),r3  {[0x0600A660] = 0x06054910} */
     .byte 0xE2, 0x02  /* 0600A4EA: mov #2,r2 */
     .byte 0x61, 0x32  /* 0600A4EC: mov.l @r3,r1 */

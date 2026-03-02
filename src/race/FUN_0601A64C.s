@@ -152,32 +152,19 @@ FUN_0601A64C:
     .byte 0xA0, 0x1B  /* 0601A76E: bra 0x0601A7A8 */
     .byte 0xE5, 0x00  /* 0601A770: mov #0,r5 */
     .byte 0x19, 0x99  /* 0601A772: mov.l r9,@(0x24,r9) */
-    .byte 0x06, 0x05  /* 0601A774: mov.w r0,@(r0,r6) */
-    .byte 0x36, 0x40  /* 0601A776: cmp/eq r4,r6 */
-    .byte 0x06, 0x03  /* 0601A778: bsrf r6 */
-    .byte 0x6B, 0x60  /* 0601A77A: mov.b @r6,r11 */
-    .byte 0x06, 0x04  /* 0601A77C: mov.b r0,@(r0,r6) */
-    .byte 0x7E, 0x0C  /* 0601A77E: add #12,r14 */
-    .byte 0x06, 0x05  /* 0601A780: mov.w r0,@(r0,r6) */
-    .byte 0x30, 0xC4  /* 0601A782: div1 r12,r0 */
-    .byte 0x06, 0x05  /* 0601A784: mov.w r0,@(r0,r6) */
-    .byte 0x36, 0x3C  /* 0601A786: add r3,r6 */
-    .byte 0x06, 0x05  /* 0601A788: mov.w r0,@(r0,r6) */
-    .byte 0x0D, 0x58  /* 0601A78A: .word 0x0D58 */
-    .byte 0x00, 0x01  /* 0601A78C: .word 0x0001 */
-    .byte 0x50, 0x00  /* 0601A78E: mov.l @(0x0,r0),r0 */
-    .byte 0x06, 0x04  /* 0601A790: mov.b r0,@(r0,r6) */
-    .byte 0x23, 0xDC  /* 0601A792: cmp/str r13,r3 */
-    .byte 0x06, 0x04  /* 0601A794: mov.b r0,@(r0,r6) */
-    .byte 0x81, 0x80  /* 0601A796: mov.w r0,@(0x0,r8) */
-    .byte 0x06, 0x05  /* 0601A798: mov.w r0,@(r0,r6) */
-    .byte 0x36, 0x3E  /* 0601A79A: addc r3,r6 */
-    .byte 0x06, 0x04  /* 0601A79C: mov.b r0,@(r0,r6) */
-    .byte 0xC8, 0x8C  /* 0601A79E: tst #0x8C,r0 */
-    .byte 0x00, 0x32  /* 0601A7A0: .word 0x0032 */
-    .byte 0x00, 0x00  /* 0601A7A2: .word 0x0000 */
-    .byte 0x06, 0x04  /* 0601A7A4: mov.b r0,@(r0,r6) */
-    .byte 0x24, 0xB8  /* 0601A7A6: tst r11,r4 */
+    .4byte sym_06053640  /* 0601A774 = 0x06053640 */
+    .4byte sym_06036B60  /* 0601A778 = 0x06036B60 */
+    .4byte sym_06047E0C  /* 0601A77C = 0x06047E0C */
+    .4byte sym_060530C4  /* 0601A780 = 0x060530C4 */
+    .4byte sym_0605363C  /* 0601A784 = 0x0605363C */
+    .4byte sym_06050D58  /* 0601A788 = 0x06050D58 */
+    .4byte 0x00015000  /* 0601A78C = 0x00015000 */
+    .4byte sym_060423DC  /* 0601A790 = 0x060423DC */
+    .4byte sym_06048180  /* 0601A794 = 0x06048180 */
+    .4byte sym_0605363E  /* 0601A798 = 0x0605363E */
+    .4byte sym_0604C88C  /* 0601A79C = 0x0604C88C */
+    .4byte 0x00320000  /* 0601A7A0 = 0x00320000 */
+    .4byte sym_060424B8  /* 0601A7A4 = 0x060424B8 */
     .byte 0x8F, 0x02  /* 0601A7A8: bf/s 0x0601A7B0 */
     .byte 0x00, 0x09  /* 0601A7AA: nop */
     .byte 0xA0, 0x01  /* 0601A7AC: bra 0x0601A7B2 */
@@ -342,18 +329,12 @@ FUN_0601A64C:
     .byte 0xC0, 0x00  /* 0601A8EA: mov.b r0,@(0x0,GBR) */
     .byte 0x40, 0x00  /* 0601A8EC: shll r0 */
     .byte 0x80, 0x00  /* 0601A8EE: mov.b r0,@(0x0,r0) */
-    .byte 0x06, 0x00  /* 0601A8F0: .word 0x0600 */
-    .byte 0x79, 0x5A  /* 0601A8F2: add #90,r9 */
-    .byte 0x06, 0x04  /* 0601A8F4: mov.b r0,@(r0,r6) */
-    .byte 0x7D, 0x3C  /* 0601A8F6: add #60,r13 */
-    .byte 0x06, 0x04  /* 0601A8F8: mov.b r0,@(r0,r6) */
-    .byte 0x81, 0x80  /* 0601A8FA: mov.w r0,@(0x0,r8) */
-    .byte 0x00, 0x00  /* 0601A8FC: .word 0x0000 */
-    .byte 0xFD, 0x70  /* 0601A8FE: .word 0xFD70 */
-    .byte 0x06, 0x04  /* 0601A900: mov.b r0,@(r0,r6) */
-    .byte 0x7D, 0xBC  /* 0601A902: add #-68,r13 */
-    .byte 0x00, 0x00  /* 0601A904: .word 0x0000 */
-    .byte 0x99, 0x99  /* 0601A906: mov.w @(0x132,PC),r9  {0x0601AA3C} */
+    .4byte DAT_0600795A  /* 0601A8F0 = 0x0600795A (FUN_060078E8 + 0x72) */
+    .4byte sym_06047D3C  /* 0601A8F4 = 0x06047D3C */
+    .4byte sym_06048180  /* 0601A8F8 = 0x06048180 */
+    .4byte 0x0000FD70  /* 0601A8FC = 0x0000FD70 */
+    .4byte sym_06047DBC  /* 0601A900 = 0x06047DBC */
+    .4byte 0x00009999  /* 0601A904 = 0x00009999 */
     .byte 0x1E, 0xA6  /* 0601A908: mov.l r10,@(0x18,r14) */
     .byte 0x85, 0xD1  /* 0601A90A: mov.w @(0x2,r13),r0 */
     .byte 0x53, 0xFB  /* 0601A90C: mov.l @(0x2C,r15),r3 */

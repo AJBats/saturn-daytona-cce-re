@@ -40,27 +40,15 @@ FUN_06004D48:
     .byte 0x00, 0x0B  /* 06004D8A: rts */
     .byte 0x6E, 0xF6  /* 06004D8C: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06004D8E: .word 0xFFFF */
-    .byte 0x25, 0xF0  /* 06004D90: mov.b r15,@r5 */
-    .byte 0x00, 0x00  /* 06004D92: .word 0x0000 */
-    .byte 0x25, 0xE0  /* 06004D94: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 06004D96: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06004D98: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06004D9A: .word 0x0000 */
-    .byte 0x06, 0x00  /* 06004D9C: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 06004D9E: .word 0x8A5C */
-    .byte 0x06, 0x03  /* 06004DA0: bsrf r6 */
-    .byte 0x52, 0x98  /* 06004DA2: mov.l @(0x20,r9),r2 */
-    .byte 0x25, 0xF0  /* 06004DA4: mov.b r15,@r5 */
-    .byte 0x00, 0xF0  /* 06004DA6: .word 0x00F0 */
-    .byte 0x25, 0xE0  /* 06004DA8: mov.b r14,@r5 */
-    .byte 0x90, 0x00  /* 06004DAA: mov.w @(0x0,PC),r0  {0x06004DAE} */
-    .byte 0x25, 0xE6  /* 06004DAC: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 06004DAE: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06004DB0: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06004DB2: .word 0x0000 */
-    .byte 0x25, 0xF0  /* 06004DB4: mov.b r15,@r5 */
-    .byte 0x00, 0x20  /* 06004DB6: .word 0x0020 */
-    .byte 0x25, 0xE0  /* 06004DB8: mov.b r14,@r5 */
-    .byte 0x20, 0x00  /* 06004DBA: mov.b r0,@r0 */
-    .byte 0x00, 0x00  /* 06004DBC: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06004DBE: .word 0x0000 */
+    .4byte sym_25F00000  /* 06004D90 = 0x25F00000 */
+    .4byte sym_25E00000  /* 06004D94 = 0x25E00000 */
+    .4byte 0x00000000  /* 06004D98 = 0x00000000 */
+    .4byte DAT_06008A5C  /* 06004D9C = 0x06008A5C (FUN_0600854C + 0x510) */
+    .4byte sym_06035298  /* 06004DA0 = 0x06035298 */
+    .4byte sym_25F000F0  /* 06004DA4 = 0x25F000F0 */
+    .4byte sym_25E09000  /* 06004DA8 = 0x25E09000 */
+    .4byte sym_25E60000  /* 06004DAC = 0x25E60000 */
+    .4byte 0x00000000  /* 06004DB0 = 0x00000000 */
+    .4byte sym_25F00020  /* 06004DB4 = 0x25F00020 */
+    .4byte sym_25E02000  /* 06004DB8 = 0x25E02000 */
+    .4byte 0x00000000  /* 06004DBC = 0x00000000 */

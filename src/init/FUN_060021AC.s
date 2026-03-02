@@ -62,11 +62,7 @@ FUN_060021AC:
     .byte 0xFE, 0x60  /* 0600221A: .word 0xFE60 */
     .byte 0xFE, 0x10  /* 0600221C: .word 0xFE10 */
     .byte 0xFF, 0xFF  /* 0600221E: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06002220: .word 0x0600 */
-    .byte 0x57, 0x4C  /* 06002222: mov.l @(0x30,r4),r7 */
-    .byte 0x20, 0x10  /* 06002224: mov.b r1,@r0 */
-    .byte 0x00, 0x63  /* 06002226: .word 0x0063 */
-    .byte 0x20, 0x10  /* 06002228: mov.b r1,@r0 */
-    .byte 0x00, 0x1F  /* 0600222A: mac.l @r1+,@r0+ */
-    .byte 0x06, 0x00  /* 0600222C: .word 0x0600 */
-    .byte 0x74, 0x98  /* 0600222E: add #-104,r4 */
+    .4byte DAT_0600574C  /* 06002220 = 0x0600574C (FUN_060056B2 + 0x9A) */
+    .4byte sym_20100063  /* 06002224 = 0x20100063 */
+    .4byte sym_2010001F  /* 06002228 = 0x2010001F */
+    .4byte DAT_06007498  /* 0600222C = 0x06007498 (FUN_0600742E + 0x6A) */

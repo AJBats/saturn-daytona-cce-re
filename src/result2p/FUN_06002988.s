@@ -24,7 +24,5 @@ FUN_06002988:
     .byte 0x6E, 0xF6  /* 060029AA: mov.l @r15+,r14 */
     .byte 0x00, 0x0B  /* 060029AC: rts */
     .byte 0x00, 0x09  /* 060029AE: nop */
-    .byte 0x06, 0x02  /* 060029B0: stc sr,r6 */
-    .byte 0xA8, 0x08  /* 060029B2: bra 0x060019C6 */
-    .byte 0x06, 0x05  /* 060029B4: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 060029B6: add #0,r8 */
+    .4byte DAT_0602A808  /* 060029B0 = 0x0602A808 (FUN_06009C40 + 0x20BC8) */
+    .4byte DAT_06057800  /* 060029B4 = 0x06057800 (FUN_06045CCA + 0x11B36) */

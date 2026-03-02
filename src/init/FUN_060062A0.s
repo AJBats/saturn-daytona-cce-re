@@ -4,8 +4,7 @@
     .global FUN_060062A0
     .type FUN_060062A0, @function
 FUN_060062A0:
-    .byte 0x4F, 0x22  /* 060062A0: sts.l pr,@-r15 */
-    .byte 0x2E, 0xE8  /* 060062A2: tst r14,r14 */
+    .4byte 0x4F222EE8  /* 060062A0 = 0x4F222EE8 */
     .byte 0x7F, 0xF8  /* 060062A4: add #-8,r15 */
     .byte 0x2F, 0x52  /* 060062A6: mov.l r5,@r15 */
     .byte 0x1F, 0x61  /* 060062A8: mov.l r6,@(0x4,r15) */

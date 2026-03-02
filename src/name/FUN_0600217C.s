@@ -28,8 +28,7 @@ FUN_0600217C:
     .byte 0xED, 0x41  /* 060021A6: mov #65,r13 */
     .byte 0xDE, 0x29  /* 060021A8: mov.l @(0xA4,PC),r14  {[0x06002250] = 0x0603C414} */
     .byte 0xE9, 0x10  /* 060021AA: mov #16,r9 */
-    .byte 0xDA, 0x29  /* 060021AC: mov.l @(0xA4,PC),r10  {[0x06002254] = 0x0602CD84} */
-    .byte 0x66, 0xE3  /* 060021AE: mov r14,r6 */
+    .4byte 0xDA2966E3  /* 060021AC = 0xDA2966E3 */
     .byte 0x67, 0xC0  /* 060021B0: mov.b @r12,r7 */
     .byte 0xE5, 0x1E  /* 060021B2: mov #30,r5 */
     .byte 0x67, 0x7C  /* 060021B4: extu.b r7,r7 */
@@ -66,51 +65,27 @@ FUN_0600217C:
     .byte 0x00, 0x0B  /* 060021F2: rts */
     .byte 0x6E, 0xF6  /* 060021F4: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 060021F6: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 060021F8: .word 0x0600 */
-    .byte 0x7A, 0x98  /* 060021FA: add #-104,r10 */
-    .byte 0x06, 0x02  /* 060021FC: stc sr,r6 */
-    .byte 0xB7, 0x90  /* 060021FE: bsr 0x06003122 */
-    .byte 0x06, 0x00  /* 06002200: .word 0x0600 */
-    .byte 0x61, 0x7C  /* 06002202: extu.b r7,r1 */
-    .byte 0x00, 0x00  /* 06002204: .word 0x0000 */
-    .byte 0xFF, 0x01  /* 06002206: .word 0xFF01 */
-    .byte 0x25, 0xF8  /* 06002208: tst r15,r5 */
-    .byte 0x01, 0x14  /* 0600220A: mov.b r1,@(r0,r1) */
-    .byte 0x25, 0xF8  /* 0600220C: tst r15,r5 */
-    .byte 0x01, 0x16  /* 0600220E: mov.l r1,@(r0,r1) */
-    .byte 0x25, 0xF8  /* 06002210: tst r15,r5 */
-    .byte 0x01, 0x18  /* 06002212: .word 0x0118 */
-    .byte 0x06, 0x00  /* 06002214: .word 0x0600 */
-    .byte 0x55, 0x30  /* 06002216: mov.l @(0x0,r3),r5 */
-    .byte 0x06, 0x03  /* 06002218: bsrf r6 */
-    .byte 0x5C, 0x3C  /* 0600221A: mov.l @(0x30,r3),r12 */
-    .byte 0x06, 0x00  /* 0600221C: .word 0x0600 */
-    .byte 0x58, 0x1A  /* 0600221E: mov.l @(0x28,r1),r8 */
-    .byte 0x06, 0x02  /* 06002220: stc sr,r6 */
-    .byte 0x88, 0xB8  /* 06002222: cmp/eq #-72,r0 */
-    .byte 0x06, 0x03  /* 06002224: bsrf r6 */
-    .byte 0xC8, 0x62  /* 06002226: tst #0x62,r0 */
-    .byte 0x06, 0x03  /* 06002228: bsrf r6 */
-    .byte 0xC3, 0x80  /* 0600222A: trapa #0x80 */
-    .byte 0x06, 0x03  /* 0600222C: bsrf r6 */
-    .byte 0x33, 0xE8  /* 0600222E: sub r14,r3 */
-    .byte 0x06, 0x03  /* 06002230: bsrf r6 */
-    .byte 0x36, 0xDA  /* 06002232: subc r13,r6 */
-    .byte 0x06, 0x03  /* 06002234: bsrf r6 */
-    .byte 0x58, 0xC8  /* 06002236: mov.l @(0x20,r12),r8 */
-    .byte 0x06, 0x02  /* 06002238: stc sr,r6 */
-    .byte 0xD5, 0x0C  /* 0600223A: mov.l @(0x30,PC),r5  {[0x0600226C] = 0x99307E3C} */
-    .byte 0x06, 0x03  /* 0600223C: bsrf r6 */
-    .byte 0xC8, 0x0C  /* 0600223E: tst #0x0C,r0 */
-    .byte 0x00, 0x01  /* 06002240: .word 0x0001 */
-    .byte 0x00, 0x00  /* 06002242: .word 0x0000 */
-    .byte 0x06, 0x00  /* 06002244: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 06002246: .word 0x8A5C */
-    .byte 0x06, 0x03  /* 06002248: bsrf r6 */
-    .byte 0xC8, 0x59  /* 0600224A: tst #0x59,r0 */
-    .byte 0x06, 0x03  /* 0600224C: bsrf r6 */
-    .byte 0xFF, 0xFC  /* 0600224E: .word 0xFFFC */
-    .byte 0x06, 0x03  /* 06002250: bsrf r6 */
-    .byte 0xC4, 0x14  /* 06002252: mov.b @(0x14,GBR),r0 */
-    .byte 0x06, 0x02  /* 06002254: stc sr,r6 */
-    .byte 0xCD, 0x84  /* 06002256: and.b #0x84,@(r0,GBR) */
+    .4byte DAT_06007A98  /* 060021F8 = 0x06007A98 (FUN_060067F6 + 0x12A2) */
+    .4byte sym_0602B790  /* 060021FC = 0x0602B790 */
+    .4byte DAT_0600617C  /* 06002200 = 0x0600617C (FUN_06006010 + 0x16C) */
+    .4byte 0x0000FF01  /* 06002204 = 0x0000FF01 */
+    .4byte sym_25F80114  /* 06002208 = 0x25F80114 */
+    .4byte sym_25F80116  /* 0600220C = 0x25F80116 */
+    .4byte sym_25F80118  /* 06002210 = 0x25F80118 */
+    .4byte DAT_06005530  /* 06002214 = 0x06005530 (FUN_06005498 + 0x98) */
+    .4byte sym_06035C3C  /* 06002218 = 0x06035C3C */
+    .4byte DAT_0600581A  /* 0600221C = 0x0600581A (FUN_06005810 + 0xA) */
+    .4byte sym_060288B8  /* 06002220 = 0x060288B8 */
+    .4byte sym_0603C862  /* 06002224 = 0x0603C862 */
+    .4byte sym_0603C380  /* 06002228 = 0x0603C380 */
+    .4byte sym_060333E8  /* 0600222C = 0x060333E8 */
+    .4byte sym_060336DA  /* 06002230 = 0x060336DA */
+    .4byte sym_060358C8  /* 06002234 = 0x060358C8 */
+    .4byte sym_0602D50C  /* 06002238 = 0x0602D50C */
+    .4byte sym_0603C80C  /* 0600223C = 0x0603C80C */
+    .4byte 0x00010000  /* 06002240 = 0x00010000 */
+    .4byte DAT_06008A5C  /* 06002244 = 0x06008A5C (FUN_060067F6 + 0x2266) */
+    .4byte sym_0603C859  /* 06002248 = 0x0603C859 */
+    .4byte sym_0603FFFC  /* 0600224C = 0x0603FFFC */
+    .4byte sym_0603C414  /* 06002250 = 0x0603C414 */
+    .4byte sym_0602CD84  /* 06002254 = 0x0602CD84 */

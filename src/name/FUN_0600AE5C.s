@@ -34,7 +34,5 @@ FUN_0600AE5C:
     .byte 0x14, 0x1A  /* 0600AE92: mov.l r1,@(0x28,r4) */
     .byte 0x00, 0x0B  /* 0600AE94: rts */
     .byte 0x14, 0x0B  /* 0600AE96: mov.l r0,@(0x2C,r4) */
-    .byte 0x06, 0x04  /* 0600AE98: mov.b r0,@(r0,r6) */
-    .byte 0x00, 0x20  /* 0600AE9A: .word 0x0020 */
-    .byte 0x06, 0x04  /* 0600AE9C: mov.b r0,@(r0,r6) */
-    .byte 0x04, 0x20  /* 0600AE9E: .word 0x0420 */
+    .4byte sym_06040020  /* 0600AE98 = 0x06040020 */
+    .4byte sym_06040420  /* 0600AE9C = 0x06040420 */

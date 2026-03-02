@@ -72,12 +72,9 @@ FUN_06000680:
     .byte 0x1F, 0xFF  /* 06000702: mov.l r15,@(0x3C,r15) */
     .byte 0x0B, 0xD8  /* 06000704: .word 0x0BD8 */
     .byte 0xFF, 0xFF  /* 06000706: .word 0xFFFF */
-    .byte 0x06, 0x02  /* 06000708: stc sr,r6 */
-    .byte 0x88, 0x98  /* 0600070A: cmp/eq #-104,r0 */
-    .byte 0x00, 0x22  /* 0600070C: stc vbr,r0 */
-    .byte 0x00, 0x00  /* 0600070E: .word 0x0000 */
-    .byte 0x25, 0xE6  /* 06000710: mov.l r14,@-r5 */
-    .byte 0x40, 0x00  /* 06000712: shll r0 */
+    .4byte sym_06028898  /* 06000708 = 0x06028898 */
+    .4byte sym_00220000  /* 0600070C = 0x00220000 */
+    .4byte sym_25E64000  /* 06000710 = 0x25E64000 */
     .byte 0x27, 0x51  /* 06000714: mov.w r5,@r7 */
     .byte 0x4E, 0x10  /* 06000716: dt r14 */
     .byte 0x8F, 0xD4  /* 06000718: bf/s 0x060006C4 */

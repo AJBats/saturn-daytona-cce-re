@@ -124,8 +124,6 @@ FUN_0600C8AC:
     .byte 0x00, 0x0B  /* 0600C996: rts */
     .byte 0x00, 0x09  /* 0600C998: nop */
     .byte 0xFF, 0x00  /* 0600C99A: .word 0xFF00 */
-    .byte 0x06, 0x05  /* 0600C99C: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 0600C99E: add #0,r8 */
-    .byte 0x06, 0x05  /* 0600C9A0: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 0600C9A2: add #0,r12 */
+    .4byte sym_06057800  /* 0600C99C = 0x06057800 */
+    .4byte sym_06057C00  /* 0600C9A0 = 0x06057C00 */
     .byte 0x4F, 0x13  /* 0600C9A4: .word 0x4F13 */

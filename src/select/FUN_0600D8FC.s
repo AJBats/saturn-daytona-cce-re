@@ -24,8 +24,7 @@ FUN_0600D8FC:
     .byte 0x8B, 0xFB  /* 0600D91E: bf 0x0600D918 */
     .byte 0xD3, 0x1C  /* 0600D920: mov.l @(0x70,PC),r3  {[0x0600D994] = 0x06057ADE} */
     .byte 0x43, 0x0B  /* 0600D922: jsr @r3 */
-    .byte 0xE4, 0x01  /* 0600D924: mov #1,r4 */
-    .byte 0x65, 0x03  /* 0600D926: mov r0,r5 */
+    .4byte 0xE4016503  /* 0600D924 = 0xE4016503 */
     .byte 0x63, 0xD0  /* 0600D928: mov.b @r13,r3 */
     .byte 0x63, 0x3C  /* 0600D92A: extu.b r3,r3 */
     .byte 0x23, 0xE9  /* 0600D92C: and r14,r3 */

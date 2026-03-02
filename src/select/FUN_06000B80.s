@@ -32,16 +32,11 @@ FUN_06000B80:
     .byte 0x10, 0x00  /* 06000BB2: mov.l r0,@(0x0,r0) */
     .byte 0x00, 0x80  /* 06000BB4: .word 0x0080 */
     .byte 0xFF, 0xFF  /* 06000BB6: .word 0xFFFF */
-    .byte 0x25, 0xF8  /* 06000BB8: tst r15,r5 */
-    .byte 0x00, 0xC0  /* 06000BBA: .word 0x00C0 */
-    .byte 0x25, 0xF8  /* 06000BBC: tst r15,r5 */
-    .byte 0x00, 0xC2  /* 06000BBE: .word 0x00C2 */
-    .byte 0x25, 0xF8  /* 06000BC0: tst r15,r5 */
-    .byte 0x00, 0xC4  /* 06000BC2: mov.b r12,@(r0,r0) */
-    .byte 0x25, 0xF8  /* 06000BC4: tst r15,r5 */
-    .byte 0x00, 0xD0  /* 06000BC6: .word 0x00D0 */
-    .byte 0x25, 0xF8  /* 06000BC8: tst r15,r5 */
-    .byte 0x00, 0xD2  /* 06000BCA: .word 0x00D2 */
+    .4byte sym_25F800C0  /* 06000BB8 = 0x25F800C0 */
+    .4byte sym_25F800C2  /* 06000BBC = 0x25F800C2 */
+    .4byte sym_25F800C4  /* 06000BC0 = 0x25F800C4 */
+    .4byte sym_25F800D0  /* 06000BC4 = 0x25F800D0 */
+    .4byte sym_25F800D2  /* 06000BC8 = 0x25F800D2 */
     .byte 0x9A, 0xA0  /* 06000BCC: mov.w @(0x140,PC),r10  {0x06000D10} */
     .byte 0x63, 0xCC  /* 06000BCE: extu.b r12,r3 */
     .byte 0x99, 0x9F  /* 06000BD0: mov.w @(0x13E,PC),r9  {0x06000D12} */

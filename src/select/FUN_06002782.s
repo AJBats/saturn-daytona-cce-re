@@ -39,31 +39,17 @@ FUN_06002782:
     .byte 0x00, 0x0B  /* 060027C2: rts */
     .byte 0x6E, 0xF6  /* 060027C4: mov.l @r15+,r14 */
     .byte 0x00, 0xFF  /* 060027C6: mac.l @r15+,@r0+ */
-    .byte 0x00, 0x23  /* 060027C8: braf r0 */
-    .byte 0xEC, 0x68  /* 060027CA: mov #104,r12 */
-    .byte 0x00, 0x23  /* 060027CC: braf r0 */
-    .byte 0xF0, 0x22  /* 060027CE: .word 0xF022 */
-    .byte 0x00, 0x23  /* 060027D0: braf r0 */
-    .byte 0xEE, 0xE4  /* 060027D2: mov #-28,r14 */
-    .byte 0x00, 0x23  /* 060027D4: braf r0 */
-    .byte 0xF2, 0x9E  /* 060027D6: .word 0xF29E */
-    .byte 0x00, 0x23  /* 060027D8: braf r0 */
-    .byte 0xED, 0xA6  /* 060027DA: mov #-90,r13 */
-    .byte 0x00, 0x23  /* 060027DC: braf r0 */
-    .byte 0xF1, 0x60  /* 060027DE: .word 0xF160 */
-    .byte 0x25, 0xE6  /* 060027E0: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 060027E2: .word 0x0000 */
-    .byte 0x06, 0x02  /* 060027E4: stc sr,r6 */
-    .byte 0x8B, 0x02  /* 060027E6: bf 0x060027EE */
-    .byte 0x25, 0xE6  /* 060027E8: mov.l r14,@-r5 */
-    .byte 0x20, 0x00  /* 060027EA: mov.b r0,@r0 */
-    .byte 0x25, 0xE0  /* 060027EC: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 060027EE: .word 0x0000 */
-    .byte 0x06, 0x03  /* 060027F0: bsrf r6 */
-    .byte 0xF5, 0xE8  /* 060027F2: .word 0xF5E8 */
-    .byte 0x06, 0x02  /* 060027F4: stc sr,r6 */
-    .byte 0x99, 0x1C  /* 060027F6: mov.w @(0x38,PC),r9  {0x06002832} */
-    .byte 0x25, 0xE6  /* 060027F8: mov.l r14,@-r5 */
-    .byte 0x80, 0x00  /* 060027FA: mov.b r0,@(0x0,r0) */
-    .byte 0x06, 0x02  /* 060027FC: stc sr,r6 */
-    .byte 0x8B, 0x80  /* 060027FE: bf 0x06002702 */
+    .4byte sym_0023EC68  /* 060027C8 = 0x0023EC68 */
+    .4byte sym_0023F022  /* 060027CC = 0x0023F022 */
+    .4byte sym_0023EEE4  /* 060027D0 = 0x0023EEE4 */
+    .4byte sym_0023F29E  /* 060027D4 = 0x0023F29E */
+    .4byte sym_0023EDA6  /* 060027D8 = 0x0023EDA6 */
+    .4byte sym_0023F160  /* 060027DC = 0x0023F160 */
+    .4byte sym_25E60000  /* 060027E0 = 0x25E60000 */
+    .4byte DAT_06028B02  /* 060027E4 = 0x06028B02 (FUN_060175D0 + 0x11532) */
+    .4byte sym_25E62000  /* 060027E8 = 0x25E62000 */
+    .4byte sym_25E00000  /* 060027EC = 0x25E00000 */
+    .4byte sym_0603F5E8  /* 060027F0 = 0x0603F5E8 */
+    .4byte DAT_0602991C  /* 060027F4 = 0x0602991C (FUN_060175D0 + 0x1234C) */
+    .4byte sym_25E68000  /* 060027F8 = 0x25E68000 */
+    .4byte DAT_06028B80  /* 060027FC = 0x06028B80 (FUN_060175D0 + 0x115B0) */

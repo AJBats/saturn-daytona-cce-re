@@ -90,8 +90,7 @@ FUN_060016B4:
     .byte 0x23, 0x1B  /* 0600175A: or r1,r3 */
     .byte 0x61, 0x20  /* 0600175C: mov.b @r2,r1 */
     .byte 0x72, 0x03  /* 0600175E: add #3,r2 */
-    .byte 0x61, 0x1C  /* 06001760: extu.b r1,r1 */
-    .byte 0x41, 0x28  /* 06001762: shll16 r1 */
+    .4byte 0x611C4128  /* 06001760 = 0x611C4128 */
     .byte 0x41, 0x18  /* 06001764: shll8 r1 */
     .byte 0x23, 0x1B  /* 06001766: or r1,r3 */
     .byte 0x61, 0x20  /* 06001768: mov.b @r2,r1 */
@@ -134,6 +133,5 @@ FUN_060016B4:
     .byte 0x77, 0x48  /* 060017B2: add #72,r7 */
     .byte 0x37, 0xE2  /* 060017B4: cmp/hs r14,r7 */
     .byte 0x8B, 0xA9  /* 060017B6: bf 0x0600170C */
-    .byte 0x6C, 0xF6  /* 060017B8: mov.l @r15+,r12 */
-    .byte 0x00, 0x0B  /* 060017BA: rts */
+    .4byte 0x6CF6000B  /* 060017B8 = 0x6CF6000B */
     .byte 0x6E, 0xF6  /* 060017BC: mov.l @r15+,r14 */

@@ -290,9 +290,6 @@ FUN_0600A674:
     .byte 0x00, 0x0B  /* 0600A8AA: rts */
     .byte 0x6E, 0xF6  /* 0600A8AC: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 0600A8AE: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 0600A8B0: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0xF6  /* 0600A8B2: mov.l r15,@-r0 */
-    .byte 0x06, 0x04  /* 0600A8B4: mov.b r0,@(r0,r6) */
-    .byte 0xF4, 0xE4  /* 0600A8B6: .word 0xF4E4 */
-    .byte 0x06, 0x05  /* 0600A8B8: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0xF4  /* 0600A8BA: mov.b r15,@-r0 */
+    .4byte sym_060520F6  /* 0600A8B0 = 0x060520F6 */
+    .4byte sym_0604F4E4  /* 0600A8B4 = 0x0604F4E4 */
+    .4byte sym_060520F4  /* 0600A8B8 = 0x060520F4 */

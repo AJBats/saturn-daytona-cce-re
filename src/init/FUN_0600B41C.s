@@ -22,9 +22,6 @@ FUN_0600B41C:
     .byte 0x4F, 0x26  /* 0600B43A: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600B43C: rts */
     .byte 0x6E, 0xF6  /* 0600B43E: mov.l @r15+,r14 */
-    .byte 0x06, 0x00  /* 0600B440: .word 0x0600 */
-    .byte 0xC9, 0xC4  /* 0600B442: and #0xC4,r0 */
-    .byte 0x06, 0x00  /* 0600B444: .word 0x0600 */
-    .byte 0xC9, 0xC0  /* 0600B446: and #0xC0,r0 */
-    .byte 0x00, 0xFF  /* 0600B448: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 0600B44A: .word 0xFFFF */
+    .4byte DAT_0600C9C4  /* 0600B440 = 0x0600C9C4 (FUN_0600B7A0 + 0x1224) */
+    .4byte DAT_0600C9C0  /* 0600B444 = 0x0600C9C0 (FUN_0600B7A0 + 0x1220) */
+    .4byte 0x00FFFFFF  /* 0600B448 = 0x00FFFFFF */

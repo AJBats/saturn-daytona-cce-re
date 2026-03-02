@@ -1,0 +1,4140 @@
+{
+  "module_base": "0x06000000",
+  "module_size": 84000,
+  "function_count": 389,
+  "dat_symbols": {
+    "DAT_060072DC": {
+      "absolute": "0x060072DC",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0xB2"
+    },
+    "DAT_0600735C": {
+      "absolute": "0x0600735C",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0x132"
+    },
+    "DAT_0601336C": {
+      "absolute": "0x0601336C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E8"
+    },
+    "DAT_06011F90": {
+      "absolute": "0x06011F90",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x350C"
+    },
+    "DAT_06005760": {
+      "absolute": "0x06005760",
+      "parent_fun": "FUN_0600575C",
+      "offset": "0x4"
+    },
+    "DAT_060133F7": {
+      "absolute": "0x060133F7",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4973"
+    },
+    "DAT_06011F84": {
+      "absolute": "0x06011F84",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3500"
+    },
+    "DAT_06011F89": {
+      "absolute": "0x06011F89",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3505"
+    },
+    "DAT_06007300": {
+      "absolute": "0x06007300",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0xD6"
+    },
+    "DAT_06007ED0": {
+      "absolute": "0x06007ED0",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x132"
+    },
+    "DAT_06013C78": {
+      "absolute": "0x06013C78",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x51F4"
+    },
+    "DAT_06006200": {
+      "absolute": "0x06006200",
+      "parent_fun": "FUN_06006188",
+      "offset": "0x78"
+    },
+    "DAT_06007CE4": {
+      "absolute": "0x06007CE4",
+      "parent_fun": "FUN_06007CBA",
+      "offset": "0x2A"
+    },
+    "DAT_060078D6": {
+      "absolute": "0x060078D6",
+      "parent_fun": "FUN_060078C0",
+      "offset": "0x16"
+    },
+    "DAT_06005A62": {
+      "absolute": "0x06005A62",
+      "parent_fun": "FUN_06005A5C",
+      "offset": "0x6"
+    },
+    "DAT_0600802E": {
+      "absolute": "0x0600802E",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x290"
+    },
+    "DAT_06011F94": {
+      "absolute": "0x06011F94",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3510"
+    },
+    "DAT_06011F88": {
+      "absolute": "0x06011F88",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3504"
+    },
+    "DAT_06000320": {
+      "absolute": "0x06000320",
+      "parent_fun": "FUN_060002DE",
+      "offset": "0x42"
+    },
+    "DAT_06007130": {
+      "absolute": "0x06007130",
+      "parent_fun": "FUN_06006BDE",
+      "offset": "0x552"
+    },
+    "DAT_060054D4": {
+      "absolute": "0x060054D4",
+      "parent_fun": "FUN_0600544C",
+      "offset": "0x88"
+    },
+    "DAT_060073AC": {
+      "absolute": "0x060073AC",
+      "parent_fun": "FUN_0600736E",
+      "offset": "0x3E"
+    },
+    "DAT_060062F4": {
+      "absolute": "0x060062F4",
+      "parent_fun": "FUN_060062EA",
+      "offset": "0xA"
+    },
+    "DAT_0600617C": {
+      "absolute": "0x0600617C",
+      "parent_fun": "FUN_06006124",
+      "offset": "0x58"
+    },
+    "DAT_0600683C": {
+      "absolute": "0x0600683C",
+      "parent_fun": "FUN_06006800",
+      "offset": "0x3C"
+    },
+    "DAT_06013AF4": {
+      "absolute": "0x06013AF4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x5070"
+    },
+    "DAT_06005876": {
+      "absolute": "0x06005876",
+      "parent_fun": "FUN_06005852",
+      "offset": "0x24"
+    },
+    "DAT_0600753C": {
+      "absolute": "0x0600753C",
+      "parent_fun": "FUN_0600742E",
+      "offset": "0x10E"
+    },
+    "DAT_0600765C": {
+      "absolute": "0x0600765C",
+      "parent_fun": "FUN_0600742E",
+      "offset": "0x22E"
+    },
+    "DAT_06011F91": {
+      "absolute": "0x06011F91",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x350D"
+    },
+    "DAT_060072C4": {
+      "absolute": "0x060072C4",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0x9A"
+    },
+    "DAT_06005B5E": {
+      "absolute": "0x06005B5E",
+      "parent_fun": "FUN_06005AEC",
+      "offset": "0x72"
+    },
+    "DAT_0601335D": {
+      "absolute": "0x0601335D",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48D9"
+    },
+    "DAT_06009738": {
+      "absolute": "0x06009738",
+      "parent_fun": "FUN_06009708",
+      "offset": "0x30"
+    },
+    "DAT_06007274": {
+      "absolute": "0x06007274",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0x4A"
+    },
+    "DAT_06011F98": {
+      "absolute": "0x06011F98",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3514"
+    },
+    "DAT_06011F9A": {
+      "absolute": "0x06011F9A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3516"
+    },
+    "DAT_06011F9B": {
+      "absolute": "0x06011F9B",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3517"
+    },
+    "DAT_06011F9F": {
+      "absolute": "0x06011F9F",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x351B"
+    },
+    "DAT_06000340": {
+      "absolute": "0x06000340",
+      "parent_fun": "FUN_06000334",
+      "offset": "0xC"
+    },
+    "DAT_06000310": {
+      "absolute": "0x06000310",
+      "parent_fun": "FUN_060002DE",
+      "offset": "0x32"
+    },
+    "DAT_06005568": {
+      "absolute": "0x06005568",
+      "parent_fun": "FUN_06005532",
+      "offset": "0x36"
+    },
+    "DAT_06005652": {
+      "absolute": "0x06005652",
+      "parent_fun": "FUN_06005628",
+      "offset": "0x2A"
+    },
+    "DAT_060071B6": {
+      "absolute": "0x060071B6",
+      "parent_fun": "FUN_06006BDE",
+      "offset": "0x5D8"
+    },
+    "DAT_06011FA8": {
+      "absolute": "0x06011FA8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3524"
+    },
+    "DAT_06011F9D": {
+      "absolute": "0x06011F9D",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3519"
+    },
+    "DAT_06011F9C": {
+      "absolute": "0x06011F9C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3518"
+    },
+    "DAT_06011FA6": {
+      "absolute": "0x06011FA6",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3522"
+    },
+    "DAT_06007160": {
+      "absolute": "0x06007160",
+      "parent_fun": "FUN_06006BDE",
+      "offset": "0x582"
+    },
+    "DAT_06011FA4": {
+      "absolute": "0x06011FA4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3520"
+    },
+    "DAT_0600718E": {
+      "absolute": "0x0600718E",
+      "parent_fun": "FUN_06006BDE",
+      "offset": "0x5B0"
+    },
+    "DAT_06011F99": {
+      "absolute": "0x06011F99",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3515"
+    },
+    "DAT_0600605E": {
+      "absolute": "0x0600605E",
+      "parent_fun": "FUN_06005FE8",
+      "offset": "0x76"
+    },
+    "DAT_060071AE": {
+      "absolute": "0x060071AE",
+      "parent_fun": "FUN_06006BDE",
+      "offset": "0x5D0"
+    },
+    "DAT_060063FC": {
+      "absolute": "0x060063FC",
+      "parent_fun": "FUN_060063A0",
+      "offset": "0x5C"
+    },
+    "DAT_060053E6": {
+      "absolute": "0x060053E6",
+      "parent_fun": "FUN_06005382",
+      "offset": "0x64"
+    },
+    "DAT_06007FBA": {
+      "absolute": "0x06007FBA",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x21C"
+    },
+    "DAT_06011FB8": {
+      "absolute": "0x06011FB8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3534"
+    },
+    "DAT_0600A582": {
+      "absolute": "0x0600A582",
+      "parent_fun": "FUN_0600A4CE",
+      "offset": "0xB4"
+    },
+    "DAT_0600A3E4": {
+      "absolute": "0x0600A3E4",
+      "parent_fun": "FUN_0600A304",
+      "offset": "0xE0"
+    },
+    "DAT_0600A95C": {
+      "absolute": "0x0600A95C",
+      "parent_fun": "FUN_0600A88C",
+      "offset": "0xD0"
+    },
+    "DAT_0600A62C": {
+      "absolute": "0x0600A62C",
+      "parent_fun": "FUN_0600A4CE",
+      "offset": "0x15E"
+    },
+    "DAT_0600689E": {
+      "absolute": "0x0600689E",
+      "parent_fun": "FUN_06006800",
+      "offset": "0x9E"
+    },
+    "DAT_06006888": {
+      "absolute": "0x06006888",
+      "parent_fun": "FUN_06006800",
+      "offset": "0x88"
+    },
+    "DAT_060131B0": {
+      "absolute": "0x060131B0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x472C"
+    },
+    "DAT_06013188": {
+      "absolute": "0x06013188",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4704"
+    },
+    "DAT_06013168": {
+      "absolute": "0x06013168",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x46E4"
+    },
+    "DAT_0600AF56": {
+      "absolute": "0x0600AF56",
+      "parent_fun": "FUN_0600AF4E",
+      "offset": "0x8"
+    },
+    "DAT_0600A7CE": {
+      "absolute": "0x0600A7CE",
+      "parent_fun": "FUN_0600A6B6",
+      "offset": "0x118"
+    },
+    "DAT_0600AA52": {
+      "absolute": "0x0600AA52",
+      "parent_fun": "FUN_0600A9A0",
+      "offset": "0xB2"
+    },
+    "DAT_06010AC8": {
+      "absolute": "0x06010AC8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2044"
+    },
+    "DAT_060068B8": {
+      "absolute": "0x060068B8",
+      "parent_fun": "FUN_06006800",
+      "offset": "0xB8"
+    },
+    "DAT_060131B4": {
+      "absolute": "0x060131B4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4730"
+    },
+    "DAT_06010AE0": {
+      "absolute": "0x06010AE0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x205C"
+    },
+    "DAT_060131B8": {
+      "absolute": "0x060131B8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4734"
+    },
+    "DAT_0600ADB4": {
+      "absolute": "0x0600ADB4",
+      "parent_fun": "FUN_0600ACB4",
+      "offset": "0x100"
+    },
+    "DAT_0600AC04": {
+      "absolute": "0x0600AC04",
+      "parent_fun": "FUN_0600AAD6",
+      "offset": "0x12E"
+    },
+    "DAT_06010AF4": {
+      "absolute": "0x06010AF4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2070"
+    },
+    "DAT_0600A534": {
+      "absolute": "0x0600A534",
+      "parent_fun": "FUN_0600A4CE",
+      "offset": "0x66"
+    },
+    "DAT_0600AB30": {
+      "absolute": "0x0600AB30",
+      "parent_fun": "FUN_0600AAD6",
+      "offset": "0x5A"
+    },
+    "DAT_06010B0C": {
+      "absolute": "0x06010B0C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2088"
+    },
+    "DAT_06013190": {
+      "absolute": "0x06013190",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x470C"
+    },
+    "DAT_06010B24": {
+      "absolute": "0x06010B24",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x20A0"
+    },
+    "DAT_0600A012": {
+      "absolute": "0x0600A012",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x3C"
+    },
+    "DAT_06011FBA": {
+      "absolute": "0x06011FBA",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3536"
+    },
+    "DAT_06007FB4": {
+      "absolute": "0x06007FB4",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x216"
+    },
+    "DAT_060133FA": {
+      "absolute": "0x060133FA",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4976"
+    },
+    "DAT_06007F80": {
+      "absolute": "0x06007F80",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x1E2"
+    },
+    "DAT_06007EC0": {
+      "absolute": "0x06007EC0",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x122"
+    },
+    "DAT_06010B40": {
+      "absolute": "0x06010B40",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x20BC"
+    },
+    "DAT_060131BC": {
+      "absolute": "0x060131BC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4738"
+    },
+    "DAT_060131BE": {
+      "absolute": "0x060131BE",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x473A"
+    },
+    "DAT_060131C0": {
+      "absolute": "0x060131C0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x473C"
+    },
+    "DAT_0600574C": {
+      "absolute": "0x0600574C",
+      "parent_fun": "FUN_060056B2",
+      "offset": "0x9A"
+    },
+    "DAT_0600BA00": {
+      "absolute": "0x0600BA00",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x260"
+    },
+    "DAT_060072E4": {
+      "absolute": "0x060072E4",
+      "parent_fun": "FUN_0600722A",
+      "offset": "0xBA"
+    },
+    "DAT_06013308": {
+      "absolute": "0x06013308",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4884"
+    },
+    "DAT_06013640": {
+      "absolute": "0x06013640",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BBC"
+    },
+    "DAT_06013634": {
+      "absolute": "0x06013634",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BB0"
+    },
+    "DAT_060131C8": {
+      "absolute": "0x060131C8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4744"
+    },
+    "DAT_060131CC": {
+      "absolute": "0x060131CC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4748"
+    },
+    "DAT_06013208": {
+      "absolute": "0x06013208",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4784"
+    },
+    "DAT_060056F8": {
+      "absolute": "0x060056F8",
+      "parent_fun": "FUN_060056B2",
+      "offset": "0x46"
+    },
+    "DAT_06013326": {
+      "absolute": "0x06013326",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48A2"
+    },
+    "DAT_06013328": {
+      "absolute": "0x06013328",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48A4"
+    },
+    "DAT_06013200": {
+      "absolute": "0x06013200",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x477C"
+    },
+    "DAT_060131D0": {
+      "absolute": "0x060131D0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x474C"
+    },
+    "DAT_0600BBC4": {
+      "absolute": "0x0600BBC4",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x424"
+    },
+    "DAT_060131C4": {
+      "absolute": "0x060131C4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4740"
+    },
+    "DAT_06013644": {
+      "absolute": "0x06013644",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC0"
+    },
+    "DAT_0601330C": {
+      "absolute": "0x0601330C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4888"
+    },
+    "DAT_06010D6C": {
+      "absolute": "0x06010D6C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x22E8"
+    },
+    "DAT_06010DB4": {
+      "absolute": "0x06010DB4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2330"
+    },
+    "DAT_0601332C": {
+      "absolute": "0x0601332C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48A8"
+    },
+    "DAT_06008DA8": {
+      "absolute": "0x06008DA8",
+      "parent_fun": "FUN_06008C4A",
+      "offset": "0x15E"
+    },
+    "DAT_06008C90": {
+      "absolute": "0x06008C90",
+      "parent_fun": "FUN_06008C4A",
+      "offset": "0x46"
+    },
+    "DAT_06008B10": {
+      "absolute": "0x06008B10",
+      "parent_fun": "FUN_06008AC2",
+      "offset": "0x4E"
+    },
+    "DAT_06013358": {
+      "absolute": "0x06013358",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48D4"
+    },
+    "DAT_06013330": {
+      "absolute": "0x06013330",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48AC"
+    },
+    "DAT_06009938": {
+      "absolute": "0x06009938",
+      "parent_fun": "FUN_06009810",
+      "offset": "0x128"
+    },
+    "DAT_0600998C": {
+      "absolute": "0x0600998C",
+      "parent_fun": "FUN_06009810",
+      "offset": "0x17C"
+    },
+    "DAT_06009A38": {
+      "absolute": "0x06009A38",
+      "parent_fun": "FUN_06009810",
+      "offset": "0x228"
+    },
+    "DAT_06002000": {
+      "absolute": "0x06002000",
+      "parent_fun": "FUN_06001FBE",
+      "offset": "0x42"
+    },
+    "DAT_0600737C": {
+      "absolute": "0x0600737C",
+      "parent_fun": "FUN_0600736E",
+      "offset": "0xE"
+    },
+    "DAT_0600738A": {
+      "absolute": "0x0600738A",
+      "parent_fun": "FUN_0600736E",
+      "offset": "0x1C"
+    },
+    "DAT_06007398": {
+      "absolute": "0x06007398",
+      "parent_fun": "FUN_0600736E",
+      "offset": "0x2A"
+    },
+    "DAT_06007E0E": {
+      "absolute": "0x06007E0E",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x70"
+    },
+    "DAT_06007498": {
+      "absolute": "0x06007498",
+      "parent_fun": "FUN_0600742E",
+      "offset": "0x6A"
+    },
+    "DAT_06005100": {
+      "absolute": "0x06005100",
+      "parent_fun": "FUN_06005038",
+      "offset": "0xC8"
+    },
+    "DAT_06000250": {
+      "absolute": "0x06000250",
+      "parent_fun": "FUN_0600019A",
+      "offset": "0xB6"
+    },
+    "DAT_06007430": {
+      "absolute": "0x06007430",
+      "parent_fun": "FUN_0600742E",
+      "offset": "0x2"
+    },
+    "DAT_060073F4": {
+      "absolute": "0x060073F4",
+      "parent_fun": "FUN_060073E8",
+      "offset": "0xC"
+    },
+    "DAT_06011994": {
+      "absolute": "0x06011994",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F10"
+    },
+    "DAT_060058B4": {
+      "absolute": "0x060058B4",
+      "parent_fun": "FUN_06005852",
+      "offset": "0x62"
+    },
+    "DAT_06013366": {
+      "absolute": "0x06013366",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E2"
+    },
+    "DAT_06013367": {
+      "absolute": "0x06013367",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E3"
+    },
+    "DAT_06013369": {
+      "absolute": "0x06013369",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E5"
+    },
+    "DAT_0601336A": {
+      "absolute": "0x0601336A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E6"
+    },
+    "DAT_0601336B": {
+      "absolute": "0x0601336B",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E7"
+    },
+    "DAT_060119A0": {
+      "absolute": "0x060119A0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F1C"
+    },
+    "DAT_060119AC": {
+      "absolute": "0x060119AC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F28"
+    },
+    "DAT_060119B8": {
+      "absolute": "0x060119B8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F34"
+    },
+    "DAT_060119C4": {
+      "absolute": "0x060119C4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F40"
+    },
+    "DAT_060119D0": {
+      "absolute": "0x060119D0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F4C"
+    },
+    "DAT_060119DC": {
+      "absolute": "0x060119DC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F58"
+    },
+    "DAT_060119EC": {
+      "absolute": "0x060119EC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F68"
+    },
+    "DAT_060119F8": {
+      "absolute": "0x060119F8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F74"
+    },
+    "DAT_06011A04": {
+      "absolute": "0x06011A04",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F80"
+    },
+    "DAT_06011A14": {
+      "absolute": "0x06011A14",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F90"
+    },
+    "DAT_06011A20": {
+      "absolute": "0x06011A20",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2F9C"
+    },
+    "DAT_06010AB0": {
+      "absolute": "0x06010AB0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x202C"
+    },
+    "DAT_06010AB8": {
+      "absolute": "0x06010AB8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2034"
+    },
+    "DAT_06011A72": {
+      "absolute": "0x06011A72",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FEE"
+    },
+    "DAT_06013368": {
+      "absolute": "0x06013368",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E4"
+    },
+    "DAT_06013364": {
+      "absolute": "0x06013364",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E0"
+    },
+    "DAT_06013365": {
+      "absolute": "0x06013365",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48E1"
+    },
+    "DAT_06007B2E": {
+      "absolute": "0x06007B2E",
+      "parent_fun": "FUN_06007A8A",
+      "offset": "0xA4"
+    },
+    "DAT_06013B78": {
+      "absolute": "0x06013B78",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x50F4"
+    },
+    "DAT_06009BD8": {
+      "absolute": "0x06009BD8",
+      "parent_fun": "FUN_06009BC8",
+      "offset": "0x10"
+    },
+    "DAT_06009F10": {
+      "absolute": "0x06009F10",
+      "parent_fun": "FUN_06009EE6",
+      "offset": "0x2A"
+    },
+    "DAT_06013BB4": {
+      "absolute": "0x06013BB4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x5130"
+    },
+    "DAT_06009FAE": {
+      "absolute": "0x06009FAE",
+      "parent_fun": "FUN_06009F6E",
+      "offset": "0x40"
+    },
+    "DAT_06007C50": {
+      "absolute": "0x06007C50",
+      "parent_fun": "FUN_06007B70",
+      "offset": "0xE0"
+    },
+    "DAT_06011A76": {
+      "absolute": "0x06011A76",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FF2"
+    },
+    "DAT_060062C0": {
+      "absolute": "0x060062C0",
+      "parent_fun": "FUN_060062A0",
+      "offset": "0x20"
+    },
+    "DAT_060062D8": {
+      "absolute": "0x060062D8",
+      "parent_fun": "FUN_060062A0",
+      "offset": "0x38"
+    },
+    "DAT_06011A80": {
+      "absolute": "0x06011A80",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FFC"
+    },
+    "DAT_06011A94": {
+      "absolute": "0x06011A94",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3010"
+    },
+    "DAT_06011AA4": {
+      "absolute": "0x06011AA4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3020"
+    },
+    "DAT_0601336E": {
+      "absolute": "0x0601336E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48EA"
+    },
+    "DAT_060133F8": {
+      "absolute": "0x060133F8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4974"
+    },
+    "DAT_060133F6": {
+      "absolute": "0x060133F6",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4972"
+    },
+    "DAT_06013370": {
+      "absolute": "0x06013370",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48EC"
+    },
+    "DAT_06008620": {
+      "absolute": "0x06008620",
+      "parent_fun": "FUN_0600860C",
+      "offset": "0x14"
+    },
+    "DAT_0601348C": {
+      "absolute": "0x0601348C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4A08"
+    },
+    "DAT_06002FC8": {
+      "absolute": "0x06002FC8",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x82"
+    },
+    "DAT_06013374": {
+      "absolute": "0x06013374",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48F0"
+    },
+    "DAT_06002FDC": {
+      "absolute": "0x06002FDC",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x96"
+    },
+    "DAT_06002FBC": {
+      "absolute": "0x06002FBC",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x76"
+    },
+    "DAT_06002FF8": {
+      "absolute": "0x06002FF8",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0xB2"
+    },
+    "DAT_06002FF4": {
+      "absolute": "0x06002FF4",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0xAE"
+    },
+    "DAT_0601362C": {
+      "absolute": "0x0601362C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BA8"
+    },
+    "DAT_0600877C": {
+      "absolute": "0x0600877C",
+      "parent_fun": "FUN_06008770",
+      "offset": "0xC"
+    },
+    "DAT_0600841E": {
+      "absolute": "0x0600841E",
+      "parent_fun": "FUN_060083C4",
+      "offset": "0x5A"
+    },
+    "DAT_06008146": {
+      "absolute": "0x06008146",
+      "parent_fun": "FUN_06008124",
+      "offset": "0x22"
+    },
+    "DAT_060083FE": {
+      "absolute": "0x060083FE",
+      "parent_fun": "FUN_060083C4",
+      "offset": "0x3A"
+    },
+    "DAT_060133FC": {
+      "absolute": "0x060133FC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4978"
+    },
+    "DAT_06008098": {
+      "absolute": "0x06008098",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x2FA"
+    },
+    "DAT_06007500": {
+      "absolute": "0x06007500",
+      "parent_fun": "FUN_0600742E",
+      "offset": "0xD2"
+    },
+    "DAT_060134B4": {
+      "absolute": "0x060134B4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4A30"
+    },
+    "DAT_06008978": {
+      "absolute": "0x06008978",
+      "parent_fun": "FUN_06008910",
+      "offset": "0x68"
+    },
+    "DAT_06011AB4": {
+      "absolute": "0x06011AB4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3030"
+    },
+    "DAT_060089A6": {
+      "absolute": "0x060089A6",
+      "parent_fun": "FUN_06008910",
+      "offset": "0x96"
+    },
+    "DAT_0600812C": {
+      "absolute": "0x0600812C",
+      "parent_fun": "FUN_06008124",
+      "offset": "0x8"
+    },
+    "DAT_060135BC": {
+      "absolute": "0x060135BC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B38"
+    },
+    "DAT_060135B8": {
+      "absolute": "0x060135B8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B34"
+    },
+    "DAT_060135BD": {
+      "absolute": "0x060135BD",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B39"
+    },
+    "DAT_060135CA": {
+      "absolute": "0x060135CA",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B46"
+    },
+    "DAT_060135CB": {
+      "absolute": "0x060135CB",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B47"
+    },
+    "DAT_060135C9": {
+      "absolute": "0x060135C9",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B45"
+    },
+    "DAT_060135C4": {
+      "absolute": "0x060135C4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B40"
+    },
+    "DAT_060135C8": {
+      "absolute": "0x060135C8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B44"
+    },
+    "DAT_060135C0": {
+      "absolute": "0x060135C0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B3C"
+    },
+    "DAT_060135CC": {
+      "absolute": "0x060135CC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B48"
+    },
+    "DAT_0600845C": {
+      "absolute": "0x0600845C",
+      "parent_fun": "FUN_060083C4",
+      "offset": "0x98"
+    },
+    "DAT_060135D0": {
+      "absolute": "0x060135D0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B4C"
+    },
+    "DAT_06011AC4": {
+      "absolute": "0x06011AC4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3040"
+    },
+    "DAT_06011ACC": {
+      "absolute": "0x06011ACC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3048"
+    },
+    "DAT_06008A5C": {
+      "absolute": "0x06008A5C",
+      "parent_fun": "FUN_06008A3E",
+      "offset": "0x1E"
+    },
+    "DAT_060135E8": {
+      "absolute": "0x060135E8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B64"
+    },
+    "DAT_060135F0": {
+      "absolute": "0x060135F0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B6C"
+    },
+    "DAT_060135E4": {
+      "absolute": "0x060135E4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B60"
+    },
+    "DAT_060135EC": {
+      "absolute": "0x060135EC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B68"
+    },
+    "DAT_060135F8": {
+      "absolute": "0x060135F8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B74"
+    },
+    "DAT_06008C88": {
+      "absolute": "0x06008C88",
+      "parent_fun": "FUN_06008C4A",
+      "offset": "0x3E"
+    },
+    "DAT_06008D0E": {
+      "absolute": "0x06008D0E",
+      "parent_fun": "FUN_06008C4A",
+      "offset": "0xC4"
+    },
+    "DAT_06008DB4": {
+      "absolute": "0x06008DB4",
+      "parent_fun": "FUN_06008DB0",
+      "offset": "0x4"
+    },
+    "DAT_06008DD2": {
+      "absolute": "0x06008DD2",
+      "parent_fun": "FUN_06008DB0",
+      "offset": "0x22"
+    },
+    "DAT_06008D88": {
+      "absolute": "0x06008D88",
+      "parent_fun": "FUN_06008C4A",
+      "offset": "0x13E"
+    },
+    "DAT_06008EDC": {
+      "absolute": "0x06008EDC",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x30"
+    },
+    "DAT_06008ED8": {
+      "absolute": "0x06008ED8",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x2C"
+    },
+    "DAT_06008ED6": {
+      "absolute": "0x06008ED6",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x2A"
+    },
+    "DAT_06008ED2": {
+      "absolute": "0x06008ED2",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x26"
+    },
+    "DAT_06008ECE": {
+      "absolute": "0x06008ECE",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x22"
+    },
+    "DAT_06008ECA": {
+      "absolute": "0x06008ECA",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x1E"
+    },
+    "DAT_06008EC6": {
+      "absolute": "0x06008EC6",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x1A"
+    },
+    "DAT_06008EC2": {
+      "absolute": "0x06008EC2",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x16"
+    },
+    "DAT_06008EBE": {
+      "absolute": "0x06008EBE",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x12"
+    },
+    "DAT_06008EBA": {
+      "absolute": "0x06008EBA",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0xE"
+    },
+    "DAT_06008EB6": {
+      "absolute": "0x06008EB6",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0xA"
+    },
+    "DAT_06008EB2": {
+      "absolute": "0x06008EB2",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x6"
+    },
+    "DAT_06008EAE": {
+      "absolute": "0x06008EAE",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x2"
+    },
+    "DAT_06008EAA": {
+      "absolute": "0x06008EAA",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x5A"
+    },
+    "DAT_06008EA6": {
+      "absolute": "0x06008EA6",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x56"
+    },
+    "DAT_06008EA2": {
+      "absolute": "0x06008EA2",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x52"
+    },
+    "DAT_06008E9E": {
+      "absolute": "0x06008E9E",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x4E"
+    },
+    "DAT_06008E9A": {
+      "absolute": "0x06008E9A",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x4A"
+    },
+    "DAT_060136F4": {
+      "absolute": "0x060136F4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C70"
+    },
+    "DAT_060096D4": {
+      "absolute": "0x060096D4",
+      "parent_fun": "FUN_060096A8",
+      "offset": "0x2C"
+    },
+    "DAT_06000CCC": {
+      "absolute": "0x06000CCC",
+      "parent_fun": "FUN_06000B3C",
+      "offset": "0x190"
+    },
+    "DAT_0600026C": {
+      "absolute": "0x0600026C",
+      "parent_fun": "FUN_0600019A",
+      "offset": "0xD2"
+    },
+    "DAT_0600029C": {
+      "absolute": "0x0600029C",
+      "parent_fun": "FUN_06000278",
+      "offset": "0x24"
+    },
+    "DAT_06009DC6": {
+      "absolute": "0x06009DC6",
+      "parent_fun": "FUN_06009D72",
+      "offset": "0x54"
+    },
+    "DAT_0600C868": {
+      "absolute": "0x0600C868",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x10C8"
+    },
+    "DAT_0600C982": {
+      "absolute": "0x0600C982",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x11E2"
+    },
+    "DAT_0600C860": {
+      "absolute": "0x0600C860",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x10C0"
+    },
+    "DAT_060135FC": {
+      "absolute": "0x060135FC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B78"
+    },
+    "DAT_06000288": {
+      "absolute": "0x06000288",
+      "parent_fun": "FUN_06000278",
+      "offset": "0x10"
+    },
+    "DAT_06009AA8": {
+      "absolute": "0x06009AA8",
+      "parent_fun": "FUN_06009810",
+      "offset": "0x298"
+    },
+    "DAT_06009AFE": {
+      "absolute": "0x06009AFE",
+      "parent_fun": "FUN_06009AB2",
+      "offset": "0x4C"
+    },
+    "DAT_06009B54": {
+      "absolute": "0x06009B54",
+      "parent_fun": "FUN_06009B32",
+      "offset": "0x22"
+    },
+    "DAT_06013600": {
+      "absolute": "0x06013600",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B7C"
+    },
+    "DAT_060101D4": {
+      "absolute": "0x060101D4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1750"
+    },
+    "DAT_0601360C": {
+      "absolute": "0x0601360C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B88"
+    },
+    "DAT_06000314": {
+      "absolute": "0x06000314",
+      "parent_fun": "FUN_060002DE",
+      "offset": "0x36"
+    },
+    "DAT_06013618": {
+      "absolute": "0x06013618",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B94"
+    },
+    "DAT_060101B4": {
+      "absolute": "0x060101B4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1730"
+    },
+    "DAT_06013619": {
+      "absolute": "0x06013619",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B95"
+    },
+    "DAT_06013604": {
+      "absolute": "0x06013604",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B80"
+    },
+    "DAT_06013610": {
+      "absolute": "0x06013610",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B8C"
+    },
+    "DAT_0601361A": {
+      "absolute": "0x0601361A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B96"
+    },
+    "DAT_06013608": {
+      "absolute": "0x06013608",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B84"
+    },
+    "DAT_06013614": {
+      "absolute": "0x06013614",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B90"
+    },
+    "DAT_0600C9D6": {
+      "absolute": "0x0600C9D6",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1236"
+    },
+    "DAT_0600CA70": {
+      "absolute": "0x0600CA70",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x12D0"
+    },
+    "DAT_0600CA38": {
+      "absolute": "0x0600CA38",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1298"
+    },
+    "DAT_0600C9C0": {
+      "absolute": "0x0600C9C0",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1220"
+    },
+    "DAT_0600A062": {
+      "absolute": "0x0600A062",
+      "parent_fun": "FUN_0600A050",
+      "offset": "0x12"
+    },
+    "DAT_0600CA8E": {
+      "absolute": "0x0600CA8E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x12EE"
+    },
+    "DAT_0600A044": {
+      "absolute": "0x0600A044",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x6E"
+    },
+    "DAT_0600C9C4": {
+      "absolute": "0x0600C9C4",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1224"
+    },
+    "DAT_0600A032": {
+      "absolute": "0x0600A032",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x5C"
+    },
+    "DAT_0600A1AC": {
+      "absolute": "0x0600A1AC",
+      "parent_fun": "FUN_0600A10E",
+      "offset": "0x9E"
+    },
+    "DAT_0600A02C": {
+      "absolute": "0x0600A02C",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x56"
+    },
+    "DAT_0601361C": {
+      "absolute": "0x0601361C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B98"
+    },
+    "DAT_06009E70": {
+      "absolute": "0x06009E70",
+      "parent_fun": "FUN_06009E58",
+      "offset": "0x18"
+    },
+    "DAT_06009EBA": {
+      "absolute": "0x06009EBA",
+      "parent_fun": "FUN_06009E58",
+      "offset": "0x62"
+    },
+    "DAT_06013628": {
+      "absolute": "0x06013628",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BA4"
+    },
+    "DAT_06000344": {
+      "absolute": "0x06000344",
+      "parent_fun": "FUN_06000334",
+      "offset": "0x10"
+    },
+    "DAT_06013620": {
+      "absolute": "0x06013620",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4B9C"
+    },
+    "DAT_0600B1E8": {
+      "absolute": "0x0600B1E8",
+      "parent_fun": "FUN_0600B1D4",
+      "offset": "0x14"
+    },
+    "DAT_0600DC38": {
+      "absolute": "0x0600DC38",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2498"
+    },
+    "DAT_0600B388": {
+      "absolute": "0x0600B388",
+      "parent_fun": "FUN_0600B35C",
+      "offset": "0x2C"
+    },
+    "DAT_0600CBBA": {
+      "absolute": "0x0600CBBA",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x141A"
+    },
+    "DAT_0600CAB8": {
+      "absolute": "0x0600CAB8",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1318"
+    },
+    "DAT_06008E88": {
+      "absolute": "0x06008E88",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x38"
+    },
+    "DAT_0600CB1E": {
+      "absolute": "0x0600CB1E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x137E"
+    },
+    "DAT_0600CB80": {
+      "absolute": "0x0600CB80",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x13E0"
+    },
+    "DAT_0600CB72": {
+      "absolute": "0x0600CB72",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x13D2"
+    },
+    "DAT_06008F54": {
+      "absolute": "0x06008F54",
+      "parent_fun": "FUN_06008F36",
+      "offset": "0x1E"
+    },
+    "DAT_0600DC24": {
+      "absolute": "0x0600DC24",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2484"
+    },
+    "DAT_0600B900": {
+      "absolute": "0x0600B900",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x160"
+    },
+    "DAT_0600B8AC": {
+      "absolute": "0x0600B8AC",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x10C"
+    },
+    "DAT_0600D30A": {
+      "absolute": "0x0600D30A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1B6A"
+    },
+    "DAT_06008E60": {
+      "absolute": "0x06008E60",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x10"
+    },
+    "DAT_060136E4": {
+      "absolute": "0x060136E4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C60"
+    },
+    "DAT_060136E0": {
+      "absolute": "0x060136E0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C5C"
+    },
+    "DAT_0600D3DA": {
+      "absolute": "0x0600D3DA",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1C3A"
+    },
+    "DAT_0600DC18": {
+      "absolute": "0x0600DC18",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2478"
+    },
+    "DAT_0600D42A": {
+      "absolute": "0x0600D42A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1C8A"
+    },
+    "DAT_0600E048": {
+      "absolute": "0x0600E048",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x28A8"
+    },
+    "DAT_0600D5B0": {
+      "absolute": "0x0600D5B0",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1E10"
+    },
+    "DAT_0600D3CA": {
+      "absolute": "0x0600D3CA",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1C2A"
+    },
+    "DAT_0600D424": {
+      "absolute": "0x0600D424",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1C84"
+    },
+    "DAT_0600E8A8": {
+      "absolute": "0x0600E8A8",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x3108"
+    },
+    "DAT_0600E0AC": {
+      "absolute": "0x0600E0AC",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x290C"
+    },
+    "DAT_06000CCD": {
+      "absolute": "0x06000CCD",
+      "parent_fun": "FUN_06000B3C",
+      "offset": "0x191"
+    },
+    "DAT_0600E9E8": {
+      "absolute": "0x0600E9E8",
+      "parent_fun": "FUN_0600E97E",
+      "offset": "0x6A"
+    },
+    "DAT_0600CBB6": {
+      "absolute": "0x0600CBB6",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1416"
+    },
+    "DAT_06000CCE": {
+      "absolute": "0x06000CCE",
+      "parent_fun": "FUN_06000B3C",
+      "offset": "0x192"
+    },
+    "DAT_0600DE4A": {
+      "absolute": "0x0600DE4A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x26AA"
+    },
+    "DAT_0600DFB0": {
+      "absolute": "0x0600DFB0",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2810"
+    },
+    "DAT_0600E0A6": {
+      "absolute": "0x0600E0A6",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2906"
+    },
+    "DAT_0600E09A": {
+      "absolute": "0x0600E09A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x28FA"
+    },
+    "DAT_0600CBA2": {
+      "absolute": "0x0600CBA2",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1402"
+    },
+    "DAT_0600CB90": {
+      "absolute": "0x0600CB90",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x13F0"
+    },
+    "DAT_0600D436": {
+      "absolute": "0x0600D436",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1C96"
+    },
+    "DAT_060136E8": {
+      "absolute": "0x060136E8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C64"
+    },
+    "DAT_0600D394": {
+      "absolute": "0x0600D394",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1BF4"
+    },
+    "DAT_0600DCC2": {
+      "absolute": "0x0600DCC2",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2522"
+    },
+    "DAT_0600ED32": {
+      "absolute": "0x0600ED32",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2AE"
+    },
+    "DAT_06011B14": {
+      "absolute": "0x06011B14",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3090"
+    },
+    "DAT_06008F20": {
+      "absolute": "0x06008F20",
+      "parent_fun": "FUN_06008EAC",
+      "offset": "0x74"
+    },
+    "DAT_0600DB9A": {
+      "absolute": "0x0600DB9A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x23FA"
+    },
+    "DAT_0600D542": {
+      "absolute": "0x0600D542",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1DA2"
+    },
+    "DAT_0600D4D0": {
+      "absolute": "0x0600D4D0",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1D30"
+    },
+    "DAT_0600A4C4": {
+      "absolute": "0x0600A4C4",
+      "parent_fun": "FUN_0600A4AE",
+      "offset": "0x16"
+    },
+    "DAT_0600DDAA": {
+      "absolute": "0x0600DDAA",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x260A"
+    },
+    "DAT_0600E564": {
+      "absolute": "0x0600E564",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2DC4"
+    },
+    "DAT_0600A826": {
+      "absolute": "0x0600A826",
+      "parent_fun": "FUN_0600A7FE",
+      "offset": "0x28"
+    },
+    "DAT_06013641": {
+      "absolute": "0x06013641",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BBD"
+    },
+    "DAT_060136A0": {
+      "absolute": "0x060136A0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C1C"
+    },
+    "DAT_06013643": {
+      "absolute": "0x06013643",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BBF"
+    },
+    "DAT_06013647": {
+      "absolute": "0x06013647",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC3"
+    },
+    "DAT_0600BDDE": {
+      "absolute": "0x0600BDDE",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x63E"
+    },
+    "DAT_060136B0": {
+      "absolute": "0x060136B0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C2C"
+    },
+    "DAT_06013678": {
+      "absolute": "0x06013678",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BF4"
+    },
+    "DAT_0601364C": {
+      "absolute": "0x0601364C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC8"
+    },
+    "DAT_0601364A": {
+      "absolute": "0x0601364A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC6"
+    },
+    "DAT_06013648": {
+      "absolute": "0x06013648",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC4"
+    },
+    "DAT_06013650": {
+      "absolute": "0x06013650",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BCC"
+    },
+    "DAT_06013658": {
+      "absolute": "0x06013658",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BD4"
+    },
+    "DAT_06013679": {
+      "absolute": "0x06013679",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BF5"
+    },
+    "DAT_06013688": {
+      "absolute": "0x06013688",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C04"
+    },
+    "DAT_06013630": {
+      "absolute": "0x06013630",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BAC"
+    },
+    "DAT_0601368C": {
+      "absolute": "0x0601368C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C08"
+    },
+    "DAT_06013698": {
+      "absolute": "0x06013698",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C14"
+    },
+    "DAT_06013694": {
+      "absolute": "0x06013694",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C10"
+    },
+    "DAT_0601365C": {
+      "absolute": "0x0601365C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BD8"
+    },
+    "DAT_06013660": {
+      "absolute": "0x06013660",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BDC"
+    },
+    "DAT_06013668": {
+      "absolute": "0x06013668",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BE4"
+    },
+    "DAT_06013642": {
+      "absolute": "0x06013642",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BBE"
+    },
+    "DAT_06013654": {
+      "absolute": "0x06013654",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BD0"
+    },
+    "DAT_060136C1": {
+      "absolute": "0x060136C1",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3D"
+    },
+    "DAT_060136A8": {
+      "absolute": "0x060136A8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C24"
+    },
+    "DAT_060136B4": {
+      "absolute": "0x060136B4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C30"
+    },
+    "DAT_06013664": {
+      "absolute": "0x06013664",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BE0"
+    },
+    "DAT_0601369C": {
+      "absolute": "0x0601369C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C18"
+    },
+    "DAT_060136AC": {
+      "absolute": "0x060136AC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C28"
+    },
+    "DAT_060136A4": {
+      "absolute": "0x060136A4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C20"
+    },
+    "DAT_060136BD": {
+      "absolute": "0x060136BD",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C39"
+    },
+    "DAT_060136C0": {
+      "absolute": "0x060136C0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3C"
+    },
+    "DAT_060136B8": {
+      "absolute": "0x060136B8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C34"
+    },
+    "DAT_060136C2": {
+      "absolute": "0x060136C2",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3E"
+    },
+    "DAT_060136BC": {
+      "absolute": "0x060136BC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C38"
+    },
+    "DAT_060136C5": {
+      "absolute": "0x060136C5",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C41"
+    },
+    "DAT_060136C3": {
+      "absolute": "0x060136C3",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3F"
+    },
+    "DAT_060136BF": {
+      "absolute": "0x060136BF",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3B"
+    },
+    "DAT_060136BE": {
+      "absolute": "0x060136BE",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C3A"
+    },
+    "DAT_060136C4": {
+      "absolute": "0x060136C4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C40"
+    },
+    "DAT_0601366C": {
+      "absolute": "0x0601366C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BE8"
+    },
+    "DAT_06013670": {
+      "absolute": "0x06013670",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BEC"
+    },
+    "DAT_06013674": {
+      "absolute": "0x06013674",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BF0"
+    },
+    "DAT_06013646": {
+      "absolute": "0x06013646",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4BC2"
+    },
+    "DAT_0600A0BA": {
+      "absolute": "0x0600A0BA",
+      "parent_fun": "FUN_0600A08E",
+      "offset": "0x2C"
+    },
+    "DAT_060136C8": {
+      "absolute": "0x060136C8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C44"
+    },
+    "DAT_06009640": {
+      "absolute": "0x06009640",
+      "parent_fun": "FUN_060095E4",
+      "offset": "0x5C"
+    },
+    "DAT_0600F6A6": {
+      "absolute": "0x0600F6A6",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0xC22"
+    },
+    "DAT_0600F28E": {
+      "absolute": "0x0600F28E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x80A"
+    },
+    "DAT_0600F504": {
+      "absolute": "0x0600F504",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0xA80"
+    },
+    "DAT_0600F6AE": {
+      "absolute": "0x0600F6AE",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0xC2A"
+    },
+    "DAT_06009680": {
+      "absolute": "0x06009680",
+      "parent_fun": "FUN_060095E4",
+      "offset": "0x9C"
+    },
+    "DAT_06011B1C": {
+      "absolute": "0x06011B1C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3098"
+    },
+    "DAT_060095F0": {
+      "absolute": "0x060095F0",
+      "parent_fun": "FUN_060095E4",
+      "offset": "0xC"
+    },
+    "DAT_06011B20": {
+      "absolute": "0x06011B20",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x309C"
+    },
+    "DAT_06011B24": {
+      "absolute": "0x06011B24",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30A0"
+    },
+    "DAT_06011B28": {
+      "absolute": "0x06011B28",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30A4"
+    },
+    "DAT_06011B2C": {
+      "absolute": "0x06011B2C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30A8"
+    },
+    "DAT_06011B30": {
+      "absolute": "0x06011B30",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30AC"
+    },
+    "DAT_0600D35E": {
+      "absolute": "0x0600D35E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1BBE"
+    },
+    "DAT_0600D324": {
+      "absolute": "0x0600D324",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1B84"
+    },
+    "DAT_06010A80": {
+      "absolute": "0x06010A80",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1FFC"
+    },
+    "DAT_06010324": {
+      "absolute": "0x06010324",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x18A0"
+    },
+    "DAT_060101EC": {
+      "absolute": "0x060101EC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1768"
+    },
+    "DAT_06010234": {
+      "absolute": "0x06010234",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x17B0"
+    },
+    "DAT_06010312": {
+      "absolute": "0x06010312",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x188E"
+    },
+    "DAT_060136D4": {
+      "absolute": "0x060136D4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C50"
+    },
+    "DAT_06010354": {
+      "absolute": "0x06010354",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x18D0"
+    },
+    "DAT_06011B54": {
+      "absolute": "0x06011B54",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30D0"
+    },
+    "DAT_0600D342": {
+      "absolute": "0x0600D342",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1BA2"
+    },
+    "DAT_06011B58": {
+      "absolute": "0x06011B58",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30D4"
+    },
+    "DAT_06011B5C": {
+      "absolute": "0x06011B5C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x30D8"
+    },
+    "DAT_0600EA10": {
+      "absolute": "0x0600EA10",
+      "parent_fun": "FUN_0600E97E",
+      "offset": "0x92"
+    },
+    "DAT_0600F3F6": {
+      "absolute": "0x0600F3F6",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x972"
+    },
+    "DAT_060096B4": {
+      "absolute": "0x060096B4",
+      "parent_fun": "FUN_060096A8",
+      "offset": "0xC"
+    },
+    "DAT_0600E488": {
+      "absolute": "0x0600E488",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2CE8"
+    },
+    "DAT_0600E57C": {
+      "absolute": "0x0600E57C",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2DDC"
+    },
+    "DAT_0600E9B2": {
+      "absolute": "0x0600E9B2",
+      "parent_fun": "FUN_0600E97E",
+      "offset": "0x34"
+    },
+    "DAT_0600E98A": {
+      "absolute": "0x0600E98A",
+      "parent_fun": "FUN_0600E97E",
+      "offset": "0xC"
+    },
+    "DAT_0600E94E": {
+      "absolute": "0x0600E94E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x31AE"
+    },
+    "DAT_0600EF06": {
+      "absolute": "0x0600EF06",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x482"
+    },
+    "DAT_0600E9BE": {
+      "absolute": "0x0600E9BE",
+      "parent_fun": "FUN_0600E97E",
+      "offset": "0x40"
+    },
+    "DAT_0600E93C": {
+      "absolute": "0x0600E93C",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x319C"
+    },
+    "DAT_0601014E": {
+      "absolute": "0x0601014E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x16CA"
+    },
+    "DAT_0600E674": {
+      "absolute": "0x0600E674",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2ED4"
+    },
+    "DAT_0600E68C": {
+      "absolute": "0x0600E68C",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2EEC"
+    },
+    "DAT_0600E6E4": {
+      "absolute": "0x0600E6E4",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2F44"
+    },
+    "DAT_0600F0E6": {
+      "absolute": "0x0600F0E6",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x662"
+    },
+    "DAT_0600F4D4": {
+      "absolute": "0x0600F4D4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0xA50"
+    },
+    "DAT_060095B8": {
+      "absolute": "0x060095B8",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0xC8"
+    },
+    "DAT_0600EC88": {
+      "absolute": "0x0600EC88",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x204"
+    },
+    "DAT_0600EC26": {
+      "absolute": "0x0600EC26",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1A2"
+    },
+    "DAT_0600ECB2": {
+      "absolute": "0x0600ECB2",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x22E"
+    },
+    "DAT_0600EDC8": {
+      "absolute": "0x0600EDC8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x344"
+    },
+    "DAT_0600F30E": {
+      "absolute": "0x0600F30E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x88A"
+    },
+    "DAT_0600EC58": {
+      "absolute": "0x0600EC58",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1D4"
+    },
+    "DAT_0600EF72": {
+      "absolute": "0x0600EF72",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4EE"
+    },
+    "DAT_0600DDE0": {
+      "absolute": "0x0600DDE0",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x2640"
+    },
+    "DAT_0600F058": {
+      "absolute": "0x0600F058",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x5D4"
+    },
+    "DAT_0600A00C": {
+      "absolute": "0x0600A00C",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x36"
+    },
+    "DAT_0600EFCC": {
+      "absolute": "0x0600EFCC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x548"
+    },
+    "DAT_0600F01E": {
+      "absolute": "0x0600F01E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x59A"
+    },
+    "DAT_0600F16E": {
+      "absolute": "0x0600F16E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x6EA"
+    },
+    "DAT_0600EEBA": {
+      "absolute": "0x0600EEBA",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x436"
+    },
+    "DAT_0600ED58": {
+      "absolute": "0x0600ED58",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2D4"
+    },
+    "DAT_0600EDAA": {
+      "absolute": "0x0600EDAA",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x326"
+    },
+    "DAT_0600ED88": {
+      "absolute": "0x0600ED88",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x304"
+    },
+    "DAT_060136EC": {
+      "absolute": "0x060136EC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C68"
+    },
+    "DAT_060136F0": {
+      "absolute": "0x060136F0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4C6C"
+    },
+    "DAT_06010040": {
+      "absolute": "0x06010040",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x15BC"
+    },
+    "DAT_06010850": {
+      "absolute": "0x06010850",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1DCC"
+    },
+    "DAT_0601001A": {
+      "absolute": "0x0601001A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1596"
+    },
+    "DAT_0600A01A": {
+      "absolute": "0x0600A01A",
+      "parent_fun": "FUN_06009FD6",
+      "offset": "0x44"
+    },
+    "DAT_06009D40": {
+      "absolute": "0x06009D40",
+      "parent_fun": "FUN_06009D06",
+      "offset": "0x3A"
+    },
+    "DAT_06009D84": {
+      "absolute": "0x06009D84",
+      "parent_fun": "FUN_06009D72",
+      "offset": "0x12"
+    },
+    "DAT_06010616": {
+      "absolute": "0x06010616",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1B92"
+    },
+    "DAT_06010550": {
+      "absolute": "0x06010550",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1ACC"
+    },
+    "DAT_060104D0": {
+      "absolute": "0x060104D0",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1A4C"
+    },
+    "DAT_060100B8": {
+      "absolute": "0x060100B8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1634"
+    },
+    "DAT_06009C18": {
+      "absolute": "0x06009C18",
+      "parent_fun": "FUN_06009BC8",
+      "offset": "0x50"
+    },
+    "DAT_06010124": {
+      "absolute": "0x06010124",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x16A0"
+    },
+    "DAT_06010770": {
+      "absolute": "0x06010770",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1CEC"
+    },
+    "DAT_0600C8B8": {
+      "absolute": "0x0600C8B8",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1118"
+    },
+    "DAT_0600C890": {
+      "absolute": "0x0600C890",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x10F0"
+    },
+    "DAT_0600C908": {
+      "absolute": "0x0600C908",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1168"
+    },
+    "DAT_0601064C": {
+      "absolute": "0x0601064C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1BC8"
+    },
+    "DAT_06010526": {
+      "absolute": "0x06010526",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1AA2"
+    },
+    "DAT_06010492": {
+      "absolute": "0x06010492",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1A0E"
+    },
+    "DAT_06010418": {
+      "absolute": "0x06010418",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1994"
+    },
+    "DAT_06008E7C": {
+      "absolute": "0x06008E7C",
+      "parent_fun": "FUN_06008E50",
+      "offset": "0x2C"
+    },
+    "DAT_06010374": {
+      "absolute": "0x06010374",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x18F0"
+    },
+    "DAT_0601069A": {
+      "absolute": "0x0601069A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1C16"
+    },
+    "DAT_060106DE": {
+      "absolute": "0x060106DE",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1C5A"
+    },
+    "DAT_0601070C": {
+      "absolute": "0x0601070C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1C88"
+    },
+    "DAT_0601087A": {
+      "absolute": "0x0601087A",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1DF6"
+    },
+    "DAT_060108A8": {
+      "absolute": "0x060108A8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1E24"
+    },
+    "DAT_06010962": {
+      "absolute": "0x06010962",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1EDE"
+    },
+    "DAT_06010594": {
+      "absolute": "0x06010594",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x1B10"
+    },
+    "DAT_06009C12": {
+      "absolute": "0x06009C12",
+      "parent_fun": "FUN_06009BC8",
+      "offset": "0x4A"
+    },
+    "DAT_06000300": {
+      "absolute": "0x06000300",
+      "parent_fun": "FUN_060002DE",
+      "offset": "0x22"
+    },
+    "DAT_06011B84": {
+      "absolute": "0x06011B84",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3100"
+    },
+    "DAT_06011A29": {
+      "absolute": "0x06011A29",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FA5"
+    },
+    "DAT_06011A50": {
+      "absolute": "0x06011A50",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FCC"
+    },
+    "DAT_06011A68": {
+      "absolute": "0x06011A68",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x2FE4"
+    },
+    "DAT_0600E7E4": {
+      "absolute": "0x0600E7E4",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x3044"
+    },
+    "DAT_0600E908": {
+      "absolute": "0x0600E908",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x3168"
+    },
+    "DAT_0600D744": {
+      "absolute": "0x0600D744",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1FA4"
+    },
+    "DAT_0600D748": {
+      "absolute": "0x0600D748",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x1FA8"
+    },
+    "DAT_0600D7DE": {
+      "absolute": "0x0600D7DE",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x203E"
+    },
+    "DAT_0600D93E": {
+      "absolute": "0x0600D93E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x219E"
+    },
+    "DAT_0600D942": {
+      "absolute": "0x0600D942",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21A2"
+    },
+    "DAT_0600D968": {
+      "absolute": "0x0600D968",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21C8"
+    },
+    "DAT_0600D96C": {
+      "absolute": "0x0600D96C",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21CC"
+    },
+    "DAT_0600D970": {
+      "absolute": "0x0600D970",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21D0"
+    },
+    "DAT_0600D996": {
+      "absolute": "0x0600D996",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21F6"
+    },
+    "DAT_0600D99A": {
+      "absolute": "0x0600D99A",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21FA"
+    },
+    "DAT_0600D99E": {
+      "absolute": "0x0600D99E",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x21FE"
+    },
+    "DAT_0600D9DC": {
+      "absolute": "0x0600D9DC",
+      "parent_fun": "FUN_0600B7A0",
+      "offset": "0x223C"
+    },
+    "DAT_06008F98": {
+      "absolute": "0x06008F98",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xA"
+    },
+    "DAT_06008F9E": {
+      "absolute": "0x06008F9E",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x10"
+    },
+    "DAT_06008FA4": {
+      "absolute": "0x06008FA4",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x16"
+    },
+    "DAT_06008FAA": {
+      "absolute": "0x06008FAA",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x1C"
+    },
+    "DAT_06008FB0": {
+      "absolute": "0x06008FB0",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x22"
+    },
+    "DAT_06008FB6": {
+      "absolute": "0x06008FB6",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x28"
+    },
+    "DAT_06008FBC": {
+      "absolute": "0x06008FBC",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x2E"
+    },
+    "DAT_06008FC2": {
+      "absolute": "0x06008FC2",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x34"
+    },
+    "DAT_06008FC8": {
+      "absolute": "0x06008FC8",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x3A"
+    },
+    "DAT_06008FCE": {
+      "absolute": "0x06008FCE",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x40"
+    },
+    "DAT_06008FD4": {
+      "absolute": "0x06008FD4",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x46"
+    },
+    "DAT_06008FDA": {
+      "absolute": "0x06008FDA",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x4C"
+    },
+    "DAT_06008FE0": {
+      "absolute": "0x06008FE0",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x52"
+    },
+    "DAT_06008FE6": {
+      "absolute": "0x06008FE6",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x58"
+    },
+    "DAT_06008FEC": {
+      "absolute": "0x06008FEC",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x5E"
+    },
+    "DAT_06008FF2": {
+      "absolute": "0x06008FF2",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x64"
+    },
+    "DAT_06008FF8": {
+      "absolute": "0x06008FF8",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x6A"
+    },
+    "DAT_06008FFE": {
+      "absolute": "0x06008FFE",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x70"
+    },
+    "DAT_06009004": {
+      "absolute": "0x06009004",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x76"
+    },
+    "DAT_0600900A": {
+      "absolute": "0x0600900A",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x7C"
+    },
+    "DAT_06009010": {
+      "absolute": "0x06009010",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x82"
+    },
+    "DAT_06009016": {
+      "absolute": "0x06009016",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x88"
+    },
+    "DAT_0600901C": {
+      "absolute": "0x0600901C",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x8E"
+    },
+    "DAT_06009022": {
+      "absolute": "0x06009022",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x94"
+    },
+    "DAT_06009028": {
+      "absolute": "0x06009028",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x9A"
+    },
+    "DAT_0600902E": {
+      "absolute": "0x0600902E",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xA0"
+    },
+    "DAT_06009034": {
+      "absolute": "0x06009034",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xA6"
+    },
+    "DAT_0600903A": {
+      "absolute": "0x0600903A",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xAC"
+    },
+    "DAT_06009040": {
+      "absolute": "0x06009040",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xB2"
+    },
+    "DAT_06009046": {
+      "absolute": "0x06009046",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xB8"
+    },
+    "DAT_0600904C": {
+      "absolute": "0x0600904C",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xBE"
+    },
+    "DAT_06009052": {
+      "absolute": "0x06009052",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xC4"
+    },
+    "DAT_06009058": {
+      "absolute": "0x06009058",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xCA"
+    },
+    "DAT_0600905E": {
+      "absolute": "0x0600905E",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xD0"
+    },
+    "DAT_06009064": {
+      "absolute": "0x06009064",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xD6"
+    },
+    "DAT_0600906A": {
+      "absolute": "0x0600906A",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xDC"
+    },
+    "DAT_06009070": {
+      "absolute": "0x06009070",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xE2"
+    },
+    "DAT_06009076": {
+      "absolute": "0x06009076",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xE8"
+    },
+    "DAT_0600907C": {
+      "absolute": "0x0600907C",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xEE"
+    },
+    "DAT_06009082": {
+      "absolute": "0x06009082",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xF4"
+    },
+    "DAT_06009088": {
+      "absolute": "0x06009088",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0xFA"
+    },
+    "DAT_0600908E": {
+      "absolute": "0x0600908E",
+      "parent_fun": "FUN_06008F8E",
+      "offset": "0x100"
+    },
+    "DAT_06009094": {
+      "absolute": "0x06009094",
+      "parent_fun": "FUN_06009090",
+      "offset": "0x4"
+    },
+    "DAT_0600909A": {
+      "absolute": "0x0600909A",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x2"
+    },
+    "DAT_060090A0": {
+      "absolute": "0x060090A0",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x8"
+    },
+    "DAT_060090A6": {
+      "absolute": "0x060090A6",
+      "parent_fun": "FUN_06009098",
+      "offset": "0xE"
+    },
+    "DAT_060090AC": {
+      "absolute": "0x060090AC",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x14"
+    },
+    "DAT_060090B2": {
+      "absolute": "0x060090B2",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x1A"
+    },
+    "DAT_060090B8": {
+      "absolute": "0x060090B8",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x20"
+    },
+    "DAT_060090BE": {
+      "absolute": "0x060090BE",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x26"
+    },
+    "DAT_060090C4": {
+      "absolute": "0x060090C4",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x2C"
+    },
+    "DAT_060090CA": {
+      "absolute": "0x060090CA",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x32"
+    },
+    "DAT_060090D0": {
+      "absolute": "0x060090D0",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x38"
+    },
+    "DAT_060090D6": {
+      "absolute": "0x060090D6",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x3E"
+    },
+    "DAT_060090DC": {
+      "absolute": "0x060090DC",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x44"
+    },
+    "DAT_060090E2": {
+      "absolute": "0x060090E2",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x4A"
+    },
+    "DAT_060090E8": {
+      "absolute": "0x060090E8",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x50"
+    },
+    "DAT_060090EE": {
+      "absolute": "0x060090EE",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x56"
+    },
+    "DAT_060090FA": {
+      "absolute": "0x060090FA",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x62"
+    },
+    "DAT_06009100": {
+      "absolute": "0x06009100",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x68"
+    },
+    "DAT_06009106": {
+      "absolute": "0x06009106",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x6E"
+    },
+    "DAT_0600910C": {
+      "absolute": "0x0600910C",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x74"
+    },
+    "DAT_06009112": {
+      "absolute": "0x06009112",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x7A"
+    },
+    "DAT_06009118": {
+      "absolute": "0x06009118",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x80"
+    },
+    "DAT_0600911E": {
+      "absolute": "0x0600911E",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x86"
+    },
+    "DAT_06009124": {
+      "absolute": "0x06009124",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x8C"
+    },
+    "DAT_0600912A": {
+      "absolute": "0x0600912A",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x92"
+    },
+    "DAT_06009130": {
+      "absolute": "0x06009130",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x98"
+    },
+    "DAT_06009136": {
+      "absolute": "0x06009136",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x9E"
+    },
+    "DAT_0600913C": {
+      "absolute": "0x0600913C",
+      "parent_fun": "FUN_06009098",
+      "offset": "0xA4"
+    },
+    "DAT_06009142": {
+      "absolute": "0x06009142",
+      "parent_fun": "FUN_06009098",
+      "offset": "0xAA"
+    },
+    "DAT_0600914E": {
+      "absolute": "0x0600914E",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x6"
+    },
+    "DAT_06009154": {
+      "absolute": "0x06009154",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xC"
+    },
+    "DAT_0600915A": {
+      "absolute": "0x0600915A",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x12"
+    },
+    "DAT_06009160": {
+      "absolute": "0x06009160",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x18"
+    },
+    "DAT_06009166": {
+      "absolute": "0x06009166",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x1E"
+    },
+    "DAT_0600916C": {
+      "absolute": "0x0600916C",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x24"
+    },
+    "DAT_06009172": {
+      "absolute": "0x06009172",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x2A"
+    },
+    "DAT_06009178": {
+      "absolute": "0x06009178",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x30"
+    },
+    "DAT_0600917E": {
+      "absolute": "0x0600917E",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x36"
+    },
+    "DAT_06009184": {
+      "absolute": "0x06009184",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x3C"
+    },
+    "DAT_0600918A": {
+      "absolute": "0x0600918A",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x42"
+    },
+    "DAT_06009190": {
+      "absolute": "0x06009190",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x48"
+    },
+    "DAT_06009196": {
+      "absolute": "0x06009196",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x4E"
+    },
+    "DAT_0600919C": {
+      "absolute": "0x0600919C",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x54"
+    },
+    "DAT_060091A2": {
+      "absolute": "0x060091A2",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x5A"
+    },
+    "DAT_060091A8": {
+      "absolute": "0x060091A8",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x60"
+    },
+    "DAT_060091AE": {
+      "absolute": "0x060091AE",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x66"
+    },
+    "DAT_060091B4": {
+      "absolute": "0x060091B4",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x6C"
+    },
+    "DAT_060091BA": {
+      "absolute": "0x060091BA",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x72"
+    },
+    "DAT_060091C0": {
+      "absolute": "0x060091C0",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x78"
+    },
+    "DAT_060091C6": {
+      "absolute": "0x060091C6",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x7E"
+    },
+    "DAT_060091CC": {
+      "absolute": "0x060091CC",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x84"
+    },
+    "DAT_060091D2": {
+      "absolute": "0x060091D2",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x8A"
+    },
+    "DAT_060091D8": {
+      "absolute": "0x060091D8",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x90"
+    },
+    "DAT_060091DE": {
+      "absolute": "0x060091DE",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x96"
+    },
+    "DAT_060091E4": {
+      "absolute": "0x060091E4",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x9C"
+    },
+    "DAT_060091EA": {
+      "absolute": "0x060091EA",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xA2"
+    },
+    "DAT_060091F0": {
+      "absolute": "0x060091F0",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xA8"
+    },
+    "DAT_060091F6": {
+      "absolute": "0x060091F6",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xAE"
+    },
+    "DAT_060091FC": {
+      "absolute": "0x060091FC",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xB4"
+    },
+    "DAT_06009202": {
+      "absolute": "0x06009202",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xBA"
+    },
+    "DAT_06009208": {
+      "absolute": "0x06009208",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xC0"
+    },
+    "DAT_0600920E": {
+      "absolute": "0x0600920E",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xC6"
+    },
+    "DAT_06009214": {
+      "absolute": "0x06009214",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xCC"
+    },
+    "DAT_0600921A": {
+      "absolute": "0x0600921A",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xD2"
+    },
+    "DAT_06009220": {
+      "absolute": "0x06009220",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xD8"
+    },
+    "DAT_06009226": {
+      "absolute": "0x06009226",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xDE"
+    },
+    "DAT_0600922C": {
+      "absolute": "0x0600922C",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xE4"
+    },
+    "DAT_06009232": {
+      "absolute": "0x06009232",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xEA"
+    },
+    "DAT_06009238": {
+      "absolute": "0x06009238",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xF0"
+    },
+    "DAT_0600923E": {
+      "absolute": "0x0600923E",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xF6"
+    },
+    "DAT_06009244": {
+      "absolute": "0x06009244",
+      "parent_fun": "FUN_06009148",
+      "offset": "0xFC"
+    },
+    "DAT_0600924A": {
+      "absolute": "0x0600924A",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x102"
+    },
+    "DAT_06009250": {
+      "absolute": "0x06009250",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x108"
+    },
+    "DAT_06009256": {
+      "absolute": "0x06009256",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x10E"
+    },
+    "DAT_0600925C": {
+      "absolute": "0x0600925C",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x114"
+    },
+    "DAT_06009262": {
+      "absolute": "0x06009262",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x11A"
+    },
+    "DAT_06009268": {
+      "absolute": "0x06009268",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x120"
+    },
+    "DAT_0600926E": {
+      "absolute": "0x0600926E",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x126"
+    },
+    "DAT_06009274": {
+      "absolute": "0x06009274",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x12C"
+    },
+    "DAT_0600927A": {
+      "absolute": "0x0600927A",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x132"
+    },
+    "DAT_06009280": {
+      "absolute": "0x06009280",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x138"
+    },
+    "DAT_06009286": {
+      "absolute": "0x06009286",
+      "parent_fun": "FUN_06009148",
+      "offset": "0x13E"
+    },
+    "DAT_0600928C": {
+      "absolute": "0x0600928C",
+      "parent_fun": "FUN_06009288",
+      "offset": "0x4"
+    },
+    "DAT_06009292": {
+      "absolute": "0x06009292",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x2"
+    },
+    "DAT_06009298": {
+      "absolute": "0x06009298",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x8"
+    },
+    "DAT_0600929E": {
+      "absolute": "0x0600929E",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xE"
+    },
+    "DAT_060092A4": {
+      "absolute": "0x060092A4",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x14"
+    },
+    "DAT_060092AA": {
+      "absolute": "0x060092AA",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x1A"
+    },
+    "DAT_060092B0": {
+      "absolute": "0x060092B0",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x20"
+    },
+    "DAT_060092B6": {
+      "absolute": "0x060092B6",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x26"
+    },
+    "DAT_060092BC": {
+      "absolute": "0x060092BC",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x2C"
+    },
+    "DAT_060092C2": {
+      "absolute": "0x060092C2",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x32"
+    },
+    "DAT_060092C8": {
+      "absolute": "0x060092C8",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x38"
+    },
+    "DAT_060092CE": {
+      "absolute": "0x060092CE",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x3E"
+    },
+    "DAT_060092D4": {
+      "absolute": "0x060092D4",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x44"
+    },
+    "DAT_060092DA": {
+      "absolute": "0x060092DA",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x4A"
+    },
+    "DAT_060092E0": {
+      "absolute": "0x060092E0",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x50"
+    },
+    "DAT_060092E6": {
+      "absolute": "0x060092E6",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x56"
+    },
+    "DAT_060092EC": {
+      "absolute": "0x060092EC",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x5C"
+    },
+    "DAT_060092F2": {
+      "absolute": "0x060092F2",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x62"
+    },
+    "DAT_060092F8": {
+      "absolute": "0x060092F8",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x68"
+    },
+    "DAT_060092FE": {
+      "absolute": "0x060092FE",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x6E"
+    },
+    "DAT_06009304": {
+      "absolute": "0x06009304",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x74"
+    },
+    "DAT_0600930A": {
+      "absolute": "0x0600930A",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x7A"
+    },
+    "DAT_06009310": {
+      "absolute": "0x06009310",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x80"
+    },
+    "DAT_06009316": {
+      "absolute": "0x06009316",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x86"
+    },
+    "DAT_0600931C": {
+      "absolute": "0x0600931C",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x8C"
+    },
+    "DAT_06009322": {
+      "absolute": "0x06009322",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x92"
+    },
+    "DAT_06009328": {
+      "absolute": "0x06009328",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x98"
+    },
+    "DAT_0600932E": {
+      "absolute": "0x0600932E",
+      "parent_fun": "FUN_06009290",
+      "offset": "0x9E"
+    },
+    "DAT_06009334": {
+      "absolute": "0x06009334",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xA4"
+    },
+    "DAT_0600933A": {
+      "absolute": "0x0600933A",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xAA"
+    },
+    "DAT_06009340": {
+      "absolute": "0x06009340",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xB0"
+    },
+    "DAT_06009346": {
+      "absolute": "0x06009346",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xB6"
+    },
+    "DAT_0600934C": {
+      "absolute": "0x0600934C",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xBC"
+    },
+    "DAT_06009352": {
+      "absolute": "0x06009352",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xC2"
+    },
+    "DAT_06009358": {
+      "absolute": "0x06009358",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xC8"
+    },
+    "DAT_0600935E": {
+      "absolute": "0x0600935E",
+      "parent_fun": "FUN_06009290",
+      "offset": "0xCE"
+    },
+    "DAT_0600936A": {
+      "absolute": "0x0600936A",
+      "parent_fun": "FUN_06009364",
+      "offset": "0x6"
+    },
+    "DAT_06009370": {
+      "absolute": "0x06009370",
+      "parent_fun": "FUN_06009364",
+      "offset": "0xC"
+    },
+    "DAT_06009376": {
+      "absolute": "0x06009376",
+      "parent_fun": "FUN_06009364",
+      "offset": "0x12"
+    },
+    "DAT_06009382": {
+      "absolute": "0x06009382",
+      "parent_fun": "FUN_0600937C",
+      "offset": "0x6"
+    },
+    "DAT_06009388": {
+      "absolute": "0x06009388",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x2"
+    },
+    "DAT_0600938E": {
+      "absolute": "0x0600938E",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x8"
+    },
+    "DAT_06009394": {
+      "absolute": "0x06009394",
+      "parent_fun": "FUN_06009386",
+      "offset": "0xE"
+    },
+    "DAT_0600939A": {
+      "absolute": "0x0600939A",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x14"
+    },
+    "DAT_060093A0": {
+      "absolute": "0x060093A0",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x1A"
+    },
+    "DAT_060093A6": {
+      "absolute": "0x060093A6",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x20"
+    },
+    "DAT_060093AC": {
+      "absolute": "0x060093AC",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x26"
+    },
+    "DAT_060093B2": {
+      "absolute": "0x060093B2",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x2C"
+    },
+    "DAT_060093B8": {
+      "absolute": "0x060093B8",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x32"
+    },
+    "DAT_060093BE": {
+      "absolute": "0x060093BE",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x38"
+    },
+    "DAT_060093C4": {
+      "absolute": "0x060093C4",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x3E"
+    },
+    "DAT_060093CA": {
+      "absolute": "0x060093CA",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x44"
+    },
+    "DAT_060093D0": {
+      "absolute": "0x060093D0",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x4A"
+    },
+    "DAT_060093D6": {
+      "absolute": "0x060093D6",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x50"
+    },
+    "DAT_060093DC": {
+      "absolute": "0x060093DC",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x56"
+    },
+    "DAT_060093E2": {
+      "absolute": "0x060093E2",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x5C"
+    },
+    "DAT_060093E8": {
+      "absolute": "0x060093E8",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x62"
+    },
+    "DAT_060093EE": {
+      "absolute": "0x060093EE",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x68"
+    },
+    "DAT_060093F4": {
+      "absolute": "0x060093F4",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x6E"
+    },
+    "DAT_060093FA": {
+      "absolute": "0x060093FA",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x74"
+    },
+    "DAT_06009400": {
+      "absolute": "0x06009400",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x7A"
+    },
+    "DAT_06009406": {
+      "absolute": "0x06009406",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x80"
+    },
+    "DAT_0600940C": {
+      "absolute": "0x0600940C",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x86"
+    },
+    "DAT_06009412": {
+      "absolute": "0x06009412",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x8C"
+    },
+    "DAT_06009418": {
+      "absolute": "0x06009418",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x92"
+    },
+    "DAT_0600941E": {
+      "absolute": "0x0600941E",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x98"
+    },
+    "DAT_06009424": {
+      "absolute": "0x06009424",
+      "parent_fun": "FUN_06009386",
+      "offset": "0x9E"
+    },
+    "DAT_0600942A": {
+      "absolute": "0x0600942A",
+      "parent_fun": "FUN_06009386",
+      "offset": "0xA4"
+    },
+    "DAT_06009430": {
+      "absolute": "0x06009430",
+      "parent_fun": "FUN_06009386",
+      "offset": "0xAA"
+    },
+    "DAT_06009436": {
+      "absolute": "0x06009436",
+      "parent_fun": "FUN_06009386",
+      "offset": "0xB0"
+    },
+    "DAT_0600943C": {
+      "absolute": "0x0600943C",
+      "parent_fun": "FUN_06009386",
+      "offset": "0xB6"
+    },
+    "DAT_06009448": {
+      "absolute": "0x06009448",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x6"
+    },
+    "DAT_0600944E": {
+      "absolute": "0x0600944E",
+      "parent_fun": "FUN_06009442",
+      "offset": "0xC"
+    },
+    "DAT_06009454": {
+      "absolute": "0x06009454",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x12"
+    },
+    "DAT_0600945A": {
+      "absolute": "0x0600945A",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x18"
+    },
+    "DAT_06009460": {
+      "absolute": "0x06009460",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x1E"
+    },
+    "DAT_06009466": {
+      "absolute": "0x06009466",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x24"
+    },
+    "DAT_0600946C": {
+      "absolute": "0x0600946C",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x2A"
+    },
+    "DAT_06009472": {
+      "absolute": "0x06009472",
+      "parent_fun": "FUN_06009442",
+      "offset": "0x30"
+    },
+    "DAT_06009478": {
+      "absolute": "0x06009478",
+      "parent_fun": "FUN_06009474",
+      "offset": "0x4"
+    },
+    "DAT_0600947E": {
+      "absolute": "0x0600947E",
+      "parent_fun": "FUN_06009474",
+      "offset": "0xA"
+    },
+    "DAT_06009484": {
+      "absolute": "0x06009484",
+      "parent_fun": "FUN_06009474",
+      "offset": "0x10"
+    },
+    "DAT_0600948A": {
+      "absolute": "0x0600948A",
+      "parent_fun": "FUN_06009474",
+      "offset": "0x16"
+    },
+    "DAT_06009490": {
+      "absolute": "0x06009490",
+      "parent_fun": "FUN_06009474",
+      "offset": "0x1C"
+    },
+    "DAT_06009496": {
+      "absolute": "0x06009496",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x2"
+    },
+    "DAT_0600949C": {
+      "absolute": "0x0600949C",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x8"
+    },
+    "DAT_060094A2": {
+      "absolute": "0x060094A2",
+      "parent_fun": "FUN_06009494",
+      "offset": "0xE"
+    },
+    "DAT_060094A8": {
+      "absolute": "0x060094A8",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x14"
+    },
+    "DAT_060094AE": {
+      "absolute": "0x060094AE",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x1A"
+    },
+    "DAT_060094B4": {
+      "absolute": "0x060094B4",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x20"
+    },
+    "DAT_060094BA": {
+      "absolute": "0x060094BA",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x26"
+    },
+    "DAT_060094C0": {
+      "absolute": "0x060094C0",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x2C"
+    },
+    "DAT_060094C6": {
+      "absolute": "0x060094C6",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x32"
+    },
+    "DAT_060094CC": {
+      "absolute": "0x060094CC",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x38"
+    },
+    "DAT_060094D2": {
+      "absolute": "0x060094D2",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x3E"
+    },
+    "DAT_060094D8": {
+      "absolute": "0x060094D8",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x44"
+    },
+    "DAT_060094DE": {
+      "absolute": "0x060094DE",
+      "parent_fun": "FUN_06009494",
+      "offset": "0x4A"
+    },
+    "DAT_060094EA": {
+      "absolute": "0x060094EA",
+      "parent_fun": "FUN_060094E4",
+      "offset": "0x6"
+    },
+    "DAT_060094F6": {
+      "absolute": "0x060094F6",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x6"
+    },
+    "DAT_060094FC": {
+      "absolute": "0x060094FC",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0xC"
+    },
+    "DAT_06009502": {
+      "absolute": "0x06009502",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x12"
+    },
+    "DAT_06009508": {
+      "absolute": "0x06009508",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x18"
+    },
+    "DAT_0600950E": {
+      "absolute": "0x0600950E",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x1E"
+    },
+    "DAT_06009514": {
+      "absolute": "0x06009514",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x24"
+    },
+    "DAT_0600951A": {
+      "absolute": "0x0600951A",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x2A"
+    },
+    "DAT_06009520": {
+      "absolute": "0x06009520",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x30"
+    },
+    "DAT_06009526": {
+      "absolute": "0x06009526",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x36"
+    },
+    "DAT_0600952C": {
+      "absolute": "0x0600952C",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x3C"
+    },
+    "DAT_06009532": {
+      "absolute": "0x06009532",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x42"
+    },
+    "DAT_06009538": {
+      "absolute": "0x06009538",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x48"
+    },
+    "DAT_0600953E": {
+      "absolute": "0x0600953E",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x4E"
+    },
+    "DAT_06009544": {
+      "absolute": "0x06009544",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x54"
+    },
+    "DAT_0600954A": {
+      "absolute": "0x0600954A",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x5A"
+    },
+    "DAT_06009550": {
+      "absolute": "0x06009550",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x60"
+    },
+    "DAT_06009556": {
+      "absolute": "0x06009556",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x66"
+    },
+    "DAT_0600955C": {
+      "absolute": "0x0600955C",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x6C"
+    },
+    "DAT_06009562": {
+      "absolute": "0x06009562",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x72"
+    },
+    "DAT_06009568": {
+      "absolute": "0x06009568",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x78"
+    },
+    "DAT_0600956E": {
+      "absolute": "0x0600956E",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x7E"
+    },
+    "DAT_06009574": {
+      "absolute": "0x06009574",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x84"
+    },
+    "DAT_0600957A": {
+      "absolute": "0x0600957A",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x8A"
+    },
+    "DAT_06009580": {
+      "absolute": "0x06009580",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x90"
+    },
+    "DAT_06009586": {
+      "absolute": "0x06009586",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x96"
+    },
+    "DAT_0600958C": {
+      "absolute": "0x0600958C",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0x9C"
+    },
+    "DAT_06009592": {
+      "absolute": "0x06009592",
+      "parent_fun": "FUN_060094F0",
+      "offset": "0xA2"
+    },
+    "DAT_06013D20": {
+      "absolute": "0x06013D20",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x529C"
+    },
+    "DAT_060141A8": {
+      "absolute": "0x060141A8",
+      "parent_fun": "FUN_06014096",
+      "offset": "0x112"
+    },
+    "DAT_06013D22": {
+      "absolute": "0x06013D22",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x529E"
+    },
+    "DAT_06013D28": {
+      "absolute": "0x06013D28",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x52A4"
+    },
+    "DAT_06013D24": {
+      "absolute": "0x06013D24",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x52A0"
+    },
+    "DAT_06013DA8": {
+      "absolute": "0x06013DA8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x5324"
+    },
+    "DAT_06013D26": {
+      "absolute": "0x06013D26",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x52A2"
+    },
+    "DAT_0601315C": {
+      "absolute": "0x0601315C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x46D8"
+    },
+    "DAT_06011FBC": {
+      "absolute": "0x06011FBC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x3538"
+    },
+    "DAT_0600A22C": {
+      "absolute": "0x0600A22C",
+      "parent_fun": "FUN_0600A1F6",
+      "offset": "0x36"
+    },
+    "DAT_06013361": {
+      "absolute": "0x06013361",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48DD"
+    },
+    "DAT_06013360": {
+      "absolute": "0x06013360",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48DC"
+    },
+    "DAT_0601335E": {
+      "absolute": "0x0601335E",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48DA"
+    },
+    "DAT_0601335F": {
+      "absolute": "0x0601335F",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48DB"
+    },
+    "DAT_06013362": {
+      "absolute": "0x06013362",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48DE"
+    },
+    "DAT_06007FEE": {
+      "absolute": "0x06007FEE",
+      "parent_fun": "FUN_06007D9E",
+      "offset": "0x250"
+    },
+    "DAT_0601335C": {
+      "absolute": "0x0601335C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x48D8"
+    },
+    "DAT_06002FA4": {
+      "absolute": "0x06002FA4",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x5E"
+    },
+    "DAT_06002FF0": {
+      "absolute": "0x06002FF0",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0xAA"
+    },
+    "DAT_06002FB8": {
+      "absolute": "0x06002FB8",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x72"
+    },
+    "DAT_060133DC": {
+      "absolute": "0x060133DC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4958"
+    },
+    "DAT_060133B4": {
+      "absolute": "0x060133B4",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4930"
+    },
+    "DAT_060133AC": {
+      "absolute": "0x060133AC",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4928"
+    },
+    "DAT_0601339C": {
+      "absolute": "0x0601339C",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x4918"
+    },
+    "DAT_06002F9C": {
+      "absolute": "0x06002F9C",
+      "parent_fun": "FUN_06002F46",
+      "offset": "0x56"
+    },
+    "DAT_0600664A": {
+      "absolute": "0x0600664A",
+      "parent_fun": "FUN_06006602",
+      "offset": "0x48"
+    },
+    "DAT_060133B2": {
+      "absolute": "0x060133B2",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x492E"
+    },
+    "DAT_060090F4": {
+      "absolute": "0x060090F4",
+      "parent_fun": "FUN_06009098",
+      "offset": "0x5C"
+    }
+  },
+  "sym_symbols": {
+    "sym_06028000": {
+      "absolute": "0x06028000"
+    },
+    "sym_0601927A": {
+      "absolute": "0x0601927A"
+    },
+    "sym_060195C8": {
+      "absolute": "0x060195C8"
+    },
+    "sym_25F80000": {
+      "absolute": "0x25F80000"
+    },
+    "sym_060191A8": {
+      "absolute": "0x060191A8"
+    },
+    "sym_00200000": {
+      "absolute": "0x00200000"
+    },
+    "sym_002FC000": {
+      "absolute": "0x002FC000"
+    },
+    "sym_060194E0": {
+      "absolute": "0x060194E0"
+    },
+    "sym_0601925C": {
+      "absolute": "0x0601925C"
+    },
+    "sym_06019476": {
+      "absolute": "0x06019476"
+    },
+    "sym_060196EE": {
+      "absolute": "0x060196EE"
+    },
+    "sym_25E00000": {
+      "absolute": "0x25E00000"
+    },
+    "sym_25E7FFFE": {
+      "absolute": "0x25E7FFFE"
+    },
+    "sym_25F80114": {
+      "absolute": "0x25F80114"
+    },
+    "sym_25F80116": {
+      "absolute": "0x25F80116"
+    },
+    "sym_25F80118": {
+      "absolute": "0x25F80118"
+    },
+    "sym_25F80110": {
+      "absolute": "0x25F80110"
+    },
+    "sym_25F00002": {
+      "absolute": "0x25F00002"
+    },
+    "sym_25F00004": {
+      "absolute": "0x25F00004"
+    },
+    "sym_25E5F000": {
+      "absolute": "0x25E5F000"
+    },
+    "sym_25E6C000": {
+      "absolute": "0x25E6C000"
+    },
+    "sym_25D00000": {
+      "absolute": "0x25D00000"
+    },
+    "sym_25D00002": {
+      "absolute": "0x25D00002"
+    },
+    "sym_25D00004": {
+      "absolute": "0x25D00004"
+    },
+    "sym_25D00008": {
+      "absolute": "0x25D00008"
+    },
+    "sym_25C00000": {
+      "absolute": "0x25C00000"
+    },
+    "sym_25D00006": {
+      "absolute": "0x25D00006"
+    },
+    "sym_0601B000": {
+      "absolute": "0x0601B000"
+    },
+    "sym_FFFFFE16": {
+      "absolute": "0xFFFFFE16"
+    },
+    "sym_FFFFFE11": {
+      "absolute": "0xFFFFFE11"
+    },
+    "sym_FFFFFE12": {
+      "absolute": "0xFFFFFE12"
+    },
+    "sym_20100063": {
+      "absolute": "0x20100063"
+    },
+    "sym_2010001F": {
+      "absolute": "0x2010001F"
+    },
+    "sym_26005100": {
+      "absolute": "0x26005100"
+    },
+    "sym_FFFFFEE2": {
+      "absolute": "0xFFFFFEE2"
+    },
+    "sym_FFFFFE60": {
+      "absolute": "0xFFFFFE60"
+    },
+    "sym_FFFFFE10": {
+      "absolute": "0xFFFFFE10"
+    },
+    "sym_21000000": {
+      "absolute": "0x21000000"
+    },
+    "sym_25B00400": {
+      "absolute": "0x25B00400"
+    },
+    "sym_25A00000": {
+      "absolute": "0x25A00000"
+    },
+    "sym_06019A00": {
+      "absolute": "0x06019A00"
+    },
+    "sym_25A0A000": {
+      "absolute": "0x25A0A000"
+    },
+    "sym_060199E0": {
+      "absolute": "0x060199E0"
+    },
+    "sym_25A004E0": {
+      "absolute": "0x25A004E0"
+    },
+    "sym_25A004E1": {
+      "absolute": "0x25A004E1"
+    },
+    "sym_25A06F18": {
+      "absolute": "0x25A06F18"
+    },
+    "sym_25A06F1C": {
+      "absolute": "0x25A06F1C"
+    },
+    "sym_25A00483": {
+      "absolute": "0x25A00483"
+    },
+    "sym_25A0B000": {
+      "absolute": "0x25A0B000"
+    },
+    "sym_25A00410": {
+      "absolute": "0x25A00410"
+    },
+    "sym_25A00504": {
+      "absolute": "0x25A00504"
+    },
+    "sym_25A00700": {
+      "absolute": "0x25A00700"
+    },
+    "sym_25A0078C": {
+      "absolute": "0x25A0078C"
+    },
+    "sym_25A0078E": {
+      "absolute": "0x25A0078E"
+    },
+    "sym_260133FC": {
+      "absolute": "0x260133FC"
+    },
+    "sym_20000000": {
+      "absolute": "0x20000000"
+    },
+    "sym_260135CC": {
+      "absolute": "0x260135CC"
+    },
+    "sym_00100000": {
+      "absolute": "0x00100000"
+    },
+    "sym_002C4020": {
+      "absolute": "0x002C4020"
+    },
+    "sym_25FE0000": {
+      "absolute": "0x25FE0000"
+    },
+    "sym_25FE0004": {
+      "absolute": "0x25FE0004"
+    },
+    "sym_25FE0008": {
+      "absolute": "0x25FE0008"
+    },
+    "sym_25FE0010": {
+      "absolute": "0x25FE0010"
+    },
+    "sym_25818000": {
+      "absolute": "0x25818000"
+    },
+    "sym_25890008": {
+      "absolute": "0x25890008"
+    },
+    "sym_2589000C": {
+      "absolute": "0x2589000C"
+    },
+    "sym_25810028": {
+      "absolute": "0x25810028"
+    },
+    "sym_25898000": {
+      "absolute": "0x25898000"
+    },
+    "sym_00240000": {
+      "absolute": "0x00240000"
+    },
+    "sym_25890018": {
+      "absolute": "0x25890018"
+    },
+    "sym_2589001C": {
+      "absolute": "0x2589001C"
+    },
+    "sym_25890020": {
+      "absolute": "0x25890020"
+    },
+    "sym_044CFFFF": {
+      "absolute": "0x044CFFFF"
+    },
+    "sym_20100079": {
+      "absolute": "0x20100079"
+    },
+    "sym_2010007B": {
+      "absolute": "0x2010007B"
+    },
+    "sym_2010007F": {
+      "absolute": "0x2010007F"
+    },
+    "sym_20100061": {
+      "absolute": "0x20100061"
+    },
+    "sym_20100031": {
+      "absolute": "0x20100031"
+    },
+    "sym_20100033": {
+      "absolute": "0x20100033"
+    },
+    "sym_20100039": {
+      "absolute": "0x20100039"
+    },
+    "sym_20100021": {
+      "absolute": "0x20100021"
+    },
+    "sym_20100001": {
+      "absolute": "0x20100001"
+    },
+    "sym_20100003": {
+      "absolute": "0x20100003"
+    },
+    "sym_20100005": {
+      "absolute": "0x20100005"
+    },
+    "sym_05A00000": {
+      "absolute": "0x05A00000"
+    },
+    "sym_05FE0000": {
+      "absolute": "0x05FE0000"
+    },
+    "sym_02000000": {
+      "absolute": "0x02000000"
+    },
+    "sym_24306033": {
+      "absolute": "0x24306033"
+    },
+    "sym_060151A8": {
+      "absolute": "0x060151A8"
+    },
+    "sym_060FFC00": {
+      "absolute": "0x060FFC00"
+    },
+    "sym_06019788": {
+      "absolute": "0x06019788"
+    },
+    "sym_002FE800": {
+      "absolute": "0x002FE800"
+    },
+    "sym_06019A20": {
+      "absolute": "0x06019A20"
+    },
+    "sym_06019794": {
+      "absolute": "0x06019794"
+    },
+    "sym_060197AC": {
+      "absolute": "0x060197AC"
+    },
+    "sym_060197A0": {
+      "absolute": "0x060197A0"
+    },
+    "sym_00220000": {
+      "absolute": "0x00220000"
+    },
+    "sym_060197B8": {
+      "absolute": "0x060197B8"
+    },
+    "sym_060197C4": {
+      "absolute": "0x060197C4"
+    },
+    "sym_060197D0": {
+      "absolute": "0x060197D0"
+    },
+    "sym_060197E0": {
+      "absolute": "0x060197E0"
+    },
+    "sym_060197EC": {
+      "absolute": "0x060197EC"
+    }
+  }
+}

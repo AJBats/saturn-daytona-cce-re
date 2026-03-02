@@ -81,11 +81,7 @@ FUN_060056B2:
     .byte 0x09, 0x14  /* 06005746: mov.b r1,@(r0,r9) */
     .byte 0x08, 0x00  /* 06005748: .word 0x0800 */
     .byte 0xFF, 0xFF  /* 0600574A: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 0600574C: .word 0x0600 */
-    .byte 0xB8, 0xAC  /* 0600574E: bsr 0x060048AA */
-    .byte 0x06, 0x00  /* 06005750: .word 0x0600 */
-    .byte 0xD3, 0x0A  /* 06005752: mov.l @(0x28,PC),r3  {[0x0600577C] = 0xA0206043} */
-    .byte 0x06, 0x01  /* 06005754: .word 0x0601 */
-    .byte 0x36, 0x20  /* 06005756: cmp/eq r2,r6 */
-    .byte 0x06, 0x00  /* 06005758: .word 0x0600 */
-    .byte 0x8E, 0x60  /* 0600575A: .word 0x8E60 */
+    .4byte DAT_0600B8AC  /* 0600574C = 0x0600B8AC (FUN_0600B7A0 + 0x10C) */
+    .4byte DAT_0600D30A  /* 06005750 = 0x0600D30A (FUN_0600B7A0 + 0x1B6A) */
+    .4byte DAT_06013620  /* 06005754 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte DAT_06008E60  /* 06005758 = 0x06008E60 (FUN_06008E50 + 0x10) */

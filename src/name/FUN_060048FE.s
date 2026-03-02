@@ -45,7 +45,6 @@ FUN_060048FE:
     .byte 0x3C, 0x37  /* 0600494A: cmp/gt r3,r12 */
     .byte 0x8B, 0xF0  /* 0600494C: bf 0x06004930 */
     .byte 0x69, 0xF6  /* 0600494E: mov.l @r15+,r9 */
-    .byte 0x6B, 0xF6  /* 06004950: mov.l @r15+,r11 */
-    .byte 0x6C, 0xF6  /* 06004952: mov.l @r15+,r12 */
+    .4byte 0x6BF66CF6  /* 06004950 = 0x6BF66CF6 */
     .byte 0x00, 0x0B  /* 06004954: rts */
     .byte 0x6E, 0xF6  /* 06004956: mov.l @r15+,r14 */

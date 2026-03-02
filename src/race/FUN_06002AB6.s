@@ -61,14 +61,10 @@ FUN_06002AB6:
     .byte 0xA0, 0x0D  /* 06002B22: bra 0x06002B40 */
     .byte 0xEE, 0x02  /* 06002B24: mov #2,r14 */
     .byte 0x00, 0x00  /* 06002B26: .word 0x0000 */
-    .byte 0x04, 0x00  /* 06002B28: .word 0x0400 */
-    .byte 0x00, 0x00  /* 06002B2A: .word 0x0000 */
-    .byte 0x06, 0x04  /* 06002B2C: mov.b r0,@(r0,r6) */
-    .byte 0xE1, 0xDC  /* 06002B2E: mov #-36,r1 */
-    .byte 0x06, 0x05  /* 06002B30: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x20  /* 06002B32: shal r9 */
-    .byte 0x06, 0x04  /* 06002B34: mov.b r0,@(r0,r6) */
-    .byte 0xED, 0x78  /* 06002B36: mov #120,r13 */
+    .4byte sym_04000000  /* 06002B28 = 0x04000000 */
+    .4byte sym_0604E1DC  /* 06002B2C = 0x0604E1DC */
+    .4byte sym_06054920  /* 06002B30 = 0x06054920 */
+    .4byte sym_0604ED78  /* 06002B34 = 0x0604ED78 */
     .byte 0x36, 0x00  /* 06002B38: cmp/eq r0,r6 */
     .byte 0x8F, 0x01  /* 06002B3A: bf/s 0x06002B40 */
     .byte 0x00, 0x09  /* 06002B3C: nop */
@@ -111,8 +107,7 @@ FUN_06002AB6:
     .byte 0x4F, 0x26  /* 06002B86: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06002B88: rts */
     .byte 0x00, 0x09  /* 06002B8A: nop */
-    .byte 0x06, 0x05  /* 06002B8C: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x34  /* 06002B8E: .word 0x4934 */
+    .4byte sym_06054934  /* 06002B8C = 0x06054934 */
     .byte 0x2F, 0x76  /* 06002B90: mov.l r7,@-r15 */
     .byte 0x2F, 0x86  /* 06002B92: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 06002B94: mov.l r9,@-r15 */
@@ -191,9 +186,6 @@ FUN_06002AB6:
     .byte 0x00, 0x0B  /* 06002C26: rts */
     .byte 0x16, 0x02  /* 06002C28: mov.l r0,@(0x8,r6) */
     .byte 0x00, 0x00  /* 06002C2A: .word 0x0000 */
-    .byte 0x00, 0x00  /* 06002C2C: .word 0x0000 */
-    .byte 0xAA, 0xAB  /* 06002C2E: bra 0x06002188 */
-    .byte 0x2A, 0xAA  /* 06002C30: xor r10,r10 */
-    .byte 0xAA, 0xAB  /* 06002C32: bra 0x0600218C */
-    .byte 0x00, 0x00  /* 06002C34: .word 0x0000 */
-    .byte 0x2A, 0xAB  /* 06002C36: or r10,r10 */
+    .4byte 0x0000AAAB  /* 06002C2C = 0x0000AAAB */
+    .4byte 0x2AAAAAAB  /* 06002C30 = 0x2AAAAAAB */
+    .4byte 0x00002AAB  /* 06002C34 = 0x00002AAB */

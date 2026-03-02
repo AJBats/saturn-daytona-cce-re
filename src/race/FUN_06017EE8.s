@@ -46,12 +46,9 @@ FUN_06017EE8:
     .byte 0x4F, 0x26  /* 06017F36: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06017F38: rts */
     .byte 0x74, 0xD0  /* 06017F3A: add #-48,r4 */
-    .byte 0x00, 0x00  /* 06017F3C: .word 0x0000 */
-    .byte 0x80, 0x00  /* 06017F3E: mov.b r0,@(0x0,r0) */
-    .byte 0x06, 0x04  /* 06017F40: mov.b r0,@(r0,r6) */
-    .byte 0x01, 0x6C  /* 06017F42: mov.b @(r0,r6),r1 */
-    .byte 0xFF, 0xFF  /* 06017F44: .word 0xFFFF */
-    .byte 0xFF, 0xE0  /* 06017F46: .word 0xFFE0 */
+    .4byte 0x00008000  /* 06017F3C = 0x00008000 */
+    .4byte sym_0604016C  /* 06017F40 = 0x0604016C */
+    .4byte sym_FFFFFFE0  /* 06017F44 = 0xFFFFFFE0 */
     .byte 0xD1, 0xBB  /* 06017F48: mov.l @(0x2EC,PC),r1  {[0x06018238] = 0x0003243F} */
     .byte 0x44, 0x11  /* 06017F4A: cmp/pz r4 */
     .byte 0x62, 0x13  /* 06017F4C: mov r1,r2 */

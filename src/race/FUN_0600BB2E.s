@@ -11,8 +11,7 @@ FUN_0600BB2E:
     .byte 0x6E, 0xF3  /* 0600BB36: mov r15,r14 */
     .byte 0xA0, 0x03  /* 0600BB38: bra 0x0600BB42 */
     .byte 0x66, 0xE3  /* 0600BB3A: mov r14,r6 */
-    .byte 0x63, 0x54  /* 0600BB3C: mov.b @r5+,r3 */
-    .byte 0x26, 0x30  /* 0600BB3E: mov.b r3,@r6 */
+    .4byte 0x63542630  /* 0600BB3C = 0x63542630 */
     .byte 0x76, 0x01  /* 0600BB40: add #1,r6 */
     .byte 0x62, 0x50  /* 0600BB42: mov.b @r5,r2 */
     .byte 0x22, 0x28  /* 0600BB44: tst r2,r2 */

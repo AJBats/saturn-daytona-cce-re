@@ -16,10 +16,8 @@ FUN_06018FE4:
     .byte 0x4F, 0x26  /* 06018FF6: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06018FF8: rts */
     .byte 0x00, 0x09  /* 06018FFA: nop */
-    .byte 0x06, 0x04  /* 06018FFC: mov.b r0,@(r0,r6) */
-    .byte 0x76, 0x70  /* 06018FFE: add #112,r6 */
-    .byte 0x06, 0x04  /* 06019000: mov.b r0,@(r0,r6) */
-    .byte 0x57, 0xDC  /* 06019002: mov.l @(0x30,r13),r7 */
+    .4byte sym_06047670  /* 06018FFC = 0x06047670 */
+    .4byte sym_060457DC  /* 06019000 = 0x060457DC */
     .byte 0xD4, 0x44  /* 06019004: mov.l @(0x110,PC),r4  {[0x06019118] = 0x060530C0} */
     .byte 0x60, 0x42  /* 06019006: mov.l @r4,r0 */
     .byte 0xD1, 0x44  /* 06019008: mov.l @(0x110,PC),r1  {[0x0601911C] = 0x06052E58} */

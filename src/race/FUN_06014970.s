@@ -20,5 +20,4 @@ FUN_06014970:
     .byte 0x00, 0x0B  /* 0601498A: rts */
     .byte 0x6E, 0xF6  /* 0601498C: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 0601498E: .word 0xFFFF */
-    .byte 0x06, 0x04  /* 06014990: mov.b r0,@(r0,r6) */
-    .byte 0x81, 0x80  /* 06014992: mov.w r0,@(0x0,r8) */
+    .4byte sym_06048180  /* 06014990 = 0x06048180 */

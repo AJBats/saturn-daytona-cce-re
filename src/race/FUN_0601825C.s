@@ -20,5 +20,4 @@ FUN_0601825C:
     .byte 0x4F, 0x26  /* 06018276: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06018278: rts */
     .byte 0x60, 0x43  /* 0601827A: mov r4,r0 */
-    .byte 0x06, 0x01  /* 0601827C: .word 0x0601 */
-    .byte 0x3B, 0x78  /* 0601827E: sub r7,r11 */
+    .4byte DAT_06013B78  /* 0601827C = 0x06013B78 (FUN_0601397A + 0x1FE) */

@@ -84,28 +84,17 @@ FUN_06008EC8:
     .byte 0x01, 0x2C  /* 06008F62: mov.b @(r0,r2),r1 */
     .byte 0x00, 0xAA  /* 06008F64: .word 0x00AA */
     .byte 0xFF, 0xFF  /* 06008F66: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06008F68: mov.w r0,@(r0,r6) */
-    .byte 0x16, 0x1C  /* 06008F6A: mov.l r1,@(0x30,r6) */
-    .byte 0x06, 0x05  /* 06008F6C: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0xBA  /* 06008F6E: xor r11,r0 */
-    .byte 0x06, 0x05  /* 06008F70: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x20  /* 06008F72: shal r9 */
-    .byte 0x06, 0x05  /* 06008F74: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x2A  /* 06008F76: lds r9,pr */
-    .byte 0x06, 0x02  /* 06008F78: stc sr,r6 */
-    .byte 0xED, 0x5A  /* 06008F7A: mov #90,r13 */
-    .byte 0x06, 0x02  /* 06008F7C: stc sr,r6 */
-    .byte 0xED, 0x84  /* 06008F7E: mov #-124,r13 */
-    .byte 0x06, 0x05  /* 06008F80: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x80  /* 06008F82: mov.l r8,@(0x0,r15) */
-    .byte 0x06, 0x05  /* 06008F84: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x23  /* 06008F86: .word 0x4923 */
-    .byte 0x06, 0x02  /* 06008F88: stc sr,r6 */
-    .byte 0xFC, 0xD4  /* 06008F8A: .word 0xFCD4 */
-    .byte 0x06, 0x03  /* 06008F8C: bsrf r6 */
-    .byte 0x04, 0x3A  /* 06008F8E: .word 0x043A */
-    .byte 0x06, 0x05  /* 06008F90: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0x98  /* 06008F92: tst r9,r0 */
+    .4byte sym_0605161C  /* 06008F68 = 0x0605161C */
+    .4byte sym_060520BA  /* 06008F6C = 0x060520BA */
+    .4byte sym_06054920  /* 06008F70 = 0x06054920 */
+    .4byte sym_0605492A  /* 06008F74 = 0x0605492A */
+    .4byte sym_0602ED5A  /* 06008F78 = 0x0602ED5A */
+    .4byte sym_0602ED84  /* 06008F7C = 0x0602ED84 */
+    .4byte sym_06051F80  /* 06008F80 = 0x06051F80 */
+    .4byte sym_06054923  /* 06008F84 = 0x06054923 */
+    .4byte sym_0602FCD4  /* 06008F88 = 0x0602FCD4 */
+    .4byte sym_0603043A  /* 06008F8C = 0x0603043A */
+    .4byte sym_06052098  /* 06008F90 = 0x06052098 */
     .byte 0xD2, 0x3A  /* 06008F94: mov.l @(0xE8,PC),r2  {[0x06009080] = 0x06030824} */
     .byte 0x42, 0x0B  /* 06008F96: jsr @r2 */
     .byte 0x00, 0x09  /* 06008F98: nop */

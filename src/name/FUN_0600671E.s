@@ -47,15 +47,9 @@ FUN_0600671E:
     .byte 0xFF, 0x68  /* 0600676E: .word 0xFF68 */
     .byte 0x00, 0x98  /* 06006770: .word 0x0098 */
     .byte 0xFF, 0xFF  /* 06006772: .word 0xFFFF */
-    .byte 0x06, 0x03  /* 06006774: bsrf r6 */
-    .byte 0xBC, 0xE8  /* 06006776: bsr 0x0600614A */
-    .byte 0x06, 0x03  /* 06006778: bsrf r6 */
-    .byte 0xF8, 0xCC  /* 0600677A: .word 0xF8CC */
-    .byte 0x06, 0x04  /* 0600677C: mov.b r0,@(r0,r6) */
-    .byte 0x0A, 0xB8  /* 0600677E: .word 0x0AB8 */
-    .byte 0x06, 0x02  /* 06006780: stc sr,r6 */
-    .byte 0xA4, 0x28  /* 06006782: bra 0x06006FD6 */
-    .byte 0x06, 0x02  /* 06006784: stc sr,r6 */
-    .byte 0xA3, 0x06  /* 06006786: bra 0x06006D96 */
-    .byte 0x06, 0x02  /* 06006788: stc sr,r6 */
-    .byte 0xA2, 0xE4  /* 0600678A: bra 0x06006D56 */
+    .4byte sym_0603BCE8  /* 06006774 = 0x0603BCE8 */
+    .4byte sym_0603F8CC  /* 06006778 = 0x0603F8CC */
+    .4byte sym_06040AB8  /* 0600677C = 0x06040AB8 */
+    .4byte sym_0602A428  /* 06006780 = 0x0602A428 */
+    .4byte sym_0602A306  /* 06006784 = 0x0602A306 */
+    .4byte sym_0602A2E4  /* 06006788 = 0x0602A2E4 */

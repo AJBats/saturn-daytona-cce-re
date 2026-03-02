@@ -52,14 +52,10 @@ FUN_06007B70:
     .byte 0x6C, 0x43  /* 06007BCA: mov r4,r12 */
     .byte 0x04, 0x60  /* 06007BCC: .word 0x0460 */
     .byte 0x08, 0x00  /* 06007BCE: .word 0x0800 */
-    .byte 0x06, 0x00  /* 06007BD0: .word 0x0600 */
-    .byte 0x96, 0x40  /* 06007BD2: mov.w @(0x80,PC),r6  {0x06007C56} */
-    .byte 0x06, 0x01  /* 06007BD4: .word 0x0601 */
-    .byte 0x36, 0x20  /* 06007BD6: cmp/eq r2,r6 */
-    .byte 0x06, 0x00  /* 06007BD8: .word 0x0600  -> FUN_06008E48 */
-    .byte 0x8E, 0x48  /* 06007BDA: .word 0x8E48 */
-    .byte 0x06, 0x00  /* 06007BDC: .word 0x0600 */
-    .byte 0xA9, 0x5C  /* 06007BDE: bra 0x06006E9A */
+    .4byte DAT_06009640  /* 06007BD0 = 0x06009640 (FUN_060095E4 + 0x5C) */
+    .4byte DAT_06013620  /* 06007BD4 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte FUN_06008E48  /* 06007BD8 = 0x06008E48 */
+    .4byte DAT_0600A95C  /* 06007BDC = 0x0600A95C (FUN_0600A88C + 0xD0) */
     .byte 0x6C, 0xD3  /* 06007BE0: mov r13,r12 */
     .byte 0x66, 0xC3  /* 06007BE2: mov r12,r6 */
     .byte 0x63, 0xF2  /* 06007BE4: mov.l @r15,r3 */

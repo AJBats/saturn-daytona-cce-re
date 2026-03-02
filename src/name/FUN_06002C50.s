@@ -76,8 +76,7 @@ FUN_06002C50:
     .byte 0x72, 0x08  /* 06002CDA: add #8,r2 */
     .byte 0x73, 0x04  /* 06002CDC: add #4,r3 */
     .byte 0x32, 0x6C  /* 06002CDE: add r6,r2 */
-    .byte 0x25, 0x32  /* 06002CE0: mov.l r3,@r5 */
-    .byte 0x73, 0x01  /* 06002CE2: add #1,r3 */
+    .4byte sym_25327301  /* 06002CE0 = 0x25327301 */
     .byte 0x61, 0x30  /* 06002CE4: mov.b @r3,r1 */
     .byte 0x61, 0x1C  /* 06002CE6: extu.b r1,r1 */
     .byte 0x63, 0x52  /* 06002CE8: mov.l @r5,r3 */
@@ -244,8 +243,7 @@ FUN_06002C50:
     .byte 0x76, 0x03  /* 06002E2A: add #3,r6 */
     .byte 0x60, 0x42  /* 06002E2C: mov.l @r4,r0 */
     .byte 0x60, 0x00  /* 06002E2E: mov.b @r0,r0 */
-    .byte 0xC9, 0x07  /* 06002E30: and #0x07,r0 */
-    .byte 0x26, 0x00  /* 06002E32: mov.b r0,@r6 */
+    .4byte 0xC9072600  /* 06002E30 = 0xC9072600 */
     .byte 0x62, 0x42  /* 06002E34: mov.l @r4,r2 */
     .byte 0x72, 0x01  /* 06002E36: add #1,r2 */
     .byte 0x24, 0x22  /* 06002E38: mov.l r2,@r4 */
@@ -278,25 +276,14 @@ FUN_06002C50:
     .byte 0x72, 0x01  /* 06002E6E: add #1,r2 */
     .byte 0x00, 0x0B  /* 06002E70: rts */
     .byte 0x24, 0x22  /* 06002E72: mov.l r2,@r4 */
-    .byte 0x06, 0x03  /* 06002E74: bsrf r6 */
-    .byte 0xC8, 0x7C  /* 06002E76: tst #0x7C,r0 */
-    .byte 0x00, 0x2F  /* 06002E78: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x98  /* 06002E7A: trapa #0x98 */
-    .byte 0x00, 0x2F  /* 06002E7C: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x34  /* 06002E7E: mov.l r0,@(0xD0,GBR) */
-    .byte 0x00, 0x2F  /* 06002E80: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x9A  /* 06002E82: trapa #0x9A */
-    .byte 0x00, 0x2F  /* 06002E84: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x9B  /* 06002E86: trapa #0x9B */
-    .byte 0x00, 0x2F  /* 06002E88: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x9D  /* 06002E8A: trapa #0x9D */
-    .byte 0x00, 0x2F  /* 06002E8C: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x9F  /* 06002E8E: trapa #0x9F */
-    .byte 0x00, 0x2F  /* 06002E90: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0xA0  /* 06002E92: trapa #0xA0 */
-    .byte 0x00, 0x2F  /* 06002E94: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0xA1  /* 06002E96: trapa #0xA1 */
-    .byte 0x00, 0x2F  /* 06002E98: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0xA2  /* 06002E9A: trapa #0xA2 */
-    .byte 0x00, 0x2F  /* 06002E9C: mac.l @r2+,@r0+ */
-    .byte 0xD7, 0x2B  /* 06002E9E: mov.l @(0xAC,PC),r7  {[0x06002F4C] = 0x611C4128} */
+    .4byte sym_0603C87C  /* 06002E74 = 0x0603C87C */
+    .4byte sym_002FC398  /* 06002E78 = 0x002FC398 */
+    .4byte sym_002FC234  /* 06002E7C = 0x002FC234 */
+    .4byte sym_002FC39A  /* 06002E80 = 0x002FC39A */
+    .4byte sym_002FC39B  /* 06002E84 = 0x002FC39B */
+    .4byte sym_002FC39D  /* 06002E88 = 0x002FC39D */
+    .4byte sym_002FC39F  /* 06002E8C = 0x002FC39F */
+    .4byte sym_002FC3A0  /* 06002E90 = 0x002FC3A0 */
+    .4byte sym_002FC3A1  /* 06002E94 = 0x002FC3A1 */
+    .4byte sym_002FC3A2  /* 06002E98 = 0x002FC3A2 */
+    .4byte sym_002FD72B  /* 06002E9C = 0x002FD72B */

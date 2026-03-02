@@ -50,15 +50,9 @@ FUN_0601AC70:
     .byte 0x07, 0x08  /* 0601ACC6: .word 0x0708 */
     .byte 0x08, 0xCA  /* 0601ACC8: .word 0x08CA */
     .byte 0xFF, 0xFF  /* 0601ACCA: .word 0xFFFF */
-    .byte 0x06, 0x04  /* 0601ACCC: mov.b r0,@(r0,r6) */
-    .byte 0x3B, 0x8E  /* 0601ACCE: addc r8,r11 */
-    .byte 0x06, 0x05  /* 0601ACD0: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x24  /* 0601ACD2: div1 r2,r13 */
-    .byte 0xFF, 0xD8  /* 0601ACD4: .word 0xFFD8 */
-    .byte 0x00, 0x00  /* 0601ACD6: .word 0x0000 */
-    .byte 0xFF, 0xC2  /* 0601ACD8: .word 0xFFC2 */
-    .byte 0x00, 0x00  /* 0601ACDA: .word 0x0000 */
-    .byte 0xFF, 0xE7  /* 0601ACDC: .word 0xFFE7 */
-    .byte 0x00, 0x00  /* 0601ACDE: .word 0x0000 */
-    .byte 0xFF, 0xE4  /* 0601ACE0: .word 0xFFE4 */
-    .byte 0x00, 0x00  /* 0601ACE2: .word 0x0000 */
+    .4byte sym_06043B8E  /* 0601ACCC = 0x06043B8E */
+    .4byte sym_06053D24  /* 0601ACD0 = 0x06053D24 */
+    .4byte 0xFFD80000  /* 0601ACD4 = 0xFFD80000 */
+    .4byte 0xFFC20000  /* 0601ACD8 = 0xFFC20000 */
+    .4byte 0xFFE70000  /* 0601ACDC = 0xFFE70000 */
+    .4byte 0xFFE40000  /* 0601ACE0 = 0xFFE40000 */

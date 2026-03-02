@@ -16,5 +16,4 @@ FUN_0600E2C8:
     .byte 0x00, 0x0B  /* 0600E2DA: rts */
     .byte 0x00, 0x09  /* 0600E2DC: nop */
     .byte 0x00, 0x00  /* 0600E2DE: .word 0x0000 */
-    .byte 0x06, 0x04  /* 0600E2E0: mov.b r0,@(r0,r6) */
-    .byte 0x08, 0x30  /* 0600E2E2: .word 0x0830 */
+    .4byte sym_06040830  /* 0600E2E0 = 0x06040830 */

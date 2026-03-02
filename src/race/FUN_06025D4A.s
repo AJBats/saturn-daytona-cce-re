@@ -23,12 +23,9 @@ FUN_06025D4A:
     .byte 0x00, 0x10  /* 06025D6A: .word 0x0010 */
     .byte 0x00, 0xE0  /* 06025D6C: .word 0x00E0 */
     .byte 0x00, 0xE4  /* 06025D6E: mov.b r14,@(r0,r0) */
-    .byte 0x00, 0x2D  /* 06025D70: mov.w @(r0,r2),r0 */
-    .byte 0xC6, 0x20  /* 06025D72: mov.l @(0x80,GBR),r0 */
-    .byte 0x06, 0x04  /* 06025D74: mov.b r0,@(r0,r6) */
-    .byte 0x7D, 0x20  /* 06025D76: add #32,r13 */
-    .byte 0x06, 0x04  /* 06025D78: mov.b r0,@(r0,r6) */
-    .byte 0x7D, 0x3C  /* 06025D7A: add #60,r13 */
+    .4byte sym_002DC620  /* 06025D70 = 0x002DC620 */
+    .4byte sym_06047D20  /* 06025D74 = 0x06047D20 */
+    .4byte sym_06047D3C  /* 06025D78 = 0x06047D3C */
     .byte 0xE6, 0x01  /* 06025D7C: mov #1,r6 */
     .byte 0x91, 0x1A  /* 06025D7E: mov.w @(0x34,PC),r1  {0x06025DB6} */
     .byte 0x03, 0x1D  /* 06025D80: mov.w @(r0,r1),r3 */
@@ -57,18 +54,13 @@ FUN_06025D4A:
     .byte 0x23, 0x38  /* 06025DAE: tst r3,r3 */
     .byte 0x89, 0x0C  /* 06025DB0: bt 0x06025DCC */
     .byte 0xA0, 0x15  /* 06025DB2: bra 0x06025DE0 */
-    .byte 0x01, 0x35  /* 06025DB4: mov.w r3,@(r0,r1) */
-    .byte 0x01, 0x80  /* 06025DB6: .word 0x0180 */
+    .4byte 0x01350180  /* 06025DB4 = 0x01350180 */
     .byte 0x00, 0x00  /* 06025DB8: .word 0x0000 */
     .byte 0x00, 0x08  /* 06025DBA: clrt */
-    .byte 0x00, 0x2F  /* 06025DBC: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 06025DBE: mov.l r0,@(0xCC,GBR) */
-    .byte 0x06, 0x05  /* 06025DC0: mov.w r0,@(r0,r6) */
-    .byte 0x29, 0xAC  /* 06025DC2: cmp/str r10,r9 */
-    .byte 0x06, 0x05  /* 06025DC4: mov.w r0,@(r0,r6) */
-    .byte 0x29, 0xA8  /* 06025DC6: tst r10,r9 */
-    .byte 0x06, 0x04  /* 06025DC8: mov.b r0,@(r0,r6) */
-    .byte 0xDE, 0x2C  /* 06025DCA: mov.l @(0xB0,PC),r14  {[0x06025E7C] = 0x60F6DC11} */
+    .4byte sym_002FC233  /* 06025DBC = 0x002FC233 */
+    .4byte sym_060529AC  /* 06025DC0 = 0x060529AC */
+    .4byte sym_060529A8  /* 06025DC4 = 0x060529A8 */
+    .4byte sym_0604DE2C  /* 06025DC8 = 0x0604DE2C */
     .byte 0x9B, 0x13  /* 06025DCC: mov.w @(0x26,PC),r11  {0x06025DF6} */
     .byte 0x3B, 0x6C  /* 06025DCE: add r6,r11 */
     .byte 0x66, 0xB2  /* 06025DD0: mov.l @r11,r6 */
@@ -91,8 +83,7 @@ FUN_06025D4A:
     .byte 0x00, 0x0B  /* 06025DF2: rts */
     .byte 0x00, 0x09  /* 06025DF4: nop */
     .byte 0x00, 0x84  /* 06025DF6: mov.b r8,@(r0,r0) */
-    .byte 0x00, 0x2F  /* 06025DF8: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 06025DFA: mov.l r0,@(0xCC,GBR) */
+    .4byte sym_002FC233  /* 06025DF8 = 0x002FC233 */
     .byte 0x96, 0x07  /* 06025DFC: mov.w @(0xE,PC),r6  {0x06025E0E} */
     .byte 0x05, 0x6C  /* 06025DFE: mov.b @(r0,r6),r5 */
     .byte 0x66, 0x03  /* 06025E00: mov r0,r6 */

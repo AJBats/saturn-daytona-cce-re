@@ -52,9 +52,6 @@ FUN_0600C798:
     .byte 0xAF, 0xF3  /* 0600C7F2: bra 0x0600C7DC */
     .byte 0x00, 0x09  /* 0600C7F4: nop */
     .byte 0x00, 0x00  /* 0600C7F6: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0600C7F8: .word 0x0000 */
-    .byte 0x80, 0x00  /* 0600C7FA: mov.b r0,@(0x0,r0) */
-    .byte 0x06, 0x03  /* 0600C7FC: bsrf r6 */
-    .byte 0x44, 0xDC  /* 0600C7FE: shad r13,r4 */
-    .byte 0x06, 0x03  /* 0600C800: bsrf r6 */
-    .byte 0x46, 0xFA  /* 0600C802: .word 0x46FA */
+    .4byte 0x00008000  /* 0600C7F8 = 0x00008000 */
+    .4byte sym_060344DC  /* 0600C7FC = 0x060344DC */
+    .4byte sym_060346FA  /* 0600C800 = 0x060346FA */

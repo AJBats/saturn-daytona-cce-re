@@ -88,25 +88,14 @@ FUN_06006C2C:
     .byte 0x6D, 0xF6  /* 06006CCE: mov.l @r15+,r13 */
     .byte 0x00, 0x0B  /* 06006CD0: rts */
     .byte 0x6E, 0xF6  /* 06006CD2: mov.l @r15+,r14 */
-    .byte 0x00, 0x2F  /* 06006CD4: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 06006CD6: mov.l r0,@(0xCC,GBR) */
-    .byte 0x25, 0xE6  /* 06006CD8: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 06006CDA: .word 0x0000 */
-    .byte 0x06, 0x02  /* 06006CDC: stc sr,r6 */
-    .byte 0x8B, 0x80  /* 06006CDE: bf 0x06006BE2 */
-    .byte 0x25, 0xE0  /* 06006CE0: mov.b r14,@r5 */
-    .byte 0xC0, 0x00  /* 06006CE2: mov.b r0,@(0x0,GBR) */
-    .byte 0x00, 0x2C  /* 06006CE4: mov.b @(r0,r2),r0 */
-    .byte 0x7C, 0x80  /* 06006CE6: add #-128,r12 */
-    .byte 0x06, 0x02  /* 06006CE8: stc sr,r6 */
-    .byte 0x99, 0x1C  /* 06006CEA: mov.w @(0x38,PC),r9  {0x06006D26} */
-    .byte 0x06, 0x05  /* 06006CEC: mov.w r0,@(r0,r6) */
-    .byte 0x32, 0xA8  /* 06006CEE: sub r10,r2 */
-    .byte 0x06, 0x05  /* 06006CF0: mov.w r0,@(r0,r6) */
-    .byte 0x32, 0xB4  /* 06006CF2: div1 r11,r2 */
-    .byte 0x06, 0x05  /* 06006CF4: mov.w r0,@(r0,r6) */
-    .byte 0x32, 0xB8  /* 06006CF6: sub r11,r2 */
-    .byte 0x06, 0x00  /* 06006CF8: .word 0x0600 */
-    .byte 0x8B, 0xB8  /* 06006CFA: bf 0x06006C6E */
-    .byte 0x06, 0x00  /* 06006CFC: .word 0x0600 */
-    .byte 0x8B, 0x10  /* 06006CFE: bf 0x06006D22 */
+    .4byte sym_002FC233  /* 06006CD4 = 0x002FC233 */
+    .4byte sym_25E60000  /* 06006CD8 = 0x25E60000 */
+    .4byte DAT_06028B80  /* 06006CDC = 0x06028B80 (FUN_060175D0 + 0x115B0) */
+    .4byte sym_25E0C000  /* 06006CE0 = 0x25E0C000 */
+    .4byte sym_002C7C80  /* 06006CE4 = 0x002C7C80 */
+    .4byte DAT_0602991C  /* 06006CE8 = 0x0602991C (FUN_060175D0 + 0x1234C) */
+    .4byte sym_060532A8  /* 06006CEC = 0x060532A8 */
+    .4byte sym_060532B4  /* 06006CF0 = 0x060532B4 */
+    .4byte sym_060532B8  /* 06006CF4 = 0x060532B8 */
+    .4byte DAT_06008BB8  /* 06006CF8 = 0x06008BB8 (FUN_060086FC + 0x4BC) */
+    .4byte DAT_06008B10  /* 06006CFC = 0x06008B10 (FUN_060086FC + 0x414) */

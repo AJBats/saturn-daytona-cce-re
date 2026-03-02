@@ -110,9 +110,7 @@ FUN_06006C10:
     .byte 0x1A, 0x3D  /* 06006CDE: mov.l r3,@(0x34,r10) */
     .byte 0xFF, 0x00  /* 06006CE0: .word 0xFF00 */
     .byte 0x00, 0x00  /* 06006CE2: .word 0x0000 */
-    .byte 0x06, 0x05  /* 06006CE4: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 06006CE6: add #0,r8 */
-    .byte 0x06, 0x05  /* 06006CE8: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 06006CEA: add #0,r12 */
+    .4byte sym_06057800  /* 06006CE4 = 0x06057800 */
+    .4byte sym_06057C00  /* 06006CE8 = 0x06057C00 */
     .byte 0xC8, 0x40  /* 06006CEC: tst #0x40,r0 */
     .byte 0x89, 0x1D  /* 06006CEE: bt 0x06006D2C */

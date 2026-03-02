@@ -24,12 +24,9 @@ FUN_06018E4C:
     .byte 0x00, 0x0B  /* 06018E6E: rts */
     .byte 0x6E, 0xF6  /* 06018E70: mov.l @r15+,r14 */
     .byte 0x00, 0x00  /* 06018E72: .word 0x0000 */
-    .byte 0x06, 0x05  /* 06018E74: mov.w r0,@(r0,r6) */
-    .byte 0x2A, 0x18  /* 06018E76: tst r1,r10 */
-    .byte 0x06, 0x05  /* 06018E78: mov.w r0,@(r0,r6) */
-    .byte 0x2C, 0x38  /* 06018E7A: tst r3,r12 */
-    .byte 0x06, 0x04  /* 06018E7C: mov.b r0,@(r0,r6) */
-    .byte 0x51, 0x54  /* 06018E7E: mov.l @(0x10,r5),r1 */
+    .4byte sym_06052A18  /* 06018E74 = 0x06052A18 */
+    .4byte sym_06052C38  /* 06018E78 = 0x06052C38 */
+    .4byte sym_06045154  /* 06018E7C = 0x06045154 */
     .byte 0x90, 0x05  /* 06018E80: mov.w @(0xA,PC),r0  {0x06018E8E} */
     .byte 0x00, 0x4D  /* 06018E82: mov.w @(r0,r4),r0 */
     .byte 0xE1, 0x09  /* 06018E84: mov #9,r1 */

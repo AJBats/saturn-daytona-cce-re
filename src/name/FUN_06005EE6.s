@@ -35,7 +35,5 @@ FUN_06005EE6:
     .byte 0x4F, 0x26  /* 06005F1E: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06005F20: rts */
     .byte 0x6E, 0xF6  /* 06005F22: mov.l @r15+,r14 */
-    .byte 0x06, 0x00  /* 06005F24: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 06005F26: .word 0x8A5C */
-    .byte 0x06, 0x03  /* 06005F28: bsrf r6 */
-    .byte 0xA8, 0x60  /* 06005F2A: bra 0x06004FEE */
+    .4byte DAT_06008A5C  /* 06005F24 = 0x06008A5C (FUN_060067F6 + 0x2266) */
+    .4byte sym_0603A860  /* 06005F28 = 0x0603A860 */

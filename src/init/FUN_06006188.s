@@ -72,9 +72,6 @@ FUN_06006188:
     .byte 0x00, 0xA8  /* 0600620A: .word 0x00A8 */
     .byte 0x00, 0xB8  /* 0600620C: .word 0x00B8 */
     .byte 0xFF, 0xFF  /* 0600620E: .word 0xFFFF */
-    .byte 0x06, 0x01  /* 06006210: .word 0x0601 */
-    .byte 0x36, 0x20  /* 06006212: cmp/eq r2,r6 */
-    .byte 0x06, 0x00  /* 06006214: .word 0x0600 */
-    .byte 0xD4, 0x36  /* 06006216: mov.l @(0xD8,PC),r4  {[0x060062F0] = 0x4F227FE4} */
-    .byte 0x06, 0x01  /* 06006218: .word 0x0601 */
-    .byte 0x36, 0xE8  /* 0600621A: sub r14,r6 */
+    .4byte DAT_06013620  /* 06006210 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte DAT_0600D436  /* 06006214 = 0x0600D436 (FUN_0600B7A0 + 0x1C96) */
+    .4byte DAT_060136E8  /* 06006218 = 0x060136E8 (FUN_0600EA84 + 0x4C64) */

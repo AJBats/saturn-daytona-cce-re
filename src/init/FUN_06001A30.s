@@ -64,10 +64,8 @@ FUN_06001A30:
     .byte 0x00, 0x0B  /* 06001AA2: rts */
     .byte 0x6E, 0xF6  /* 06001AA4: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06001AA6: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06001AA8: .word 0x0600 */
-    .byte 0x8C, 0x90  /* 06001AAA: .word 0x8C90 */
-    .byte 0x06, 0x01  /* 06001AAC: .word 0x0601 */
-    .byte 0x33, 0x2C  /* 06001AAE: add r2,r3 */
+    .4byte DAT_06008C90  /* 06001AA8 = 0x06008C90 (FUN_06008C4A + 0x46) */
+    .4byte DAT_0601332C  /* 06001AAC = 0x0601332C (FUN_0600EA84 + 0x48A8) */
     .byte 0x2F, 0xC6  /* 06001AB0: mov.l r12,@-r15 */
     .byte 0xE7, 0x00  /* 06001AB2: mov #0,r7 */
     .byte 0x2F, 0xB6  /* 06001AB4: mov.l r11,@-r15 */

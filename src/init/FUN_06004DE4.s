@@ -22,8 +22,7 @@ FUN_06004DE4:
     .byte 0x6E, 0xF6  /* 06004E02: mov.l @r15+,r14 */
     .byte 0x00, 0xFF  /* 06004E04: mac.l @r15+,@r0+ */
     .byte 0xFF, 0xFF  /* 06004E06: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06004E08: .word 0x0600 */
-    .byte 0xC9, 0xC4  /* 06004E0A: and #0xC4,r0 */
+    .4byte DAT_0600C9C4  /* 06004E08 = 0x0600C9C4 (FUN_0600B7A0 + 0x1224) */
     .byte 0xD0, 0x47  /* 06004E0C: mov.l @(0x11C,PC),r0  {[0x06004F2C] = 0x25818000} */
     .byte 0x00, 0x0B  /* 06004E0E: rts */
     .byte 0x00, 0x09  /* 06004E10: nop */

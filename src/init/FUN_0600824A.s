@@ -63,11 +63,7 @@ FUN_0600824A:
     .byte 0x00, 0x0B  /* 060082BA: rts */
     .byte 0x6E, 0xF6  /* 060082BC: mov.l @r15+,r14 */
     .byte 0x00, 0xC8  /* 060082BE: .word 0x00C8 */
-    .byte 0x06, 0x00  /* 060082C0: .word 0x0600 */
-    .byte 0x8B, 0x10  /* 060082C2: bf 0x060082E6 */
-    .byte 0x06, 0x01  /* 060082C4: .word 0x0601 */
-    .byte 0x36, 0x20  /* 060082C6: cmp/eq r2,r6 */
-    .byte 0x00, 0x60  /* 060082C8: .word 0x0060 */
-    .byte 0x00, 0x00  /* 060082CA: .word 0x0000 */
-    .byte 0x06, 0x00  /* 060082CC: .word 0x0600 */
-    .byte 0xD3, 0x5E  /* 060082CE: mov.l @(0x178,PC),r3  {[0x06008448] = 0x8B0AE6FF} */
+    .4byte DAT_06008B10  /* 060082C0 = 0x06008B10 (FUN_06008AC2 + 0x4E) */
+    .4byte DAT_06013620  /* 060082C4 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte 0x00600000  /* 060082C8 = 0x00600000 */
+    .4byte DAT_0600D35E  /* 060082CC = 0x0600D35E (FUN_0600B7A0 + 0x1BBE) */

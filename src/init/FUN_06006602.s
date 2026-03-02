@@ -49,7 +49,6 @@ FUN_06006602:
     .byte 0x70, 0x04  /* 06006656: add #4,r0 */
     .byte 0x60, 0x02  /* 06006658: mov.l @r0,r0 */
     .byte 0x30, 0x3C  /* 0600665A: add r3,r0 */
-    .byte 0x7F, 0x10  /* 0600665C: add #16,r15 */
-    .byte 0x4F, 0x26  /* 0600665E: lds.l @r15+,pr */
+    .4byte 0x7F104F26  /* 0600665C = 0x7F104F26 */
     .byte 0x00, 0x0B  /* 06006660: rts */
     .byte 0x00, 0x09  /* 06006662: nop */

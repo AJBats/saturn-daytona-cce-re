@@ -20,8 +20,7 @@ FUN_06005E50:
     .byte 0x64, 0xE3  /* 06005E6A: mov r14,r4 */
     .byte 0xD2, 0x21  /* 06005E6C: mov.l @(0x84,PC),r2  {[0x06005EF4] = 0x0600E0AC} */
     .byte 0x65, 0x03  /* 06005E6E: mov r0,r5 */
-    .byte 0x42, 0x0B  /* 06005E70: jsr @r2 */
-    .byte 0x64, 0xD3  /* 06005E72: mov r13,r4 */
+    .4byte 0x420B64D3  /* 06005E70 = 0x420B64D3 */
     .byte 0x64, 0x03  /* 06005E74: mov r0,r4 */
     .byte 0x24, 0x48  /* 06005E76: tst r4,r4 */
     .byte 0x8B, 0x04  /* 06005E78: bf 0x06005E84 */

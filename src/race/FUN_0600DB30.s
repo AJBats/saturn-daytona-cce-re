@@ -122,22 +122,14 @@ FUN_0600DB30:
     .byte 0x01, 0x44  /* 0600DC16: mov.b r4,@(r0,r1) */
     .byte 0x01, 0x84  /* 0600DC18: mov.b r8,@(r0,r1) */
     .byte 0x19, 0x99  /* 0600DC1A: mov.l r9,@(0x24,r9) */
-    .byte 0x00, 0x01  /* 0600DC1C: .word 0x0001 */
-    .byte 0x00, 0x00  /* 0600DC1E: .word 0x0000 */
-    .byte 0x06, 0x04  /* 0600DC20: mov.b r0,@(r0,r6) */
-    .byte 0x81, 0x8C  /* 0600DC22: mov.w r0,@(0x18,r8) */
-    .byte 0x00, 0x00  /* 0600DC24: .word 0x0000 */
-    .byte 0xCC, 0xCC  /* 0600DC26: tst.b #0xCC,@(r0,GBR) */
-    .byte 0xFF, 0xFF  /* 0600DC28: .word 0xFFFF */
-    .byte 0x00, 0x00  /* 0600DC2A: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0600DC2C: .word 0x0000 */
-    .byte 0x00, 0x89  /* 0600DC2E: .word 0x0089 */
-    .byte 0x00, 0x00  /* 0600DC30: .word 0x0000 */
-    .byte 0x00, 0x72  /* 0600DC32: .word 0x0072 */
-    .byte 0x00, 0x00  /* 0600DC34: .word 0x0000 */
-    .byte 0x01, 0xB2  /* 0600DC36: .word 0x01B2 */
-    .byte 0x23, 0x28  /* 0600DC38: tst r2,r3 */
-    .byte 0x00, 0x00  /* 0600DC3A: .word 0x0000 */
+    .4byte 0x00010000  /* 0600DC1C = 0x00010000 */
+    .4byte sym_0604818C  /* 0600DC20 = 0x0604818C */
+    .4byte 0x0000CCCC  /* 0600DC24 = 0x0000CCCC */
+    .4byte 0xFFFF0000  /* 0600DC28 = 0xFFFF0000 */
+    .4byte 0x00000089  /* 0600DC2C = 0x00000089 */
+    .4byte 0x00000072  /* 0600DC30 = 0x00000072 */
+    .4byte 0x000001B2  /* 0600DC34 = 0x000001B2 */
+    .4byte sym_23280000  /* 0600DC38 = 0x23280000 */
     .byte 0x35, 0x33  /* 0600DC3C: cmp/ge r3,r5 */
     .byte 0x89, 0x00  /* 0600DC3E: bt 0x0600DC42 */
     .byte 0x63, 0x53  /* 0600DC40: mov r5,r3 */
@@ -180,7 +172,5 @@ FUN_0600DB30:
     .byte 0x00, 0xA0  /* 0600DC8A: .word 0x00A0 */
     .byte 0x01, 0x76  /* 0600DC8C: mov.l r7,@(r0,r1) */
     .byte 0x00, 0x00  /* 0600DC8E: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0600DC90: .word 0x0000 */
-    .byte 0x00, 0x0F  /* 0600DC92: mac.l @r0+,@r0+ */
-    .byte 0x00, 0x00  /* 0600DC94: .word 0x0000 */
-    .byte 0x20, 0x00  /* 0600DC96: mov.b r0,@r0 */
+    .4byte 0x0000000F  /* 0600DC90 = 0x0000000F */
+    .4byte 0x00002000  /* 0600DC94 = 0x00002000 */

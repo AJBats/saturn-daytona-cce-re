@@ -70,8 +70,7 @@ FUN_0600B2A4:
     .byte 0x33, 0x4C  /* 0600B322: add r4,r3 */
     .byte 0x01, 0x2E  /* 0600B324: mov.l @(r0,r2),r1 */
     .byte 0x23, 0x12  /* 0600B326: mov.l r1,@r3 */
-    .byte 0x85, 0x54  /* 0600B328: mov.w @(0x8,r5),r0 */
-    .byte 0x63, 0x6D  /* 0600B32A: extu.w r6,r3 */
+    .4byte 0x8554636D  /* 0600B328 = 0x8554636D */
     .byte 0x2D, 0x01  /* 0600B32C: mov.w r0,@r13 */
     .byte 0x33, 0xA3  /* 0600B32E: cmp/ge r10,r3 */
     .byte 0x8F, 0xDE  /* 0600B330: bf/s 0x0600B2F0 */

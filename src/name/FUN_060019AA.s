@@ -7,8 +7,7 @@ FUN_060019AA:
     .byte 0x4F, 0x22  /* 060019AA: sts.l pr,@-r15 */
     .byte 0x4F, 0x12  /* 060019AC: sts.l macl,@-r15 */
     .byte 0x7F, 0xF4  /* 060019AE: add #-12,r15 */
-    .byte 0x2F, 0x40  /* 060019B0: mov.b r4,@r15 */
-    .byte 0x80, 0xF4  /* 060019B2: mov.b r0,@(0x4,r15) */
+    .4byte 0x2F4080F4  /* 060019B0 = 0x2F4080F4 */
     .byte 0x43, 0x0B  /* 060019B4: jsr @r3 */
     .byte 0x00, 0x09  /* 060019B6: nop */
     .byte 0x65, 0xF0  /* 060019B8: mov.b @r15,r5 */
@@ -19,8 +18,7 @@ FUN_060019AA:
     .byte 0x05, 0x37  /* 060019C2: mul.l r3,r5 */
     .byte 0xD1, 0x34  /* 060019C4: mov.l @(0xD0,PC),r1  {[0x06001A98] = 0x06032FCC} */
     .byte 0x05, 0x1A  /* 060019C6: sts macl,r5 */
-    .byte 0x35, 0x2C  /* 060019C8: add r2,r5 */
-    .byte 0x41, 0x0B  /* 060019CA: jsr @r1 */
+    .4byte 0x352C410B  /* 060019C8 = 0x352C410B */
     .byte 0x64, 0xE3  /* 060019CC: mov r14,r4 */
     .byte 0x95, 0x55  /* 060019CE: mov.w @(0xAA,PC),r5  {0x06001A7C} */
     .byte 0xD3, 0x32  /* 060019D0: mov.l @(0xC8,PC),r3  {[0x06001A9C] = 0x06032FE8} */

@@ -221,9 +221,12 @@ def transform_file(filepath, pool_map, classifications, mod_base):
                     'Pool HIGH WORD mismatch at 0x%08X: file has 0x%02X%02X, expected 0x%02X%02X' % (
                         addr, hi_byte, lo_byte, expected_hi, expected_lo)
 
-                # Verify LOW WORD line exists
-                assert i + 1 < len(lines), \
-                    'Pool entry at 0x%08X: HIGH WORD is last line, no LOW WORD' % addr
+                # Verify LOW WORD line exists (skip cross-file pool entries)
+                if i + 1 >= len(lines):
+                    # Pool entry straddles function boundary — leave as raw bytes
+                    out.append(line)
+                    i += 1
+                    continue
 
                 # Verify LOW WORD bytes
                 m2 = BYTE_RE.match(lines[i + 1])

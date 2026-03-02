@@ -30,12 +30,9 @@ FUN_06015D18:
     .byte 0x00, 0x9B  /* 06015D46: .word 0x009B */
     .byte 0x00, 0x99  /* 06015D48: .word 0x0099 */
     .byte 0xFF, 0xFF  /* 06015D4A: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06015D4C: mov.w r0,@(r0,r6) */
-    .byte 0x22, 0x4C  /* 06015D4E: cmp/str r4,r2 */
-    .byte 0x06, 0x05  /* 06015D50: mov.w r0,@(r0,r6) */
-    .byte 0x2A, 0x04  /* 06015D52: mov.b r0,@-r10 */
-    .byte 0x06, 0x05  /* 06015D54: mov.w r0,@(r0,r6) */
-    .byte 0x2A, 0x08  /* 06015D56: tst r0,r10 */
+    .4byte sym_0605224C  /* 06015D4C = 0x0605224C */
+    .4byte sym_06052A04  /* 06015D50 = 0x06052A04 */
+    .4byte sym_06052A08  /* 06015D54 = 0x06052A08 */
     .byte 0x90, 0x73  /* 06015D58: mov.w @(0xE6,PC),r0  {0x06015E42} */
     .byte 0x00, 0xEC  /* 06015D5A: mov.b @(r0,r14),r0 */
     .byte 0x60, 0x0C  /* 06015D5C: extu.b r0,r0 */

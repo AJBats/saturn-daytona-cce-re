@@ -16,8 +16,7 @@ FUN_0600DE2C:
     .byte 0x00, 0x0B  /* 0600DE3E: rts */
     .byte 0x00, 0x09  /* 0600DE40: nop */
     .byte 0x00, 0x00  /* 0600DE42: .word 0x0000 */
-    .byte 0x00, 0x06  /* 0600DE44: mov.l r0,@(r0,r0) */
-    .byte 0x48, 0x7F  /* 0600DE46: .word 0x487F */
+    .4byte 0x0006487F  /* 0600DE44 = 0x0006487F */
     .byte 0x60, 0x43  /* 0600DE48: mov r4,r0 */
     .byte 0x20, 0x5B  /* 0600DE4A: or r5,r0 */
     .byte 0x20, 0x08  /* 0600DE4C: tst r0,r0 */

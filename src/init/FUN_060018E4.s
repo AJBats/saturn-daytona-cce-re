@@ -78,12 +78,9 @@ FUN_060018E4:
     .byte 0x3A, 0x2C  /* 06001972: add r2,r10 */
     .byte 0xA0, 0x09  /* 06001974: bra 0x0600198A */
     .byte 0x25, 0xA1  /* 06001976: mov.w r10,@r5 */
-    .byte 0x06, 0x01  /* 06001978: .word 0x0601 */
-    .byte 0x33, 0x2C  /* 0600197A: add r2,r3 */
-    .byte 0x06, 0x00  /* 0600197C: .word 0x0600 */
-    .byte 0x8D, 0xA8  /* 0600197E: bt/s 0x060018D2 */
-    .byte 0x06, 0x00  /* 06001980: .word 0x0600 */
-    .byte 0x8C, 0x90  /* 06001982: .word 0x8C90 */
+    .4byte DAT_0601332C  /* 06001978 = 0x0601332C (FUN_0600EA84 + 0x48A8) */
+    .4byte DAT_06008DA8  /* 0600197C = 0x06008DA8 (FUN_06008C4A + 0x15E) */
+    .4byte DAT_06008C90  /* 06001980 = 0x06008C90 (FUN_06008C4A + 0x46) */
     .byte 0x63, 0x61  /* 06001984: mov.w @r6,r3 */
     .byte 0x73, 0x20  /* 06001986: add #32,r3 */
     .byte 0x25, 0x31  /* 06001988: mov.w r3,@r5 */

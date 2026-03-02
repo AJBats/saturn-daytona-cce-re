@@ -42,8 +42,7 @@ FUN_0600DEE8:
     .byte 0x00, 0xAC  /* 0600DF2E: mov.b @(r0,r10),r0 */
     .byte 0x40, 0x00  /* 0600DF30: shll r0 */
     .byte 0x00, 0x00  /* 0600DF32: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0600DF34: .word 0x0000 */
-    .byte 0x01, 0x34  /* 0600DF36: mov.b r3,@(r0,r1) */
+    .4byte 0x00000134  /* 0600DF34 = 0x00000134 */
     .byte 0xD4, 0x1F  /* 0600DF38: mov.l @(0x7C,PC),r4  {[0x0600DFB8] = 0xFFFF0000} */
     .byte 0x26, 0x4B  /* 0600DF3A: or r4,r6 */
     .byte 0x33, 0x6C  /* 0600DF3C: add r6,r3 */

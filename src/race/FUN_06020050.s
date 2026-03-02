@@ -56,9 +56,6 @@ FUN_06020050:
     .byte 0x00, 0x0B  /* 060200B2: rts */
     .byte 0x65, 0x73  /* 060200B4: mov r7,r5 */
     .byte 0x00, 0x00  /* 060200B6: .word 0x0000 */
-    .byte 0x2A, 0xAA  /* 060200B8: xor r10,r10 */
-    .byte 0xAA, 0xAA  /* 060200BA: bra 0x0601F612 */
-    .byte 0x00, 0x00  /* 060200BC: .word 0x0000 */
-    .byte 0xAA, 0xAA  /* 060200BE: bra 0x0601F616 */
-    .byte 0x00, 0x00  /* 060200C0: .word 0x0000 */
-    .byte 0x2A, 0xAA  /* 060200C2: xor r10,r10 */
+    .4byte 0x2AAAAAAA  /* 060200B8 = 0x2AAAAAAA */
+    .4byte 0x0000AAAA  /* 060200BC = 0x0000AAAA */
+    .4byte 0x00002AAA  /* 060200C0 = 0x00002AAA */

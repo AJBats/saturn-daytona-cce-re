@@ -4,8 +4,7 @@
     .global FUN_06006988
     .type FUN_06006988, @function
 FUN_06006988:
-    .byte 0x2F, 0xE6  /* 06006988: mov.l r14,@-r15 */
-    .byte 0xE0, 0x30  /* 0600698A: mov #48,r0 */
+    .4byte 0x2FE6E030  /* 06006988 = 0x2FE6E030 */
     .byte 0xD5, 0x3F  /* 0600698C: mov.l @(0xFC,PC),r5  {[0x06006A8C] = 0x06052094} */
     .byte 0x2F, 0xD6  /* 0600698E: mov.l r13,@-r15 */
     .byte 0x2F, 0xC6  /* 06006990: mov.l r12,@-r15 */

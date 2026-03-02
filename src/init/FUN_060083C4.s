@@ -70,8 +70,7 @@ FUN_060083C4:
     .byte 0x52, 0x32  /* 06008442: mov.l @(0x8,r3),r2 */
     .byte 0x51, 0xE8  /* 06008444: mov.l @(0x20,r14),r1 */
     .byte 0x31, 0x20  /* 06008446: cmp/eq r2,r1 */
-    .byte 0x8B, 0x0A  /* 06008448: bf 0x06008460 */
-    .byte 0xE6, 0xFF  /* 0600844A: mov #-1,r6 */
+    .4byte 0x8B0AE6FF  /* 06008448 = 0x8B0AE6FF */
     .byte 0x55, 0xE3  /* 0600844C: mov.l @(0xC,r14),r5 */
     .byte 0xD2, 0x17  /* 0600844E: mov.l @(0x5C,PC),r2  {[0x060084AC] = 0x0600D35E} */
     .byte 0x42, 0x0B  /* 06008450: jsr @r2 */

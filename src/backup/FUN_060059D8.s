@@ -16,10 +16,8 @@ FUN_060059D8:
     .byte 0x16, 0x00  /* 060059EA: mov.l r0,@(0x0,r6) */
     .byte 0x0C, 0x00  /* 060059EC: .word 0x0C00 */
     .byte 0x18, 0x00  /* 060059EE: mov.l r0,@(0x0,r8) */
-    .byte 0x06, 0x05  /* 060059F0: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x00  /* 060059F2: add #0,r8 */
-    .byte 0x06, 0x05  /* 060059F4: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x00  /* 060059F6: add #0,r12 */
+    .4byte sym_06057800  /* 060059F0 = 0x06057800 */
+    .4byte sym_06057C00  /* 060059F4 = 0x06057C00 */
     .byte 0xE1, 0xE0  /* 060059F8: mov #-32,r1 */
     .byte 0x85, 0x11  /* 060059FA: mov.w @(0x2,r1),r0 */
     .byte 0x40, 0x11  /* 060059FC: cmp/pz r0 */

@@ -75,8 +75,7 @@ FUN_0600A10E:
     .byte 0x03, 0x64  /* 0600A196: mov.b r6,@(r0,r3) */
     .byte 0x01, 0xDC  /* 0600A198: mov.b @(r0,r13),r1 */
     .byte 0x00, 0xFF  /* 0600A19A: mac.l @r15+,@r0+ */
-    .byte 0x06, 0x01  /* 0600A19C: .word 0x0601 */
-    .byte 0x36, 0xEC  /* 0600A19E: add r14,r6 */
+    .4byte DAT_060136EC  /* 0600A19C = 0x060136EC (FUN_0600EA84 + 0x4C68) */
     .byte 0x90, 0x71  /* 0600A1A0: mov.w @(0xE2,PC),r0  {0x0600A286} */
     .byte 0x01, 0x7E  /* 0600A1A2: mov.l @(r0,r7),r1 */
     .byte 0x21, 0x18  /* 0600A1A4: tst r1,r1 */

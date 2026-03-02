@@ -12,5 +12,4 @@ FUN_06012F5C:
     .byte 0x00, 0x0B  /* 06012F66: rts */
     .byte 0x00, 0x09  /* 06012F68: nop */
     .byte 0x00, 0x00  /* 06012F6A: .word 0x0000 */
-    .byte 0x06, 0x05  /* 06012F6C: mov.w r0,@(r0,r6) */
-    .byte 0x79, 0x44  /* 06012F6E: add #68,r9 */
+    .4byte sym_06057944  /* 06012F6C = 0x06057944 */

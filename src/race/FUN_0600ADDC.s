@@ -54,5 +54,4 @@ FUN_0600ADDC:
     .byte 0x81, 0x47  /* 0600AE3A: mov.w r0,@(0xE,r4) */
     .byte 0x00, 0x89  /* 0600AE3C: .word 0x0089 */
     .byte 0xFF, 0xFF  /* 0600AE3E: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 0600AE40: mov.w r0,@(r0,r6) */
-    .byte 0x21, 0x46  /* 0600AE42: mov.l r4,@-r1 */
+    .4byte sym_06052146  /* 0600AE40 = 0x06052146 */

@@ -20,8 +20,7 @@ FUN_060146A0:
     .byte 0x8D, 0x0F  /* 060146BA: bt/s 0x060146DC */
     .byte 0xE4, 0x00  /* 060146BC: mov #0,r4 */
     .byte 0x6E, 0x53  /* 060146BE: mov r5,r14 */
-    .byte 0x25, 0x40  /* 060146C0: mov.b r4,@r5 */
-    .byte 0x60, 0x43  /* 060146C2: mov r4,r0 */
+    .4byte sym_25406043  /* 060146C0 = 0x25406043 */
     .byte 0x80, 0xE1  /* 060146C4: mov.b r0,@(0x1,r14) */
     .byte 0x75, 0x02  /* 060146C6: add #2,r5 */
     .byte 0x25, 0x00  /* 060146C8: mov.b r0,@r5 */

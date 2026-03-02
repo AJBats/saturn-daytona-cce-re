@@ -26,12 +26,9 @@ FUN_0600CA10:
     .byte 0x4F, 0x26  /* 0600CA36: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600CA38: rts */
     .byte 0x00, 0x09  /* 0600CA3A: nop */
-    .byte 0x06, 0x05  /* 0600CA3C: mov.w r0,@(r0,r6) */
-    .byte 0x78, 0x50  /* 0600CA3E: add #80,r8 */
-    .byte 0x06, 0x05  /* 0600CA40: mov.w r0,@(r0,r6) */
-    .byte 0x7C, 0x50  /* 0600CA42: add #80,r12 */
-    .byte 0x06, 0x03  /* 0600CA44: bsrf r6 */
-    .byte 0x02, 0xB4  /* 0600CA46: mov.b r11,@(r0,r2) */
+    .4byte sym_06057850  /* 0600CA3C = 0x06057850 */
+    .4byte sym_06057C50  /* 0600CA40 = 0x06057C50 */
+    .4byte sym_060302B4  /* 0600CA44 = 0x060302B4 */
     .byte 0x2F, 0x86  /* 0600CA48: mov.l r8,@-r15 */
     .byte 0x4F, 0x22  /* 0600CA4A: sts.l pr,@-r15 */
     .byte 0x2F, 0x56  /* 0600CA4C: mov.l r5,@-r15 */
@@ -86,16 +83,11 @@ FUN_0600CA10:
     .byte 0x00, 0x0B  /* 0600CAAE: rts */
     .byte 0x68, 0xF6  /* 0600CAB0: mov.l @r15+,r8 */
     .byte 0x00, 0x00  /* 0600CAB2: .word 0x0000 */
-    .byte 0x06, 0x03  /* 0600CAB4: bsrf r6 */
-    .byte 0x49, 0xE4  /* 0600CAB6: .word 0x49E4 */
-    .byte 0x06, 0x02  /* 0600CAB8: stc sr,r6 */
-    .byte 0xD0, 0xD4  /* 0600CABA: mov.l @(0x350,PC),r0  {[0x0600CE0C] = 0x4F22D844} */
-    .byte 0x06, 0x02  /* 0600CABC: stc sr,r6 */
-    .byte 0xD4, 0x52  /* 0600CABE: mov.l @(0x148,PC),r4  {[0x0600CC08] = 0x6453600E} */
-    .byte 0x06, 0x02  /* 0600CAC0: stc sr,r6 */
-    .byte 0xD3, 0xDE  /* 0600CAC2: mov.l @(0x378,PC),r3  {[0x0600CE3C] = 0x63EC2338} */
-    .byte 0x06, 0x02  /* 0600CAC4: stc sr,r6 */
-    .byte 0xD3, 0x66  /* 0600CAC6: mov.l @(0x198,PC),r3  {[0x0600CC60] = 0xD315430B} */
+    .4byte sym_060349E4  /* 0600CAB4 = 0x060349E4 */
+    .4byte sym_0602D0D4  /* 0600CAB8 = 0x0602D0D4 */
+    .4byte sym_0602D452  /* 0600CABC = 0x0602D452 */
+    .4byte sym_0602D3DE  /* 0600CAC0 = 0x0602D3DE */
+    .4byte sym_0602D366  /* 0600CAC4 = 0x0602D366 */
     .byte 0xD3, 0x74  /* 0600CAC8: mov.l @(0x1D0,PC),r3  {[0x0600CC9C] = 0x06029FA4} */
     .byte 0x43, 0x2B  /* 0600CACA: jmp @r3 */
     .byte 0x00, 0x09  /* 0600CACC: nop */

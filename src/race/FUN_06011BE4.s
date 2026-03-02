@@ -134,20 +134,13 @@ FUN_06011BE4:
     .byte 0x01, 0x34  /* 06011CE2: mov.b r3,@(r0,r1) */
     .byte 0x01, 0x70  /* 06011CE4: .word 0x0170 */
     .byte 0xFF, 0xFF  /* 06011CE6: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 06011CE8: mov.w r0,@(r0,r6) */
-    .byte 0x40, 0xB4  /* 06011CEA: .word 0x40B4 */
-    .byte 0x25, 0xF8  /* 06011CEC: tst r15,r5 */
-    .byte 0x00, 0x90  /* 06011CEE: .word 0x0090 */
-    .byte 0x00, 0x2F  /* 06011CF0: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 06011CF2: mov.l r0,@(0xCC,GBR) */
-    .byte 0x00, 0x2F  /* 06011CF4: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x1C  /* 06011CF6: mov.l r0,@(0x70,GBR) */
-    .byte 0x06, 0x04  /* 06011CF8: mov.b r0,@(r0,r6) */
-    .byte 0xF9, 0xF8  /* 06011CFA: .word 0xF9F8 */
-    .byte 0x06, 0x05  /* 06011CFC: mov.w r0,@(r0,r6) */
-    .byte 0x2E, 0x58  /* 06011CFE: tst r5,r14 */
-    .byte 0x06, 0x05  /* 06011D00: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x23  /* 06011D02: .word 0x4923 */
+    .4byte sym_060540B4  /* 06011CE8 = 0x060540B4 */
+    .4byte sym_25F80090  /* 06011CEC = 0x25F80090 */
+    .4byte sym_002FC233  /* 06011CF0 = 0x002FC233 */
+    .4byte sym_002FC21C  /* 06011CF4 = 0x002FC21C */
+    .4byte sym_0604F9F8  /* 06011CF8 = 0x0604F9F8 */
+    .4byte sym_06052E58  /* 06011CFC = 0x06052E58 */
+    .4byte sym_06054923  /* 06011D00 = 0x06054923 */
     .byte 0xD2, 0x2F  /* 06011D04: mov.l @(0xBC,PC),r2  {[0x06011DC4] = 0x06054923} */
     .byte 0x63, 0x20  /* 06011D06: mov.b @r2,r3 */
     .byte 0x23, 0x38  /* 06011D08: tst r3,r3 */
@@ -244,7 +237,5 @@ FUN_06011BE4:
     .byte 0x6E, 0xF6  /* 06011DBE: mov.l @r15+,r14 */
     .byte 0x01, 0x90  /* 06011DC0: .word 0x0190 */
     .byte 0x01, 0x34  /* 06011DC2: mov.b r3,@(r0,r1) */
-    .byte 0x06, 0x05  /* 06011DC4: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x23  /* 06011DC6: .word 0x4923 */
-    .byte 0x00, 0x2F  /* 06011DC8: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x1C  /* 06011DCA: mov.l r0,@(0x70,GBR) */
+    .4byte sym_06054923  /* 06011DC4 = 0x06054923 */
+    .4byte sym_002FC21C  /* 06011DC8 = 0x002FC21C */

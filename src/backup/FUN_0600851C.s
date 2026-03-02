@@ -12,5 +12,4 @@ FUN_0600851C:
     .byte 0x00, 0x0B  /* 06008526: rts */
     .byte 0x00, 0x09  /* 06008528: nop */
     .byte 0x00, 0x00  /* 0600852A: .word 0x0000 */
-    .byte 0x06, 0x03  /* 0600852C: bsrf r6 */
-    .byte 0xEB, 0x40  /* 0600852E: mov #64,r11 */
+    .4byte sym_0603EB40  /* 0600852C = 0x0603EB40 */

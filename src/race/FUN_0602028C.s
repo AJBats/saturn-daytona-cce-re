@@ -16,5 +16,4 @@ FUN_0602028C:
     .byte 0x00, 0x0B  /* 0602029E: rts */
     .byte 0x00, 0x09  /* 060202A0: nop */
     .byte 0x00, 0x00  /* 060202A2: .word 0x0000 */
-    .byte 0x06, 0x05  /* 060202A4: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x1C  /* 060202A6: shad r1,r9 */
+    .4byte sym_0605491C  /* 060202A4 = 0x0605491C */

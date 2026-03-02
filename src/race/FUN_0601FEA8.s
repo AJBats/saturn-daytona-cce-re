@@ -22,14 +22,10 @@ FUN_0601FEA8:
     .byte 0x4F, 0x26  /* 0601FEC6: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0601FEC8: rts */
     .byte 0x00, 0x09  /* 0601FECA: nop */
-    .byte 0x06, 0x04  /* 0601FECC: mov.b r0,@(r0,r6) */
-    .byte 0xC3, 0x3C  /* 0601FECE: trapa #0x3C */
-    .byte 0x00, 0x00  /* 0601FED0: .word 0x0000 */
-    .byte 0x40, 0x00  /* 0601FED2: shll r0 */
-    .byte 0x00, 0x00  /* 0601FED4: .word 0x0000 */
-    .byte 0x80, 0x00  /* 0601FED6: mov.b r0,@(0x0,r0) */
-    .byte 0xFF, 0xFF  /* 0601FED8: .word 0xFFFF */
-    .byte 0xC0, 0x00  /* 0601FEDA: mov.b r0,@(0x0,GBR) */
+    .4byte sym_0604C33C  /* 0601FECC = 0x0604C33C */
+    .4byte 0x00004000  /* 0601FED0 = 0x00004000 */
+    .4byte 0x00008000  /* 0601FED4 = 0x00008000 */
+    .4byte 0xFFFFC000  /* 0601FED8 = 0xFFFFC000 */
     .byte 0x45, 0x11  /* 0601FEDC: cmp/pz r5 */
     .byte 0x89, 0x00  /* 0601FEDE: bt 0x0601FEE2 */
     .byte 0x65, 0x5B  /* 0601FEE0: neg r5,r5 */

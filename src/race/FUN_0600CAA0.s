@@ -100,32 +100,19 @@ FUN_0600CAA0:
     .byte 0xE4, 0x00  /* 0600CB5A: mov #0,r4 */
     .byte 0x10, 0x00  /* 0600CB5C: mov.l r0,@(0x0,r0) */
     .byte 0x00, 0xF0  /* 0600CB5E: .word 0x00F0 */
-    .byte 0x06, 0x00  /* 0600CB60: .word 0x0600 */
-    .byte 0x72, 0xC4  /* 0600CB62: add #-60,r2 */
-    .byte 0x06, 0x03  /* 0600CB64: bsrf r6 */
-    .byte 0x00, 0x90  /* 0600CB66: .word 0x0090 */
-    .byte 0x06, 0x05  /* 0600CB68: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0x94  /* 0600CB6A: mov.b r9,@-r0 */
-    .byte 0x06, 0x01  /* 0600CB6C: .word 0x0601 */
-    .byte 0x33, 0x6C  /* 0600CB6E: add r6,r3 */
-    .byte 0x06, 0x01  /* 0600CB70: .word 0x0601 */
-    .byte 0x33, 0xB4  /* 0600CB72: div1 r11,r3 */
-    .byte 0x06, 0x01  /* 0600CB74: .word 0x0601 */
-    .byte 0x34, 0x8C  /* 0600CB76: add r8,r4 */
-    .byte 0x06, 0x01  /* 0600CB78: .word 0x0601 */
-    .byte 0x31, 0xC4  /* 0600CB7A: div1 r12,r1 */
-    .byte 0x00, 0x2F  /* 0600CB7C: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x37  /* 0600CB7E: mov.l r0,@(0xDC,GBR) */
-    .byte 0x00, 0x2F  /* 0600CB80: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x98  /* 0600CB82: trapa #0x98 */
-    .byte 0x06, 0x01  /* 0600CB84: .word 0x0601 */
-    .byte 0x33, 0x6E  /* 0600CB86: addc r6,r3 */
-    .byte 0x00, 0x00  /* 0600CB88: .word 0x0000 */
-    .byte 0xF0, 0x00  /* 0600CB8A: .word 0xF000 */
-    .byte 0x06, 0x05  /* 0600CB8C: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x3E  /* 0600CB8E: .word 0x493E */
-    .byte 0x06, 0x05  /* 0600CB90: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x3C  /* 0600CB92: shad r3,r9 */
+    .4byte DAT_060072C4  /* 0600CB60 = 0x060072C4 (FUN_060072B8 + 0xC) */
+    .4byte sym_06030090  /* 0600CB64 = 0x06030090 */
+    .4byte sym_06052094  /* 0600CB68 = 0x06052094 */
+    .4byte DAT_0601336C  /* 0600CB6C = 0x0601336C (FUN_06013284 + 0xE8) */
+    .4byte DAT_060133B4  /* 0600CB70 = 0x060133B4 (FUN_06013284 + 0x130) */
+    .4byte DAT_0601348C  /* 0600CB74 = 0x0601348C (FUN_06013284 + 0x208) */
+    .4byte DAT_060131C4  /* 0600CB78 = 0x060131C4 (FUN_06012F38 + 0x28C) */
+    .4byte sym_002FC237  /* 0600CB7C = 0x002FC237 */
+    .4byte sym_002FC398  /* 0600CB80 = 0x002FC398 */
+    .4byte DAT_0601336E  /* 0600CB84 = 0x0601336E (FUN_06013284 + 0xEA) */
+    .4byte 0x0000F000  /* 0600CB88 = 0x0000F000 */
+    .4byte sym_0605493E  /* 0600CB8C = 0x0605493E */
+    .4byte sym_0605493C  /* 0600CB90 = 0x0605493C */
     .byte 0xE4, 0xFF  /* 0600CB94: mov #-1,r4 */
     .byte 0x60, 0x43  /* 0600CB96: mov r4,r0 */
     .byte 0x7F, 0x04  /* 0600CB98: add #4,r15 */

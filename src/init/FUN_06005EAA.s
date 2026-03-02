@@ -31,23 +31,13 @@ FUN_06005EAA:
     .byte 0x00, 0xA8  /* 06005EDA: .word 0x00A8 */
     .byte 0x00, 0xB8  /* 06005EDC: .word 0x00B8 */
     .byte 0xFF, 0xFF  /* 06005EDE: .word 0xFFFF */
-    .byte 0x00, 0x0F  /* 06005EE0: mac.l @r0+,@r0+ */
-    .byte 0xFF, 0xFF  /* 06005EE2: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06005EE4: .word 0x0600 */
-    .byte 0xDC, 0x18  /* 06005EE6: mov.l @(0x60,PC),r12  {[0x06005F48] = 0x14D214D3} */
-    .byte 0x06, 0x00  /* 06005EE8: .word 0x0600 */
-    .byte 0xD3, 0xCA  /* 06005EEA: mov.l @(0x328,PC),r3  {[0x06006214] = 0x0600D436} */
-    .byte 0x06, 0x00  /* 06005EEC: .word 0x0600 */
-    .byte 0xDC, 0x24  /* 06005EEE: mov.l @(0x90,PC),r12  {[0x06005F80] = 0x64E36D03} */
-    .byte 0x06, 0x00  /* 06005EF0: .word 0x0600 */
-    .byte 0xE8, 0xA8  /* 06005EF2: mov #-88,r8 */
-    .byte 0x06, 0x00  /* 06005EF4: .word 0x0600 */
-    .byte 0xE0, 0xAC  /* 06005EF6: mov #-84,r0 */
-    .byte 0x06, 0x01  /* 06005EF8: .word 0x0601 */
-    .byte 0x36, 0x20  /* 06005EFA: cmp/eq r2,r6 */
-    .byte 0x06, 0x00  /* 06005EFC: .word 0x0600 */
-    .byte 0x8E, 0x88  /* 06005EFE: .word 0x8E88 */
-    .byte 0x06, 0x00  /* 06005F00: .word 0x0600 */
-    .byte 0x0C, 0xCC  /* 06005F02: mov.b @(r0,r12),r12 */
-    .byte 0x06, 0x00  /* 06005F04: .word 0x0600 */
-    .byte 0x0C, 0xCD  /* 06005F06: mov.w @(r0,r12),r12 */
+    .4byte 0x000FFFFF  /* 06005EE0 = 0x000FFFFF */
+    .4byte DAT_0600DC18  /* 06005EE4 = 0x0600DC18 (FUN_0600B7A0 + 0x2478) */
+    .4byte DAT_0600D3CA  /* 06005EE8 = 0x0600D3CA (FUN_0600B7A0 + 0x1C2A) */
+    .4byte DAT_0600DC24  /* 06005EEC = 0x0600DC24 (FUN_0600B7A0 + 0x2484) */
+    .4byte DAT_0600E8A8  /* 06005EF0 = 0x0600E8A8 (FUN_0600B7A0 + 0x3108) */
+    .4byte DAT_0600E0AC  /* 06005EF4 = 0x0600E0AC (FUN_0600B7A0 + 0x290C) */
+    .4byte DAT_06013620  /* 06005EF8 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte DAT_06008E88  /* 06005EFC = 0x06008E88 (FUN_06008E50 + 0x38) */
+    .4byte DAT_06000CCC  /* 06005F00 = 0x06000CCC (FUN_06000B3C + 0x190) */
+    .4byte DAT_06000CCD  /* 06005F04 = 0x06000CCD (FUN_06000B3C + 0x191) */

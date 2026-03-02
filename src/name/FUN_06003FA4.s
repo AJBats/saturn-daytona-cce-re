@@ -118,13 +118,8 @@ FUN_06003FA4:
     .byte 0x00, 0x0B  /* 06004082: rts */
     .byte 0x6E, 0xF6  /* 06004084: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06004086: .word 0xFFFF */
-    .byte 0x00, 0x2F  /* 06004088: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x80  /* 0600408A: trapa #0x80 */
-    .byte 0x00, 0x2F  /* 0600408C: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x2C  /* 0600408E: trapa #0x2C */
-    .byte 0x80, 0x00  /* 06004090: mov.b r0,@(0x0,r0) */
-    .byte 0x00, 0x00  /* 06004092: .word 0x0000 */
-    .byte 0x00, 0x2F  /* 06004094: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x0C  /* 06004096: mov.l r0,@(0x30,GBR) */
-    .byte 0x00, 0x2F  /* 06004098: mac.l @r2+,@r0+ */
-    .byte 0xC3, 0x44  /* 0600409A: trapa #0x44 */
+    .4byte sym_002FC380  /* 06004088 = 0x002FC380 */
+    .4byte sym_002FC32C  /* 0600408C = 0x002FC32C */
+    .4byte 0x80000000  /* 06004090 = 0x80000000 */
+    .4byte sym_002FC20C  /* 06004094 = 0x002FC20C */
+    .4byte sym_002FC344  /* 06004098 = 0x002FC344 */

@@ -103,19 +103,11 @@ FUN_0601AB7E:
     .byte 0x05, 0x46  /* 0601AC3E: mov.l r4,@(r0,r5) */
     .byte 0x15, 0x18  /* 0601AC40: mov.l r1,@(0x20,r5) */
     .byte 0xFF, 0xFF  /* 0601AC42: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 0601AC44: mov.w r0,@(r0,r6) */
-    .byte 0x36, 0x44  /* 0601AC46: div1 r4,r6 */
-    .byte 0x00, 0x2F  /* 0601AC48: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x33  /* 0601AC4A: mov.l r0,@(0xCC,GBR) */
-    .byte 0x06, 0x04  /* 0601AC4C: mov.b r0,@(r0,r6) */
-    .byte 0x25, 0x2A  /* 0601AC4E: xor r2,r5 */
-    .byte 0x06, 0x05  /* 0601AC50: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x28  /* 0601AC52: sub r2,r13 */
-    .byte 0x06, 0x05  /* 0601AC54: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x24  /* 0601AC56: div1 r2,r13 */
-    .byte 0x06, 0x05  /* 0601AC58: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x29  /* 0601AC5A: .word 0x3D29 */
-    .byte 0x06, 0x05  /* 0601AC5C: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x26  /* 0601AC5E: cmp/hi r2,r13 */
-    .byte 0x06, 0x05  /* 0601AC60: mov.w r0,@(r0,r6) */
-    .byte 0x3A, 0x04  /* 0601AC62: div1 r0,r10 */
+    .4byte sym_06053644  /* 0601AC44 = 0x06053644 */
+    .4byte sym_002FC233  /* 0601AC48 = 0x002FC233 */
+    .4byte sym_0604252A  /* 0601AC4C = 0x0604252A */
+    .4byte sym_06053D28  /* 0601AC50 = 0x06053D28 */
+    .4byte sym_06053D24  /* 0601AC54 = 0x06053D24 */
+    .4byte sym_06053D29  /* 0601AC58 = 0x06053D29 */
+    .4byte sym_06053D26  /* 0601AC5C = 0x06053D26 */
+    .4byte sym_06053A04  /* 0601AC60 = 0x06053A04 */

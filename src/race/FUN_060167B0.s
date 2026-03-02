@@ -28,8 +28,7 @@ FUN_060167B0:
     .byte 0x35, 0x38  /* 060167DA: sub r3,r5 */
     .byte 0x36, 0x48  /* 060167DC: sub r4,r6 */
     .byte 0x35, 0x1D  /* 060167DE: dmuls.l r1,r5 */
-    .byte 0x2F, 0x26  /* 060167E0: mov.l r2,@-r15 */
-    .byte 0x2F, 0x66  /* 060167E2: mov.l r6,@-r15 */
+    .4byte 0x2F262F66  /* 060167E0 = 0x2F262F66 */
     .byte 0x0F, 0xFF  /* 060167E4: mac.l @r15+,@r15+ */
     .byte 0x2F, 0x26  /* 060167E6: mov.l r2,@-r15 */
     .byte 0x08, 0x0A  /* 060167E8: sts mach,r8 */

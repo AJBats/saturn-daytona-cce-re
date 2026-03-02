@@ -48,31 +48,17 @@ FUN_060028C4:
     .byte 0x00, 0x0B  /* 06002916: rts */
     .byte 0x00, 0x09  /* 06002918: nop */
     .byte 0xFF, 0xFF  /* 0600291A: .word 0xFFFF */
-    .byte 0x25, 0xE0  /* 0600291C: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 0600291E: .word 0x0000 */
-    .byte 0x00, 0x23  /* 06002920: braf r0 */
-    .byte 0xEC, 0x64  /* 06002922: mov #100,r12 */
-    .byte 0x00, 0x23  /* 06002924: braf r0 */
-    .byte 0xA9, 0xC4  /* 06002926: bra 0x06001CB2 */
-    .byte 0x06, 0x02  /* 06002928: stc sr,r6 */
-    .byte 0x8D, 0x46  /* 0600292A: bt/s 0x060029BA */
-    .byte 0x06, 0x02  /* 0600292C: stc sr,r6 */
-    .byte 0x99, 0x1C  /* 0600292E: mov.w @(0x38,PC),r9  {0x0600296A} */
-    .byte 0x06, 0x03  /* 06002930: bsrf r6 */
-    .byte 0xF5, 0xE8  /* 06002932: .word 0xF5E8 */
-    .byte 0x25, 0xE6  /* 06002934: mov.l r14,@-r5 */
-    .byte 0x80, 0x00  /* 06002936: mov.b r0,@(0x0,r0) */
-    .byte 0x00, 0x23  /* 06002938: braf r0 */
-    .byte 0xEC, 0x68  /* 0600293A: mov #104,r12 */
-    .byte 0x00, 0x23  /* 0600293C: braf r0 */
-    .byte 0xF0, 0x22  /* 0600293E: .word 0xF022 */
-    .byte 0x00, 0x23  /* 06002940: braf r0 */
-    .byte 0xEE, 0xE4  /* 06002942: mov #-28,r14 */
-    .byte 0x00, 0x23  /* 06002944: braf r0 */
-    .byte 0xF2, 0x9E  /* 06002946: .word 0xF29E */
-    .byte 0x00, 0x23  /* 06002948: braf r0 */
-    .byte 0xED, 0xA6  /* 0600294A: mov #-90,r13 */
-    .byte 0x00, 0x23  /* 0600294C: braf r0 */
-    .byte 0xF1, 0x60  /* 0600294E: .word 0xF160 */
-    .byte 0x06, 0x01  /* 06002950: .word 0x0601 */
-    .byte 0x31, 0xC4  /* 06002952: div1 r12,r1 */
+    .4byte sym_25E00000  /* 0600291C = 0x25E00000 */
+    .4byte sym_0023EC64  /* 06002920 = 0x0023EC64 */
+    .4byte sym_0023A9C4  /* 06002924 = 0x0023A9C4 */
+    .4byte DAT_06028D46  /* 06002928 = 0x06028D46 (FUN_060175D0 + 0x11776) */
+    .4byte DAT_0602991C  /* 0600292C = 0x0602991C (FUN_060175D0 + 0x1234C) */
+    .4byte sym_0603F5E8  /* 06002930 = 0x0603F5E8 */
+    .4byte sym_25E68000  /* 06002934 = 0x25E68000 */
+    .4byte sym_0023EC68  /* 06002938 = 0x0023EC68 */
+    .4byte sym_0023F022  /* 0600293C = 0x0023F022 */
+    .4byte sym_0023EEE4  /* 06002940 = 0x0023EEE4 */
+    .4byte sym_0023F29E  /* 06002944 = 0x0023F29E */
+    .4byte sym_0023EDA6  /* 06002948 = 0x0023EDA6 */
+    .4byte sym_0023F160  /* 0600294C = 0x0023F160 */
+    .4byte DAT_060131C4  /* 06002950 = 0x060131C4 (FUN_06012F8C + 0x238) */

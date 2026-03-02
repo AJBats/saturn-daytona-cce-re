@@ -97,12 +97,9 @@ FUN_0601C9B6:
     .byte 0x08, 0x00  /* 0601CA6A: .word 0x0800 */
     .byte 0x00, 0x02  /* 0601CA6C: stc sr,r0 */
     .byte 0x00, 0x00  /* 0601CA6E: .word 0x0000 */
-    .byte 0x06, 0x04  /* 0601CA70: mov.b r0,@(r0,r6) */
-    .byte 0x81, 0xFC  /* 0601CA72: mov.w r0,@(0x18,r15) */
-    .byte 0x06, 0x05  /* 0601CA74: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x25  /* 0601CA76: rotcr r9 */
-    .byte 0x08, 0x80  /* 0601CA78: .word 0x0880 */
-    .byte 0x47, 0x10  /* 0601CA7A: dt r7 */
+    .4byte sym_060481FC  /* 0601CA70 = 0x060481FC */
+    .4byte sym_06054925  /* 0601CA74 = 0x06054925 */
+    .4byte 0x08804710  /* 0601CA78 = 0x08804710 */
     .byte 0xF8, 0xF8  /* 0601CA7C: .word 0xF8F8 */
     .byte 0x07, 0xF8  /* 0601CA7E: .word 0x07F8 */
     .byte 0x07, 0x07  /* 0601CA80: mul.l r0,r7 */

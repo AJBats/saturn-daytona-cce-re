@@ -29,8 +29,7 @@ FUN_06005C3E:
     .byte 0xC8, 0x01  /* 06005C6A: tst #0x01,r0 */
     .byte 0x60, 0x85  /* 06005C6C: mov.w @r8+,r0 */
     .byte 0x8F, 0x0A  /* 06005C6E: bf/s 0x06005C86 */
-    .byte 0xC1, 0x41  /* 06005C70: mov.w r0,@(0x82,GBR) */
-    .byte 0xB0, 0x8B  /* 06005C72: bsr 0x06005D8C */
+    .4byte 0xC141B08B  /* 06005C70 = 0xC141B08B */
     .byte 0x2F, 0x76  /* 06005C74: mov.l r7,@-r15 */
     .byte 0x67, 0xF6  /* 06005C76: mov.l @r15+,r7 */
     .byte 0x47, 0x10  /* 06005C78: dt r7 */

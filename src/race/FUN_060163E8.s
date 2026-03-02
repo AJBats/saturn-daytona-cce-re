@@ -52,12 +52,9 @@ FUN_060163E8:
     .byte 0x8B, 0x07  /* 06016442: bf 0x06016454 */
     .byte 0xA0, 0x15  /* 06016444: bra 0x06016472 */
     .byte 0x00, 0x09  /* 06016446: nop */
-    .byte 0x06, 0x05  /* 06016448: mov.w r0,@(r0,r6) */
-    .byte 0x29, 0xA8  /* 0601644A: tst r10,r9 */
-    .byte 0x06, 0x05  /* 0601644C: mov.w r0,@(r0,r6) */
-    .byte 0x29, 0xAC  /* 0601644E: cmp/str r10,r9 */
-    .byte 0xFF, 0xFF  /* 06016450: .word 0xFFFF */
-    .byte 0xFE, 0x92  /* 06016452: .word 0xFE92 */
+    .4byte sym_060529A8  /* 06016448 = 0x060529A8 */
+    .4byte sym_060529AC  /* 0601644C = 0x060529AC */
+    .4byte sym_FFFFFE92  /* 06016450 = 0xFFFFFE92 */
     .byte 0x4F, 0x26  /* 06016454: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 06016456: rts */
     .byte 0x00, 0x09  /* 06016458: nop */

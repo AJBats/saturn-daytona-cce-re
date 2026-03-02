@@ -31,6 +31,5 @@ FUN_0600FF5E:
     .byte 0x4F, 0x26  /* 0600FF8E: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600FF90: rts */
     .byte 0x00, 0x09  /* 0600FF92: nop */
-    .byte 0x06, 0x05  /* 0600FF94: mov.w r0,@(r0,r6) */
-    .byte 0x71, 0x38  /* 0600FF96: add #56,r1 */
+    .4byte sym_06057138  /* 0600FF94 = 0x06057138 */
     .byte 0x60, 0x53  /* 0600FF98: mov r5,r0 */

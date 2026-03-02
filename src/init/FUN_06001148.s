@@ -66,31 +66,17 @@ FUN_06001148:
     .byte 0x00, 0x80  /* 060011BE: .word 0x0080 */
     .byte 0x02, 0x00  /* 060011C0: .word 0x0200 */
     .byte 0xFF, 0xFF  /* 060011C2: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 060011C4: .word 0x0600 */
-    .byte 0x72, 0xC4  /* 060011C6: add #-60,r2 */
-    .byte 0x06, 0x00  /* 060011C8: .word 0x0600 */
-    .byte 0x57, 0x4C  /* 060011CA: mov.l @(0x30,r4),r7 */
-    .byte 0x06, 0x00  /* 060011CC: .word 0x0600 */
-    .byte 0xBA, 0x00  /* 060011CE: bsr 0x060005D2 */
-    .byte 0x06, 0x00  /* 060011D0: .word 0x0600 */
-    .byte 0x72, 0xE4  /* 060011D2: add #-28,r2 */
-    .byte 0x06, 0x01  /* 060011D4: .word 0x0601 */
-    .byte 0x33, 0x08  /* 060011D6: sub r0,r3 */
-    .byte 0x06, 0x01  /* 060011D8: .word 0x0601 */
-    .byte 0x36, 0x40  /* 060011DA: cmp/eq r4,r6 */
-    .byte 0x06, 0x01  /* 060011DC: .word 0x0601 */
-    .byte 0x36, 0x34  /* 060011DE: div1 r3,r6 */
-    .byte 0x06, 0x01  /* 060011E0: .word 0x0601 */
-    .byte 0x31, 0xC8  /* 060011E2: sub r12,r1 */
-    .byte 0x06, 0x01  /* 060011E4: .word 0x0601 */
-    .byte 0x31, 0xCC  /* 060011E6: add r12,r1 */
-    .byte 0x06, 0x01  /* 060011E8: .word 0x0601 */
-    .byte 0x32, 0x08  /* 060011EA: sub r0,r2 */
-    .byte 0x06, 0x00  /* 060011EC: .word 0x0600 */
-    .byte 0x56, 0xF8  /* 060011EE: mov.l @(0x20,r15),r6 */
-    .byte 0x06, 0x01  /* 060011F0: .word 0x0601 */
-    .byte 0x1F, 0x98  /* 060011F2: mov.l r9,@(0x20,r15) */
-    .byte 0x06, 0x01  /* 060011F4: .word 0x0601 */
-    .byte 0x33, 0x26  /* 060011F6: cmp/hi r2,r3 */
-    .byte 0x06, 0x01  /* 060011F8: .word 0x0601 */
-    .byte 0x33, 0x28  /* 060011FA: sub r2,r3 */
+    .4byte DAT_060072C4  /* 060011C4 = 0x060072C4 (FUN_0600722A + 0x9A) */
+    .4byte DAT_0600574C  /* 060011C8 = 0x0600574C (FUN_060056B2 + 0x9A) */
+    .4byte DAT_0600BA00  /* 060011CC = 0x0600BA00 (FUN_0600B7A0 + 0x260) */
+    .4byte DAT_060072E4  /* 060011D0 = 0x060072E4 (FUN_0600722A + 0xBA) */
+    .4byte DAT_06013308  /* 060011D4 = 0x06013308 (FUN_0600EA84 + 0x4884) */
+    .4byte DAT_06013640  /* 060011D8 = 0x06013640 (FUN_0600EA84 + 0x4BBC) */
+    .4byte DAT_06013634  /* 060011DC = 0x06013634 (FUN_0600EA84 + 0x4BB0) */
+    .4byte DAT_060131C8  /* 060011E0 = 0x060131C8 (FUN_0600EA84 + 0x4744) */
+    .4byte DAT_060131CC  /* 060011E4 = 0x060131CC (FUN_0600EA84 + 0x4748) */
+    .4byte DAT_06013208  /* 060011E8 = 0x06013208 (FUN_0600EA84 + 0x4784) */
+    .4byte DAT_060056F8  /* 060011EC = 0x060056F8 (FUN_060056B2 + 0x46) */
+    .4byte DAT_06011F98  /* 060011F0 = 0x06011F98 (FUN_0600EA84 + 0x3514) */
+    .4byte DAT_06013326  /* 060011F4 = 0x06013326 (FUN_0600EA84 + 0x48A2) */
+    .4byte DAT_06013328  /* 060011F8 = 0x06013328 (FUN_0600EA84 + 0x48A4) */

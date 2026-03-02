@@ -31,6 +31,5 @@ FUN_0600B2B6:
     .byte 0x4F, 0x26  /* 0600B2E6: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600B2E8: rts */
     .byte 0x00, 0x09  /* 0600B2EA: nop */
-    .byte 0x06, 0x04  /* 0600B2EC: mov.b r0,@(r0,r6) */
-    .byte 0x00, 0x20  /* 0600B2EE: .word 0x0020 */
+    .4byte sym_06040020  /* 0600B2EC = 0x06040020 */
     .byte 0x60, 0x53  /* 0600B2F0: mov r5,r0 */

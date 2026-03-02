@@ -126,29 +126,16 @@ FUN_060077C0:
     .byte 0x6D, 0xF6  /* 060078AE: mov.l @r15+,r13 */
     .byte 0xFF, 0x01  /* 060078B0: .word 0xFF01 */
     .byte 0xFF, 0xFF  /* 060078B2: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 060078B4: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0xA1  /* 060078B6: mov.l r10,@(0x4,r15) */
-    .byte 0x06, 0x05  /* 060078B8: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0xA2  /* 060078BA: mov.l r10,@(0x8,r15) */
-    .byte 0x00, 0x00  /* 060078BC: .word 0x0000 */
-    .byte 0xF0, 0x01  /* 060078BE: .word 0xF001 */
-    .byte 0x25, 0xE6  /* 060078C0: mov.l r14,@-r5 */
-    .byte 0x13, 0x80  /* 060078C2: mov.l r8,@(0x0,r3) */
-    .byte 0x00, 0x2F  /* 060078C4: mac.l @r2+,@r0+ */
-    .byte 0x2C, 0xC0  /* 060078C6: mov.b r12,@r12 */
-    .byte 0x06, 0x02  /* 060078C8: stc sr,r6 */
-    .byte 0xD0, 0x90  /* 060078CA: mov.l @(0x240,PC),r0  {[0x06007B0C] = 0x89148804} */
-    .byte 0x06, 0x02  /* 060078CC: stc sr,r6 */
-    .byte 0xD1, 0x02  /* 060078CE: mov.l @(0x8,PC),r1  {[0x060078D8] = 0x06051F55} */
-    .byte 0x25, 0xE6  /* 060078D0: mov.l r14,@-r5 */
-    .byte 0xAB, 0x86  /* 060078D2: bra 0x06006FE2 */
-    .byte 0x00, 0x00  /* 060078D4: .word 0x0000 */
-    .byte 0xFF, 0x01  /* 060078D6: .word 0xFF01 */
-    .byte 0x06, 0x05  /* 060078D8: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x55  /* 060078DA: mov.l r5,@(0x14,r15) */
-    .byte 0x06, 0x05  /* 060078DC: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x56  /* 060078DE: mov.l r5,@(0x18,r15) */
-    .byte 0x06, 0x05  /* 060078E0: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x58  /* 060078E2: mov.l r5,@(0x20,r15) */
-    .byte 0x06, 0x05  /* 060078E4: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x64  /* 060078E6: mov.l r6,@(0x10,r15) */
+    .4byte sym_06051FA1  /* 060078B4 = 0x06051FA1 */
+    .4byte sym_06051FA2  /* 060078B8 = 0x06051FA2 */
+    .4byte 0x0000F001  /* 060078BC = 0x0000F001 */
+    .4byte sym_25E61380  /* 060078C0 = 0x25E61380 */
+    .4byte sym_002F2CC0  /* 060078C4 = 0x002F2CC0 */
+    .4byte sym_0602D090  /* 060078C8 = 0x0602D090 */
+    .4byte sym_0602D102  /* 060078CC = 0x0602D102 */
+    .4byte sym_25E6AB86  /* 060078D0 = 0x25E6AB86 */
+    .4byte 0x0000FF01  /* 060078D4 = 0x0000FF01 */
+    .4byte sym_06051F55  /* 060078D8 = 0x06051F55 */
+    .4byte sym_06051F56  /* 060078DC = 0x06051F56 */
+    .4byte sym_06051F58  /* 060078E0 = 0x06051F58 */
+    .4byte sym_06051F64  /* 060078E4 = 0x06051F64 */

@@ -15,8 +15,7 @@ FUN_0600D2FA:
     .byte 0x43, 0x2B  /* 0600D30A: jmp @r3 */
     .byte 0x00, 0x09  /* 0600D30C: nop */
     .byte 0x00, 0x5C  /* 0600D30E: mov.b @(r0,r5),r0 */
-    .byte 0x06, 0x03  /* 0600D310: bsrf r6 */
-    .byte 0x53, 0x14  /* 0600D312: mov.l @(0x10,r1),r3 */
+    .4byte sym_06035314  /* 0600D310 = 0x06035314 */
     .byte 0x06, 0x03  /* 0600D314: bsrf r6 */
     .byte 0x53, 0x3C  /* 0600D316: mov.l @(0x30,r3),r3 */
     .byte 0x06, 0x04  /* 0600D318: mov.b r0,@(r0,r6) */
@@ -49,8 +48,7 @@ FUN_0600D2FA:
     .byte 0x00, 0x09  /* 0600D34E: nop */
     .byte 0x00, 0x5C  /* 0600D350: mov.b @(r0,r5),r0 */
     .byte 0x00, 0x00  /* 0600D352: .word 0x0000 */
-    .byte 0x06, 0x05  /* 0600D354: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x20  /* 0600D356: shal r9 */
+    .4byte sym_06054920  /* 0600D354 = 0x06054920 */
     .byte 0x72, 0x01  /* 0600D358: add #1,r2 */
     .byte 0x01, 0x26  /* 0600D35A: mov.l r2,@(r0,r1) */
     .byte 0x92, 0x6F  /* 0600D35C: mov.w @(0xDE,PC),r2  {0x0600D43E} */
@@ -89,8 +87,7 @@ FUN_0600D2FA:
     .byte 0x91, 0x56  /* 0600D39E: mov.w @(0xAC,PC),r1  {0x0600D44E} */
     .byte 0x01, 0x34  /* 0600D3A0: mov.b r3,@(r0,r1) */
     .byte 0xD1, 0x33  /* 0600D3A2: mov.l @(0xCC,PC),r1  {[0x0600D470] = 0x0604D24A} */
-    .byte 0x31, 0x2C  /* 0600D3A4: add r2,r1 */
-    .byte 0x63, 0x10  /* 0600D3A6: mov.b @r1,r3 */
+    .4byte 0x312C6310  /* 0600D3A4 = 0x312C6310 */
     .byte 0x91, 0x52  /* 0600D3A8: mov.w @(0xA4,PC),r1  {0x0600D450} */
     .byte 0x01, 0x34  /* 0600D3AA: mov.b r3,@(r0,r1) */
     .byte 0xD1, 0x31  /* 0600D3AC: mov.l @(0xC4,PC),r1  {[0x0600D474] = 0x0604D258} */
@@ -155,7 +152,5 @@ FUN_0600D2FA:
     .byte 0x60, 0x15  /* 0600D422: mov.w @r1+,r0 */
     .byte 0xC1, 0xDA  /* 0600D424: mov.w r0,@(0x1B4,GBR) */
     .byte 0x60, 0x15  /* 0600D426: mov.w @r1+,r0 */
-    .byte 0xC1, 0xDB  /* 0600D428: mov.w r0,@(0x1B6,GBR) */
-    .byte 0x60, 0x11  /* 0600D42A: mov.w @r1,r0 */
-    .byte 0xC1, 0xDC  /* 0600D42C: mov.w r0,@(0x1B8,GBR) */
-    .byte 0x60, 0xF6  /* 0600D42E: mov.l @r15+,r0 */
+    .4byte 0xC1DB6011  /* 0600D428 = 0xC1DB6011 */
+    .4byte 0xC1DC60F6  /* 0600D42C = 0xC1DC60F6 */

@@ -28,8 +28,7 @@ FUN_060174C0:
     .byte 0xA0, 0x08  /* 060174EA: bra 0x060174FE */
     .byte 0x00, 0x09  /* 060174EC: nop */
     .byte 0x40, 0x01  /* 060174EE: shlr r0 */
-    .byte 0x65, 0x0F  /* 060174F0: exts.w r0,r5 */
-    .byte 0x40, 0x01  /* 060174F2: shlr r0 */
+    .4byte 0x650F4001  /* 060174F0 = 0x650F4001 */
     .byte 0x04, 0x29  /* 060174F4: .word 0x0429 */
     .byte 0x45, 0x11  /* 060174F6: cmp/pz r5 */
     .byte 0x89, 0x01  /* 060174F8: bt 0x060174FE */

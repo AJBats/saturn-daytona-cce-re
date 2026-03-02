@@ -28,28 +28,17 @@ FUN_06005270:
     .byte 0xA0, 0x1C  /* 0600529A: bra 0x060052D6 */
     .byte 0xE7, 0x17  /* 0600529C: mov #23,r7 */
     .byte 0x01, 0xD8  /* 0600529E: .word 0x01D8 */
-    .byte 0x06, 0x02  /* 060052A0: stc sr,r6 */
-    .byte 0xC2, 0x22  /* 060052A2: mov.l r0,@(0x88,GBR) */
-    .byte 0x06, 0x05  /* 060052A4: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0xCD  /* 060052A6: xtrct r12,r0 */
-    .byte 0x06, 0x05  /* 060052A8: mov.w r0,@(r0,r6) */
-    .byte 0x16, 0x0A  /* 060052AA: mov.l r0,@(0x28,r6) */
-    .byte 0x06, 0x05  /* 060052AC: mov.w r0,@(r0,r6) */
-    .byte 0x24, 0x16  /* 060052AE: mov.l r1,@-r4 */
-    .byte 0x00, 0x2F  /* 060052B0: mac.l @r2+,@r0+ */
-    .byte 0xC2, 0x1C  /* 060052B2: mov.l r0,@(0x70,GBR) */
-    .byte 0x06, 0x04  /* 060052B4: mov.b r0,@(r0,r6) */
-    .byte 0x46, 0xF4  /* 060052B6: .word 0x46F4 */
-    .byte 0x06, 0x04  /* 060052B8: mov.b r0,@(r0,r6) */
-    .byte 0x48, 0x48  /* 060052BA: .word 0x4848 */
-    .byte 0x06, 0x05  /* 060052BC: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0x97  /* 060052BE: mov.l r9,@(0x1C,r15) */
-    .byte 0x06, 0x05  /* 060052C0: mov.w r0,@(r0,r6) */
-    .byte 0x1F, 0xAC  /* 060052C2: mov.l r10,@(0x30,r15) */
-    .byte 0x06, 0x05  /* 060052C4: mov.w r0,@(r0,r6) */
-    .byte 0x16, 0x1C  /* 060052C6: mov.l r1,@(0x30,r6) */
-    .byte 0x06, 0x05  /* 060052C8: mov.w r0,@(r0,r6) */
-    .byte 0x49, 0x2A  /* 060052CA: lds r9,pr */
+    .4byte sym_0602C222  /* 060052A0 = 0x0602C222 */
+    .4byte sym_060520CD  /* 060052A4 = 0x060520CD */
+    .4byte sym_0605160A  /* 060052A8 = 0x0605160A */
+    .4byte sym_06052416  /* 060052AC = 0x06052416 */
+    .4byte sym_002FC21C  /* 060052B0 = 0x002FC21C */
+    .4byte sym_060446F4  /* 060052B4 = 0x060446F4 */
+    .4byte sym_06044848  /* 060052B8 = 0x06044848 */
+    .4byte sym_06051F97  /* 060052BC = 0x06051F97 */
+    .4byte sym_06051FAC  /* 060052C0 = 0x06051FAC */
+    .4byte sym_0605161C  /* 060052C4 = 0x0605161C */
+    .4byte sym_0605492A  /* 060052C8 = 0x0605492A */
     .byte 0x67, 0x4C  /* 060052CC: extu.b r4,r7 */
     .byte 0xE2, 0x0E  /* 060052CE: mov #14,r2 */
     .byte 0x27, 0x2F  /* 060052D0: muls.w r2,r7 */

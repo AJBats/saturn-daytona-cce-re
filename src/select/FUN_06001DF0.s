@@ -40,27 +40,15 @@ FUN_06001DF0:
     .byte 0x00, 0x0B  /* 06001E32: rts */
     .byte 0x6E, 0xF6  /* 06001E34: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06001E36: .word 0xFFFF */
-    .byte 0x25, 0xF0  /* 06001E38: mov.b r15,@r5 */
-    .byte 0x00, 0x00  /* 06001E3A: .word 0x0000 */
-    .byte 0x25, 0xE0  /* 06001E3C: mov.b r14,@r5 */
-    .byte 0x00, 0x00  /* 06001E3E: .word 0x0000 */
-    .byte 0x00, 0x28  /* 06001E40: clrmac */
-    .byte 0x5C, 0x80  /* 06001E42: mov.l @(0x0,r8),r12 */
-    .byte 0x06, 0x00  /* 06001E44: .word 0x0600 */
-    .byte 0x8A, 0x5C  /* 06001E46: .word 0x8A5C */
-    .byte 0x06, 0x03  /* 06001E48: bsrf r6 */
-    .byte 0xF5, 0x08  /* 06001E4A: .word 0xF508 */
-    .byte 0x25, 0xF0  /* 06001E4C: mov.b r15,@r5 */
-    .byte 0x00, 0xF0  /* 06001E4E: .word 0x00F0 */
-    .byte 0x25, 0xE0  /* 06001E50: mov.b r14,@r5 */
-    .byte 0x90, 0x00  /* 06001E52: mov.w @(0x0,PC),r0  {0x06001E56} */
-    .byte 0x25, 0xE6  /* 06001E54: mov.l r14,@-r5 */
-    .byte 0x00, 0x00  /* 06001E56: .word 0x0000 */
-    .byte 0x00, 0x2C  /* 06001E58: mov.b @(r0,r2),r0 */
-    .byte 0x53, 0x94  /* 06001E5A: mov.l @(0x10,r9),r3 */
-    .byte 0x25, 0xF0  /* 06001E5C: mov.b r15,@r5 */
-    .byte 0x00, 0x20  /* 06001E5E: .word 0x0020 */
-    .byte 0x25, 0xE0  /* 06001E60: mov.b r14,@r5 */
-    .byte 0x20, 0x00  /* 06001E62: mov.b r0,@r0 */
-    .byte 0x00, 0x2D  /* 06001E64: mov.w @(r0,r2),r0 */
-    .byte 0xDD, 0x20  /* 06001E66: mov.l @(0x80,PC),r13  {[0x06001EE8] = 0x00094000} */
+    .4byte sym_25F00000  /* 06001E38 = 0x25F00000 */
+    .4byte sym_25E00000  /* 06001E3C = 0x25E00000 */
+    .4byte sym_00285C80  /* 06001E40 = 0x00285C80 */
+    .4byte DAT_06008A5C  /* 06001E44 = 0x06008A5C (FUN_060086FC + 0x360) */
+    .4byte sym_0603F508  /* 06001E48 = 0x0603F508 */
+    .4byte sym_25F000F0  /* 06001E4C = 0x25F000F0 */
+    .4byte sym_25E09000  /* 06001E50 = 0x25E09000 */
+    .4byte sym_25E60000  /* 06001E54 = 0x25E60000 */
+    .4byte sym_002C5394  /* 06001E58 = 0x002C5394 */
+    .4byte sym_25F00020  /* 06001E5C = 0x25F00020 */
+    .4byte sym_25E02000  /* 06001E60 = 0x25E02000 */
+    .4byte sym_002DDD20  /* 06001E64 = 0x002DDD20 */

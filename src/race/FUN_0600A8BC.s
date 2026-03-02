@@ -46,7 +46,5 @@ FUN_0600A8BC:
     .byte 0x07, 0x50  /* 0600A90A: .word 0x0750 */
     .byte 0x07, 0x30  /* 0600A90C: .word 0x0730 */
     .byte 0xFF, 0xFF  /* 0600A90E: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 0600A910: mov.w r0,@(r0,r6) */
-    .byte 0x20, 0xF6  /* 0600A912: mov.l r15,@-r0 */
-    .byte 0x06, 0x04  /* 0600A914: mov.b r0,@(r0,r6) */
-    .byte 0xF5, 0x04  /* 0600A916: .word 0xF504 */
+    .4byte sym_060520F6  /* 0600A910 = 0x060520F6 */
+    .4byte sym_0604F504  /* 0600A914 = 0x0604F504 */

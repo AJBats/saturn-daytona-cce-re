@@ -34,6 +34,5 @@ FUN_06005E08:
     .byte 0x60, 0xE2  /* 06005E3E: mov.l @r14,r0 */
     .byte 0x7F, 0x04  /* 06005E40: add #4,r15 */
     .byte 0x4F, 0x26  /* 06005E42: lds.l @r15+,pr */
-    .byte 0x6D, 0xF6  /* 06005E44: mov.l @r15+,r13 */
-    .byte 0x00, 0x0B  /* 06005E46: rts */
+    .4byte 0x6DF6000B  /* 06005E44 = 0x6DF6000B */
     .byte 0x6E, 0xF6  /* 06005E48: mov.l @r15+,r14 */

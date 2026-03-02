@@ -90,8 +90,7 @@ FUN_06002EA0:
     .byte 0x23, 0x1B  /* 06002F46: or r1,r3 */
     .byte 0x61, 0x20  /* 06002F48: mov.b @r2,r1 */
     .byte 0x72, 0x03  /* 06002F4A: add #3,r2 */
-    .byte 0x61, 0x1C  /* 06002F4C: extu.b r1,r1 */
-    .byte 0x41, 0x28  /* 06002F4E: shll16 r1 */
+    .4byte 0x611C4128  /* 06002F4C = 0x611C4128 */
     .byte 0x41, 0x18  /* 06002F50: shll8 r1 */
     .byte 0x23, 0x1B  /* 06002F52: or r1,r3 */
     .byte 0x61, 0x20  /* 06002F54: mov.b @r2,r1 */
@@ -134,6 +133,5 @@ FUN_06002EA0:
     .byte 0x77, 0x48  /* 06002F9E: add #72,r7 */
     .byte 0x37, 0xE2  /* 06002FA0: cmp/hs r14,r7 */
     .byte 0x8B, 0xA9  /* 06002FA2: bf 0x06002EF8 */
-    .byte 0x6C, 0xF6  /* 06002FA4: mov.l @r15+,r12 */
-    .byte 0x00, 0x0B  /* 06002FA6: rts */
+    .4byte 0x6CF6000B  /* 06002FA4 = 0x6CF6000B */
     .byte 0x6E, 0xF6  /* 06002FA8: mov.l @r15+,r14 */

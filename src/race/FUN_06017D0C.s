@@ -166,8 +166,7 @@ FUN_06017D0C:
     .byte 0x44, 0x28  /* 06017E4A: shll16 r4 */
     .byte 0x20, 0x12  /* 06017E4C: mov.l r1,@r0 */
     .byte 0x10, 0x34  /* 06017E4E: mov.l r3,@(0x10,r0) */
-    .byte 0x10, 0x45  /* 06017E50: mov.l r4,@(0x14,r0) */
-    .byte 0x57, 0x05  /* 06017E52: mov.l @(0x14,r0),r7 */
+    .4byte 0x10455705  /* 06017E50 = 0x10455705 */
     .byte 0x67, 0x7B  /* 06017E54: neg r7,r7 */
     .byte 0x16, 0x70  /* 06017E56: mov.l r7,@(0x0,r6) */
     .byte 0x54, 0x52  /* 06017E58: mov.l @(0x8,r5),r4 */

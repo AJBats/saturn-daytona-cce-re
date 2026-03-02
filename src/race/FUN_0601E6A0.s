@@ -52,9 +52,6 @@ FUN_0601E6A0:
     .byte 0xAF, 0xF3  /* 0601E6FA: bra 0x0601E6E4 */
     .byte 0x00, 0x09  /* 0601E6FC: nop */
     .byte 0x00, 0x00  /* 0601E6FE: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0601E700: .word 0x0000 */
-    .byte 0x80, 0x00  /* 0601E702: mov.b r0,@(0x0,r0) */
-    .byte 0x06, 0x04  /* 0601E704: mov.b r0,@(r0,r6) */
-    .byte 0x63, 0xE4  /* 0601E706: mov.b @r14+,r3 */
-    .byte 0x06, 0x04  /* 0601E708: mov.b r0,@(r0,r6) */
-    .byte 0x66, 0x02  /* 0601E70A: mov.l @r0,r6 */
+    .4byte 0x00008000  /* 0601E700 = 0x00008000 */
+    .4byte sym_060463E4  /* 0601E704 = 0x060463E4 */
+    .4byte sym_06046602  /* 0601E708 = 0x06046602 */

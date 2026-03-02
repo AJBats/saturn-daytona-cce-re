@@ -128,29 +128,16 @@ FUN_06000A10:
     .byte 0x00, 0x0B  /* 06000B02: rts */
     .byte 0x6E, 0xF6  /* 06000B04: mov.l @r15+,r14 */
     .byte 0xFF, 0xFF  /* 06000B06: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06000B08: .word 0x0600 */
-    .byte 0x68, 0x9E  /* 06000B0A: exts.b r9,r8 */
-    .byte 0x06, 0x00  /* 06000B0C: .word 0x0600 */
-    .byte 0x68, 0x88  /* 06000B0E: swap.b r8,r8 */
-    .byte 0x06, 0x01  /* 06000B10: .word 0x0601 */
-    .byte 0x31, 0xB0  /* 06000B12: cmp/eq r11,r1 */
-    .byte 0x06, 0x01  /* 06000B14: .word 0x0601 */
-    .byte 0x31, 0x88  /* 06000B16: sub r8,r1 */
-    .byte 0x06, 0x01  /* 06000B18: .word 0x0601 */
-    .byte 0x31, 0x68  /* 06000B1A: sub r6,r1 */
-    .byte 0x06, 0x00  /* 06000B1C: .word 0x0600 */
-    .byte 0xA3, 0xE4  /* 06000B1E: bra 0x060012EA */
-    .byte 0x06, 0x00  /* 06000B20: .word 0x0600 */
-    .byte 0xA5, 0x82  /* 06000B22: bra 0x0600162A */
-    .byte 0x06, 0x00  /* 06000B24: .word 0x0600 */
-    .byte 0xA7, 0xCE  /* 06000B26: bra 0x06001AC6 */
-    .byte 0x06, 0x00  /* 06000B28: .word 0x0600 */
-    .byte 0xAB, 0x30  /* 06000B2A: bra 0x0600018E */
-    .byte 0x06, 0x01  /* 06000B2C: .word 0x0601 */
-    .byte 0x0B, 0x0C  /* 06000B2E: mov.b @(r0,r0),r11 */
-    .byte 0x06, 0x00  /* 06000B30: .word 0x0600 */
-    .byte 0x68, 0xB8  /* 06000B32: swap.b r11,r8 */
-    .byte 0x06, 0x01  /* 06000B34: .word 0x0601 */
-    .byte 0x31, 0x90  /* 06000B36: cmp/eq r9,r1 */
-    .byte 0x06, 0x01  /* 06000B38: .word 0x0601 */
-    .byte 0x0A, 0xE0  /* 06000B3A: .word 0x0AE0 */
+    .4byte DAT_0600689E  /* 06000B08 = 0x0600689E (FUN_06006800 + 0x9E) */
+    .4byte DAT_06006888  /* 06000B0C = 0x06006888 (FUN_06006800 + 0x88) */
+    .4byte DAT_060131B0  /* 06000B10 = 0x060131B0 (FUN_0600EA84 + 0x472C) */
+    .4byte DAT_06013188  /* 06000B14 = 0x06013188 (FUN_0600EA84 + 0x4704) */
+    .4byte DAT_06013168  /* 06000B18 = 0x06013168 (FUN_0600EA84 + 0x46E4) */
+    .4byte DAT_0600A3E4  /* 06000B1C = 0x0600A3E4 (FUN_0600A304 + 0xE0) */
+    .4byte DAT_0600A582  /* 06000B20 = 0x0600A582 (FUN_0600A4CE + 0xB4) */
+    .4byte DAT_0600A7CE  /* 06000B24 = 0x0600A7CE (FUN_0600A6B6 + 0x118) */
+    .4byte DAT_0600AB30  /* 06000B28 = 0x0600AB30 (FUN_0600AAD6 + 0x5A) */
+    .4byte DAT_06010B0C  /* 06000B2C = 0x06010B0C (FUN_0600EA84 + 0x2088) */
+    .4byte DAT_060068B8  /* 06000B30 = 0x060068B8 (FUN_06006800 + 0xB8) */
+    .4byte DAT_06013190  /* 06000B34 = 0x06013190 (FUN_0600EA84 + 0x470C) */
+    .4byte DAT_06010AE0  /* 06000B38 = 0x06010AE0 (FUN_0600EA84 + 0x205C) */

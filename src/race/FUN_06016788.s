@@ -18,8 +18,7 @@ FUN_06016788:
     .byte 0x6A, 0xF6  /* 0601679E: mov.l @r15+,r10 */
     .byte 0x69, 0xF6  /* 060167A0: mov.l @r15+,r9 */
     .byte 0x68, 0xF6  /* 060167A2: mov.l @r15+,r8 */
-    .byte 0x4F, 0x16  /* 060167A4: lds.l @r15+,macl */
-    .byte 0x4F, 0x06  /* 060167A6: lds.l @r15+,mach */
+    .4byte 0x4F164F06  /* 060167A4 = 0x4F164F06 */
     .byte 0x4F, 0x17  /* 060167A8: .word 0x4F17 */
     .byte 0x4F, 0x26  /* 060167AA: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 060167AC: rts */

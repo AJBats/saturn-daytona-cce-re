@@ -86,9 +86,6 @@ FUN_06009098:
     .byte 0x09, 0x14  /* 06009136: mov.b r1,@(r0,r9) */
     .byte 0x08, 0x00  /* 06009138: .word 0x0800 */
     .byte 0xFF, 0xFF  /* 0600913A: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 0600913C: .word 0x0600 */
-    .byte 0xF4, 0xD4  /* 0600913E: .word 0xF4D4 */
-    .byte 0x06, 0x00  /* 06009140: .word 0x0600 */
-    .byte 0xE6, 0x74  /* 06009142: mov #116,r6 */
-    .byte 0x06, 0x01  /* 06009144: .word 0x0601 */
-    .byte 0x36, 0x20  /* 06009146: cmp/eq r2,r6 */
+    .4byte DAT_0600F4D4  /* 0600913C = 0x0600F4D4 (FUN_0600EA84 + 0xA50) */
+    .4byte DAT_0600E674  /* 06009140 = 0x0600E674 (FUN_0600B7A0 + 0x2ED4) */
+    .4byte DAT_06013620  /* 06009144 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */

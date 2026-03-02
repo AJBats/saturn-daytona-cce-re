@@ -60,11 +60,7 @@ FUN_06007838:
     .byte 0x00, 0x0B  /* 060078A2: rts */
     .byte 0x7F, 0x04  /* 060078A4: add #4,r15 */
     .byte 0xFF, 0x0F  /* 060078A6: .word 0xFF0F */
-    .byte 0x06, 0x00  /* 060078A8: .word 0x0600 */
-    .byte 0xA0, 0xBA  /* 060078AA: bra 0x06007A22 */
-    .byte 0x06, 0x01  /* 060078AC: .word 0x0601 */
-    .byte 0x36, 0xC8  /* 060078AE: sub r12,r6 */
-    .byte 0x06, 0x00  /* 060078B0: .word 0x0600 */
-    .byte 0x8E, 0x88  /* 060078B2: .word 0x8E88 */
-    .byte 0x00, 0xFF  /* 060078B4: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 060078B6: .word 0xFFFF */
+    .4byte DAT_0600A0BA  /* 060078A8 = 0x0600A0BA (FUN_0600A08E + 0x2C) */
+    .4byte DAT_060136C8  /* 060078AC = 0x060136C8 (FUN_0600EA84 + 0x4C44) */
+    .4byte DAT_06008E88  /* 060078B0 = 0x06008E88 (FUN_06008E50 + 0x38) */
+    .4byte 0x00FFFFFF  /* 060078B4 = 0x00FFFFFF */

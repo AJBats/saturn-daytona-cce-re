@@ -8,8 +8,7 @@ FUN_06002868:
     .byte 0x2F, 0x96  /* 0600286A: mov.l r9,@-r15 */
     .byte 0x84, 0x82  /* 0600286C: mov.b @(0x2,r8),r0 */
     .byte 0x60, 0x0C  /* 0600286E: extu.b r0,r0 */
-    .byte 0x2F, 0x06  /* 06002870: mov.l r0,@-r15 */
-    .byte 0x84, 0x81  /* 06002872: mov.b @(0x1,r8),r0 */
+    .4byte 0x2F068481  /* 06002870 = 0x2F068481 */
     .byte 0x66, 0x80  /* 06002874: mov.b @r8,r6 */
     .byte 0x67, 0x0C  /* 06002876: extu.b r0,r7 */
     .byte 0x66, 0x6C  /* 06002878: extu.b r6,r6 */

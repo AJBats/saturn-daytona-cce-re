@@ -72,14 +72,10 @@ FUN_0601B124:
     .byte 0x33, 0x33  /* 0601B1A6: cmp/ge r3,r3 */
     .byte 0x01, 0xD4  /* 0601B1A8: mov.b r13,@(r0,r1) */
     .byte 0xFF, 0xFF  /* 0601B1AA: .word 0xFFFF */
-    .byte 0x06, 0x04  /* 0601B1AC: mov.b r0,@(r0,r6) */
-    .byte 0xC9, 0x54  /* 0601B1AE: and #0x54,r0 */
-    .byte 0x06, 0x05  /* 0601B1B0: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0x2C  /* 0601B1B2: add r2,r13 */
-    .byte 0x06, 0x05  /* 0601B1B4: mov.w r0,@(r0,r6) */
-    .byte 0x3D, 0xEC  /* 0601B1B6: add r14,r13 */
-    .byte 0x06, 0x04  /* 0601B1B8: mov.b r0,@(r0,r6) */
-    .byte 0x3C, 0xCC  /* 0601B1BA: add r12,r12 */
+    .4byte sym_0604C954  /* 0601B1AC = 0x0604C954 */
+    .4byte sym_06053D2C  /* 0601B1B0 = 0x06053D2C */
+    .4byte sym_06053DEC  /* 0601B1B4 = 0x06053DEC */
+    .4byte sym_06043CCC  /* 0601B1B8 = 0x06043CCC */
     .byte 0xD4, 0x3D  /* 0601B1BC: mov.l @(0xF4,PC),r4  {[0x0601B2B4] = 0x06054044} */
     .byte 0xE6, 0x70  /* 0601B1BE: mov #112,r6 */
     .byte 0xD3, 0x3D  /* 0601B1C0: mov.l @(0xF4,PC),r3  {[0x0601B2B8] = 0x06008E48} */

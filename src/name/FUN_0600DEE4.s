@@ -22,14 +22,10 @@ FUN_0600DEE4:
     .byte 0x4F, 0x26  /* 0600DF02: lds.l @r15+,pr */
     .byte 0x00, 0x0B  /* 0600DF04: rts */
     .byte 0x00, 0x09  /* 0600DF06: nop */
-    .byte 0x06, 0x03  /* 0600DF08: bsrf r6 */
-    .byte 0xA3, 0x78  /* 0600DF0A: bra 0x0600E5FE */
-    .byte 0x00, 0x00  /* 0600DF0C: .word 0x0000 */
-    .byte 0x40, 0x00  /* 0600DF0E: shll r0 */
-    .byte 0x00, 0x00  /* 0600DF10: .word 0x0000 */
-    .byte 0x80, 0x00  /* 0600DF12: mov.b r0,@(0x0,r0) */
-    .byte 0xFF, 0xFF  /* 0600DF14: .word 0xFFFF */
-    .byte 0xC0, 0x00  /* 0600DF16: mov.b r0,@(0x0,GBR) */
+    .4byte sym_0603A378  /* 0600DF08 = 0x0603A378 */
+    .4byte 0x00004000  /* 0600DF0C = 0x00004000 */
+    .4byte 0x00008000  /* 0600DF10 = 0x00008000 */
+    .4byte 0xFFFFC000  /* 0600DF14 = 0xFFFFC000 */
     .byte 0x45, 0x11  /* 0600DF18: cmp/pz r5 */
     .byte 0x89, 0x00  /* 0600DF1A: bt 0x0600DF1E */
     .byte 0x65, 0x5B  /* 0600DF1C: neg r5,r5 */

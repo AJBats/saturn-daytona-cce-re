@@ -23,11 +23,7 @@ FUN_060179B2:
     .byte 0x00, 0x82  /* 060179D2: .word 0x0082 */
     .byte 0x00, 0x30  /* 060179D4: .word 0x0030 */
     .byte 0x40, 0x00  /* 060179D6: shll r0 */
-    .byte 0xFF, 0xFF  /* 060179D8: .word 0xFFFF */
-    .byte 0xFF, 0xE8  /* 060179DA: .word 0xFFE8 */
-    .byte 0x00, 0x00  /* 060179DC: .word 0x0000 */
-    .byte 0x80, 0x00  /* 060179DE: mov.b r0,@(0x0,r0) */
-    .byte 0xFF, 0xFF  /* 060179E0: .word 0xFFFF */
-    .byte 0xFF, 0xBC  /* 060179E2: .word 0xFFBC */
-    .byte 0x06, 0x04  /* 060179E4: mov.b r0,@(r0,r6) */
-    .byte 0x7E, 0x0C  /* 060179E6: add #12,r14 */
+    .4byte sym_FFFFFFE8  /* 060179D8 = 0xFFFFFFE8 */
+    .4byte 0x00008000  /* 060179DC = 0x00008000 */
+    .4byte sym_FFFFFFBC  /* 060179E0 = 0xFFFFFFBC */
+    .4byte sym_06047E0C  /* 060179E4 = 0x06047E0C */

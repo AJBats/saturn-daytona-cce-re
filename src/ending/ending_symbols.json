@@ -1,0 +1,253 @@
+{
+  "module_base": "0x06000000",
+  "module_size": 32545,
+  "function_count": 6,
+  "dat_symbols": {
+    "DAT_06007D94": {
+      "absolute": "0x06007D94",
+      "parent_fun": "FUN_06000784",
+      "offset": "0x7610"
+    },
+    "DAT_06007AF8": {
+      "absolute": "0x06007AF8",
+      "parent_fun": "FUN_06000784",
+      "offset": "0x7374"
+    },
+    "DAT_0600617C": {
+      "absolute": "0x0600617C",
+      "parent_fun": "FUN_06000784",
+      "offset": "0x59F8"
+    },
+    "DAT_0600581A": {
+      "absolute": "0x0600581A",
+      "parent_fun": "FUN_06000784",
+      "offset": "0x5096"
+    },
+    "DAT_0600584C": {
+      "absolute": "0x0600584C",
+      "parent_fun": "FUN_06000784",
+      "offset": "0x50C8"
+    }
+  },
+  "sym_symbols": {
+    "sym_0602FF28": {
+      "absolute": "0x0602FF28"
+    },
+    "sym_0602FF24": {
+      "absolute": "0x0602FF24"
+    },
+    "sym_06028184": {
+      "absolute": "0x06028184"
+    },
+    "sym_00220000": {
+      "absolute": "0x00220000"
+    },
+    "sym_0602FF14": {
+      "absolute": "0x0602FF14"
+    },
+    "sym_0602FC74": {
+      "absolute": "0x0602FC74"
+    },
+    "sym_060283BA": {
+      "absolute": "0x060283BA"
+    },
+    "sym_06028554": {
+      "absolute": "0x06028554"
+    },
+    "sym_06028680": {
+      "absolute": "0x06028680"
+    },
+    "sym_06028564": {
+      "absolute": "0x06028564"
+    },
+    "sym_06028784": {
+      "absolute": "0x06028784"
+    },
+    "sym_06028320": {
+      "absolute": "0x06028320"
+    },
+    "sym_25F80114": {
+      "absolute": "0x25F80114"
+    },
+    "sym_25F80116": {
+      "absolute": "0x25F80116"
+    },
+    "sym_25F80118": {
+      "absolute": "0x25F80118"
+    },
+    "sym_25F80000": {
+      "absolute": "0x25F80000"
+    },
+    "sym_25F80020": {
+      "absolute": "0x25F80020"
+    },
+    "sym_25F8000E": {
+      "absolute": "0x25F8000E"
+    },
+    "sym_25F800EE": {
+      "absolute": "0x25F800EE"
+    },
+    "sym_25F800F8": {
+      "absolute": "0x25F800F8"
+    },
+    "sym_25F800FA": {
+      "absolute": "0x25F800FA"
+    },
+    "sym_25F80030": {
+      "absolute": "0x25F80030"
+    },
+    "sym_25F80032": {
+      "absolute": "0x25F80032"
+    },
+    "sym_25F80034": {
+      "absolute": "0x25F80034"
+    },
+    "sym_25F80036": {
+      "absolute": "0x25F80036"
+    },
+    "sym_25F80010": {
+      "absolute": "0x25F80010"
+    },
+    "sym_25F80014": {
+      "absolute": "0x25F80014"
+    },
+    "sym_25F80018": {
+      "absolute": "0x25F80018"
+    },
+    "sym_25F8001C": {
+      "absolute": "0x25F8001C"
+    },
+    "sym_25F800EC": {
+      "absolute": "0x25F800EC"
+    },
+    "sym_25F800D0": {
+      "absolute": "0x25F800D0"
+    },
+    "sym_25F800D2": {
+      "absolute": "0x25F800D2"
+    },
+    "sym_25F800C8": {
+      "absolute": "0x25F800C8"
+    },
+    "sym_25F800CA": {
+      "absolute": "0x25F800CA"
+    },
+    "sym_25F800CC": {
+      "absolute": "0x25F800CC"
+    },
+    "sym_25F800CE": {
+      "absolute": "0x25F800CE"
+    },
+    "sym_25F8010A": {
+      "absolute": "0x25F8010A"
+    },
+    "sym_25E66000": {
+      "absolute": "0x25E66000"
+    },
+    "sym_25E64000": {
+      "absolute": "0x25E64000"
+    },
+    "sym_25E6E000": {
+      "absolute": "0x25E6E000"
+    },
+    "sym_25E6C000": {
+      "absolute": "0x25E6C000"
+    },
+    "sym_25E6A000": {
+      "absolute": "0x25E6A000"
+    },
+    "sym_25E68000": {
+      "absolute": "0x25E68000"
+    },
+    "sym_25E62000": {
+      "absolute": "0x25E62000"
+    },
+    "sym_25E60000": {
+      "absolute": "0x25E60000"
+    },
+    "sym_25E7FFFE": {
+      "absolute": "0x25E7FFFE"
+    },
+    "sym_0602FF30": {
+      "absolute": "0x0602FF30"
+    },
+    "sym_0602FF2C": {
+      "absolute": "0x0602FF2C"
+    },
+    "sym_0602FF2E": {
+      "absolute": "0x0602FF2E"
+    },
+    "sym_060283D6": {
+      "absolute": "0x060283D6"
+    },
+    "sym_25F800C0": {
+      "absolute": "0x25F800C0"
+    },
+    "sym_25F800C2": {
+      "absolute": "0x25F800C2"
+    },
+    "sym_25F800C4": {
+      "absolute": "0x25F800C4"
+    },
+    "sym_25F80040": {
+      "absolute": "0x25F80040"
+    },
+    "sym_25F80042": {
+      "absolute": "0x25F80042"
+    },
+    "sym_25F80044": {
+      "absolute": "0x25F80044"
+    },
+    "sym_25F80046": {
+      "absolute": "0x25F80046"
+    },
+    "sym_25F80048": {
+      "absolute": "0x25F80048"
+    },
+    "sym_25F8004A": {
+      "absolute": "0x25F8004A"
+    },
+    "sym_25F8004C": {
+      "absolute": "0x25F8004C"
+    },
+    "sym_25F8004E": {
+      "absolute": "0x25F8004E"
+    },
+    "sym_25F80070": {
+      "absolute": "0x25F80070"
+    },
+    "sym_25F80074": {
+      "absolute": "0x25F80074"
+    },
+    "sym_25F80080": {
+      "absolute": "0x25F80080"
+    },
+    "sym_25F80084": {
+      "absolute": "0x25F80084"
+    },
+    "sym_25F80090": {
+      "absolute": "0x25F80090"
+    },
+    "sym_25F80092": {
+      "absolute": "0x25F80092"
+    },
+    "sym_25F80094": {
+      "absolute": "0x25F80094"
+    },
+    "sym_25F80096": {
+      "absolute": "0x25F80096"
+    },
+    "sym_06028898": {
+      "absolute": "0x06028898"
+    },
+    "sym_00220080": {
+      "absolute": "0x00220080"
+    },
+    "sym_060135F8": {
+      "absolute": "0x060135F8"
+    },
+    "sym_00250003": {
+      "absolute": "0x00250003"
+    }
+  }
+}

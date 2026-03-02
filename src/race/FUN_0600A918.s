@@ -204,7 +204,5 @@ FUN_0600A918:
     .byte 0x47, 0x50  /* 0600AAA2: .word 0x4750 */
     .byte 0x04, 0x18  /* 0600AAA4: .word 0x0418 */
     .byte 0x00, 0x9B  /* 0600AAA6: .word 0x009B */
-    .byte 0x00, 0x07  /* 0600AAA8: mul.l r0,r0 */
-    .byte 0xFF, 0xFF  /* 0600AAAA: .word 0xFFFF */
-    .byte 0x25, 0xC0  /* 0600AAAC: mov.b r12,@r5 */
-    .byte 0xD1, 0x00  /* 0600AAAE: mov.l @(0x0,PC),r1  {[0x0600AAB0] = 0x2FE62FD6} */
+    .4byte 0x0007FFFF  /* 0600AAA8 = 0x0007FFFF */
+    .4byte sym_25C0D100  /* 0600AAAC = 0x25C0D100 */

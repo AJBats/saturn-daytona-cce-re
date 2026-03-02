@@ -16,5 +16,4 @@ FUN_060056A8:
     .byte 0x00, 0x0B  /* 060056BA: rts */
     .byte 0x00, 0x09  /* 060056BC: nop */
     .byte 0x00, 0x00  /* 060056BE: .word 0x0000 */
-    .byte 0x06, 0x09  /* 060056C0: .word 0x0609 */
-    .byte 0xA6, 0xC8  /* 060056C2: bra 0x06006456 */
+    .4byte sym_0609A6C8  /* 060056C0 = 0x0609A6C8 */

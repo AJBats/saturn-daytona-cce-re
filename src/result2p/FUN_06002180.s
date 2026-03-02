@@ -34,7 +34,5 @@ FUN_06002180:
     .byte 0x14, 0x1A  /* 060021B6: mov.l r1,@(0x28,r4) */
     .byte 0x00, 0x0B  /* 060021B8: rts */
     .byte 0x14, 0x0B  /* 060021BA: mov.l r0,@(0x2C,r4) */
-    .byte 0x06, 0x09  /* 060021BC: .word 0x0609 */
-    .byte 0x9E, 0xB8  /* 060021BE: mov.w @(0x170,PC),r14  {0x06002332} */
-    .byte 0x06, 0x09  /* 060021C0: .word 0x0609 */
-    .byte 0xA2, 0xB8  /* 060021C2: bra 0x06002736 */
+    .4byte sym_06099EB8  /* 060021BC = 0x06099EB8 */
+    .4byte sym_0609A2B8  /* 060021C0 = 0x0609A2B8 */

@@ -13,5 +13,4 @@ FUN_060045AA:
     .byte 0xE7, 0x26  /* 060045B6: mov #38,r7 */
     .byte 0xD1, 0x1E  /* 060045B8: mov.l @(0x78,PC),r1  {[0x06004634] = 0x06028B80} */
     .byte 0xE6, 0x3A  /* 060045BA: mov #58,r6 */
-    .byte 0x2F, 0x26  /* 060045BC: mov.l r2,@-r15 */
-    .byte 0xE5, 0x23  /* 060045BE: mov #35,r5 */
+    .4byte 0x2F26E523  /* 060045BC = 0x2F26E523 */

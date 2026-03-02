@@ -35,8 +35,7 @@ FUN_06005C86:
     .byte 0x6E, 0xF6  /* 06005CBE: mov.l @r15+,r14 */
     .byte 0x55, 0xF1  /* 06005CC0: mov.l @(0x4,r15),r5 */
     .byte 0x64, 0xE3  /* 06005CC2: mov r14,r4 */
-    .byte 0xD3, 0x44  /* 06005CC4: mov.l @(0x110,PC),r3  {[0x06005DD8] = 0x0600D3CA} */
-    .byte 0x74, 0x0C  /* 06005CC6: add #12,r4 */
+    .4byte 0xD344740C  /* 06005CC4 = 0xD344740C */
     .byte 0x64, 0xE3  /* 06005CC8: mov r14,r4 */
     .byte 0x43, 0x0B  /* 06005CCA: jsr @r3 */
     .byte 0x74, 0x6C  /* 06005CCC: add #108,r4 */

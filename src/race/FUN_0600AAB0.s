@@ -4,8 +4,7 @@
     .global FUN_0600AAB0
     .type FUN_0600AAB0, @function
 FUN_0600AAB0:
-    .byte 0x2F, 0xE6  /* 0600AAB0: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 0600AAB2: mov.l r13,@-r15 */
+    .4byte 0x2FE62FD6  /* 0600AAB0 = 0x2FE62FD6 */
     .byte 0x2F, 0xC6  /* 0600AAB4: mov.l r12,@-r15 */
     .byte 0xEC, 0x30  /* 0600AAB6: mov #48,r12 */
     .byte 0xDE, 0x3B  /* 0600AAB8: mov.l @(0xEC,PC),r14  {[0x0600ABA8] = 0x06052146} */
@@ -128,5 +127,4 @@ FUN_0600AAB0:
     .byte 0x00, 0xB6  /* 0600ABA2: mov.l r11,@(r0,r0) */
     .byte 0x40, 0x00  /* 0600ABA4: shll r0 */
     .byte 0xFF, 0xFF  /* 0600ABA6: .word 0xFFFF */
-    .byte 0x06, 0x05  /* 0600ABA8: mov.w r0,@(r0,r6) */
-    .byte 0x21, 0x46  /* 0600ABAA: mov.l r4,@-r1 */
+    .4byte sym_06052146  /* 0600ABA8 = 0x06052146 */

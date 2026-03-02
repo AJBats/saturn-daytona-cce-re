@@ -146,14 +146,10 @@ FUN_06009148:
     .byte 0x00, 0xAC  /* 0600925E: mov.b @(r0,r10),r0 */
     .byte 0x00, 0xB0  /* 06009260: .word 0x00B0 */
     .byte 0xFF, 0xFF  /* 06009262: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06009264: .word 0x0600 */
-    .byte 0xE6, 0x8C  /* 06009266: mov #-116,r6 */
-    .byte 0x06, 0x01  /* 06009268: .word 0x0601 */
-    .byte 0x36, 0x20  /* 0600926A: cmp/eq r2,r6 */
-    .byte 0x7F, 0xFF  /* 0600926C: add #-1,r15 */
-    .byte 0xFF, 0xFF  /* 0600926E: .word 0xFFFF */
-    .byte 0x06, 0x00  /* 06009270: .word 0x0600 */
-    .byte 0xE5, 0x7C  /* 06009272: mov #124,r5 */
+    .4byte DAT_0600E68C  /* 06009264 = 0x0600E68C (FUN_0600B7A0 + 0x2EEC) */
+    .4byte DAT_06013620  /* 06009268 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+    .4byte 0x7FFFFFFF  /* 0600926C = 0x7FFFFFFF */
+    .4byte DAT_0600E57C  /* 06009270 = 0x0600E57C (FUN_0600B7A0 + 0x2DDC) */
     .byte 0xE0, 0x01  /* 06009274: mov #1,r0 */
     .byte 0x4F, 0x26  /* 06009276: lds.l @r15+,pr */
     .byte 0x68, 0xF6  /* 06009278: mov.l @r15+,r8 */

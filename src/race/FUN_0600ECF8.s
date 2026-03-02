@@ -26,16 +26,14 @@ FUN_0600ECF8:
     .byte 0x00, 0x09  /* 0600ED1E: nop */
     .byte 0x01, 0x5C  /* 0600ED20: mov.b @(r0,r5),r1 */
     .byte 0x01, 0x6A  /* 0600ED22: .word 0x016A */
-    .byte 0x06, 0x03  /* 0600ED24: bsrf r6 */
-    .byte 0x6D, 0x52  /* 0600ED26: mov.l @r5,r13 */
+    .4byte sym_06036D52  /* 0600ED24 = 0x06036D52 */
     .byte 0xDC, 0x02  /* 0600ED28: mov.l @(0x8,PC),r12  {[0x0600ED34] = 0x06036D7C} */
     .byte 0x4C, 0x0B  /* 0600ED2A: jsr @r12 */
     .byte 0x00, 0x09  /* 0600ED2C: nop */
     .byte 0xA0, 0x06  /* 0600ED2E: bra 0x0600ED3E */
     .byte 0x00, 0x09  /* 0600ED30: nop */
     .byte 0x00, 0x00  /* 0600ED32: .word 0x0000 */
-    .byte 0x06, 0x03  /* 0600ED34: bsrf r6 */
-    .byte 0x6D, 0x7C  /* 0600ED36: extu.b r7,r13 */
+    .4byte sym_06036D7C  /* 0600ED34 = 0x06036D7C */
     .byte 0xDC, 0x29  /* 0600ED38: mov.l @(0xA4,PC),r12  {[0x0600EDE0] = 0x06036DA6} */
     .byte 0x4C, 0x0B  /* 0600ED3A: jsr @r12 */
     .byte 0x00, 0x09  /* 0600ED3C: nop */

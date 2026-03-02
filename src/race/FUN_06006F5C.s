@@ -42,8 +42,7 @@ FUN_06006F5C:
     .byte 0x45, 0x08  /* 06006FA2: shll2 r5 */
     .byte 0x45, 0x08  /* 06006FA4: shll2 r5 */
     .byte 0x45, 0x00  /* 06006FA6: shll r5 */
-    .byte 0x41, 0x0B  /* 06006FA8: jsr @r1 */
-    .byte 0x35, 0x2C  /* 06006FAA: add r2,r5 */
+    .4byte 0x410B352C  /* 06006FA8 = 0x410B352C */
     .byte 0xA0, 0x0C  /* 06006FAC: bra 0x06006FC8 */
     .byte 0x00, 0x09  /* 06006FAE: nop */
     .byte 0x85, 0xE1  /* 06006FB0: mov.w @(0x2,r14),r0 */
