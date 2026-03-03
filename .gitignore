@@ -23,6 +23,10 @@ tools/sh-elf/
 # Claude session memory (auto-generated, not tracked)
 .claude/memory/
 
+# Python bytecode cache
+__pycache__/
+*.pyc
+
 # OS junk
 .DS_Store
 Thumbs.db
