@@ -189,8 +189,8 @@ class MednafenBot:
 
 def main():
     parser = argparse.ArgumentParser(description="CCE screenshot boot test")
-    parser.add_argument("cue", nargs="?", default=RETAIL_CUE,
-                        help="Path to CUE file")
+    parser.add_argument("cue",
+                        help="Path to CUE file (REQUIRED — no default)")
     parser.add_argument("--golden", default=GOLDEN,
                         help="Path to golden baseline screenshot")
     parser.add_argument("--capture-golden", action="store_true",
