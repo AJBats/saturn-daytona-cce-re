@@ -4,13 +4,13 @@
     .global FUN_0600E832
     .type FUN_0600E832, @function
 FUN_0600E832:
-    .byte 0x2F, 0xE6  /* 0600E832: mov.l r14,@-r15 */
-    .byte 0x4F, 0x22  /* 0600E834: sts.l pr,@-r15 */
-    .byte 0xEE, 0x01  /* 0600E836: mov #1,r14 */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    mov #0x1, r14
     .byte 0xD2, 0x3C  /* 0600E838: mov.l @(0xF0,PC),r2  {[0x0600E92C] = 0x002FD72A} */
-    .byte 0x63, 0x20  /* 0600E83A: mov.b @r2,r3 */
-    .byte 0x63, 0x3C  /* 0600E83C: extu.b r3,r3 */
-    .byte 0x23, 0xE8  /* 0600E83E: tst r14,r3 */
+    mov.b @r2, r3
+    extu.b r3, r3
+    tst r14, r3
     .4byte 0x8908B00C  /* 0600E840 = 0x8908B00C */
     .byte 0x00, 0x09  /* 0600E844: nop */
     .byte 0xBF, 0xEB  /* 0600E846: bsr 0x0600E820 */
@@ -120,6 +120,7 @@ FUN_0600E832:
     .4byte 0x0000F110  /* 0600E920 = 0x0000F110 */
     .4byte sym_060410D8  /* 0600E924 = 0x060410D8 */
     .4byte sym_06037104  /* 0600E928 = 0x06037104 */
+.L_pool_0600E92C:
     .4byte sym_002FD72A  /* 0600E92C = 0x002FD72A */
     .4byte sym_060539CC  /* 0600E930 = 0x060539CC */
     .4byte sym_0021FF00  /* 0600E934 = 0x0021FF00 */

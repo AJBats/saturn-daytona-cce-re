@@ -4,7 +4,7 @@
     .global FUN_06006AE6
     .type FUN_06006AE6, @function
 FUN_06006AE6:
-    .byte 0x4F, 0x22  /* 06006AE6: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .4byte 0xD31F6030  /* 06006AE8 = 0xD31F6030 */
     .byte 0x88, 0x02  /* 06006AEC: cmp/eq #2,r0 */
     .byte 0x8D, 0x03  /* 06006AEE: bt/s 0x06006AF8 */

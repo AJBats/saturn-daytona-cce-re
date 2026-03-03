@@ -4,8 +4,8 @@
     .global FUN_0600C694
     .type FUN_0600C694, @function
 FUN_0600C694:
-    .byte 0x2F, 0xE6  /* 0600C694: mov.l r14,@-r15 */
-    .byte 0xE5, 0x13  /* 0600C696: mov #19,r5 */
+    mov.l r14, @-r15
+    mov #0x13, r5
     .4byte 0xD31B2F36  /* 0600C698 = 0xD31B2F36 */
     .byte 0x42, 0x0B  /* 0600C69C: jsr @r2 */
     .byte 0xE4, 0x00  /* 0600C69E: mov #0,r4 */

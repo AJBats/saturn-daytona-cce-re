@@ -4,28 +4,28 @@
     .global FUN_060009B8
     .type FUN_060009B8, @function
 FUN_060009B8:
-    .byte 0x4F, 0x22  /* 060009B8: sts.l pr,@-r15 */
-    .byte 0x4A, 0x21  /* 060009BA: shar r10 */
-    .byte 0x4F, 0x12  /* 060009BC: sts.l macl,@-r15 */
-    .byte 0x29, 0xE9  /* 060009BE: and r14,r9 */
-    .byte 0x7F, 0xF8  /* 060009C0: add #-8,r15 */
-    .byte 0x4A, 0x21  /* 060009C2: shar r10 */
-    .byte 0x4A, 0x21  /* 060009C4: shar r10 */
-    .byte 0x4A, 0x21  /* 060009C6: shar r10 */
-    .byte 0x2A, 0xE9  /* 060009C8: and r14,r10 */
-    .byte 0x4D, 0x21  /* 060009CA: shar r13 */
-    .byte 0x4D, 0x21  /* 060009CC: shar r13 */
-    .byte 0x4D, 0x21  /* 060009CE: shar r13 */
-    .byte 0x4D, 0x21  /* 060009D0: shar r13 */
-    .byte 0x4D, 0x21  /* 060009D2: shar r13 */
-    .byte 0x4D, 0x21  /* 060009D4: shar r13 */
-    .byte 0x4D, 0x21  /* 060009D6: shar r13 */
-    .byte 0x4D, 0x21  /* 060009D8: shar r13 */
-    .byte 0x4D, 0x21  /* 060009DA: shar r13 */
-    .byte 0x4D, 0x21  /* 060009DC: shar r13 */
-    .byte 0x6B, 0xD3  /* 060009DE: mov r13,r11 */
-    .byte 0x2B, 0xE9  /* 060009E0: and r14,r11 */
-    .byte 0x66, 0x7D  /* 060009E2: extu.w r7,r6 */
+    sts.l pr, @-r15
+    shar r10
+    sts.l macl, @-r15
+    and r14, r9
+    add #-0x8, r15
+    shar r10
+    shar r10
+    shar r10
+    and r14, r10
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    shar r13
+    mov r13, r11
+    and r14, r11
+    extu.w r7, r6
     .4byte 0x686328E9  /* 060009E4 = 0x686328E9 */
     .byte 0x63, 0x63  /* 060009E8: mov r6,r3 */
     .byte 0x43, 0x21  /* 060009EA: shar r3 */

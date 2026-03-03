@@ -4,30 +4,35 @@
     .global FUN_06010118
     .type FUN_06010118, @function
 FUN_06010118:
-    .byte 0x4F, 0x22  /* 06010118: sts.l pr,@-r15 */
-    .byte 0xD4, 0x0A  /* 0601011A: mov.l @(0x28,PC),r4  {[0x06010144] = 0x0603824C} */
-    .byte 0xDE, 0x0A  /* 0601011C: mov.l @(0x28,PC),r14  {[0x06010148] = 0x06057C00} */
+    sts.l pr, @-r15
+    mov.l .L_pool_06010144, r4
+    mov.l .L_pool_06010148, r14
     .byte 0xB0, 0x25  /* 0601011E: bsr 0x0601016C */
-    .byte 0x00, 0x09  /* 06010120: nop */
-    .byte 0xD4, 0x0A  /* 06010122: mov.l @(0x28,PC),r4  {[0x0601014C] = 0x0603818C} */
-    .byte 0xDE, 0x0A  /* 06010124: mov.l @(0x28,PC),r14  {[0x06010150] = 0x06057800} */
+    nop
+    mov.l .L_pool_0601014C, r4
+    mov.l .L_pool_06010150, r14
     .byte 0xB0, 0x21  /* 06010126: bsr 0x0601016C */
-    .byte 0x00, 0x09  /* 06010128: nop */
-    .byte 0xD0, 0x0A  /* 0601012A: mov.l @(0x28,PC),r0  {[0x06010154] = 0x06038070} */
-    .byte 0x40, 0x0B  /* 0601012C: jsr @r0 */
-    .byte 0x00, 0x09  /* 0601012E: nop */
+    nop
+    mov.l .L_pool_06010154, r0
+    jsr @r0
+    nop
     .byte 0xB4, 0x9C  /* 06010130: bsr 0x06010A6C */
-    .byte 0xE4, 0x00  /* 06010132: mov #0,r4 */
-    .byte 0x4F, 0x26  /* 06010134: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06010136: rts */
-    .byte 0x00, 0x09  /* 06010138: nop */
+    mov #0x0, r4
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x00  /* 0601013A: .word 0x0000 */
     .4byte sym_0603A550  /* 0601013C = 0x0603A550 */
     .4byte sym_0603A772  /* 06010140 = 0x0603A772 */
+.L_pool_06010144:
     .4byte sym_0603824C  /* 06010144 = 0x0603824C */
+.L_pool_06010148:
     .4byte sym_06057C00  /* 06010148 = 0x06057C00 */
+.L_pool_0601014C:
     .4byte sym_0603818C  /* 0601014C = 0x0603818C */
+.L_pool_06010150:
     .4byte sym_06057800  /* 06010150 = 0x06057800 */
+.L_pool_06010154:
     .4byte sym_06038070  /* 06010154 = 0x06038070 */
     .byte 0xD4, 0x01  /* 06010158: mov.l @(0x4,PC),r4  {[0x06010160] = 0x0603824C} */
     .byte 0xDE, 0x02  /* 0601015A: mov.l @(0x8,PC),r14  {[0x06010164] = 0x06057C00} */

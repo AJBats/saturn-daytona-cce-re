@@ -4,15 +4,15 @@
     .global FUN_060011F0
     .type FUN_060011F0, @function
 FUN_060011F0:
-    .byte 0x2F, 0xE6  /* 060011F0: mov.l r14,@-r15 */
-    .byte 0x2F, 0x86  /* 060011F2: mov.l r8,@-r15 */
-    .byte 0x2F, 0xD6  /* 060011F4: mov.l r13,@-r15 */
-    .byte 0x52, 0xF6  /* 060011F6: mov.l @(0x18,r15),r2 */
-    .byte 0x2F, 0x26  /* 060011F8: mov.l r2,@-r15 */
+    mov.l r14, @-r15
+    mov.l r8, @-r15
+    mov.l r13, @-r15
+    mov.l @(24, r15), r2
+    mov.l r2, @-r15
     .byte 0xBF, 0x1A  /* 060011FA: bsr 0x06001032 */
-    .byte 0x64, 0xC3  /* 060011FC: mov r12,r4 */
+    mov r12, r4
     .byte 0xA0, 0x3A  /* 060011FE: bra 0x06001276 */
-    .byte 0x7F, 0x1C  /* 06001200: add #28,r15 */
+    add #0x1C, r15
     .byte 0x20, 0x00  /* 06001202: mov.b r0,@r0 */
     .byte 0x92, 0x9E  /* 06001204: mov.w @(0x13C,PC),r2  {0x06001344} */
     .byte 0xE3, 0x40  /* 06001206: mov #64,r3 */

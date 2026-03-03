@@ -4,21 +4,21 @@
     .global FUN_0600FA06
     .type FUN_0600FA06, @function
 FUN_0600FA06:
-    .byte 0x4F, 0x22  /* 0600FA06: sts.l pr,@-r15 */
-    .byte 0x23, 0x42  /* 0600FA08: mov.l r4,@r3 */
+    sts.l pr, @-r15
+    mov.l r4, @r3
     .byte 0xD2, 0x32  /* 0600FA0A: mov.l @(0xC8,PC),r2  {[0x0600FAD4] = 0x00213F00} */
     .byte 0xD1, 0x32  /* 0600FA0C: mov.l @(0xC8,PC),r1  {[0x0600FAD8] = 0x00216F00} */
-    .byte 0x22, 0x42  /* 0600FA0E: mov.l r4,@r2 */
-    .byte 0x21, 0x42  /* 0600FA10: mov.l r4,@r1 */
+    mov.l r4, @r2
+    mov.l r4, @r1
     .byte 0xD3, 0x32  /* 0600FA12: mov.l @(0xC8,PC),r3  {[0x0600FADC] = 0x00219F00} */
     .byte 0xD2, 0x32  /* 0600FA14: mov.l @(0xC8,PC),r2  {[0x0600FAE0] = 0x0021CF00} */
-    .byte 0x23, 0x42  /* 0600FA16: mov.l r4,@r3 */
+    mov.l r4, @r3
     .byte 0xD1, 0x32  /* 0600FA18: mov.l @(0xC8,PC),r1  {[0x0600FAE4] = 0x0603685E} */
-    .byte 0x41, 0x0B  /* 0600FA1A: jsr @r1 */
-    .byte 0x22, 0x42  /* 0600FA1C: mov.l r4,@r2 */
+    jsr @r1
+    mov.l r4, @r2
     .byte 0xD3, 0x32  /* 0600FA1E: mov.l @(0xC8,PC),r3  {[0x0600FAE8] = 0x06036820} */
-    .byte 0x43, 0x2B  /* 0600FA20: jmp @r3 */
-    .byte 0x4F, 0x26  /* 0600FA22: lds.l @r15+,pr */
+    jmp @r3
+    lds.l @r15+, pr
     .byte 0xD6, 0x31  /* 0600FA24: mov.l @(0xC4,PC),r6  {[0x0600FAEC] = 0x002FC088} */
     .byte 0xD3, 0x32  /* 0600FA26: mov.l @(0xC8,PC),r3  {[0x0600FAF0] = 0x002FC087} */
     .byte 0x62, 0x60  /* 0600FA28: mov.b @r6,r2 */
@@ -103,11 +103,17 @@ FUN_0600FA06:
     .4byte sym_060367C4  /* 0600FAC8 = 0x060367C4 */
     .4byte sym_06036756  /* 0600FACC = 0x06036756 */
     .4byte sym_00210F00  /* 0600FAD0 = 0x00210F00 */
+.L_pool_0600FAD4:
     .4byte sym_00213F00  /* 0600FAD4 = 0x00213F00 */
+.L_pool_0600FAD8:
     .4byte sym_00216F00  /* 0600FAD8 = 0x00216F00 */
+.L_pool_0600FADC:
     .4byte sym_00219F00  /* 0600FADC = 0x00219F00 */
+.L_pool_0600FAE0:
     .4byte sym_0021CF00  /* 0600FAE0 = 0x0021CF00 */
+.L_pool_0600FAE4:
     .4byte sym_0603685E  /* 0600FAE4 = 0x0603685E */
+.L_pool_0600FAE8:
     .4byte sym_06036820  /* 0600FAE8 = 0x06036820 */
     .4byte sym_002FC088  /* 0600FAEC = 0x002FC088 */
     .4byte sym_002FC087  /* 0600FAF0 = 0x002FC087 */

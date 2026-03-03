@@ -4,13 +4,13 @@
     .global FUN_060018F6
     .type FUN_060018F6, @function
 FUN_060018F6:
-    .byte 0x4F, 0x22  /* 060018F6: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xBF, 0x4E  /* 060018F8: bsr 0x06001798 */
-    .byte 0x2F, 0x36  /* 060018FA: mov.l r3,@-r15 */
-    .byte 0x7F, 0x04  /* 060018FC: add #4,r15 */
-    .byte 0x4F, 0x26  /* 060018FE: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06001900: rts */
-    .byte 0x00, 0x09  /* 06001902: nop */
+    mov.l r3, @-r15
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x17, 0x70  /* 06001904: mov.l r7,@(0x0,r7) */
     .byte 0xFF, 0xFF  /* 06001906: .word 0xFFFF */
     .4byte DAT_06008B10  /* 06001908 = 0x06008B10 (FUN_060086FC + 0x414) */

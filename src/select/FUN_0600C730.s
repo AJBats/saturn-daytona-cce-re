@@ -4,6 +4,6 @@
     .global FUN_0600C730
     .type FUN_0600C730, @function
 FUN_0600C730:
-    .byte 0x4F, 0x22  /* 0600C730: sts.l pr,@-r15 */
-    .byte 0xE5, 0x1C  /* 0600C732: mov #28,r5 */
+    sts.l pr, @-r15
+    mov #0x1C, r5
     .byte 0xDD, 0x4F  /* 0600C734: mov.l @(0x13C,PC),r13  {[0x0600C874] = 0x06028B80} */

@@ -4,8 +4,8 @@
     .global FUN_060044A8
     .type FUN_060044A8, @function
 FUN_060044A8:
-    .byte 0x2F, 0xE6  /* 060044A8: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 060044AA: mov.l r13,@-r15 */
+    mov.l r14, @-r15
+    mov.l r13, @-r15
     .4byte 0x2FC62FB6  /* 060044AC = 0x2FC62FB6 */
     .byte 0x2F, 0xA6  /* 060044B0: mov.l r10,@-r15 */
     .byte 0x2F, 0x96  /* 060044B2: mov.l r9,@-r15 */

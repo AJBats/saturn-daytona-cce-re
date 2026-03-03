@@ -4,13 +4,13 @@
     .global FUN_06004718
     .type FUN_06004718, @function
 FUN_06004718:
-    .byte 0x2F, 0xE6  /* 06004718: mov.l r14,@-r15 */
-    .byte 0xE4, 0x3C  /* 0600471A: mov #60,r4 */
+    mov.l r14, @-r15
+    mov #0x3C, r4
     .byte 0xD2, 0x2F  /* 0600471C: mov.l @(0xBC,PC),r2  {[0x060047DC] = 0x06028B80} */
-    .byte 0x42, 0x0B  /* 0600471E: jsr @r2 */
-    .byte 0x00, 0x09  /* 06004720: nop */
+    jsr @r2
+    nop
     .byte 0xA0, 0x0F  /* 06004722: bra 0x06004744 */
-    .byte 0x7F, 0x08  /* 06004724: add #8,r15 */
+    add #0x8, r15
     .byte 0xD1, 0x2E  /* 06004726: mov.l @(0xB8,PC),r1  {[0x060047E0] = 0x06052CA9} */
     .byte 0x62, 0x10  /* 06004728: mov.b @r1,r2 */
     .byte 0x3A, 0x20  /* 0600472A: cmp/eq r2,r10 */

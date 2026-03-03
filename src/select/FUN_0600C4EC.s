@@ -4,12 +4,12 @@
     .global FUN_0600C4EC
     .type FUN_0600C4EC, @function
 FUN_0600C4EC:
-    .byte 0x2F, 0xE6  /* 0600C4EC: mov.l r14,@-r15 */
-    .byte 0xE6, 0x13  /* 0600C4EE: mov #19,r6 */
-    .byte 0x2F, 0x26  /* 0600C4F0: mov.l r2,@-r15 */
-    .byte 0x2F, 0x36  /* 0600C4F2: mov.l r3,@-r15 */
+    mov.l r14, @-r15
+    mov #0x13, r6
+    mov.l r2, @-r15
+    mov.l r3, @-r15
     .byte 0xA0, 0x65  /* 0600C4F4: bra 0x0600C5C2 */
-    .byte 0x65, 0xD3  /* 0600C4F6: mov r13,r5 */
+    mov r13, r5
     .byte 0xD3, 0x1C  /* 0600C4F8: mov.l @(0x70,PC),r3  {[0x0600C56C] = 0x0027BC74} */
     .byte 0x66, 0x32  /* 0600C4FA: mov.l @r3,r6 */
     .byte 0xD4, 0x1C  /* 0600C4FC: mov.l @(0x70,PC),r4  {[0x0600C570] = 0x00279534} */

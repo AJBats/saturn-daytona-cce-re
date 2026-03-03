@@ -4,22 +4,22 @@
     .global FUN_06010C48
     .type FUN_06010C48, @function
 FUN_06010C48:
-    .byte 0x4F, 0x22  /* 06010C48: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xB0, 0x89  /* 06010C4A: bsr 0x06010D60 */
-    .byte 0x54, 0xEB  /* 06010C4C: mov.l @(0x2C,r14),r4 */
-    .byte 0x4F, 0x26  /* 06010C4E: lds.l @r15+,pr */
+    mov.l @(44, r14), r4
+    lds.l @r15+, pr
     .byte 0x90, 0x33  /* 06010C50: mov.w @(0x66,PC),r0  {0x06010CBA} */
-    .byte 0x30, 0x1C  /* 06010C52: add r1,r0 */
-    .byte 0x81, 0x7E  /* 06010C54: mov.w r0,@(0x1C,r7) */
-    .byte 0xC5, 0x41  /* 06010C56: mov.w @(0x82,GBR),r0 */
-    .byte 0x81, 0x73  /* 06010C58: mov.w r0,@(0x6,r7) */
-    .byte 0xC5, 0x49  /* 06010C5A: mov.w @(0x92,GBR),r0 */
-    .byte 0x81, 0x70  /* 06010C5C: mov.w r0,@(0x0,r7) */
-    .byte 0xC5, 0x4A  /* 06010C5E: mov.w @(0x94,GBR),r0 */
+    add r1, r0
+    mov.w r0, @(28, r7)
+    mov.w @(130, gbr), r0
+    mov.w r0, @(6, r7)
+    mov.w @(146, gbr), r0
+    mov.w r0, @(0, r7)
+    mov.w @(148, gbr), r0
     .byte 0x91, 0x2C  /* 06010C60: mov.w @(0x58,PC),r1  {0x06010CBC} */
-    .byte 0x20, 0x1B  /* 06010C62: or r1,r0 */
-    .byte 0x00, 0x0B  /* 06010C64: rts */
-    .byte 0x81, 0x72  /* 06010C66: mov.w r0,@(0x4,r7) */
+    or r1, r0
+    rts
+    mov.w r0, @(4, r7)
     .byte 0xC5, 0x41  /* 06010C68: mov.w @(0x82,GBR),r0 */
     .byte 0x51, 0xEA  /* 06010C6A: mov.l @(0x28,r14),r1 */
     .byte 0x31, 0x0C  /* 06010C6C: add r0,r1 */

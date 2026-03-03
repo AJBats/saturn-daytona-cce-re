@@ -4,15 +4,15 @@
     .global FUN_0600F8DE
     .type FUN_0600F8DE, @function
 FUN_0600F8DE:
-    .byte 0x2F, 0xE6  /* 0600F8DE: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 0600F8E0: mov.l r13,@-r15 */
-    .byte 0xED, 0x00  /* 0600F8E2: mov #0,r13 */
-    .byte 0x2F, 0xC6  /* 0600F8E4: mov.l r12,@-r15 */
-    .byte 0x6E, 0xD3  /* 0600F8E6: mov r13,r14 */
-    .byte 0x2F, 0xB6  /* 0600F8E8: mov.l r11,@-r15 */
-    .byte 0xEC, 0x01  /* 0600F8EA: mov #1,r12 */
-    .byte 0x2F, 0xA6  /* 0600F8EC: mov.l r10,@-r15 */
-    .byte 0x4F, 0x22  /* 0600F8EE: sts.l pr,@-r15 */
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov #0x0, r13
+    mov.l r12, @-r15
+    mov r13, r14
+    mov.l r11, @-r15
+    mov #0x1, r12
+    mov.l r10, @-r15
+    sts.l pr, @-r15
     .byte 0xDA, 0x27  /* 0600F8F0: mov.l @(0x9C,PC),r10  {[0x0600F990] = 0x06035998} */
     .byte 0xDB, 0x28  /* 0600F8F2: mov.l @(0xA0,PC),r11  {[0x0600F994] = 0x06035876} */
     .4byte 0x4B0B0009  /* 0600F8F4 = 0x4B0B0009 */
