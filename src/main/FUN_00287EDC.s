@@ -4,14 +4,15 @@
     .global FUN_00287EDC
     .type FUN_00287EDC, @function
 FUN_00287EDC:
-    .byte 0x2F, 0xE6  /* 00287EDC: mov.l r14,@-r15 */
-    .byte 0x6E, 0xF3  /* 00287EDE: mov r15,r14 */
-    .byte 0x44, 0x08  /* 00287EE0: shll2 r4 */
-    .byte 0xD1, 0x02  /* 00287EE2: mov.l @(0x8,PC),r1  {[0x00287EEC] = 0x0028B090} */
-    .byte 0x34, 0x1C  /* 00287EE4: add r1,r4 */
-    .byte 0x60, 0x42  /* 00287EE6: mov.l @r4,r0 */
-    .byte 0x00, 0x0B  /* 00287EE8: rts */
-    .byte 0x6E, 0xF6  /* 00287EEA: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    mov r15, r14
+    shll2 r4
+    mov.l .L_pool_00287EEC, r1
+    add r1, r4
+    mov.l @r4, r0
+    rts
+    mov.l @r15+, r14
+.L_pool_00287EEC:
     .4byte sym_0028B090  /* 00287EEC = 0x0028B090 */
     .byte 0xE0, 0x00  /* 00287EF0: mov #0,r0 */
     .byte 0xA2, 0xFD  /* 00287EF2: bra 0x002884F0 */

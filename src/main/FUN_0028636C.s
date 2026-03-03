@@ -4,10 +4,11 @@
     .global FUN_0028636C
     .type FUN_0028636C, @function
 FUN_0028636C:
-    .byte 0x2F, 0xE6  /* 0028636C: mov.l r14,@-r15 */
-    .byte 0x6E, 0xF3  /* 0028636E: mov r15,r14 */
-    .byte 0xD1, 0x01  /* 00286370: mov.l @(0x4,PC),r1  {[0x00286378] = 0x2589000C} */
-    .byte 0x21, 0x41  /* 00286372: mov.w r4,@r1 */
-    .byte 0x00, 0x0B  /* 00286374: rts */
-    .byte 0x6E, 0xF6  /* 00286376: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    mov r15, r14
+    mov.l .L_pool_00286378, r1
+    mov.w r4, @r1
+    rts
+    mov.l @r15+, r14
+.L_pool_00286378:
     .4byte sym_2589000C  /* 00286378 = 0x2589000C */

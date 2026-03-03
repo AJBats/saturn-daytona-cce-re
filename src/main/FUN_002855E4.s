@@ -4,22 +4,23 @@
     .global FUN_002855E4
     .type FUN_002855E4, @function
 FUN_002855E4:
-    .byte 0x2F, 0xE6  /* 002855E4: mov.l r14,@-r15 */
-    .byte 0x4F, 0x22  /* 002855E6: sts.l pr,@-r15 */
-    .byte 0x6E, 0xF3  /* 002855E8: mov r15,r14 */
-    .byte 0x62, 0x43  /* 002855EA: mov r4,r2 */
-    .byte 0xE1, 0x07  /* 002855EC: mov #7,r1 */
-    .byte 0x32, 0x16  /* 002855EE: cmp/hi r1,r2 */
-    .byte 0x8D, 0x36  /* 002855F0: bt/s 0x00285660 */
-    .byte 0x64, 0x53  /* 002855F2: mov r5,r4 */
-    .byte 0x61, 0x23  /* 002855F4: mov r2,r1 */
-    .byte 0x31, 0x1C  /* 002855F6: add r1,r1 */
-    .byte 0xC7, 0x02  /* 002855F8: mova @(0x8,PC),r0  {0x00285604} */
-    .byte 0x01, 0x1D  /* 002855FA: mov.w @(r0,r1),r1 */
-    .byte 0x30, 0x1C  /* 002855FC: add r1,r0 */
-    .byte 0x40, 0x2B  /* 002855FE: jmp @r0 */
-    .byte 0x00, 0x09  /* 00285600: nop */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    mov r15, r14
+    mov r4, r2
+    mov #0x7, r1
+    cmp/hi r1, r2
+    bt/s .L_00285660
+    mov r5, r4
+    mov r2, r1
+    add r1, r1
+    mova .L_pool_00285604, r0
+    mov.w @(r0, r1), r1
+    add r1, r0
+    jmp @r0
+    nop
     .byte 0x00, 0x00  /* 00285602: .word 0x0000 */
+.L_pool_00285604:
     .byte 0x00, 0x10  /* 00285604: .word 0x0010 */
     .byte 0x00, 0x1A  /* 00285606: sts macl,r0 */
     .byte 0x00, 0x24  /* 00285608: mov.b r2,@(r0,r0) */
@@ -66,10 +67,11 @@ FUN_002855E4:
     .byte 0xD0, 0x0A  /* 0028565A: mov.l @(0x28,PC),r0  {[0x00285684] = 0x00285DB8} */
     .byte 0x40, 0x0B  /* 0028565C: jsr @r0 */
     .byte 0x00, 0x09  /* 0028565E: nop */
-    .byte 0x6F, 0xE3  /* 00285660: mov r14,r15 */
-    .byte 0x4F, 0x26  /* 00285662: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 00285664: rts */
-    .byte 0x6E, 0xF6  /* 00285666: mov.l @r15+,r14 */
+.L_00285660:
+    mov r14, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
     .4byte DAT_002856D8  /* 00285668 = 0x002856D8 (FUN_0028569E + 0x3A) */
     .4byte DAT_0028589C  /* 0028566C = 0x0028589C (FUN_002856E4 + 0x1B8) */
     .4byte DAT_0028592C  /* 00285670 = 0x0028592C (FUN_002858A2 + 0x8A) */

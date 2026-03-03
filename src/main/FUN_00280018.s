@@ -4,30 +4,34 @@
     .global FUN_00280018
     .type FUN_00280018, @function
 FUN_00280018:
-    .byte 0x2F, 0xE6  /* 00280018: mov.l r14,@-r15 */
-    .byte 0x7F, 0xFC  /* 0028001A: add #-4,r15 */
-    .byte 0x6E, 0xF3  /* 0028001C: mov r15,r14 */
-    .byte 0xD2, 0x0A  /* 0028001E: mov.l @(0x28,PC),r2  {[0x00280048] = 0x0028B030} */
-    .byte 0x2E, 0x22  /* 00280020: mov.l r2,@r14 */
-    .byte 0xD1, 0x0A  /* 00280022: mov.l @(0x28,PC),r1  {[0x0028004C] = 0x0028B490} */
-    .byte 0x32, 0x12  /* 00280024: cmp/hs r1,r2 */
-    .byte 0x8D, 0x0A  /* 00280026: bt/s 0x0028003E */
-    .byte 0x63, 0x13  /* 00280028: mov r1,r3 */
-    .byte 0xE7, 0x00  /* 0028002A: mov #0,r7 */
-    .byte 0x61, 0xE2  /* 0028002C: mov.l @r14,r1 */
-    .byte 0x62, 0x13  /* 0028002E: mov r1,r2 */
-    .byte 0x72, 0x01  /* 00280030: add #1,r2 */
-    .byte 0x2E, 0x22  /* 00280032: mov.l r2,@r14 */
-    .byte 0x21, 0x70  /* 00280034: mov.b r7,@r1 */
-    .byte 0x61, 0xE2  /* 00280036: mov.l @r14,r1 */
-    .byte 0x31, 0x32  /* 00280038: cmp/hs r3,r1 */
-    .byte 0x8F, 0xF9  /* 0028003A: bf/s 0x00280030 */
-    .byte 0x62, 0x13  /* 0028003C: mov r1,r2 */
-    .byte 0x7E, 0x04  /* 0028003E: add #4,r14 */
-    .byte 0x6F, 0xE3  /* 00280040: mov r14,r15 */
-    .byte 0x00, 0x0B  /* 00280042: rts */
-    .byte 0x6E, 0xF6  /* 00280044: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    add #-0x4, r15
+    mov r15, r14
+    mov.l .L_pool_00280048, r2
+    mov.l r2, @r14
+    mov.l .L_pool_0028004C, r1
+    cmp/hs r1, r2
+    bt/s .L_0028003E
+    mov r1, r3
+    mov #0x0, r7
+    mov.l @r14, r1
+    mov r1, r2
+.L_00280030:
+    add #0x1, r2
+    mov.l r2, @r14
+    mov.b r7, @r1
+    mov.l @r14, r1
+    cmp/hs r3, r1
+    bf/s .L_00280030
+    mov r1, r2
+.L_0028003E:
+    add #0x4, r14
+    mov r14, r15
+    rts
+    mov.l @r15+, r14
     .byte 0x00, 0x00  /* 00280046: .word 0x0000 */
+.L_pool_00280048:
     .4byte sym_0028B030  /* 00280048 = 0x0028B030 */
+.L_pool_0028004C:
     .4byte sym_0028B490  /* 0028004C = 0x0028B490 */
     .byte 0x2F, 0x86  /* 00280050: mov.l r8,@-r15 */

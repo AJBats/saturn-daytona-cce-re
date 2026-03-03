@@ -4,35 +4,41 @@
     .global FUN_00284F6A
     .type FUN_00284F6A, @function
 FUN_00284F6A:
-    .byte 0x2F, 0xE6  /* 00284F6A: mov.l r14,@-r15 */
-    .byte 0x4F, 0x22  /* 00284F6C: sts.l pr,@-r15 */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
     .byte 0xD8, 0x0D  /* 00284F6E: mov.l @(0x34,PC),r8  {[0x00284FA4] = 0x0028B084} */
-    .byte 0x61, 0x82  /* 00284F70: mov.l @r8,r1 */
-    .byte 0x50, 0x1D  /* 00284F72: mov.l @(0x34,r1),r0 */
-    .byte 0x88, 0xFF  /* 00284F74: cmp/eq #-1,r0 */
-    .byte 0x8F, 0x02  /* 00284F76: bf/s 0x00284F7E */
-    .byte 0x6E, 0xF3  /* 00284F78: mov r15,r14 */
-    .byte 0xA0, 0x0E  /* 00284F7A: bra 0x00284F9A */
-    .byte 0xE0, 0xF9  /* 00284F7C: mov #-7,r0 */
+    mov.l @r8, r1
+    mov.l @(52, r1), r0
+    cmp/eq #-0x1, r0
+    bf/s .L_00284F7E
+    mov r15, r14
+    bra .L_00284F9A
+    mov #-0x7, r0
+.L_00284F7E:
     .byte 0xD0, 0x0A  /* 00284F7E: mov.l @(0x28,PC),r0  {[0x00284FA8] = 0x00286A70} */
-    .byte 0x40, 0x0B  /* 00284F80: jsr @r0 */
-    .byte 0x00, 0x09  /* 00284F82: nop */
-    .byte 0x61, 0x82  /* 00284F84: mov.l @r8,r1 */
-    .byte 0x20, 0x08  /* 00284F86: tst r0,r0 */
-    .byte 0xE2, 0xFF  /* 00284F88: mov #-1,r2 */
-    .byte 0x8F, 0x05  /* 00284F8A: bf/s 0x00284F98 */
-    .byte 0x11, 0x2D  /* 00284F8C: mov.l r2,@(0x34,r1) */
+    jsr @r0
+    nop
+    mov.l @r8, r1
+    tst r0, r0
+    mov #-0x1, r2
+    bf/s .L_00284F98
+    mov.l r2, @(52, r1)
     .byte 0xD1, 0x07  /* 00284F8E: mov.l @(0x1C,PC),r1  {[0x00284FAC] = 0x0028619C} */
-    .byte 0x41, 0x0B  /* 00284F90: jsr @r1 */
-    .byte 0x00, 0x09  /* 00284F92: nop */
-    .byte 0xA0, 0x01  /* 00284F94: bra 0x00284F9A */
-    .byte 0xE0, 0x00  /* 00284F96: mov #0,r0 */
-    .byte 0xE0, 0xF6  /* 00284F98: mov #-10,r0 */
-    .byte 0x6F, 0xE3  /* 00284F9A: mov r14,r15 */
-    .byte 0x4F, 0x26  /* 00284F9C: lds.l @r15+,pr */
-    .byte 0x6E, 0xF6  /* 00284F9E: mov.l @r15+,r14 */
-    .byte 0x00, 0x0B  /* 00284FA0: rts */
-    .byte 0x68, 0xF6  /* 00284FA2: mov.l @r15+,r8 */
+    jsr @r1
+    nop
+    bra .L_00284F9A
+    mov #0x0, r0
+.L_00284F98:
+    mov #-0xA, r0
+.L_00284F9A:
+    mov r14, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r14
+    rts
+    mov.l @r15+, r8
+.L_pool_00284FA4:
     .4byte sym_0028B084  /* 00284FA4 = 0x0028B084 */
+.L_pool_00284FA8:
     .4byte DAT_00286A70  /* 00284FA8 = 0x00286A70 (FUN_00286A08 + 0x68) */
+.L_pool_00284FAC:
     .4byte FUN_0028619C  /* 00284FAC = 0x0028619C */

@@ -4,56 +4,66 @@
     .global FUN_00282F84
     .type FUN_00282F84, @function
 FUN_00282F84:
-    .byte 0x2F, 0xE6  /* 00282F84: mov.l r14,@-r15 */
-    .byte 0x4F, 0x22  /* 00282F86: sts.l pr,@-r15 */
-    .byte 0x7F, 0xFC  /* 00282F88: add #-4,r15 */
-    .byte 0x68, 0x43  /* 00282F8A: mov r4,r8 */
-    .byte 0xD4, 0x14  /* 00282F8C: mov.l @(0x50,PC),r4  {[0x00282FE0] = 0x00030000} */
-    .byte 0xD1, 0x15  /* 00282F8E: mov.l @(0x54,PC),r1  {[0x00282FE4] = 0x00285688} */
-    .byte 0x41, 0x0B  /* 00282F90: jsr @r1 */
-    .byte 0x6E, 0xF3  /* 00282F92: mov r15,r14 */
-    .byte 0xD9, 0x14  /* 00282F94: mov.l @(0x50,PC),r9  {[0x00282FE8] = 0x00285218} */
-    .byte 0x66, 0xE3  /* 00282F96: mov r14,r6 */
-    .byte 0xE5, 0x17  /* 00282F98: mov #23,r5 */
-    .byte 0x49, 0x0B  /* 00282F9A: jsr @r9 */
-    .byte 0x64, 0x83  /* 00282F9C: mov r8,r4 */
-    .byte 0x88, 0xFB  /* 00282F9E: cmp/eq #-5,r0 */
-    .byte 0x8D, 0x17  /* 00282FA0: bt/s 0x00282FD2 */
-    .byte 0xE0, 0xF9  /* 00282FA2: mov #-7,r0 */
-    .byte 0xD0, 0x11  /* 00282FA4: mov.l @(0x44,PC),r0  {[0x00282FEC] = 0x00285488} */
-    .byte 0x40, 0x0B  /* 00282FA6: jsr @r0 */
-    .byte 0x00, 0x09  /* 00282FA8: nop */
-    .byte 0x88, 0xF4  /* 00282FAA: cmp/eq #-12,r0 */
-    .byte 0x8D, 0x10  /* 00282FAC: bt/s 0x00282FD0 */
-    .byte 0x88, 0xF0  /* 00282FAE: cmp/eq #-16,r0 */
-    .byte 0x8D, 0x08  /* 00282FB0: bt/s 0x00282FC4 */
-    .byte 0x20, 0x08  /* 00282FB2: tst r0,r0 */
-    .byte 0x8F, 0xF0  /* 00282FB4: bf/s 0x00282F98 */
-    .byte 0x66, 0xE3  /* 00282FB6: mov r14,r6 */
-    .byte 0xD0, 0x0D  /* 00282FB8: mov.l @(0x34,PC),r0  {[0x00282FF0] = 0x0028569C} */
-    .byte 0x40, 0x0B  /* 00282FBA: jsr @r0 */
-    .byte 0x00, 0x09  /* 00282FBC: nop */
-    .byte 0x88, 0xF0  /* 00282FBE: cmp/eq #-16,r0 */
-    .byte 0x8F, 0x02  /* 00282FC0: bf/s 0x00282FC8 */
-    .byte 0x20, 0x08  /* 00282FC2: tst r0,r0 */
-    .byte 0xA0, 0x05  /* 00282FC4: bra 0x00282FD2 */
-    .byte 0xE0, 0xE7  /* 00282FC6: mov #-25,r0 */
-    .byte 0x8F, 0x03  /* 00282FC8: bf/s 0x00282FD2 */
-    .byte 0xE0, 0xFF  /* 00282FCA: mov #-1,r0 */
-    .byte 0xA0, 0x01  /* 00282FCC: bra 0x00282FD2 */
-    .byte 0x60, 0xE2  /* 00282FCE: mov.l @r14,r0 */
-    .byte 0xE0, 0xEA  /* 00282FD0: mov #-22,r0 */
-    .byte 0x7E, 0x04  /* 00282FD2: add #4,r14 */
-    .byte 0x6F, 0xE3  /* 00282FD4: mov r14,r15 */
-    .byte 0x4F, 0x26  /* 00282FD6: lds.l @r15+,pr */
-    .byte 0x6E, 0xF6  /* 00282FD8: mov.l @r15+,r14 */
-    .byte 0x69, 0xF6  /* 00282FDA: mov.l @r15+,r9 */
-    .byte 0x00, 0x0B  /* 00282FDC: rts */
-    .byte 0x68, 0xF6  /* 00282FDE: mov.l @r15+,r8 */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    add #-0x4, r15
+    mov r4, r8
+    mov.l .L_pool_00282FE0, r4
+    mov.l .L_pool_00282FE4, r1
+    jsr @r1
+    mov r15, r14
+    mov.l .L_pool_00282FE8, r9
+    mov r14, r6
+.L_00282F98:
+    mov #0x17, r5
+    jsr @r9
+    mov r8, r4
+    cmp/eq #-0x5, r0
+    bt/s .L_00282FD2
+    mov #-0x7, r0
+    mov.l .L_pool_00282FEC, r0
+    jsr @r0
+    nop
+    cmp/eq #-0xC, r0
+    bt/s .L_00282FD0
+    cmp/eq #-0x10, r0
+    bt/s .L_00282FC4
+    tst r0, r0
+    bf/s .L_00282F98
+    mov r14, r6
+    mov.l .L_pool_00282FF0, r0
+    jsr @r0
+    nop
+    cmp/eq #-0x10, r0
+    bf/s .L_00282FC8
+    tst r0, r0
+.L_00282FC4:
+    bra .L_00282FD2
+    mov #-0x19, r0
+.L_00282FC8:
+    bf/s .L_00282FD2
+    mov #-0x1, r0
+    bra .L_00282FD2
+    mov.l @r14, r0
+.L_00282FD0:
+    mov #-0x16, r0
+.L_00282FD2:
+    add #0x4, r14
+    mov r14, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r14
+    mov.l @r15+, r9
+    rts
+    mov.l @r15+, r8
+.L_pool_00282FE0:
     .4byte 0x00030000  /* 00282FE0 = 0x00030000 */
+.L_pool_00282FE4:
     .4byte FUN_00285688  /* 00282FE4 = 0x00285688 */
+.L_pool_00282FE8:
     .4byte FUN_00285218  /* 00282FE8 = 0x00285218 */
+.L_pool_00282FEC:
     .4byte DAT_00285488  /* 00282FEC = 0x00285488 (FUN_00285450 + 0x38) */
+.L_pool_00282FF0:
     .4byte DAT_0028569C  /* 00282FF0 = 0x0028569C (FUN_00285688 + 0x14) */
     .byte 0x2F, 0x86  /* 00282FF4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00282FF6: mov.l r9,@-r15 */

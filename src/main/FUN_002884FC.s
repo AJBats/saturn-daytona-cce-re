@@ -4,14 +4,14 @@
     .global FUN_002884FC
     .type FUN_002884FC, @function
 FUN_002884FC:
-    .byte 0x4F, 0x22  /* 002884FC: sts.l pr,@-r15 */
-    .byte 0x42, 0x0B  /* 002884FE: jsr @r2 */
-    .byte 0x00, 0x09  /* 00288500: nop */
-    .byte 0x4F, 0x26  /* 00288502: lds.l @r15+,pr */
-    .byte 0x4F, 0x06  /* 00288504: lds.l @r15+,mach */
-    .byte 0x4F, 0x16  /* 00288506: lds.l @r15+,macl */
-    .byte 0x00, 0x0B  /* 00288508: rts */
-    .byte 0x00, 0x09  /* 0028850A: nop */
+    sts.l pr, @-r15
+    jsr @r2
+    nop
+    lds.l @r15+, pr
+    lds.l @r15+, mach
+    lds.l @r15+, macl
+    rts
+    nop
     .byte 0x00, 0x00  /* 0028850C: .word 0x0000 */
     .byte 0x00, 0x00  /* 0028850E: .word 0x0000 */
     .4byte sym_0028B090  /* 00288510 = 0x0028B090 */

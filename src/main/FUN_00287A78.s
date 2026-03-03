@@ -4,31 +4,35 @@
     .global FUN_00287A78
     .type FUN_00287A78, @function
 FUN_00287A78:
-    .byte 0x2F, 0xE6  /* 00287A78: mov.l r14,@-r15 */
-    .byte 0xD1, 0x0B  /* 00287A7A: mov.l @(0x2C,PC),r1  {[0x00287AA8] = 0x1FFFFFF0} */
-    .byte 0x24, 0x19  /* 00287A7C: and r1,r4 */
-    .byte 0xD1, 0x0B  /* 00287A7E: mov.l @(0x2C,PC),r1  {[0x00287AAC] = 0x40000000} */
-    .byte 0x24, 0x1B  /* 00287A80: or r1,r4 */
-    .byte 0xE1, 0x00  /* 00287A82: mov #0,r1 */
-    .byte 0x45, 0x09  /* 00287A84: shlr2 r5 */
-    .byte 0x45, 0x09  /* 00287A86: shlr2 r5 */
-    .byte 0x31, 0x52  /* 00287A88: cmp/hs r5,r1 */
-    .byte 0x8D, 0x09  /* 00287A8A: bt/s 0x00287AA0 */
-    .byte 0x6E, 0xF3  /* 00287A8C: mov r15,r14 */
-    .byte 0x61, 0x53  /* 00287A8E: mov r5,r1 */
-    .byte 0x41, 0x08  /* 00287A90: shll2 r1 */
-    .byte 0x41, 0x08  /* 00287A92: shll2 r1 */
-    .byte 0x31, 0x4C  /* 00287A94: add r4,r1 */
-    .byte 0xE2, 0x00  /* 00287A96: mov #0,r2 */
-    .byte 0x24, 0x22  /* 00287A98: mov.l r2,@r4 */
-    .byte 0x74, 0x10  /* 00287A9A: add #16,r4 */
-    .byte 0x34, 0x12  /* 00287A9C: cmp/hs r1,r4 */
-    .byte 0x8B, 0xFB  /* 00287A9E: bf 0x00287A98 */
-    .byte 0x6F, 0xE3  /* 00287AA0: mov r14,r15 */
-    .byte 0x00, 0x0B  /* 00287AA2: rts */
-    .byte 0x6E, 0xF6  /* 00287AA4: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    mov.l .L_pool_00287AA8, r1
+    and r1, r4
+    mov.l .L_pool_00287AAC, r1
+    or r1, r4
+    mov #0x0, r1
+    shlr2 r5
+    shlr2 r5
+    cmp/hs r5, r1
+    bt/s .L_00287AA0
+    mov r15, r14
+    mov r5, r1
+    shll2 r1
+    shll2 r1
+    add r4, r1
+    mov #0x0, r2
+.L_00287A98:
+    mov.l r2, @r4
+    add #0x10, r4
+    cmp/hs r1, r4
+    bf .L_00287A98
+.L_00287AA0:
+    mov r14, r15
+    rts
+    mov.l @r15+, r14
     .byte 0x00, 0x00  /* 00287AA6: .word 0x0000 */
+.L_pool_00287AA8:
     .4byte 0x1FFFFFF0  /* 00287AA8 = 0x1FFFFFF0 */
+.L_pool_00287AAC:
     .4byte 0x40000000  /* 00287AAC = 0x40000000 */
     .4byte DAT_00287EF0  /* 00287AB0 = 0x00287EF0 (FUN_00287EDC + 0x14) */
     .4byte DAT_00287EF6  /* 00287AB4 = 0x00287EF6 (FUN_00287EDC + 0x1A) */

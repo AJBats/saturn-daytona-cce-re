@@ -4,15 +4,15 @@
     .global FUN_00284198
     .type FUN_00284198, @function
 FUN_00284198:
-    .byte 0x2F, 0xE6  /* 00284198: mov.l r14,@-r15 */
-    .byte 0x6E, 0xF3  /* 0028419A: mov r15,r14 */
-    .byte 0x74, 0x6C  /* 0028419C: add #108,r4 */
-    .byte 0x14, 0x69  /* 0028419E: mov.l r6,@(0x24,r4) */
-    .byte 0x14, 0x5A  /* 002841A0: mov.l r5,@(0x28,r4) */
-    .byte 0xE1, 0x04  /* 002841A2: mov #4,r1 */
-    .byte 0x14, 0x1E  /* 002841A4: mov.l r1,@(0x38,r4) */
-    .byte 0x00, 0x0B  /* 002841A6: rts */
-    .byte 0x6E, 0xF6  /* 002841A8: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    mov r15, r14
+    add #0x6C, r4
+    mov.l r6, @(36, r4)
+    mov.l r5, @(40, r4)
+    mov #0x4, r1
+    mov.l r1, @(56, r4)
+    rts
+    mov.l @r15+, r14
     .byte 0x00, 0x00  /* 002841AA: .word 0x0000 */
     .4byte DAT_002843FC  /* 002841AC = 0x002843FC (FUN_002843D6 + 0x26) */
     .4byte DAT_002846A0  /* 002841B0 = 0x002846A0 (FUN_002845AE + 0xF2) */
