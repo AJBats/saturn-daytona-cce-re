@@ -1042,6 +1042,46 @@
       "absolute": "0x06060505",
       "parent_fun": "FUN_06045CCA",
       "offset": "0x1A83B"
+    },
+    "DAT_06031FA8": {
+      "absolute": "0x06031FA8",
+      "parent_fun": "FUN_06009C40",
+      "offset": "0x28368"
+    },
+    "DAT_060322A8": {
+      "absolute": "0x060322A8",
+      "parent_fun": "FUN_06009C40",
+      "offset": "0x28668"
+    },
+    "DAT_06032128": {
+      "absolute": "0x06032128",
+      "parent_fun": "FUN_06009C40",
+      "offset": "0x284E8"
+    },
+    "DAT_060325A8": {
+      "absolute": "0x060325A8",
+      "parent_fun": "FUN_06009C40",
+      "offset": "0x28968"
+    },
+    "DAT_06032428": {
+      "absolute": "0x06032428",
+      "parent_fun": "FUN_06009C40",
+      "offset": "0x287E8"
+    },
+    "DAT_06061B7A": {
+      "absolute": "0x06061B7A",
+      "parent_fun": "FUN_06045CCA",
+      "offset": "0x1BEB0"
+    },
+    "DAT_06051462": {
+      "absolute": "0x06051462",
+      "parent_fun": "FUN_06045CCA",
+      "offset": "0xB798"
+    },
+    "DAT_06052BD4": {
+      "absolute": "0x06052BD4",
+      "parent_fun": "FUN_06045CCA",
+      "offset": "0xCF0A"
     }
   },
   "sym_symbols": {
