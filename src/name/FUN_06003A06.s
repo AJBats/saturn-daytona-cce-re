@@ -4,25 +4,25 @@
     .global FUN_06003A06
     .type FUN_06003A06, @function
 FUN_06003A06:
-    .byte 0x4F, 0x22  /* 06003A06: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xD2, 0x1B  /* 06003A08: mov.l @(0x6C,PC),r2  {[0x06003A78] = 0x0603A928} */
-    .byte 0x7F, 0xE8  /* 06003A0A: add #-24,r15 */
-    .byte 0x81, 0xF2  /* 06003A0C: mov.w r0,@(0x4,r15) */
-    .byte 0x6E, 0xF3  /* 06003A0E: mov r15,r14 */
-    .byte 0x60, 0x53  /* 06003A10: mov r5,r0 */
-    .byte 0x7E, 0x0C  /* 06003A12: add #12,r14 */
-    .byte 0x81, 0xF4  /* 06003A14: mov.w r0,@(0x8,r15) */
-    .byte 0x2F, 0x62  /* 06003A16: mov.l r6,@r15 */
-    .byte 0x65, 0x32  /* 06003A18: mov.l @r3,r5 */
-    .byte 0x42, 0x0B  /* 06003A1A: jsr @r2 */
-    .byte 0x64, 0xE3  /* 06003A1C: mov r14,r4 */
-    .byte 0xE0, 0x5F  /* 06003A1E: mov #95,r0 */
+    add #-0x18, r15
+    mov.w r0, @(4, r15)
+    mov r15, r14
+    mov r5, r0
+    add #0xC, r14
+    mov.w r0, @(8, r15)
+    mov.l r6, @r15
+    mov.l @r3, r5
+    jsr @r2
+    mov r14, r4
+    mov #0x5F, r0
     .byte 0xD3, 0x16  /* 06003A20: mov.l @(0x58,PC),r3  {[0x06003A7C] = 0x06008A5C} */
-    .byte 0xE5, 0x0A  /* 06003A22: mov #10,r5 */
-    .byte 0x80, 0xE8  /* 06003A24: mov.b r0,@(0x8,r14) */
-    .byte 0x85, 0xF4  /* 06003A26: mov.w @(0x8,r15),r0 */
-    .byte 0x64, 0x03  /* 06003A28: mov r0,r4 */
-    .byte 0x64, 0x4D  /* 06003A2A: extu.w r4,r4 */
+    mov #0xA, r5
+    mov.b r0, @(8, r14)
+    mov.w @(8, r15), r0
+    mov r0, r4
+    extu.w r4, r4
     .4byte 0x6143430B  /* 06003A2C = 0x6143430B */
     .byte 0x60, 0x53  /* 06003A30: mov r5,r0 */
     .byte 0x70, 0x30  /* 06003A32: add #48,r0 */
@@ -57,7 +57,9 @@ FUN_06003A06:
     .4byte sym_06040AB8  /* 06003A6C = 0x06040AB8 */
     .4byte sym_0603FA34  /* 06003A70 = 0x0603FA34 */
     .4byte sym_0603C86C  /* 06003A74 = 0x0603C86C */
+.L_pool_06003A78:
     .4byte sym_0603A928  /* 06003A78 = 0x0603A928 */
+.L_pool_06003A7C:
     .4byte DAT_06008A5C  /* 06003A7C = 0x06008A5C (FUN_060067F6 + 0x2266) */
     .4byte sym_0603A860  /* 06003A80 = 0x0603A860 */
     .4byte sym_0603F8CC  /* 06003A84 = 0x0603F8CC */

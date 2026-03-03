@@ -4,24 +4,24 @@
     .global FUN_06004670
     .type FUN_06004670, @function
 FUN_06004670:
-    .byte 0x4F, 0x22  /* 06004670: sts.l pr,@-r15 */
-    .byte 0xD3, 0x3A  /* 06004672: mov.l @(0xE8,PC),r3  {[0x0600475C] = 0x0602C09C} */
-    .byte 0x43, 0x0B  /* 06004674: jsr @r3 */
-    .byte 0x00, 0x09  /* 06004676: nop */
-    .byte 0xD5, 0x39  /* 06004678: mov.l @(0xE4,PC),r5  {[0x06004760] = 0x0603C372} */
-    .byte 0xE7, 0x0C  /* 0600467A: mov #12,r7 */
-    .byte 0xD4, 0x39  /* 0600467C: mov.l @(0xE4,PC),r4  {[0x06004764] = 0x0603FFE0} */
-    .byte 0xE6, 0x00  /* 0600467E: mov #0,r6 */
-    .byte 0x62, 0x50  /* 06004680: mov.b @r5,r2 */
-    .byte 0x76, 0x03  /* 06004682: add #3,r6 */
-    .byte 0x24, 0x20  /* 06004684: mov.b r2,@r4 */
-    .byte 0x75, 0x01  /* 06004686: add #1,r5 */
-    .byte 0x63, 0x50  /* 06004688: mov.b @r5,r3 */
-    .byte 0x36, 0x72  /* 0600468A: cmp/hs r7,r6 */
-    .byte 0x74, 0x01  /* 0600468C: add #1,r4 */
-    .byte 0x75, 0x01  /* 0600468E: add #1,r5 */
-    .byte 0x24, 0x30  /* 06004690: mov.b r3,@r4 */
-    .byte 0x74, 0x01  /* 06004692: add #1,r4 */
+    sts.l pr, @-r15
+    mov.l .L_pool_0600475C, r3
+    jsr @r3
+    nop
+    mov.l .L_pool_06004760, r5
+    mov #0xC, r7
+    mov.l .L_pool_06004764, r4
+    mov #0x0, r6
+    mov.b @r5, r2
+    add #0x3, r6
+    mov.b r2, @r4
+    add #0x1, r5
+    mov.b @r5, r3
+    cmp/hs r7, r6
+    add #0x1, r4
+    add #0x1, r5
+    mov.b r3, @r4
+    add #0x1, r4
     .4byte 0x62507501  /* 06004694 = 0x62507501 */
     .byte 0x24, 0x20  /* 06004698: mov.b r2,@r4 */
     .byte 0x8F, 0xF1  /* 0600469A: bf/s 0x06004680 */
@@ -121,8 +121,11 @@ FUN_06004670:
     .byte 0x00, 0x0B  /* 06004756: rts */
     .byte 0x80, 0x54  /* 06004758: mov.b r0,@(0x4,r5) */
     .byte 0xFF, 0xFF  /* 0600475A: .word 0xFFFF */
+.L_pool_0600475C:
     .4byte sym_0602C09C  /* 0600475C = 0x0602C09C */
+.L_pool_06004760:
     .4byte sym_0603C372  /* 06004760 = 0x0603C372 */
+.L_pool_06004764:
     .4byte sym_0603FFE0  /* 06004764 = 0x0603FFE0 */
     .4byte sym_0603C369  /* 06004768 = 0x0603C369 */
     .4byte sym_0603FFED  /* 0600476C = 0x0603FFED */

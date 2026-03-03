@@ -4,9 +4,9 @@
     .global FUN_060019AA
     .type FUN_060019AA, @function
 FUN_060019AA:
-    .byte 0x4F, 0x22  /* 060019AA: sts.l pr,@-r15 */
-    .byte 0x4F, 0x12  /* 060019AC: sts.l macl,@-r15 */
-    .byte 0x7F, 0xF4  /* 060019AE: add #-12,r15 */
+    sts.l pr, @-r15
+    sts.l macl, @-r15
+    add #-0xC, r15
     .4byte 0x2F4080F4  /* 060019B0 = 0x2F4080F4 */
     .byte 0x43, 0x0B  /* 060019B4: jsr @r3 */
     .byte 0x00, 0x09  /* 060019B6: nop */
