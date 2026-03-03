@@ -4,33 +4,36 @@
     .global FUN_06006668
     .type FUN_06006668, @function
 FUN_06006668:
-    .byte 0x4F, 0x22  /* 06006668: sts.l pr,@-r15 */
-    .byte 0x74, 0x1C  /* 0600666A: add #28,r4 */
-    .byte 0x60, 0x42  /* 0600666C: mov.l @r4,r0 */
-    .byte 0x20, 0x08  /* 0600666E: tst r0,r0 */
-    .byte 0x8B, 0x04  /* 06006670: bf 0x0600667C */
-    .byte 0xD3, 0x0D  /* 06006672: mov.l @(0x34,PC),r3  {[0x060066A8] = 0x0600DDAA} */
-    .byte 0x43, 0x0B  /* 06006674: jsr @r3 */
-    .byte 0x64, 0xE3  /* 06006676: mov r14,r4 */
-    .byte 0xA0, 0x05  /* 06006678: bra 0x06006686 */
-    .byte 0x00, 0x09  /* 0600667A: nop */
-    .byte 0xE0, 0x54  /* 0600667C: mov #84,r0 */
-    .byte 0xE3, 0x00  /* 0600667E: mov #0,r3 */
-    .byte 0x0E, 0x56  /* 06006680: mov.l r5,@(r0,r14) */
-    .byte 0xE0, 0x58  /* 06006682: mov #88,r0 */
-    .byte 0x0E, 0x36  /* 06006684: mov.l r3,@(r0,r14) */
-    .byte 0xE2, 0x00  /* 06006686: mov #0,r2 */
-    .byte 0xE0, 0x50  /* 06006688: mov #80,r0 */
-    .byte 0x0E, 0x26  /* 0600668A: mov.l r2,@(r0,r14) */
-    .byte 0x4F, 0x26  /* 0600668C: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0600668E: rts */
-    .byte 0x6E, 0xF6  /* 06006690: mov.l @r15+,r14 */
+    sts.l pr, @-r15
+    add #0x1C, r4
+    mov.l @r4, r0
+    tst r0, r0
+    bf .L_0600667C
+    mov.l .L_pool_060066A8, r3
+    jsr @r3
+    mov r14, r4
+    bra .L_06006686
+    nop
+.L_0600667C:
+    mov #0x54, r0
+    mov #0x0, r3
+    mov.l r5, @(r0, r14)
+    mov #0x58, r0
+    mov.l r3, @(r0, r14)
+.L_06006686:
+    mov #0x0, r2
+    mov #0x50, r0
+    mov.l r2, @(r0, r14)
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
     .byte 0x00, 0xB4  /* 06006692: mov.b r11,@(r0,r0) */
     .4byte DAT_0600DB9A  /* 06006694 = 0x0600DB9A (FUN_0600B7A0 + 0x23FA) */
     .4byte DAT_0600D542  /* 06006698 = 0x0600D542 (FUN_0600B7A0 + 0x1DA2) */
     .4byte DAT_0600D4D0  /* 0600669C = 0x0600D4D0 (FUN_0600B7A0 + 0x1D30) */
     .4byte DAT_0600A4C4  /* 060066A0 = 0x0600A4C4 (FUN_0600A4AE + 0x16) */
     .4byte DAT_06008E60  /* 060066A4 = 0x06008E60 (FUN_06008E50 + 0x10) */
+.L_pool_060066A8:
     .4byte DAT_0600DDAA  /* 060066A8 = 0x0600DDAA (FUN_0600B7A0 + 0x260A) */
     .byte 0x25, 0x58  /* 060066AC: tst r5,r5 */
     .byte 0x89, 0x01  /* 060066AE: bt 0x060066B4 */

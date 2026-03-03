@@ -4,18 +4,19 @@
     .global FUN_0600EA84
     .type FUN_0600EA84, @function
 FUN_0600EA84:
-    .byte 0x4F, 0x22  /* 0600EA84: sts.l pr,@-r15 */
-    .byte 0xC2, 0x02  /* 0600EA86: mov.l r0,@(0x8,GBR) */
-    .byte 0x51, 0x03  /* 0600EA88: mov.l @(0xC,r0),r1 */
-    .byte 0x41, 0x0B  /* 0600EA8A: jsr @r1 */
-    .byte 0x64, 0x03  /* 0600EA8C: mov r0,r4 */
-    .byte 0xC6, 0x02  /* 0600EA8E: mov.l @(0x8,GBR),r0 */
-    .byte 0x50, 0x01  /* 0600EA90: mov.l @(0x4,r0),r0 */
-    .byte 0x20, 0x08  /* 0600EA92: tst r0,r0 */
-    .byte 0x8B, 0xF7  /* 0600EA94: bf 0x0600EA86 */
-    .byte 0x4F, 0x26  /* 0600EA96: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0600EA98: rts */
-    .byte 0x4F, 0x17  /* 0600EA9A: .word 0x4F17 */
+    sts.l pr, @-r15
+.L_0600EA86:
+    mov.l r0, @(8, gbr)
+    mov.l @(12, r0), r1
+    jsr @r1
+    mov r0, r4
+    mov.l @(8, gbr), r0
+    mov.l @(4, r0), r0
+    tst r0, r0
+    bf .L_0600EA86
+    lds.l @r15+, pr
+    rts
+    ldc.l @r15+, gbr
     .4byte sym_060FFC00  /* 0600EA9C = 0x060FFC00 */
     .byte 0x4F, 0x13  /* 0600EAA0: .word 0x4F13 */
     .byte 0xD0, 0x09  /* 0600EAA2: mov.l @(0x24,PC),r0  {[0x0600EAC8] = 0x060FFC00} */

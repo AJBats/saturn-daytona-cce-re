@@ -4,25 +4,26 @@
     .global FUN_0600AE1A
     .type FUN_0600AE1A, @function
 FUN_0600AE1A:
-    .byte 0x4F, 0x22  /* 0600AE1A: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xD3, 0x35  /* 0600AE1C: mov.l @(0xD4,PC),r3  {[0x0600AEF4] = 0x0600A012} */
-    .byte 0x7F, 0xFC  /* 0600AE1E: add #-4,r15 */
-    .byte 0x2F, 0x42  /* 0600AE20: mov.l r4,@r15 */
-    .byte 0x43, 0x0B  /* 0600AE22: jsr @r3 */
-    .byte 0x00, 0x09  /* 0600AE24: nop */
-    .byte 0x64, 0x03  /* 0600AE26: mov r0,r4 */
-    .byte 0x60, 0xF2  /* 0600AE28: mov.l @r15,r0 */
-    .byte 0x20, 0x48  /* 0600AE2A: tst r4,r0 */
-    .byte 0x89, 0x03  /* 0600AE2C: bt 0x0600AE36 */
-    .byte 0x7F, 0x04  /* 0600AE2E: add #4,r15 */
-    .byte 0x4F, 0x26  /* 0600AE30: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0600AE32: rts */
-    .byte 0xE0, 0x01  /* 0600AE34: mov #1,r0 */
-    .byte 0xE0, 0x00  /* 0600AE36: mov #0,r0 */
-    .byte 0x7F, 0x04  /* 0600AE38: add #4,r15 */
-    .byte 0x4F, 0x26  /* 0600AE3A: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0600AE3C: rts */
-    .byte 0x00, 0x09  /* 0600AE3E: nop */
+    add #-0x4, r15
+    mov.l r4, @r15
+    jsr @r3
+    nop
+    mov r0, r4
+    mov.l @r15, r0
+    tst r4, r0
+    bt .L_0600AE36
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov #0x1, r0
+.L_0600AE36:
+    mov #0x0, r0
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0xD5, 0x2D  /* 0600AE40: mov.l @(0xB4,PC),r5  {[0x0600AEF8] = 0x060136EC} */
     .byte 0xE4, 0x00  /* 0600AE42: mov #0,r4 */
     .byte 0xE7, 0x17  /* 0600AE44: mov #23,r7 */

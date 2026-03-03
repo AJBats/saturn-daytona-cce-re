@@ -4,11 +4,11 @@
     .global FUN_06008AC2
     .type FUN_06008AC2, @function
 FUN_06008AC2:
-    .byte 0x2F, 0xE6  /* 06008AC2: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 06008AC4: mov.l r13,@-r15 */
-    .byte 0x6D, 0x53  /* 06008AC6: mov r5,r13 */
-    .byte 0x2F, 0xC6  /* 06008AC8: mov.l r12,@-r15 */
-    .byte 0x2D, 0xD8  /* 06008ACA: tst r13,r13 */
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov r5, r13
+    mov.l r12, @-r15
+    tst r13, r13
     .4byte 0x2FB66C43  /* 06008ACC = 0x2FB66C43 */
     .byte 0x2F, 0xA6  /* 06008AD0: mov.l r10,@-r15 */
     .byte 0x2F, 0x96  /* 06008AD2: mov.l r9,@-r15 */

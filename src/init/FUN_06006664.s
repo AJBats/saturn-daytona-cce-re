@@ -4,5 +4,5 @@
     .global FUN_06006664
     .type FUN_06006664, @function
 FUN_06006664:
-    .byte 0x2F, 0xE6  /* 06006664: mov.l r14,@-r15 */
-    .byte 0x6E, 0x43  /* 06006666: mov r4,r14 */
+    mov.l r14, @-r15
+    mov r4, r14

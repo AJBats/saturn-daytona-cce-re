@@ -4,16 +4,16 @@
     .global FUN_06005EAA
     .type FUN_06005EAA, @function
 FUN_06005EAA:
-    .byte 0x4F, 0x22  /* 06005EAA: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xD3, 0x12  /* 06005EAC: mov.l @(0x48,PC),r3  {[0x06005EF8] = 0x06013620} */
-    .byte 0x62, 0x32  /* 06005EAE: mov.l @r3,r2 */
+    mov.l @r3, r2
     .byte 0xD3, 0x12  /* 06005EB0: mov.l @(0x48,PC),r3  {[0x06005EFC] = 0x06008E88} */
-    .byte 0x32, 0x0C  /* 06005EB2: add r0,r2 */
-    .byte 0x43, 0x0B  /* 06005EB4: jsr @r3 */
-    .byte 0xE0, 0x0C  /* 06005EB6: mov #12,r0 */
-    .byte 0x4F, 0x26  /* 06005EB8: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06005EBA: rts */
-    .byte 0x00, 0x09  /* 06005EBC: nop */
+    add r0, r2
+    jsr @r3
+    mov #0xC, r0
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0xD1, 0x10  /* 06005EBE: mov.l @(0x40,PC),r1  {[0x06005F00] = 0x06000CCC} */
     .byte 0x60, 0x10  /* 06005EC0: mov.b @r1,r0 */
     .byte 0x60, 0x0C  /* 06005EC2: extu.b r0,r0 */
@@ -37,7 +37,9 @@ FUN_06005EAA:
     .4byte DAT_0600DC24  /* 06005EEC = 0x0600DC24 (FUN_0600B7A0 + 0x2484) */
     .4byte DAT_0600E8A8  /* 06005EF0 = 0x0600E8A8 (FUN_0600B7A0 + 0x3108) */
     .4byte DAT_0600E0AC  /* 06005EF4 = 0x0600E0AC (FUN_0600B7A0 + 0x290C) */
+.L_pool_06005EF8:
     .4byte DAT_06013620  /* 06005EF8 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
+.L_pool_06005EFC:
     .4byte DAT_06008E88  /* 06005EFC = 0x06008E88 (FUN_06008E50 + 0x38) */
     .4byte DAT_06000CCC  /* 06005F00 = 0x06000CCC (FUN_06000B3C + 0x190) */
     .4byte DAT_06000CCD  /* 06005F04 = 0x06000CCD (FUN_06000B3C + 0x191) */

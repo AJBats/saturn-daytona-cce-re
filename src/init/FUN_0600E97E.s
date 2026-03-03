@@ -4,29 +4,31 @@
     .global FUN_0600E97E
     .type FUN_0600E97E, @function
 FUN_0600E97E:
-    .byte 0x4F, 0x22  /* 0600E97E: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xBF, 0xEC  /* 0600E980: bsr 0x0600E95C */
-    .byte 0x00, 0x09  /* 0600E982: nop */
-    .byte 0x4F, 0x26  /* 0600E984: lds.l @r15+,pr */
-    .byte 0x20, 0x08  /* 0600E986: tst r0,r0 */
-    .byte 0x89, 0x0E  /* 0600E988: bt 0x0600E9A8 */
-    .byte 0x03, 0x12  /* 0600E98A: stc gbr,r3 */
-    .byte 0x51, 0x30  /* 0600E98C: mov.l @(0x0,r3),r1 */
-    .byte 0x21, 0x18  /* 0600E98E: tst r1,r1 */
-    .byte 0x8B, 0x00  /* 0600E990: bf 0x0600E994 */
-    .byte 0x13, 0x00  /* 0600E992: mov.l r0,@(0x0,r3) */
-    .byte 0x51, 0x31  /* 0600E994: mov.l @(0x4,r3),r1 */
-    .byte 0x13, 0x01  /* 0600E996: mov.l r0,@(0x4,r3) */
-    .byte 0xE2, 0x00  /* 0600E998: mov #0,r2 */
-    .byte 0x10, 0x21  /* 0600E99A: mov.l r2,@(0x4,r0) */
-    .byte 0x10, 0x20  /* 0600E99C: mov.l r2,@(0x0,r0) */
-    .byte 0x10, 0x12  /* 0600E99E: mov.l r1,@(0x8,r0) */
-    .byte 0x21, 0x18  /* 0600E9A0: tst r1,r1 */
-    .byte 0x8D, 0x01  /* 0600E9A2: bt/s 0x0600E9A8 */
-    .byte 0x10, 0x43  /* 0600E9A4: mov.l r4,@(0xC,r0) */
-    .byte 0x11, 0x01  /* 0600E9A6: mov.l r0,@(0x4,r1) */
-    .byte 0x00, 0x0B  /* 0600E9A8: rts */
-    .byte 0x4F, 0x17  /* 0600E9AA: .word 0x4F17 */
+    nop
+    lds.l @r15+, pr
+    tst r0, r0
+    bt .L_0600E9A8
+    stc gbr, r3
+    mov.l @(0, r3), r1
+    tst r1, r1
+    bf .L_0600E994
+    mov.l r0, @(0, r3)
+.L_0600E994:
+    mov.l @(4, r3), r1
+    mov.l r0, @(4, r3)
+    mov #0x0, r2
+    mov.l r2, @(4, r0)
+    mov.l r2, @(0, r0)
+    mov.l r1, @(8, r0)
+    tst r1, r1
+    bt/s .L_0600E9A8
+    mov.l r4, @(12, r0)
+    mov.l r0, @(4, r1)
+.L_0600E9A8:
+    rts
+    ldc.l @r15+, gbr
     .4byte DAT_06013D28  /* 0600E9AC = 0x06013D28 (FUN_0600EA84 + 0x52A4) */
     .4byte sym_060FFC00  /* 0600E9B0 = 0x060FFC00 */
     .byte 0x4F, 0x13  /* 0600E9B4: .word 0x4F13 */

@@ -4,17 +4,18 @@
     .global FUN_06002268
     .type FUN_06002268, @function
 FUN_06002268:
-    .byte 0x4F, 0x22  /* 06002268: sts.l pr,@-r15 */
-    .byte 0x40, 0x0B  /* 0600226A: jsr @r0 */
-    .byte 0x00, 0x09  /* 0600226C: nop */
-    .byte 0x4F, 0x26  /* 0600226E: lds.l @r15+,pr */
-    .byte 0xD1, 0x03  /* 06002270: mov.l @(0xC,PC),r1  {[0x06002280] = 0x26005100} */
-    .byte 0xE0, 0x00  /* 06002272: mov #0,r0 */
-    .byte 0x11, 0x00  /* 06002274: mov.l r0,@(0x0,r1) */
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
+    mov.l .L_pool_06002280, r1
+    mov #0x0, r0
+    mov.l r0, @(0, r1)
     .byte 0xAF, 0xEC  /* 06002276: bra 0x06002252 */
-    .byte 0x00, 0x09  /* 06002278: nop */
+    nop
     .byte 0x00, 0x00  /* 0600227A: .word 0x0000 */
     .4byte 0x534C4156  /* 0600227C = 0x534C4156 */
+.L_pool_06002280:
     .4byte sym_26005100  /* 06002280 = 0x26005100 */
     .4byte sym_FFFFFEE2  /* 06002284 = 0xFFFFFEE2 */
     .4byte sym_FFFFFE60  /* 06002288 = 0xFFFFFE60 */
