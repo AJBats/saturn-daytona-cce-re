@@ -4,9 +4,9 @@
     .global FUN_06000E5A
     .type FUN_06000E5A, @function
 FUN_06000E5A:
-    .byte 0x2F, 0xE6  /* 06000E5A: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 06000E5C: mov.l r13,@-r15 */
-    .byte 0x2F, 0xC6  /* 06000E5E: mov.l r12,@-r15 */
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
     .4byte 0x2FB62FA6  /* 06000E60 = 0x2FB62FA6 */
     .byte 0x4F, 0x22  /* 06000E64: sts.l pr,@-r15 */
     .byte 0xD4, 0x28  /* 06000E66: mov.l @(0xA0,PC),r4  {[0x06000F08] = 0x06099EAA} */

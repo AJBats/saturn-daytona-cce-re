@@ -4,24 +4,24 @@
     .global FUN_060052C4
     .type FUN_060052C4, @function
 FUN_060052C4:
-    .byte 0x4F, 0x22  /* 060052C4: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xBF, 0xAF  /* 060052C6: bsr 0x06005228 */
-    .byte 0x2F, 0x46  /* 060052C8: mov.l r4,@-r15 */
+    mov.l r4, @-r15
     .byte 0xBF, 0x45  /* 060052CA: bsr 0x06005158 */
-    .byte 0x64, 0x03  /* 060052CC: mov r0,r4 */
-    .byte 0xE3, 0xFF  /* 060052CE: mov #-1,r3 */
-    .byte 0x43, 0x18  /* 060052D0: shll8 r3 */
-    .byte 0x13, 0x00  /* 060052D2: mov.l r0,@(0x0,r3) */
-    .byte 0x60, 0xF6  /* 060052D4: mov.l @r15+,r0 */
-    .byte 0x61, 0x09  /* 060052D6: swap.w r0,r1 */
-    .byte 0x61, 0x1F  /* 060052D8: exts.w r1,r1 */
-    .byte 0x13, 0x14  /* 060052DA: mov.l r1,@(0x10,r3) */
-    .byte 0x40, 0x28  /* 060052DC: shll16 r0 */
-    .byte 0x13, 0x05  /* 060052DE: mov.l r0,@(0x14,r3) */
-    .byte 0x50, 0x37  /* 060052E0: mov.l @(0x1C,r3),r0 */
-    .byte 0x4F, 0x26  /* 060052E2: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 060052E4: rts */
-    .byte 0x00, 0x09  /* 060052E6: nop */
+    mov r0, r4
+    mov #-0x1, r3
+    shll8 r3
+    mov.l r0, @(0, r3)
+    mov.l @r15+, r0
+    swap.w r0, r1
+    exts.w r1, r1
+    mov.l r1, @(16, r3)
+    shll16 r0
+    mov.l r0, @(20, r3)
+    mov.l @(28, r3), r0
+    lds.l @r15+, pr
+    rts
+    nop
     .4byte DAT_06031758  /* 060052E8 = 0x06031758 (FUN_06009C40 + 0x27B18) */
     .4byte 0x00004000  /* 060052EC = 0x00004000 */
     .4byte 0x00008000  /* 060052F0 = 0x00008000 */

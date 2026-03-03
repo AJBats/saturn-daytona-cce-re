@@ -4,19 +4,19 @@
     .global FUN_060025DA
     .type FUN_060025DA, @function
 FUN_060025DA:
-    .byte 0x4F, 0x22  /* 060025DA: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xBD, 0xDE  /* 060025DC: bsr 0x0600219C */
-    .byte 0x00, 0x09  /* 060025DE: nop */
-    .byte 0x85, 0x88  /* 060025E0: mov.w @(0x10,r8),r0 */
+    nop
+    mov.w @(16, r8), r0
     .byte 0xBF, 0x94  /* 060025E2: bsr 0x0600250E */
-    .byte 0x60, 0x0B  /* 060025E4: neg r0,r0 */
-    .byte 0x85, 0x86  /* 060025E6: mov.w @(0xC,r8),r0 */
+    neg r0, r0
+    mov.w @(12, r8), r0
     .byte 0xBF, 0x1B  /* 060025E8: bsr 0x06002422 */
-    .byte 0x60, 0x0B  /* 060025EA: neg r0,r0 */
-    .byte 0x85, 0x87  /* 060025EC: mov.w @(0xE,r8),r0 */
+    neg r0, r0
+    mov.w @(14, r8), r0
     .byte 0xBF, 0x54  /* 060025EE: bsr 0x0600249A */
-    .byte 0x60, 0x0B  /* 060025F0: neg r0,r0 */
-    .byte 0x55, 0x80  /* 060025F2: mov.l @(0x0,r8),r5 */
+    neg r0, r0
+    mov.l @(0, r8), r5
     .4byte 0x56815782  /* 060025F4 = 0x56815782 */
     .byte 0x65, 0x5B  /* 060025F8: neg r5,r5 */
     .byte 0x66, 0x6B  /* 060025FA: neg r6,r6 */

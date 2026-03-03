@@ -4,34 +4,36 @@
     .global FUN_06002244
     .type FUN_06002244, @function
 FUN_06002244:
-    .byte 0x4F, 0x22  /* 06002244: sts.l pr,@-r15 */
-    .byte 0x2F, 0x76  /* 06002246: mov.l r7,@-r15 */
-    .byte 0x2F, 0x66  /* 06002248: mov.l r6,@-r15 */
-    .byte 0x2F, 0x56  /* 0600224A: mov.l r5,@-r15 */
-    .byte 0xB0, 0x04  /* 0600224C: bsr 0x06002258 */
-    .byte 0x65, 0xF3  /* 0600224E: mov r15,r5 */
-    .byte 0x7F, 0x0C  /* 06002250: add #12,r15 */
-    .byte 0x4F, 0x26  /* 06002252: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06002254: rts */
-    .byte 0x00, 0x09  /* 06002256: nop */
-    .byte 0xE3, 0x03  /* 06002258: mov #3,r3 */
-    .byte 0x60, 0x53  /* 0600225A: mov r5,r0 */
-    .byte 0x00, 0x28  /* 0600225C: clrmac */
-    .byte 0x00, 0x4F  /* 0600225E: mac.l @r4+,@r0+ */
-    .byte 0x00, 0x4F  /* 06002260: mac.l @r4+,@r0+ */
-    .byte 0x00, 0x4F  /* 06002262: mac.l @r4+,@r0+ */
-    .byte 0x70, 0xF4  /* 06002264: add #-12,r0 */
-    .byte 0x65, 0x42  /* 06002266: mov.l @r4,r5 */
-    .byte 0x01, 0x0A  /* 06002268: sts mach,r1 */
-    .byte 0x02, 0x1A  /* 0600226A: sts macl,r2 */
-    .byte 0x22, 0x1D  /* 0600226C: xtrct r1,r2 */
-    .byte 0x32, 0x5C  /* 0600226E: add r5,r2 */
-    .byte 0x24, 0x22  /* 06002270: mov.l r2,@r4 */
-    .byte 0x43, 0x10  /* 06002272: dt r3 */
-    .byte 0x8F, 0xF2  /* 06002274: bf/s 0x0600225C */
-    .byte 0x74, 0x04  /* 06002276: add #4,r4 */
-    .byte 0x00, 0x0B  /* 06002278: rts */
-    .byte 0x74, 0xD0  /* 0600227A: add #-48,r4 */
+    sts.l pr, @-r15
+    mov.l r7, @-r15
+    mov.l r6, @-r15
+    mov.l r5, @-r15
+    bsr .L_06002258
+    mov r15, r5
+    add #0xC, r15
+    lds.l @r15+, pr
+    rts
+    nop
+.L_06002258:
+    mov #0x3, r3
+    mov r5, r0
+.L_0600225C:
+    clrmac
+    mac.l @r4+, @r0+
+    mac.l @r4+, @r0+
+    mac.l @r4+, @r0+
+    add #-0xC, r0
+    mov.l @r4, r5
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    add r5, r2
+    mov.l r2, @r4
+    dt r3
+    bf/s .L_0600225C
+    add #0x4, r4
+    rts
+    add #-0x30, r4
     .byte 0xE3, 0x03  /* 0600227C: mov #3,r3 */
     .byte 0x60, 0x53  /* 0600227E: mov r5,r0 */
     .byte 0x00, 0x28  /* 06002280: clrmac */

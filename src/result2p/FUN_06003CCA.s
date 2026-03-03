@@ -4,4 +4,4 @@
     .global FUN_06003CCA
     .type FUN_06003CCA, @function
 FUN_06003CCA:
-    .byte 0x4F, 0x22  /* 06003CCA: sts.l pr,@-r15 */
+    sts.l pr, @-r15

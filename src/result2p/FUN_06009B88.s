@@ -4,30 +4,34 @@
     .global FUN_06009B88
     .type FUN_06009B88, @function
 FUN_06009B88:
-    .byte 0x4F, 0x22  /* 06009B88: sts.l pr,@-r15 */
-    .byte 0xE1, 0xE0  /* 06009B8A: mov #-32,r1 */
-    .byte 0x85, 0x11  /* 06009B8C: mov.w @(0x2,r1),r0 */
-    .byte 0x40, 0x11  /* 06009B8E: cmp/pz r0 */
-    .byte 0xD6, 0x08  /* 06009B90: mov.l @(0x20,PC),r6  {[0x06009BB4] = 0x06057850} */
-    .byte 0x89, 0x00  /* 06009B92: bt 0x06009B96 */
-    .byte 0xD6, 0x08  /* 06009B94: mov.l @(0x20,PC),r6  {[0x06009BB8] = 0x06057C50} */
-    .byte 0x7F, 0xF4  /* 06009B96: add #-12,r15 */
-    .byte 0x65, 0xF3  /* 06009B98: mov r15,r5 */
-    .byte 0x50, 0x60  /* 06009B9A: mov.l @(0x0,r6),r0 */
-    .byte 0x15, 0x00  /* 06009B9C: mov.l r0,@(0x0,r5) */
-    .byte 0x50, 0x61  /* 06009B9E: mov.l @(0x4,r6),r0 */
-    .byte 0x15, 0x01  /* 06009BA0: mov.l r0,@(0x4,r5) */
-    .byte 0x50, 0x62  /* 06009BA2: mov.l @(0x8,r6),r0 */
-    .byte 0x15, 0x02  /* 06009BA4: mov.l r0,@(0x8,r5) */
-    .byte 0xD0, 0x05  /* 06009BA6: mov.l @(0x14,PC),r0  {[0x06009BBC] = 0x0602D42C} */
-    .byte 0x40, 0x0B  /* 06009BA8: jsr @r0 */
-    .byte 0x00, 0x09  /* 06009BAA: nop */
-    .byte 0x7F, 0x0C  /* 06009BAC: add #12,r15 */
-    .byte 0x4F, 0x26  /* 06009BAE: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06009BB0: rts */
-    .byte 0x00, 0x09  /* 06009BB2: nop */
+    sts.l pr, @-r15
+    mov #-0x20, r1
+    mov.w @(2, r1), r0
+    cmp/pz r0
+    mov.l .L_pool_06009BB4, r6
+    bt .L_06009B96
+    mov.l .L_pool_06009BB8, r6
+.L_06009B96:
+    add #-0xC, r15
+    mov r15, r5
+    mov.l @(0, r6), r0
+    mov.l r0, @(0, r5)
+    mov.l @(4, r6), r0
+    mov.l r0, @(4, r5)
+    mov.l @(8, r6), r0
+    mov.l r0, @(8, r5)
+    mov.l .L_pool_06009BBC, r0
+    jsr @r0
+    nop
+    add #0xC, r15
+    lds.l @r15+, pr
+    rts
+    nop
+.L_pool_06009BB4:
     .4byte DAT_06057850  /* 06009BB4 = 0x06057850 (FUN_06045CCA + 0x11B86) */
+.L_pool_06009BB8:
     .4byte DAT_06057C50  /* 06009BB8 = 0x06057C50 (FUN_06045CCA + 0x11F86) */
+.L_pool_06009BBC:
     .4byte DAT_0602D42C  /* 06009BBC = 0x0602D42C (FUN_06009C40 + 0x237EC) */
     .byte 0x2F, 0x86  /* 06009BC0: mov.l r8,@-r15 */
     .byte 0x4F, 0x22  /* 06009BC2: sts.l pr,@-r15 */
