@@ -4,43 +4,45 @@
     .global FUN_060075DC
     .type FUN_060075DC, @function
 FUN_060075DC:
-    .byte 0x4F, 0x22  /* 060075DC: sts.l pr,@-r15 */
-    .byte 0x51, 0xA0  /* 060075DE: mov.l @(0x0,r10),r1 */
-    .byte 0xB0, 0x05  /* 060075E0: bsr 0x060075EE */
-    .byte 0x52, 0xA2  /* 060075E2: mov.l @(0x8,r10),r2 */
-    .byte 0x1B, 0x30  /* 060075E4: mov.l r3,@(0x0,r11) */
-    .byte 0x7B, 0x08  /* 060075E6: add #8,r11 */
-    .byte 0x4F, 0x26  /* 060075E8: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 060075EA: rts */
-    .byte 0x00, 0x09  /* 060075EC: nop */
-    .byte 0x32, 0x13  /* 060075EE: cmp/ge r1,r2 */
-    .byte 0x89, 0x02  /* 060075F0: bt 0x060075F8 */
-    .byte 0x64, 0x13  /* 060075F2: mov r1,r4 */
-    .byte 0x61, 0x23  /* 060075F4: mov r2,r1 */
-    .byte 0x62, 0x43  /* 060075F6: mov r4,r2 */
-    .byte 0x64, 0x1F  /* 060075F8: exts.w r1,r4 */
-    .byte 0x65, 0x2F  /* 060075FA: exts.w r2,r5 */
-    .byte 0x34, 0x58  /* 060075FC: sub r5,r4 */
-    .byte 0x65, 0x19  /* 060075FE: swap.w r1,r5 */
-    .byte 0x65, 0x5F  /* 06007600: exts.w r5,r5 */
-    .byte 0x60, 0x3F  /* 06007602: exts.w r3,r0 */
-    .byte 0x30, 0x58  /* 06007604: sub r5,r0 */
-    .byte 0x24, 0x0F  /* 06007606: muls.w r0,r4 */
-    .byte 0xE6, 0xFF  /* 06007608: mov #-1,r6 */
-    .byte 0x46, 0x18  /* 0600760A: shll8 r6 */
-    .byte 0x60, 0x29  /* 0600760C: swap.w r2,r0 */
-    .byte 0x60, 0x0F  /* 0600760E: exts.w r0,r0 */
-    .byte 0x35, 0x08  /* 06007610: sub r0,r5 */
-    .byte 0x00, 0x1A  /* 06007612: sts macl,r0 */
-    .byte 0x16, 0x50  /* 06007614: mov.l r5,@(0x0,r6) */
-    .byte 0x16, 0x01  /* 06007616: mov.l r0,@(0x4,r6) */
-    .byte 0x43, 0x28  /* 06007618: shll16 r3 */
-    .byte 0x64, 0x1F  /* 0600761A: exts.w r1,r4 */
-    .byte 0x50, 0x67  /* 0600761C: mov.l @(0x1C,r6),r0 */
-    .byte 0x30, 0x4C  /* 0600761E: add r4,r0 */
-    .byte 0x60, 0x0D  /* 06007620: extu.w r0,r0 */
-    .byte 0x00, 0x0B  /* 06007622: rts */
-    .byte 0x23, 0x0B  /* 06007624: or r0,r3 */
+    sts.l pr, @-r15
+    mov.l @(0, r10), r1
+    bsr .L_060075EE
+    mov.l @(8, r10), r2
+    mov.l r3, @(0, r11)
+    add #0x8, r11
+    lds.l @r15+, pr
+    rts
+    nop
+.L_060075EE:
+    cmp/ge r1, r2
+    bt .L_060075F8
+    mov r1, r4
+    mov r2, r1
+    mov r4, r2
+.L_060075F8:
+    exts.w r1, r4
+    exts.w r2, r5
+    sub r5, r4
+    swap.w r1, r5
+    exts.w r5, r5
+    exts.w r3, r0
+    sub r5, r0
+    muls.w r0, r4
+    mov #-0x1, r6
+    shll8 r6
+    swap.w r2, r0
+    exts.w r0, r0
+    sub r0, r5
+    sts macl, r0
+    mov.l r5, @(0, r6)
+    mov.l r0, @(4, r6)
+    shll16 r3
+    exts.w r1, r4
+    mov.l @(28, r6), r0
+    add r4, r0
+    extu.w r0, r0
+    rts
+    or r0, r3
     .byte 0x01, 0x40  /* 06007626: .word 0x0140 */
     .byte 0x01, 0x80  /* 06007628: .word 0x0180 */
     .byte 0x00, 0x09  /* 0600762A: nop */

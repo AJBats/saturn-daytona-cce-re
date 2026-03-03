@@ -4,19 +4,19 @@
     .global FUN_06002A9E
     .type FUN_06002A9E, @function
 FUN_06002A9E:
-    .byte 0x2F, 0xE6  /* 06002A9E: mov.l r14,@-r15 */
-    .byte 0x42, 0x0B  /* 06002AA0: jsr @r2 */
-    .byte 0x64, 0xD3  /* 06002AA2: mov r13,r4 */
-    .byte 0x7F, 0x10  /* 06002AA4: add #16,r15 */
-    .byte 0x4F, 0x26  /* 06002AA6: lds.l @r15+,pr */
-    .byte 0x68, 0xF6  /* 06002AA8: mov.l @r15+,r8 */
-    .byte 0x69, 0xF6  /* 06002AAA: mov.l @r15+,r9 */
-    .byte 0x6A, 0xF6  /* 06002AAC: mov.l @r15+,r10 */
-    .byte 0x6B, 0xF6  /* 06002AAE: mov.l @r15+,r11 */
-    .byte 0x6C, 0xF6  /* 06002AB0: mov.l @r15+,r12 */
-    .byte 0x6D, 0xF6  /* 06002AB2: mov.l @r15+,r13 */
-    .byte 0x00, 0x0B  /* 06002AB4: rts */
-    .byte 0x6E, 0xF6  /* 06002AB6: mov.l @r15+,r14 */
+    mov.l r14, @-r15
+    jsr @r2
+    mov r13, r4
+    add #0x10, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r8
+    mov.l @r15+, r9
+    mov.l @r15+, r10
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
     .byte 0x02, 0x48  /* 06002AB8: .word 0x0248 */
     .byte 0x00, 0xC0  /* 06002ABA: .word 0x00C0 */
     .byte 0x02, 0xC0  /* 06002ABC: .word 0x02C0 */

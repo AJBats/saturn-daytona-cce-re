@@ -4,40 +4,42 @@
     .global FUN_06007374
     .type FUN_06007374, @function
 FUN_06007374:
-    .byte 0x4F, 0x22  /* 06007374: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0x9A, 0xB2  /* 06007376: mov.w @(0x164,PC),r10  {0x060074DE} */
-    .byte 0x3A, 0xEC  /* 06007378: add r14,r10 */
+    add r14, r10
     .byte 0x9B, 0xB1  /* 0600737A: mov.w @(0x162,PC),r11  {0x060074E0} */
-    .byte 0x3B, 0xEC  /* 0600737C: add r14,r11 */
-    .byte 0xE0, 0x00  /* 0600737E: mov #0,r0 */
-    .byte 0xC0, 0x99  /* 06007380: mov.b r0,@(0x99,GBR) */
-    .byte 0x84, 0xA4  /* 06007382: mov.b @(0x4,r10),r0 */
-    .byte 0xE1, 0x03  /* 06007384: mov #3,r1 */
-    .byte 0x21, 0x09  /* 06007386: and r0,r1 */
-    .byte 0x84, 0xAC  /* 06007388: mov.b @(0xC,r10),r0 */
-    .byte 0x41, 0x08  /* 0600738A: shll2 r1 */
-    .byte 0xC9, 0x03  /* 0600738C: and #0x03,r0 */
-    .byte 0x21, 0x0B  /* 0600738E: or r0,r1 */
-    .byte 0x41, 0x00  /* 06007390: shll r1 */
-    .byte 0xC7, 0x09  /* 06007392: mova @(0x24,PC),r0  {0x060073B8} */
-    .byte 0x00, 0x1D  /* 06007394: mov.w @(r0,r1),r0 */
-    .byte 0x00, 0x03  /* 06007396: bsrf r0 */
-    .byte 0x00, 0x09  /* 06007398: nop */
-    .byte 0x7A, 0x08  /* 0600739A: add #8,r10 */
-    .byte 0xC4, 0x98  /* 0600739C: mov.b @(0x98,GBR),r0 */
-    .byte 0x40, 0x10  /* 0600739E: dt r0 */
-    .byte 0x8F, 0xEF  /* 060073A0: bf/s 0x06007382 */
-    .byte 0xC0, 0x98  /* 060073A2: mov.b r0,@(0x98,GBR) */
+    add r14, r11
+    mov #0x0, r0
+    mov.b r0, @(153, gbr)
+.L_06007382:
+    mov.b @(4, r10), r0
+    mov #0x3, r1
+    and r0, r1
+    mov.b @(12, r10), r0
+    shll2 r1
+    and #0x3, r0
+    or r0, r1
+    shll r1
+    mova .L_pool_060073B8, r0
+    mov.w @(r0, r1), r0
+    bsrf r0
+    nop
+    add #0x8, r10
+    mov.b @(152, gbr), r0
+    dt r0
+    bf/s .L_06007382
+    mov.b r0, @(152, gbr)
     .byte 0x9A, 0x9C  /* 060073A4: mov.w @(0x138,PC),r10  {0x060074E0} */
-    .byte 0x3A, 0xEC  /* 060073A6: add r14,r10 */
-    .byte 0x50, 0xA0  /* 060073A8: mov.l @(0x0,r10),r0 */
-    .byte 0x1B, 0x00  /* 060073AA: mov.l r0,@(0x0,r11) */
-    .byte 0x84, 0xA4  /* 060073AC: mov.b @(0x4,r10),r0 */
-    .byte 0x80, 0xB4  /* 060073AE: mov.b r0,@(0x4,r11) */
-    .byte 0x4F, 0x26  /* 060073B0: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 060073B2: rts */
-    .byte 0x00, 0x09  /* 060073B4: nop */
+    add r14, r10
+    mov.l @(0, r10), r0
+    mov.l r0, @(0, r11)
+    mov.b @(4, r10), r0
+    mov.b r0, @(4, r11)
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x09  /* 060073B6: nop */
+.L_pool_060073B8:
     .byte 0x00, 0x3E  /* 060073B8: mov.l @(r0,r3),r0 */
     .byte 0x00, 0x52  /* 060073BA: .word 0x0052 */
     .byte 0x00, 0x6E  /* 060073BC: mov.l @(r0,r6),r0 */
