@@ -4,34 +4,36 @@
     .global FUN_0601F184
     .type FUN_0601F184, @function
 FUN_0601F184:
-    .byte 0x4F, 0x22  /* 0601F184: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0x9A, 0x9E  /* 0601F186: mov.w @(0x13C,PC),r10  {0x0601F2C6} */
-    .byte 0x3A, 0xEC  /* 0601F188: add r14,r10 */
+    add r14, r10
     .byte 0x9B, 0x9D  /* 0601F18A: mov.w @(0x13A,PC),r11  {0x0601F2C8} */
-    .byte 0x3B, 0xEC  /* 0601F18C: add r14,r11 */
-    .byte 0xE0, 0x00  /* 0601F18E: mov #0,r0 */
-    .byte 0xC0, 0x9A  /* 0601F190: mov.b r0,@(0x9A,GBR) */
-    .byte 0x84, 0xA4  /* 0601F192: mov.b @(0x4,r10),r0 */
-    .byte 0xE1, 0x0C  /* 0601F194: mov #12,r1 */
-    .byte 0x21, 0x09  /* 0601F196: and r0,r1 */
-    .byte 0x84, 0xAC  /* 0601F198: mov.b @(0xC,r10),r0 */
-    .byte 0xC9, 0x0C  /* 0601F19A: and #0x0C,r0 */
-    .byte 0x40, 0x09  /* 0601F19C: shlr2 r0 */
-    .byte 0x21, 0x0B  /* 0601F19E: or r0,r1 */
-    .byte 0x41, 0x00  /* 0601F1A0: shll r1 */
-    .byte 0xC7, 0x06  /* 0601F1A2: mova @(0x18,PC),r0  {0x0601F1BC} */
-    .byte 0x00, 0x1D  /* 0601F1A4: mov.w @(r0,r1),r0 */
-    .byte 0x00, 0x03  /* 0601F1A6: bsrf r0 */
-    .byte 0x00, 0x09  /* 0601F1A8: nop */
-    .byte 0x7A, 0x08  /* 0601F1AA: add #8,r10 */
-    .byte 0xC4, 0x99  /* 0601F1AC: mov.b @(0x99,GBR),r0 */
-    .byte 0x40, 0x10  /* 0601F1AE: dt r0 */
-    .byte 0x8F, 0xEF  /* 0601F1B0: bf/s 0x0601F192 */
-    .byte 0xC0, 0x99  /* 0601F1B2: mov.b r0,@(0x99,GBR) */
-    .byte 0x4F, 0x26  /* 0601F1B4: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0601F1B6: rts */
-    .byte 0x00, 0x09  /* 0601F1B8: nop */
+    add r14, r11
+    mov #0x0, r0
+    mov.b r0, @(154, gbr)
+.L_0601F192:
+    mov.b @(4, r10), r0
+    mov #0xC, r1
+    and r0, r1
+    mov.b @(12, r10), r0
+    and #0xC, r0
+    shlr2 r0
+    or r0, r1
+    shll r1
+    mova .L_pool_0601F1BC, r0
+    mov.w @(r0, r1), r0
+    bsrf r0
+    nop
+    add #0x8, r10
+    mov.b @(153, gbr), r0
+    dt r0
+    bf/s .L_0601F192
+    mov.b r0, @(153, gbr)
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x09  /* 0601F1BA: nop */
+.L_pool_0601F1BC:
     .byte 0x00, 0x32  /* 0601F1BC: .word 0x0032 */
     .byte 0x00, 0x46  /* 0601F1BE: mov.l r4,@(r0,r0) */
     .byte 0x00, 0x62  /* 0601F1C0: .word 0x0062 */

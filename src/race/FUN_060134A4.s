@@ -4,10 +4,10 @@
     .global FUN_060134A4
     .type FUN_060134A4, @function
 FUN_060134A4:
-    .byte 0x4F, 0x22  /* 060134A4: sts.l pr,@-r15 */
-    .byte 0x40, 0x0B  /* 060134A6: jsr @r0 */
-    .byte 0x00, 0x09  /* 060134A8: nop */
-    .byte 0x4F, 0x26  /* 060134AA: lds.l @r15+,pr */
+    sts.l pr, @-r15
+    jsr @r0
+    nop
+    lds.l @r15+, pr
     .4byte 0x6A0B6AAF  /* 060134AC = 0x6A0B6AAF */
     .byte 0x60, 0xF6  /* 060134B0: mov.l @r15+,r0 */
     .byte 0x2F, 0x06  /* 060134B2: mov.l r0,@-r15 */

@@ -4,10 +4,10 @@
     .global FUN_06005C80
     .type FUN_06005C80, @function
 FUN_06005C80:
-    .byte 0x2F, 0xE6  /* 06005C80: mov.l r14,@-r15 */
-    .byte 0x2F, 0xD6  /* 06005C82: mov.l r13,@-r15 */
-    .byte 0x2F, 0xC6  /* 06005C84: mov.l r12,@-r15 */
-    .byte 0x6D, 0x4D  /* 06005C86: extu.w r4,r13 */
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    extu.w r4, r13
     .4byte 0xD33D61D3  /* 06005C88 = 0xD33D61D3 */
     .byte 0x2F, 0xB6  /* 06005C8C: mov.l r11,@-r15 */
     .byte 0x2F, 0xA6  /* 06005C8E: mov.l r10,@-r15 */

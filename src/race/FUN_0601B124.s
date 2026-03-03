@@ -4,48 +4,50 @@
     .global FUN_0601B124
     .type FUN_0601B124, @function
 FUN_0601B124:
-    .byte 0x4F, 0x22  /* 0601B124: sts.l pr,@-r15 */
-    .byte 0x4F, 0x12  /* 0601B126: sts.l macl,@-r15 */
-    .byte 0x04, 0x5C  /* 0601B128: mov.b @(r0,r5),r4 */
-    .byte 0x6D, 0x4E  /* 0601B12A: exts.b r4,r13 */
-    .byte 0x63, 0xD3  /* 0601B12C: mov r13,r3 */
-    .byte 0x4D, 0x00  /* 0601B12E: shll r13 */
-    .byte 0x43, 0x08  /* 0601B130: shll2 r3 */
-    .byte 0x3D, 0x3C  /* 0601B132: add r3,r13 */
-    .byte 0x93, 0x35  /* 0601B134: mov.w @(0x6A,PC),r3  {0x0601B1A2} */
-    .byte 0x4D, 0x08  /* 0601B136: shll2 r13 */
-    .byte 0x4D, 0x08  /* 0601B138: shll2 r13 */
-    .byte 0x3D, 0x2C  /* 0601B13A: add r2,r13 */
-    .byte 0xD2, 0x1D  /* 0601B13C: mov.l @(0x74,PC),r2  {[0x0601B1B4] = 0x06053DEC} */
-    .byte 0x6B, 0x4E  /* 0601B13E: exts.b r4,r11 */
-    .byte 0x2B, 0x3F  /* 0601B140: muls.w r3,r11 */
-    .byte 0x0B, 0x1A  /* 0601B142: sts macl,r11 */
-    .byte 0x6B, 0xBF  /* 0601B144: exts.w r11,r11 */
-    .byte 0x3B, 0x2C  /* 0601B146: add r2,r11 */
-    .byte 0x66, 0xB3  /* 0601B148: mov r11,r6 */
-    .byte 0x65, 0xD3  /* 0601B14A: mov r13,r5 */
-    .byte 0x7D, 0x10  /* 0601B14C: add #16,r13 */
-    .byte 0x4E, 0x0B  /* 0601B14E: jsr @r14 */
-    .byte 0x64, 0xC3  /* 0601B150: mov r12,r4 */
-    .byte 0x4A, 0x10  /* 0601B152: dt r10 */
-    .byte 0x8B, 0xF8  /* 0601B154: bf 0x0601B148 */
-    .byte 0xEA, 0x02  /* 0601B156: mov #2,r10 */
-    .byte 0x7B, 0x64  /* 0601B158: add #100,r11 */
-    .byte 0x66, 0xB3  /* 0601B15A: mov r11,r6 */
-    .byte 0x65, 0xD3  /* 0601B15C: mov r13,r5 */
-    .byte 0x7D, 0x10  /* 0601B15E: add #16,r13 */
-    .byte 0x4E, 0x0B  /* 0601B160: jsr @r14 */
-    .byte 0x64, 0xC3  /* 0601B162: mov r12,r4 */
-    .byte 0x4A, 0x10  /* 0601B164: dt r10 */
-    .byte 0x8B, 0xF7  /* 0601B166: bf 0x0601B158 */
-    .byte 0x4F, 0x16  /* 0601B168: lds.l @r15+,macl */
-    .byte 0x4F, 0x26  /* 0601B16A: lds.l @r15+,pr */
-    .byte 0x6A, 0xF6  /* 0601B16C: mov.l @r15+,r10 */
-    .byte 0x6B, 0xF6  /* 0601B16E: mov.l @r15+,r11 */
-    .byte 0x6C, 0xF6  /* 0601B170: mov.l @r15+,r12 */
-    .byte 0x6D, 0xF6  /* 0601B172: mov.l @r15+,r13 */
-    .byte 0x00, 0x0B  /* 0601B174: rts */
-    .byte 0x6E, 0xF6  /* 0601B176: mov.l @r15+,r14 */
+    sts.l pr, @-r15
+    sts.l macl, @-r15
+    mov.b @(r0, r5), r4
+    exts.b r4, r13
+    mov r13, r3
+    shll r13
+    shll2 r3
+    add r3, r13
+    mov.w .L_wpool_0601B1A2, r3
+    shll2 r13
+    shll2 r13
+    add r2, r13
+    mov.l .L_pool_0601B1B4, r2
+    exts.b r4, r11
+    muls.w r3, r11
+    sts macl, r11
+    exts.w r11, r11
+    add r2, r11
+.L_0601B148:
+    mov r11, r6
+    mov r13, r5
+    add #0x10, r13
+    jsr @r14
+    mov r12, r4
+    dt r10
+    bf .L_0601B148
+    mov #0x2, r10
+.L_0601B158:
+    add #0x64, r11
+    mov r11, r6
+    mov r13, r5
+    add #0x10, r13
+    jsr @r14
+    mov r12, r4
+    dt r10
+    bf .L_0601B158
+    lds.l @r15+, macl
+    lds.l @r15+, pr
+    mov.l @r15+, r10
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
     .byte 0x90, 0x14  /* 0601B178: mov.w @(0x28,PC),r0  {0x0601B1A4} */
     .byte 0x00, 0x4C  /* 0601B17A: mov.b @(r0,r4),r0 */
     .byte 0xC8, 0x01  /* 0601B17C: tst #0x01,r0 */
@@ -67,6 +69,7 @@ FUN_0601B124:
     .byte 0x14, 0x31  /* 0601B19C: mov.l r3,@(0x4,r4) */
     .byte 0x01, 0xD0  /* 0601B19E: .word 0x01D0 */
     .byte 0x01, 0xCC  /* 0601B1A0: mov.b @(r0,r12),r1 */
+.L_wpool_0601B1A2:
     .byte 0x01, 0x2C  /* 0601B1A2: mov.b @(r0,r2),r1 */
     .byte 0x01, 0xD1  /* 0601B1A4: .word 0x01D1 */
     .byte 0x33, 0x33  /* 0601B1A6: cmp/ge r3,r3 */
@@ -74,6 +77,7 @@ FUN_0601B124:
     .byte 0xFF, 0xFF  /* 0601B1AA: .word 0xFFFF */
     .4byte sym_0604C954  /* 0601B1AC = 0x0604C954 */
     .4byte sym_06053D2C  /* 0601B1B0 = 0x06053D2C */
+.L_pool_0601B1B4:
     .4byte sym_06053DEC  /* 0601B1B4 = 0x06053DEC */
     .4byte sym_06043CCC  /* 0601B1B8 = 0x06043CCC */
     .byte 0xD4, 0x3D  /* 0601B1BC: mov.l @(0xF4,PC),r4  {[0x0601B2B4] = 0x06054044} */

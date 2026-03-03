@@ -4,16 +4,17 @@
     .global FUN_0601DD6A
     .type FUN_0601DD6A, @function
 FUN_0601DD6A:
-    .byte 0x4F, 0x22  /* 0601DD6A: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xBF, 0xE6  /* 0601DD6C: bsr 0x0601DD3C */
-    .byte 0x00, 0x09  /* 0601DD6E: nop */
+    nop
     .byte 0xD0, 0x1D  /* 0601DD70: mov.l @(0x74,PC),r0  {[0x0601DDE8] = 0x013FE000} */
-    .byte 0x30, 0x47  /* 0601DD72: cmp/gt r4,r0 */
-    .byte 0x89, 0x00  /* 0601DD74: bt 0x0601DD78 */
-    .byte 0x64, 0x03  /* 0601DD76: mov r0,r4 */
-    .byte 0x4F, 0x26  /* 0601DD78: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0601DD7A: rts */
-    .byte 0x00, 0x09  /* 0601DD7C: nop */
+    cmp/gt r4, r0
+    bt .L_0601DD78
+    mov r0, r4
+.L_0601DD78:
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x09  /* 0601DD7E: nop */
     .byte 0x56, 0xC1  /* 0601DD80: mov.l @(0x4,r12),r6 */
     .byte 0xC9, 0x0E  /* 0601DD82: and #0x0E,r0 */

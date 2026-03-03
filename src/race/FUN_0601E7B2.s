@@ -4,4 +4,4 @@
     .global FUN_0601E7B2
     .type FUN_0601E7B2, @function
 FUN_0601E7B2:
-    .byte 0x4F, 0x22  /* 0601E7B2: sts.l pr,@-r15 */
+    sts.l pr, @-r15

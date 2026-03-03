@@ -4,14 +4,14 @@
     .global FUN_06017CB2
     .type FUN_06017CB2, @function
 FUN_06017CB2:
-    .byte 0x4F, 0x22  /* 06017CB2: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xD0, 0xA2  /* 06017CB4: mov.l @(0x288,PC),r0  {[0x06017F40] = 0x0604016C} */
-    .byte 0x40, 0x0B  /* 06017CB6: jsr @r0 */
-    .byte 0x64, 0x13  /* 06017CB8: mov r1,r4 */
-    .byte 0x4F, 0x26  /* 06017CBA: lds.l @r15+,pr */
-    .byte 0x40, 0x18  /* 06017CBC: shll8 r0 */
-    .byte 0x00, 0x0B  /* 06017CBE: rts */
-    .byte 0x70, 0x7F  /* 06017CC0: add #127,r0 */
+    jsr @r0
+    mov r1, r4
+    lds.l @r15+, pr
+    shll8 r0
+    rts
+    add #0x7F, r0
     .byte 0x00, 0x09  /* 06017CC2: nop */
     .byte 0x65, 0x43  /* 06017CC4: mov r4,r5 */
     .byte 0x00, 0x28  /* 06017CC6: clrmac */

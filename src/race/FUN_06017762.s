@@ -4,48 +4,49 @@
     .global FUN_06017762
     .type FUN_06017762, @function
 FUN_06017762:
-    .byte 0x4F, 0x22  /* 06017762: sts.l pr,@-r15 */
-    .byte 0xB0, 0x04  /* 06017764: bsr 0x06017770 */
-    .byte 0x15, 0x32  /* 06017766: mov.l r3,@(0x8,r5) */
-    .byte 0x4F, 0x26  /* 06017768: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0601776A: rts */
-    .byte 0x7F, 0x0C  /* 0601776C: add #12,r15 */
+    sts.l pr, @-r15
+    bsr .L_06017770
+    mov.l r3, @(8, r5)
+    lds.l @r15+, pr
+    rts
+    add #0xC, r15
     .byte 0x00, 0x09  /* 0601776E: nop */
-    .byte 0x00, 0x28  /* 06017770: clrmac */
-    .byte 0x05, 0x4F  /* 06017772: mac.l @r4+,@r5+ */
-    .byte 0x74, 0x04  /* 06017774: add #4,r4 */
-    .byte 0x75, 0x04  /* 06017776: add #4,r5 */
-    .byte 0x05, 0x4F  /* 06017778: mac.l @r4+,@r5+ */
-    .byte 0x75, 0xF4  /* 0601777A: add #-12,r5 */
-    .byte 0x67, 0x46  /* 0601777C: mov.l @r4+,r7 */
-    .byte 0x00, 0x0A  /* 0601777E: sts mach,r0 */
-    .byte 0x01, 0x1A  /* 06017780: sts macl,r1 */
-    .byte 0x21, 0x0D  /* 06017782: xtrct r0,r1 */
-    .byte 0x31, 0x7C  /* 06017784: add r7,r1 */
-    .byte 0x00, 0x28  /* 06017786: clrmac */
-    .byte 0x05, 0x4F  /* 06017788: mac.l @r4+,@r5+ */
-    .byte 0x74, 0x04  /* 0601778A: add #4,r4 */
-    .byte 0x75, 0x04  /* 0601778C: add #4,r5 */
-    .byte 0x05, 0x4F  /* 0601778E: mac.l @r4+,@r5+ */
-    .byte 0x75, 0xF4  /* 06017790: add #-12,r5 */
-    .byte 0x67, 0x46  /* 06017792: mov.l @r4+,r7 */
-    .byte 0x00, 0x0A  /* 06017794: sts mach,r0 */
-    .byte 0x02, 0x1A  /* 06017796: sts macl,r2 */
-    .byte 0x22, 0x0D  /* 06017798: xtrct r0,r2 */
-    .byte 0x32, 0x7C  /* 0601779A: add r7,r2 */
-    .byte 0x00, 0x28  /* 0601779C: clrmac */
-    .byte 0x05, 0x4F  /* 0601779E: mac.l @r4+,@r5+ */
-    .byte 0x74, 0x04  /* 060177A0: add #4,r4 */
-    .byte 0x75, 0x04  /* 060177A2: add #4,r5 */
-    .byte 0x05, 0x4F  /* 060177A4: mac.l @r4+,@r5+ */
-    .byte 0x75, 0xF4  /* 060177A6: add #-12,r5 */
-    .byte 0x67, 0x46  /* 060177A8: mov.l @r4+,r7 */
-    .byte 0x00, 0x0A  /* 060177AA: sts mach,r0 */
-    .byte 0x03, 0x1A  /* 060177AC: sts macl,r3 */
-    .byte 0x23, 0x0D  /* 060177AE: xtrct r0,r3 */
-    .byte 0x33, 0x7C  /* 060177B0: add r7,r3 */
-    .byte 0x00, 0x0B  /* 060177B2: rts */
-    .byte 0x74, 0xD0  /* 060177B4: add #-48,r4 */
+.L_06017770:
+    clrmac
+    mac.l @r4+, @r5+
+    add #0x4, r4
+    add #0x4, r5
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r1
+    xtrct r0, r1
+    add r7, r1
+    clrmac
+    mac.l @r4+, @r5+
+    add #0x4, r4
+    add #0x4, r5
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r2
+    xtrct r0, r2
+    add r7, r2
+    clrmac
+    mac.l @r4+, @r5+
+    add #0x4, r4
+    add #0x4, r5
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r3
+    xtrct r0, r3
+    add r7, r3
+    rts
+    add #-0x30, r4
     .byte 0x00, 0x00  /* 060177B6: .word 0x0000 */
     .byte 0xD0, 0x87  /* 060177B8: mov.l @(0x21C,PC),r0  {[0x060179D8] = 0xFFFFFFE8} */
     .byte 0x3F, 0x0C  /* 060177BA: add r0,r15 */

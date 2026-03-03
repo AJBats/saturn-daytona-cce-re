@@ -4,30 +4,34 @@
     .global FUN_0602476C
     .type FUN_0602476C, @function
 FUN_0602476C:
-    .byte 0x4F, 0x22  /* 0602476C: sts.l pr,@-r15 */
-    .byte 0xE1, 0xE0  /* 0602476E: mov #-32,r1 */
-    .byte 0x85, 0x11  /* 06024770: mov.w @(0x2,r1),r0 */
-    .byte 0x40, 0x11  /* 06024772: cmp/pz r0 */
-    .byte 0xD6, 0x08  /* 06024774: mov.l @(0x20,PC),r6  {[0x06024798] = 0x06057850} */
-    .byte 0x89, 0x00  /* 06024776: bt 0x0602477A */
-    .byte 0xD6, 0x08  /* 06024778: mov.l @(0x20,PC),r6  {[0x0602479C] = 0x06057C50} */
-    .byte 0x7F, 0xF4  /* 0602477A: add #-12,r15 */
-    .byte 0x65, 0xF3  /* 0602477C: mov r15,r5 */
-    .byte 0x50, 0x60  /* 0602477E: mov.l @(0x0,r6),r0 */
-    .byte 0x15, 0x00  /* 06024780: mov.l r0,@(0x0,r5) */
-    .byte 0x50, 0x61  /* 06024782: mov.l @(0x4,r6),r0 */
-    .byte 0x15, 0x01  /* 06024784: mov.l r0,@(0x4,r5) */
-    .byte 0x50, 0x62  /* 06024786: mov.l @(0x8,r6),r0 */
-    .byte 0x15, 0x02  /* 06024788: mov.l r0,@(0x8,r5) */
-    .byte 0xD0, 0x05  /* 0602478A: mov.l @(0x14,PC),r0  {[0x060247A0] = 0x06048010} */
-    .byte 0x40, 0x0B  /* 0602478C: jsr @r0 */
-    .byte 0x00, 0x09  /* 0602478E: nop */
-    .byte 0x7F, 0x0C  /* 06024790: add #12,r15 */
-    .byte 0x4F, 0x26  /* 06024792: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06024794: rts */
-    .byte 0x00, 0x09  /* 06024796: nop */
+    sts.l pr, @-r15
+    mov #-0x20, r1
+    mov.w @(2, r1), r0
+    cmp/pz r0
+    mov.l .L_pool_06024798, r6
+    bt .L_0602477A
+    mov.l .L_pool_0602479C, r6
+.L_0602477A:
+    add #-0xC, r15
+    mov r15, r5
+    mov.l @(0, r6), r0
+    mov.l r0, @(0, r5)
+    mov.l @(4, r6), r0
+    mov.l r0, @(4, r5)
+    mov.l @(8, r6), r0
+    mov.l r0, @(8, r5)
+    mov.l .L_pool_060247A0, r0
+    jsr @r0
+    nop
+    add #0xC, r15
+    lds.l @r15+, pr
+    rts
+    nop
+.L_pool_06024798:
     .4byte sym_06057850  /* 06024798 = 0x06057850 */
+.L_pool_0602479C:
     .4byte sym_06057C50  /* 0602479C = 0x06057C50 */
+.L_pool_060247A0:
     .4byte sym_06048010  /* 060247A0 = 0x06048010 */
     .byte 0x2F, 0x86  /* 060247A4: mov.l r8,@-r15 */
     .byte 0x4F, 0x22  /* 060247A6: sts.l pr,@-r15 */

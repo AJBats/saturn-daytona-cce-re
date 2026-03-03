@@ -4,34 +4,35 @@
     .global FUN_06008CAA
     .type FUN_06008CAA, @function
 FUN_06008CAA:
-    .byte 0x4F, 0x22  /* 06008CAA: sts.l pr,@-r15 */
-    .byte 0x7F, 0xF0  /* 06008CAC: add #-16,r15 */
-    .byte 0x4D, 0x0B  /* 06008CAE: jsr @r13 */
-    .byte 0x64, 0xE3  /* 06008CB0: mov r14,r4 */
-    .byte 0x7E, 0x01  /* 06008CB2: add #1,r14 */
-    .byte 0x4D, 0x0B  /* 06008CB4: jsr @r13 */
-    .byte 0x64, 0xE3  /* 06008CB6: mov r14,r4 */
-    .byte 0x7E, 0x01  /* 06008CB8: add #1,r14 */
-    .byte 0x63, 0xED  /* 06008CBA: extu.w r14,r3 */
-    .byte 0x33, 0xC3  /* 06008CBC: cmp/ge r12,r3 */
-    .byte 0x8B, 0xF6  /* 06008CBE: bf 0x06008CAE */
-    .byte 0xE3, 0x00  /* 06008CC0: mov #0,r3 */
-    .byte 0x65, 0xF3  /* 06008CC2: mov r15,r5 */
-    .byte 0x2F, 0x32  /* 06008CC4: mov.l r3,@r15 */
-    .byte 0x64, 0x33  /* 06008CC6: mov r3,r4 */
+    sts.l pr, @-r15
+    add #-0x10, r15
+.L_06008CAE:
+    jsr @r13
+    mov r14, r4
+    add #0x1, r14
+    jsr @r13
+    mov r14, r4
+    add #0x1, r14
+    extu.w r14, r3
+    cmp/ge r12, r3
+    bf .L_06008CAE
+    mov #0x0, r3
+    mov r15, r5
+    mov.l r3, @r15
+    mov r3, r4
     .byte 0xD3, 0x69  /* 06008CC8: mov.l @(0x1A4,PC),r3  {[0x06008E70] = 0x06007940} */
-    .byte 0x43, 0x0B  /* 06008CCA: jsr @r3 */
-    .byte 0x00, 0x09  /* 06008CCC: nop */
-    .byte 0x65, 0xF3  /* 06008CCE: mov r15,r5 */
+    jsr @r3
+    nop
+    mov r15, r5
     .byte 0xD2, 0x67  /* 06008CD0: mov.l @(0x19C,PC),r2  {[0x06008E70] = 0x06007940} */
-    .byte 0x42, 0x0B  /* 06008CD2: jsr @r2 */
-    .byte 0xE4, 0x01  /* 06008CD4: mov #1,r4 */
-    .byte 0x7F, 0x10  /* 06008CD6: add #16,r15 */
-    .byte 0x4F, 0x26  /* 06008CD8: lds.l @r15+,pr */
-    .byte 0x6C, 0xF6  /* 06008CDA: mov.l @r15+,r12 */
-    .byte 0x6D, 0xF6  /* 06008CDC: mov.l @r15+,r13 */
-    .byte 0x00, 0x0B  /* 06008CDE: rts */
-    .byte 0x6E, 0xF6  /* 06008CE0: mov.l @r15+,r14 */
+    jsr @r2
+    mov #0x1, r4
+    add #0x10, r15
+    lds.l @r15+, pr
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
     .byte 0x00, 0x0B  /* 06008CE2: rts */
     .byte 0x00, 0x09  /* 06008CE4: nop */
     .byte 0x7F, 0xFC  /* 06008CE6: add #-4,r15 */

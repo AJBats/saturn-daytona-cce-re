@@ -4,17 +4,19 @@
     .global FUN_0600D2FA
     .type FUN_0600D2FA, @function
 FUN_0600D2FA:
-    .byte 0x2F, 0xE6  /* 0600D2FA: mov.l r14,@-r15 */
-    .byte 0x6E, 0x03  /* 0600D2FC: mov r0,r14 */
-    .byte 0x91, 0x06  /* 0600D2FE: mov.w @(0xC,PC),r1  {0x0600D30E} */
-    .byte 0x02, 0x1E  /* 0600D300: mov.l @(r0,r1),r2 */
+    mov.l r14, @-r15
+    mov r0, r14
+    mov.w .L_wpool_0600D30E, r1
+    mov.l @(r0, r1), r2
     .byte 0xD3, 0x03  /* 0600D302: mov.l @(0xC,PC),r3  {[0x0600D310] = 0x06035314} */
-    .byte 0x42, 0x08  /* 0600D304: shll2 r2 */
-    .byte 0x33, 0x2C  /* 0600D306: add r2,r3 */
-    .byte 0x63, 0x32  /* 0600D308: mov.l @r3,r3 */
-    .byte 0x43, 0x2B  /* 0600D30A: jmp @r3 */
-    .byte 0x00, 0x09  /* 0600D30C: nop */
+    shll2 r2
+    add r2, r3
+    mov.l @r3, r3
+    jmp @r3
+    nop
+.L_wpool_0600D30E:
     .byte 0x00, 0x5C  /* 0600D30E: mov.b @(r0,r5),r0 */
+.L_pool_0600D310:
     .4byte sym_06035314  /* 0600D310 = 0x06035314 */
     .byte 0x06, 0x03  /* 0600D314: bsrf r6 */
     .byte 0x53, 0x3C  /* 0600D316: mov.l @(0x30,r3),r3 */

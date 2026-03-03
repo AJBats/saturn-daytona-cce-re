@@ -4,19 +4,22 @@
     .global FUN_06018FE4
     .type FUN_06018FE4, @function
 FUN_06018FE4:
-    .byte 0x4F, 0x22  /* 06018FE4: sts.l pr,@-r15 */
-    .byte 0xE5, 0x04  /* 06018FE6: mov #4,r5 */
-    .byte 0xD3, 0x04  /* 06018FE8: mov.l @(0x10,PC),r3  {[0x06018FFC] = 0x06047670} */
-    .byte 0x43, 0x0B  /* 06018FEA: jsr @r3 */
-    .byte 0x45, 0x28  /* 06018FEC: shll16 r5 */
-    .byte 0x8B, 0x02  /* 06018FEE: bf 0x06018FF6 */
-    .byte 0xD3, 0x03  /* 06018FF0: mov.l @(0xC,PC),r3  {[0x06019000] = 0x060457DC} */
-    .byte 0x43, 0x0B  /* 06018FF2: jsr @r3 */
-    .byte 0x55, 0xE4  /* 06018FF4: mov.l @(0x10,r14),r5 */
-    .byte 0x4F, 0x26  /* 06018FF6: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06018FF8: rts */
-    .byte 0x00, 0x09  /* 06018FFA: nop */
+    sts.l pr, @-r15
+    mov #0x4, r5
+    mov.l .L_pool_06018FFC, r3
+    jsr @r3
+    shll16 r5
+    bf .L_06018FF6
+    mov.l .L_pool_06019000, r3
+    jsr @r3
+    mov.l @(16, r14), r5
+.L_06018FF6:
+    lds.l @r15+, pr
+    rts
+    nop
+.L_pool_06018FFC:
     .4byte sym_06047670  /* 06018FFC = 0x06047670 */
+.L_pool_06019000:
     .4byte sym_060457DC  /* 06019000 = 0x060457DC */
     .byte 0xD4, 0x44  /* 06019004: mov.l @(0x110,PC),r4  {[0x06019118] = 0x060530C0} */
     .byte 0x60, 0x42  /* 06019006: mov.l @r4,r0 */

@@ -4,10 +4,10 @@
     .global FUN_0600DF48
     .type FUN_0600DF48, @function
 FUN_0600DF48:
-    .byte 0x4F, 0x22  /* 0600DF48: sts.l pr,@-r15 */
-    .byte 0x60, 0xE3  /* 0600DF4A: mov r14,r0 */
-    .byte 0x91, 0x2C  /* 0600DF4C: mov.w @(0x58,PC),r1  {0x0600DFA8} */
-    .byte 0x0A, 0x1E  /* 0600DF4E: mov.l @(r0,r1),r10 */
+    sts.l pr, @-r15
+    mov r14, r0
+    mov.w .L_wpool_0600DFA8, r1
+    mov.l @(r0, r1), r10
     .4byte 0x9B2B922B  /* 0600DF50 = 0x9B2B922B */
     .byte 0x07, 0x2D  /* 0600DF54: mov.w @(r0,r2),r7 */
     .byte 0x47, 0x15  /* 0600DF56: cmp/pl r7 */
@@ -51,6 +51,7 @@ FUN_0600DF48:
     .byte 0x68, 0x13  /* 0600DFA2: mov r1,r8 */
     .byte 0xA0, 0x0F  /* 0600DFA4: bra 0x0600DFC6 */
     .byte 0x00, 0x09  /* 0600DFA6: nop */
+.L_wpool_0600DFA8:
     .byte 0x00, 0x44  /* 0600DFA8: mov.b r4,@(r0,r0) */
     .byte 0x01, 0x8E  /* 0600DFAA: mov.l @(r0,r8),r1 */
     .byte 0x01, 0x76  /* 0600DFAC: mov.l r7,@(r0,r1) */

@@ -4,12 +4,12 @@
     .global FUN_0601D5E2
     .type FUN_0601D5E2, @function
 FUN_0601D5E2:
-    .byte 0x4F, 0x22  /* 0601D5E2: sts.l pr,@-r15 */
+    sts.l pr, @-r15
     .byte 0xB0, 0x22  /* 0601D5E4: bsr 0x0601D62C */
-    .byte 0x00, 0x09  /* 0601D5E6: nop */
-    .byte 0x4F, 0x26  /* 0601D5E8: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 0601D5EA: rts */
-    .byte 0x00, 0x09  /* 0601D5EC: nop */
+    nop
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x38  /* 0601D5EE: .word 0x0038 */
     .byte 0x00, 0x80  /* 0601D5F0: .word 0x0080 */
     .byte 0x00, 0x00  /* 0601D5F2: .word 0x0000 */

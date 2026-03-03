@@ -4,21 +4,21 @@
     .global FUN_060260F6
     .type FUN_060260F6, @function
 FUN_060260F6:
-    .byte 0x4F, 0x22  /* 060260F6: sts.l pr,@-r15 */
-    .byte 0x4C, 0x0B  /* 060260F8: jsr @r12 */
-    .byte 0x65, 0x33  /* 060260FA: mov r3,r5 */
-    .byte 0x4F, 0x26  /* 060260FC: lds.l @r15+,pr */
-    .byte 0x64, 0xF6  /* 060260FE: mov.l @r15+,r4 */
+    sts.l pr, @-r15
+    jsr @r12
+    mov r3, r5
+    lds.l @r15+, pr
+    mov.l @r15+, r4
     .byte 0xD1, 0x0C  /* 06026100: mov.l @(0x30,PC),r1  {[0x06026134] = 0x00010000} */
-    .byte 0x31, 0x48  /* 06026102: sub r4,r1 */
-    .byte 0x31, 0x0D  /* 06026104: dmuls.l r0,r1 */
-    .byte 0x00, 0x0A  /* 06026106: sts mach,r0 */
-    .byte 0x01, 0x1A  /* 06026108: sts macl,r1 */
-    .byte 0x21, 0x0D  /* 0602610A: xtrct r0,r1 */
-    .byte 0x31, 0x4C  /* 0602610C: add r4,r1 */
-    .byte 0x60, 0x13  /* 0602610E: mov r1,r0 */
+    sub r4, r1
+    dmuls.l r0, r1
+    sts mach, r0
+    sts macl, r1
+    xtrct r0, r1
+    add r4, r1
+    mov r1, r0
     .byte 0xAE, 0xFF  /* 06026110: bra 0x06025F12 */
-    .byte 0x00, 0x09  /* 06026112: nop */
+    nop
     .byte 0x00, 0x2C  /* 06026114: mov.b @(r0,r2),r0 */
     .byte 0x00, 0x24  /* 06026116: mov.b r2,@(r0,r0) */
     .byte 0x00, 0x28  /* 06026118: clrmac */
@@ -30,6 +30,7 @@ FUN_060260F6:
     .4byte 0x000107AE  /* 06026128 = 0x000107AE */
     .4byte sym_06054934  /* 0602612C = 0x06054934 */
     .4byte sym_06047E0C  /* 06026130 = 0x06047E0C */
+.L_pool_06026134:
     .4byte 0x00010000  /* 06026134 = 0x00010000 */
     .byte 0x00, 0x80  /* 06026138: .word 0x0080 */
     .byte 0x00, 0x80  /* 0602613A: .word 0x0080 */

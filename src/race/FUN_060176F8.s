@@ -4,21 +4,23 @@
     .global FUN_060176F8
     .type FUN_060176F8, @function
 FUN_060176F8:
-    .byte 0x4F, 0x22  /* 060176F8: sts.l pr,@-r15 */
-    .byte 0x24, 0x48  /* 060176FA: tst r4,r4 */
-    .byte 0x8B, 0x03  /* 060176FC: bf 0x06017706 */
-    .byte 0x25, 0x58  /* 060176FE: tst r5,r5 */
-    .byte 0x89, 0x05  /* 06017700: bt 0x0601770E */
-    .byte 0x6B, 0xBB  /* 06017702: neg r11,r11 */
-    .byte 0x89, 0x03  /* 06017704: bt 0x0601770E */
-    .byte 0xD0, 0x14  /* 06017706: mov.l @(0x50,PC),r0  {[0x06017758] = 0x06047E0C} */
-    .byte 0x40, 0x0B  /* 06017708: jsr @r0 */
-    .byte 0x00, 0x09  /* 0601770A: nop */
-    .byte 0x6B, 0x0B  /* 0601770C: neg r0,r11 */
-    .byte 0x60, 0xBD  /* 0601770E: extu.w r11,r0 */
-    .byte 0x4F, 0x26  /* 06017710: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06017712: rts */
-    .byte 0x81, 0xE7  /* 06017714: mov.w r0,@(0xE,r14) */
+    sts.l pr, @-r15
+    tst r4, r4
+    bf .L_06017706
+    tst r5, r5
+    bt .L_0601770E
+    neg r11, r11
+    bt .L_0601770E
+.L_06017706:
+    mov.l .L_pool_06017758, r0
+    jsr @r0
+    nop
+    neg r0, r11
+.L_0601770E:
+    extu.w r11, r0
+    lds.l @r15+, pr
+    rts
+    mov.w r0, @(14, r14)
     .byte 0x00, 0xAC  /* 06017716: mov.b @(r0,r10),r0 */
     .byte 0x00, 0x54  /* 06017718: mov.b r5,@(r0,r0) */
     .byte 0x00, 0x00  /* 0601771A: .word 0x0000 */
@@ -37,6 +39,7 @@ FUN_060176F8:
     .4byte sym_0603FFBC  /* 0601774C = 0x0603FFBC */
     .4byte sym_060400F8  /* 06017750 = 0x060400F8 */
     .4byte 0x00004000  /* 06017754 = 0x00004000 */
+.L_pool_06017758:
     .4byte sym_06047E0C  /* 06017758 = 0x06047E0C */
     .byte 0x7F, 0xF4  /* 0601775C: add #-12,r15 */
     .byte 0x65, 0xF3  /* 0601775E: mov r15,r5 */

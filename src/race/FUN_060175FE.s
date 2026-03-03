@@ -4,21 +4,21 @@
     .global FUN_060175FE
     .type FUN_060175FE, @function
 FUN_060175FE:
-    .byte 0x2F, 0xE6  /* 060175FE: mov.l r14,@-r15 */
-    .byte 0x4F, 0x22  /* 06017600: sts.l pr,@-r15 */
-    .byte 0x4F, 0x13  /* 06017602: .word 0x4F13 */
-    .byte 0x4F, 0x02  /* 06017604: sts.l mach,@-r15 */
-    .byte 0x4F, 0x12  /* 06017606: sts.l macl,@-r15 */
-    .byte 0x6E, 0x43  /* 06017608: mov r4,r14 */
-    .byte 0x44, 0x1E  /* 0601760A: ldc r4,gbr */
+    mov.l r14, @-r15
+    sts.l pr, @-r15
+    stc.l gbr, @-r15
+    sts.l mach, @-r15
+    sts.l macl, @-r15
+    mov r4, r14
+    ldc r4, gbr
     .byte 0xBF, 0xBE  /* 0601760C: bsr 0x0601758C */
-    .byte 0x64, 0x53  /* 0601760E: mov r5,r4 */
-    .byte 0x4F, 0x16  /* 06017610: lds.l @r15+,macl */
-    .byte 0x4F, 0x06  /* 06017612: lds.l @r15+,mach */
-    .byte 0x4F, 0x17  /* 06017614: .word 0x4F17 */
-    .byte 0x4F, 0x26  /* 06017616: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06017618: rts */
-    .byte 0x6E, 0xF6  /* 0601761A: mov.l @r15+,r14 */
+    mov r5, r4
+    lds.l @r15+, macl
+    lds.l @r15+, mach
+    ldc.l @r15+, gbr
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
     .byte 0x2F, 0x86  /* 0601761C: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 0601761E: mov.l r9,@-r15 */
     .byte 0x2F, 0xD6  /* 06017620: mov.l r13,@-r15 */

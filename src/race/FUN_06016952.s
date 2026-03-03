@@ -4,35 +4,35 @@
     .global FUN_06016952
     .type FUN_06016952, @function
 FUN_06016952:
-    .byte 0x4F, 0x22  /* 06016952: sts.l pr,@-r15 */
-    .byte 0xC6, 0x1F  /* 06016954: mov.l @(0x7C,GBR),r0 */
+    sts.l pr, @-r15
+    mov.l @(124, gbr), r0
     .byte 0xB7, 0x2F  /* 06016956: bsr 0x060177B8 */
-    .byte 0x64, 0x03  /* 06016958: mov r0,r4 */
-    .byte 0xC5, 0x49  /* 0601695A: mov.w @(0x92,GBR),r0 */
+    mov r0, r4
+    mov.w @(146, gbr), r0
     .byte 0xB1, 0x93  /* 0601695C: bsr 0x06016C86 */
-    .byte 0x65, 0x03  /* 0601695E: mov r0,r5 */
+    mov r0, r5
     .byte 0xB6, 0x5C  /* 06016960: bsr 0x0601761C */
-    .byte 0x00, 0x09  /* 06016962: nop */
-    .byte 0xE7, 0x64  /* 06016964: mov #100,r7 */
-    .byte 0x37, 0xEC  /* 06016966: add r14,r7 */
-    .byte 0x51, 0x70  /* 06016968: mov.l @(0x0,r7),r1 */
-    .byte 0x53, 0x72  /* 0601696A: mov.l @(0x8,r7),r3 */
-    .byte 0x54, 0xE0  /* 0601696C: mov.l @(0x0,r14),r4 */
-    .byte 0x56, 0xE2  /* 0601696E: mov.l @(0x8,r14),r6 */
-    .byte 0x34, 0x1C  /* 06016970: add r1,r4 */
-    .byte 0x36, 0x3C  /* 06016972: add r3,r6 */
-    .byte 0x1E, 0x40  /* 06016974: mov.l r4,@(0x0,r14) */
-    .byte 0x1E, 0x62  /* 06016976: mov.l r6,@(0x8,r14) */
+    nop
+    mov #0x64, r7
+    add r14, r7
+    mov.l @(0, r7), r1
+    mov.l @(8, r7), r3
+    mov.l @(0, r14), r4
+    mov.l @(8, r14), r6
+    add r1, r4
+    add r3, r6
+    mov.l r4, @(0, r14)
+    mov.l r6, @(8, r14)
     .byte 0xB2, 0x66  /* 06016978: bsr 0x06016E48 */
-    .byte 0x00, 0x09  /* 0601697A: nop */
+    nop
     .byte 0xB3, 0xF3  /* 0601697C: bsr 0x06017166 */
-    .byte 0x00, 0x09  /* 0601697E: nop */
+    nop
     .byte 0xB5, 0xD8  /* 06016980: bsr 0x06017534 */
-    .byte 0x00, 0x09  /* 06016982: nop */
+    nop
     .byte 0xB2, 0x6E  /* 06016984: bsr 0x06016E64 */
-    .byte 0x00, 0x09  /* 06016986: nop */
+    nop
     .byte 0xA2, 0x98  /* 06016988: bra 0x06016EBC */
-    .byte 0x4F, 0x26  /* 0601698A: lds.l @r15+,pr */
+    lds.l @r15+, pr
     .byte 0x00, 0x7C  /* 0601698C: mov.b @(r0,r7),r0 */
     .byte 0x00, 0x54  /* 0601698E: mov.b r5,@(r0,r0) */
     .byte 0x00, 0x9C  /* 06016990: mov.b @(r0,r9),r0 */

@@ -4,33 +4,39 @@
     .global FUN_0600E808
     .type FUN_0600E808, @function
 FUN_0600E808:
-    .byte 0x4F, 0x22  /* 0600E808: sts.l pr,@-r15 */
-    .byte 0x6E, 0x03  /* 0600E80A: mov r0,r14 */
-    .byte 0x93, 0x11  /* 0600E80C: mov.w @(0x22,PC),r3  {0x0600E832} */
-    .byte 0x55, 0x0F  /* 0600E80E: mov.l @(0x3C,r0),r5 */
-    .byte 0x01, 0x3E  /* 0600E810: mov.l @(r0,r3),r1 */
-    .byte 0xD0, 0x08  /* 0600E812: mov.l @(0x20,PC),r0  {[0x0600E834] = 0x0000000F} */
-    .byte 0x2F, 0xC6  /* 0600E814: mov.l r12,@-r15 */
-    .byte 0x4F, 0x22  /* 0600E816: sts.l pr,@-r15 */
-    .byte 0xDC, 0x07  /* 0600E818: mov.l @(0x1C,PC),r12  {[0x0600E838] = 0x06048160} */
-    .byte 0x4C, 0x0B  /* 0600E81A: jsr @r12 */
-    .byte 0x00, 0x09  /* 0600E81C: nop */
-    .byte 0x4F, 0x26  /* 0600E81E: lds.l @r15+,pr */
-    .byte 0x6C, 0xF6  /* 0600E820: mov.l @r15+,r12 */
-    .byte 0x60, 0xE3  /* 0600E822: mov r14,r0 */
-    .byte 0x5A, 0x0C  /* 0600E824: mov.l @(0x30,r0),r10 */
-    .byte 0xDB, 0x05  /* 0600E826: mov.l @(0x14,PC),r11  {[0x0600E83C] = 0x00000300} */
-    .byte 0x2B, 0xA8  /* 0600E828: tst r10,r11 */
-    .byte 0x89, 0x09  /* 0600E82A: bt 0x0600E840 */
-    .byte 0x35, 0x1C  /* 0600E82C: add r1,r5 */
-    .byte 0xA0, 0x08  /* 0600E82E: bra 0x0600E842 */
-    .byte 0x00, 0x09  /* 0600E830: nop */
+    sts.l pr, @-r15
+    mov r0, r14
+    mov.w .L_wpool_0600E832, r3
+    mov.l @(60, r0), r5
+    mov.l @(r0, r3), r1
+    mov.l .L_pool_0600E834, r0
+    mov.l r12, @-r15
+    sts.l pr, @-r15
+    mov.l .L_pool_0600E838, r12
+    jsr @r12
+    nop
+    lds.l @r15+, pr
+    mov.l @r15+, r12
+    mov r14, r0
+    mov.l @(48, r0), r10
+    mov.l .L_pool_0600E83C, r11
+    tst r10, r11
+    bt .L_0600E840
+    add r1, r5
+    bra .L_0600E842
+    nop
+.L_wpool_0600E832:
     .byte 0x01, 0x14  /* 0600E832: mov.b r1,@(r0,r1) */
+.L_pool_0600E834:
     .4byte 0x0000000F  /* 0600E834 = 0x0000000F */
+.L_pool_0600E838:
     .4byte sym_06048160  /* 0600E838 = 0x06048160 */
+.L_pool_0600E83C:
     .4byte 0x00000300  /* 0600E83C = 0x00000300 */
-    .byte 0x35, 0x18  /* 0600E840: sub r1,r5 */
-    .byte 0x10, 0x5F  /* 0600E842: mov.l r5,@(0x3C,r0) */
+.L_0600E840:
+    sub r1, r5
+.L_0600E842:
+    mov.l r5, @(60, r0)
     .4byte 0x91350155  /* 0600E844 = 0x91350155 */
     .byte 0x91, 0x34  /* 0600E848: mov.w @(0x68,PC),r1  {0x0600E8B4} */
     .byte 0x04, 0x1E  /* 0600E84A: mov.l @(r0,r1),r4 */

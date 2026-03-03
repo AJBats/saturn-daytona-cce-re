@@ -4,18 +4,18 @@
     .global FUN_06007332
     .type FUN_06007332, @function
 FUN_06007332:
-    .byte 0x4F, 0x22  /* 06007332: sts.l pr,@-r15 */
-    .byte 0x22, 0x31  /* 06007334: mov.w r3,@r2 */
+    sts.l pr, @-r15
+    mov.w r3, @r2
     .byte 0xD3, 0x16  /* 06007336: mov.l @(0x58,PC),r3  {[0x06007390] = 0x0602D102} */
-    .byte 0x43, 0x0B  /* 06007338: jsr @r3 */
-    .byte 0xE5, 0x2C  /* 0600733A: mov #44,r5 */
+    jsr @r3
+    mov #0x2C, r5
     .byte 0xD5, 0x26  /* 0600733C: mov.l @(0x98,PC),r5  {[0x060073D8] = 0x25E6A080} */
-    .byte 0xE7, 0x05  /* 0600733E: mov #5,r7 */
+    mov #0x5, r7
     .byte 0xD4, 0x26  /* 06007340: mov.l @(0x98,PC),r4  {[0x060073DC] = 0x002E3B88} */
-    .byte 0xE6, 0x2A  /* 06007342: mov #42,r6 */
+    mov #0x2A, r6
     .byte 0xD2, 0x10  /* 06007344: mov.l @(0x40,PC),r2  {[0x06007388] = 0x0602D052} */
-    .byte 0x42, 0x2B  /* 06007346: jmp @r2 */
-    .byte 0x4F, 0x26  /* 06007348: lds.l @r15+,pr */
+    jmp @r2
+    lds.l @r15+, pr
     .byte 0xE2, 0x7F  /* 0600734A: mov #127,r2 */
     .byte 0xD1, 0x25  /* 0600734C: mov.l @(0x94,PC),r1  {[0x060073E4] = 0x25F80110} */
     .byte 0xE0, 0x00  /* 0600734E: mov #0,r0 */
@@ -42,8 +42,10 @@ FUN_06007332:
     .4byte sym_25E6A000  /* 0600737C = 0x25E6A000 */
     .4byte sym_06054925  /* 06007380 = 0x06054925 */
     .4byte sym_0604D190  /* 06007384 = 0x0604D190 */
+.L_pool_06007388:
     .4byte sym_0602D052  /* 06007388 = 0x0602D052 */
     .4byte sym_06051F92  /* 0600738C = 0x06051F92 */
+.L_pool_06007390:
     .4byte sym_0602D102  /* 06007390 = 0x0602D102 */
     .4byte sym_002E15E2  /* 06007394 = 0x002E15E2 */
     .4byte sym_002E15DA  /* 06007398 = 0x002E15DA */
@@ -62,7 +64,9 @@ FUN_06007332:
     .4byte sym_002E229A  /* 060073CC = 0x002E229A */
     .4byte sym_25E6A516  /* 060073D0 = 0x25E6A516 */
     .4byte sym_25F80090  /* 060073D4 = 0x25F80090 */
+.L_pool_060073D8:
     .4byte sym_25E6A080  /* 060073D8 = 0x25E6A080 */
+.L_pool_060073DC:
     .4byte sym_002E3B88  /* 060073DC = 0x002E3B88 */
     .4byte DAT_060131BE  /* 060073E0 = 0x060131BE (FUN_06012F38 + 0x286) */
     .4byte sym_25F80110  /* 060073E4 = 0x25F80110 */
