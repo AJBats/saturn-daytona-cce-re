@@ -2,202 +2,229 @@
 """
 Screenshot boot test for Daytona USA CCE.
 
-Launches Mednafen with a disc image, waits for the game to reach the attract
-mode (past all splash screens), takes a screenshot, and compares it against
-a golden baseline using 4 image comparison methods.
+Launches WSL debug Mednafen in automation mode (headless), replays a
+frame-precise input trace (START to skip BIOS), takes a screenshot at the
+Sega Sports logo, and compares against a golden baseline.
 
-PASS = all 4 methods pass (not a black screen, visually matches golden).
-FAIL = black screen detected or any comparison method fails.
+PASS = all 4 comparison methods pass.
+FAIL = black screen or comparison mismatch.
 
 Usage:
     python tools/screenshot_test.py                        # test retail disc
     python tools/screenshot_test.py path/to/disc.cue       # test custom disc
-    python tools/screenshot_test.py --wait 40              # custom wait time
+    python tools/screenshot_test.py --capture-golden        # capture new golden
+    python tools/screenshot_test.py --show                  # show window
 """
 
-import ctypes
-import ctypes.wintypes
 import subprocess
 import time
 import sys
 import os
+import shutil
 import argparse
-from pathlib import Path
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_DIR = SCRIPT_DIR.parent
-MEDNAFEN_DIR = PROJECT_DIR / "external_resources" / "mednafen-1.32.1-win64"
-MEDNAFEN_EXE = MEDNAFEN_DIR / "mednafen.exe"
-SNAPS_DIR = Path.home() / ".mednafen" / "snaps"
-GOLDEN = PROJECT_DIR / "build" / "screenshots" / "golden_boot.png"
-SCREENSHOTS_DIR = PROJECT_DIR / "build" / "screenshots"
+PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDNAFEN = os.path.join(PROJECT, "mednafen", "src", "mednafen")
+GOLDEN = os.path.join(PROJECT, "build", "screenshots", "golden_boot.png")
+SCREENSHOTS_DIR = os.path.join(PROJECT, "build", "screenshots")
 
-# Default wait time: 40 seconds to reach attract mode results screen
-DEFAULT_WAIT = 40
+RETAIL_CUE = os.path.join(PROJECT, "external_resources",
+                          "Daytona USA - Circuit Edition (Japan)",
+                          "Daytona USA - Circuit Edition (Japan).cue")
 
-user32 = ctypes.windll.user32
-kernel32 = ctypes.windll.kernel32
+# Frame-precise input trace (captured 2026-03-02)
+# Frame 146: START skips BIOS intro
+# Frame 1032: Sega Sports logo — screenshot checkpoint
+TRACE = [
+    (146,  "input START"),
+    (152,  "input_release START"),
+    (1032, "screenshot"),
+]
 
-# --- Win32 INPUT structures (64-bit safe) ---
-
-class MOUSEINPUT(ctypes.Structure):
-    _fields_ = [("dx", ctypes.c_long), ("dy", ctypes.c_long),
-        ("mouseData", ctypes.wintypes.DWORD), ("dwFlags", ctypes.wintypes.DWORD),
-        ("time", ctypes.wintypes.DWORD), ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong))]
-
-class KEYBDINPUT(ctypes.Structure):
-    _fields_ = [("wVk", ctypes.wintypes.WORD), ("wScan", ctypes.wintypes.WORD),
-        ("dwFlags", ctypes.wintypes.DWORD), ("time", ctypes.wintypes.DWORD),
-        ("dwExtraInfo", ctypes.POINTER(ctypes.c_ulong))]
-
-class HARDWAREINPUT(ctypes.Structure):
-    _fields_ = [("uMsg", ctypes.wintypes.DWORD), ("wParamL", ctypes.wintypes.WORD),
-        ("wParamH", ctypes.wintypes.WORD)]
-
-class INPUT_UNION(ctypes.Union):
-    _fields_ = [("mi", MOUSEINPUT), ("ki", KEYBDINPUT), ("hi", HARDWAREINPUT)]
-
-class INPUT(ctypes.Structure):
-    _fields_ = [("type", ctypes.wintypes.DWORD), ("union", INPUT_UNION)]
-
-# Mednafen screenshot = 'P' key (SDL scancode 19)
-VK_P = 0x50
+SCREENSHOT_FRAME = 1032
 
 
-def find_window_by_pid(pid):
-    """Find the main visible window for a given process ID."""
-    result = []
-    WNDENUMPROC = ctypes.WINFUNCTYPE(
-        ctypes.wintypes.BOOL, ctypes.wintypes.HWND, ctypes.wintypes.LPARAM
-    )
-    def callback(hwnd, _):
-        if user32.IsWindowVisible(hwnd):
-            wpid = ctypes.wintypes.DWORD()
-            user32.GetWindowThreadProcessId(hwnd, ctypes.byref(wpid))
-            if wpid.value == pid:
-                result.append(hwnd)
-        return True
-    user32.EnumWindows(WNDENUMPROC(callback), 0)
-    return result[0] if result else None
+def wsl_path(win_path):
+    """Convert Windows path to WSL path."""
+    drive = win_path[0].lower()
+    rest = win_path[2:].replace("\\", "/")
+    return f"/mnt/{drive}{rest}"
 
 
-def focus_and_send_key(hwnd, vk):
-    """Send a key to the Mednafen window via SendInput."""
-    our_tid = kernel32.GetCurrentThreadId()
-    med_tid = user32.GetWindowThreadProcessId(hwnd, None)
-    user32.AttachThreadInput(our_tid, med_tid, True)
-    user32.SetForegroundWindow(hwnd)
-    time.sleep(0.15)
+class MednafenBot:
+    """Minimal automation IPC driver for WSL Mednafen."""
 
-    scan = user32.MapVirtualKeyW(vk, 0)
-    inp_down = INPUT()
-    inp_down.type = 1
-    inp_down.union.ki.wVk = vk
-    inp_down.union.ki.wScan = scan
-    inp_down.union.ki.dwFlags = 0
+    def __init__(self, ipc_dir, cue_wsl, show=False):
+        self.ipc_dir = ipc_dir
+        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
+        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
+        self.seq = 0
+        self.proc = None
+        self.show = show
+        self.cue_wsl = cue_wsl
 
-    inp_up = INPUT()
-    inp_up.type = 1
-    inp_up.union.ki.wVk = vk
-    inp_up.union.ki.wScan = scan
-    inp_up.union.ki.dwFlags = 2
+    def start(self, timeout=30):
+        """Launch Mednafen and wait for ready ack."""
+        os.makedirs(self.ipc_dir, exist_ok=True)
+        for f in [self.action_file, self.ack_file]:
+            if os.path.exists(f):
+                os.remove(f)
 
-    arr = (INPUT * 2)(inp_down, inp_up)
-    user32.SendInput(2, ctypes.byref(arr), ctypes.sizeof(INPUT))
-    user32.AttachThreadInput(our_tid, med_tid, False)
+        mednafen_wsl = wsl_path(MEDNAFEN)
+        ipc_wsl = wsl_path(self.ipc_dir)
 
+        launch_cmd = (
+            f'export DISPLAY=:0; '
+            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
+            f'"{mednafen_wsl}" '
+            f'-ss.bios_sanity 0 --sound 0 '
+            f'--automation "{ipc_wsl}" "{self.cue_wsl}"'
+        )
 
-def get_snapshots():
-    """Get PNG files in snaps directory sorted by mtime."""
-    if not SNAPS_DIR.exists():
-        return []
-    return sorted(SNAPS_DIR.glob("*.png"), key=lambda p: p.stat().st_mtime)
+        self.proc = subprocess.Popen(
+            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            if os.path.exists(self.ack_file):
+                with open(self.ack_file) as f:
+                    if "ready" in f.read():
+                        return True
+            time.sleep(0.2)
+
+        self.proc.kill()
+        return False
+
+    def send(self, cmd, timeout=30):
+        """Send command and wait for ack with matching seq."""
+        self.seq += 1
+        padding = "." * (self.seq % 16)
+        tmp = self.action_file + ".tmp"
+        with open(tmp, "w", newline="\n") as f:
+            f.write(f"# {self.seq}{padding}\n")
+            f.write(cmd + "\n")
+        if os.path.exists(self.action_file):
+            os.remove(self.action_file)
+        os.rename(tmp, self.action_file)
+
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            if os.path.exists(self.ack_file):
+                with open(self.ack_file) as f:
+                    content = f.read().strip()
+                if f"seq={self.seq}" in content:
+                    return content
+            time.sleep(0.05)
+        return None
+
+    def frame_advance(self, n):
+        """Advance N frames."""
+        return self.send(f"frame_advance {n}")
+
+    def quit(self):
+        """Clean shutdown."""
+        self.send("quit", timeout=5)
+        if self.proc:
+            try:
+                self.proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self.proc.kill()
 
 
 def main():
     parser = argparse.ArgumentParser(description="CCE screenshot boot test")
-    parser.add_argument("cue", nargs="?",
-                        default=str(PROJECT_DIR / "external_resources"
-                                    / "Daytona USA - Circuit Edition (Japan)"
-                                    / "Daytona USA - Circuit Edition (Japan).cue"),
+    parser.add_argument("cue", nargs="?", default=RETAIL_CUE,
                         help="Path to CUE file")
-    parser.add_argument("--wait", type=int, default=DEFAULT_WAIT,
-                        help=f"Seconds to wait before screenshot (default: {DEFAULT_WAIT})")
-    parser.add_argument("--golden", default=str(GOLDEN),
+    parser.add_argument("--golden", default=GOLDEN,
                         help="Path to golden baseline screenshot")
+    parser.add_argument("--capture-golden", action="store_true",
+                        help="Capture new golden baseline (no comparison)")
+    parser.add_argument("--show", action="store_true",
+                        help="Show Mednafen window (default: headless)")
     args = parser.parse_args()
 
-    cue_path = Path(args.cue)
-    golden_path = Path(args.golden)
-
-    if not cue_path.exists():
-        print(f"ERROR: CUE not found: {cue_path}")
+    if not os.path.exists(args.cue):
+        print(f"ERROR: CUE not found: {args.cue}")
         sys.exit(2)
-    if not golden_path.exists():
-        print(f"ERROR: Golden screenshot not found: {golden_path}")
+    if not args.capture_golden and not os.path.exists(args.golden):
+        print(f"ERROR: Golden screenshot not found: {args.golden}")
+        print("       Run with --capture-golden first to create it.")
         sys.exit(2)
 
-    SNAPS_DIR.mkdir(parents=True, exist_ok=True)
-    SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
+    os.makedirs(SCREENSHOTS_DIR, exist_ok=True)
 
-    before = set(str(p) for p in get_snapshots())
+    # IPC directory
+    ipc_dir = os.path.join(PROJECT, "build", "screenshot_test_ipc")
+    cue_wsl = wsl_path(args.cue)
+    screenshot_wsl = wsl_path(os.path.join(SCREENSHOTS_DIR, "test_boot.png"))
+    test_path = os.path.join(SCREENSHOTS_DIR, "test_boot.png")
 
-    # Launch Mednafen
-    print(f"Disc: {cue_path.name}")
-    print(f"Golden: {golden_path}")
-    proc = subprocess.Popen([str(MEDNAFEN_EXE), "-ss.bios_sanity", "0", str(cue_path)])
+    print(f"Disc: {os.path.basename(args.cue)}")
+    if not args.capture_golden:
+        print(f"Golden: {args.golden}")
+    print(f"Screenshot at frame {SCREENSHOT_FRAME}")
 
-    # Wait for window
-    hwnd = None
-    for _ in range(30):
-        time.sleep(1)
-        hwnd = find_window_by_pid(proc.pid)
-        if hwnd:
-            break
+    # Launch
+    bot = MednafenBot(ipc_dir, cue_wsl, show=args.show)
+    print("Launching Mednafen...", end="", flush=True)
+    if not bot.start():
+        print(" FAIL: Mednafen did not start")
+        sys.exit(1)
+    print(" ready")
 
-    if not hwnd:
-        print("FAIL: Mednafen window not found")
-        proc.kill()
+    if args.show:
+        bot.send("show_window")
+
+    # Replay trace
+    current_frame = 0
+    for target_frame, cmd in TRACE:
+        advance = target_frame - current_frame
+        if advance > 0:
+            print(f"  frame_advance {advance} (to frame {target_frame})...",
+                  end="", flush=True)
+            ack = bot.frame_advance(advance)
+            if ack is None:
+                print(" FAIL: no ack")
+                bot.quit()
+                sys.exit(1)
+            print(" ok")
+            current_frame = target_frame
+
+        if cmd == "screenshot":
+            print(f"  screenshot @ frame {target_frame}...", end="", flush=True)
+            bot.send(f"screenshot {screenshot_wsl}")
+            # Screenshot is queued, need one more frame to capture
+            bot.frame_advance(1)
+            current_frame += 1
+            print(" ok")
+        else:
+            print(f"  {cmd} @ frame {target_frame}")
+            bot.send(cmd)
+
+    # Shutdown
+    bot.quit()
+    print("Mednafen stopped.")
+
+    # Check screenshot was written
+    if not os.path.exists(test_path):
+        print("FAIL: screenshot file not created")
         sys.exit(1)
 
-    # Wait for game to reach attract mode
-    print(f"Waiting {args.wait}s for attract mode...", flush=True)
-    time.sleep(args.wait)
+    # Capture golden mode
+    if args.capture_golden:
+        shutil.copy2(test_path, args.golden)
+        print(f"\nGolden baseline saved: {args.golden}")
+        sys.exit(0)
 
-    # Take screenshot
-    print("Taking screenshot...", end="", flush=True)
-    focus_and_send_key(hwnd, VK_P)
-    time.sleep(1.5)
-
-    # Find the new screenshot
-    after = set(str(p) for p in get_snapshots())
-    new = after - before
-    if not new:
-        print(" FAIL: no screenshot captured")
-        proc.terminate()
-        sys.exit(1)
-
-    screenshot_path = Path(sorted(new)[0])
-    print(f" {screenshot_path.name}")
-
-    # Copy to build dir for inspection
-    test_path = SCREENSHOTS_DIR / "test_boot.png"
-    import shutil
-    shutil.copy2(screenshot_path, test_path)
-
-    # Kill Mednafen
-    proc.terminate()
-    try:
-        proc.wait(timeout=5)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-
-    # Run comparison
+    # Compare
     print(f"\nComparing against golden baseline...")
     print("=" * 60)
     result = subprocess.run(
-        [sys.executable, str(SCRIPT_DIR / "compare_screenshot.py"),
-         str(test_path), str(golden_path)],
+        [sys.executable, os.path.join(PROJECT, "tools", "compare_screenshot.py"),
+         test_path, args.golden],
         capture_output=True, text=True
     )
     print(result.stdout)
