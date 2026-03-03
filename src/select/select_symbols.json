@@ -3,6 +3,11 @@
   "module_size": 195761,
   "function_count": 417,
   "dat_symbols": {
+    "DAT_060000C0": {
+      "absolute": "0x060000C0",
+      "parent_fun": "FUN_06000000",
+      "offset": "0xC0"
+    },
     "DAT_0601335E": {
       "absolute": "0x0601335E",
       "parent_fun": "FUN_06012F8C",

@@ -54,8 +54,7 @@ FUN_0600867C:
     .byte 0x6E, 0xF6  /* 060086DA: mov.l @r15+,r14 */
     .byte 0x00, 0x80  /* 060086DC: .word 0x0080 */
     .byte 0x0F, 0xFF  /* 060086DE: mac.l @r15+,@r15+ */
-    .byte 0x06, 0x00  /* 060086E0: .word 0x0600 */
-    .byte 0x00, 0xC0  /* 060086E2: .word 0x00C0 */
+    .4byte DAT_060000C0  /* 060086E0 = 0x060000C0 (FUN_06000000 + 0xC0) */
     .4byte sym_25E0C000  /* 060086E4 = 0x25E0C000 */
     .4byte sym_25E60000  /* 060086E8 = 0x25E60000 */
     .4byte sym_002C3054  /* 060086EC = 0x002C3054 */

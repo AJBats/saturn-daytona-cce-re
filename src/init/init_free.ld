@@ -39,7 +39,7 @@ SECTIONS
     }
 }
 
-/* DAT_ symbols: within-binary data, relative to nearest function (764) */
+/* DAT_ symbols: within-binary data, relative to nearest function (765) */
 PROVIDE(DAT_06000250 = FUN_0600019A + 0xB6);
 PROVIDE(DAT_0600026C = FUN_0600019A + 0xD2);
 PROVIDE(DAT_06000288 = FUN_06000278 + 0x10);

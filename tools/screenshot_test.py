@@ -74,6 +74,12 @@ class MednafenBot:
 
     def start(self, timeout=30):
         """Launch Mednafen and wait for ready ack."""
+        # Kill any leftover Mednafen processes inside WSL (proc.kill() only
+        # kills the wsl.exe wrapper on Windows, leaving the real process alive)
+        subprocess.run(
+            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
         os.makedirs(self.ipc_dir, exist_ok=True)
         for f in [self.action_file, self.ack_file]:
             if os.path.exists(f):
@@ -168,6 +174,11 @@ class MednafenBot:
                 self.proc.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 self.proc.kill()
+        # Also kill inside WSL — proc.kill() only kills the wsl.exe wrapper
+        subprocess.run(
+            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
         if self.stderr_file:
             self.stderr_file.close()
             try:
@@ -189,6 +200,9 @@ def main():
     parser.add_argument("--verbose", "-v", action="store_true",
                         help="Show all ack messages")
     args = parser.parse_args()
+
+    # Resolve to absolute path (wsl_path needs a drive letter)
+    args.cue = os.path.abspath(args.cue)
 
     if not os.path.exists(args.cue):
         print(f"ERROR: CUE not found: {args.cue}")

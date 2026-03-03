@@ -32,6 +32,7 @@ SECTIONS
 
 /* --- resolve_pools.py: auto-generated symbols --- */
 /* DAT_ symbols: within-binary data (117) */
+PROVIDE(DAT_060000C0 = 0x060000C0);
 PROVIDE(DAT_06000340 = 0x06000340);
 PROVIDE(DAT_06000344 = 0x06000344);
 PROVIDE(DAT_06000354 = 0x06000354);
