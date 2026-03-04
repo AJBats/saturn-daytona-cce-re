@@ -31,7 +31,7 @@ FUN_0601138C:
     .byte 0x01, 0x38  /* 060113BA: .word 0x0138 */
     .byte 0x01, 0x3C  /* 060113BC: mov.b @(r0,r3),r1 */
     .byte 0x01, 0x94  /* 060113BE: mov.b r9,@(r0,r1) */
-    .4byte DAT_06008A5C  /* 060113C0 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte FUN_06008A5C  /* 060113C0 = 0x06008A5C */
 .L_pool_060113C4:
     .4byte sym_060529A8  /* 060113C4 = 0x060529A8 */
 .L_pool_060113C8:

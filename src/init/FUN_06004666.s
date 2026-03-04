@@ -52,5 +52,3 @@ FUN_06004666:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xE5, 0xFF  /* 060046BE: mov #-1,r5 */
-    .byte 0xD3, 0x15  /* 060046C0: mov.l @(0x54,PC),r3  {[0x06004718] = 0x0600C868} */

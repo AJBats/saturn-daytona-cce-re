@@ -24,14 +24,14 @@ FUN_0601F866:
     .byte 0x01, 0xBC  /* 0601F888: mov.b @(r0,r11),r1 */
     .byte 0x01, 0xAC  /* 0601F88A: mov.b @(r0,r10),r1 */
     .4byte sym_0605490C  /* 0601F88C = 0x0605490C */
-    .4byte DAT_0600751C  /* 0601F890 = 0x0600751C (FUN_060074A6 + 0x76) */
+    .4byte FUN_0600751C  /* 0601F890 = 0x0600751C */
 .L_pool_0601F894:
     .4byte sym_FFFFFE92  /* 0601F894 = 0xFFFFFE92 */
     .4byte sym_06054914  /* 0601F898 = 0x06054914 */
 .L_pool_0601F89C:
     .4byte sym_26003F00  /* 0601F89C = 0x26003F00 */
     .4byte sym_06047866  /* 0601F8A0 = 0x06047866 */
-    .4byte DAT_06007500  /* 0601F8A4 = 0x06007500 (FUN_060074A6 + 0x5A) */
+    .4byte FUN_06007500  /* 0601F8A4 = 0x06007500 */
     .4byte sym_260627FC  /* 0601F8A8 = 0x260627FC */
 .L_pool_0601F8AC:
     .4byte 0x00000A00  /* 0601F8AC = 0x00000A00 */

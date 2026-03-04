@@ -18,4 +18,3 @@ FUN_06005430:
     lds.l @r15+, pr
     .byte 0xA6, 0x9F  /* 06005446: bra 0x06006188 */
     mov.l @r15+, r14
-    .byte 0x24, 0x48  /* 0600544A: tst r4,r4 */

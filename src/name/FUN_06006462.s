@@ -133,67 +133,74 @@ FUN_06006462:
     mov.b @(r0, r2), r0
     tst r0, r0
     bt .L_060065CA
-    .4byte 0x60E0E500  /* 06006550 = 0x60E0E500 */
-    .byte 0xCB, 0x01  /* 06006554: or #0x01,r0 */
-    .byte 0x2E, 0x00  /* 06006556: mov.b r0,@r14 */
+    mov.b @r14, r0
+    mov #0x0, r5
+    or #0x1, r0
+    mov.b r0, @r14
     .byte 0xB0, 0x92  /* 06006558: bsr 0x06006680 */
-    .byte 0x64, 0x53  /* 0600655A: mov r5,r4 */
-    .byte 0x60, 0x0E  /* 0600655C: exts.b r0,r0 */
-    .byte 0x20, 0x08  /* 0600655E: tst r0,r0 */
-    .byte 0x89, 0x14  /* 06006560: bt 0x0600658C */
+    mov r5, r4
+    exts.b r0, r0
+    tst r0, r0
+    bt .L_0600658C
     .byte 0xB0, 0xB4  /* 06006562: bsr 0x060066CE */
-    .byte 0x00, 0x09  /* 06006564: nop */
-    .byte 0x64, 0x0C  /* 06006566: extu.b r0,r4 */
-    .byte 0x24, 0x48  /* 06006568: tst r4,r4 */
-    .byte 0x89, 0x08  /* 0600656A: bt 0x0600657E */
-    .byte 0x4C, 0x0B  /* 0600656C: jsr @r12 */
-    .byte 0xED, 0x08  /* 0600656E: mov #8,r13 */
-    .byte 0x4A, 0x0B  /* 06006570: jsr @r10 */
-    .byte 0x00, 0x09  /* 06006572: nop */
+    nop
+    extu.b r0, r4
+    tst r4, r4
+    bt .L_0600657E
+    jsr @r12
+    mov #0x8, r13
+    jsr @r10
+    nop
     .byte 0xD3, 0x34  /* 06006574: mov.l @(0xD0,PC),r3  {[0x06006648] = 0x0602B0CE} */
-    .byte 0x43, 0x0B  /* 06006576: jsr @r3 */
-    .byte 0x00, 0x09  /* 06006578: nop */
-    .byte 0xA0, 0x03  /* 0600657A: bra 0x06006584 */
-    .byte 0x00, 0x09  /* 0600657C: nop */
+    jsr @r3
+    nop
+    bra .L_06006584
+    nop
+.L_0600657E:
     .byte 0xD3, 0x33  /* 0600657E: mov.l @(0xCC,PC),r3  {[0x0600664C] = 0x0602AADA} */
-    .byte 0x43, 0x0B  /* 06006580: jsr @r3 */
-    .byte 0x00, 0x09  /* 06006582: nop */
-    .byte 0x49, 0x0B  /* 06006584: jsr @r9 */
-    .byte 0x00, 0x09  /* 06006586: nop */
-    .byte 0xA0, 0x06  /* 06006588: bra 0x06006598 */
-    .byte 0x00, 0x09  /* 0600658A: nop */
-    .byte 0x4C, 0x0B  /* 0600658C: jsr @r12 */
-    .byte 0x00, 0x09  /* 0600658E: nop */
-    .byte 0x4A, 0x0B  /* 06006590: jsr @r10 */
-    .byte 0x00, 0x09  /* 06006592: nop */
-    .byte 0x49, 0x0B  /* 06006594: jsr @r9 */
-    .byte 0x00, 0x09  /* 06006596: nop */
-    .byte 0xE5, 0x01  /* 06006598: mov #1,r5 */
+    jsr @r3
+    nop
+.L_06006584:
+    jsr @r9
+    nop
+    bra .L_06006598
+    nop
+.L_0600658C:
+    jsr @r12
+    nop
+    jsr @r10
+    nop
+    jsr @r9
+    nop
+.L_06006598:
+    mov #0x1, r5
     .byte 0xB0, 0x71  /* 0600659A: bsr 0x06006680 */
-    .byte 0x64, 0x53  /* 0600659C: mov r5,r4 */
-    .byte 0x60, 0x0E  /* 0600659E: exts.b r0,r0 */
-    .byte 0x20, 0x08  /* 060065A0: tst r0,r0 */
-    .byte 0x89, 0x05  /* 060065A2: bt 0x060065B0 */
-    .byte 0x60, 0xE0  /* 060065A4: mov.b @r14,r0 */
-    .byte 0xCB, 0x02  /* 060065A6: or #0x02,r0 */
+    mov r5, r4
+    exts.b r0, r0
+    tst r0, r0
+    bt .L_060065B0
+    mov.b @r14, r0
+    or #0x2, r0
     .byte 0xB1, 0x23  /* 060065A8: bsr 0x060067F2 */
-    .byte 0x2E, 0x00  /* 060065AA: mov.b r0,@r14 */
-    .byte 0xA0, 0x10  /* 060065AC: bra 0x060065D0 */
-    .byte 0x00, 0x09  /* 060065AE: nop */
+    mov.b r0, @r14
+    bra .L_060065D0
+    nop
+.L_060065B0:
     .byte 0xD3, 0x27  /* 060065B0: mov.l @(0x9C,PC),r3  {[0x06006650] = 0x0603F8F0} */
     .byte 0xD2, 0x28  /* 060065B2: mov.l @(0xA0,PC),r2  {[0x06006654] = 0x0000F111} */
-    .byte 0x51, 0x34  /* 060065B4: mov.l @(0x10,r3),r1 */
-    .byte 0x31, 0x22  /* 060065B6: cmp/hs r2,r1 */
-    .byte 0x89, 0x01  /* 060065B8: bt 0x060065BE */
+    mov.l @(16, r3), r1
+    cmp/hs r2, r1
+    bt .L_060065BE
 .L_060065BA:
     bra .L_060065D0
     mov #0xE, r13
-    .byte 0x60, 0xE0  /* 060065BE: mov.b @r14,r0 */
-    .byte 0xCB, 0x02  /* 060065C0: or #0x02,r0 */
+.L_060065BE:
+    mov.b @r14, r0
+    or #0x2, r0
     .byte 0xB1, 0x16  /* 060065C2: bsr 0x060067F2 */
-    .byte 0x2E, 0x00  /* 060065C4: mov.b r0,@r14 */
-    .byte 0xA0, 0x03  /* 060065C6: bra 0x060065D0 */
-    .byte 0x00, 0x09  /* 060065C8: nop */
+    mov.b r0, @r14
+    bra .L_060065D0
+    nop
 .L_060065CA:
     bra .L_060065D0
     mov #0x1, r8

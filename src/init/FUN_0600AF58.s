@@ -42,8 +42,8 @@ FUN_0600AF58:
     .byte 0xFB, 0xFF  /* 0600AF9A: .word 0xFBFF */
     .byte 0x5F, 0x34  /* 0600AF9C: mov.l @(0x10,r3),r15 */
     .byte 0xFF, 0xFF  /* 0600AF9E: .word 0xFFFF */
-    .4byte DAT_0600A012  /* 0600AFA0 = 0x0600A012 (FUN_06009FD6 + 0x3C) */
-    .4byte DAT_0600A01A  /* 0600AFA4 = 0x0600A01A (FUN_06009FD6 + 0x44) */
+    .4byte FUN_0600A012  /* 0600AFA0 = 0x0600A012 */
+    .4byte FUN_0600A01A  /* 0600AFA4 = 0x0600A01A */
 .L_pool_0600AFA8:
     .4byte 0x00069CB5  /* 0600AFA8 = 0x00069CB5 */
 .L_pool_0600AFAC:

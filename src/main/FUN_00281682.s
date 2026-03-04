@@ -17,7 +17,7 @@ FUN_00281682:
     nop
     cmp/eq #0x2, r0
     bf/s .L_002816A0
-    .word 0x0229 /* UNKNOWN */
+    .byte 0x02, 0x29  /* UNKNOWN */
     mov.l r2, @(8, r8)
 .L_002816A0:
     mov r14, r15
@@ -27,6 +27,4 @@ FUN_00281682:
     rts
     mov.l @r15+, r8
 .L_pool_002816AC:
-    .4byte DAT_002829FC  /* 002816AC = 0x002829FC (FUN_00282966 + 0x96) */
-    .byte 0x2F, 0x86  /* 002816B0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002816B2: mov.l r9,@-r15 */
+    .4byte FUN_002829FC  /* 002816AC = 0x002829FC */

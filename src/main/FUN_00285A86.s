@@ -87,8 +87,4 @@ FUN_00285A86:
 .L_pool_00285B18:
     .4byte FUN_0028619C  /* 00285B18 = 0x0028619C */
 .L_pool_00285B1C:
-    .4byte DAT_00286A04  /* 00285B1C = 0x00286A04 (FUN_002869DC + 0x28) */
-    .byte 0x2F, 0x86  /* 00285B20: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00285B22: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00285B24: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00285B26: mov.l r11,@-r15 */
+    .4byte FUN_00286A04  /* 00285B1C = 0x00286A04 */

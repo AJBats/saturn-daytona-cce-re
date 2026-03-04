@@ -31,6 +31,3 @@ FUN_002865C8:
     .byte 0x00, 0x00  /* 002865F6: .word 0x0000 */
 .L_pool_002865F8:
     .4byte FUN_002873C4  /* 002865F8 = 0x002873C4 */
-    .byte 0x2F, 0x86  /* 002865FC: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002865FE: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00286600: mov.l r10,@-r15 */

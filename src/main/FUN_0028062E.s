@@ -24,7 +24,7 @@ FUN_0028062E:
     mov.l @(44, r8), r2
     .byte 0xD1, 0x06  /* 00280652: mov.l @(0x18,PC),r1  {[0x0028066C] = 0x4A4F5348} */
     cmp/eq r1, r2
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     xor #0x1, r0
 .L_0028065A:
     mov r14, r15
@@ -35,7 +35,6 @@ FUN_0028062E:
 .L_pool_00280664:
     .4byte 0x0000FFFF  /* 00280664 = 0x0000FFFF */
 .L_pool_00280668:
-    .4byte DAT_00280874  /* 00280668 = 0x00280874 (FUN_0028085C + 0x18) */
+    .4byte FUN_00280874  /* 00280668 = 0x00280874 */
 .L_pool_0028066C:
     .4byte 0x4A4F5348  /* 0028066C = 0x4A4F5348 */
-    .byte 0x2F, 0x86  /* 00280670: mov.l r8,@-r15 */

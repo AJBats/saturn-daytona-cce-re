@@ -15,12 +15,3 @@ FUN_0600589E:
     mov #0x0, r0
     mov.b r0, @(1, r14)
     mov.l @(12, r15), r3
-    mov.l r3, @-r15
-    .byte 0xBD, 0xBF  /* 060058B6: bsr 0x06005438 */
-    mov r14, r4
-    add #0x8, r15
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14
-    .byte 0x61, 0x4C  /* 060058C2: extu.b r4,r1 */
-    .byte 0xD3, 0x31  /* 060058C4: mov.l @(0xC4,PC),r3  {[0x0600598C] = 0x06008A5C} */

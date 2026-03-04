@@ -64,16 +64,10 @@ FUN_00283334:
 .L_wpool_0028339E:
     .byte 0x08, 0x00  /* 0028339E: .word 0x0800 */
 .L_pool_002833A0:
-    .4byte DAT_0028320C  /* 002833A0 = 0x0028320C (FUN_00283158 + 0xB4) */
+    .4byte FUN_0028320C  /* 002833A0 = 0x0028320C */
 .L_pool_002833A4:
-    .4byte DAT_00281298  /* 002833A4 = 0x00281298 (FUN_002811DC + 0xBC) */
+    .4byte FUN_00281298  /* 002833A4 = 0x00281298 */
     .byte 0x2E, 0x00  /* 002833A8: mov.b r0,@r14 */
     .byte 0x00, 0x00  /* 002833AA: .word 0x0000 */
     .byte 0x2E, 0x2E  /* 002833AC: mulu.w r2,r14 */
     .byte 0x00, 0x00  /* 002833AE: .word 0x0000 */
-    .byte 0x2F, 0x86  /* 002833B0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002833B2: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002833B4: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 002833B6: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 002833B8: mov.l r12,@-r15 */
-    .byte 0x2F, 0xD6  /* 002833BA: mov.l r13,@-r15 */

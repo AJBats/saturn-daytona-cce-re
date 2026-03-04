@@ -71,7 +71,7 @@ FUN_06001A30:
     mov.l @r15+, r14
     .byte 0xFF, 0xFF  /* 06001AA6: .word 0xFFFF */
 .L_pool_06001AA8:
-    .4byte DAT_06008C90  /* 06001AA8 = 0x06008C90 (FUN_06008C4A + 0x46) */
+    .4byte FUN_06008C90  /* 06001AA8 = 0x06008C90 */
 .L_pool_06001AAC:
     .4byte DAT_0601332C  /* 06001AAC = 0x0601332C (FUN_0600EA84 + 0x48A8) */
     .byte 0x2F, 0xC6  /* 06001AB0: mov.l r12,@-r15 */

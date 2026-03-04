@@ -15,7 +15,7 @@ FUN_002860FA:
     lds.l @r15+, pr
     tst r8, r8
     mov.l @r15+, r14
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     mov.l @r15+, r8
     rts
     xor #0x1, r0

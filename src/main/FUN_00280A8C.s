@@ -56,7 +56,7 @@ FUN_00280A8C:
     tst r8, r8
     mov.l .L_pool_00280B60, r0
     jsr @r0
-    .word 0x0429 /* UNKNOWN */
+    .byte 0x04, 0x29  /* UNKNOWN */
     mov r0, r1
     tst r1, r1
     bt .L_00280B00
@@ -119,12 +119,10 @@ FUN_00280A8C:
 .L_pool_00280B58:
     .4byte sym_0028B070  /* 00280B58 = 0x0028B070 */
 .L_pool_00280B5C:
-    .4byte DAT_00281C34  /* 00280B5C = 0x00281C34 (FUN_00281C00 + 0x34) */
+    .4byte FUN_00281C34  /* 00280B5C = 0x00281C34 */
 .L_pool_00280B60:
-    .4byte DAT_00282568  /* 00280B60 = 0x00282568 (FUN_002824F6 + 0x72) */
+    .4byte FUN_00282568  /* 00280B60 = 0x00282568 */
 .L_pool_00280B64:
-    .4byte DAT_00281E18  /* 00280B64 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 00280B64 = 0x00281E18 */
 .L_pool_00280B68:
-    .4byte DAT_00281B28  /* 00280B68 = 0x00281B28 (FUN_00281B00 + 0x28) */
-    .byte 0x2F, 0x86  /* 00280B6C: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00280B6E: mov.l r9,@-r15 */
+    .4byte FUN_00281B28  /* 00280B68 = 0x00281B28 */

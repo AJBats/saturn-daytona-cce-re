@@ -24,7 +24,7 @@ FUN_00281562:
     mov #0x1, r0
     mov.l @(8, r8), r1
     tst r1, r1
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_0028158A:
     mov r14, r15
     lds.l @r15+, pr
@@ -32,5 +32,5 @@ FUN_00281562:
     rts
     mov.l @r15+, r8
 .L_pool_00281594:
-    .4byte DAT_00281E18  /* 00281594 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 00281594 = 0x00281E18 */
     .byte 0x2F, 0x86  /* 00281598: mov.l r8,@-r15 */

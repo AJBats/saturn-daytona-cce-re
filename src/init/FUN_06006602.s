@@ -42,15 +42,3 @@ FUN_06006602:
     mov r0, r3
     mov r15, r2
     add #0x4, r2
-    mov.b @(9, r2), r0
-    extu.b r0, r0
-    add r4, r0
-    mul.l r0, r3
-    mov r15, r0
-    sts macl, r3
-    add #0x4, r0
-    mov.l @r0, r0
-    add r3, r0
-    .4byte 0x7F104F26  /* 0600665C = 0x7F104F26 */
-    .byte 0x00, 0x0B  /* 06006660: rts */
-    .byte 0x00, 0x09  /* 06006662: nop */

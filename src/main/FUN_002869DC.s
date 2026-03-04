@@ -24,5 +24,3 @@ FUN_002869DC:
     mov.l @r15+, r14
 .L_pool_00286A00:
     .4byte FUN_002873C4  /* 00286A00 = 0x002873C4 */
-    .byte 0x2F, 0x86  /* 00286A04: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00286A06: mov.l r9,@-r15 */

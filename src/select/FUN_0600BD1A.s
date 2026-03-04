@@ -109,9 +109,10 @@ FUN_0600BD1A:
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11
-    .4byte 0x6CF66DF6  /* 0600BDE4 = 0x6CF66DF6 */
-    .byte 0x00, 0x0B  /* 0600BDE8: rts */
-    .byte 0x6E, 0xF6  /* 0600BDEA: mov.l @r15+,r14 */
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
     .4byte sym_0605395D  /* 0600BDEC = 0x0605395D */
     .4byte sym_0605395E  /* 0600BDF0 = 0x0605395E */
     .4byte sym_0604236B  /* 0600BDF4 = 0x0604236B */

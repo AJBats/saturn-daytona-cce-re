@@ -107,7 +107,7 @@ FUN_06002E74:
 .L_06002F36:
     mov.b @r7, r7
 .L_06002F38:
-    bsr .L_06002FD8
+    .byte 0xB0, 0x4E  /* 06002F38: bsr 0x06002FD8 */
     nop
     mov.l .L_pool_06002FA0, r3
     mov.w @r3, r3
@@ -194,37 +194,3 @@ FUN_06002E74:
     .4byte 0x00008000  /* 06002FD0 = 0x00008000 */
 .L_pool_06002FD4:
     .4byte sym_060456C8  /* 06002FD4 = 0x060456C8 */
-.L_06002FD8:
-    mov r1, r0
-    and #0x2, r0
-    tst r0, r0
-    bt/s .L_06002FFE
-    mov r1, r0
-    add #0x9, r0
-    and #0x4, r0
-    tst r0, r0
-    bf/s .L_06002FF0
-    mov r7, r1
-    bra .L_0600300C
-    shlr2 r1
-.L_06002FF0:
-    shlr2 r1
-    mov r7, r0
-    sub r1, r0
-    mov r0, r1
-    mov #0x1, r0
-    bra .L_0600300C
-    sub r0, r1
-.L_06002FFE:
-    and #0x4, r0
-    tst r0, r0
-    bt/s .L_0600300C
-    mov #0x1, r1
-    mov r7, r1
-    mov #0x2, r0
-    sub r0, r1
-.L_0600300C:
-    mov r3, r0
-    sub r1, r0
-    rts
-    nop

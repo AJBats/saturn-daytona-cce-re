@@ -385,4 +385,3 @@ FUN_06009E8C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE2, 0x23  /* 0600A162: mov #35,r2 */

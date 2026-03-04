@@ -29,20 +29,21 @@ FUN_06014C68:
     bt .L_06014D14
     mov.w .L_wpool_06014CB8, r0
     mov.b @(r0, r14), r0
-    .4byte 0x600C8800  /* 06014C98 = 0x600C8800 */
-    .byte 0x89, 0x2C  /* 06014C9C: bt 0x06014CF8 */
-    .byte 0x88, 0x01  /* 06014C9E: cmp/eq #1,r0 */
-    .byte 0x89, 0x2A  /* 06014CA0: bt 0x06014CF8 */
-    .byte 0x88, 0x02  /* 06014CA2: cmp/eq #2,r0 */
-    .byte 0x89, 0x2C  /* 06014CA4: bt 0x06014D00 */
-    .byte 0x88, 0x03  /* 06014CA6: cmp/eq #3,r0 */
-    .byte 0x89, 0x2E  /* 06014CA8: bt 0x06014D08 */
-    .byte 0x88, 0x04  /* 06014CAA: cmp/eq #4,r0 */
-    .byte 0x89, 0x30  /* 06014CAC: bt 0x06014D10 */
-    .byte 0x88, 0x05  /* 06014CAE: cmp/eq #5,r0 */
-    .byte 0x89, 0x2E  /* 06014CB0: bt 0x06014D10 */
-    .byte 0xA0, 0x2F  /* 06014CB2: bra 0x06014D14 */
-    .byte 0x00, 0x09  /* 06014CB4: nop */
+    extu.b r0, r0
+    cmp/eq #0x0, r0
+    bt .L_06014CF8
+    cmp/eq #0x1, r0
+    bt .L_06014CF8
+    cmp/eq #0x2, r0
+    bt .L_06014D00
+    cmp/eq #0x3, r0
+    bt .L_06014D08
+    cmp/eq #0x4, r0
+    bt .L_06014D10
+    cmp/eq #0x5, r0
+    bt .L_06014D10
+    bra .L_06014D14
+    nop
 .L_wpool_06014CB6:
     .byte 0x00, 0xC1  /* 06014CB6: .word 0x00C1 */
 .L_wpool_06014CB8:
@@ -71,20 +72,24 @@ FUN_06014C68:
     .4byte sym_0603E9A4  /* 06014CF0 = 0x0603E9A4 */
 .L_pool_06014CF4:
     .4byte sym_0603E774  /* 06014CF4 = 0x0603E774 */
-    .byte 0x4C, 0x0B  /* 06014CF8: jsr @r12 */
-    .byte 0x64, 0xE3  /* 06014CFA: mov r14,r4 */
-    .byte 0xA0, 0x0A  /* 06014CFC: bra 0x06014D14 */
-    .byte 0x00, 0x09  /* 06014CFE: nop */
-    .byte 0x4B, 0x0B  /* 06014D00: jsr @r11 */
-    .byte 0x64, 0xE3  /* 06014D02: mov r14,r4 */
-    .byte 0xA0, 0x06  /* 06014D04: bra 0x06014D14 */
-    .byte 0x00, 0x09  /* 06014D06: nop */
-    .byte 0x4A, 0x0B  /* 06014D08: jsr @r10 */
-    .byte 0x64, 0xE3  /* 06014D0A: mov r14,r4 */
-    .byte 0xA0, 0x02  /* 06014D0C: bra 0x06014D14 */
-    .byte 0x00, 0x09  /* 06014D0E: nop */
-    .byte 0x49, 0x0B  /* 06014D10: jsr @r9 */
-    .byte 0x64, 0xE3  /* 06014D12: mov r14,r4 */
+.L_06014CF8:
+    jsr @r12
+    mov r14, r4
+    bra .L_06014D14
+    nop
+.L_06014D00:
+    jsr @r11
+    mov r14, r4
+    bra .L_06014D14
+    nop
+.L_06014D08:
+    jsr @r10
+    mov r14, r4
+    bra .L_06014D14
+    nop
+.L_06014D10:
+    jsr @r9
+    mov r14, r4
 .L_06014D14:
     .byte 0x90, 0x50  /* 06014D14: mov.w @(0xA0,PC),r0  {0x06014DB8} */
     add #0x1, r13

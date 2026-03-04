@@ -51,9 +51,3 @@ FUN_06006124:
     mov.l r12, @(r0, r14)
 .L_0600617A:
     add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14

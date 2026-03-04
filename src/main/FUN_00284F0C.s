@@ -22,7 +22,7 @@ FUN_00284F0C:
     mov.l @(52, r2), r0
     cmp/eq #-0x1, r0
     bf/s .L_00284F4A
-    .word 0x0729 /* UNKNOWN */
+    .byte 0x07, 0x29  /* UNKNOWN */
     mov.l r4, @(52, r2)
     mov.l r7, @r3
     mov.w .L_wpool_00284F58, r0
@@ -56,5 +56,4 @@ FUN_00284F0C:
 .L_pool_00284F60:
     .4byte sym_0028B084  /* 00284F60 = 0x0028B084 */
 .L_pool_00284F64:
-    .4byte DAT_00285A80  /* 00284F64 = 0x00285A80 (FUN_00285932 + 0x14E) */
-    .byte 0x2F, 0x86  /* 00284F68: mov.l r8,@-r15 */
+    .4byte FUN_00285A80  /* 00284F64 = 0x00285A80 */

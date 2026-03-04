@@ -11,27 +11,36 @@ Usage:
     python tools/split_modules.py              # process all modules (skip existing)
     python tools/split_modules.py race         # process one module by name
     python tools/split_modules.py --force      # regenerate even if files exist
+    python tools/split_modules.py --clean      # remove old FUN_*.s first, then regenerate
 
 Design notes:
   - Every 2-byte SH-2 instruction is emitted as .byte 0xHI, 0xLO.  This
     guarantees a byte-identical round-trip regardless of assembler endianness.
-  - Function boundaries are detected by SH-2 GCC prologue patterns.
+  - Function boundaries use Ghidra reference data (ghidra_reference/<module>/)
+    as ground truth when available, with SH-2 GCC prologue detection as
+    fallback for functions beyond Ghidra's analyzed range.
+  - Prologue detection scans backwards from mov.l r14,@-r15 to find the
+    true entry (preceding r8-r13 saves in high-to-low order).
   - Decoded mnemonic comments are cosmetic only -- output bytes do not depend
     on correct decoding.
   - Base addresses for HWR modules are marked PROVISIONAL until verified by
     a byte-identical round-trip build.
   - Existing .s files are NOT overwritten unless --force is passed, so that
-    hand annotations survive re-runs.
+    hand annotations survive re-runs.  Use --clean to remove old files first
+    (needed when function boundaries change, to avoid stale entries).
 """
 
+import glob
 import os
+import re
 import struct
 import sys
 import time
 
-PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJDIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILES_DIR = os.path.join(PROJDIR, 'build', 'disc', 'files')
 OUT_BASE  = os.path.join(PROJDIR, 'src')
+GHIDRA_DIR = os.path.join(PROJDIR, 'ghidra_reference')
 
 # ---------------------------------------------------------------------------
 # Module registry
@@ -289,6 +298,29 @@ def decode_sh2_insn(word, addr, data, base_addr):
 # Function boundary detection
 # ---------------------------------------------------------------------------
 
+def _scan_backwards_for_prologue_start(data, i):
+    """Given an offset `i` of a prologue instruction (mov.l r14,@-r15 or
+    sts.l pr,@-r15), scan backwards for contiguous callee-saved register
+    pushes: mov.l Rn,@-r15 where Rn = r8..r13 (opcodes 0x2F86..0x2FD6).
+
+    CCE compiler saves registers high-to-low: r8 first, then r9, ..., r14.
+    The true function entry is at the earliest such push.
+
+    Returns the offset of the true entry.
+    """
+    entry = i
+    j = i - 2
+    while j >= 0:
+        ph, pl = data[j], data[j + 1]
+        # mov.l Rn,@-r15 where Rn = r8..r14: opcode = 0x2Fn6, n in {8..E}
+        if ph == 0x2F and (pl & 0x0F) == 0x06 and 0x86 <= pl <= 0xE6:
+            entry = j
+            j -= 2
+        else:
+            break
+    return entry
+
+
 def find_function_entries(data):
     """
     Scan for function entry points using SH-2 GCC prologue patterns:
@@ -296,6 +328,9 @@ def find_function_entries(data):
       - sts.l pr,@-r15   (0x4F22)  starts a new function UNLESS immediately
         preceded by a register push (mov.l rN,@-r15), in which case it is
         part of an existing prologue.
+
+    When a prologue marker is found, scans backwards for preceding register
+    saves (r8-r13) to find the true entry point.
 
     Returns a sorted list of byte offsets within the file.
     Always includes offset 0 (file start = entry point).
@@ -306,22 +341,119 @@ def find_function_entries(data):
         hi, lo = data[i], data[i + 1]
 
         if hi == 0x2F and lo == 0xE6:       # mov.l r14,@-r15
-            entries.add(i)
+            entry = _scan_backwards_for_prologue_start(data, i)
+            entries.add(entry)
             i += 2
             continue
 
         if hi == 0x4F and lo == 0x22:       # sts.l pr,@-r15
-            if i >= 2:
-                ph, pl = data[i - 2], data[i - 1]
-                is_push = (ph & 0xF0) == 0x20 and (ph & 0x0F) == 0x0F and (pl & 0x0F) == 0x06
-                if is_push:
-                    i += 2
-                    continue
+            entry = _scan_backwards_for_prologue_start(data, i)
+            if entry < i:
+                # Preceded by register saves — this is mid-prologue, skip
+                i += 2
+                continue
             entries.add(i)
 
         i += 2
 
     return sorted(entries)
+
+
+# ---------------------------------------------------------------------------
+# Ghidra function import
+# ---------------------------------------------------------------------------
+
+def load_ghidra_entries(module_name, base_addr, binary_size):
+    """Load function entry offsets from ghidra_reference/<module>/.
+
+    Reads FUN_XXXXXXXX.c filenames, converts to file offsets, and filters:
+      - Addresses outside binary range are dropped
+      - Functions with halt_baddata/halt_unimplemented are dropped (data region
+        false positives from Ghidra following pointers into non-code regions)
+
+    Returns a set of byte offsets within the binary.
+    """
+    ref_dir = os.path.join(GHIDRA_DIR, module_name)
+    if not os.path.isdir(ref_dir):
+        return None  # No Ghidra data for this module
+
+    pat = re.compile(r'^FUN_([0-9A-Fa-f]+)\.c$')
+    offsets = set()
+    skipped_range = 0
+    skipped_baddata = 0
+
+    for fname in os.listdir(ref_dir):
+        m = pat.match(fname)
+        if not m:
+            continue
+        addr = int(m.group(1), 16)
+        offset = addr - base_addr
+        if offset < 0 or offset >= binary_size:
+            skipped_range += 1
+            continue
+
+        # Check for halt_baddata / halt_unimplemented (Ghidra false positives)
+        fpath = os.path.join(ref_dir, fname)
+        try:
+            with open(fpath, 'r', encoding='utf-8', errors='replace') as f:
+                content = f.read(4096)  # First 4KB is enough to check
+            if 'halt_baddata' in content or 'halt_unimplemented' in content:
+                skipped_baddata += 1
+                continue
+        except OSError:
+            pass
+
+        offsets.add(offset)
+
+    print('  Ghidra functions loaded: %d  (skipped: %d out-of-range, %d baddata)'
+          % (len(offsets), skipped_range, skipped_baddata))
+    return offsets
+
+
+def merge_function_entries(data, module_name, base_addr):
+    """Determine final function entry list by merging Ghidra data with
+    prologue detection.
+
+    If ghidra_reference/<module>/ exists:
+      - Ghidra entries are ground truth
+      - Prologue-detected entries are added only if not near any Ghidra entry
+        (catches functions beyond Ghidra's analyzed range)
+    Otherwise:
+      - Use improved prologue detection only
+    """
+    prologue_offsets = find_function_entries(data)
+    print('  Prologue-detected: %d' % len(prologue_offsets))
+
+    ghidra_offsets = load_ghidra_entries(module_name, base_addr, len(data))
+    if ghidra_offsets is None:
+        print('  No Ghidra reference — using prologue detection only')
+        return prologue_offsets
+
+    # Start with Ghidra as ground truth
+    merged = set(ghidra_offsets)
+
+    # Add prologue-detected entries NOT near any Ghidra entry
+    ghidra_sorted = sorted(ghidra_offsets)
+    added_from_prologue = 0
+    for p in prologue_offsets:
+        # Check if any Ghidra entry is within 16 bytes
+        near = False
+        for g in ghidra_sorted:
+            if abs(p - g) <= 16:
+                near = True
+                break
+            if g > p + 16:
+                break
+        if not near:
+            merged.add(p)
+            added_from_prologue += 1
+
+    # Always include offset 0
+    merged.add(0)
+
+    print('  Merged: %d Ghidra + %d prologue-only = %d total'
+          % (len(ghidra_offsets), added_from_prologue, len(merged)))
+    return sorted(merged)
 
 
 # ---------------------------------------------------------------------------
@@ -454,7 +586,7 @@ def generate_linker_script(name, base_addr, confirmed, out_path):
 # Process one module
 # ---------------------------------------------------------------------------
 
-def process_module(name, rel_path, base_addr, confirmed, force=False):
+def process_module(name, rel_path, base_addr, confirmed, force=False, clean=False):
     bin_path = os.path.join(FILES_DIR, rel_path)
     if not os.path.isfile(bin_path):
         print('  ERROR: %s not found' % bin_path)
@@ -471,6 +603,12 @@ def process_module(name, rel_path, base_addr, confirmed, force=False):
         print('[%s]  skipped (%d FUN_*.s files exist -- use --force to regenerate)' % (name, len(existing)))
         return True
 
+    # Clean old FUN_*.s files to avoid stale entries with wrong addresses
+    if clean and existing:
+        for f in existing:
+            os.remove(os.path.join(out_dir, f))
+        print('[%s]  cleaned %d old FUN_*.s files' % (name, len(existing)))
+
     print('[%s]  %s  (0x%08X%s)' % (
         name, rel_path, base_addr, '' if confirmed else ' PROVISIONAL'))
 
@@ -482,8 +620,8 @@ def process_module(name, rel_path, base_addr, confirmed, force=False):
 
     t0 = time.time()
 
-    func_offsets = find_function_entries(data)
-    print('  Functions detected: %d' % len(func_offsets))
+    func_offsets = merge_function_entries(data, name, base_addr)
+    print('  Final function count: %d' % len(func_offsets))
 
     pool_xrefs = build_pool_xrefs(data, base_addr, func_offsets)
     print('  Pool xrefs to own code: %d' % len(pool_xrefs))
@@ -515,6 +653,9 @@ def main():
     # Parse args
     args = sys.argv[1:]
     force = '--force' in args
+    clean = '--clean' in args
+    if clean:
+        force = True  # --clean implies --force
     targets = [a for a in args if not a.startswith('--')]
 
     if targets:
@@ -531,7 +672,7 @@ def main():
 
     ok = 0
     for name, rel_path, base_addr, confirmed in selected:
-        if process_module(name, rel_path, base_addr, confirmed, force=force):
+        if process_module(name, rel_path, base_addr, confirmed, force=force, clean=clean):
             ok += 1
 
     print('=' * 65)

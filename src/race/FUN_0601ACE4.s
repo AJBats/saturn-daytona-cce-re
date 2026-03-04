@@ -126,29 +126,3 @@ FUN_0601ACE4:
     .4byte 0x0000FE2F  /* 0601ADBC = 0x0000FE2F */
 .L_pool_0601ADC0:
     .4byte sym_06053D26  /* 0601ADC0 = 0x06053D26 */
-    .byte 0xD0, 0x52  /* 0601ADC4: mov.l @(0x148,PC),r0  {[0x0601AF10] = 0x002E3AD0} */
-    .byte 0x66, 0x53  /* 0601ADC6: mov r5,r6 */
-    .byte 0x46, 0x08  /* 0601ADC8: shll2 r6 */
-    .byte 0x06, 0x6E  /* 0601ADCA: mov.l @(r0,r6),r6 */
-    .byte 0xE0, 0x60  /* 0601ADCC: mov #96,r0 */
-    .byte 0x04, 0x55  /* 0601ADCE: mov.w r5,@(r0,r4) */
-    .byte 0x63, 0x66  /* 0601ADD0: mov.l @r6+,r3 */
-    .byte 0xE0, 0x5E  /* 0601ADD2: mov #94,r0 */
-    .byte 0x04, 0x35  /* 0601ADD4: mov.w r3,@(r0,r4) */
-    .byte 0xE0, 0x54  /* 0601ADD6: mov #84,r0 */
-    .byte 0x04, 0x66  /* 0601ADD8: mov.l r6,@(r0,r4) */
-    .byte 0xE0, 0x51  /* 0601ADDA: mov #81,r0 */
-    .byte 0x00, 0x4C  /* 0601ADDC: mov.b @(r0,r4),r0 */
-    .byte 0xC8, 0x02  /* 0601ADDE: tst #0x02,r0 */
-    .byte 0x89, 0x05  /* 0601ADE0: bt 0x0601ADEE */
-    .byte 0xE0, 0x5E  /* 0601ADE2: mov #94,r0 */
-    .byte 0x03, 0x4D  /* 0601ADE4: mov.w @(r0,r4),r3 */
-    .byte 0xE0, 0x5C  /* 0601ADE6: mov #92,r0 */
-    .byte 0x73, 0xFF  /* 0601ADE8: add #-1,r3 */
-    .byte 0xA0, 0x03  /* 0601ADEA: bra 0x0601ADF4 */
-    .byte 0x04, 0x35  /* 0601ADEC: mov.w r3,@(r0,r4) */
-    .byte 0xE1, 0x01  /* 0601ADEE: mov #1,r1 */
-    .byte 0xE0, 0x5C  /* 0601ADF0: mov #92,r0 */
-    .byte 0x04, 0x15  /* 0601ADF2: mov.w r1,@(r0,r4) */
-    .byte 0x00, 0x0B  /* 0601ADF4: rts */
-    .byte 0x00, 0x09  /* 0601ADF6: nop */

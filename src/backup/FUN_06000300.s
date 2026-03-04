@@ -120,12 +120,12 @@ FUN_06000300:
     mov #0x10, r2
     .4byte 0xD17621B0  /* 060003E8 = 0xD17621B0 */
     .byte 0xD3, 0x76  /* 060003EC: mov.l @(0x1D8,PC),r3  {[0x060005C8] = 0x0603E2DE} */
-    .byte 0x23, 0xB1  /* 060003EE: mov.w r11,@r3 */
-    .byte 0x2D, 0x20  /* 060003F0: mov.b r2,@r13 */
-    .byte 0x29, 0xE0  /* 060003F2: mov.b r14,@r9 */
-    .byte 0x2A, 0xE0  /* 060003F4: mov.b r14,@r10 */
-    .byte 0xA0, 0xB3  /* 060003F6: bra 0x06000560 */
-    .byte 0x2C, 0xE0  /* 060003F8: mov.b r14,@r12 */
+    mov.w r11, @r3
+    mov.b r2, @r13
+    mov.b r14, @r9
+    mov.b r14, @r10
+    bra .L_06000560
+    mov.b r14, @r12
 .L_060003FA:
     .byte 0xD2, 0x74  /* 060003FA: mov.l @(0x1D0,PC),r2  {[0x060005CC] = 0x06028B42} */
     jsr @r2
@@ -344,4 +344,3 @@ FUN_06000300:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x24, 0x48  /* 06000576: tst r4,r4 */

@@ -19,20 +19,22 @@ FUN_060146A0:
     cmp/hs r7, r5
     bt/s .L_060146DC
     mov #0x0, r4
+.L_060146BE:
     mov r5, r14
-    .4byte sym_25406043  /* 060146C0 = 0x25406043 */
-    .byte 0x80, 0xE1  /* 060146C4: mov.b r0,@(0x1,r14) */
-    .byte 0x75, 0x02  /* 060146C6: add #2,r5 */
-    .byte 0x25, 0x00  /* 060146C8: mov.b r0,@r5 */
-    .byte 0x6E, 0x53  /* 060146CA: mov r5,r14 */
-    .byte 0x80, 0xE1  /* 060146CC: mov.b r0,@(0x1,r14) */
-    .byte 0x75, 0x02  /* 060146CE: add #2,r5 */
-    .byte 0x25, 0x00  /* 060146D0: mov.b r0,@r5 */
-    .byte 0x6E, 0x53  /* 060146D2: mov r5,r14 */
-    .byte 0x75, 0x02  /* 060146D4: add #2,r5 */
-    .byte 0x35, 0x72  /* 060146D6: cmp/hs r7,r5 */
-    .byte 0x8F, 0xF1  /* 060146D8: bf/s 0x060146BE */
-    .byte 0x80, 0xE1  /* 060146DA: mov.b r0,@(0x1,r14) */
+    mov.b r4, @r5
+    mov r4, r0
+    mov.b r0, @(1, r14)
+    add #0x2, r5
+    mov.b r0, @r5
+    mov r5, r14
+    mov.b r0, @(1, r14)
+    add #0x2, r5
+    mov.b r0, @r5
+    mov r5, r14
+    add #0x2, r5
+    cmp/hs r7, r5
+    bf/s .L_060146BE
+    mov.b r0, @(1, r14)
 .L_060146DC:
     .byte 0xD2, 0x43  /* 060146DC: mov.l @(0x10C,PC),r2  {[0x060147EC] = 0x060529A8} */
     mov r4, r7

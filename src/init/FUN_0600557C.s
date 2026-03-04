@@ -17,7 +17,7 @@ FUN_0600557C:
 .L_06005590:
     mov #0x0, r7
     mov r15, r5
-    bsr .L_060055CE
+    .byte 0xB0, 0x1B  /* 06005594: bsr 0x060055CE */
     mov r7, r6
     mov.l @r15, r0
     tst r0, r0
@@ -48,5 +48,3 @@ FUN_0600557C:
     lds.l @r15+, pr
     rts
     nop
-.L_060055CE:
-    tst r4, r4

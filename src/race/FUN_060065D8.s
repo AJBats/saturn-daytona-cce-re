@@ -18,7 +18,7 @@ FUN_060065D8:
     mov r14, r5
     .byte 0xA0, 0x10  /* 060065EC: bra 0x06006610 */
     mov.l @r15+, r14
-    .4byte DAT_06008A5C  /* 060065F0 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte FUN_06008A5C  /* 060065F0 = 0x06008A5C */
     .4byte sym_002E1484  /* 060065F4 = 0x002E1484 */
     .4byte sym_0602D052  /* 060065F8 = 0x0602D052 */
 .L_pool_060065FC:

@@ -37,20 +37,3 @@ FUN_0600BE62:
     .byte 0x8B, 0xC8  /* 0600BE9C: bf 0x0600BE30 */
     .byte 0x00, 0x0B  /* 0600BE9E: rts */
     .byte 0x64, 0x53  /* 0600BEA0: mov r5,r4 */
-    .byte 0x34, 0x63  /* 0600BEA2: cmp/ge r6,r4 */
-    .byte 0x89, 0x00  /* 0600BEA4: bt 0x0600BEA8 */
-    .byte 0x64, 0x63  /* 0600BEA6: mov r6,r4 */
-    .byte 0x34, 0x53  /* 0600BEA8: cmp/ge r5,r4 */
-    .byte 0x89, 0xC1  /* 0600BEAA: bt 0x0600BE30 */
-    .byte 0x00, 0x0B  /* 0600BEAC: rts */
-    .byte 0x64, 0x53  /* 0600BEAE: mov r5,r4 */
-    .byte 0x34, 0x63  /* 0600BEB0: cmp/ge r6,r4 */
-    .byte 0x89, 0x00  /* 0600BEB2: bt 0x0600BEB6 */
-    .byte 0x64, 0x63  /* 0600BEB4: mov r6,r4 */
-    .byte 0x34, 0x53  /* 0600BEB6: cmp/ge r5,r4 */
-    .byte 0x89, 0x00  /* 0600BEB8: bt 0x0600BEBC */
-    .byte 0x64, 0x53  /* 0600BEBA: mov r5,r4 */
-    .byte 0xE1, 0x04  /* 0600BEBC: mov #4,r1 */
-    .byte 0x41, 0x28  /* 0600BEBE: shll16 r1 */
-    .byte 0x00, 0x0B  /* 0600BEC0: rts */
-    .byte 0x34, 0x1C  /* 0600BEC2: add r1,r4 */

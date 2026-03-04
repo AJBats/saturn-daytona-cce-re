@@ -21,7 +21,7 @@ FUN_00283CB0:
     bra .L_00283CD2
     mov #0x0, r0
 .L_00283CD0:
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00283CD2:
     add #0x4, r14
     mov r14, r15

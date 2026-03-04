@@ -30,7 +30,8 @@ FUN_060258D4:
     cmp/gt r1, r5
     bt .L_06025920
     mov r1, r5
-    .4byte 0xA00D0009  /* 06025908 = 0xA00D0009 */
+    bra .L_06025926
+    nop
 .L_wpool_0602590C:
     .byte 0x00, 0xD0  /* 0602590C: .word 0x00D0 */
 .L_wpool_0602590E:
@@ -54,7 +55,7 @@ FUN_060258D4:
     cmp/gt r8, r4
     bt .L_06025940
     mov r8, r4
-    .byte 0xA0, 0x07  /* 06025934: bra 0x06025946 */
+    bra .L_06025946
     nop
 .L_wpool_06025938:
     .byte 0x00, 0xD4  /* 06025938: mov.b r13,@(r0,r0) */
@@ -64,7 +65,9 @@ FUN_060258D4:
     .4byte 0x000001F4  /* 0602593C = 0x000001F4 */
 .L_06025940:
     cmp/ge r4, r9
-    .byte 0x89, 0x00  /* 06025942: bt 0x06025946 */
-    .4byte 0x6493000B  /* 06025944 = 0x6493000B */
-    .byte 0x01, 0x46  /* 06025948: mov.l r4,@(r0,r1) */
+    bt .L_06025946
+    mov r9, r4
+.L_06025946:
+    rts
+    mov.l r4, @(r0, r1)
     .byte 0xFF, 0xFF  /* 0602594A: .word 0xFFFF */

@@ -18,8 +18,9 @@ FUN_06016788:
     mov.l @r15+, r10
     mov.l @r15+, r9
     mov.l @r15+, r8
-    .4byte 0x4F164F06  /* 060167A4 = 0x4F164F06 */
-    .byte 0x4F, 0x17  /* 060167A8: .word 0x4F17 */
-    .byte 0x4F, 0x26  /* 060167AA: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 060167AC: rts */
-    .byte 0x00, 0x09  /* 060167AE: nop */
+    lds.l @r15+, macl
+    lds.l @r15+, mach
+    ldc.l @r15+, gbr
+    lds.l @r15+, pr
+    rts
+    nop

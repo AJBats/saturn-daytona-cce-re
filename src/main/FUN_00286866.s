@@ -55,5 +55,3 @@ FUN_00286866:
     mov.l @r15+, r8
 .L_pool_002868C8:
     .4byte FUN_002873AC  /* 002868C8 = 0x002873AC */
-    .byte 0x2F, 0x86  /* 002868CC: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002868CE: mov.l r9,@-r15 */

@@ -37,6 +37,4 @@ FUN_00282754:
 .L_pool_0028278C:
     .4byte 0x7FFFFFFF  /* 0028278C = 0x7FFFFFFF */
 .L_pool_00282790:
-    .4byte DAT_002843FC  /* 00282790 = 0x002843FC (FUN_002843D6 + 0x26) */
-    .byte 0x2F, 0x86  /* 00282794: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00282796: mov.l r9,@-r15 */
+    .4byte FUN_002843FC  /* 00282790 = 0x002843FC */

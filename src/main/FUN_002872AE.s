@@ -44,6 +44,6 @@ FUN_002872AE:
     rts
     mov.l @r15+, r8
 .L_pool_002872FC:
-    .4byte DAT_002871B4  /* 002872FC = 0x002871B4 (FUN_00287174 + 0x40) */
+    .4byte FUN_002871B4  /* 002872FC = 0x002871B4 */
 .L_pool_00287300:
     .4byte 0x00FFFFFF  /* 00287300 = 0x00FFFFFF */

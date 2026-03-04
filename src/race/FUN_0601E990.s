@@ -79,5 +79,3 @@ FUN_0601E990:
     nop
     .byte 0x10, 0x05  /* 0601EA1C: mov.l r0,@(0x14,r0) */
     .byte 0x04, 0xC0  /* 0601EA1E: .word 0x04C0 */
-    .byte 0xC8, 0x40  /* 0601EA20: tst #0x40,r0 */
-    .byte 0x89, 0x1D  /* 0601EA22: bt 0x0601EA60 */

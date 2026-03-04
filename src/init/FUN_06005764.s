@@ -17,13 +17,14 @@ FUN_06005764:
     mov r0, r4
     tst r4, r4
     bt .L_06005780
-    .4byte 0xA0206043  /* 0600577C = 0xA0206043 */
+    bra .L_060057C0
+    mov r4, r0
 .L_06005780:
     .byte 0xD5, 0x71  /* 06005780: mov.l @(0x1C4,PC),r5  {[0x06005948] = 0x7FFFFFFF} */
     .byte 0xB2, 0xB4  /* 06005782: bsr 0x06005CEE */
     mov r14, r4
     mov r0, r13
-    bsr .L_060057CA
+    .byte 0xB0, 0x1F  /* 06005788: bsr 0x060057CA */
     mov r14, r4
     mov r0, r4
     cmp/pz r4
@@ -60,5 +61,3 @@ FUN_06005764:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_060057CA:
-    mov #0x0, r7

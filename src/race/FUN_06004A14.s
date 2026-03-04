@@ -159,4 +159,3 @@ FUN_06004A14:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r14
-    .byte 0xE1, 0x01  /* 06004B26: mov #1,r1 */

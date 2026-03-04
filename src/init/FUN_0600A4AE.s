@@ -16,8 +16,3 @@ FUN_0600A4AE:
     bt/s .L_0600A4B8
     mov r0, r14
     .byte 0xBF, 0xF0  /* 0600A4C2: bsr 0x0600A4A6 */
-    mov #0x0, r4
-    mov r14, r0
-    lds.l @r15+, pr
-    rts
-    mov.l @r15+, r14

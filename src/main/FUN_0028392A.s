@@ -69,6 +69,4 @@ FUN_0028392A:
     rts
     mov r2, r0
 .L_pool_002839A0:
-    .4byte DAT_00283A1C  /* 002839A0 = 0x00283A1C (FUN_002839A8 + 0x74) */
-    .byte 0x2F, 0x86  /* 002839A4: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002839A6: mov.l r9,@-r15 */
+    .4byte FUN_00283A1C  /* 002839A0 = 0x00283A1C */

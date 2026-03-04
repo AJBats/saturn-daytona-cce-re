@@ -7,4 +7,3 @@ FUN_06005A5C:
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
-    tst r14, r14

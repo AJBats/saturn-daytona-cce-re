@@ -30,7 +30,7 @@ FUN_06003420:
     mov.b @(r0, r13), r0
     cmp/eq #0x1, r0
     mov.l .L_pool_06003568, r0
-    .word 0x0429 /* UNKNOWN */
+    .byte 0x04, 0x29  /* UNKNOWN */
     add #-0x1, r4
     neg r4, r4
     mov r4, r12
@@ -187,6 +187,6 @@ FUN_06003420:
 .L_pool_06003570:
     .4byte DAT_060135D0  /* 06003570 = 0x060135D0 (FUN_0600EA84 + 0x4B4C) */
 .L_pool_06003574:
-    .4byte DAT_060072C4  /* 06003574 = 0x060072C4 (FUN_0600722A + 0x9A) */
+    .4byte DAT_060072C4  /* 06003574 = 0x060072C4 (FUN_06007274 + 0x50) */
 .L_pool_06003578:
     .4byte DAT_060131C4  /* 06003578 = 0x060131C4 (FUN_0600EA84 + 0x4740) */

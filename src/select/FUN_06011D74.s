@@ -1,0 +1,38 @@
+/* FUN_06011D74  0x06011D74 */
+
+    .section .text.FUN_06011D74
+    .global FUN_06011D74
+    .type FUN_06011D74, @function
+FUN_06011D74:
+    mov.b r0, @(152, gbr)
+    .byte 0x91, 0xD2  /* 06011D76: mov.w @(0x1A4,PC),r1  {0x06011F1E} */
+    add r14, r1
+    mov.l @(0, r10), r0
+    mov.l r0, @(0, r1)
+    swap.w r9, r0
+    swap.b r0, r0
+    mov.b r0, @(4, r1)
+    add #0x8, r1
+    mov.l @(0, r11), r0
+    mov.l r0, @(0, r1)
+    swap.w r9, r0
+    mov.b r0, @(4, r1)
+    add #0x8, r1
+    mov.l @(0, r12), r0
+    mov.l r0, @(0, r1)
+    swap.b r9, r0
+    mov.b r0, @(4, r1)
+    add #0x8, r1
+    mov.l @(0, r13), r0
+    mov.l r0, @(0, r1)
+    mov r9, r0
+    mov.b r0, @(4, r1)
+    add #0x8, r1
+    .byte 0x92, 0xBB  /* 06011DA4: mov.w @(0x176,PC),r2  {0x06011F1E} */
+    add r14, r2
+    mov.l @(0, r2), r0
+    mov.l r0, @(0, r1)
+    mov.b @(4, r2), r0
+    mov.b r0, @(4, r1)
+    rts
+    nop

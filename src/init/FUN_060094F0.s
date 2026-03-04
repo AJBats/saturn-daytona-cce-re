@@ -27,7 +27,7 @@ FUN_060094F0:
     mov r14, r4
     cmp/eq r13, r0
     bf .L_0600951E
-    bra .L_060095BA
+    .byte 0xA0, 0x4E  /* 0600951A: bra 0x060095BA */
     mov r13, r0
 .L_0600951E:
     .byte 0xBF, 0xB9  /* 0600951E: bsr 0x06009494 */
@@ -35,7 +35,7 @@ FUN_060094F0:
     mov r0, r12
     cmp/pz r12
     bt .L_0600952C
-    bra .L_060095BA
+    .byte 0xA0, 0x47  /* 06009528: bra 0x060095BA */
     mov #-0x1, r0
 .L_0600952C:
     mov #0x4C, r0
@@ -55,17 +55,17 @@ FUN_060094F0:
 .L_06009548:
     cmp/pl r12
     bf .L_06009564
-    mov.l .L_pool_060095D8, r3
+    .byte 0xD3, 0x22  /* 0600954C: mov.l @(0x88,PC),r3  {[0x060095D8] = 0x0600F058} */
     mov r12, r6
     mov #0x0, r5
     jsr @r3
     mov.l @(4, r14), r4
-    mov.l .L_pool_060095C8, r2
+    .byte 0xD2, 0x1C  /* 06009556: mov.l @(0x70,PC),r2  {[0x060095C8] = 0x0600F6AE} */
     jsr @r2
     nop
     tst r0, r0
     bt .L_06009564
-    bra .L_060095BA
+    .byte 0xA0, 0x2B  /* 06009560: bra 0x060095BA */
     mov #-0x1, r0
 .L_06009564:
     mov.l r13, @(32, r14)
@@ -85,7 +85,7 @@ FUN_060094F0:
     mov r0, r12
     cmp/pz r12
     bt .L_06009588
-    bra .L_060095BA
+    .byte 0xA0, 0x19  /* 06009584: bra 0x060095BA */
     mov #-0x1, r0
 .L_06009588:
     mov.l @(32, r14), r4
@@ -100,7 +100,7 @@ FUN_060094F0:
     mov r14, r4
     tst r0, r0
     bt .L_060095A2
-    bra .L_060095BA
+    .byte 0xA0, 0x0C  /* 0600959E: bra 0x060095BA */
     mov #-0x1, r0
 .L_060095A2:
     mov.l r13, @(32, r14)
@@ -116,21 +116,3 @@ FUN_060094F0:
     mov.l @r15+, r12
     mov.l @r15+, r13
     .byte 0xAF, 0x69  /* 060095B6: bra 0x0600948C */
-    mov.l @r15+, r14
-.L_060095BA:
-    add #0x4, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
-.L_pool_060095C8:
-    .4byte DAT_0600F6AE  /* 060095C8 = 0x0600F6AE (FUN_0600EA84 + 0xC2A) */
-    .4byte DAT_0600DDE0  /* 060095CC = 0x0600DDE0 (FUN_0600B7A0 + 0x2640) */
-    .4byte DAT_060095B8  /* 060095D0 = 0x060095B8 (FUN_060094F0 + 0xC8) */
-    .4byte DAT_0600EDC8  /* 060095D4 = 0x0600EDC8 (FUN_0600EA84 + 0x344) */
-.L_pool_060095D8:
-    .4byte DAT_0600F058  /* 060095D8 = 0x0600F058 (FUN_0600EA84 + 0x5D4) */
-    .4byte 0x0000FFFF  /* 060095DC = 0x0000FFFF */
-    .4byte DAT_0600EF72  /* 060095E0 = 0x0600EF72 (FUN_0600EA84 + 0x4EE) */

@@ -108,7 +108,7 @@ FUN_0601A9D6:
     .byte 0xFF, 0xFF  /* 0601AA92: .word 0xFFFF */
     .4byte sym_06053644  /* 0601AA94 = 0x06053644 */
     .4byte sym_060512BC  /* 0601AA98 = 0x060512BC */
-    .4byte DAT_06008E48  /* 0601AA9C = 0x06008E48 (FUN_06008E32 + 0x16) */
+    .4byte FUN_06008E48  /* 0601AA9C = 0x06008E48 */
     .4byte sym_06053D24  /* 0601AAA0 = 0x06053D24 */
     .4byte sym_06053D26  /* 0601AAA4 = 0x06053D26 */
     .4byte sym_0604252A  /* 0601AAA8 = 0x0604252A */

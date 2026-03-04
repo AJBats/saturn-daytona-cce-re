@@ -31,11 +31,8 @@ SECTIONS
 }
 
 /* --- resolve_pools.py: auto-generated symbols --- */
-/* DAT_ symbols: within-binary data (5) */
-PROVIDE(DAT_0600581A = 0x0600581A);
+/* DAT_ symbols: within-binary data (2) */
 PROVIDE(DAT_0600584C = 0x0600584C);
-PROVIDE(DAT_0600617C = 0x0600617C);
-PROVIDE(DAT_06007AF8 = 0x06007AF8);
 PROVIDE(DAT_06007D94 = 0x06007D94);
 
 /* sym_ symbols: external/RAM addresses (73) */

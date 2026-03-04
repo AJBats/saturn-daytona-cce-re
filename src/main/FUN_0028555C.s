@@ -63,7 +63,7 @@ FUN_0028555C:
     mov r14, r15
     mov.l @r15+, r14
     rts
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     .byte 0x03, 0x04  /* 002855D0: mov.b r0,@(r0,r3) */
     .byte 0x03, 0x0C  /* 002855D2: mov.b @(r0,r0),r3 */
     .byte 0x03, 0x28  /* 002855D4: .word 0x0328 */

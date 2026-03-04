@@ -58,12 +58,12 @@ FUN_06007B70:
     .byte 0x04, 0x60  /* 06007BCC: .word 0x0460 */
 .L_wpool_06007BCE:
     .byte 0x08, 0x00  /* 06007BCE: .word 0x0800 */
-    .4byte DAT_06009640  /* 06007BD0 = 0x06009640 (FUN_060095E4 + 0x5C) */
+    .4byte FUN_06009640  /* 06007BD0 = 0x06009640 */
     .4byte DAT_06013620  /* 06007BD4 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */
 .L_pool_06007BD8:
     .4byte FUN_06008E48  /* 06007BD8 = 0x06008E48 */
 .L_pool_06007BDC:
-    .4byte DAT_0600A95C  /* 06007BDC = 0x0600A95C (FUN_0600A88C + 0xD0) */
+    .4byte FUN_0600A95C  /* 06007BDC = 0x0600A95C */
 .L_06007BE0:
     mov r13, r12
 .L_06007BE2:
@@ -115,31 +115,3 @@ FUN_06007B70:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x2F, 0x86  /* 06007C3A: mov.l r8,@-r15 */
-    .byte 0x4F, 0x22  /* 06007C3C: sts.l pr,@-r15 */
-    .byte 0x68, 0x53  /* 06007C3E: mov r5,r8 */
-    .byte 0x7F, 0xF8  /* 06007C40: add #-8,r15 */
-    .byte 0x1F, 0x51  /* 06007C42: mov.l r5,@(0x4,r15) */
-    .byte 0x65, 0xF3  /* 06007C44: mov r15,r5 */
-    .byte 0xBF, 0x8C  /* 06007C46: bsr 0x06007B62 */
-    .byte 0xE6, 0x01  /* 06007C48: mov #1,r6 */
-    .byte 0x28, 0x02  /* 06007C4A: mov.l r0,@r8 */
-    .byte 0x60, 0xF0  /* 06007C4C: mov.b @r15,r0 */
-    .byte 0x7F, 0x08  /* 06007C4E: add #8,r15 */
-    .byte 0x4F, 0x26  /* 06007C50: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06007C52: rts */
-    .byte 0x68, 0xF6  /* 06007C54: mov.l @r15+,r8 */
-    .byte 0x2F, 0x86  /* 06007C56: mov.l r8,@-r15 */
-    .byte 0x4F, 0x22  /* 06007C58: sts.l pr,@-r15 */
-    .byte 0x68, 0x53  /* 06007C5A: mov r5,r8 */
-    .byte 0x7F, 0xF8  /* 06007C5C: add #-8,r15 */
-    .byte 0x1F, 0x51  /* 06007C5E: mov.l r5,@(0x4,r15) */
-    .byte 0x65, 0xF3  /* 06007C60: mov r15,r5 */
-    .byte 0xBF, 0x7E  /* 06007C62: bsr 0x06007B62 */
-    .byte 0xE6, 0x02  /* 06007C64: mov #2,r6 */
-    .byte 0x28, 0x02  /* 06007C66: mov.l r0,@r8 */
-    .byte 0x60, 0xF1  /* 06007C68: mov.w @r15,r0 */
-    .byte 0x7F, 0x08  /* 06007C6A: add #8,r15 */
-    .byte 0x4F, 0x26  /* 06007C6C: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06007C6E: rts */
-    .byte 0x68, 0xF6  /* 06007C70: mov.l @r15+,r8 */

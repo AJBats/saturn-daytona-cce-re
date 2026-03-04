@@ -30,5 +30,3 @@ FUN_060017BA:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0x61, 0x4C  /* 060017EE: extu.b r4,r1 */
-    .byte 0xD3, 0x2D  /* 060017F0: mov.l @(0xB4,PC),r3  {[0x060018A8] = 0x06008A5C} */

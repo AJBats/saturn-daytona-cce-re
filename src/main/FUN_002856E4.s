@@ -86,7 +86,7 @@ FUN_002856E4:
     mov #0x3, r12
 .L_00285780:
     add #0x58, r1
-    .word 0x0C29 /* UNKNOWN */
+    .byte 0x0C, 0x29  /* UNKNOWN */
 .L_00285784:
     mov.l r12, @r1
 .L_00285786:
@@ -234,7 +234,4 @@ FUN_002856E4:
 .L_pool_00285894:
     .4byte FUN_00286CAC  /* 00285894 = 0x00286CAC */
 .L_pool_00285898:
-    .4byte DAT_002860F8  /* 00285898 = 0x002860F8 (FUN_00285FBE + 0x13A) */
-    .byte 0x2F, 0x86  /* 0028589C: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 0028589E: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002858A0: mov.l r10,@-r15 */
+    .4byte FUN_002860F8  /* 00285898 = 0x002860F8 */

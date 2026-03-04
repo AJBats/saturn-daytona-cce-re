@@ -26,7 +26,7 @@ FUN_0601C788:
 .L_0601C7AC:
     cmp/gt r1, r0
     bt .L_0601C806
-    bsr .L_0601C834
+    .byte 0xB0, 0x40  /* 0601C7B0: bsr 0x0601C834 */
     nop
     mov r0, r10
     mov.l .L_pool_0601C818, r3
@@ -99,14 +99,3 @@ FUN_0601C788:
 .L_pool_0601C830:
     .byte 0x00, 0x20  /* 0601C830: .word 0x0020 */
     .byte 0x30, 0x10  /* 0601C832: cmp/eq r1,r0 */
-.L_0601C834:
-    mov.w @(14, r4), r0
-    mov r0, r1
-    mov #0x1A, r0
-    mov.w @(r0, r4), r0
-    add r0, r1
-    mov #0x1E, r0
-    mov.w @(r0, r4), r0
-    add r0, r1
-    rts
-    neg r1, r0

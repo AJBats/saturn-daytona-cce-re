@@ -42,10 +42,12 @@ FUN_0600B04E:
     nop
 .L_0600B092:
     cmp/eq #0x21, r0
-    .byte 0x8B, 0x01  /* 0600B094: bf 0x0600B09A */
+    bf .L_0600B09A
     bra .L_0600B418
-    .4byte 0x0009A33E  /* 0600B098 = 0x0009A33E */
-    .byte 0x00, 0x09  /* 0600B09C: nop */
+    nop
+.L_0600B09A:
+    bra .L_0600B71A
+    nop
     .byte 0xFF, 0xFF  /* 0600B09E: .word 0xFFFF */
 .L_pool_0600B0A0:
     .4byte sym_060427EC  /* 0600B0A0 = 0x060427EC */
@@ -59,7 +61,7 @@ FUN_0600B04E:
 .L_pool_0600B0BC:
     .4byte sym_0603F610  /* 0600B0BC = 0x0603F610 */
 .L_pool_0600B0C0:
-    .4byte DAT_0600795A  /* 0600B0C0 = 0x0600795A (FUN_06007948 + 0x12) */
+    .4byte FUN_0600795A  /* 0600B0C0 = 0x0600795A */
 .L_pool_0600B0C4:
     .4byte sym_06053968  /* 0600B0C4 = 0x06053968 */
 .L_pool_0600B0C8:
@@ -252,7 +254,7 @@ FUN_0600B04E:
 .L_wpool_0600B232:
     .byte 0x00, 0xB0  /* 0600B232: .word 0x00B0 */
 .L_pool_0600B234:
-    .4byte DAT_060079E8  /* 0600B234 = 0x060079E8 (FUN_060079DC + 0xC) */
+    .4byte FUN_060079E8  /* 0600B234 = 0x060079E8 */
 .L_pool_0600B238:
     .4byte sym_25F80020  /* 0600B238 = 0x25F80020 */
 .L_pool_0600B23C:
@@ -270,7 +272,7 @@ FUN_0600B04E:
 .L_pool_0600B254:
     .4byte DAT_060131C4  /* 0600B254 = 0x060131C4 (FUN_06012F8C + 0x238) */
 .L_pool_0600B258:
-    .4byte DAT_060067BC  /* 0600B258 = 0x060067BC (FUN_06006700 + 0xBC) */
+    .4byte FUN_060067BC  /* 0600B258 = 0x060067BC */
 .L_pool_0600B25C:
     .4byte sym_0604256C  /* 0600B25C = 0x0604256C */
 .L_pool_0600B260:
@@ -598,7 +600,7 @@ FUN_0600B04E:
 .L_pool_0600B4C0:
     .4byte sym_06034424  /* 0600B4C0 = 0x06034424 */
 .L_pool_0600B4C4:
-    .4byte DAT_0600581A  /* 0600B4C4 = 0x0600581A (FUN_06005520 + 0x2FA) */
+    .4byte FUN_0600581A  /* 0600B4C4 = 0x0600581A */
 .L_pool_0600B4C8:
     .4byte sym_0605395D  /* 0600B4C8 = 0x0605395D */
 .L_pool_0600B4CC:
@@ -880,7 +882,7 @@ FUN_0600B04E:
 .L_pool_0600B6C8:
     .4byte sym_06036B00  /* 0600B6C8 = 0x06036B00 */
 .L_pool_0600B6CC:
-    .4byte DAT_06005876  /* 0600B6CC = 0x06005876 (FUN_06005520 + 0x356) */
+    .4byte FUN_06005876  /* 0600B6CC = 0x06005876 */
 .L_pool_0600B6D0:
     .4byte sym_002FC233  /* 0600B6D0 = 0x002FC233 */
 .L_pool_0600B6D4:

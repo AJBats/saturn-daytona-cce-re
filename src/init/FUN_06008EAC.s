@@ -17,7 +17,7 @@ FUN_06008EAC:
     mov r5, r4
     tst r0, r0
     bt .L_06008ECA
-    bra .L_06008F2A
+    .byte 0xA0, 0x30  /* 06008EC6: bra 0x06008F2A */
     mov #-0x14, r0
 .L_06008ECA:
     mov r14, r4
@@ -26,7 +26,7 @@ FUN_06008EAC:
     add #0x1C, r4
     tst r0, r0
     bf .L_06008EDA
-    bra .L_06008F2A
+    .byte 0xA0, 0x28  /* 06008ED6: bra 0x06008F2A */
     mov #-0x14, r0
 .L_06008EDA:
     mov r15, r3
@@ -58,26 +58,13 @@ FUN_06008EAC:
     bra .L_06008F1E
     nop
 .L_06008F12:
-    bra .L_06008F20
+    .byte 0xA0, 0x05  /* 06008F12: bra 0x06008F20 */
     mov #0x0, r13
 .L_06008F16:
-    bra .L_06008F20
+    .byte 0xA0, 0x03  /* 06008F16: bra 0x06008F20 */
     mov #-0x14, r13
 .L_06008F1A:
-    bra .L_06008F20
+    .byte 0xA0, 0x01  /* 06008F1A: bra 0x06008F20 */
     mov #-0x17, r13
 .L_06008F1E:
     mov #-0x1, r13
-.L_06008F20:
-    .byte 0xD2, 0x0F  /* 06008F20: mov.l @(0x3C,PC),r2  {[0x06008F60] = 0x0600E9BE} */
-    mov r14, r4
-    jsr @r2
-    add #0x1C, r4
-    mov r13, r0
-.L_06008F2A:
-    add #0xC, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r8
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14

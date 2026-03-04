@@ -46,7 +46,7 @@ FUN_06008548:
 .L_wpool_06008590:
     .byte 0x01, 0x00  /* 06008590: .word 0x0100 */
     .byte 0xFF, 0xFF  /* 06008592: .word 0xFFFF */
-    .4byte DAT_06008E60  /* 06008594 = 0x06008E60 (FUN_06008E50 + 0x10) */
+    .4byte FUN_06008E60  /* 06008594 = 0x06008E60 */
     .4byte DAT_0600D324  /* 06008598 = 0x0600D324 (FUN_0600B7A0 + 0x1B84) */
 .L_pool_0600859C:
     .4byte 0x0FFFFFFF  /* 0600859C = 0x0FFFFFFF */

@@ -69,7 +69,7 @@ FUN_06017166:
 .L_060171DE:
     mov.w @(16, r6), r0
     tst r0, r0
-    .word 0x0429 /* UNKNOWN */
+    .byte 0x04, 0x29  /* UNKNOWN */
     mov.l r0, @(16, r12)
     rotcl r8
     tst r4, r4
@@ -132,7 +132,7 @@ FUN_06017166:
     bt .L_060171D2
     mov.w @(16, r6), r0
     tst r0, r0
-    .word 0x0429 /* UNKNOWN */
+    .byte 0x04, 0x29  /* UNKNOWN */
     mov.l r0, @(16, r12)
     rotcl r8
     tst r4, r4

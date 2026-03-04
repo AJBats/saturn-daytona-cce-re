@@ -45,7 +45,7 @@ FUN_06012F8C:
     nop
     .byte 0x00, 0x00  /* 06012FD6: .word 0x0000 */
 .L_pool_06012FD8:
-    .4byte DAT_060058B4  /* 06012FD8 = 0x060058B4 (FUN_06005520 + 0x394) */
+    .4byte FUN_060058B4  /* 06012FD8 = 0x060058B4 */
     .byte 0x67, 0x41  /* 06012FDC: mov.w @r4,r7 */
     .byte 0x45, 0x09  /* 06012FDE: shlr2 r5 */
     .byte 0x45, 0x01  /* 06012FE0: shlr r5 */

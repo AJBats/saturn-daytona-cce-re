@@ -49,6 +49,7 @@ FUN_060037DE:
     cmp/gt r3, r12
     bf .L_06003810
     mov.l @r15+, r9
-    .4byte 0x6BF66CF6  /* 06003830 = 0x6BF66CF6 */
-    .byte 0x00, 0x0B  /* 06003834: rts */
-    .byte 0x6E, 0xF6  /* 06003836: mov.l @r15+,r14 */
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    rts
+    mov.l @r15+, r14

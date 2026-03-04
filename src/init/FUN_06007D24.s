@@ -29,7 +29,7 @@ FUN_06007D24:
     bra .L_06007D96
     mov r4, r0
     .4byte DAT_06008F54  /* 06007D50 = 0x06008F54 (FUN_06008F36 + 0x1E) */
-    .4byte DAT_0600A95C  /* 06007D54 = 0x0600A95C (FUN_0600A88C + 0xD0) */
+    .4byte FUN_0600A95C  /* 06007D54 = 0x0600A95C */
 .L_06007D58:
     .byte 0x97, 0x6D  /* 06007D58: mov.w @(0xDA,PC),r7  {0x06007E36} */
     mov #0x1, r5

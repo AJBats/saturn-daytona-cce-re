@@ -91,4 +91,3 @@ FUN_06005004:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE0, 0x40  /* 060050AA: mov #64,r0 */

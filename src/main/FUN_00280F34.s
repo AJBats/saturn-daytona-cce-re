@@ -94,9 +94,8 @@ FUN_00280F34:
     rts
     mov.l @r15+, r8
 .L_pool_00280FD4:
-    .4byte DAT_00281E18  /* 00280FD4 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 00280FD4 = 0x00281E18 */
 .L_pool_00280FD8:
     .4byte sym_0028B070  /* 00280FD8 = 0x0028B070 */
 .L_pool_00280FDC:
-    .4byte DAT_002810E0  /* 00280FDC = 0x002810E0 (FUN_00281086 + 0x5A) */
-    .byte 0x2F, 0x86  /* 00280FE0: mov.l r8,@-r15 */
+    .4byte FUN_002810E0  /* 00280FDC = 0x002810E0 */

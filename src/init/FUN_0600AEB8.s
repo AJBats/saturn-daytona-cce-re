@@ -34,8 +34,8 @@ FUN_0600AEB8:
     .byte 0x01, 0xE0  /* 0600AEEE: .word 0x01E0 */
     .byte 0x03, 0x04  /* 0600AEF0: mov.b r0,@(r0,r3) */
     .byte 0xFF, 0xFF  /* 0600AEF2: .word 0xFFFF */
-    .4byte DAT_0600A012  /* 0600AEF4 = 0x0600A012 (FUN_06009FD6 + 0x3C) */
+    .4byte FUN_0600A012  /* 0600AEF4 = 0x0600A012 */
 .L_pool_0600AEF8:
     .4byte DAT_060136EC  /* 0600AEF8 = 0x060136EC (FUN_0600EA84 + 0x4C68) */
 .L_pool_0600AEFC:
-    .4byte DAT_06009C12  /* 0600AEFC = 0x06009C12 (FUN_06009BC8 + 0x4A) */
+    .4byte FUN_06009C12  /* 0600AEFC = 0x06009C12 */

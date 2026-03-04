@@ -39,4 +39,3 @@ FUN_00281E98:
     mov.l @r15+, r14
 .L_pool_00281ED4:
     .4byte sym_0028B070  /* 00281ED4 = 0x0028B070 */
-    .byte 0x2F, 0x86  /* 00281ED8: mov.l r8,@-r15 */

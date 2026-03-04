@@ -16,24 +16,14 @@ FUN_0600819C:
     mov.l r13, @(24, r14)
     mov.l r13, @(28, r14)
     mov.l r13, @(32, r14)
-    bsr .L_060081D6
+    .byte 0xB0, 0x0F  /* 060081B4: bsr 0x060081D6 */
     mov r14, r4
     mov.l r13, @(52, r14)
     mov #0x3, r5
-    bsr .L_060081CA
+    .byte 0xB0, 0x05  /* 060081BC: bsr 0x060081CA */
     mov r14, r4
     lds.l @r15+, pr
     mov r14, r0
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_060081CA:
-    mov.l @(56, r4), r0
-    mov.l r5, @(56, r4)
-    mov #0x0, r5
-    mov.l r5, @(36, r4)
-    rts
-    mov.l r5, @(40, r4)
-.L_060081D6:
-    rts
-    mov.l r5, @(44, r4)

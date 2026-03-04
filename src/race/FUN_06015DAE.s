@@ -100,7 +100,7 @@ FUN_06015DAE:
 .L_pool_06015E54:
     .4byte sym_002FD728  /* 06015E54 = 0x002FD728 */
 .L_pool_06015E58:
-    .4byte DAT_0600795A  /* 06015E58 = 0x0600795A (FUN_060078E8 + 0x72) */
+    .4byte FUN_0600795A  /* 06015E58 = 0x0600795A */
 .L_06015E5C:
     lds.l @r15+, macl
     lds.l @r15+, pr

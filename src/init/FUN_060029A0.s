@@ -41,4 +41,3 @@ FUN_060029A0:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x60, 0x4C  /* 060029E6: extu.b r4,r0 */

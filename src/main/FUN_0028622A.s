@@ -24,7 +24,7 @@ FUN_0028622A:
     mov.w .L_wpool_0028625E, r1
     cmp/gt r1, r8
     bf/s .L_00286236
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00286250:
     mov r14, r15
     lds.l @r15+, pr
@@ -39,5 +39,3 @@ FUN_0028622A:
     .4byte FUN_002861E4  /* 00286260 = 0x002861E4 */
 .L_pool_00286264:
     .4byte FUN_00286208  /* 00286264 = 0x00286208 */
-    .byte 0x2F, 0x86  /* 00286268: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 0028626A: mov.l r9,@-r15 */

@@ -40,6 +40,3 @@ FUN_06004DE4:
     .byte 0x25, 0x21  /* 06004E26: mov.w r2,@r5 */
     .byte 0xA0, 0x00  /* 06004E28: bra 0x06004E2C */
     .byte 0x24, 0x0B  /* 06004E2A: or r0,r4 */
-    .byte 0xD3, 0x40  /* 06004E2C: mov.l @(0x100,PC),r3  {[0x06004F30] = 0x25890008} */
-    .byte 0x00, 0x0B  /* 06004E2E: rts */
-    .byte 0x23, 0x41  /* 06004E30: mov.w r4,@r3 */

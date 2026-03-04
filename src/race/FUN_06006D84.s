@@ -102,6 +102,3 @@ FUN_06006D84:
     .4byte sym_25E6C60A  /* 06006E4C = 0x25E6C60A */
     .4byte sym_06051F92  /* 06006E50 = 0x06051F92 */
     .4byte sym_25E6A59A  /* 06006E54 = 0x25E6A59A */
-    .4byte sym_0604D16C  /* 06006E58 = 0x0604D16C */
-    .4byte sym_0602D052  /* 06006E5C = 0x0602D052 */
-    .4byte sym_25E6A01A  /* 06006E60 = 0x25E6A01A */

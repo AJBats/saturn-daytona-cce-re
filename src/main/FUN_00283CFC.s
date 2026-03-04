@@ -41,7 +41,7 @@ FUN_00283CFC:
     bf/s .L_00283D48
     mov.l r3, @(12, r14)
     bra .L_00283D50
-    .word 0x0329 /* UNKNOWN */
+    .byte 0x03, 0x29  /* UNKNOWN */
 .L_00283D48:
     cmp/pz r10
     bf/s .L_00283D50
@@ -52,7 +52,7 @@ FUN_00283CFC:
     bf/s .L_00283D5A
     mov.l r3, @(24, r14)
     bra .L_00283D62
-    .word 0x0329 /* UNKNOWN */
+    .byte 0x03, 0x29  /* UNKNOWN */
 .L_00283D5A:
     cmp/pz r13
     bf/s .L_00283D62

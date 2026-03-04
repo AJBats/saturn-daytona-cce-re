@@ -78,6 +78,3 @@ FUN_00280214:
     .4byte sym_2010001F  /* 00280298 = 0x2010001F */
 .L_pool_0028029C:
     .4byte DAT_0028AE0C  /* 0028029C = 0x0028AE0C (FUN_00288764 + 0x26A8) */
-    .byte 0x2F, 0x86  /* 002802A0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002802A2: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002802A4: mov.l r10,@-r15 */

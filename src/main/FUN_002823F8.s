@@ -59,5 +59,3 @@ FUN_002823F8:
     rts
     mov.l @r15+, r8
     .byte 0x00, 0x00  /* 00282456: .word 0x0000 */
-    .byte 0x2F, 0x86  /* 00282458: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 0028245A: mov.l r9,@-r15 */

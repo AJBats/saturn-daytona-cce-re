@@ -26,6 +26,6 @@ FUN_00284C2A:
     rts
     and r2, r0
 .L_pool_00284C54:
-    .4byte DAT_0028691C  /* 00284C54 = 0x0028691C (FUN_002868D0 + 0x4C) */
+    .4byte FUN_0028691C  /* 00284C54 = 0x0028691C */
 .L_pool_00284C58:
     .4byte 0x00FFFFFF  /* 00284C58 = 0x00FFFFFF */

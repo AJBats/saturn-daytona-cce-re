@@ -91,7 +91,7 @@ FUN_002802A6:
     shlr2 r0
     cmp/pz r0
     bf/s .L_00280382
-    .word 0x0129 /* UNKNOWN */
+    .byte 0x01, 0x29  /* UNKNOWN */
     cmp/gt r1, r0
     bf/s .L_0028035C
     extu.b r2, r2

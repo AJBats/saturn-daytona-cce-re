@@ -16,7 +16,7 @@ FUN_00283F18:
     bf/s .L_00283F56
     mov r0, r1
     bra .L_00283F66
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00283F32:
     mov.l .L_pool_00283F70, r1
     mov r2, r3
@@ -64,7 +64,3 @@ FUN_00283F18:
     .4byte sym_038FFFFF  /* 00283F80 = 0x038FFFFF */
 .L_pool_00283F84:
     .4byte DAT_00283764  /* 00283F84 = 0x00283764 (FUN_00283728 + 0x3C) */
-    .byte 0x2F, 0x86  /* 00283F88: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00283F8A: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00283F8C: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00283F8E: mov.l r11,@-r15 */

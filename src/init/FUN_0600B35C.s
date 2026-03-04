@@ -26,9 +26,3 @@ FUN_0600B35C:
     extu.b r0, r0
     mov.l r0, @r2
     mov r4, r0
-    add #0x14, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14

@@ -88,7 +88,7 @@ FUN_0028528C:
     tst r1, r1
     bf/s .L_0028532C
     mov r5, r1
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     mov.l r0, @r3
 .L_0028532C:
     add r1, r1
@@ -133,8 +133,4 @@ FUN_0028528C:
 .L_pool_0028536C:
     .4byte sym_0028B084  /* 0028536C = 0x0028B084 */
 .L_pool_00285370:
-    .4byte DAT_00285FB4  /* 00285370 = 0x00285FB4 (FUN_00285DC0 + 0x1F4) */
-    .byte 0x2F, 0x86  /* 00285374: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00285376: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00285378: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 0028537A: mov.l r11,@-r15 */
+    .4byte FUN_00285FB4  /* 00285370 = 0x00285FB4 */

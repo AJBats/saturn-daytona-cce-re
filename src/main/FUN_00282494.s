@@ -10,4 +10,3 @@ FUN_00282494:
     mov.l @r4, r0
     rts
     mov.l @r15+, r14
-    .byte 0x2F, 0x86  /* 002824A0: mov.l r8,@-r15 */

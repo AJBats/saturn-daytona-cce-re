@@ -29,6 +29,3 @@ FUN_0600C644:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xE7, 0x34  /* 0600C676: mov #52,r7 */
-    .byte 0xD2, 0x22  /* 0600C678: mov.l @(0x88,PC),r2  {[0x0600C704] = 0x06028B80} */
-    .byte 0xE6, 0x3F  /* 0600C67A: mov #63,r6 */

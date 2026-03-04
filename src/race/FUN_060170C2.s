@@ -42,7 +42,3 @@ FUN_060170C2:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x20, 0x08  /* 0601710E: tst r0,r0 */
-    .byte 0x89, 0x01  /* 06017110: bt 0x06017116 */
-    .byte 0x00, 0x0B  /* 06017112: rts */
-    .byte 0x00, 0x09  /* 06017114: nop */

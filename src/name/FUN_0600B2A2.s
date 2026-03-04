@@ -13,4 +13,3 @@ FUN_0600B2A2:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xD4, 0x0D  /* 0600B2B4: mov.l @(0x34,PC),r4  {[0x0600B2EC] = 0x06040020} */

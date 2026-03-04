@@ -12,10 +12,11 @@ FUN_06025520:
     mov.l @r15+, r14
     mov.l @r15+, r13
     mov.l @r15+, r12
-    .4byte 0x6BF66AF6  /* 06025530 = 0x6BF66AF6 */
-    .byte 0x69, 0xF6  /* 06025534: mov.l @r15+,r9 */
-    .byte 0x68, 0xF6  /* 06025536: mov.l @r15+,r8 */
-    .byte 0x4F, 0x17  /* 06025538: .word 0x4F17 */
-    .byte 0x00, 0x0B  /* 0602553A: rts */
-    .byte 0x00, 0x09  /* 0602553C: nop */
+    mov.l @r15+, r11
+    mov.l @r15+, r10
+    mov.l @r15+, r9
+    mov.l @r15+, r8
+    ldc.l @r15+, gbr
+    rts
+    nop
     .byte 0xFF, 0xFF  /* 0602553E: .word 0xFFFF */

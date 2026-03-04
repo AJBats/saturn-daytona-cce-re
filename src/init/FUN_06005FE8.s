@@ -65,6 +65,3 @@ FUN_06005FE8:
     mov.l r4, @(4, r5)
     mov.l r4, @(16, r5)
     lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14

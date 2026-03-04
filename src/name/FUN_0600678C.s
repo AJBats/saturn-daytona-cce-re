@@ -60,5 +60,3 @@ FUN_0600678C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE4, 0x00  /* 060067F2: mov #0,r4 */
-    .byte 0xD3, 0x32  /* 060067F4: mov.l @(0xC8,PC),r3  {[0x060068C0] = 0x00210F00} */

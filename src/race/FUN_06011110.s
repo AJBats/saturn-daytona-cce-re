@@ -69,7 +69,7 @@ FUN_06011110:
     mov.w r1, @(r0, r14)
     add #0x2, r0
     mov.w r12, @(r0, r14)
-    bsr .L_06011202
+    .byte 0xB0, 0x3A  /* 0601118A: bsr 0x06011202 */
     mov r14, r4
     mov #0x3, r3
     mov.l r12, @(36, r14)
@@ -132,5 +132,3 @@ FUN_06011110:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_06011202:
-    mov #0x12, r0

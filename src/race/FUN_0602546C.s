@@ -81,13 +81,15 @@ FUN_0602546C:
     .byte 0xDD, 0x38  /* 06025502: mov.l @(0xE0,PC),r13  {[0x060255E4] = 0x06035EE8} */
     jsr @r13
     nop
-    .4byte 0x4F266EF6  /* 06025508 = 0x4F266EF6 */
-    .4byte 0x6DF66CF6  /* 0602550C = 0x6DF66CF6 */
-    .byte 0x6B, 0xF6  /* 06025510: mov.l @r15+,r11 */
-    .byte 0x6A, 0xF6  /* 06025512: mov.l @r15+,r10 */
-    .byte 0x69, 0xF6  /* 06025514: mov.l @r15+,r9 */
-    .byte 0x68, 0xF6  /* 06025516: mov.l @r15+,r8 */
-    .byte 0x4F, 0x17  /* 06025518: .word 0x4F17 */
-    .byte 0x00, 0x0B  /* 0602551A: rts */
-    .byte 0x00, 0x09  /* 0602551C: nop */
+    lds.l @r15+, pr
+    mov.l @r15+, r14
+    mov.l @r15+, r13
+    mov.l @r15+, r12
+    mov.l @r15+, r11
+    mov.l @r15+, r10
+    mov.l @r15+, r9
+    mov.l @r15+, r8
+    ldc.l @r15+, gbr
+    rts
+    nop
     .byte 0xFF, 0xFF  /* 0602551E: .word 0xFFFF */

@@ -1,18 +1,8 @@
 {
   "module_base": "0x06000000",
   "module_size": 84000,
-  "function_count": 389,
+  "function_count": 552,
   "dat_symbols": {
-    "DAT_060072DC": {
-      "absolute": "0x060072DC",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0xB2"
-    },
-    "DAT_0600735C": {
-      "absolute": "0x0600735C",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0x132"
-    },
     "DAT_0601336C": {
       "absolute": "0x0601336C",
       "parent_fun": "FUN_0600EA84",
@@ -22,11 +12,6 @@
       "absolute": "0x06011F90",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x350C"
-    },
-    "DAT_06005760": {
-      "absolute": "0x06005760",
-      "parent_fun": "FUN_0600575C",
-      "offset": "0x4"
     },
     "DAT_060133F7": {
       "absolute": "0x060133F7",
@@ -45,43 +30,13 @@
     },
     "DAT_06007300": {
       "absolute": "0x06007300",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0xD6"
-    },
-    "DAT_06007ED0": {
-      "absolute": "0x06007ED0",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x132"
+      "parent_fun": "FUN_060072E4",
+      "offset": "0x1C"
     },
     "DAT_06013C78": {
       "absolute": "0x06013C78",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x51F4"
-    },
-    "DAT_06006200": {
-      "absolute": "0x06006200",
-      "parent_fun": "FUN_06006188",
-      "offset": "0x78"
-    },
-    "DAT_06007CE4": {
-      "absolute": "0x06007CE4",
-      "parent_fun": "FUN_06007CBA",
-      "offset": "0x2A"
-    },
-    "DAT_060078D6": {
-      "absolute": "0x060078D6",
-      "parent_fun": "FUN_060078C0",
-      "offset": "0x16"
-    },
-    "DAT_06005A62": {
-      "absolute": "0x06005A62",
-      "parent_fun": "FUN_06005A5C",
-      "offset": "0x6"
-    },
-    "DAT_0600802E": {
-      "absolute": "0x0600802E",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x290"
     },
     "DAT_06011F94": {
       "absolute": "0x06011F94",
@@ -95,58 +50,18 @@
     },
     "DAT_06000320": {
       "absolute": "0x06000320",
-      "parent_fun": "FUN_060002DE",
-      "offset": "0x42"
-    },
-    "DAT_06007130": {
-      "absolute": "0x06007130",
-      "parent_fun": "FUN_06006BDE",
-      "offset": "0x552"
-    },
-    "DAT_060054D4": {
-      "absolute": "0x060054D4",
-      "parent_fun": "FUN_0600544C",
-      "offset": "0x88"
-    },
-    "DAT_060073AC": {
-      "absolute": "0x060073AC",
-      "parent_fun": "FUN_0600736E",
-      "offset": "0x3E"
-    },
-    "DAT_060062F4": {
-      "absolute": "0x060062F4",
-      "parent_fun": "FUN_060062EA",
-      "offset": "0xA"
-    },
-    "DAT_0600617C": {
-      "absolute": "0x0600617C",
-      "parent_fun": "FUN_06006124",
-      "offset": "0x58"
-    },
-    "DAT_0600683C": {
-      "absolute": "0x0600683C",
-      "parent_fun": "FUN_06006800",
-      "offset": "0x3C"
+      "parent_fun": "FUN_06000310",
+      "offset": "0x10"
     },
     "DAT_06013AF4": {
       "absolute": "0x06013AF4",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x5070"
     },
-    "DAT_06005876": {
-      "absolute": "0x06005876",
-      "parent_fun": "FUN_06005852",
-      "offset": "0x24"
-    },
-    "DAT_0600753C": {
-      "absolute": "0x0600753C",
-      "parent_fun": "FUN_0600742E",
-      "offset": "0x10E"
-    },
     "DAT_0600765C": {
       "absolute": "0x0600765C",
-      "parent_fun": "FUN_0600742E",
-      "offset": "0x22E"
+      "parent_fun": "FUN_0600753C",
+      "offset": "0x120"
     },
     "DAT_06011F91": {
       "absolute": "0x06011F91",
@@ -155,28 +70,13 @@
     },
     "DAT_060072C4": {
       "absolute": "0x060072C4",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0x9A"
-    },
-    "DAT_06005B5E": {
-      "absolute": "0x06005B5E",
-      "parent_fun": "FUN_06005AEC",
-      "offset": "0x72"
+      "parent_fun": "FUN_06007274",
+      "offset": "0x50"
     },
     "DAT_0601335D": {
       "absolute": "0x0601335D",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48D9"
-    },
-    "DAT_06009738": {
-      "absolute": "0x06009738",
-      "parent_fun": "FUN_06009708",
-      "offset": "0x30"
-    },
-    "DAT_06007274": {
-      "absolute": "0x06007274",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0x4A"
     },
     "DAT_06011F98": {
       "absolute": "0x06011F98",
@@ -203,11 +103,6 @@
       "parent_fun": "FUN_06000334",
       "offset": "0xC"
     },
-    "DAT_06000310": {
-      "absolute": "0x06000310",
-      "parent_fun": "FUN_060002DE",
-      "offset": "0x32"
-    },
     "DAT_06005568": {
       "absolute": "0x06005568",
       "parent_fun": "FUN_06005532",
@@ -220,8 +115,8 @@
     },
     "DAT_060071B6": {
       "absolute": "0x060071B6",
-      "parent_fun": "FUN_06006BDE",
-      "offset": "0x5D8"
+      "parent_fun": "FUN_060071AE",
+      "offset": "0x8"
     },
     "DAT_06011FA8": {
       "absolute": "0x06011FA8",
@@ -243,85 +138,20 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3522"
     },
-    "DAT_06007160": {
-      "absolute": "0x06007160",
-      "parent_fun": "FUN_06006BDE",
-      "offset": "0x582"
-    },
     "DAT_06011FA4": {
       "absolute": "0x06011FA4",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3520"
-    },
-    "DAT_0600718E": {
-      "absolute": "0x0600718E",
-      "parent_fun": "FUN_06006BDE",
-      "offset": "0x5B0"
     },
     "DAT_06011F99": {
       "absolute": "0x06011F99",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3515"
     },
-    "DAT_0600605E": {
-      "absolute": "0x0600605E",
-      "parent_fun": "FUN_06005FE8",
-      "offset": "0x76"
-    },
-    "DAT_060071AE": {
-      "absolute": "0x060071AE",
-      "parent_fun": "FUN_06006BDE",
-      "offset": "0x5D0"
-    },
-    "DAT_060063FC": {
-      "absolute": "0x060063FC",
-      "parent_fun": "FUN_060063A0",
-      "offset": "0x5C"
-    },
-    "DAT_060053E6": {
-      "absolute": "0x060053E6",
-      "parent_fun": "FUN_06005382",
-      "offset": "0x64"
-    },
-    "DAT_06007FBA": {
-      "absolute": "0x06007FBA",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x21C"
-    },
     "DAT_06011FB8": {
       "absolute": "0x06011FB8",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3534"
-    },
-    "DAT_0600A582": {
-      "absolute": "0x0600A582",
-      "parent_fun": "FUN_0600A4CE",
-      "offset": "0xB4"
-    },
-    "DAT_0600A3E4": {
-      "absolute": "0x0600A3E4",
-      "parent_fun": "FUN_0600A304",
-      "offset": "0xE0"
-    },
-    "DAT_0600A95C": {
-      "absolute": "0x0600A95C",
-      "parent_fun": "FUN_0600A88C",
-      "offset": "0xD0"
-    },
-    "DAT_0600A62C": {
-      "absolute": "0x0600A62C",
-      "parent_fun": "FUN_0600A4CE",
-      "offset": "0x15E"
-    },
-    "DAT_0600689E": {
-      "absolute": "0x0600689E",
-      "parent_fun": "FUN_06006800",
-      "offset": "0x9E"
-    },
-    "DAT_06006888": {
-      "absolute": "0x06006888",
-      "parent_fun": "FUN_06006800",
-      "offset": "0x88"
     },
     "DAT_060131B0": {
       "absolute": "0x060131B0",
@@ -338,21 +168,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x46E4"
     },
-    "DAT_0600AF56": {
-      "absolute": "0x0600AF56",
-      "parent_fun": "FUN_0600AF4E",
-      "offset": "0x8"
-    },
-    "DAT_0600A7CE": {
-      "absolute": "0x0600A7CE",
-      "parent_fun": "FUN_0600A6B6",
-      "offset": "0x118"
-    },
-    "DAT_0600AA52": {
-      "absolute": "0x0600AA52",
-      "parent_fun": "FUN_0600A9A0",
-      "offset": "0xB2"
-    },
     "DAT_06010AC8": {
       "absolute": "0x06010AC8",
       "parent_fun": "FUN_0600EA84",
@@ -360,8 +175,8 @@
     },
     "DAT_060068B8": {
       "absolute": "0x060068B8",
-      "parent_fun": "FUN_06006800",
-      "offset": "0xB8"
+      "parent_fun": "FUN_0600689E",
+      "offset": "0x1A"
     },
     "DAT_060131B4": {
       "absolute": "0x060131B4",
@@ -378,30 +193,10 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4734"
     },
-    "DAT_0600ADB4": {
-      "absolute": "0x0600ADB4",
-      "parent_fun": "FUN_0600ACB4",
-      "offset": "0x100"
-    },
-    "DAT_0600AC04": {
-      "absolute": "0x0600AC04",
-      "parent_fun": "FUN_0600AAD6",
-      "offset": "0x12E"
-    },
     "DAT_06010AF4": {
       "absolute": "0x06010AF4",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x2070"
-    },
-    "DAT_0600A534": {
-      "absolute": "0x0600A534",
-      "parent_fun": "FUN_0600A4CE",
-      "offset": "0x66"
-    },
-    "DAT_0600AB30": {
-      "absolute": "0x0600AB30",
-      "parent_fun": "FUN_0600AAD6",
-      "offset": "0x5A"
     },
     "DAT_06010B0C": {
       "absolute": "0x06010B0C",
@@ -418,35 +213,15 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x20A0"
     },
-    "DAT_0600A012": {
-      "absolute": "0x0600A012",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x3C"
-    },
     "DAT_06011FBA": {
       "absolute": "0x06011FBA",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3536"
     },
-    "DAT_06007FB4": {
-      "absolute": "0x06007FB4",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x216"
-    },
     "DAT_060133FA": {
       "absolute": "0x060133FA",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4976"
-    },
-    "DAT_06007F80": {
-      "absolute": "0x06007F80",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x1E2"
-    },
-    "DAT_06007EC0": {
-      "absolute": "0x06007EC0",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x122"
     },
     "DAT_06010B40": {
       "absolute": "0x06010B40",
@@ -470,18 +245,13 @@
     },
     "DAT_0600574C": {
       "absolute": "0x0600574C",
-      "parent_fun": "FUN_060056B2",
-      "offset": "0x9A"
+      "parent_fun": "FUN_060056F8",
+      "offset": "0x54"
     },
     "DAT_0600BA00": {
       "absolute": "0x0600BA00",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x260"
-    },
-    "DAT_060072E4": {
-      "absolute": "0x060072E4",
-      "parent_fun": "FUN_0600722A",
-      "offset": "0xBA"
     },
     "DAT_06013308": {
       "absolute": "0x06013308",
@@ -512,11 +282,6 @@
       "absolute": "0x06013208",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4784"
-    },
-    "DAT_060056F8": {
-      "absolute": "0x060056F8",
-      "parent_fun": "FUN_060056B2",
-      "offset": "0x46"
     },
     "DAT_06013326": {
       "absolute": "0x06013326",
@@ -573,21 +338,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48A8"
     },
-    "DAT_06008DA8": {
-      "absolute": "0x06008DA8",
-      "parent_fun": "FUN_06008C4A",
-      "offset": "0x15E"
-    },
-    "DAT_06008C90": {
-      "absolute": "0x06008C90",
-      "parent_fun": "FUN_06008C4A",
-      "offset": "0x46"
-    },
-    "DAT_06008B10": {
-      "absolute": "0x06008B10",
-      "parent_fun": "FUN_06008AC2",
-      "offset": "0x4E"
-    },
     "DAT_06013358": {
       "absolute": "0x06013358",
       "parent_fun": "FUN_0600EA84",
@@ -597,21 +347,6 @@
       "absolute": "0x06013330",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48AC"
-    },
-    "DAT_06009938": {
-      "absolute": "0x06009938",
-      "parent_fun": "FUN_06009810",
-      "offset": "0x128"
-    },
-    "DAT_0600998C": {
-      "absolute": "0x0600998C",
-      "parent_fun": "FUN_06009810",
-      "offset": "0x17C"
-    },
-    "DAT_06009A38": {
-      "absolute": "0x06009A38",
-      "parent_fun": "FUN_06009810",
-      "offset": "0x228"
     },
     "DAT_06002000": {
       "absolute": "0x06002000",
@@ -658,20 +393,10 @@
       "parent_fun": "FUN_0600742E",
       "offset": "0x2"
     },
-    "DAT_060073F4": {
-      "absolute": "0x060073F4",
-      "parent_fun": "FUN_060073E8",
-      "offset": "0xC"
-    },
     "DAT_06011994": {
       "absolute": "0x06011994",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x2F10"
-    },
-    "DAT_060058B4": {
-      "absolute": "0x060058B4",
-      "parent_fun": "FUN_06005852",
-      "offset": "0x62"
     },
     "DAT_06013366": {
       "absolute": "0x06013366",
@@ -793,16 +518,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x50F4"
     },
-    "DAT_06009BD8": {
-      "absolute": "0x06009BD8",
-      "parent_fun": "FUN_06009BC8",
-      "offset": "0x10"
-    },
-    "DAT_06009F10": {
-      "absolute": "0x06009F10",
-      "parent_fun": "FUN_06009EE6",
-      "offset": "0x2A"
-    },
     "DAT_06013BB4": {
       "absolute": "0x06013BB4",
       "parent_fun": "FUN_0600EA84",
@@ -815,23 +530,13 @@
     },
     "DAT_06007C50": {
       "absolute": "0x06007C50",
-      "parent_fun": "FUN_06007B70",
-      "offset": "0xE0"
+      "parent_fun": "FUN_06007C3A",
+      "offset": "0x16"
     },
     "DAT_06011A76": {
       "absolute": "0x06011A76",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x2FF2"
-    },
-    "DAT_060062C0": {
-      "absolute": "0x060062C0",
-      "parent_fun": "FUN_060062A0",
-      "offset": "0x20"
-    },
-    "DAT_060062D8": {
-      "absolute": "0x060062D8",
-      "parent_fun": "FUN_060062A0",
-      "offset": "0x38"
     },
     "DAT_06011A80": {
       "absolute": "0x06011A80",
@@ -868,11 +573,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48EC"
     },
-    "DAT_06008620": {
-      "absolute": "0x06008620",
-      "parent_fun": "FUN_0600860C",
-      "offset": "0x14"
-    },
     "DAT_0601348C": {
       "absolute": "0x0601348C",
       "parent_fun": "FUN_0600EA84",
@@ -880,8 +580,8 @@
     },
     "DAT_06002FC8": {
       "absolute": "0x06002FC8",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x82"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x5A"
     },
     "DAT_06013374": {
       "absolute": "0x06013374",
@@ -890,48 +590,38 @@
     },
     "DAT_06002FDC": {
       "absolute": "0x06002FDC",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x96"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x6E"
     },
     "DAT_06002FBC": {
       "absolute": "0x06002FBC",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x76"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x4E"
     },
     "DAT_06002FF8": {
       "absolute": "0x06002FF8",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0xB2"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x8A"
     },
     "DAT_06002FF4": {
       "absolute": "0x06002FF4",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0xAE"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x86"
     },
     "DAT_0601362C": {
       "absolute": "0x0601362C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4BA8"
     },
-    "DAT_0600877C": {
-      "absolute": "0x0600877C",
-      "parent_fun": "FUN_06008770",
-      "offset": "0xC"
-    },
     "DAT_0600841E": {
       "absolute": "0x0600841E",
-      "parent_fun": "FUN_060083C4",
-      "offset": "0x5A"
+      "parent_fun": "FUN_060083FE",
+      "offset": "0x20"
     },
     "DAT_06008146": {
       "absolute": "0x06008146",
-      "parent_fun": "FUN_06008124",
-      "offset": "0x22"
-    },
-    "DAT_060083FE": {
-      "absolute": "0x060083FE",
-      "parent_fun": "FUN_060083C4",
-      "offset": "0x3A"
+      "parent_fun": "FUN_0600812C",
+      "offset": "0x1A"
     },
     "DAT_060133FC": {
       "absolute": "0x060133FC",
@@ -940,23 +630,13 @@
     },
     "DAT_06008098": {
       "absolute": "0x06008098",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x2FA"
-    },
-    "DAT_06007500": {
-      "absolute": "0x06007500",
-      "parent_fun": "FUN_0600742E",
-      "offset": "0xD2"
+      "parent_fun": "FUN_0600802E",
+      "offset": "0x6A"
     },
     "DAT_060134B4": {
       "absolute": "0x060134B4",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4A30"
-    },
-    "DAT_06008978": {
-      "absolute": "0x06008978",
-      "parent_fun": "FUN_06008910",
-      "offset": "0x68"
     },
     "DAT_06011AB4": {
       "absolute": "0x06011AB4",
@@ -965,13 +645,8 @@
     },
     "DAT_060089A6": {
       "absolute": "0x060089A6",
-      "parent_fun": "FUN_06008910",
-      "offset": "0x96"
-    },
-    "DAT_0600812C": {
-      "absolute": "0x0600812C",
-      "parent_fun": "FUN_06008124",
-      "offset": "0x8"
+      "parent_fun": "FUN_0600899A",
+      "offset": "0xC"
     },
     "DAT_060135BC": {
       "absolute": "0x060135BC",
@@ -1025,8 +700,8 @@
     },
     "DAT_0600845C": {
       "absolute": "0x0600845C",
-      "parent_fun": "FUN_060083C4",
-      "offset": "0x98"
+      "parent_fun": "FUN_060083FE",
+      "offset": "0x5E"
     },
     "DAT_060135D0": {
       "absolute": "0x060135D0",
@@ -1042,11 +717,6 @@
       "absolute": "0x06011ACC",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3048"
-    },
-    "DAT_06008A5C": {
-      "absolute": "0x06008A5C",
-      "parent_fun": "FUN_06008A3E",
-      "offset": "0x1E"
     },
     "DAT_060135E8": {
       "absolute": "0x060135E8",
@@ -1080,8 +750,8 @@
     },
     "DAT_06008D0E": {
       "absolute": "0x06008D0E",
-      "parent_fun": "FUN_06008C4A",
-      "offset": "0xC4"
+      "parent_fun": "FUN_06008C90",
+      "offset": "0x7E"
     },
     "DAT_06008DB4": {
       "absolute": "0x06008DB4",
@@ -1095,8 +765,8 @@
     },
     "DAT_06008D88": {
       "absolute": "0x06008D88",
-      "parent_fun": "FUN_06008C4A",
-      "offset": "0x13E"
+      "parent_fun": "FUN_06008C90",
+      "offset": "0xF8"
     },
     "DAT_06008EDC": {
       "absolute": "0x06008EDC",
@@ -1165,28 +835,28 @@
     },
     "DAT_06008EAA": {
       "absolute": "0x06008EAA",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x5A"
+      "parent_fun": "FUN_06008E88",
+      "offset": "0x22"
     },
     "DAT_06008EA6": {
       "absolute": "0x06008EA6",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x56"
+      "parent_fun": "FUN_06008E88",
+      "offset": "0x1E"
     },
     "DAT_06008EA2": {
       "absolute": "0x06008EA2",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x52"
+      "parent_fun": "FUN_06008E88",
+      "offset": "0x1A"
     },
     "DAT_06008E9E": {
       "absolute": "0x06008E9E",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x4E"
+      "parent_fun": "FUN_06008E88",
+      "offset": "0x16"
     },
     "DAT_06008E9A": {
       "absolute": "0x06008E9A",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x4A"
+      "parent_fun": "FUN_06008E88",
+      "offset": "0x12"
     },
     "DAT_060136F4": {
       "absolute": "0x060136F4",
@@ -1195,8 +865,8 @@
     },
     "DAT_060096D4": {
       "absolute": "0x060096D4",
-      "parent_fun": "FUN_060096A8",
-      "offset": "0x2C"
+      "parent_fun": "FUN_060096B4",
+      "offset": "0x20"
     },
     "DAT_06000CCC": {
       "absolute": "0x06000CCC",
@@ -1212,11 +882,6 @@
       "absolute": "0x0600029C",
       "parent_fun": "FUN_06000278",
       "offset": "0x24"
-    },
-    "DAT_06009DC6": {
-      "absolute": "0x06009DC6",
-      "parent_fun": "FUN_06009D72",
-      "offset": "0x54"
     },
     "DAT_0600C868": {
       "absolute": "0x0600C868",
@@ -1245,8 +910,8 @@
     },
     "DAT_06009AA8": {
       "absolute": "0x06009AA8",
-      "parent_fun": "FUN_06009810",
-      "offset": "0x298"
+      "parent_fun": "FUN_06009A38",
+      "offset": "0x70"
     },
     "DAT_06009AFE": {
       "absolute": "0x06009AFE",
@@ -1275,8 +940,8 @@
     },
     "DAT_06000314": {
       "absolute": "0x06000314",
-      "parent_fun": "FUN_060002DE",
-      "offset": "0x36"
+      "parent_fun": "FUN_06000310",
+      "offset": "0x4"
     },
     "DAT_06013618": {
       "absolute": "0x06013618",
@@ -1338,55 +1003,20 @@
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1220"
     },
-    "DAT_0600A062": {
-      "absolute": "0x0600A062",
-      "parent_fun": "FUN_0600A050",
-      "offset": "0x12"
-    },
     "DAT_0600CA8E": {
       "absolute": "0x0600CA8E",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x12EE"
-    },
-    "DAT_0600A044": {
-      "absolute": "0x0600A044",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x6E"
     },
     "DAT_0600C9C4": {
       "absolute": "0x0600C9C4",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1224"
     },
-    "DAT_0600A032": {
-      "absolute": "0x0600A032",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x5C"
-    },
-    "DAT_0600A1AC": {
-      "absolute": "0x0600A1AC",
-      "parent_fun": "FUN_0600A10E",
-      "offset": "0x9E"
-    },
-    "DAT_0600A02C": {
-      "absolute": "0x0600A02C",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x56"
-    },
     "DAT_0601361C": {
       "absolute": "0x0601361C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4B98"
-    },
-    "DAT_06009E70": {
-      "absolute": "0x06009E70",
-      "parent_fun": "FUN_06009E58",
-      "offset": "0x18"
-    },
-    "DAT_06009EBA": {
-      "absolute": "0x06009EBA",
-      "parent_fun": "FUN_06009E58",
-      "offset": "0x62"
     },
     "DAT_06013628": {
       "absolute": "0x06013628",
@@ -1403,20 +1033,10 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4B9C"
     },
-    "DAT_0600B1E8": {
-      "absolute": "0x0600B1E8",
-      "parent_fun": "FUN_0600B1D4",
-      "offset": "0x14"
-    },
     "DAT_0600DC38": {
       "absolute": "0x0600DC38",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x2498"
-    },
-    "DAT_0600B388": {
-      "absolute": "0x0600B388",
-      "parent_fun": "FUN_0600B35C",
-      "offset": "0x2C"
     },
     "DAT_0600CBBA": {
       "absolute": "0x0600CBBA",
@@ -1427,11 +1047,6 @@
       "absolute": "0x0600CAB8",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1318"
-    },
-    "DAT_06008E88": {
-      "absolute": "0x06008E88",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x38"
     },
     "DAT_0600CB1E": {
       "absolute": "0x0600CB1E",
@@ -1472,11 +1087,6 @@
       "absolute": "0x0600D30A",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1B6A"
-    },
-    "DAT_06008E60": {
-      "absolute": "0x06008E60",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x10"
     },
     "DAT_060136E4": {
       "absolute": "0x060136E4",
@@ -1537,11 +1147,6 @@
       "absolute": "0x06000CCD",
       "parent_fun": "FUN_06000B3C",
       "offset": "0x191"
-    },
-    "DAT_0600E9E8": {
-      "absolute": "0x0600E9E8",
-      "parent_fun": "FUN_0600E97E",
-      "offset": "0x6A"
     },
     "DAT_0600CBB6": {
       "absolute": "0x0600CBB6",
@@ -1613,11 +1218,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3090"
     },
-    "DAT_06008F20": {
-      "absolute": "0x06008F20",
-      "parent_fun": "FUN_06008EAC",
-      "offset": "0x74"
-    },
     "DAT_0600DB9A": {
       "absolute": "0x0600DB9A",
       "parent_fun": "FUN_0600B7A0",
@@ -1633,11 +1233,6 @@
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1D30"
     },
-    "DAT_0600A4C4": {
-      "absolute": "0x0600A4C4",
-      "parent_fun": "FUN_0600A4AE",
-      "offset": "0x16"
-    },
     "DAT_0600DDAA": {
       "absolute": "0x0600DDAA",
       "parent_fun": "FUN_0600B7A0",
@@ -1647,11 +1242,6 @@
       "absolute": "0x0600E564",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x2DC4"
-    },
-    "DAT_0600A826": {
-      "absolute": "0x0600A826",
-      "parent_fun": "FUN_0600A7FE",
-      "offset": "0x28"
     },
     "DAT_06013641": {
       "absolute": "0x06013641",
@@ -1883,11 +1473,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4C44"
     },
-    "DAT_06009640": {
-      "absolute": "0x06009640",
-      "parent_fun": "FUN_060095E4",
-      "offset": "0x5C"
-    },
     "DAT_0600F6A6": {
       "absolute": "0x0600F6A6",
       "parent_fun": "FUN_0600EA84",
@@ -1908,20 +1493,10 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0xC2A"
     },
-    "DAT_06009680": {
-      "absolute": "0x06009680",
-      "parent_fun": "FUN_060095E4",
-      "offset": "0x9C"
-    },
     "DAT_06011B1C": {
       "absolute": "0x06011B1C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3098"
-    },
-    "DAT_060095F0": {
-      "absolute": "0x060095F0",
-      "parent_fun": "FUN_060095E4",
-      "offset": "0xC"
     },
     "DAT_06011B20": {
       "absolute": "0x06011B20",
@@ -2015,18 +1590,13 @@
     },
     "DAT_0600EA10": {
       "absolute": "0x0600EA10",
-      "parent_fun": "FUN_0600E97E",
-      "offset": "0x92"
+      "parent_fun": "FUN_0600E9E8",
+      "offset": "0x28"
     },
     "DAT_0600F3F6": {
       "absolute": "0x0600F3F6",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x972"
-    },
-    "DAT_060096B4": {
-      "absolute": "0x060096B4",
-      "parent_fun": "FUN_060096A8",
-      "offset": "0xC"
     },
     "DAT_0600E488": {
       "absolute": "0x0600E488",
@@ -2040,13 +1610,8 @@
     },
     "DAT_0600E9B2": {
       "absolute": "0x0600E9B2",
-      "parent_fun": "FUN_0600E97E",
-      "offset": "0x34"
-    },
-    "DAT_0600E98A": {
-      "absolute": "0x0600E98A",
-      "parent_fun": "FUN_0600E97E",
-      "offset": "0xC"
+      "parent_fun": "FUN_0600E98A",
+      "offset": "0x28"
     },
     "DAT_0600E94E": {
       "absolute": "0x0600E94E",
@@ -2057,11 +1622,6 @@
       "absolute": "0x0600EF06",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x482"
-    },
-    "DAT_0600E9BE": {
-      "absolute": "0x0600E9BE",
-      "parent_fun": "FUN_0600E97E",
-      "offset": "0x40"
     },
     "DAT_0600E93C": {
       "absolute": "0x0600E93C",
@@ -2097,11 +1657,6 @@
       "absolute": "0x0600F4D4",
       "parent_fun": "FUN_0600EA84",
       "offset": "0xA50"
-    },
-    "DAT_060095B8": {
-      "absolute": "0x060095B8",
-      "parent_fun": "FUN_060094F0",
-      "offset": "0xC8"
     },
     "DAT_0600EC88": {
       "absolute": "0x0600EC88",
@@ -2147,11 +1702,6 @@
       "absolute": "0x0600F058",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x5D4"
-    },
-    "DAT_0600A00C": {
-      "absolute": "0x0600A00C",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x36"
     },
     "DAT_0600EFCC": {
       "absolute": "0x0600EFCC",
@@ -2213,20 +1763,10 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x1596"
     },
-    "DAT_0600A01A": {
-      "absolute": "0x0600A01A",
-      "parent_fun": "FUN_06009FD6",
-      "offset": "0x44"
-    },
     "DAT_06009D40": {
       "absolute": "0x06009D40",
       "parent_fun": "FUN_06009D06",
       "offset": "0x3A"
-    },
-    "DAT_06009D84": {
-      "absolute": "0x06009D84",
-      "parent_fun": "FUN_06009D72",
-      "offset": "0x12"
     },
     "DAT_06010616": {
       "absolute": "0x06010616",
@@ -2247,11 +1787,6 @@
       "absolute": "0x060100B8",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x1634"
-    },
-    "DAT_06009C18": {
-      "absolute": "0x06009C18",
-      "parent_fun": "FUN_06009BC8",
-      "offset": "0x50"
     },
     "DAT_06010124": {
       "absolute": "0x06010124",
@@ -2298,11 +1833,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x1994"
     },
-    "DAT_06008E7C": {
-      "absolute": "0x06008E7C",
-      "parent_fun": "FUN_06008E50",
-      "offset": "0x2C"
-    },
     "DAT_06010374": {
       "absolute": "0x06010374",
       "parent_fun": "FUN_0600EA84",
@@ -2342,11 +1872,6 @@
       "absolute": "0x06010594",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x1B10"
-    },
-    "DAT_06009C12": {
-      "absolute": "0x06009C12",
-      "parent_fun": "FUN_06009BC8",
-      "offset": "0x4A"
     },
     "DAT_06000300": {
       "absolute": "0x06000300",
@@ -2600,58 +2125,53 @@
     },
     "DAT_06009052": {
       "absolute": "0x06009052",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xC4"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x4"
     },
     "DAT_06009058": {
       "absolute": "0x06009058",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xCA"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0xA"
     },
     "DAT_0600905E": {
       "absolute": "0x0600905E",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xD0"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x10"
     },
     "DAT_06009064": {
       "absolute": "0x06009064",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xD6"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x16"
     },
     "DAT_0600906A": {
       "absolute": "0x0600906A",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xDC"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x1C"
     },
     "DAT_06009070": {
       "absolute": "0x06009070",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xE2"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x22"
     },
     "DAT_06009076": {
       "absolute": "0x06009076",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xE8"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x28"
     },
     "DAT_0600907C": {
       "absolute": "0x0600907C",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xEE"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x2E"
     },
     "DAT_06009082": {
       "absolute": "0x06009082",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xF4"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x34"
     },
     "DAT_06009088": {
       "absolute": "0x06009088",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0xFA"
-    },
-    "DAT_0600908E": {
-      "absolute": "0x0600908E",
-      "parent_fun": "FUN_06008F8E",
-      "offset": "0x100"
+      "parent_fun": "FUN_0600904E",
+      "offset": "0x3A"
     },
     "DAT_06009094": {
       "absolute": "0x06009094",
@@ -3480,8 +3000,8 @@
     },
     "DAT_06009490": {
       "absolute": "0x06009490",
-      "parent_fun": "FUN_06009474",
-      "offset": "0x1C"
+      "parent_fun": "FUN_0600948C",
+      "offset": "0x4"
     },
     "DAT_06009496": {
       "absolute": "0x06009496",
@@ -3733,11 +3253,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3538"
     },
-    "DAT_0600A22C": {
-      "absolute": "0x0600A22C",
-      "parent_fun": "FUN_0600A1F6",
-      "offset": "0x36"
-    },
     "DAT_06013361": {
       "absolute": "0x06013361",
       "parent_fun": "FUN_0600EA84",
@@ -3763,11 +3278,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48DE"
     },
-    "DAT_06007FEE": {
-      "absolute": "0x06007FEE",
-      "parent_fun": "FUN_06007D9E",
-      "offset": "0x250"
-    },
     "DAT_0601335C": {
       "absolute": "0x0601335C",
       "parent_fun": "FUN_0600EA84",
@@ -3775,18 +3285,18 @@
     },
     "DAT_06002FA4": {
       "absolute": "0x06002FA4",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x5E"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x36"
     },
     "DAT_06002FF0": {
       "absolute": "0x06002FF0",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0xAA"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x82"
     },
     "DAT_06002FB8": {
       "absolute": "0x06002FB8",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x72"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x4A"
     },
     "DAT_060133DC": {
       "absolute": "0x060133DC",
@@ -3810,23 +3320,13 @@
     },
     "DAT_06002F9C": {
       "absolute": "0x06002F9C",
-      "parent_fun": "FUN_06002F46",
-      "offset": "0x56"
-    },
-    "DAT_0600664A": {
-      "absolute": "0x0600664A",
-      "parent_fun": "FUN_06006602",
-      "offset": "0x48"
+      "parent_fun": "FUN_06002F6E",
+      "offset": "0x2E"
     },
     "DAT_060133B2": {
       "absolute": "0x060133B2",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x492E"
-    },
-    "DAT_060090F4": {
-      "absolute": "0x060090F4",
-      "parent_fun": "FUN_06009098",
-      "offset": "0x5C"
     }
   },
   "sym_symbols": {

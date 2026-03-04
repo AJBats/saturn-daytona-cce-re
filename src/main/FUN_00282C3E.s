@@ -97,9 +97,3 @@ FUN_00282C3E:
     .4byte FUN_00285450  /* 00282CEC = 0x00285450 */
     .4byte FUN_0028451C  /* 00282CF0 = 0x0028451C */
     .4byte sym_0028B070  /* 00282CF4 = 0x0028B070 */
-    .byte 0x2F, 0x86  /* 00282CF8: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00282CFA: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00282CFC: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00282CFE: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 00282D00: mov.l r12,@-r15 */
-    .byte 0x2F, 0xD6  /* 00282D02: mov.l r13,@-r15 */

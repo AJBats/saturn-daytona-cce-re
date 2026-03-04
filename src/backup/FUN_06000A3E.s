@@ -81,9 +81,9 @@ FUN_06000A3E:
     mov.l @r15+, r14
     .byte 0x03, 0x84  /* 06000AC4: mov.b r8,@(r0,r3) */
     .byte 0xFF, 0xFF  /* 06000AC6: .word 0xFFFF */
-    .4byte DAT_060072C4  /* 06000AC8 = 0x060072C4 (FUN_060071C4 + 0x100) */
+    .4byte DAT_060072C4  /* 06000AC8 = 0x060072C4 (FUN_0600721C + 0xA8) */
     .4byte sym_0602CEB4  /* 06000ACC = 0x0602CEB4 */
-    .4byte DAT_06007F80  /* 06000AD0 = 0x06007F80 (FUN_06007D64 + 0x21C) */
+    .4byte FUN_06007F80  /* 06000AD0 = 0x06007F80 */
 .L_pool_06000AD4:
     .4byte sym_06034AC8  /* 06000AD4 = 0x06034AC8 */
 .L_pool_06000AD8:

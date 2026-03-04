@@ -26,8 +26,3 @@ FUN_06017508:
     lds.l @r15+, pr
     .byte 0xAB, 0xDE  /* 06017530: bra 0x06016CF0 */
     mov.l r0, @(76, gbr)
-    .byte 0xC4, 0xC2  /* 06017534: mov.b @(0xC2,GBR),r0 */
-    .byte 0x20, 0x08  /* 06017536: tst r0,r0 */
-    .byte 0x8B, 0x01  /* 06017538: bf 0x0601753E */
-    .byte 0x00, 0x0B  /* 0601753A: rts */
-    .byte 0x00, 0x09  /* 0601753C: nop */

@@ -34,7 +34,7 @@ FUN_00284CE4:
     mov.l @r2, r1
     tst r1, r1
     bf/s .L_00284D20
-    .word 0x0929 /* UNKNOWN */
+    .byte 0x09, 0x29  /* UNKNOWN */
     mov.l r9, @r2
 .L_00284D20:
     mov.l @r4, r1
@@ -103,6 +103,6 @@ FUN_00284CE4:
 .L_pool_00284D9C:
     .4byte sym_0028B084  /* 00284D9C = 0x0028B084 */
 .L_pool_00284DA0:
-    .4byte DAT_002856D8  /* 00284DA0 = 0x002856D8 (FUN_0028569E + 0x3A) */
+    .4byte FUN_002856D8  /* 00284DA0 = 0x002856D8 */
     .byte 0x2F, 0x86  /* 00284DA4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 00284DA6: mov.l r9,@-r15 */

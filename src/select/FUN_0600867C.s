@@ -17,7 +17,7 @@ FUN_0600867C:
     bra .L_060086D0
     add #0x4, r15
 .L_06008694:
-    .byte 0x9B, 0x25  /* 06008694: mov.w @(0x4A,PC),r11  {0x060086E2} */
+    mov.w .L_wpool_060086E2, r11
     extu.b r14, r2
     cmp/ge r4, r2
     bt/s .L_060086BE
@@ -40,7 +40,7 @@ FUN_0600867C:
     add #0x8, r15
 .L_060086BE:
     mov r13, r7
-    .byte 0x94, 0x0F  /* 060086C0: mov.w @(0x1E,PC),r4  {0x060086E2} */
+    mov.w .L_wpool_060086E2, r4
     mov r11, r6
     mov.l .L_pool_060086F8, r3
     mov r12, r5
@@ -57,7 +57,9 @@ FUN_0600867C:
     mov.l @r15+, r14
     .byte 0x00, 0x80  /* 060086DC: .word 0x0080 */
     .byte 0x0F, 0xFF  /* 060086DE: mac.l @r15+,@r15+ */
-    .4byte DAT_060000C0  /* 060086E0 = 0x060000C0 (FUN_06000000 + 0xC0) */
+    .byte 0x06, 0x00  /* 060086E0: .word 0x0600 */
+.L_wpool_060086E2:
+    .byte 0x00, 0xC0  /* 060086E2: .word 0x00C0 */
     .4byte sym_25E0C000  /* 060086E4 = 0x25E0C000 */
 .L_pool_060086E8:
     .4byte sym_25E60000  /* 060086E8 = 0x25E60000 */

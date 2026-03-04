@@ -14,7 +14,7 @@ FUN_00284CBC:
     mov.l @(56, r2), r1
     cmp/eq r4, r1
     bra .L_00284CD4
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00284CD2:
     mov #0x0, r0
 .L_00284CD4:
@@ -24,5 +24,3 @@ FUN_00284CBC:
     .byte 0x00, 0x00  /* 00284CDA: .word 0x0000 */
 .L_pool_00284CDC:
     .4byte sym_0028B084  /* 00284CDC = 0x0028B084 */
-    .byte 0x2F, 0x86  /* 00284CE0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00284CE2: mov.l r9,@-r15 */

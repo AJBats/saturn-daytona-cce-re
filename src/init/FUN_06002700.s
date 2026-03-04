@@ -23,4 +23,3 @@ FUN_06002700:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xE3, 0x02  /* 06002726: mov #2,r3 */

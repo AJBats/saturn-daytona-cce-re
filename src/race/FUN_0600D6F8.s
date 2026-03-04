@@ -42,7 +42,3 @@ FUN_0600D6F8:
     .byte 0x04, 0x1A  /* 0600D742: sts macl,r4 */
     .byte 0x00, 0x0B  /* 0600D744: rts */
     .byte 0x6A, 0xF6  /* 0600D746: mov.l @r15+,r10 */
-    .byte 0xE4, 0x01  /* 0600D748: mov #1,r4 */
-    .byte 0x6A, 0xF6  /* 0600D74A: mov.l @r15+,r10 */
-    .byte 0x00, 0x0B  /* 0600D74C: rts */
-    .byte 0x44, 0x28  /* 0600D74E: shll16 r4 */

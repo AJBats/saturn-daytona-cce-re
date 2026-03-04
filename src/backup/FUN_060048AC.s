@@ -58,4 +58,3 @@ FUN_060048AC:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x60, 0x53  /* 06004916: mov r5,r0 */

@@ -8,4 +8,3 @@ FUN_0600AF4E:
     mov.l r13, @-r15
     mov #0xF, r14
     mov.l r12, @-r15
-    mov #0x0, r13

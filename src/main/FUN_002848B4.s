@@ -28,7 +28,3 @@ FUN_002848B4:
     .byte 0x00, 0x00  /* 002848DA: .word 0x0000 */
 .L_pool_002848DC:
     .4byte sym_0028B084  /* 002848DC = 0x0028B084 */
-    .byte 0x2F, 0x86  /* 002848E0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002848E2: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002848E4: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 002848E6: mov.l r11,@-r15 */

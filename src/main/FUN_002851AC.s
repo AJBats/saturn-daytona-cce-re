@@ -13,7 +13,7 @@ FUN_002851AC:
     bf/s .L_002851C0
     mov r15, r14
     bra .L_002851C2
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_002851C0:
     mov #0x0, r0
 .L_002851C2:

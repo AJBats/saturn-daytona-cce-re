@@ -16,4 +16,3 @@ FUN_0600116E:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x24, 0x48  /* 06001186: tst r4,r4 */

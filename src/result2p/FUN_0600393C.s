@@ -123,7 +123,3 @@ FUN_0600393C:
     add #0x4, r3
     bra .L_060039FE
     mov.l r3, @(4, r10)
-    .byte 0x58, 0x14  /* 06003A1E: mov.l @(0x10,r1),r8 */
-    .byte 0x28, 0x88  /* 06003A20: tst r8,r8 */
-    .byte 0x89, 0x11  /* 06003A22: bt 0x06003A48 */
-    .byte 0x38, 0x1C  /* 06003A24: add r1,r8 */

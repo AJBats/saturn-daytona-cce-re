@@ -277,4 +277,4 @@ def decode_sh2(opcode, pc):
 
     # --- 1111: reserved on SH-2 ---
 
-    return f".word 0x{opcode:04X} /* UNKNOWN */", None
+    return f".byte 0x{(opcode >> 8) & 0xFF:02X}, 0x{opcode & 0xFF:02X} /* UNKNOWN 0x{opcode:04X} */", None

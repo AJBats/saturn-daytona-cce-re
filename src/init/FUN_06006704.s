@@ -28,10 +28,3 @@ FUN_06006704:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0x74, 0x0C  /* 06006732: add #12,r4 */
-    .byte 0xE0, 0x4C  /* 06006734: mov #76,r0 */
-    .byte 0x00, 0x0B  /* 06006736: rts */
-    .byte 0x00, 0x4E  /* 06006738: mov.l @(r0,r4),r0 */
-    .byte 0x63, 0x43  /* 0600673A: mov r4,r3 */
-    .byte 0xD1, 0x2E  /* 0600673C: mov.l @(0xB8,PC),r1  {[0x060067F8] = 0x0600A826} */
-    .byte 0xE7, 0x00  /* 0600673E: mov #0,r7 */

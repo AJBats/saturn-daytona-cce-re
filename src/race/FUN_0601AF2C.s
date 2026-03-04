@@ -170,7 +170,7 @@ FUN_0601AF2C:
     .4byte sym_060540B4  /* 0601B068 = 0x060540B4 */
     .4byte sym_002FC233  /* 0601B06C = 0x002FC233 */
     .4byte sym_002FC21C  /* 0601B070 = 0x002FC21C */
-    .4byte DAT_0600795A  /* 0601B074 = 0x0600795A (FUN_060078E8 + 0x72) */
+    .4byte FUN_0600795A  /* 0601B074 = 0x0600795A */
     .byte 0x90, 0x91  /* 0601B078: mov.w @(0x122,PC),r0  {0x0601B19E} */
     .byte 0xE3, 0x04  /* 0601B07A: mov #4,r3 */
     .byte 0x0D, 0x44  /* 0601B07C: mov.b r4,@(r0,r13) */

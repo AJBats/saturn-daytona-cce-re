@@ -12,7 +12,7 @@ FUN_0600D0D0:
     tst r0, r0
     bt/s .L_0600D0E8
     mov #0x0, r6
-    bsr .L_0600D1B6
+    .byte 0xB0, 0x69  /* 0600D0E0: bsr 0x0600D1B6 */
     mov r6, r14
     bra .L_0600D1AC
     nop
@@ -38,13 +38,13 @@ FUN_0600D0D0:
 .L_pool_0600D118:
     .4byte DAT_0601336E  /* 0600D118 = 0x0601336E (FUN_0600D360 + 0x600E) */
     .4byte sym_260133FC  /* 0600D11C = 0x260133FC */
-    .4byte DAT_060080FA  /* 0600D120 = 0x060080FA (FUN_06008094 + 0x66) */
-    .4byte DAT_0600813E  /* 0600D124 = 0x0600813E (FUN_06008094 + 0xAA) */
+    .4byte FUN_060080FA  /* 0600D120 = 0x060080FA */
+    .4byte FUN_0600813E  /* 0600D124 = 0x0600813E */
     .4byte DAT_060133F7  /* 0600D128 = 0x060133F7 (FUN_0600D360 + 0x6097) */
     .4byte DAT_06011F91  /* 0600D12C = 0x06011F91 (FUN_0600D360 + 0x4C31) */
     .4byte sym_20100063  /* 0600D130 = 0x20100063 */
     .4byte sym_2010001F  /* 0600D134 = 0x2010001F */
-    .4byte DAT_06007EA4  /* 0600D138 = 0x06007EA4 (FUN_06007D64 + 0x140) */
+    .4byte FUN_06007EA4  /* 0600D138 = 0x06007EA4 */
     .4byte DAT_06008442  /* 0600D13C = 0x06008442 (FUN_0600837A + 0xC8) */
 .L_pool_0600D140:
     .4byte DAT_0601348C  /* 0600D140 = 0x0601348C (FUN_0600D360 + 0x612C) */
@@ -101,7 +101,7 @@ FUN_0600D0D0:
     bf .L_0600D1AA
     mov.b r6, @r14
 .L_0600D1A2:
-    bsr .L_0600D1B6
+    .byte 0xB0, 0x08  /* 0600D1A2: bsr 0x0600D1B6 */
     mov r6, r14
     bra .L_0600D1AC
     nop
@@ -113,7 +113,3 @@ FUN_0600D0D0:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_0600D1B6:
-    mov #0x0, r4
-    .byte 0xD7, 0x22  /* 0600D1B8: mov.l @(0x88,PC),r7  {[0x0600D244] = 0x060133B4} */
-    mov #0xD, r1

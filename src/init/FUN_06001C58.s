@@ -244,6 +244,6 @@ FUN_06001C58:
     mov.l @r15+, r14
     .byte 0xFF, 0xFF  /* 06001E0E: .word 0xFFFF */
 .L_pool_06001E10:
-    .4byte DAT_06008B10  /* 06001E10 = 0x06008B10 (FUN_06008AC2 + 0x4E) */
+    .4byte FUN_06008B10  /* 06001E10 = 0x06008B10 */
 .L_pool_06001E14:
     .4byte FUN_06008BB8  /* 06001E14 = 0x06008BB8 */

@@ -58,4 +58,3 @@ FUN_06000B8E:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE2, 0x02  /* 06000BFA: mov #2,r2 */

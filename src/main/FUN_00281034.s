@@ -27,7 +27,7 @@ FUN_00281034:
     mov.l @r14, r1
     cmp/ge r1, r9
     bra .L_0028106A
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00281064:
     mov.l .L_pool_00281080, r0
     jsr @r0
@@ -41,9 +41,9 @@ FUN_00281034:
     rts
     mov.l @r15+, r8
 .L_pool_00281078:
-    .4byte DAT_00280FE0  /* 00281078 = 0x00280FE0 (FUN_00280F34 + 0xAC) */
+    .4byte FUN_00280FE0  /* 00281078 = 0x00280FE0 */
 .L_pool_0028107C:
-    .4byte DAT_002810E0  /* 0028107C = 0x002810E0 (FUN_00281086 + 0x5A) */
+    .4byte FUN_002810E0  /* 0028107C = 0x002810E0 */
 .L_pool_00281080:
-    .4byte DAT_00281E18  /* 00281080 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 00281080 = 0x00281E18 */
     .byte 0x2F, 0x86  /* 00281084: mov.l r8,@-r15 */

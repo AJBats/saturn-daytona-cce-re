@@ -21,7 +21,7 @@ FUN_06005D60:
     bra .L_06005DC8
     mov #0x10, r13
     .4byte sym_25E6A0A6  /* 06005D7C = 0x25E6A0A6 */
-    .4byte DAT_06008A5C  /* 06005D80 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte FUN_06008A5C  /* 06005D80 = 0x06008A5C */
     .4byte sym_002E1156  /* 06005D84 = 0x002E1156 */
     .4byte sym_0604C88C  /* 06005D88 = 0x0604C88C */
     .4byte sym_25E6A0AA  /* 06005D8C = 0x25E6A0AA */

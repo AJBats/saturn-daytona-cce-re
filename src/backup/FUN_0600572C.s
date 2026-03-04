@@ -7,17 +7,19 @@ FUN_0600572C:
     sts.l pr, @-r15
     mov r14, r2
     mov #0x30, r7
+.L_06005732:
     mov.l @r4+, r0
     mov.l r0, @r2
     dt r7
-    .4byte 0x8FFB7204  /* 06005738 = 0x8FFB7204 */
+    bf/s .L_06005732
+    add #0x4, r2
     .byte 0xB1, 0x76  /* 0600573C: bsr 0x06005A2C */
-    .byte 0x4E, 0x1E  /* 0600573E: ldc r14,gbr */
+    ldc r14, gbr
     .byte 0xB4, 0x74  /* 06005740: bsr 0x0600602C */
-    .byte 0xE4, 0x00  /* 06005742: mov #0,r4 */
-    .byte 0x4F, 0x26  /* 06005744: lds.l @r15+,pr */
-    .byte 0x00, 0x0B  /* 06005746: rts */
-    .byte 0x00, 0x09  /* 06005748: nop */
+    mov #0x0, r4
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x09  /* 0600574A: nop */
     .byte 0x00, 0x00  /* 0600574C: .word 0x0000 */
     .byte 0x80, 0x00  /* 0600574E: mov.b r0,@(0x0,r0) */

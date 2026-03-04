@@ -72,8 +72,3 @@ FUN_00287500:
     .4byte sym_25FE000C  /* 0028757C = 0x25FE000C */
 .L_pool_00287580:
     .4byte sym_25FE0014  /* 00287580 = 0x25FE0014 */
-    .byte 0x2F, 0x86  /* 00287584: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00287586: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00287588: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 0028758A: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 0028758C: mov.l r12,@-r15 */

@@ -30,11 +30,12 @@ FUN_06005C3E:
     tst #0x1, r0
     mov.w @r8+, r0
     bf/s .L_06005C86
-    .4byte 0xC141B08B  /* 06005C70 = 0xC141B08B */
-    .byte 0x2F, 0x76  /* 06005C74: mov.l r7,@-r15 */
-    .byte 0x67, 0xF6  /* 06005C76: mov.l @r15+,r7 */
-    .byte 0x47, 0x10  /* 06005C78: dt r7 */
-    .byte 0x8B, 0xEF  /* 06005C7A: bf 0x06005C5C */
+    mov.w r0, @(130, gbr)
+    .byte 0xB0, 0x8B  /* 06005C72: bsr 0x06005D8C */
+    mov.l r7, @-r15
+    mov.l @r15+, r7
+    dt r7
+    bf .L_06005C5C
 .L_06005C7C:
     mov.l @(44, r14), r4
     mov.l @r15+, r14

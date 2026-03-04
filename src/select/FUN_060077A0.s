@@ -74,22 +74,20 @@ FUN_060077A0:
     mov #0x1, r4
     mov #0x1B, r6
     mov #0x2B, r5
-    bsr .L_0600783E
+    .byte 0xB0, 0x0D  /* 06007820: bsr 0x0600783E */
     mov #0x0, r4
     mov #0x1B, r6
     mov #0x49, r5
     mov #0x1, r4
-    bra .L_0600783E
+    .byte 0xA0, 0x08  /* 0600782A: bra 0x0600783E */
     lds.l @r15+, pr
 .L_0600782E:
     mov #0x1B, r6
     mov #0x2E, r5
     mov #0x0, r4
-    bra .L_0600783E
+    .byte 0xA0, 0x03  /* 06007834: bra 0x0600783E */
     lds.l @r15+, pr
 .L_06007838:
     lds.l @r15+, pr
     rts
     nop
-.L_0600783E:
-    mov r4, r0

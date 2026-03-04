@@ -79,5 +79,3 @@ FUN_0600CA88:
     nop
     .byte 0x10, 0x05  /* 0600CB14: mov.l r0,@(0x14,r0) */
     .byte 0x04, 0xC0  /* 0600CB16: .word 0x04C0 */
-    .byte 0xC8, 0x40  /* 0600CB18: tst #0x40,r0 */
-    .byte 0x89, 0x1D  /* 0600CB1A: bt 0x0600CB58 */

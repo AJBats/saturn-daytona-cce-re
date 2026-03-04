@@ -54,7 +54,8 @@ FUN_06001F68:
     add #0x10, r15
     lds.l @r15+, pr
     rts
-    .4byte 0x0009FFFF  /* 06001FC0 = 0x0009FFFF */
+    nop
+    .byte 0xFF, 0xFF  /* 06001FC2: .word 0xFFFF */
     .4byte sym_00259EE4  /* 06001FC4 = 0x00259EE4 */
     .4byte sym_00254A64  /* 06001FC8 = 0x00254A64 */
     .4byte sym_00259EE8  /* 06001FCC = 0x00259EE8 */

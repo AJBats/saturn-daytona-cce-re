@@ -42,12 +42,6 @@ FUN_00286794:
 .L_wpool_002867D6:
     .byte 0x00, 0xFF  /* 002867D6: mac.l @r15+,@r0+ */
 .L_pool_002867D8:
-    .4byte DAT_002867E0  /* 002867D8 = 0x002867E0 (FUN_00286794 + 0x4C) */
+    .4byte FUN_002867E0  /* 002867D8 = 0x002867E0 */
 .L_pool_002867DC:
     .4byte FUN_00287494  /* 002867DC = 0x00287494 */
-    .byte 0x2F, 0x86  /* 002867E0: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002867E2: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002867E4: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 002867E6: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 002867E8: mov.l r12,@-r15 */
-    .byte 0x2F, 0xD6  /* 002867EA: mov.l r13,@-r15 */

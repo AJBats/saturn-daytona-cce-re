@@ -41,6 +41,3 @@ FUN_00282BFC:
 .L_wpool_00282C34:
     .byte 0x08, 0x00  /* 00282C34: .word 0x0800 */
     .byte 0x00, 0x00  /* 00282C36: .word 0x0000 */
-    .byte 0x2F, 0x86  /* 00282C38: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00282C3A: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00282C3C: mov.l r10,@-r15 */

@@ -75,14 +75,12 @@ FUN_00282A7A:
     rts
     mov.l @r15+, r8
 .L_pool_00282AFC:
-    .4byte DAT_00282B64  /* 00282AFC = 0x00282B64 (FUN_00282B14 + 0x50) */
+    .4byte FUN_00282B64  /* 00282AFC = 0x00282B64 */
 .L_pool_00282B00:
-    .4byte DAT_0028485C  /* 00282B00 = 0x0028485C (FUN_00284828 + 0x34) */
+    .4byte FUN_0028485C  /* 00282B00 = 0x0028485C */
 .L_pool_00282B04:
-    .4byte DAT_00282B10  /* 00282B04 = 0x00282B10 (FUN_00282A7A + 0x96) */
+    .4byte FUN_00282B10  /* 00282B04 = 0x00282B10 */
 .L_pool_00282B08:
     .4byte FUN_0028480C  /* 00282B08 = 0x0028480C */
 .L_pool_00282B0C:
     .4byte FUN_0028489C  /* 00282B0C = 0x0028489C */
-    .byte 0x2F, 0x86  /* 00282B10: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00282B12: mov.l r9,@-r15 */

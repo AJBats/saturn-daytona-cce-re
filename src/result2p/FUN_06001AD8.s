@@ -24,9 +24,9 @@ FUN_06001AD8:
     rts
     mov.l @r15+, r14
     .byte 0x17, 0x70  /* 06001AFE: mov.l r7,@(0x0,r7) */
-    .4byte DAT_06008B10  /* 06001B00 = 0x06008B10 (FUN_060056C4 + 0x344C) */
+    .4byte FUN_06008B10  /* 06001B00 = 0x06008B10 */
 .L_pool_06001B04:
-    .4byte DAT_06008BB8  /* 06001B04 = 0x06008BB8 (FUN_060056C4 + 0x34F4) */
+    .4byte DAT_06008BB8  /* 06001B04 = 0x06008BB8 (FUN_06008B10 + 0xA8) */
     .byte 0xD0, 0x07  /* 06001B08: mov.l @(0x1C,PC),r0  {[0x06001B28] = 0x25F00000} */
     .byte 0x67, 0x43  /* 06001B0A: mov r4,r7 */
     .byte 0x45, 0x00  /* 06001B0C: shll r5 */

@@ -53,7 +53,7 @@ FUN_0600A6B6:
     mov.l @r14, r2
     mov.w .L_wpool_0600A752, r0
     mov.l r13, @(r0, r2)
-    bra .L_0600A7F0
+    .byte 0xA0, 0x6C  /* 0600A714: bra 0x0600A7F0 */
     mov r13, r0
 .L_0600A718:
     mov.l @r15, r3
@@ -66,7 +66,7 @@ FUN_0600A6B6:
     add #0x18, r0
     mov.l @(r0, r3), r2
     mov.l r13, @r2
-    bra .L_0600A7F0
+    .byte 0xA0, 0x60  /* 0600A72C: bra 0x0600A7F0 */
     mov r13, r0
 .L_0600A730:
     mov.l @r14, r3
@@ -83,7 +83,7 @@ FUN_0600A6B6:
     mov.l @(52, r0), r0
     cmp/eq #-0x1, r0
     bt .L_0600A76C
-    bra .L_0600A7F0
+    .byte 0xA0, 0x51  /* 0600A74A: bra 0x0600A7F0 */
     mov #0x2, r0
     .byte 0x03, 0x04  /* 0600A74E: mov.b r0,@(r0,r3) */
     .byte 0x03, 0x08  /* 0600A750: .word 0x0308 */
@@ -125,7 +125,7 @@ FUN_0600A6B6:
     mov r0, r4
     tst r4, r4
     bt .L_0600A798
-    bra .L_0600A7F0
+    .byte 0xA0, 0x2C  /* 0600A794: bra 0x0600A7F0 */
     mov #0x2, r0
 .L_0600A798:
     .byte 0xB3, 0x8E  /* 0600A798: bsr 0x0600AEB8 */
@@ -142,7 +142,7 @@ FUN_0600A6B6:
     .byte 0x91, 0x61  /* 0600A7AC: mov.w @(0xC2,PC),r1  {0x0600A872} */
     mov.l @(r0, r1), r0
     cmp/eq #0x3, r0
-    bf .L_0600A7EE
+    .byte 0x8B, 0x1C  /* 0600A7B2: bf 0x0600A7EE */
     .byte 0xD2, 0x31  /* 0600A7B4: mov.l @(0xC4,PC),r2  {[0x0600A87C] = 0x0601070C} */
     mov r15, r4
     add #0x4, r4
@@ -151,35 +151,9 @@ FUN_0600A6B6:
     mov r0, r4
     tst r4, r4
     bt .L_0600A7C8
-    bra .L_0600A7F0
+    .byte 0xA0, 0x14  /* 0600A7C4: bra 0x0600A7F0 */
     mov #0x1, r0
 .L_0600A7C8:
     .byte 0xB3, 0x76  /* 0600A7C8: bsr 0x0600AEB8 */
     nop
     mov.l @r12, r2
-    add #0x1, r2
-    mov.l r2, @r12
-    mov.l @r14, r3
-    .byte 0x90, 0x4D  /* 0600A7D4: mov.w @(0x9A,PC),r0  {0x0600A872} */
-    mov.l r13, @(r0, r3)
-    mov.l @r14, r3
-    add #0x18, r0
-    mov.l @(4, r15), r1
-    mov.l @(r0, r3), r2
-    shll r1
-    mov.l r1, @r2
-    mov.l @r14, r3
-    mov #-0x1, r2
-    mov.l r2, @(52, r3)
-    bra .L_0600A7F0
-    mov r13, r0
-.L_0600A7EE:
-    mov #0x1, r0
-.L_0600A7F0:
-    add #0x8, r15
-    lds.l @r15+, pr
-    mov.l @r15+, r11
-    mov.l @r15+, r12
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14

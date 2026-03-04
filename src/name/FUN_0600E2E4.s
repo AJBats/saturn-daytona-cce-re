@@ -45,7 +45,7 @@ FUN_0600E2E4:
     nop
     .byte 0x00, 0x00  /* 0600E32E: .word 0x0000 */
 .L_pool_0600E330:
-    .4byte DAT_060058B4  /* 0600E330 = 0x060058B4 (FUN_0600589E + 0x16) */
+    .4byte FUN_060058B4  /* 0600E330 = 0x060058B4 */
     .byte 0x67, 0x41  /* 0600E334: mov.w @r4,r7 */
     .byte 0x45, 0x09  /* 0600E336: shlr2 r5 */
     .byte 0x45, 0x01  /* 0600E338: shlr r5 */

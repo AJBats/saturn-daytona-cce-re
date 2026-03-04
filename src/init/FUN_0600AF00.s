@@ -19,7 +19,3 @@ FUN_0600AF00:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x94, 0x3D  /* 0600AF1C: mov.w @(0x7A,PC),r4  {0x0600AF9A} */
-    .byte 0xD3, 0x21  /* 0600AF1E: mov.l @(0x84,PC),r3  {[0x0600AFA4] = 0x0600A01A} */
-    .byte 0x43, 0x2B  /* 0600AF20: jmp @r3 */
-    .byte 0x00, 0x09  /* 0600AF22: nop */

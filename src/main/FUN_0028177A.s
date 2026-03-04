@@ -54,7 +54,7 @@ FUN_0028177A:
     mov.l r10, @r11
     cmp/pl r9
     bf .L_002817D8
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_002817D8:
     mov r14, r15
     lds.l @r15+, pr
@@ -69,6 +69,6 @@ FUN_0028177A:
 .L_pool_002817EC:
     .4byte sym_0028B070  /* 002817EC = 0x0028B070 */
 .L_pool_002817F0:
-    .4byte DAT_002816B0  /* 002817F0 = 0x002816B0 (FUN_00281682 + 0x2E) */
+    .4byte FUN_002816B0  /* 002817F0 = 0x002816B0 */
     .byte 0x2F, 0x86  /* 002817F4: mov.l r8,@-r15 */
     .byte 0x2F, 0x96  /* 002817F6: mov.l r9,@-r15 */

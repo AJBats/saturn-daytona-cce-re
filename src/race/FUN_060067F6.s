@@ -84,22 +84,3 @@ FUN_060067F6:
     mov #0x7, r7
     .byte 0xD3, 0x34  /* 06006884: mov.l @(0xD0,PC),r3  {[0x06006958] = 0x25E68000} */
     mul.l r2, r6
-    mov.l r4, @-r15
-    sts macl, r6
-    .byte 0xD1, 0x33  /* 0600688C: mov.l @(0xCC,PC),r1  {[0x0600695C] = 0x0602D090} */
-    shll r6
-    mov.w @(4, r15), r0
-    add r6, r14
-    mov #0x2C, r6
-    mov r0, r5
-    shll2 r5
-    shll2 r5
-    shll2 r5
-    shll r5
-    add r3, r5
-    jsr @r1
-    mov r14, r4
-    add #0x8, r15
-    .4byte 0x4F164F26  /* 060068A8 = 0x4F164F26 */
-    .byte 0x00, 0x0B  /* 060068AC: rts */
-    .byte 0x6E, 0xF6  /* 060068AE: mov.l @r15+,r14 */

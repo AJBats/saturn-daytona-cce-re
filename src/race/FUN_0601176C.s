@@ -228,8 +228,9 @@ FUN_0601176C:
     mov r13, r4
 .L_0601190A:
     mov.w .L_wpool_0601199C, r0
-    .4byte 0x53F104EE  /* 0601190C = 0x53F104EE */
-    .byte 0x6E, 0x43  /* 06011910: mov r4,r14 */
+    mov.l @(4, r15), r3
+    mov.l @(r0, r14), r4
+    mov r4, r14
 .L_06011912:
     add #0x1, r3
     mov.l .L_pool_060119BC, r1

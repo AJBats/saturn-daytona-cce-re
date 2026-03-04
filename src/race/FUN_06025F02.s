@@ -20,11 +20,12 @@ FUN_06025F02:
     mov.l @r15+, r13
     mov.l @r15+, r12
     mov.l @r15+, r11
-    .4byte 0x6AF669F6  /* 06025F20 = 0x6AF669F6 */
-    .byte 0x68, 0xF6  /* 06025F24: mov.l @r15+,r8 */
-    .byte 0x4F, 0x17  /* 06025F26: .word 0x4F17 */
-    .byte 0x00, 0x0B  /* 06025F28: rts */
-    .byte 0x00, 0x09  /* 06025F2A: nop */
+    mov.l @r15+, r10
+    mov.l @r15+, r9
+    mov.l @r15+, r8
+    ldc.l @r15+, gbr
+    rts
+    nop
     .4byte 0x0000FFFF  /* 06025F2C = 0x0000FFFF */
     .4byte 0x0000038E  /* 06025F30 = 0x0000038E */
 .L_pool_06025F34:

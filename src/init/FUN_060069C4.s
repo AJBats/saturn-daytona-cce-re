@@ -18,13 +18,14 @@ FUN_060069C4:
     extu.b r4, r0
     cmp/eq #0x1, r0
     bt/s .L_06006A48
-    .4byte 0x64036043  /* 060069E0 = 0x64036043 */
-    .byte 0x88, 0x02  /* 060069E4: cmp/eq #2,r0 */
-    .byte 0x89, 0x2F  /* 060069E6: bt 0x06006A48 */
-    .byte 0x63, 0xF2  /* 060069E8: mov.l @r15,r3 */
-    .byte 0x23, 0xD2  /* 060069EA: mov.l r13,@r3 */
-    .byte 0xA0, 0xF0  /* 060069EC: bra 0x06006BD0 */
-    .byte 0xE0, 0x01  /* 060069EE: mov #1,r0 */
+    mov r0, r4
+    mov r4, r0
+    cmp/eq #0x2, r0
+    bt .L_06006A48
+    mov.l @r15, r3
+    mov.l r13, @r3
+    bra .L_06006BD0
+    mov #0x1, r0
     .byte 0xFF, 0x0F  /* 060069F0: .word 0xFF0F */
     .byte 0xFF, 0x7F  /* 060069F2: .word 0xFF7F */
     .4byte DAT_06013678  /* 060069F4 = 0x06013678 (FUN_0600EA84 + 0x4BF4) */

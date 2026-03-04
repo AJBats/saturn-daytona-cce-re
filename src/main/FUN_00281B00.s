@@ -25,5 +25,3 @@ FUN_00281B00:
     .4byte sym_06000CCC  /* 00281B20 = 0x06000CCC */
 .L_pool_00281B24:
     .4byte sym_06000CCD  /* 00281B24 = 0x06000CCD */
-    .byte 0x2F, 0x86  /* 00281B28: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00281B2A: mov.l r9,@-r15 */

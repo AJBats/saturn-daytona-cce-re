@@ -192,7 +192,7 @@ FUN_0600D904:
     mov.l @(r0, r1), r2
     cmp/pl r2
     bt .L_0600DA50
-    bsr .L_0600DB0E
+    .byte 0xB0, 0x60  /* 0600DA4A: bsr 0x0600DB0E */
     nop
     mov r14, r0
 .L_0600DA50:
@@ -294,23 +294,3 @@ FUN_0600D904:
     lds.l @r15+, pr
     rts
     mov.l r3, @(r0, r4)
-.L_0600DB0E:
-    .byte 0x97, 0x7C  /* 0600DB0E: mov.w @(0xF8,PC),r7  {0x0600DC0A} */
-    mov.w @(r0, r7), r3
-    mov #0x4, r4
-    cmp/gt r4, r3
-    bt .L_0600DB2C
-    mov.l @(52, r0), r3
-    mov #0x14, r4
-    cmp/ge r3, r4
-    bt .L_0600DB2C
-    mov #0xF, r4
-    tst r3, r3
-    bt .L_0600DB2A
-    mov #0x8, r5
-    sub r5, r4
-.L_0600DB2A:
-    mov.w r4, @(r0, r7)
-.L_0600DB2C:
-    rts
-    nop

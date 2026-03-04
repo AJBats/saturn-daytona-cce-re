@@ -167,7 +167,7 @@ FUN_06015704:
 .L_pool_06015840:
     .4byte sym_06054920  /* 06015840 = 0x06054920 */
 .L_pool_06015844:
-    .4byte DAT_06008F54  /* 06015844 = 0x06008F54 (FUN_06008EC8 + 0x8C) */
+    .4byte FUN_06008F54  /* 06015844 = 0x06008F54 */
 .L_pool_06015848:
     .4byte sym_06044D80  /* 06015848 = 0x06044D80 */
 .L_pool_0601584C:
@@ -255,36 +255,40 @@ FUN_06015704:
     bt .L_06015920
     mov.l .L_pool_06015970, r2
     mov #0x4C, r0
-    .4byte 0x0ED6E020  /* 060158E8 = 0x0ED6E020 */
-    .byte 0x66, 0x22  /* 060158EC: mov.l @r2,r6 */
-    .byte 0x65, 0x90  /* 060158EE: mov.b @r9,r5 */
-    .byte 0x67, 0x42  /* 060158F0: mov.l @r4,r7 */
-    .byte 0x65, 0x5C  /* 060158F2: extu.b r5,r5 */
-    .byte 0x63, 0x53  /* 060158F4: mov r5,r3 */
-    .byte 0x45, 0x08  /* 060158F6: shll2 r5 */
-    .byte 0x35, 0x3C  /* 060158F8: add r3,r5 */
-    .byte 0x45, 0x08  /* 060158FA: shll2 r5 */
-    .byte 0x45, 0x00  /* 060158FC: shll r5 */
-    .byte 0x35, 0x8C  /* 060158FE: add r8,r5 */
-    .byte 0x05, 0x5C  /* 06015900: mov.b @(r0,r5),r5 */
-    .byte 0x63, 0x53  /* 06015902: mov r5,r3 */
-    .byte 0x45, 0x00  /* 06015904: shll r5 */
-    .byte 0x35, 0x3C  /* 06015906: add r3,r5 */
-    .byte 0x45, 0x08  /* 06015908: shll2 r5 */
-    .byte 0x45, 0x00  /* 0601590A: shll r5 */
-    .byte 0xA0, 0x03  /* 0601590C: bra 0x06015916 */
-    .byte 0x45, 0x09  /* 0601590E: shlr2 r5 */
-    .byte 0x63, 0x66  /* 06015910: mov.l @r6+,r3 */
-    .byte 0x27, 0x32  /* 06015912: mov.l r3,@r7 */
-    .byte 0x77, 0x04  /* 06015914: add #4,r7 */
-    .byte 0x25, 0x58  /* 06015916: tst r5,r5 */
-    .byte 0x8F, 0xFA  /* 06015918: bf/s 0x06015910 */
-    .byte 0x75, 0xFF  /* 0601591A: add #-1,r5 */
-    .byte 0xA0, 0x02  /* 0601591C: bra 0x06015924 */
-    .byte 0x00, 0x09  /* 0601591E: nop */
+    mov.l r13, @(r0, r14)
+    mov #0x20, r0
+    mov.l @r2, r6
+    mov.b @r9, r5
+    mov.l @r4, r7
+    extu.b r5, r5
+    mov r5, r3
+    shll2 r5
+    add r3, r5
+    shll2 r5
+    shll r5
+    add r8, r5
+    mov.b @(r0, r5), r5
+    mov r5, r3
+    shll r5
+    add r3, r5
+    shll2 r5
+    shll r5
+    bra .L_06015916
+    shlr2 r5
+.L_06015910:
+    mov.l @r6+, r3
+    mov.l r3, @r7
+    add #0x4, r7
+.L_06015916:
+    tst r5, r5
+    bf/s .L_06015910
+    add #-0x1, r5
+    bra .L_06015924
+    nop
 .L_06015920:
     mov #0x4C, r0
     mov.l r13, @(r0, r14)
+.L_06015924:
     mov.l @r4, r3
     mov #0x7C, r0
     mov.l r3, @(r0, r14)

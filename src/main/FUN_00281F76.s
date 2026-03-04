@@ -40,14 +40,10 @@ FUN_00281F76:
     rts
     mov.l @r15+, r8
 .L_pool_00281FB8:
-    .4byte DAT_00283794  /* 00281FB8 = 0x00283794 (FUN_00283728 + 0x6C) */
+    .4byte FUN_00283794  /* 00281FB8 = 0x00283794 */
 .L_pool_00281FBC:
-    .4byte DAT_00282608  /* 00281FBC = 0x00282608 (FUN_0028256C + 0x9C) */
+    .4byte FUN_00282608  /* 00281FBC = 0x00282608 */
     .byte 0x01, 0x43  /* 00281FC0: .word 0x0143 */
     .byte 0x44, 0x30  /* 00281FC2: .word 0x4430 */
     .byte 0x30, 0x31  /* 00281FC4: .word 0x3031 */
     .byte 0x00, 0x00  /* 00281FC6: .word 0x0000 */
-    .byte 0x2F, 0x86  /* 00281FC8: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00281FCA: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00281FCC: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00281FCE: mov.l r11,@-r15 */

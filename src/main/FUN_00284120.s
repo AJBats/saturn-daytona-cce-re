@@ -16,7 +16,7 @@ FUN_00284120:
     mov r15, r14
     mov.l @r4, r1
     mov.l @(8, r4), r2
-    .word 0x0329 /* UNKNOWN */
+    .byte 0x03, 0x29  /* UNKNOWN */
     add r2, r1
     mov.l r1, @r0
     mov.l r3, @(4, r0)

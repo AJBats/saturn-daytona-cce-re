@@ -36,4 +36,3 @@ FUN_06004A66:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE3, 0x30  /* 06004AA6: mov #48,r3 */

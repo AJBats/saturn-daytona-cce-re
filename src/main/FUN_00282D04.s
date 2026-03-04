@@ -163,13 +163,10 @@ FUN_00282D04:
 .L_pool_00282E28:
     .4byte FUN_00284544  /* 00282E28 = 0x00284544 */
 .L_pool_00282E2C:
-    .4byte DAT_00282B10  /* 00282E2C = 0x00282B10 (FUN_00282A7A + 0x96) */
+    .4byte FUN_00282B10  /* 00282E2C = 0x00282B10 */
 .L_pool_00282E30:
     .4byte 0x7FFFFFFF  /* 00282E30 = 0x7FFFFFFF */
 .L_pool_00282E34:
-    .4byte DAT_002843FC  /* 00282E34 = 0x002843FC (FUN_002843D6 + 0x26) */
+    .4byte FUN_002843FC  /* 00282E34 = 0x002843FC */
 .L_pool_00282E38:
     .4byte sym_0028B070  /* 00282E38 = 0x0028B070 */
-    .byte 0x2F, 0x86  /* 00282E3C: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00282E3E: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00282E40: mov.l r10,@-r15 */

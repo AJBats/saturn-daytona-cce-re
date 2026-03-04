@@ -16,7 +16,3 @@ FUN_06009474:
     add #0x4, r15
     jmp @r2
     lds.l @r15+, pr
-    .byte 0x53, 0x49  /* 0600948C: mov.l @(0x24,r4),r3 */
-    .byte 0x50, 0x48  /* 0600948E: mov.l @(0x20,r4),r0 */
-    .byte 0x00, 0x0B  /* 06009490: rts */
-    .byte 0x30, 0x3C  /* 06009492: add r3,r0 */

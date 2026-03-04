@@ -95,7 +95,3 @@ FUN_00281C38:
     .4byte sym_0028B070  /* 00281CD0 = 0x0028B070 */
 .L_pool_00281CD4:
     .4byte FUN_00281C00  /* 00281CD4 = 0x00281C00 */
-    .byte 0x2F, 0x86  /* 00281CD8: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00281CDA: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00281CDC: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00281CDE: mov.l r11,@-r15 */

@@ -34,11 +34,3 @@ FUN_0600B470:
     .4byte sym_06057800  /* 0600B4A8 = 0x06057800 */
 .L_pool_0600B4AC:
     .4byte sym_060333C8  /* 0600B4AC = 0x060333C8 */
-    .byte 0xD4, 0x01  /* 0600B4B0: mov.l @(0x4,PC),r4  {[0x0600B4B8] = 0x060335A4} */
-    .byte 0xDE, 0x02  /* 0600B4B2: mov.l @(0x8,PC),r14  {[0x0600B4BC] = 0x06057C00} */
-    .byte 0xA0, 0x06  /* 0600B4B4: bra 0x0600B4C4 */
-    .byte 0x00, 0x09  /* 0600B4B6: nop */
-    .4byte sym_060335A4  /* 0600B4B8 = 0x060335A4 */
-    .4byte sym_06057C00  /* 0600B4BC = 0x06057C00 */
-    .byte 0xD4, 0x72  /* 0600B4C0: mov.l @(0x1C8,PC),r4  {[0x0600B68C] = 0x060334E4} */
-    .byte 0xDE, 0x73  /* 0600B4C2: mov.l @(0x1CC,PC),r14  {[0x0600B690] = 0x06057800} */

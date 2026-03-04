@@ -56,7 +56,8 @@ FUN_06003DDC:
     mov.l @(20, r12), r2
     mov.l r2, @r3
     mov.w @(8, r12), r0
-    .4byte 0x6D037DF8  /* 06003E40 = 0x6D037DF8 */
+    mov r0, r13
+    add #-0x8, r13
 .L_06003E44:
     exts.w r4, r8
     cmp/pl r8

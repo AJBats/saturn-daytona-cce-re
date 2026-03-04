@@ -23,5 +23,3 @@ FUN_06004754:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x61, 0x4C  /* 0600477A: extu.b r4,r1 */
-    .byte 0xD3, 0x3A  /* 0600477C: mov.l @(0xE8,PC),r3  {[0x06004868] = 0x06035298} */

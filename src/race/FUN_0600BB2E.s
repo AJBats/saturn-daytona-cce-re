@@ -12,8 +12,9 @@ FUN_0600BB2E:
     bra .L_0600BB42
     mov r14, r6
 .L_0600BB3C:
-    .4byte 0x63542630  /* 0600BB3C = 0x63542630 */
-    .byte 0x76, 0x01  /* 0600BB40: add #1,r6 */
+    mov.b @r5+, r3
+    mov.b r3, @r6
+    add #0x1, r6
 .L_0600BB42:
     mov.b @r5, r2
     tst r2, r2

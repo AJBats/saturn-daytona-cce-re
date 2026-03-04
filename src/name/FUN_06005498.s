@@ -85,13 +85,3 @@ FUN_06005498:
     .byte 0x77, 0x02  /* 0600552A: add #2,r7 */
     .byte 0x26, 0x41  /* 0600552C: mov.w r4,@r6 */
     .byte 0x71, 0x02  /* 0600552E: add #2,r1 */
-    .byte 0x2D, 0x41  /* 06005530: mov.w r4,@r13 */
-    .byte 0x76, 0x02  /* 06005532: add #2,r6 */
-    .byte 0x27, 0x41  /* 06005534: mov.w r4,@r7 */
-    .byte 0x7D, 0x02  /* 06005536: add #2,r13 */
-    .byte 0x21, 0x41  /* 06005538: mov.w r4,@r1 */
-    .byte 0x77, 0x02  /* 0600553A: add #2,r7 */
-    .byte 0x8F, 0xED  /* 0600553C: bf/s 0x0600551A */
-    .byte 0x71, 0x02  /* 0600553E: add #2,r1 */
-    .byte 0x00, 0x0B  /* 06005540: rts */
-    .byte 0x6D, 0xF6  /* 06005542: mov.l @r15+,r13 */

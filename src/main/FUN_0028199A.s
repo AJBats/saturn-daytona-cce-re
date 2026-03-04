@@ -45,7 +45,7 @@ FUN_0028199A:
 .L_wpool_002819E2:
     .byte 0x08, 0x00  /* 002819E2: .word 0x0800 */
 .L_pool_002819E4:
-    .4byte DAT_00281E18  /* 002819E4 = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 002819E4 = 0x00281E18 */
 .L_pool_002819E8:
     .4byte 0x000FFFFF  /* 002819E8 = 0x000FFFFF */
 .L_pool_002819EC:

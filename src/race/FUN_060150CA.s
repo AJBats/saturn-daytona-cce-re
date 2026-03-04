@@ -254,7 +254,7 @@ FUN_060150CA:
 .L_pool_060152A4:
     .4byte sym_060529E4  /* 060152A4 = 0x060529E4 */
 .L_pool_060152A8:
-    .4byte DAT_06008A5C  /* 060152A8 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte FUN_06008A5C  /* 060152A8 = 0x06008A5C */
 .L_060152AC:
     mov.l @r15, r1
     add #0xA, r1
@@ -332,7 +332,7 @@ FUN_060150CA:
     mov.w .L_wpool_06015414, r3
     add r14, r3
     mov.l r0, @r3
-    bsr .L_060154CE
+    .byte 0xB0, 0xC4  /* 06015342: bsr 0x060154CE */
     mov r14, r4
     add #-0x8, r15
     mov.b @r13, r0
@@ -545,5 +545,3 @@ FUN_060150CA:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_060154CE:
-    mov #0x0, r3

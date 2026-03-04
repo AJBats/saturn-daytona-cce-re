@@ -13,7 +13,7 @@ FUN_060175D0:
     rts
     nop
 .L_pool_060175E0:
-    .4byte DAT_060095F0  /* 060175E0 = 0x060095F0 (FUN_060092D0 + 0x320) */
+    .4byte FUN_060095F0  /* 060175E0 = 0x060095F0 */
     .byte 0x25, 0xC1  /* 060175E4: mov.w r12,@r5 */
     .byte 0x80, 0x00  /* 060175E6: mov.b r0,@(0x0,r0) */
     .byte 0x11, 0x1C  /* 060175E8: mov.l r1,@(0x30,r1) */

@@ -5,7 +5,7 @@
     .type FUN_0600458A, @function
 FUN_0600458A:
     sts.l pr, @-r15
-    bsr .L_060045B0
+    .byte 0xB0, 0x10  /* 0600458C: bsr 0x060045B0 */
     nop
     .byte 0xB0, 0x12  /* 06004590: bsr 0x060045B8 */
     nop
@@ -24,8 +24,3 @@ FUN_0600458A:
     lds.l @r15+, pr
     rts
     nop
-.L_060045B0:
-    .byte 0xD2, 0x1E  /* 060045B0: mov.l @(0x78,PC),r2  {[0x0600462C] = 0x06000320} */
-    mov.l @r2, r3
-    jmp @r3
-    mov #0x0, r4

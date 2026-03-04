@@ -30,7 +30,7 @@ FUN_002809DA:
     rts
     mov.l @r15+, r8
 .L_pool_00280A08:
-    .4byte DAT_00280C7C  /* 00280A08 = 0x00280C7C (FUN_00280C16 + 0x66) */
+    .4byte FUN_00280C7C  /* 00280A08 = 0x00280C7C */
 .L_pool_00280A0C:
     .4byte sym_06000CCC  /* 00280A0C = 0x06000CCC */
 .L_pool_00280A10:

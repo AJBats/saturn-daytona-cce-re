@@ -365,7 +365,7 @@ FUN_0601A64C:
 .L_wpool_0601A8EE:
     .byte 0x80, 0x00  /* 0601A8EE: mov.b r0,@(0x0,r0) */
 .L_pool_0601A8F0:
-    .4byte DAT_0600795A  /* 0601A8F0 = 0x0600795A (FUN_060078E8 + 0x72) */
+    .4byte FUN_0600795A  /* 0601A8F0 = 0x0600795A */
 .L_pool_0601A8F4:
     .4byte sym_06047D3C  /* 0601A8F4 = 0x06047D3C */
 .L_pool_0601A8F8:

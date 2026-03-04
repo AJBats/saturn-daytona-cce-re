@@ -93,4 +93,3 @@ FUN_06001450:
     .byte 0x00, 0x80  /* 060014F2: .word 0x0080 */
 .L_wpool_060014F4:
     .byte 0x0F, 0xFF  /* 060014F4: mac.l @r15+,@r15+ */
-    .byte 0xE0, 0x40  /* 060014F6: mov #64,r0 */

@@ -98,7 +98,7 @@ FUN_06016AAA:
     shlr16 r5
     mov #0x2, r1
     cmp/eq r5, r1
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     mov.b r0, @(19, gbr)
     mov.w @(14, gbr), r0
     tst r5, r5

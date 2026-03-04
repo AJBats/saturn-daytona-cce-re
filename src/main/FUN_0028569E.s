@@ -33,10 +33,4 @@ FUN_0028569E:
 .L_pool_002856D0:
     .4byte FUN_00285688  /* 002856D0 = 0x00285688 */
 .L_pool_002856D4:
-    .4byte DAT_00285488  /* 002856D4 = 0x00285488 (FUN_00285450 + 0x38) */
-    .byte 0x2F, 0x86  /* 002856D8: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002856DA: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002856DC: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 002856DE: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 002856E0: mov.l r12,@-r15 */
-    .byte 0x2F, 0xD6  /* 002856E2: mov.l r13,@-r15 */
+    .4byte FUN_00285488  /* 002856D4 = 0x00285488 */

@@ -66,7 +66,7 @@ FUN_0600A304:
     bra .L_0600A3B2
     mov r13, r14
 .L_0600A378:
-    bsr .L_0600A3D0
+    .byte 0xB0, 0x2A  /* 0600A378: bsr 0x0600A3D0 */
     mov r14, r4
     tst r0, r0
     bf .L_0600A3B0
@@ -88,7 +88,7 @@ FUN_0600A304:
 .L_pool_0600A39C:
     .4byte DAT_060136E8  /* 0600A39C = 0x060136E8 (FUN_0600EA84 + 0x4C64) */
 .L_pool_0600A3A0:
-    .4byte DAT_0600A01A  /* 0600A3A0 = 0x0600A01A (FUN_06009FD6 + 0x44) */
+    .4byte FUN_0600A01A  /* 0600A3A0 = 0x0600A01A */
 .L_0600A3A4:
     mov.l @r15, r2
     cmp/gt r10, r2
@@ -116,82 +116,3 @@ FUN_0600A304:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-.L_0600A3D0:
-    mov.l .L_pool_0600A444, r3
-    mov r4, r0
-    cmp/eq #0x0, r0
-    bt/s .L_0600A3FA
-    mov.l @r3, r5
-    cmp/eq #0x1, r0
-    bt .L_0600A3FE
-    cmp/eq #0x2, r0
-    bt .L_0600A404
-    cmp/eq #0x3, r0
-    bt .L_0600A40A
-    cmp/eq #0x4, r0
-    bt .L_0600A410
-    cmp/eq #0x5, r0
-    bt .L_0600A416
-    cmp/eq #0x6, r0
-    bt .L_0600A41C
-    cmp/eq #0x7, r0
-    bt .L_0600A422
-    bra .L_0600A426
-    nop
-.L_0600A3FA:
-    bra .L_0600A424
-    mov #0x58, r0
-.L_0600A3FE:
-    mov.w .L_wpool_0600A434, r0
-    bra .L_0600A424
-    nop
-.L_0600A404:
-    mov.w .L_wpool_0600A436, r0
-    bra .L_0600A424
-    nop
-.L_0600A40A:
-    mov.w .L_wpool_0600A438, r0
-    bra .L_0600A424
-    nop
-.L_0600A410:
-    mov.w .L_wpool_0600A43A, r0
-    bra .L_0600A424
-    nop
-.L_0600A416:
-    mov.w .L_wpool_0600A43C, r0
-    bra .L_0600A424
-    nop
-.L_0600A41C:
-    mov.w .L_wpool_0600A43E, r0
-    bra .L_0600A424
-    nop
-.L_0600A422:
-    mov.w .L_wpool_0600A440, r0
-.L_0600A424:
-    mov.l @(r0, r5), r4
-.L_0600A426:
-    tst r4, r4
-    bf .L_0600A42E
-    rts
-    mov #0x1, r0
-.L_0600A42E:
-    mov #0x0, r0
-    rts
-    nop
-.L_wpool_0600A434:
-    .byte 0x03, 0x04  /* 0600A434: mov.b r0,@(r0,r3) */
-.L_wpool_0600A436:
-    .byte 0x03, 0x0C  /* 0600A436: mov.b @(r0,r0),r3 */
-.L_wpool_0600A438:
-    .byte 0x03, 0x28  /* 0600A438: .word 0x0328 */
-.L_wpool_0600A43A:
-    .byte 0x03, 0x38  /* 0600A43A: .word 0x0338 */
-.L_wpool_0600A43C:
-    .byte 0x03, 0x48  /* 0600A43C: .word 0x0348 */
-.L_wpool_0600A43E:
-    .byte 0x01, 0xE0  /* 0600A43E: .word 0x01E0 */
-.L_wpool_0600A440:
-    .byte 0x03, 0x60  /* 0600A440: .word 0x0360 */
-    .byte 0xFF, 0xFF  /* 0600A442: .word 0xFFFF */
-.L_pool_0600A444:
-    .4byte DAT_060136EC  /* 0600A444 = 0x060136EC (FUN_0600EA84 + 0x4C68) */

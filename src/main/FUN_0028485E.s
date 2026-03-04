@@ -14,7 +14,7 @@ FUN_0028485E:
     bf .L_00284874
     mov.l r0, @(28, r8)
     bra .L_00284876
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_00284874:
     mov #0x0, r0
 .L_00284876:

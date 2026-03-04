@@ -28,7 +28,7 @@ FUN_06025D4A:
     .4byte sym_06047D3C  /* 06025D78 = 0x06047D3C */
 .L_06025D7C:
     mov #0x1, r6
-    .byte 0x91, 0x1A  /* 06025D7E: mov.w @(0x34,PC),r1  {0x06025DB6} */
+    mov.w .L_wpool_06025DB6, r1
     mov.w @(r0, r1), r3
     cmp/pl r3
     bf .L_06025D8A
@@ -57,7 +57,9 @@ FUN_06025D4A:
     tst r3, r3
     bt .L_06025DCC
     bra .L_06025DE0
-    .4byte 0x01350180  /* 06025DB4 = 0x01350180 */
+    mov.w r3, @(r0, r1)
+.L_wpool_06025DB6:
+    .byte 0x01, 0x80  /* 06025DB6: .word 0x0180 */
 .L_wpool_06025DB8:
     .byte 0x00, 0x00  /* 06025DB8: .word 0x0000 */
 .L_wpool_06025DBA:

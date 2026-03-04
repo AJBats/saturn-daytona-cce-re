@@ -38,4 +38,3 @@ FUN_06004CA2:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0x60, 0x53  /* 06004CE2: mov r5,r0 */

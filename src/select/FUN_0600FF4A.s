@@ -13,4 +13,3 @@ FUN_0600FF4A:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xD4, 0x0D  /* 0600FF5C: mov.l @(0x34,PC),r4  {[0x0600FF94] = 0x06057138} */

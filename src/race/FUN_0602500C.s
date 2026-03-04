@@ -95,7 +95,7 @@ FUN_0602500C:
 .L_060250B6:
     shlr r1
     rotcr r0
-    .word 0x0329 /* UNKNOWN */
+    .byte 0x03, 0x29  /* UNKNOWN */
     dt r8
     bf/s .L_060250B6
     or r3, r0

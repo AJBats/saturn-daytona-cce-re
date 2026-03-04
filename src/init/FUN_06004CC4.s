@@ -34,9 +34,9 @@ FUN_06004CC4:
     mov.l @r15+, r14
     .byte 0x00, 0x82  /* 06004CFC: .word 0x0082 */
     .byte 0xFF, 0xFF  /* 06004CFE: .word 0xFFFF */
-    .4byte DAT_0600A1AC  /* 06004D00 = 0x0600A1AC (FUN_0600A10E + 0x9E) */
+    .4byte FUN_0600A1AC  /* 06004D00 = 0x0600A1AC */
 .L_pool_06004D04:
-    .4byte DAT_0600A02C  /* 06004D04 = 0x0600A02C (FUN_06009FD6 + 0x56) */
+    .4byte FUN_0600A02C  /* 06004D04 = 0x0600A02C */
     .4byte DAT_0600C9C0  /* 06004D08 = 0x0600C9C0 (FUN_0600B7A0 + 0x1220) */
 .L_pool_06004D0C:
     .4byte 0x00FFFFFF  /* 06004D0C = 0x00FFFFFF */

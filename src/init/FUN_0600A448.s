@@ -60,7 +60,3 @@ FUN_0600A448:
 .L_0600A4A2:
     rts
     mov.l @r15+, r14
-    .byte 0xD2, 0x62  /* 0600A4A6: mov.l @(0x188,PC),r2  {[0x0600A630] = 0x060136EC} */
-    .byte 0x63, 0x22  /* 0600A4A8: mov.l @r2,r3 */
-    .byte 0x00, 0x0B  /* 0600A4AA: rts */
-    .byte 0x13, 0x4F  /* 0600A4AC: mov.l r4,@(0x3C,r3) */

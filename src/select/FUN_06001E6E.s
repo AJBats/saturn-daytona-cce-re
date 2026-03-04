@@ -37,6 +37,6 @@ FUN_06001E6E:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .4byte DAT_06008A5C  /* 06001EAC = 0x06008A5C (FUN_060086FC + 0x360) */
+    .4byte FUN_06008A5C  /* 06001EAC = 0x06008A5C */
 .L_pool_06001EB0:
     .4byte sym_0603F508  /* 06001EB0 = 0x0603F508 */

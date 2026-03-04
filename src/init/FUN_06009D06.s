@@ -32,7 +32,7 @@ FUN_06009D06:
     .byte 0x00, 0xFF  /* 06009D36: mac.l @r15+,@r0+ */
     .byte 0x03, 0x04  /* 06009D38: mov.b r0,@(r0,r3) */
     .byte 0xFF, 0xFF  /* 06009D3A: .word 0xFFFF */
-    .4byte DAT_060095B8  /* 06009D3C = 0x060095B8 (FUN_060094F0 + 0xC8) */
+    .4byte FUN_060095B8  /* 06009D3C = 0x060095B8 */
     .4byte DAT_06010550  /* 06009D40 = 0x06010550 (FUN_0600EA84 + 0x1ACC) */
     .4byte DAT_060104D0  /* 06009D44 = 0x060104D0 (FUN_0600EA84 + 0x1A4C) */
     .4byte DAT_060100B8  /* 06009D48 = 0x060100B8 (FUN_0600EA84 + 0x1634) */

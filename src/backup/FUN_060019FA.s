@@ -90,11 +90,3 @@ FUN_060019FA:
     .byte 0xE0, 0x00  /* 06001ABE: mov #0,r0 */
     .byte 0x00, 0x0B  /* 06001AC0: rts */
     .byte 0x00, 0x09  /* 06001AC2: nop */
-    .4byte 0xD33BE500  /* 06001AC4 = 0xD33BE500 */
-    .byte 0xD2, 0x39  /* 06001AC8: mov.l @(0xE4,PC),r2  {[0x06001BB0] = 0x06036F4C} */
-    .byte 0x66, 0x33  /* 06001ACA: mov r3,r6 */
-    .byte 0xD7, 0x3E  /* 06001ACC: mov.l @(0xF8,PC),r7  {[0x06001BC8] = 0x060353BC} */
-    .byte 0x22, 0x32  /* 06001ACE: mov.l r3,@r2 */
-    .byte 0xD3, 0x3E  /* 06001AD0: mov.l @(0xF8,PC),r3  {[0x06001BCC] = 0x0602A3A8} */
-    .byte 0x43, 0x2B  /* 06001AD2: jmp @r3 */
-    .byte 0xE4, 0x01  /* 06001AD4: mov #1,r4 */

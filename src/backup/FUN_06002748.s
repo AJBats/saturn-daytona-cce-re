@@ -21,4 +21,3 @@ FUN_06002748:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x60, 0x4E  /* 0600276A: exts.b r4,r0 */

@@ -68,9 +68,6 @@ FUN_00280DC8:
 .L_pool_00280E34:
     .4byte FUN_00284198  /* 00280E34 = 0x00284198 */
 .L_pool_00280E38:
-    .4byte DAT_00280EF4  /* 00280E38 = 0x00280EF4 (FUN_00280E46 + 0xAE) */
+    .4byte FUN_00280EF4  /* 00280E38 = 0x00280EF4 */
 .L_pool_00280E3C:
     .4byte FUN_00281BF4  /* 00280E3C = 0x00281BF4 */
-    .byte 0x2F, 0x86  /* 00280E40: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00280E42: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00280E44: mov.l r10,@-r15 */

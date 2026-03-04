@@ -25,10 +25,11 @@ FUN_0600B466:
     extu.w r12, r0
     cmp/eq #0x5, r0
     bf .L_0600B496
-    .4byte 0xE702E601  /* 0600B48C = 0xE702E601 */
-    .byte 0x65, 0xD3  /* 0600B490: mov r13,r5 */
-    .byte 0x4E, 0x0B  /* 0600B492: jsr @r14 */
-    .byte 0x64, 0x93  /* 0600B494: mov r9,r4 */
+    mov #0x2, r7
+    mov #0x1, r6
+    mov r13, r5
+    jsr @r14
+    mov r9, r4
 .L_0600B496:
     add #0x2, r13
     add #0x1, r12

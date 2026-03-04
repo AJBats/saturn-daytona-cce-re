@@ -53,6 +53,3 @@ FUN_00281F14:
     .4byte FUN_00281E98  /* 00281F68 = 0x00281E98 */
 .L_pool_00281F6C:
     .4byte sym_0028B070  /* 00281F6C = 0x0028B070 */
-    .byte 0x2F, 0x86  /* 00281F70: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00281F72: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00281F74: mov.l r10,@-r15 */

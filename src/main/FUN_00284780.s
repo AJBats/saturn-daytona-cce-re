@@ -22,7 +22,7 @@ FUN_00284780:
     tst r0, r0
     bf/s .L_002847A6
     mov #0x0, r0
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
 .L_002847A6:
     mov r14, r15
     lds.l @r15+, pr
@@ -32,4 +32,4 @@ FUN_00284780:
 .L_pool_002847B0:
     .4byte FUN_00284F0C  /* 002847B0 = 0x00284F0C */
 .L_pool_002847B4:
-    .4byte DAT_0028569C  /* 002847B4 = 0x0028569C (FUN_00285688 + 0x14) */
+    .4byte FUN_0028569C  /* 002847B4 = 0x0028569C */

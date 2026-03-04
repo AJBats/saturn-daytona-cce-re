@@ -71,18 +71,12 @@ FUN_0028134E:
     rts
     mov.l @r15+, r8
 .L_pool_002813C8:
-    .4byte DAT_00281138  /* 002813C8 = 0x00281138 (FUN_002810FC + 0x3C) */
+    .4byte FUN_00281138  /* 002813C8 = 0x00281138 */
 .L_pool_002813CC:
-    .4byte DAT_002816B0  /* 002813CC = 0x002816B0 (FUN_00281682 + 0x2E) */
+    .4byte FUN_002816B0  /* 002813CC = 0x002816B0 */
 .L_pool_002813D0:
     .4byte sym_0028B078  /* 002813D0 = 0x0028B078 */
 .L_pool_002813D4:
     .4byte sym_0028B07C  /* 002813D4 = 0x0028B07C */
 .L_pool_002813D8:
     .4byte 0x000493E0  /* 002813D8 = 0x000493E0 */
-    .byte 0x2F, 0x86  /* 002813DC: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 002813DE: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 002813E0: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 002813E2: mov.l r11,@-r15 */
-    .byte 0x2F, 0xC6  /* 002813E4: mov.l r12,@-r15 */
-    .byte 0x2F, 0xD6  /* 002813E6: mov.l r13,@-r15 */

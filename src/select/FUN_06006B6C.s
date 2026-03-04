@@ -38,6 +38,3 @@ FUN_06006B6C:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x60, 0x53  /* 06006BAA: mov r5,r0 */
-    .byte 0xD2, 0x4C  /* 06006BAC: mov.l @(0x130,PC),r2  {[0x06006CE0] = 0x25E0C000} */
-    .byte 0xE1, 0x04  /* 06006BAE: mov #4,r1 */

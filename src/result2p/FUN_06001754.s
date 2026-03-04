@@ -20,7 +20,7 @@ FUN_06001754:
 .L_wpool_0600176E:
     .byte 0x00, 0xD0  /* 0600176E: .word 0x00D0 */
     .4byte sym_25E00000  /* 06001770 = 0x25E00000 */
-    .4byte DAT_06031F0C  /* 06001774 = 0x06031F0C (FUN_06009C40 + 0x282CC) */
+    .4byte DAT_06031F0C  /* 06001774 = 0x06031F0C (FUN_0602CDF2 + 0x511A) */
 .L_06001778:
     mov #0x41, r2
     cmp/ge r2, r14
@@ -58,5 +58,3 @@ FUN_06001754:
     mov #0x28, r0
     rts
     mov.l @r15+, r14
-    .byte 0x61, 0x4C  /* 060017B6: extu.b r4,r1 */
-    .byte 0xD3, 0x3B  /* 060017B8: mov.l @(0xEC,PC),r3  {[0x060018A8] = 0x06008A5C} */

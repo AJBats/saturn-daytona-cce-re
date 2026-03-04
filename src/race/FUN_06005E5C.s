@@ -58,7 +58,7 @@ FUN_06005E5C:
 .L_wpool_06005EC0:
     .byte 0x01, 0xCA  /* 06005EC0: .word 0x01CA */
     .byte 0xFF, 0xFF  /* 06005EC2: .word 0xFFFF */
-    .4byte DAT_06008A5C  /* 06005EC4 = 0x06008A5C (FUN_06008A48 + 0x14) */
+    .4byte FUN_06008A5C  /* 06005EC4 = 0x06008A5C */
     .4byte sym_25E6A000  /* 06005EC8 = 0x25E6A000 */
     .4byte sym_002E10D2  /* 06005ECC = 0x002E10D2 */
     .4byte sym_0604C88C  /* 06005ED0 = 0x0604C88C */

@@ -37,7 +37,8 @@ FUN_0600B970:
     mov r14, r6
 .L_0600B9A6:
     mov.b @r5+, r3
-    .4byte sym_26307601  /* 0600B9A8 = 0x26307601 */
+    mov.b r3, @r6
+    add #0x1, r6
 .L_0600B9AC:
     mov.b @r5, r2
     tst r2, r2

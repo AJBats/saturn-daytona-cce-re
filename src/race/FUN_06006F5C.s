@@ -42,9 +42,10 @@ FUN_06006F5C:
     shll2 r5
     shll2 r5
     shll r5
-    .4byte 0x410B352C  /* 06006FA8 = 0x410B352C */
-    .byte 0xA0, 0x0C  /* 06006FAC: bra 0x06006FC8 */
-    .byte 0x00, 0x09  /* 06006FAE: nop */
+    jsr @r1
+    add r2, r5
+    bra .L_06006FC8
+    nop
 .L_06006FB0:
     mov.w @(2, r14), r0
     mov #0x7, r6
@@ -58,6 +59,7 @@ FUN_06006F5C:
     shll r4
     jsr @r1
     add r2, r4
+.L_06006FC8:
     mov.b @(1, r14), r0
     extu.b r0, r0
     cmp/eq #0x8, r0

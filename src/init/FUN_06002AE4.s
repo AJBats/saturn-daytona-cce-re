@@ -75,19 +75,3 @@ FUN_06002AE4:
     .4byte DAT_06013369  /* 06002B68 = 0x06013369 (FUN_0600EA84 + 0x48E5) */
 .L_pool_06002B6C:
     .4byte DAT_0601336A  /* 06002B6C = 0x0601336A (FUN_0600EA84 + 0x48E6) */
-    .byte 0xD3, 0x06  /* 06002B70: mov.l @(0x18,PC),r3  {[0x06002B8C] = 0x25A0078C} */
-    .byte 0x64, 0x30  /* 06002B72: mov.b @r3,r4 */
-    .byte 0xD2, 0x06  /* 06002B74: mov.l @(0x18,PC),r2  {[0x06002B90] = 0x25A0078E} */
-    .byte 0x64, 0x4C  /* 06002B76: extu.b r4,r4 */
-    .byte 0x65, 0x20  /* 06002B78: mov.b @r2,r5 */
-    .byte 0x65, 0x5C  /* 06002B7A: extu.b r5,r5 */
-    .byte 0x24, 0x5B  /* 06002B7C: or r5,r4 */
-    .byte 0x24, 0x48  /* 06002B7E: tst r4,r4 */
-    .byte 0x89, 0x01  /* 06002B80: bt 0x06002B86 */
-    .byte 0x00, 0x0B  /* 06002B82: rts */
-    .byte 0xE0, 0x01  /* 06002B84: mov #1,r0 */
-    .byte 0xE0, 0x00  /* 06002B86: mov #0,r0 */
-    .byte 0x00, 0x0B  /* 06002B88: rts */
-    .byte 0x00, 0x09  /* 06002B8A: nop */
-    .4byte sym_25A0078C  /* 06002B8C = 0x25A0078C */
-    .4byte sym_25A0078E  /* 06002B90 = 0x25A0078E */

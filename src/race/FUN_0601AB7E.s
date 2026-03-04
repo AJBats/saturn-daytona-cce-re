@@ -29,7 +29,7 @@ FUN_0601AB7E:
     nop
     .byte 0xD3, 0x29  /* 0601ABA8: mov.l @(0xA4,PC),r3  {[0x0601AC50] = 0x06053D28} */
     tst r0, r0
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     xor #0x1, r0
     mov.b r0, @r3
     exts.b r0, r0
@@ -50,7 +50,7 @@ FUN_0601AB7E:
     mov #0x19, r5
     tst r0, r0
     .byte 0xD3, 0x21  /* 0601ABD0: mov.l @(0x84,PC),r3  {[0x0601AC58] = 0x06053D29} */
-    .word 0x0029 /* UNKNOWN */
+    .byte 0x00, 0x29  /* UNKNOWN */
     xor #0x1, r0
     mov.b r0, @r3
     exts.b r0, r0

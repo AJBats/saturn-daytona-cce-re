@@ -60,7 +60,7 @@ FUN_0601C344:
     bra .L_0601C43A
     nop
     .byte 0xFF, 0xFF  /* 0601C3AE: .word 0xFFFF */
-    .4byte DAT_06008E48  /* 0601C3B0 = 0x06008E48 (FUN_06008E32 + 0x16) */
+    .4byte FUN_06008E48  /* 0601C3B0 = 0x06008E48 */
 .L_pool_0601C3B4:
     .4byte sym_060540D0  /* 0601C3B4 = 0x060540D0 */
     .4byte sym_060540E8  /* 0601C3B8 = 0x060540E8 */

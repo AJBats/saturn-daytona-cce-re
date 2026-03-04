@@ -30,5 +30,3 @@ FUN_00281C00:
     .4byte FUN_00282A5C  /* 00281C2C = 0x00282A5C */
 .L_pool_00281C30:
     .4byte FUN_00282A44  /* 00281C30 = 0x00282A44 */
-    .byte 0x2F, 0x86  /* 00281C34: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00281C36: mov.l r9,@-r15 */

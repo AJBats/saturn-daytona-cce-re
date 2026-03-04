@@ -40,7 +40,7 @@ FUN_002819FC:
     mov.l @r15+, r8
     .byte 0x00, 0x00  /* 00281A3A: .word 0x0000 */
 .L_pool_00281A3C:
-    .4byte DAT_00281E18  /* 00281A3C = 0x00281E18 (FUN_00281D9C + 0x7C) */
+    .4byte FUN_00281E18  /* 00281A3C = 0x00281E18 */
 .L_pool_00281A40:
     .4byte FUN_00284780  /* 00281A40 = 0x00284780 */
     .byte 0x2F, 0x86  /* 00281A44: mov.l r8,@-r15 */

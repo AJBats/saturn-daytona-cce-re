@@ -23,4 +23,3 @@ FUN_06001264:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x60, 0x53  /* 0600128A: mov r5,r0 */

@@ -27,12 +27,8 @@ FUN_00280EF6:
     mov.l @r15+, r8
     .byte 0x00, 0x00  /* 00280F1E: .word 0x0000 */
 .L_pool_00280F20:
-    .4byte DAT_00281D94  /* 00280F20 = 0x00281D94 (FUN_00281D88 + 0xC) */
+    .4byte FUN_00281D94  /* 00280F20 = 0x00281D94 */
 .L_pool_00280F24:
-    .4byte DAT_00282458  /* 00280F24 = 0x00282458 (FUN_002823F8 + 0x60) */
+    .4byte FUN_00282458  /* 00280F24 = 0x00282458 */
 .L_pool_00280F28:
-    .4byte DAT_00281E18  /* 00280F28 = 0x00281E18 (FUN_00281D9C + 0x7C) */
-    .byte 0x2F, 0x86  /* 00280F2C: mov.l r8,@-r15 */
-    .byte 0x2F, 0x96  /* 00280F2E: mov.l r9,@-r15 */
-    .byte 0x2F, 0xA6  /* 00280F30: mov.l r10,@-r15 */
-    .byte 0x2F, 0xB6  /* 00280F32: mov.l r11,@-r15 */
+    .4byte FUN_00281E18  /* 00280F28 = 0x00281E18 */

@@ -79,5 +79,3 @@ FUN_06003DAC:
     nop
     .byte 0x10, 0x05  /* 06003E38: mov.l r0,@(0x14,r0) */
     .byte 0x04, 0xC0  /* 06003E3A: .word 0x04C0 */
-    .byte 0xC8, 0x40  /* 06003E3C: tst #0x40,r0 */
-    .byte 0x89, 0x1D  /* 06003E3E: bt 0x06003E7C */

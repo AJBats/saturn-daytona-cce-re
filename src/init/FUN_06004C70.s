@@ -33,7 +33,7 @@ FUN_06004C70:
     bt .L_06004CAA
     mov r15, r4
     add #0x8, r4
-    bsr .L_06004CBA
+    .byte 0xB0, 0x08  /* 06004CA6: bsr 0x06004CBA */
     nop
 .L_06004CAA:
     .byte 0xD2, 0x16  /* 06004CAA: mov.l @(0x58,PC),r2  {[0x06004D04] = 0x0600A02C} */
@@ -44,6 +44,3 @@ FUN_06004C70:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-.L_06004CBA:
-    mov #0x6, r3
-    .byte 0xD2, 0x12  /* 06004CBC: mov.l @(0x48,PC),r2  {[0x06004D08] = 0x0600C9C0} */

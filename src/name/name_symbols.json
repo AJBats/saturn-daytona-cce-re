@@ -1,13 +1,8 @@
 {
   "module_base": "0x06000000",
   "module_size": 101273,
-  "function_count": 290,
+  "function_count": 394,
   "dat_symbols": {
-    "DAT_0600581A": {
-      "absolute": "0x0600581A",
-      "parent_fun": "FUN_06005810",
-      "offset": "0xA"
-    },
     "DAT_06013360": {
       "absolute": "0x06013360",
       "parent_fun": "FUN_06012928",
@@ -23,11 +18,6 @@
       "parent_fun": "FUN_060067F6",
       "offset": "0x14D6"
     },
-    "DAT_06005876": {
-      "absolute": "0x06005876",
-      "parent_fun": "FUN_06005874",
-      "offset": "0x2"
-    },
     "DAT_060072C4": {
       "absolute": "0x060072C4",
       "parent_fun": "FUN_060067F6",
@@ -37,11 +27,6 @@
       "absolute": "0x0600795A",
       "parent_fun": "FUN_060067F6",
       "offset": "0x1164"
-    },
-    "DAT_0600584C": {
-      "absolute": "0x0600584C",
-      "parent_fun": "FUN_06005848",
-      "offset": "0x4"
     },
     "DAT_06008A5C": {
       "absolute": "0x06008A5C",
@@ -57,21 +42,6 @@
       "absolute": "0x06007A98",
       "parent_fun": "FUN_060067F6",
       "offset": "0x12A2"
-    },
-    "DAT_0600617C": {
-      "absolute": "0x0600617C",
-      "parent_fun": "FUN_06006010",
-      "offset": "0x16C"
-    },
-    "DAT_06005530": {
-      "absolute": "0x06005530",
-      "parent_fun": "FUN_06005498",
-      "offset": "0x98"
-    },
-    "DAT_060058B4": {
-      "absolute": "0x060058B4",
-      "parent_fun": "FUN_0600589E",
-      "offset": "0x16"
     },
     "DAT_060131CC": {
       "absolute": "0x060131CC",

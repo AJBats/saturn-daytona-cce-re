@@ -14,7 +14,7 @@ FUN_002837F8:
     mov.l r3, @(28, r4)
     mov.l r3, @(52, r4)
     mov.l @(56, r4), r0
-    .word 0x0129 /* UNKNOWN */
+    .byte 0x01, 0x29  /* UNKNOWN */
     mov r0, r2
     add #-0x1, r2
     cmp/hi r1, r2
