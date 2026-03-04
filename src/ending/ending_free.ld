@@ -39,12 +39,9 @@ SECTIONS
     }
 }
 
-/* DAT_ symbols: within-binary data, relative to nearest function (5) */
-PROVIDE(DAT_0600581A = FUN_06000784 + 0x5096);
-PROVIDE(DAT_0600584C = FUN_06000784 + 0x50C8);
-PROVIDE(DAT_0600617C = FUN_06000784 + 0x59F8);
-PROVIDE(DAT_06007AF8 = FUN_06000784 + 0x7374);
-PROVIDE(DAT_06007D94 = FUN_06000784 + 0x7610);
+/* DAT_ symbols: within-binary data, relative to nearest function (2) */
+PROVIDE(DAT_0600584C = FUN_0600581A + 0x32);
+PROVIDE(DAT_06007D94 = FUN_06007AF8 + 0x29C);
 
 /* sym_ symbols: external/RAM addresses, absolute (73) */
 PROVIDE(sym_00220000 = 0x00220000);
