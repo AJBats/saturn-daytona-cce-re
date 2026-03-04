@@ -1,0 +1,11 @@
+/* FUN_06004D0C  0x06004D0C */
+
+
+void FUN_06004d0c(void)
+
+{
+  FUN_06004af0(DAT_06004d5c,DAT_06004d58,0x10);
+  FUN_06004af0(DAT_06004d60,DAT_06004d58,0x10);
+  return;
+}
+

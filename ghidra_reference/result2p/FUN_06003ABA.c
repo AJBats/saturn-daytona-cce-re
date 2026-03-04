@@ -1,0 +1,38 @@
+/* FUN_06003ABA  0x06003ABA */
+
+
+void FUN_06003aba(undefined4 param_1,undefined4 param_2,ushort param_3)
+
+{
+  ushort uVar1;
+  int iVar2;
+  ushort *puVar3;
+  int unaff_r14;
+  int unaff_gbr;
+  
+  FUN_06002de0();
+  *(ushort *)(unaff_gbr + 0x82) = (ushort)DAT_06003b1c | param_3;
+  if (*(uint *)(unaff_gbr + 0x88) >> 0x10 < (*(uint *)(unaff_gbr + 0x88) & 0xffff)) {
+    (*(code *)PTR_FUN_06003b20)();
+    (*(code *)PTR_FUN_06003b24)();
+    puVar3 = (ushort *)(*(int *)(*(int *)(unaff_r14 + 0x30) + 8) + *(int *)(unaff_r14 + 0x30));
+    do {
+      if ((*(uint *)(unaff_gbr + 0x88) & 0xffff) <= *(uint *)(unaff_gbr + 0x88) >> 0x10) {
+        return;
+      }
+      uVar1 = *puVar3;
+      *(ushort *)(unaff_gbr + 0x80) = uVar1;
+      puVar3 = puVar3 + 2;
+      if ((uVar1 & 1) == 0) {
+        FUN_06003b28();
+      }
+      else {
+        FUN_06003b6a();
+      }
+      iVar2 = *(short *)(unaff_gbr + 0x8e) + -1;
+      *(short *)(unaff_gbr + 0x8e) = (short)iVar2;
+    } while (iVar2 != 0);
+  }
+  return;
+}
+
