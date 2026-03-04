@@ -38,27 +38,40 @@ async def list_programs(session):
     return text
 
 
-async def list_functions(session, program_name=None):
-    """Get all function names/addresses from a program."""
-    args = {'limit': 10000}
-    if program_name:
-        args['program_name'] = program_name
-    text = await call_tool(session, 'list_functions', args)
-
-    # Parse function names from the output
-    # Format: "- FUN_XXXXXXXX @ XXXXXXXX (0 params)"
-    # or "- main @ 00280000 (0 params)"
+def parse_function_lines(text):
+    """Parse function list output into (name, addr) tuples."""
     functions = []
     for line in text.splitlines():
         line = line.strip()
         if line.startswith('- '):
-            # Extract function name and address
             parts = line[2:].split(' @ ')
             if len(parts) >= 2:
                 name = parts[0].strip()
                 addr = parts[1].split(' ')[0].strip()
                 functions.append((name, addr))
     return functions
+
+
+async def list_functions(session, program_name=None):
+    """Get all function names/addresses from a program, with pagination."""
+    page_size = 200
+    all_functions = []
+    offset = 0
+
+    while True:
+        args = {'limit': page_size, 'offset': offset}
+        if program_name:
+            args['program_name'] = program_name
+        text = await call_tool(session, 'list_functions', args)
+        page = parse_function_lines(text)
+        if not page:
+            break
+        all_functions.extend(page)
+        if len(page) < page_size:
+            break  # last page
+        offset += page_size
+
+    return all_functions
 
 
 async def decompile_function(session, func_name, program_name=None):
@@ -146,7 +159,13 @@ def extract_c_code(text):
 # Module config: program_name -> (output_dir, address_prefix)
 MODULE_CONFIG = {
     'daytona_cce_data.iso': ('main', '0028'),
-    '0': ('init', '0600'),
+    '0': ('init', '060'),
+    'RACE.BIN': ('race', '060'),
+    'SLCT.BIN': ('select', '060'),
+    'RESULT2P.BIN': ('result2p', '060'),
+    'NAME.BIN': ('name', '060'),
+    'BKUP.BIN': ('backup', '060'),
+    'ENDING.BIN': ('ending', '060'),
 }
 
 
@@ -221,7 +240,10 @@ async def main():
                         help='GhidrAssistMCP server URL (default: http://127.0.0.1:8080/mcp)')
     parser.add_argument('--out', default='ghidra_reference',
                         help='Output directory (default: ghidra_reference)')
-    parser.add_argument('--module', choices=['main', 'init', 'all'], default='all',
+    parser.add_argument('--module',
+                        choices=['main', 'init', 'race', 'select', 'result2p',
+                                 'name', 'backup', 'ending', 'all'],
+                        default='all',
                         help='Which module to dump (default: all)')
     parser.add_argument('--fix', action='store_true',
                         help='Re-dump files that contain async task garbage')
@@ -237,10 +259,19 @@ async def main():
             # Show open programs
             await list_programs(session)
 
-            if args.module in ('all', 'main'):
-                await dump_module(session, 'daytona_cce_data.iso', args.out, fix=args.fix)
-            if args.module in ('all', 'init'):
-                await dump_module(session, '0', args.out, fix=args.fix)
+            # Map module name -> program name
+            module_to_program = {v[0]: k for k, v in MODULE_CONFIG.items()}
+
+            if args.module == 'all':
+                # Dump all modules that are currently open
+                for prog_name in MODULE_CONFIG:
+                    await dump_module(session, prog_name, args.out, fix=args.fix)
+            else:
+                prog_name = module_to_program.get(args.module)
+                if prog_name:
+                    await dump_module(session, prog_name, args.out, fix=args.fix)
+                else:
+                    print(f"Unknown module: {args.module}")
 
     print("\nDone!")
 
