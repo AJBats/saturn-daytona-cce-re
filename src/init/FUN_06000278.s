@@ -20,7 +20,8 @@ FUN_06000278:
     jsr @r3
     mov #0x1, r4
 .L_06000296:
-    .byte 0xBF, 0x7D  /* 06000296: bsr 0x06000194 */
+    .reloc ., R_SH_IND12W, FUN_06000194 - 0x4  /* bsr FUN_06000194 */
+    .2byte 0xB000
     nop
     mov.l .L_pool_060002C8, r3
     jsr @r3
@@ -50,6 +51,6 @@ FUN_06000278:
 .L_pool_060002C8:
     .4byte DAT_06007274  /* 060002C8 = 0x06007274 (FUN_0600722A + 0x4A) */
 .L_pool_060002CC:
-    .4byte sym_06019476  /* 060002CC = 0x06019476 */
+    .4byte DAT_06019476  /* 060002CC = 0x06019476 */
 .L_pool_060002D0:
     .4byte DAT_06011F90  /* 060002D0 = 0x06011F90 (FUN_0600EA84 + 0x350C) */
