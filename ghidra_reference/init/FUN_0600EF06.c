@@ -1,0 +1,10 @@
+/* FUN_0600EF06  0x0600EF06 */
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void FUN_0600ef06(void)
+
+{
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
