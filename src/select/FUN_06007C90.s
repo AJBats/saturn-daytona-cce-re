@@ -9,6 +9,8 @@ FUN_06007C90:
     jsr @r13
     mov r11, r5
     add #0x20, r15
+    .global FUN_06007C9A
+FUN_06007C9A:
     add #0x10, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

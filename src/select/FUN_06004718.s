@@ -6,10 +6,13 @@
 FUN_06004718:
     mov.l r14, @-r15
     mov #0x3C, r4
+    .global FUN_0600471C
+FUN_0600471C:
     .byte 0xD2, 0x2F  /* 0600471C: mov.l @(0xBC,PC),r2  {[0x060047DC] = 0x06028B80} */
     jsr @r2
     nop
-    .byte 0xA0, 0x0F  /* 06004722: bra 0x06004744 */
+    .reloc ., R_SH_IND12W, FUN_06004744 - 4
+    .2byte 0xA000    /* bra FUN_06004744 (linker-resolved) */
     add #0x8, r15
     .byte 0xD1, 0x2E  /* 06004726: mov.l @(0xB8,PC),r1  {[0x060047E0] = 0x06052CA9} */
     .byte 0x62, 0x10  /* 06004728: mov.b @r1,r2 */

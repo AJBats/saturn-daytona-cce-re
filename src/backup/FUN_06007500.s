@@ -14,6 +14,8 @@ FUN_06007500:
     dt r0
     .byte 0x8F, 0xEF  /* 06007510: bf/s 0x060074F2 */
     mov.b r0, @(153, gbr)
+    .global FUN_06007514
+FUN_06007514:
     lds.l @r15+, pr
     rts
     nop

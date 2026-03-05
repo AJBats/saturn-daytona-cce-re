@@ -22,7 +22,8 @@ FUN_0600A2D4:
     rts
     mov #-0xA, r0
 .L_0600A2F6:
-    .byte 0xB5, 0xDF  /* 0600A2F6: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
     mov.l @r15, r0
     add #0xC, r15

@@ -46,7 +46,8 @@ FUN_0600AA52:
     mov.l @(r0, r1), r0
     cmp/eq #0x5, r0
     bf .L_0600AAB4
-    .byte 0xB1, 0xB9  /* 0600AAA4: bsr 0x0600AE1A */
+    .reloc ., R_SH_IND12W, FUN_0600AE1A - 4
+    .2byte 0xB000    /* bsr FUN_0600AE1A (linker-resolved) */
     mov #0x40, r4
     cmp/eq #0x1, r0
     bf .L_0600AAB4
@@ -58,6 +59,8 @@ FUN_0600AA52:
     mov.l @r14, r0
     .byte 0x91, 0x54  /* 0600AAB6: mov.w @(0xA8,PC),r1  {0x0600AB62} */
     mov.l @(r0, r1), r0
+    .global FUN_0600AABA
+FUN_0600AABA:
 .L_0600AABA:
     lds.l @r15+, pr
     mov.l @r15+, r12

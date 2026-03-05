@@ -16,5 +16,6 @@ FUN_06001346:
     tst r5, r5
     bf/s .L_06001350
     add #-0x1, r5
-    .byte 0xA0, 0x00  /* 0600135A: bra 0x0600135E */
+    .reloc ., R_SH_IND12W, FUN_0600135E - 4
+    .2byte 0xA000    /* bra FUN_0600135E (linker-resolved) */
     nop

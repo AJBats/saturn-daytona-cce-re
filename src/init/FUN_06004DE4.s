@@ -38,5 +38,6 @@ FUN_06004DE4:
     .byte 0x63, 0x11  /* 06004E22: mov.w @r1,r3 */
     .byte 0x22, 0x3B  /* 06004E24: or r3,r2 */
     .byte 0x25, 0x21  /* 06004E26: mov.w r2,@r5 */
-    .byte 0xA0, 0x00  /* 06004E28: bra 0x06004E2C */
+    .reloc ., R_SH_IND12W, FUN_06004E2C - 4
+    .2byte 0xA000    /* bra FUN_06004E2C (linker-resolved) */
     .byte 0x24, 0x0B  /* 06004E2A: or r0,r4 */

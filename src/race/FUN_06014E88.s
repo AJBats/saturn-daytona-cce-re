@@ -300,5 +300,6 @@ FUN_06014E88:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA0, 0x00  /* 060150C6: bra 0x060150CA */
+    .reloc ., R_SH_IND12W, FUN_060150CA - 4
+    .2byte 0xA000    /* bra FUN_060150CA (linker-resolved) */
     mov.l @r15+, r14

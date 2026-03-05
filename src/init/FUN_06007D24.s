@@ -5,7 +5,8 @@
     .type FUN_06007D24, @function
 FUN_06007D24:
     sts.l pr, @-r15
-    .byte 0xBF, 0x88  /* 06007D26: bsr 0x06007C3A */
+    .reloc ., R_SH_IND12W, FUN_06007C3A - 4
+    .2byte 0xB000    /* bsr FUN_06007C3A (linker-resolved) */
     mov r5, r13
     extu.b r0, r4
     mov.l @r13, r0
@@ -56,7 +57,8 @@ FUN_06007D24:
     mov #0x0, r3
     mov.l r3, @(8, r14)
     mov r13, r5
-    .byte 0xBF, 0x59  /* 06007D84: bsr 0x06007C3A */
+    .reloc ., R_SH_IND12W, FUN_06007C3A - 4
+    .2byte 0xB000    /* bsr FUN_06007C3A (linker-resolved) */
     mov r14, r4
     extu.b r0, r4
     mov.l @r13, r0

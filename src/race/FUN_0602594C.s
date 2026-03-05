@@ -140,6 +140,8 @@ FUN_0602594C:
     cmp/gt r4, r3
     bt .L_06025A48
     mov #-0x1, r4
+    .global FUN_06025A40
+FUN_06025A40:
     extu.b r4, r4
     mov.w .L_wpool_06025A7A, r5
     mov.l r3, @(r0, r1)
@@ -157,6 +159,8 @@ FUN_0602594C:
     mov.w @(r0, r1), r2
     shll2 r2
     shll r2
+    .global FUN_06025A60
+FUN_06025A60:
     add r2, r7
     mov.l @r7, r8
     mov.l @(4, r7), r9

@@ -17,7 +17,8 @@ FUN_0600A534:
     mov r0, r4
     tst r4, r4
     .byte 0x8B, 0x36  /* 0600A54C: bf 0x0600A5BC */
-    .byte 0xB4, 0xB3  /* 0600A54E: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
     mov.l @r11, r3
     add #0x1, r3

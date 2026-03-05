@@ -22,12 +22,14 @@ FUN_0600870E:
     mov.l @(4, r6), r6
     mov.l @(8, r5), r5
     .byte 0xD4, 0x31  /* 0600872E: mov.l @(0xC4,PC),r4  {[0x060087F4] = 0x060136D4} */
-    .byte 0xB1, 0x1E  /* 06008730: bsr 0x06008970 */
+    .reloc ., R_SH_IND12W, FUN_06008970 - 4
+    .2byte 0xB000    /* bsr FUN_06008970 (linker-resolved) */
     mov.l @r4, r4
     mov #0x0, r0
     add #0x4, r15
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xAF, 0x63  /* 0600873E: bra 0x06008608 */
+    .reloc ., R_SH_IND12W, FUN_06008608 - 4
+    .2byte 0xA000    /* bra FUN_06008608 (linker-resolved) */
     .byte 0xE4, 0x00  /* 06008740: mov #0,r4 */

@@ -161,6 +161,8 @@ FUN_0600EEB4:
     .byte 0xE5, 0x01  /* 0600EFE4: mov #1,r5 */
     .byte 0xD2, 0x0C  /* 0600EFE6: mov.l @(0x30,PC),r2  {[0x0600F018] = 0x00000018} */
     .byte 0x32, 0xDC  /* 0600EFE8: add r13,r2 */
+    .global FUN_0600EFEA
+FUN_0600EFEA:
     .byte 0x62, 0x21  /* 0600EFEA: mov.w @r2,r2 */
     .byte 0x22, 0x18  /* 0600EFEC: tst r1,r2 */
     .byte 0x89, 0x15  /* 0600EFEE: bt 0x0600F01C */

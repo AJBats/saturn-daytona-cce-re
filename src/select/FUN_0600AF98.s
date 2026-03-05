@@ -18,7 +18,8 @@ FUN_0600AF98:
     cmp/hs r11, r14
     bt .L_0600AFD6
 .L_0600AFB2:
-    .byte 0xBF, 0xDF  /* 0600AFB2: bsr 0x0600AF74 */
+    .reloc ., R_SH_IND12W, FUN_0600AF74 - 4
+    .2byte 0xB000    /* bsr FUN_0600AF74 (linker-resolved) */
     mov.b @r13, r4
     extu.b r0, r0
     mov.b @(r0, r12), r3
@@ -26,7 +27,8 @@ FUN_0600AF98:
     mov.b r3, @r14
     add #0x3, r12
     add #0x1, r14
-    .byte 0xBF, 0xD7  /* 0600AFC2: bsr 0x0600AF74 */
+    .reloc ., R_SH_IND12W, FUN_0600AF74 - 4
+    .2byte 0xB000    /* bsr FUN_0600AF74 (linker-resolved) */
     mov.b @r13, r4
     extu.b r0, r0
     mov.b @(r0, r12), r3

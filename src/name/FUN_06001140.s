@@ -8,7 +8,8 @@ FUN_06001140:
     jsr @r10
     mov r9, r4
     mov #0x50, r3
-    .byte 0xA0, 0x0C  /* 06001148: bra 0x06001164 */
+    .reloc ., R_SH_IND12W, FUN_06001164 - 4
+    .2byte 0xA000    /* bra FUN_06001164 (linker-resolved) */
     mov.l r3, @-r15
     .byte 0xE3, 0x50  /* 0600114C: mov #80,r3 */
     .byte 0xE7, 0x32  /* 0600114E: mov #50,r7 */

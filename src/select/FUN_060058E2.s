@@ -20,6 +20,8 @@ FUN_060058E2:
     .byte 0xD2, 0x24  /* 060058FC: mov.l @(0x90,PC),r2  {[0x06005990] = 0x06042369} */
     mov #0x3, r3
     mov.b r3, @r2
+    .global FUN_06005902
+FUN_06005902:
 .L_06005902:
     lds.l @r15+, pr
     mov.l @r15+, r8

@@ -7,7 +7,8 @@ FUN_0601AB7E:
     sts.l pr, @-r15
 .L_0601AB80:
     mov r14, r4
-    .byte 0xBF, 0x24  /* 0601AB82: bsr 0x0601A9CE */
+    .reloc ., R_SH_IND12W, FUN_0601A9CE - 4
+    .2byte 0xB000    /* bsr FUN_0601A9CE (linker-resolved) */
     add #0x28, r14
     dt r13
     bf .L_0601AB80
@@ -38,7 +39,8 @@ FUN_0601AB7E:
     mov #0x14, r13
 .L_0601ABBA:
     mov r14, r4
-    .byte 0xBF, 0x9C  /* 0601ABBC: bsr 0x0601AAF8 */
+    .reloc ., R_SH_IND12W, FUN_0601AAF8 - 4
+    .2byte 0xB000    /* bsr FUN_0601AAF8 (linker-resolved) */
     add #0x28, r14
     dt r13
     bf .L_0601ABBA
@@ -82,7 +84,8 @@ FUN_0601AB7E:
     .byte 0xDC, 0x16  /* 0601AC04: mov.l @(0x58,PC),r12  {[0x0601AC60] = 0x06053A04} */
 .L_0601AC06:
     mov r12, r4
-    .byte 0xBF, 0x76  /* 0601AC08: bsr 0x0601AAF8 */
+    .reloc ., R_SH_IND12W, FUN_0601AAF8 - 4
+    .2byte 0xB000    /* bsr FUN_0601AAF8 (linker-resolved) */
     add #0x28, r12
     dt r14
     bf .L_0601AC06

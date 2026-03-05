@@ -411,7 +411,8 @@ FUN_060080AA:
     extu.b r2, r2
     cmp/eq r3, r2
     bt .L_060083C0
-    .byte 0xB3, 0x34  /* 060083B0: bsr 0x06008A1C */
+    .reloc ., R_SH_IND12W, FUN_06008A1C - 4
+    .2byte 0xB000    /* bsr FUN_06008A1C (linker-resolved) */
     mov r10, r4
     bra .L_060083C0
     nop

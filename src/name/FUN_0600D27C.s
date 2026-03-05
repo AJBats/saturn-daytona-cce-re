@@ -29,6 +29,8 @@ FUN_0600D27C:
     dt r0
     bf/s .L_0600D28A
     mov.b r0, @(153, gbr)
+    .global FUN_0600D2AC
+FUN_0600D2AC:
     lds.l @r15+, pr
     rts
     nop

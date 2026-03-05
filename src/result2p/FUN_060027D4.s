@@ -6,7 +6,8 @@
 FUN_060027D4:
     mov.l .L_pool_060027DC, r4
     mov.l .L_pool_060027E0, r14
-    .byte 0xA0, 0x06  /* 060027D8: bra 0x060027E8 */
+    .reloc ., R_SH_IND12W, FUN_060027E8 - 4
+    .2byte 0xA000    /* bra FUN_060027E8 (linker-resolved) */
     nop
 .L_pool_060027DC:
     .4byte DAT_0602A8C8  /* 060027DC = 0x0602A8C8 (FUN_06009C40 + 0x20C88) */

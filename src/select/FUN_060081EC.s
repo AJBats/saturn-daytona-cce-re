@@ -33,7 +33,8 @@ FUN_060081EC:
     add r2, r3
     add #0x27, r3
     mov.l r3, @r15
-    .byte 0xA0, 0x10  /* 06008224: bra 0x06008248 */
+    .reloc ., R_SH_IND12W, FUN_06008248 - 4
+    .2byte 0xA000    /* bra FUN_06008248 (linker-resolved) */
     mov r11, r12
     .byte 0x2F, 0xA6  /* 06008228: mov.l r10,@-r15 */
     .byte 0x66, 0xC3  /* 0600822A: mov r12,r6 */

@@ -7,7 +7,8 @@ FUN_06003328:
     sts.l pr, @-r15
     bsr .L_06003362
     nop
-    .byte 0xAF, 0xD9  /* 0600332E: bra 0x060032E4 */
+    .reloc ., R_SH_IND12W, FUN_060032E4 - 4
+    .2byte 0xA000    /* bra FUN_060032E4 (linker-resolved) */
     lds.l @r15+, pr
     .byte 0x04, 0xC0  /* 06003332: .word 0x04C0 */
     .byte 0x05, 0xC0  /* 06003334: .word 0x05C0 */
@@ -32,6 +33,8 @@ FUN_06003328:
     .byte 0x01, 0xF0  /* 0600335C: .word 0x01F0 */
     .byte 0x01, 0xFF  /* 0600335E: mac.l @r15+,@r1+ */
     .byte 0x01, 0xE0  /* 06003360: .word 0x01E0 */
+    .global FUN_06003362
+FUN_06003362:
 .L_06003362:
     mov.w @(144, gbr), r0
     mov.w r0, @(28, r7)

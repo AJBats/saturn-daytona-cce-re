@@ -94,7 +94,8 @@ FUN_06004030:
     .byte 0x89, 0x06  /* 060040DC: bt 0x060040EC */
     .byte 0x88, 0x02  /* 060040DE: cmp/eq #2,r0 */
     .byte 0x89, 0x14  /* 060040E0: bt 0x0600410C */
-    .byte 0xA0, 0x23  /* 060040E2: bra 0x0600412C */
+    .reloc ., R_SH_IND12W, FUN_0600412C - 4
+    .2byte 0xA000    /* bra FUN_0600412C (linker-resolved) */
     .byte 0x00, 0x09  /* 060040E4: nop */
     .byte 0x00, 0x0B  /* 060040E6: rts */
     .byte 0x00, 0x09  /* 060040E8: nop */

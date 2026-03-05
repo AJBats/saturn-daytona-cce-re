@@ -12,9 +12,11 @@ FUN_0600E832:
     extu.b r3, r3
     tst r14, r3
     bt .L_0600E854
-    .byte 0xB0, 0x0C  /* 0600E842: bsr 0x0600E85E */
+    .reloc ., R_SH_IND12W, FUN_0600E85E - 4
+    .2byte 0xB000    /* bsr FUN_0600E85E (linker-resolved) */
     nop
-    .byte 0xBF, 0xEB  /* 0600E846: bsr 0x0600E820 */
+    .reloc ., R_SH_IND12W, FUN_0600E820 - 4
+    .2byte 0xB000    /* bsr FUN_0600E820 (linker-resolved) */
     nop
     mov r0, r4
     tst r4, r4

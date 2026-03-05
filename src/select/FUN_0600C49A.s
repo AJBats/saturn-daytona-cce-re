@@ -33,7 +33,8 @@ FUN_0600C49A:
     .byte 0x89, 0x13  /* 0600C4CE: bt 0x0600C4F8 */
     cmp/eq #0x4, r0
     .byte 0x89, 0x57  /* 0600C4D2: bt 0x0600C584 */
-    .byte 0xA0, 0x78  /* 0600C4D4: bra 0x0600C5C8 */
+    .reloc ., R_SH_IND12W, FUN_0600C5C8 - 4
+    .2byte 0xA000    /* bra FUN_0600C5C8 (linker-resolved) */
     nop
 .L_0600C4D8:
     .byte 0xD3, 0x21  /* 0600C4D8: mov.l @(0x84,PC),r3  {[0x0600C560] = 0x002792F4} */

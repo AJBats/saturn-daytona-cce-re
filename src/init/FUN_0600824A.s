@@ -14,7 +14,8 @@ FUN_0600824A:
     add #0x6C, r14
 .L_0600825A:
     mov r15, r5
-    .byte 0xB0, 0xA8  /* 0600825C: bsr 0x060083B0 */
+    .reloc ., R_SH_IND12W, FUN_060083B0 - 4
+    .2byte 0xB000    /* bsr FUN_060083B0 (linker-resolved) */
     mov r13, r4
     mov.l @r12, r3
     mov.w .L_wpool_060082BE, r0
@@ -53,7 +54,8 @@ FUN_0600824A:
     tst r0, r0
     bt .L_060082AA
     mov.l @(16, r14), r5
-    .byte 0xB3, 0xA6  /* 060082A4: bsr 0x060089F4 */
+    .reloc ., R_SH_IND12W, FUN_060089F4 - 4
+    .2byte 0xB000    /* bsr FUN_060089F4 (linker-resolved) */
     mov r14, r4
     mov.l r10, @(16, r14)
 .L_060082AA:

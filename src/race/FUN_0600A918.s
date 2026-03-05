@@ -61,7 +61,8 @@ FUN_0600A918:
     and r9, r4
     shar r4
     shar r4
-    .byte 0xBD, 0xAF  /* 0600A986: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     shar r4
     add #0x1, r12
     mov.w r14, @r15
@@ -103,7 +104,8 @@ FUN_0600A918:
     and r9, r4
     shar r4
     shar r4
-    .byte 0xBD, 0x86  /* 0600A9D8: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     shar r4
     mov.w r14, @r15
     mov r11, r0
@@ -145,7 +147,8 @@ FUN_0600A918:
     and r9, r4
     shar r4
     shar r4
-    .byte 0xBD, 0x5D  /* 0600AA2A: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     shar r4
     add #0x1, r12
     mov.w r14, @r15
@@ -187,7 +190,8 @@ FUN_0600A918:
     and r9, r4
     shar r4
     shar r4
-    .byte 0xBD, 0x34  /* 0600AA7C: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     shar r4
     add #0x1, r12
     exts.w r12, r2

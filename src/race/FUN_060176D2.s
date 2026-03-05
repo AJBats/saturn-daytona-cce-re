@@ -8,7 +8,8 @@ FUN_060176D2:
     .byte 0xDB, 0x1F  /* 060176D4: mov.l @(0x7C,PC),r11  {[0x06017754] = 0x00004000} */
     mov r4, r14
     ldc r4, gbr
-    .byte 0xB0, 0x0D  /* 060176DA: bsr 0x060176F8 */
+    .reloc ., R_SH_IND12W, FUN_060176F8 - 4
+    .2byte 0xB000    /* bsr FUN_060176F8 (linker-resolved) */
     mov r6, r4
     mov.l @r15+, r14
     mov.l @r15+, r13

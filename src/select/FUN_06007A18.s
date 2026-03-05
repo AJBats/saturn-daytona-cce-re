@@ -8,7 +8,8 @@ FUN_06007A18:
     mov r13, r6
     mov.l r9, @-r15
     mov.l r2, @-r15
-    .byte 0xA0, 0x53  /* 06007A20: bra 0x06007ACA */
+    .reloc ., R_SH_IND12W, FUN_06007ACA - 4
+    .2byte 0xA000    /* bra FUN_06007ACA (linker-resolved) */
     mov r11, r5
     .4byte sym_00291D80  /* 06007A24 = 0x00291D80 */
     .4byte sym_0028CF40  /* 06007A28 = 0x0028CF40 */

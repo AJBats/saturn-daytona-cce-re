@@ -37,7 +37,8 @@ FUN_0600220C:
     mov.l r8, @-r15
     mov.l r7, @-r15
     mov.l r2, @-r15
-    .byte 0xB0, 0x2A  /* 0600224C: bsr 0x060022A4 */
+    .reloc ., R_SH_IND12W, FUN_060022A4 - 4
+    .2byte 0xB000    /* bsr FUN_060022A4 (linker-resolved) */
     sub r1, r5
     mov.l @r15+, r2
     mov.l @r15+, r7

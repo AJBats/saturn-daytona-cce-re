@@ -37,7 +37,8 @@ FUN_060105CE:
     .byte 0x2C, 0xBF  /* 06010608: muls.w r11,r12 */
     .byte 0x01, 0x20  /* 0601060A: .word 0x0120 */
     .byte 0xD1, 0x6B  /* 0601060C: mov.l @(0x1AC,PC),r1  {[0x060107BC] = 0xD4334C0B} */
-    .byte 0xAE, 0x95  /* 0601060E: bra 0x0601033C */
+    .reloc ., R_SH_IND12W, FUN_0601033C - 4
+    .2byte 0xA000    /* bra FUN_0601033C (linker-resolved) */
 .L_wpool_06010610:
     .byte 0x01, 0x94  /* 06010610: mov.b r9,@(r0,r1) */
 .L_wpool_06010612:

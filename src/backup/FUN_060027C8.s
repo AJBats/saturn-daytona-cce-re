@@ -6,6 +6,8 @@
 FUN_060027C8:
     mov.l r14, @-r15
     mov.l r2, @-r15
+    .global FUN_060027CC
+FUN_060027CC:
     mov.l .L_pool_06002814, r4
     mov #0x28, r7
     mov #0x2F, r6

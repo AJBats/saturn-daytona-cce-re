@@ -14,11 +14,13 @@ FUN_0600C776:
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x4, r15
-    .byte 0xBF, 0xCB  /* 0600C78A: bsr 0x0600C724 */
+    .reloc ., R_SH_IND12W, FUN_0600C724 - 4
+    .2byte 0xB000    /* bsr FUN_0600C724 (linker-resolved) */
     nop
     .byte 0xDC, 0x3C  /* 0600C78E: mov.l @(0xF0,PC),r12  {[0x0600C880] = 0x25E68000} */
     .byte 0xD4, 0x3E  /* 0600C790: mov.l @(0xF8,PC),r4  {[0x0600C88C] = 0x060427ED} */
-    .byte 0xB0, 0x5C  /* 0600C792: bsr 0x0600C84E */
+    .reloc ., R_SH_IND12W, FUN_0600C84E - 4
+    .2byte 0xB000    /* bsr FUN_0600C84E (linker-resolved) */
     mov.b @r4, r4
     tst r0, r0
     bt .L_0600C7B8
@@ -94,7 +96,8 @@ FUN_0600C776:
     mov.l r2, @(4, r15)
     mov.l @(8, r1), r2
     mov.l r2, @(8, r15)
-    .byte 0xBB, 0x03  /* 0600C826: bsr 0x0600BE30 */
+    .reloc ., R_SH_IND12W, FUN_0600BE30 - 4
+    .2byte 0xB000    /* bsr FUN_0600BE30 (linker-resolved) */
     mov #0x2F, r4
     add #0x10, r15
     add #0x1, r14

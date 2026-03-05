@@ -22,10 +22,12 @@ FUN_06017A5C:
     mov.b @(r0, r7), r1
     add #0x1, r7
     mov.b @(r0, r7), r2
-    .byte 0xB0, 0x13  /* 06017A7E: bsr 0x06017AA8 */
+    .reloc ., R_SH_IND12W, FUN_06017AA8 - 4
+    .2byte 0xB000    /* bsr FUN_06017AA8 (linker-resolved) */
     mov r1, r4
     mov r4, r10
-    .byte 0xB0, 0x10  /* 06017A84: bsr 0x06017AA8 */
+    .reloc ., R_SH_IND12W, FUN_06017AA8 - 4
+    .2byte 0xB000    /* bsr FUN_06017AA8 (linker-resolved) */
     mov r2, r4
     cmp/hi r10, r4
     bf .L_06017A96

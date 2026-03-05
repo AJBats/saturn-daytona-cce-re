@@ -9,4 +9,5 @@ FUN_06006E58:
     stc sr, r6
     .byte 0xD0, 0x52  /* 06006E5E: mov.l @(0x148,PC),r0  {[0x06006FA8] = 0x410B352C} */
     mov.l r14, @-r5
-    .byte 0xA0, 0x1A  /* 06006E62: bra 0x06006E9A */
+    .reloc ., R_SH_IND12W, FUN_06006E9A - 4
+    .2byte 0xA000    /* bra FUN_06006E9A (linker-resolved) */

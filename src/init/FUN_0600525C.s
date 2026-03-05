@@ -18,7 +18,8 @@ FUN_0600525C:
     cmp/eq #0x1, r0
     bt .L_06005284
 .L_06005276:
-    .byte 0xB7, 0x87  /* 06005276: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #-0x8, r4
     mov #0x0, r0
     add #0x4, r15
@@ -32,7 +33,8 @@ FUN_0600525C:
     cmp/gt r4, r3
     bt .L_0600529C
 .L_0600528E:
-    .byte 0xB7, 0x7B  /* 0600528E: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #-0x9, r4
     mov #0x0, r0
     add #0x4, r15
@@ -44,7 +46,8 @@ FUN_0600525C:
     jsr @r2
     mov.l @(8, r14), r5
     mov.l r0, @r15
-    .byte 0xB7, 0x70  /* 060052A4: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #0x0, r4
     mov r0, r4
     cmp/pz r4

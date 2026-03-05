@@ -10,13 +10,15 @@ FUN_06005530:
     tst r2, r2
     bf .L_06005540
     mov #0x6, r5
-    .byte 0xB5, 0x7E  /* 0600553C: bsr 0x0600603C */
+    .reloc ., R_SH_IND12W, FUN_0600603C - 4
+    .2byte 0xB000    /* bsr FUN_0600603C (linker-resolved) */
     mov #0x1, r4
 .L_06005540:
     mov #0x0, r7
     mov #0x6, r6
     mov #0x3, r5
-    .byte 0xB4, 0xCB  /* 06005546: bsr 0x06005EE0 */
+    .reloc ., R_SH_IND12W, FUN_06005EE0 - 4
+    .2byte 0xB000    /* bsr FUN_06005EE0 (linker-resolved) */
     mov r7, r4
     mov.l .L_pool_06005698, r12
     mov.l .L_pool_0600569C, r14
@@ -33,18 +35,21 @@ FUN_06005530:
     nop
 .L_06005564:
     mov.l .L_pool_060056A0, r2
-    .byte 0xB2, 0xA2  /* 06005566: bsr 0x06005AAE */
+    .reloc ., R_SH_IND12W, FUN_06005AAE - 4
+    .2byte 0xB000    /* bsr FUN_06005AAE (linker-resolved) */
     mov.w @r2, r4
 .L_0600556A:
     mov #0x1, r7
     mov.l .L_pool_060056A4, r5
     mov.l .L_pool_060056A8, r4
-    .byte 0xBD, 0x6F  /* 06005570: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x7, r6
     mov.l .L_pool_060056AC, r5
     mov #0x3, r7
     mov.l .L_pool_060056B0, r4
-    .byte 0xBD, 0x6A  /* 0600557A: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x2, r6
     mov.b @r14, r2
     tst r2, r2
@@ -53,7 +58,8 @@ FUN_06005530:
     mov #0x1, r5
     mov.l .L_pool_060056B4, r0
     extu.b r4, r4
-    .byte 0xB3, 0xE0  /* 0600558C: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov.b @(r0, r4), r4
     bra .L_060055B0
     nop
@@ -65,17 +71,20 @@ FUN_06005530:
     mov.l .L_pool_060056BC, r2
     mov #0x1, r5
     mov.b @r2, r4
-    .byte 0xB3, 0xD5  /* 060055A2: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     add #0x2, r4
     bra .L_060055B0
     nop
 .L_060055AA:
     mov #0x1, r5
-    .byte 0xB3, 0xD0  /* 060055AC: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x2, r4
 .L_060055B0:
     mov #0x0, r5
-    .byte 0xB3, 0xCD  /* 060055B2: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x1, r4
     mov #0xA, r2
     mov.l .L_pool_060056C0, r3
@@ -83,12 +92,14 @@ FUN_06005530:
     mov.l .L_pool_060056C4, r5
     mov.b r2, @r3
     mov.l .L_pool_060056C8, r4
-    .byte 0xBD, 0x46  /* 060055C2: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x9, r6
     mov #0x1, r7
     mov.l .L_pool_060056CC, r5
     mov.l .L_pool_060056D0, r4
-    .byte 0xBD, 0x41  /* 060055CC: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x7, r6
     mov.b @r14, r0
     cmp/eq #0x3, r0
@@ -100,12 +111,14 @@ FUN_06005530:
     mov #0x1, r7
     mov.l .L_pool_060056D8, r5
     mov.l .L_pool_060056DC, r4
-    .byte 0xBD, 0x35  /* 060055E4: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x7, r6
     mov.l .L_pool_060056E0, r5
     mov #0x2, r7
     mov.l .L_pool_060056E4, r4
-    .byte 0xBD, 0x30  /* 060055EE: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x3, r6
     mov #0x2, r7
     mov.l .L_pool_060056E8, r5
@@ -116,7 +129,8 @@ FUN_06005530:
     add #-0x1, r4
     shll2 r4
     shll r4
-    .byte 0xBD, 0x25  /* 06005604: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r2, r4
     bra .L_06005640
     nop
@@ -124,28 +138,34 @@ FUN_06005530:
     mov.l .L_pool_060056F4, r5
     mov #0x1, r7
     mov.l .L_pool_060056F8, r4
-    .byte 0xBD, 0x1E  /* 06005612: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0xA, r6
     mov #0x1, r7
     mov.l .L_pool_060056FC, r5
     mov.l .L_pool_06005700, r4
-    .byte 0xBD, 0x19  /* 0600561C: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0xA, r6
     mov.l .L_pool_06005704, r5
     mov #0x1, r7
     mov.l .L_pool_06005708, r4
-    .byte 0xBD, 0x14  /* 06005626: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0xA, r6
     mov #0x0, r5
-    .byte 0xB7, 0xBC  /* 0600562C: bsr 0x060065A8 */
+    .reloc ., R_SH_IND12W, FUN_060065A8 - 4
+    .2byte 0xB000    /* bsr FUN_060065A8 (linker-resolved) */
     mov r5, r4
     mov.l .L_pool_0600570C, r3
     mov #0x0, r5
-    .byte 0xB7, 0xC4  /* 06005634: bsr 0x060065C0 */
+    .reloc ., R_SH_IND12W, FUN_060065C0 - 4
+    .2byte 0xB000    /* bsr FUN_060065C0 (linker-resolved) */
     mov.l @r3, r4
     mov.l .L_pool_06005710, r3
     mov #0x0, r5
-    .byte 0xB7, 0xCC  /* 0600563C: bsr 0x060065D8 */
+    .reloc ., R_SH_IND12W, FUN_060065D8 - 4
+    .2byte 0xB000    /* bsr FUN_060065D8 (linker-resolved) */
     mov.l @r3, r4
 .L_06005640:
     mov.l .L_pool_06005714, r3
@@ -159,7 +179,8 @@ FUN_06005530:
     mov #0x1, r7
     mov.l .L_pool_06005718, r5
     mov.l .L_pool_0600571C, r4
-    .byte 0xBC, 0xFD  /* 06005654: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     mov #0x9, r6
     mov.l .L_pool_06005720, r11
     bra .L_06005730
@@ -254,7 +275,8 @@ FUN_06005530:
     mov r13, r5
     add #0x17, r5
     mov r13, r4
-    .byte 0xB4, 0x87  /* 0600572A: bsr 0x0600603C */
+    .reloc ., R_SH_IND12W, FUN_0600603C - 4
+    .2byte 0xB000    /* bsr FUN_0600603C (linker-resolved) */
     add #0x1, r4
     add #0x1, r13
 .L_06005730:

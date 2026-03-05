@@ -5,6 +5,8 @@
     .type FUN_060095B8, @function
 FUN_060095B8:
     mov.l @r15+, r14
+    .global FUN_060095BA
+FUN_060095BA:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r11

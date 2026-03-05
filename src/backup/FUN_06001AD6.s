@@ -12,9 +12,11 @@ FUN_06001AD6:
     extu.b r3, r3
     tst r14, r3
     bt .L_06001AF8
-    .byte 0xB0, 0x0C  /* 06001AE6: bsr 0x06001B02 */
+    .reloc ., R_SH_IND12W, FUN_06001B02 - 4
+    .2byte 0xB000    /* bsr FUN_06001B02 (linker-resolved) */
     nop
-    .byte 0xBF, 0xEB  /* 06001AEA: bsr 0x06001AC4 */
+    .reloc ., R_SH_IND12W, FUN_06001AC4 - 4
+    .2byte 0xB000    /* bsr FUN_06001AC4 (linker-resolved) */
     nop
     mov r0, r4
     tst r4, r4

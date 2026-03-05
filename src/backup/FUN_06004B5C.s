@@ -31,7 +31,8 @@ FUN_06004B5C:
     mov.b @(4, r15), r0
     mov r0, r6
     mov r13, r0
-    .byte 0xBF, 0xAE  /* 06004B90: bsr 0x06004AF0 */
+    .reloc ., R_SH_IND12W, FUN_06004AF0 - 4
+    .2byte 0xB000    /* bsr FUN_06004AF0 (linker-resolved) */
     mov.b @(r0, r14), r4
     add #0x4, r15
     add #0x1, r14

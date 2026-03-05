@@ -55,7 +55,8 @@ FUN_0600F65C:
     mov.l @r2, r2
     mov.l @(8, r2), r7
     mov.l @(24, r2), r2
-    .byte 0xA2, 0x9F  /* 0600F6B6: bra 0x0600FBF8 */
+    .reloc ., R_SH_IND12W, FUN_0600FBF8 - 4
+    .2byte 0xA000    /* bra FUN_0600FBF8 (linker-resolved) */
     mov.l @(12, r7), r4
 .L_wpool_0600F6BA:
     .byte 0x00, 0x80  /* 0600F6BA: .word 0x0080 */
@@ -213,6 +214,8 @@ FUN_0600F65C:
     mov r4, r3
     shll r4
     add r4, r3
+    .global FUN_0600F7CC
+FUN_0600F7CC:
     cmp/gt r3, r2
     bt .L_0600F7D2
     add r4, r5
@@ -537,6 +540,8 @@ FUN_0600F65C:
     .byte 0x01, 0x60  /* 0600F9F2: .word 0x0160 */
 .L_0600F9F4:
     mov.l @(48, r14), r0
+    .global FUN_0600F9F6
+FUN_0600F9F6:
     mov.w .L_wpool_0600FA12, r4
     or r4, r0
     mov.l r0, @(48, r14)

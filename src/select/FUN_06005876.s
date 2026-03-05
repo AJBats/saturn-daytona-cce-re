@@ -22,8 +22,11 @@ FUN_06005876:
     .byte 0x2D, 0xA0  /* 06005894: mov.b r10,@r13 */
     .byte 0xE3, 0x05  /* 06005896: mov #5,r3 */
     .byte 0x2B, 0x30  /* 06005898: mov.b r3,@r11 */
+    .global FUN_0600589A
+FUN_0600589A:
 .L_0600589A:
     mov.l @r14, r2
     add #0x1, r2
-    .byte 0xA0, 0x30  /* 0600589E: bra 0x06005902 */
+    .reloc ., R_SH_IND12W, FUN_06005902 - 4
+    .2byte 0xA000    /* bra FUN_06005902 (linker-resolved) */
     mov.l r2, @r14

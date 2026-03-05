@@ -38,7 +38,8 @@ FUN_0601864E:
     mov #0x9, r1
     cmp/hs r1, r0
     bf .L_06018698
-    .byte 0xA1, 0xF6  /* 0601868E: bra 0x06018A7E */
+    .reloc ., R_SH_IND12W, FUN_06018A7E - 4
+    .2byte 0xA000    /* bra FUN_06018A7E (linker-resolved) */
     nop
 .L_wpool_06018692:
     .byte 0x01, 0x68  /* 06018692: .word 0x0168 */
@@ -119,7 +120,8 @@ FUN_0601864E:
     mov.w .L_wpool_06018766, r0
     tst.b #0x2, @(r0, gbr)
     bf .L_0601872A
-    .byte 0xB0, 0x55  /* 06018726: bsr 0x060187D4 */
+    .reloc ., R_SH_IND12W, FUN_060187D4 - 4
+    .2byte 0xB000    /* bsr FUN_060187D4 (linker-resolved) */
     nop
 .L_0601872A:
     mov.b @(18, gbr), r0

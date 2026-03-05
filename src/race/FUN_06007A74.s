@@ -5,6 +5,8 @@
     .type FUN_06007A74, @function
 FUN_06007A74:
     mov.b r7, @r3
+    .global FUN_06007A76
+FUN_06007A76:
     add #0x10, r15
     mov.l @r15+, r8
     mov.l @r15+, r9

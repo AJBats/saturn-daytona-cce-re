@@ -30,7 +30,8 @@ FUN_060188D0:
     extu.b r0, r0
     tst r4, r0
     bf .L_060188F8
-    .byte 0xB0, 0x19  /* 06018900: bsr 0x06018936 */
+    .reloc ., R_SH_IND12W, FUN_06018936 - 4
+    .2byte 0xB000    /* bsr FUN_06018936 (linker-resolved) */
     nop
 .L_06018904:
     mov.l @r15, r0

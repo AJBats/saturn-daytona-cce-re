@@ -13,7 +13,8 @@ FUN_060126B6:
     mov.l @(8, r1), r7
     .byte 0xD4, 0x0F  /* 060126C4: mov.l @(0x3C,PC),r4  {[0x06012704] = 0x26064FFC} */
     .byte 0xD5, 0x0B  /* 060126C6: mov.l @(0x2C,PC),r5  {[0x060126F4] = 0x00000500} */
-    .byte 0xBF, 0x20  /* 060126C8: bsr 0x0601250C */
+    .reloc ., R_SH_IND12W, FUN_0601250C - 4
+    .2byte 0xB000    /* bsr FUN_0601250C (linker-resolved) */
     nop
     .byte 0xD1, 0x05  /* 060126CC: mov.l @(0x14,PC),r1  {[0x060126E4] = 0x26003F00} */
     mov.l r6, @(4, r1)

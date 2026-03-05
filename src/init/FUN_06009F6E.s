@@ -19,7 +19,8 @@ FUN_06009F6E:
 .L_06009F86:
     mov r15, r4
     add #0x4, r4
-    .byte 0xBF, 0xAC  /* 06009F8A: bsr 0x06009EE6 */
+    .reloc ., R_SH_IND12W, FUN_06009EE6 - 4
+    .2byte 0xB000    /* bsr FUN_06009EE6 (linker-resolved) */
     nop
     .byte 0xD3, 0x0A  /* 06009F8E: mov.l @(0x28,PC),r3  {[0x06009FB8] = 0x060136E8} */
     mov.l @r3, r4

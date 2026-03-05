@@ -6,6 +6,8 @@
 FUN_06007146:
     mov #0x3, r3
     mov.b r3, @r11
+    .global FUN_0600714A
+FUN_0600714A:
     .byte 0xD6, 0x23  /* 0600714A: mov.l @(0x8C,PC),r6  {[0x060071D8] = 0x20100001} */
     .byte 0xD4, 0x23  /* 0600714C: mov.l @(0x8C,PC),r4  {[0x060071DC] = 0x06013646} */
     mov.b @r11, r0

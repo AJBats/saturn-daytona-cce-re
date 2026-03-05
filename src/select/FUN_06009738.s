@@ -8,7 +8,8 @@ FUN_06009738:
     cmp/hs r2, r13
     bt/s .L_06009744
     add #0x10, r15
-    .byte 0xAF, 0x38  /* 06009740: bra 0x060095B4 */
+    .reloc ., R_SH_IND12W, FUN_060095B4 - 4
+    .2byte 0xA000    /* bra FUN_060095B4 (linker-resolved) */
     nop
 .L_06009744:
     add #0xC, r15

@@ -7,7 +7,8 @@ FUN_06001D30:
     mov.l r14, @-r15
     mov.l r9, @-r15
     mov.l r3, @-r15
-    .byte 0xA0, 0x62  /* 06001D36: bra 0x06001DFE */
+    .reloc ., R_SH_IND12W, FUN_06001DFE - 4
+    .2byte 0xA000    /* bra FUN_06001DFE (linker-resolved) */
     mov r13, r5
     .byte 0xD3, 0x1F  /* 06001D3A: mov.l @(0x7C,PC),r3  {[0x06001DB8] = 0x00225E80} */
     .byte 0xD4, 0x1F  /* 06001D3C: mov.l @(0x7C,PC),r4  {[0x06001DBC] = 0x00220000} */

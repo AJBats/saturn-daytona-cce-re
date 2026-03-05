@@ -7,7 +7,8 @@ FUN_06018B48:
     sts.l pr, @-r15
     add #-0x8, r15
     mov.l r4, @r15
-    .byte 0xBE, 0x97  /* 06018B4E: bsr 0x06018880 */
+    .reloc ., R_SH_IND12W, FUN_06018880 - 4
+    .2byte 0xB000    /* bsr FUN_06018880 (linker-resolved) */
     nop
     mov.l r0, @(4, r15)
     mov.l .L_pool_06018B74, r2
@@ -18,7 +19,8 @@ FUN_06018B48:
     nop
     mov.l r0, @r15
     mov.l @(4, r15), r4
-    .byte 0xBE, 0xB4  /* 06018B64: bsr 0x060188D0 */
+    .reloc ., R_SH_IND12W, FUN_060188D0 - 4
+    .2byte 0xB000    /* bsr FUN_060188D0 (linker-resolved) */
     nop
     mov.l @r15, r0
     add #0x8, r15

@@ -32,9 +32,12 @@ FUN_0600A1AC:
     mov.l @(r0, r2), r1
     add #0x1, r1
     mov.l r1, @(r0, r2)
-    .byte 0xB5, 0x5A  /* 0600A1E4: bsr 0x0600AC9C */
+    .reloc ., R_SH_IND12W, FUN_0600AC9C - 4
+    .2byte 0xB000    /* bsr FUN_0600AC9C (linker-resolved) */
     nop
     mov #0x0, r0
+    .global FUN_0600A1EA
+FUN_0600A1EA:
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

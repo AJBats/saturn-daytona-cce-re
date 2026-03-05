@@ -11,7 +11,8 @@ FUN_060175FE:
     sts.l macl, @-r15
     mov r4, r14
     ldc r4, gbr
-    .byte 0xBF, 0xBE  /* 0601760C: bsr 0x0601758C */
+    .reloc ., R_SH_IND12W, FUN_0601758C - 4
+    .2byte 0xB000    /* bsr FUN_0601758C (linker-resolved) */
     mov r5, r4
     lds.l @r15+, macl
     lds.l @r15+, mach

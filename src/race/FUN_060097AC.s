@@ -28,6 +28,8 @@ FUN_060097AC:
     mov.b r3, @(r0, r13)
     mov.l .L_pool_06009840, r0
     mov.b r11, @(r0, r13)
+    .global FUN_060097DC
+FUN_060097DC:
     mov.l .L_pool_0600980C, r0
     mov.b @(r0, r13), r3
     tst r3, r3

@@ -54,7 +54,8 @@ FUN_06007F6C:
     shll r7
     add r3, r7
     add r14, r7
-    .byte 0xB3, 0x4C  /* 06007FD0: bsr 0x0600866C */
+    .reloc ., R_SH_IND12W, FUN_0600866C - 4
+    .2byte 0xB000    /* bsr FUN_0600866C (linker-resolved) */
     mov #0x37, r4
     mov.l r11, @-r15
     mov #0x37, r6
@@ -153,7 +154,8 @@ FUN_06007F6C:
     .byte 0x47, 0x00  /* 0600808A: shll r7 */
     .byte 0x37, 0x3C  /* 0600808C: add r3,r7 */
     .byte 0x37, 0xEC  /* 0600808E: add r14,r7 */
-    .byte 0xB2, 0xEC  /* 06008090: bsr 0x0600866C */
+    .reloc ., R_SH_IND12W, FUN_0600866C - 4
+    .2byte 0xB000    /* bsr FUN_0600866C (linker-resolved) */
     .byte 0xE4, 0x48  /* 06008092: mov #72,r4 */
     .byte 0x2F, 0xB6  /* 06008094: mov.l r11,@-r15 */
     .byte 0xE2, 0x03  /* 06008096: mov #3,r2 */

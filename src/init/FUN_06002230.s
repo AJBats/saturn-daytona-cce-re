@@ -22,6 +22,8 @@ FUN_06002230:
     .byte 0xD1, 0x0F  /* 0600224C: mov.l @(0x3C,PC),r1  {[0x0600228C] = 0xFFFFFE10} */
     mov #0x1, r0
     mov.b r0, @r1
+    .global FUN_06002252
+FUN_06002252:
     .byte 0xD1, 0x0E  /* 06002252: mov.l @(0x38,PC),r1  {[0x0600228C] = 0xFFFFFE10} */
 .L_06002254:
     mov.b @(1, r1), r0

@@ -11,7 +11,8 @@ FUN_06002268:
     mov.l .L_pool_06002280, r1
     mov #0x0, r0
     mov.l r0, @(0, r1)
-    .byte 0xAF, 0xEC  /* 06002276: bra 0x06002252 */
+    .reloc ., R_SH_IND12W, FUN_06002252 - 4
+    .2byte 0xA000    /* bra FUN_06002252 (linker-resolved) */
     nop
     .byte 0x00, 0x00  /* 0600227A: .word 0x0000 */
     .4byte 0x534C4156  /* 0600227C = 0x534C4156 */

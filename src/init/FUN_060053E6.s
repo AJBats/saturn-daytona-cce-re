@@ -4,17 +4,20 @@
     .global FUN_060053E6
     .type FUN_060053E6, @function
 FUN_060053E6:
-    .byte 0xB7, 0x59  /* 060053E6: bsr 0x0600629C */
+    .reloc ., R_SH_IND12W, FUN_0600629C - 4
+    .2byte 0xB000    /* bsr FUN_0600629C (linker-resolved) */
     mov r12, r4
     mov r0, r14
     tst r14, r14
     bf .L_060053F8
-    .byte 0xB6, 0xCA  /* 060053F0: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #-0xA, r4
     bra .L_06005406
     nop
 .L_060053F8:
-    .byte 0xB6, 0xC6  /* 060053F8: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #0x0, r4
     mov r0, r4
     cmp/pz r4
@@ -23,6 +26,8 @@ FUN_060053E6:
     mov #0x0, r0
 .L_06005406:
     mov r14, r0
+    .global FUN_06005408
+FUN_06005408:
 .L_06005408:
     lds.l @r15+, pr
     mov.l @r15+, r12

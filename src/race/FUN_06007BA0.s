@@ -21,7 +21,8 @@ FUN_06007BA0:
     sts macl, r1
     exts.w r1, r1
     add r0, r1
-    .byte 0xB0, 0x87  /* 06007BC2: bsr 0x06007CD4 */
+    .reloc ., R_SH_IND12W, FUN_06007CD4 - 4
+    .2byte 0xB000    /* bsr FUN_06007CD4 (linker-resolved) */
     mov.l r1, @r3
     mov r15, r5
     .byte 0xD3, 0x37  /* 06007BC8: mov.l @(0xDC,PC),r3  {[0x06007CA8] = 0x0602AAA8} */

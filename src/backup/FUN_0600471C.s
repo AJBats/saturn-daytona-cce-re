@@ -8,5 +8,6 @@ FUN_0600471C:
     mov r12, r6
     mov r11, r5
     add #0x4, r5
-    .byte 0xBD, 0x5D  /* 06004724: bsr 0x060041E2 */
+    .reloc ., R_SH_IND12W, FUN_060041E2 - 4
+    .2byte 0xB000    /* bsr FUN_060041E2 (linker-resolved) */
     mov #0x27, r4

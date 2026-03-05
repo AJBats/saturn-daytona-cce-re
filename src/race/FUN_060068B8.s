@@ -26,7 +26,8 @@ FUN_060068B8:
     extu.b r3, r3
     cmp/eq r3, r14
     bf .L_0600691A
-    .byte 0xAF, 0x44  /* 060068E4: bra 0x06006770 */
+    .reloc ., R_SH_IND12W, FUN_06006770 - 4
+    .2byte 0xA000    /* bra FUN_06006770 (linker-resolved) */
     mov.l @r15+, r14
 .L_060068E8:
     mov.w .L_wpool_0600694C, r0
@@ -54,7 +55,8 @@ FUN_060068B8:
     mov.l .L_pool_06006974, r0
     mov r14, r4
     mov.b @(r0, r5), r5
-    .byte 0xAF, 0x69  /* 06006916: bra 0x060067EC */
+    .reloc ., R_SH_IND12W, FUN_060067EC - 4
+    .2byte 0xA000    /* bra FUN_060067EC (linker-resolved) */
     mov.l @r15+, r14
 .L_0600691A:
     rts

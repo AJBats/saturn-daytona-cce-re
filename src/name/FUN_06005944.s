@@ -13,7 +13,8 @@ FUN_06005944:
     mov r10, r1
     jsr @r2
     mov #0x64, r0
-    .byte 0xBF, 0xB4  /* 06005956: bsr 0x060058C2 */
+    .reloc ., R_SH_IND12W, FUN_060058C2 - 4
+    .2byte 0xB000    /* bsr FUN_060058C2 (linker-resolved) */
     mov r0, r4
     add #0xC, r15
     lds.l @r15+, pr

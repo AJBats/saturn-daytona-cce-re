@@ -25,12 +25,17 @@ FUN_06007500:
     .byte 0x60, 0x0C  /* 06007524: extu.b r0,r0 */
     .byte 0x6C, 0x03  /* 06007526: mov r0,r12 */
     .byte 0x3C, 0x78  /* 06007528: sub r7,r12 */
+    .global FUN_0600752A
+FUN_0600752A:
 .L_0600752A:
     mov.l r13, @(16, r4)
+    .global FUN_0600752C
+FUN_0600752C:
     .byte 0xD8, 0x21  /* 0600752C: mov.l @(0x84,PC),r8  {[0x060075B4] = 0x0601364A} */
     .byte 0xD7, 0x22  /* 0600752E: mov.l @(0x88,PC),r7  {[0x060075B8] = 0x06013654} */
     .byte 0xD5, 0x22  /* 06007530: mov.l @(0x88,PC),r5  {[0x060075BC] = 0x0601364C} */
-    .byte 0xA0, 0x48  /* 06007532: bra 0x060075C6 */
+    .reloc ., R_SH_IND12W, FUN_060075C6 - 4
+    .2byte 0xA000    /* bra FUN_060075C6 (linker-resolved) */
     nop
     .byte 0x6B, 0x50  /* 06007536: mov.b @r5,r11 */
     .byte 0x62, 0x42  /* 06007538: mov.l @r4,r2 */

@@ -47,10 +47,12 @@ FUN_0600275A:
     mov.l @r15+, r12
     mov r14, r4
     mov.l @r15+, r13
-    .byte 0xAF, 0xA9  /* 060027AA: bra 0x06002700 */
+    .reloc ., R_SH_IND12W, FUN_06002700 - 4
+    .2byte 0xA000    /* bra FUN_06002700 (linker-resolved) */
     mov.l @r15+, r14
 .L_060027AE:
-    .byte 0xB1, 0xDF  /* 060027AE: bsr 0x06002B70 */
+    .reloc ., R_SH_IND12W, FUN_06002B70 - 4
+    .2byte 0xB000    /* bsr FUN_06002B70 (linker-resolved) */
     nop
     extu.b r0, r0
     tst r0, r0
@@ -61,7 +63,8 @@ FUN_0600275A:
     mov r13, r5
     mov.l @r15+, r13
     mov r14, r4
-    .byte 0xAF, 0x9C  /* 060027C4: bra 0x06002700 */
+    .reloc ., R_SH_IND12W, FUN_06002700 - 4
+    .2byte 0xA000    /* bra FUN_06002700 (linker-resolved) */
     mov.l @r15+, r14
 .L_060027C8:
     lds.l @r15+, pr

@@ -29,7 +29,8 @@ FUN_060087A0:
     .byte 0xD5, 0x28  /* 060087C8: mov.l @(0xA0,PC),r5  {[0x0600886C] = 0x0604F344} */
     .byte 0xD4, 0x29  /* 060087CA: mov.l @(0xA4,PC),r4  {[0x06008870] = 0x0604F2D4} */
 .L_060087CC:
-    .byte 0xB0, 0x78  /* 060087CC: bsr 0x060088C0 */
+    .reloc ., R_SH_IND12W, FUN_060088C0 - 4
+    .2byte 0xB000    /* bsr FUN_060088C0 (linker-resolved) */
     nop
 .L_060087D0:
     .byte 0xD5, 0x28  /* 060087D0: mov.l @(0xA0,PC),r5  {[0x06008874] = 0x06052094} */

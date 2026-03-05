@@ -62,5 +62,6 @@ FUN_0600751C:
     .byte 0xD6, 0x29  /* 060075A8: mov.l @(0xA4,PC),r6  {[0x06007650] = 0x25E6A000} */
     .byte 0xD5, 0x2A  /* 060075AA: mov.l @(0xA8,PC),r5  {[0x06007654] = 0x25E68000} */
     .byte 0xD4, 0x2A  /* 060075AC: mov.l @(0xA8,PC),r4  {[0x06007658] = 0x002E2780} */
-    .byte 0xA0, 0x00  /* 060075AE: bra 0x060075B2 */
+    .reloc ., R_SH_IND12W, FUN_060075B2 - 4
+    .2byte 0xA000    /* bra FUN_060075B2 (linker-resolved) */
     .byte 0x00, 0x09  /* 060075B0: nop */

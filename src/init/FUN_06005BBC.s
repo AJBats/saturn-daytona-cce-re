@@ -17,7 +17,8 @@ FUN_06005BBC:
     shll2 r4
     mov r13, r3
     add r3, r4
-    .byte 0xBF, 0x88  /* 06005BD4: bsr 0x06005AE8 */
+    .reloc ., R_SH_IND12W, FUN_06005AE8 - 4
+    .2byte 0xB000    /* bsr FUN_06005AE8 (linker-resolved) */
     mov.l @r4, r4
     mov r0, r4
     cmp/pz r4

@@ -9,14 +9,16 @@ FUN_0600D4A0:
     mov.w .L_wpool_0600D530, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
-    .byte 0xB0, 0xBB  /* 0600D4AA: bsr 0x0600D624 */
+    .reloc ., R_SH_IND12W, FUN_0600D624 - 4
+    .2byte 0xB000    /* bsr FUN_0600D624 (linker-resolved) */
     or r3, r4
     mov r4, r10
     mov.w .L_wpool_0600D532, r1
     mov.w .L_wpool_0600D534, r2
     mov.l @(r0, r1), r3
     mov.l @(r0, r2), r4
-    .byte 0xB0, 0xB4  /* 0600D4B8: bsr 0x0600D624 */
+    .reloc ., R_SH_IND12W, FUN_0600D624 - 4
+    .2byte 0xB000    /* bsr FUN_0600D624 (linker-resolved) */
     or r3, r4
     mov r4, r11
     mov.w .L_wpool_0600D536, r1

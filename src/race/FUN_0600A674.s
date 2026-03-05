@@ -282,7 +282,8 @@ FUN_0600A674:
     bra .L_0600A68A
     nop
 .L_0600A88C:
-    .byte 0xB0, 0x16  /* 0600A88C: bsr 0x0600A8BC */
+    .reloc ., R_SH_IND12W, FUN_0600A8BC - 4
+    .2byte 0xB000    /* bsr FUN_0600A8BC (linker-resolved) */
     nop
     mov.w @r14, r2
     add #0x1, r2

@@ -27,15 +27,18 @@ FUN_06003590:
     mov #0x1, r8
     cmp/eq #0x1, r0
     bf .L_060035C0
-    .byte 0xA0, 0xB8  /* 060035BC: bra 0x06003730 */
+    .reloc ., R_SH_IND12W, FUN_06003730 - 4
+    .2byte 0xA000    /* bra FUN_06003730 (linker-resolved) */
     nop
 .L_060035C0:
     cmp/eq #0x2, r0
     bf .L_060035C8
-    .byte 0xA0, 0xBE  /* 060035C4: bra 0x06003744 */
+    .reloc ., R_SH_IND12W, FUN_06003744 - 4
+    .2byte 0xA000    /* bra FUN_06003744 (linker-resolved) */
     nop
 .L_060035C8:
-    .byte 0xA0, 0xBF  /* 060035C8: bra 0x0600374A */
+    .reloc ., R_SH_IND12W, FUN_0600374A - 4
+    .2byte 0xA000    /* bra FUN_0600374A (linker-resolved) */
     nop
 .L_060035CC:
     mov.l .L_pool_06003674, r3

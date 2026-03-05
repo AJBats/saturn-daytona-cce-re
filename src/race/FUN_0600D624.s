@@ -17,7 +17,8 @@ FUN_0600D624:
     .byte 0x00, 0xF8  /* 0600D638: .word 0x00F8 */
     .byte 0x01, 0xCB  /* 0600D63A: .word 0x01CB */
 .L_0600D63C:
-    .byte 0xA0, 0x84  /* 0600D63C: bra 0x0600D748 */
+    .reloc ., R_SH_IND12W, FUN_0600D748 - 4
+    .2byte 0xA000    /* bra FUN_0600D748 (linker-resolved) */
     nop
 .L_0600D640:
     .byte 0x96, 0x64  /* 0600D640: mov.w @(0xC8,PC),r6  {0x0600D70C} */

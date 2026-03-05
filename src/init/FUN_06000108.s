@@ -64,7 +64,8 @@ FUN_06000108:
     bf/s .L_0600016C
     add #0x4, r5
     mov #0x4, r3
-    .byte 0xB0, 0x0A  /* 0600017C: bsr 0x06000194 */
+    .reloc ., R_SH_IND12W, FUN_06000194 - 4
+    .2byte 0xB000    /* bsr FUN_06000194 (linker-resolved) */
     mov.l r3, @r13
     .byte 0xD3, 0x31  /* 06000180: mov.l @(0xC4,PC),r3  {[0x06000248] = 0x060194E0} */
     mov #0x5, r1

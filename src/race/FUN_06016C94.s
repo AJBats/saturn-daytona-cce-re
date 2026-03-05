@@ -22,6 +22,8 @@ FUN_06016C94:
     jsr @r0
     nop
     neg r0, r11
+    .global FUN_06016CB6
+FUN_06016CB6:
 .L_06016CB6:
     extu.w r11, r0
     mov.l r11, @-r15

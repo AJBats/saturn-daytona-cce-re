@@ -21,6 +21,8 @@ FUN_0600A7CE:
     bra .L_0600A7F0
     mov r13, r0
     .byte 0xE0, 0x01  /* 0600A7EE: mov #1,r0 */
+    .global FUN_0600A7F0
+FUN_0600A7F0:
 .L_0600A7F0:
     add #0x8, r15
     lds.l @r15+, pr

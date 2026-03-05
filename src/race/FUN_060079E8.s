@@ -11,7 +11,8 @@ FUN_060079E8:
     cmp/eq #0x6, r0
     .byte 0x8B, 0x40  /* 060079F2: bf 0x06007A76 */
     .byte 0xD2, 0x33  /* 060079F4: mov.l @(0xCC,PC),r2  {[0x06007AC4] = 0x06051F55} */
-    .byte 0xA0, 0x3E  /* 060079F6: bra 0x06007A76 */
+    .reloc ., R_SH_IND12W, FUN_06007A76 - 4
+    .2byte 0xA000    /* bra FUN_06007A76 (linker-resolved) */
     mov.b r7, @r2
     .byte 0x6C, 0x63  /* 060079FA: mov r6,r12 */
     .4byte 0x6A736D73  /* 060079FC = 0x6A736D73 */

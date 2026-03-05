@@ -10,9 +10,12 @@ FUN_060052DC:
     mov.l r13, @-r15
     mov.l @(28, r15), r2
     mov.l r2, @-r15
-    .byte 0xBE, 0xDF  /* 060052E8: bsr 0x060050AA */
+    .reloc ., R_SH_IND12W, FUN_060050AA - 4
+    .2byte 0xB000    /* bsr FUN_060050AA (linker-resolved) */
     mov r12, r4
     add #0x1C, r15
+    .global FUN_060052EE
+FUN_060052EE:
     add #0x10, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

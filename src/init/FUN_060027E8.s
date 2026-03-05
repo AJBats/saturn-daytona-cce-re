@@ -19,5 +19,6 @@ FUN_060027E8:
     add r4, r14
 .L_06002802:
     mov r14, r4
-    .byte 0xAF, 0x8F  /* 06002804: bra 0x06002726 */
+    .reloc ., R_SH_IND12W, FUN_06002726 - 4
+    .2byte 0xA000    /* bra FUN_06002726 (linker-resolved) */
     mov.l @r15+, r14

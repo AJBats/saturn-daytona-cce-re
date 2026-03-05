@@ -31,7 +31,8 @@ FUN_0600A648:
     .byte 0x90, 0x69  /* 0600A678: mov.w @(0xD2,PC),r0  {0x0600A74E} */
     mov.l r3, @(r0, r2)
 .L_0600A67C:
-    .byte 0xB4, 0x1C  /* 0600A67C: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
 .L_0600A680:
     mov.l @r14, r0
@@ -39,7 +40,8 @@ FUN_0600A648:
     mov.l @(r0, r1), r0
     cmp/eq #0x2, r0
     bf .L_0600A69A
-    .byte 0xB3, 0xC6  /* 0600A68A: bsr 0x0600AE1A */
+    .reloc ., R_SH_IND12W, FUN_0600AE1A - 4
+    .2byte 0xB000    /* bsr FUN_0600AE1A (linker-resolved) */
     mov #0x40, r4
     tst r0, r0
     bt .L_0600A69A

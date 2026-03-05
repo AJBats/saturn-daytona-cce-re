@@ -216,5 +216,6 @@ FUN_06006AE2:
     exts.w r7, r3
     cmp/ge r11, r3
     bf .L_06006C64
-    .byte 0xA0, 0x0B  /* 06006C7C: bra 0x06006C96 */
+    .reloc ., R_SH_IND12W, FUN_06006C96 - 4
+    .2byte 0xA000    /* bra FUN_06006C96 (linker-resolved) */
     nop

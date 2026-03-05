@@ -65,6 +65,8 @@ FUN_0600A428:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+    .global FUN_0600A49E
+FUN_0600A49E:
     .byte 0xE6, 0x01  /* 0600A49E: mov #1,r6 */
     .byte 0xD2, 0x18  /* 0600A4A0: mov.l @(0x60,PC),r2  {[0x0600A504] = 0x002FC39B} */
     .byte 0xD5, 0x14  /* 0600A4A2: mov.l @(0x50,PC),r5  {[0x0600A4F4] = 0x002FC398} */

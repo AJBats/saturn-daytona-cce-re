@@ -29,25 +29,30 @@ FUN_06006058:
     mov #0x0, r14
     cmp/eq #0x1, r0
     bf .L_0600608E
-    .byte 0xA0, 0x87  /* 0600608A: bra 0x0600619C */
+    .reloc ., R_SH_IND12W, FUN_0600619C - 4
+    .2byte 0xA000    /* bra FUN_0600619C (linker-resolved) */
     nop
 .L_0600608E:
     cmp/eq #0x2, r0
     bf .L_06006096
-    .byte 0xA2, 0x12  /* 06006092: bra 0x060064BA */
+    .reloc ., R_SH_IND12W, FUN_060064BA - 4
+    .2byte 0xA000    /* bra FUN_060064BA (linker-resolved) */
     nop
 .L_06006096:
     cmp/eq #0x3, r0
     bf .L_0600609E
-    .byte 0xA2, 0xB2  /* 0600609A: bra 0x06006602 */
+    .reloc ., R_SH_IND12W, FUN_06006602 - 4
+    .2byte 0xA000    /* bra FUN_06006602 (linker-resolved) */
     nop
 .L_0600609E:
     cmp/eq #0x4, r0
     bf .L_060060A6
-    .byte 0xA2, 0x4F  /* 060060A2: bra 0x06006544 */
+    .reloc ., R_SH_IND12W, FUN_06006544 - 4
+    .2byte 0xA000    /* bra FUN_06006544 (linker-resolved) */
     nop
 .L_060060A6:
-    .byte 0xA2, 0xAC  /* 060060A6: bra 0x06006602 */
+    .reloc ., R_SH_IND12W, FUN_06006602 - 4
+    .2byte 0xA000    /* bra FUN_06006602 (linker-resolved) */
     nop
 .L_060060AA:
     mov #0x3C, r7
@@ -88,7 +93,8 @@ FUN_06006058:
     mov.l .L_pool_06006188, r2
     jsr @r2
     mov.l @r3, r6
-    .byte 0xB4, 0x87  /* 060060F6: bsr 0x06006A08 */
+    .reloc ., R_SH_IND12W, FUN_06006A08 - 4
+    .2byte 0xB000    /* bsr FUN_06006A08 (linker-resolved) */
     mov.b @r12, r4
     mov #0x11, r2
     mov.l .L_pool_0600618C, r3
@@ -105,14 +111,16 @@ FUN_06006058:
     mov.b @r8, r0
     cmp/eq #0x4, r0
     bt .L_0600611C
-    .byte 0xA2, 0x73  /* 06006118: bra 0x06006602 */
+    .reloc ., R_SH_IND12W, FUN_06006602 - 4
+    .2byte 0xA000    /* bra FUN_06006602 (linker-resolved) */
     nop
 .L_0600611C:
     mov.l .L_pool_06006194, r4
     mov.l .L_pool_06006198, r3
     jsr @r3
     nop
-    .byte 0xA2, 0x6D  /* 06006124: bra 0x06006602 */
+    .reloc ., R_SH_IND12W, FUN_06006602 - 4
+    .2byte 0xA000    /* bra FUN_06006602 (linker-resolved) */
     nop
 .L_wpool_06006128:
     .byte 0x03, 0x84  /* 06006128: mov.b r8,@(r0,r3) */

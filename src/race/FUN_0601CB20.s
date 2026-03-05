@@ -26,7 +26,8 @@ FUN_0601CB20:
 .L_0601CB44:
     cmp/gt r1, r0
     bt .L_0601CBA2
-    .byte 0xBE, 0x74  /* 0601CB48: bsr 0x0601C834 */
+    .reloc ., R_SH_IND12W, FUN_0601C834 - 4
+    .2byte 0xB000    /* bsr FUN_0601C834 (linker-resolved) */
     nop
     mov r0, r10
     mov.l .L_pool_0601CBB0, r3

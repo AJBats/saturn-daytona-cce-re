@@ -14,7 +14,8 @@ FUN_0600CCEC:
     .byte 0xD6, 0x1E  /* 0600CCFA: mov.l @(0x78,PC),r6  {[0x0600CD74] = 0x060527D4} */
     mov.w r4, @r6
     mov.w r0, @(2, r5)
-    .byte 0xB1, 0x1C  /* 0600CD00: bsr 0x0600CF3C */
+    .reloc ., R_SH_IND12W, FUN_0600CF3C - 4
+    .2byte 0xB000    /* bsr FUN_0600CF3C (linker-resolved) */
     mov.w r0, @(2, r6)
     .byte 0xD2, 0x1C  /* 0600CD04: mov.l @(0x70,PC),r2  {[0x0600CD78] = 0x002FC233} */
     mov #0x2, r1
@@ -26,7 +27,8 @@ FUN_0600CCEC:
     cmp/eq #0x1, r0
     bf .L_0600CD1A
 .L_0600CD16:
-    .byte 0xB1, 0x11  /* 0600CD16: bsr 0x0600CF3C */
+    .reloc ., R_SH_IND12W, FUN_0600CF3C - 4
+    .2byte 0xB000    /* bsr FUN_0600CF3C (linker-resolved) */
     mov #0x1, r4
 .L_0600CD1A:
     .byte 0xD3, 0x17  /* 0600CD1A: mov.l @(0x5C,PC),r3  {[0x0600CD78] = 0x002FC233} */

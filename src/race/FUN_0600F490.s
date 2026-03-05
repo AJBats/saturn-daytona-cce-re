@@ -175,6 +175,8 @@ FUN_0600F490:
     .byte 0x03, 0x46  /* 0600F5EA: mov.l r4,@(r0,r3) */
     .byte 0xD2, 0x0C  /* 0600F5EC: mov.l @(0x30,PC),r2  {[0x0600F620] = 0x00000084} */
     .byte 0xE7, 0x00  /* 0600F5EE: mov #0,r7 */
+    .global FUN_0600F5F0
+FUN_0600F5F0:
     .byte 0x02, 0x76  /* 0600F5F0: mov.l r7,@(r0,r2) */
     .byte 0x00, 0x0B  /* 0600F5F2: rts */
     .4byte 0x0009D20B  /* 0600F5F4 = 0x0009D20B */

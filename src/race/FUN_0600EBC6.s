@@ -16,7 +16,8 @@ FUN_0600EBC6:
     mov.l @(8, r7), r5
     mov.w .L_wpool_0600EC86, r7
     mov.l @(r0, r7), r7
-    .byte 0xBF, 0x47  /* 0600EBDE: bsr 0x0600EA70 */
+    .reloc ., R_SH_IND12W, FUN_0600EA70 - 4
+    .2byte 0xB000    /* bsr FUN_0600EA70 (linker-resolved) */
     nop
     mov.l @r15+, r4
     mov.l @(0, r7), r0

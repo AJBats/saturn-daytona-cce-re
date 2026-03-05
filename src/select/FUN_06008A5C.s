@@ -7,7 +7,8 @@ FUN_06008A5C:
     nop
     mov #0x5, r1
     mov.l .L_pool_06008AB8, r2
-    .byte 0xA1, 0x34  /* 06008A62: bra 0x06008CCE */
+    .reloc ., R_SH_IND12W, FUN_06008CCE - 4
+    .2byte 0xA000    /* bra FUN_06008CCE (linker-resolved) */
     mov.b r1, @r2
     .byte 0x01, 0x00  /* 06008A66: .word 0x0100 */
     .byte 0x02, 0x00  /* 06008A68: .word 0x0200 */

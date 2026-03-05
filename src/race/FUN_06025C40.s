@@ -81,6 +81,8 @@ FUN_06025C40:
 .L_06025CDC:
     mov.l @(52, r0), r2
     mov.l .L_pool_06025CEC, r3
+    .global FUN_06025CE0
+FUN_06025CE0:
     shll2 r2
     add r2, r3
     mov.l @r3, r4

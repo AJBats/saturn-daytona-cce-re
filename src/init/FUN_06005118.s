@@ -43,7 +43,8 @@ FUN_06005118:
     rts
     mov.l @r15+, r14
 .L_06005160:
-    .byte 0xB1, 0x0F  /* 06005160: bsr 0x06005382 */
+    .reloc ., R_SH_IND12W, FUN_06005382 - 4
+    .2byte 0xB000    /* bsr FUN_06005382 (linker-resolved) */
     nop
     mov r0, r14
     tst r14, r14
@@ -61,7 +62,8 @@ FUN_06005118:
     mov r15, r6
     add #0x4, r6
     mov r7, r5
-    .byte 0xB2, 0x24  /* 06005182: bsr 0x060055CE */
+    .reloc ., R_SH_IND12W, FUN_060055CE - 4
+    .2byte 0xB000    /* bsr FUN_060055CE (linker-resolved) */
     mov r14, r4
     mov.l @(4, r15), r6
     mov.l @r15, r5
@@ -69,7 +71,8 @@ FUN_06005118:
     jsr @r3
     mov r14, r4
     mov.l r0, @r15
-    .byte 0xB1, 0x4B  /* 06005192: bsr 0x0600542C */
+    .reloc ., R_SH_IND12W, FUN_0600542C - 4
+    .2byte 0xB000    /* bsr FUN_0600542C (linker-resolved) */
     mov r14, r4
     mov.l @r15, r0
     add #0x8, r15

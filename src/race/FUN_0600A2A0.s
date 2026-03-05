@@ -7,7 +7,8 @@ FUN_0600A2A0:
     mov.l r14, @-r15
     mov.l r13, @-r15
     sts.l pr, @-r15
-    .byte 0xBE, 0x41  /* 0600A2A6: bsr 0x06009F2C */
+    .reloc ., R_SH_IND12W, FUN_06009F2C - 4
+    .2byte 0xB000    /* bsr FUN_06009F2C (linker-resolved) */
     nop
     mov r0, r14
     mov.l .L_pool_0600A320, r13

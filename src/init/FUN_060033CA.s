@@ -24,7 +24,8 @@ FUN_060033CA:
     mov.b r0, @(12, r5)
     mov.l r4, @(16, r5)
     mov r3, r4
-    .byte 0xAF, 0x3E  /* 060033F2: bra 0x06003272 */
+    .reloc ., R_SH_IND12W, FUN_06003272 - 4
+    .2byte 0xA000    /* bra FUN_06003272 (linker-resolved) */
     mov #0x14, r5
     .byte 0xFF, 0xFF  /* 060033F6: .word 0xFFFF */
     .4byte DAT_060135CC  /* 060033F8 = 0x060135CC (FUN_0600EA84 + 0x4B48) */

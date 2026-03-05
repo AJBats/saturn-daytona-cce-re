@@ -64,7 +64,8 @@ FUN_06018A7E:
     shll2 r0
     shll2 r0
     shll r0
-    .byte 0xBF, 0xB5  /* 06018AF6: bsr 0x06018A64 */
+    .reloc ., R_SH_IND12W, FUN_06018A64 - 4
+    .2byte 0xB000    /* bsr FUN_06018A64 (linker-resolved) */
     add r0, r5
     shll2 r0
     add r0, r5

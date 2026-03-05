@@ -32,6 +32,8 @@ FUN_060063FC:
     mov r4, r0
     mov.b r0, @(8, r14)
     mov.b r0, @(9, r14)
+    .global FUN_06006432
+FUN_06006432:
 .L_06006432:
     add #0x4, r15
     lds.l @r15+, pr

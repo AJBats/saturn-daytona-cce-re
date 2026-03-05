@@ -13,7 +13,8 @@ FUN_0601F3CA:
     mov.l r2, @(16, r7)
     mov.l r3, @(20, r7)
     mov.l r4, @(24, r7)
-    .byte 0xBC, 0xA8  /* 0601F3DC: bsr 0x0601ED30 */
+    .reloc ., R_SH_IND12W, FUN_0601ED30 - 4
+    .2byte 0xB000    /* bsr FUN_0601ED30 (linker-resolved) */
     nop
     mov r7, r6
     add #0x20, r7
@@ -34,7 +35,8 @@ FUN_0601F3CA:
     mov.l r2, @(16, r7)
     mov.l r3, @(20, r7)
     mov.l r4, @(24, r7)
-    .byte 0xBC, 0x93  /* 0601F406: bsr 0x0601ED30 */
+    .reloc ., R_SH_IND12W, FUN_0601ED30 - 4
+    .2byte 0xB000    /* bsr FUN_0601ED30 (linker-resolved) */
     nop
     mov #0x8, r0
     mov.b r0, @(155, gbr)

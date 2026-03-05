@@ -81,7 +81,8 @@ FUN_06007EA4:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA3, 0x91  /* 06007F46: bra 0x0600866C */
+    .reloc ., R_SH_IND12W, FUN_0600866C - 4
+    .2byte 0xA000    /* bra FUN_0600866C (linker-resolved) */
     mov.l @r15+, r14
 .L_06007F4A:
     mov #0x3F, r7

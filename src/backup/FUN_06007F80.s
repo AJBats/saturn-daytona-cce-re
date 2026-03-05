@@ -27,11 +27,13 @@ FUN_06007F80:
     .byte 0xFF, 0xFF  /* 06007FAC: .word 0xFFFF */
     .byte 0xFB, 0x60  /* 06007FAE: .word 0xFB60 */
     .byte 0x00, 0x01  /* 06007FB0: .word 0x0001 */
-    .byte 0xA0, 0x1A  /* 06007FB2: bra 0x06007FEA */
+    .reloc ., R_SH_IND12W, FUN_06007FEA - 4
+    .2byte 0xA000    /* bra FUN_06007FEA (linker-resolved) */
     .byte 0xFF, 0xA4  /* 06007FB4: .word 0xFFA4 */
     .byte 0xFA, 0x50  /* 06007FB6: .word 0xFA50 */
     .byte 0x0A, 0xAA  /* 06007FB8: .word 0x0AAA */
-    .byte 0xAA, 0xAB  /* 06007FBA: bra 0x06007514 */
+    .reloc ., R_SH_IND12W, FUN_06007514 - 4
+    .2byte 0xA000    /* bra FUN_06007514 (linker-resolved) */
     .byte 0xD0, 0x24  /* 06007FBC: mov.l @(0x90,PC),r0  {[0x06008050] = 0x28BE60DC} */
     .byte 0x30, 0x4D  /* 06007FBE: dmuls.l r4,r0 */
     .byte 0x04, 0x0A  /* 06007FC0: sts mach,r4 */

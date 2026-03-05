@@ -271,6 +271,8 @@ FUN_06013284:
     .byte 0xD9, 0x26  /* 0601347E: mov.l @(0x98,PC),r9  {[0x06013518] = 0x0603F4BE} */
     jsr @r9
     nop
+    .global FUN_06013484
+FUN_06013484:
 .L_06013484:
     lds.l @r15+, pr
     mov.l @r15+, r14

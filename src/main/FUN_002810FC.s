@@ -21,6 +21,8 @@ FUN_002810FC:
     add #0x10, r15
     mov #0x0, r2
     mov.l r2, @r8
+    .global FUN_0028111E
+FUN_0028111E:
 .L_0028111E:
     mov.l .L_pool_00281130, r0
     jsr @r0

@@ -8,6 +8,8 @@ FUN_06007500:
     mov #0x1C, r0
     mov.l .L_pool_06007520, r3
     mov.b r0, @r3
+    .global FUN_06007508
+FUN_06007508:
 .L_06007508:
     add #0xC, r15
     lds.l @r15+, pr

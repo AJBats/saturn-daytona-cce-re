@@ -5,12 +5,15 @@
     .type FUN_06003EAC, @function
 FUN_06003EAC:
     sts.l pr, @-r15
-    .byte 0xB0, 0x6D  /* 06003EAE: bsr 0x06003F8C */
+    .reloc ., R_SH_IND12W, FUN_06003F8C - 4
+    .2byte 0xB000    /* bsr FUN_06003F8C (linker-resolved) */
     mov.l @(0, r13), r1
-    .byte 0xB0, 0xAD  /* 06003EB2: bsr 0x06004010 */
+    .reloc ., R_SH_IND12W, FUN_06004010 - 4
+    .2byte 0xB000    /* bsr FUN_06004010 (linker-resolved) */
     mov.l @(24, gbr), r0
     bf .L_06003EE4
-    .byte 0xB0, 0x9A  /* 06003EB8: bsr 0x06003FF0 */
+    .reloc ., R_SH_IND12W, FUN_06003FF0 - 4
+    .2byte 0xB000    /* bsr FUN_06003FF0 (linker-resolved) */
     mov.l @(24, gbr), r0
     bt .L_06003EFC
     mov.l @(24, gbr), r0
@@ -18,18 +21,23 @@ FUN_06003EAC:
     swap.w r0, r0
     exts.w r0, r1
     mov #0x0, r9
-    .byte 0xB0, 0x46  /* 06003EC8: bsr 0x06003F58 */
+    .reloc ., R_SH_IND12W, FUN_06003F58 - 4
+    .2byte 0xB000    /* bsr FUN_06003F58 (linker-resolved) */
     mov r10, r4
     shll8 r9
-    .byte 0xB0, 0x43  /* 06003ECE: bsr 0x06003F58 */
+    .reloc ., R_SH_IND12W, FUN_06003F58 - 4
+    .2byte 0xB000    /* bsr FUN_06003F58 (linker-resolved) */
     mov r11, r4
     shll8 r9
-    .byte 0xB0, 0x40  /* 06003ED4: bsr 0x06003F58 */
+    .reloc ., R_SH_IND12W, FUN_06003F58 - 4
+    .2byte 0xB000    /* bsr FUN_06003F58 (linker-resolved) */
     mov r12, r4
     shll8 r9
-    .byte 0xB0, 0x3D  /* 06003EDA: bsr 0x06003F58 */
+    .reloc ., R_SH_IND12W, FUN_06003F58 - 4
+    .2byte 0xB000    /* bsr FUN_06003F58 (linker-resolved) */
     mov r13, r4
-    .byte 0xA1, 0xCF  /* 06003EDE: bra 0x06004280 */
+    .reloc ., R_SH_IND12W, FUN_06004280 - 4
+    .2byte 0xA000    /* bra FUN_06004280 (linker-resolved) */
     lds.l @r15+, pr
     .byte 0x00, 0x09  /* 06003EE2: nop */
 .L_06003EE4:
@@ -39,7 +47,8 @@ FUN_06003EAC:
     mov.b r0, @(4, r7)
     mov #0x4, r0
     mov.b r0, @(155, gbr)
-    .byte 0xB8, 0xB2  /* 06003EF0: bsr 0x06003058 */
+    .reloc ., R_SH_IND12W, FUN_06003058 - 4
+    .2byte 0xB000    /* bsr FUN_06003058 (linker-resolved) */
     mov.b @(128, gbr), r0
     lds.l @r15+, pr
     rts

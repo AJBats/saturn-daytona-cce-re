@@ -34,7 +34,8 @@ FUN_0600789C:
     mov #0xB, r1
     cmp/hs r1, r0
     bf .L_060078DC
-    .byte 0xA0, 0xFB  /* 060078D8: bra 0x06007AD2 */
+    .reloc ., R_SH_IND12W, FUN_06007AD2 - 4
+    .2byte 0xA000    /* bra FUN_06007AD2 (linker-resolved) */
     nop
 .L_060078DC:
     shll r0

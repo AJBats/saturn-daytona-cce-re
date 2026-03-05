@@ -86,7 +86,8 @@ FUN_0601ACE4:
 .L_0601AD78:
     mov r12, r5
     add #0x28, r12
-    .byte 0xBF, 0x72  /* 0601AD7C: bsr 0x0601AC64 */
+    .reloc ., R_SH_IND12W, FUN_0601AC64 - 4
+    .2byte 0xB000    /* bsr FUN_0601AC64 (linker-resolved) */
     mov r13, r4
     dt r14
     bf .L_0601AD78

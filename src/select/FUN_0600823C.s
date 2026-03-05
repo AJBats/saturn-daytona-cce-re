@@ -10,6 +10,8 @@ FUN_0600823C:
     mov r9, r5
     add #0x10, r15
     add #0x1, r12
+    .global FUN_06008248
+FUN_06008248:
     mov.l @(8, r15), r0
     mov.b @r0, r0
     .byte 0xD2, 0x2A  /* 0600824C: mov.l @(0xA8,PC),r2  {[0x060082F8] = 0x0603F62C} */

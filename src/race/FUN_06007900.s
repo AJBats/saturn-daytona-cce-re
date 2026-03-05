@@ -10,14 +10,16 @@ FUN_06007900:
     cmp/eq #0x0, r0
     bf/s .L_06007910
     mov #0x0, r7
-    .byte 0xA0, 0xB3  /* 0600790C: bra 0x06007A76 */
+    .reloc ., R_SH_IND12W, FUN_06007A76 - 4
+    .2byte 0xA000    /* bra FUN_06007A76 (linker-resolved) */
     nop
 .L_06007910:
     cmp/eq #0x1, r0
     bt .L_0600791C
     cmp/eq #0x2, r0
     .byte 0x89, 0x70  /* 06007916: bt 0x060079FA */
-    .byte 0xA0, 0xAD  /* 06007918: bra 0x06007A76 */
+    .reloc ., R_SH_IND12W, FUN_06007A76 - 4
+    .2byte 0xA000    /* bra FUN_06007A76 (linker-resolved) */
     nop
 .L_0600791C:
     mov.l r6, @(12, r15)

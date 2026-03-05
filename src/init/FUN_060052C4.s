@@ -24,7 +24,8 @@ FUN_060052C4:
     mov #-0xA, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte 0xA7, 0x4D  /* 060052EA: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     mov.l @r15+, r14
 .L_060052EE:
     mov.l @r14, r0
@@ -48,7 +49,8 @@ FUN_060052C4:
     mov #0x0, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte 0xA7, 0x38  /* 06005314: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     mov.l @r15+, r14
 .L_wpool_06005318:
     .byte 0x00, 0x98  /* 06005318: .word 0x0098 */

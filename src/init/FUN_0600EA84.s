@@ -10184,6 +10184,8 @@ FUN_0600EA84:
     .byte 0x00, 0x00  /* 06013A0E: .word 0x0000 */
     .byte 0x00, 0x00  /* 06013A10: .word 0x0000 */
     .byte 0x00, 0x00  /* 06013A12: .word 0x0000 */
+    .global FUN_06013A14
+FUN_06013A14:
     .byte 0x00, 0x00  /* 06013A14: .word 0x0000 */
     .byte 0x00, 0x00  /* 06013A16: .word 0x0000 */
     .byte 0x00, 0x00  /* 06013A18: .word 0x0000 */

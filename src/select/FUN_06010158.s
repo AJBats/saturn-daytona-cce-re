@@ -6,7 +6,8 @@
 FUN_06010158:
     mov.l .L_pool_06010160, r4
     mov.l .L_pool_06010164, r14
-    .byte 0xA0, 0x06  /* 0601015C: bra 0x0601016C */
+    .reloc ., R_SH_IND12W, FUN_0601016C - 4
+    .2byte 0xA000    /* bra FUN_0601016C (linker-resolved) */
     nop
 .L_pool_06010160:
     .4byte sym_0603824C  /* 06010160 = 0x0603824C */

@@ -184,7 +184,8 @@ FUN_06000000:
     bra .L_06000D3A
     mov.b r9, @r3
 .L_06000144:
-    .byte 0xB6, 0x41  /* 06000144: bsr 0x06000DCA */
+    .reloc ., R_SH_IND12W, FUN_06000DCA - 4
+    .2byte 0xB000    /* bsr FUN_06000DCA (linker-resolved) */
     nop
     mov.l .L_pool_060001B8, r2
     mov.b @r2, r1
@@ -1079,7 +1080,8 @@ FUN_06000000:
     shll2 r4
     mov.l .L_pool_060008EC, r2
     exts.b r4, r4
-    .byte 0xB6, 0xC1  /* 06000858: bsr 0x060015DE */
+    .reloc ., R_SH_IND12W, FUN_060015DE - 4
+    .2byte 0xB000    /* bsr FUN_060015DE (linker-resolved) */
     add r2, r4
     bra .L_06000C9C
     nop
@@ -1673,7 +1675,8 @@ FUN_06000000:
     nop
     mov #0x4, r3
     .byte 0xD1, 0x5D  /* 06000CB8: mov.l @(0x174,PC),r1  {[0x06000E30] = 0x06054929} */
-    .byte 0xB2, 0x91  /* 06000CBA: bsr 0x060011E0 */
+    .reloc ., R_SH_IND12W, FUN_060011E0 - 4
+    .2byte 0xB000    /* bsr FUN_060011E0 (linker-resolved) */
     mov.b r3, @r1
     .byte 0xD3, 0x5D  /* 06000CBE: mov.l @(0x174,PC),r3  {[0x06000E34] = 0x0602FAEC} */
     jsr @r3

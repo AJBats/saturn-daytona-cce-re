@@ -38,7 +38,8 @@ FUN_06004666:
     rts
     mov #-0x1, r0
 .L_060046A4:
-    .byte 0xBF, 0xA8  /* 060046A4: bsr 0x060045F8 */
+    .reloc ., R_SH_IND12W, FUN_060045F8 - 4
+    .2byte 0xB000    /* bsr FUN_060045F8 (linker-resolved) */
     mov #0x20, r4
     tst r0, r0
     bt .L_060046B4

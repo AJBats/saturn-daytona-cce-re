@@ -47,7 +47,8 @@ FUN_06008DB0:
     jsr @r3
     mov r13, r4
     mov r15, r4
-    .byte 0xB0, 0xC3  /* 06008E04: bsr 0x06008F8E */
+    .reloc ., R_SH_IND12W, FUN_06008F8E - 4
+    .2byte 0xB000    /* bsr FUN_06008F8E (linker-resolved) */
     mov #0x0, r5
     mov.l @r14, r3
     mov.l @r15, r2

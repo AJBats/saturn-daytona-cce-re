@@ -5,7 +5,8 @@
     .type FUN_0600872A, @function
 FUN_0600872A:
     sts.l pr, @-r15
-    .byte 0xB0, 0x7A  /* 0600872C: bsr 0x06008824 */
+    .reloc ., R_SH_IND12W, FUN_06008824 - 4
+    .2byte 0xB000    /* bsr FUN_06008824 (linker-resolved) */
     nop
     .byte 0xD4, 0x14  /* 06008730: mov.l @(0x50,PC),r4  {[0x06008784] = 0x06052094} */
     mov #0x0, r3
@@ -37,7 +38,8 @@ FUN_0600872A:
     .byte 0x00, 0x09  /* 06008766: nop */
     .byte 0xD5, 0x0B  /* 06008768: mov.l @(0x2C,PC),r5  {[0x06008798] = 0x0604F2D0} */
     .byte 0xD4, 0x0C  /* 0600876A: mov.l @(0x30,PC),r4  {[0x0600879C] = 0x0604F2B0} */
-    .byte 0xA0, 0xA8  /* 0600876C: bra 0x060088C0 */
+    .reloc ., R_SH_IND12W, FUN_060088C0 - 4
+    .2byte 0xA000    /* bra FUN_060088C0 (linker-resolved) */
     .byte 0x00, 0x09  /* 0600876E: nop */
     .byte 0x00, 0x0B  /* 06008770: rts */
     .byte 0x00, 0x09  /* 06008772: nop */

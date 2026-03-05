@@ -66,7 +66,8 @@ FUN_0600DB30:
     mov.l @r15+, r4
     cmp/gt r5, r4
     bt .L_0600DBCE
-    .byte 0xB0, 0x55  /* 0600DBAA: bsr 0x0600DC58 */
+    .reloc ., R_SH_IND12W, FUN_0600DC58 - 4
+    .2byte 0xB000    /* bsr FUN_0600DC58 (linker-resolved) */
     mov r14, r0
     mov.w .L_wpool_0600DC18, r1
     add r14, r1

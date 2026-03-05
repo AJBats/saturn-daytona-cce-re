@@ -9,10 +9,14 @@ FUN_06007AC0:
     mov.l r9, @-r15
     mov r11, r5
     mov.l r2, @-r15
+    .global FUN_06007ACA
+FUN_06007ACA:
     .byte 0xD3, 0x99  /* 06007ACA: mov.l @(0x264,PC),r3  {[0x06007D30] = 0x060291B6} */
     jsr @r3
     nop
     add #0x10, r15
+    .global FUN_06007AD2
+FUN_06007AD2:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

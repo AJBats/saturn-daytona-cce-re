@@ -48,7 +48,8 @@ FUN_060134A4:
     add r12, r4
     cmp/pl r4
     bt .L_06013524
-    .byte 0xAF, 0xC4  /* 060134F8: bra 0x06013484 */
+    .reloc ., R_SH_IND12W, FUN_06013484 - 4
+    .2byte 0xA000    /* bra FUN_06013484 (linker-resolved) */
     nop
 .L_wpool_060134FC:
     .byte 0x80, 0x00  /* 060134FC: mov.b r0,@(0x0,r0) */
@@ -291,7 +292,8 @@ FUN_060134A4:
     mov.l .L_pool_060136F4, r9
     jsr @r9
     nop
-    .byte 0xAE, 0xD4  /* 060136D8: bra 0x06013484 */
+    .reloc ., R_SH_IND12W, FUN_06013484 - 4
+    .2byte 0xA000    /* bra FUN_06013484 (linker-resolved) */
     nop
 .L_pool_060136DC:
     .4byte sym_0605286C  /* 060136DC = 0x0605286C */

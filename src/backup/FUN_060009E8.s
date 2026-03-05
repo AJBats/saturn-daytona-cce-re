@@ -20,5 +20,6 @@ FUN_060009E8:
     jsr @r3
     mov.w r14, @r13
     mov #0x4, r2
-    .byte 0xA0, 0x11  /* 06000A06: bra 0x06000A2C */
+    .reloc ., R_SH_IND12W, FUN_06000A2C - 4
+    .2byte 0xA000    /* bra FUN_06000A2C (linker-resolved) */
     mov.b r2, @r12

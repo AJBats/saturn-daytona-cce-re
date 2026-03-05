@@ -69,7 +69,8 @@ FUN_060059F0:
     add r3, r5
     shll r4
     shll r4
-    .byte 0xBA, 0xF3  /* 06005A68: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r2, r4
     extu.b r12, r12
     tst r12, r12
@@ -96,7 +97,8 @@ FUN_060059F0:
     shll r4
     mov.l @r15+, r13
     add r2, r4
-    .byte 0xAA, 0xD9  /* 06005A9C: bra 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xA000    /* bra FUN_06005052 (linker-resolved) */
     mov.l @r15+, r14
 .L_06005AA0:
     add #0x4, r15

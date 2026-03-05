@@ -12,7 +12,8 @@ FUN_06001E4E:
     mov.b @r1, r0
     tst r0, r0
     bt .L_06001E66
-    .byte 0xB1, 0x3B  /* 06001E5E: bsr 0x060020D8 */
+    .reloc ., R_SH_IND12W, FUN_060020D8 - 4
+    .2byte 0xB000    /* bsr FUN_060020D8 (linker-resolved) */
     nop
     .byte 0xD1, 0x62  /* 06001E62: mov.l @(0x188,PC),r1  {[0x06001FEC] = 0x002FC21C} */
     mov.b r0, @r1

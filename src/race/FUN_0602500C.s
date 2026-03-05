@@ -29,8 +29,12 @@ FUN_0602500C:
     .byte 0x89, 0x98  /* 06025038: bt 0x06024F6C */
     tst r8, r8
     .byte 0x89, 0xA2  /* 0602503C: bt 0x06024F84 */
+    .global FUN_0602503E
+FUN_0602503E:
     tst r9, r9
     .byte 0x89, 0xB2  /* 06025040: bt 0x06024FA8 */
+    .global FUN_06025042
+FUN_06025042:
     mov.l .L_pool_06025150, r2
     add r9, r8
     sub r2, r8
@@ -81,7 +85,8 @@ FUN_0602500C:
     mov.l .L_pool_06025140, r4
     cmp/eq r4, r8
     bf .L_060250A8
-    .byte 0xAF, 0x97  /* 060250A4: bra 0x06024FD6 */
+    .reloc ., R_SH_IND12W, FUN_06024FD6 - 4
+    .2byte 0xA000    /* bra FUN_06024FD6 (linker-resolved) */
     nop
 .L_060250A8:
     tst r3, r3
@@ -126,6 +131,8 @@ FUN_0602500C:
     shlr r1
     rotcr r0
     add #0x1, r8
+    .global FUN_060250F4
+FUN_060250F4:
 .L_060250F4:
     shlr r1
     rotcr r0
@@ -142,6 +149,8 @@ FUN_0602500C:
     shll r1
     shll r10
     rotcr r1
+    .global FUN_06025112
+FUN_06025112:
     lds.l @r15+, mach
     lds.l @r15+, macl
     mov.l @r15+, r14

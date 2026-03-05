@@ -9,6 +9,8 @@ FUN_06008F20:
     jsr @r2
     add #0x1C, r4
     mov r13, r0
+    .global FUN_06008F2A
+FUN_06008F2A:
     add #0xC, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

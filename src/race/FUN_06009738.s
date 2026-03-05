@@ -8,7 +8,8 @@ FUN_06009738:
     mov.b r2, @r8
     jsr @r3
     mov.w r11, @r14
-    .byte 0xA0, 0x4C  /* 06009740: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     nop
     .byte 0xD3, 0x33  /* 06009744: mov.l @(0xCC,PC),r3  {[0x06009814] = 0x060307A0} */
     .byte 0x43, 0x0B  /* 06009746: jsr @r3 */
@@ -60,5 +61,6 @@ FUN_06009738:
     .byte 0x3E, 0xCC  /* 060097A2: add r12,r14 */
     .byte 0x71, 0x01  /* 060097A4: add #1,r1 */
     .byte 0x28, 0x10  /* 060097A6: mov.b r1,@r8 */
-    .byte 0xA0, 0x18  /* 060097A8: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     .byte 0x2E, 0xB1  /* 060097AA: mov.w r11,@r14 */

@@ -75,5 +75,6 @@ FUN_06007930:
     .byte 0x84, 0x0B  /* 060079B0: mov.b @(0xB,r0),r0 */
     .byte 0x00, 0x0B  /* 060079B2: rts */
     .byte 0x60, 0x0C  /* 060079B4: extu.b r0,r0 */
-    .byte 0xA0, 0x00  /* 060079B6: bra 0x060079BA */
+    .reloc ., R_SH_IND12W, FUN_060079BA - 4
+    .2byte 0xA000    /* bra FUN_060079BA (linker-resolved) */
     .byte 0xE4, 0xFF  /* 060079B8: mov #-1,r4 */

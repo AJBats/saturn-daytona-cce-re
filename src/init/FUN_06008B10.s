@@ -15,8 +15,11 @@ FUN_06008B10:
     mov.b r0, @(14, r14)
     mov.b @(11, r13), r0
     mov.b r0, @(15, r14)
+    .global FUN_06008B26
+FUN_06008B26:
     mov.b @(11, r13), r0
-    .byte 0xB2, 0x91  /* 06008B28: bsr 0x0600904E */
+    .reloc ., R_SH_IND12W, FUN_0600904E - 4
+    .2byte 0xB000    /* bsr FUN_0600904E (linker-resolved) */
     extu.b r0, r4
     mov.l r0, @(16, r14)
     mov.w .L_wpool_06008B4C, r2
@@ -73,6 +76,8 @@ FUN_06008B10:
     mov #0x5C, r0
     mov.l r3, @(r0, r12)
     mov #0x1, r0
+    .global FUN_06008B9A
+FUN_06008B9A:
 .L_06008B9A:
     lds.l @r15+, pr
     mov.l @r15+, r9

@@ -22,12 +22,14 @@ FUN_0601CA9A:
     mov.l r1, @(20, r9)
     add #0x20, r9
     .byte 0xDE, 0x12  /* 0601CABC: mov.l @(0x48,PC),r14  {[0x0601CB08] = 0x0605224C} */
-    .byte 0xBE, 0xB9  /* 0601CABE: bsr 0x0601C834 */
+    .reloc ., R_SH_IND12W, FUN_0601C834 - 4
+    .2byte 0xB000    /* bsr FUN_0601C834 (linker-resolved) */
     mov r14, r4
     mov r0, r13
     mov.w .L_wpool_0601CB00, r12
     .byte 0xD4, 0x11  /* 0601CAC6: mov.l @(0x44,PC),r4  {[0x0601CB0C] = 0x06052424} */
-    .byte 0xB0, 0x2A  /* 0601CAC8: bsr 0x0601CB20 */
+    .reloc ., R_SH_IND12W, FUN_0601CB20 - 4
+    .2byte 0xB000    /* bsr FUN_0601CB20 (linker-resolved) */
     nop
     mov.w .L_wpool_0601CAFE, r0
     mov.w r0, @(0, r9)
@@ -36,13 +38,17 @@ FUN_0601CA9A:
     mov.l r0, @(12, r9)
     mov.l r1, @(20, r9)
     add #0x20, r9
+    .global FUN_0601CADA
+FUN_0601CADA:
     .byte 0xDE, 0x0C  /* 0601CADA: mov.l @(0x30,PC),r14  {[0x0601CB0C] = 0x06052424} */
-    .byte 0xBE, 0xAA  /* 0601CADC: bsr 0x0601C834 */
+    .reloc ., R_SH_IND12W, FUN_0601C834 - 4
+    .2byte 0xB000    /* bsr FUN_0601C834 (linker-resolved) */
     mov r14, r4
     mov r0, r13
     mov.w .L_wpool_0601CB02, r12
     .byte 0xD4, 0x08  /* 0601CAE4: mov.l @(0x20,PC),r4  {[0x0601CB08] = 0x0605224C} */
-    .byte 0xB0, 0x1B  /* 0601CAE6: bsr 0x0601CB20 */
+    .reloc ., R_SH_IND12W, FUN_0601CB20 - 4
+    .2byte 0xB000    /* bsr FUN_0601CB20 (linker-resolved) */
     nop
     mov.l r9, @r8
     lds.l @r15+, pr

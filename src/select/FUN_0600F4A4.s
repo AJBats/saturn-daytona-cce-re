@@ -12,7 +12,8 @@ FUN_0600F4A4:
     tst r0, r0
     bt/s .L_0600F4BC
     mov #0x0, r6
-    .byte 0xB0, 0x69  /* 0600F4B4: bsr 0x0600F58A */
+    .reloc ., R_SH_IND12W, FUN_0600F58A - 4
+    .2byte 0xB000    /* bsr FUN_0600F58A (linker-resolved) */
     mov r6, r14
     bra .L_0600F580
     nop
@@ -101,7 +102,8 @@ FUN_0600F4A4:
     bf .L_0600F57E
     mov.b r6, @r14
 .L_0600F576:
-    .byte 0xB0, 0x08  /* 0600F576: bsr 0x0600F58A */
+    .reloc ., R_SH_IND12W, FUN_0600F58A - 4
+    .2byte 0xB000    /* bsr FUN_0600F58A (linker-resolved) */
     mov r6, r14
     bra .L_0600F580
     nop

@@ -23,6 +23,8 @@ FUN_06008CA8:
     mov r6, r5
     jsr @r13
     mov r6, r4
+    .global FUN_06008CCE
+FUN_06008CCE:
     add #0x14, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

@@ -127,7 +127,8 @@ FUN_0600DF48:
     mov.l @(28, r2), r5
 .L_0600E020:
     mov.w .L_wpool_0600E07C, r1
-    .byte 0xBE, 0x19  /* 0600E022: bsr 0x0600DC58 */
+    .reloc ., R_SH_IND12W, FUN_0600DC58 - 4
+    .2byte 0xB000    /* bsr FUN_0600DC58 (linker-resolved) */
     mov.l r5, @(r0, r1)
 .L_0600E026:
     mov.w .L_wpool_0600E080, r1

@@ -53,7 +53,8 @@ FUN_06007BE6:
 .L_06007C42:
     jsr @r13
     nop
-    .byte 0xA0, 0x28  /* 06007C46: bra 0x06007C9A */
+    .reloc ., R_SH_IND12W, FUN_06007C9A - 4
+    .2byte 0xA000    /* bra FUN_06007C9A (linker-resolved) */
     add #0x20, r15
     .byte 0xE3, 0x05  /* 06007C4A: mov #5,r3 */
     .byte 0x51, 0xF2  /* 06007C4C: mov.l @(0x8,r15),r1 */

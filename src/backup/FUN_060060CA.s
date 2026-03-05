@@ -5,7 +5,8 @@
     .type FUN_060060CA, @function
 FUN_060060CA:
     sts.l pr, @-r15
-    .byte 0xBF, 0xE6  /* 060060CC: bsr 0x0600609C */
+    .reloc ., R_SH_IND12W, FUN_0600609C - 4
+    .2byte 0xB000    /* bsr FUN_0600609C (linker-resolved) */
     nop
     .byte 0xD0, 0x1D  /* 060060D0: mov.l @(0x74,PC),r0  {[0x06006148] = 0x013FE000} */
     cmp/gt r4, r0
@@ -16,6 +17,8 @@ FUN_060060CA:
     rts
     nop
     .byte 0x00, 0x09  /* 060060DE: nop */
+    .global FUN_060060E0
+FUN_060060E0:
     .byte 0x56, 0xC1  /* 060060E0: mov.l @(0x4,r12),r6 */
     .byte 0xC9, 0x0E  /* 060060E2: and #0x0E,r0 */
     .byte 0x55, 0xB1  /* 060060E4: mov.l @(0x4,r11),r5 */

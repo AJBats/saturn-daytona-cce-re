@@ -11,13 +11,15 @@ FUN_0600877C:
     mov.l @(16, r15), r7
     mov.l @(12, r15), r6
     mov.l @(8, r15), r5
-    .byte 0xBF, 0x3F  /* 0600878A: bsr 0x0600860C */
+    .reloc ., R_SH_IND12W, FUN_0600860C - 4
+    .2byte 0xB000    /* bsr FUN_0600860C (linker-resolved) */
     mov #0x1, r4
     add #0x18, r15
     lds.l @r15+, pr
     rts
     nop
-    .byte 0xAF, 0xBA  /* 06008796: bra 0x0600870E */
+    .reloc ., R_SH_IND12W, FUN_0600870E - 4
+    .2byte 0xA000    /* bra FUN_0600870E (linker-resolved) */
     .byte 0xE4, 0x01  /* 06008798: mov #1,r4 */
     .byte 0x00, 0x0B  /* 0600879A: rts */
     .byte 0xE0, 0x01  /* 0600879C: mov #1,r0 */

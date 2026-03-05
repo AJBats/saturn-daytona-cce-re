@@ -22,6 +22,8 @@ FUN_0600ADB4:
     add #0x1, r13
     mov.l r3, @(8, r5)
     add #0x1, r4
+    .global FUN_0600ADD8
+FUN_0600ADD8:
     mov.l @r14, r2
     .byte 0x90, 0x87  /* 0600ADDA: mov.w @(0x10E,PC),r0  {0x0600AEEC} */
     mov.l @(r0, r2), r3
@@ -30,7 +32,10 @@ FUN_0600ADB4:
     mov.l @r14, r1
     .byte 0x90, 0x82  /* 0600ADE4: mov.w @(0x104,PC),r0  {0x0600AEEC} */
     mov.l r4, @(r0, r1)
-    .byte 0xB0, 0x17  /* 0600ADE8: bsr 0x0600AE1A */
+    .global FUN_0600ADE8
+FUN_0600ADE8:
+    .reloc ., R_SH_IND12W, FUN_0600AE1A - 4
+    .2byte 0xB000    /* bsr FUN_0600AE1A (linker-resolved) */
     mov #0x40, r4
     tst r0, r0
     bt .L_0600AE00

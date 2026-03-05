@@ -126,7 +126,8 @@ FUN_0600E31C:
     mov.l @(28, r2), r5
 .L_0600E3F0:
     mov.w .L_wpool_0600E44C, r1
-    .byte 0xBC, 0x31  /* 0600E3F2: bsr 0x0600DC58 */
+    .reloc ., R_SH_IND12W, FUN_0600DC58 - 4
+    .2byte 0xB000    /* bsr FUN_0600DC58 (linker-resolved) */
     mov.l r5, @(r0, r1)
 .L_0600E3F6:
     mov.w .L_wpool_0600E450, r1
@@ -430,6 +431,8 @@ FUN_0600E31C:
     sub r4, r5
     mov.l r7, @-r15
     muls.w r6, r7
+    .global FUN_0600E608
+FUN_0600E608:
     sts macl, r6
     neg r4, r4
     shar r6

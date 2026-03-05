@@ -17,6 +17,7 @@ FUN_06004728:
     .byte 0xD3, 0x49  /* 0600473C: mov.l @(0x124,PC),r3  {[0x06004864] = 0x06008BB8} */
     jsr @r3
     mov #0x3C, r0
-    .byte 0xBE, 0x6F  /* 06004742: bsr 0x06004424 */
+    .reloc ., R_SH_IND12W, FUN_06004424 - 4
+    .2byte 0xB000    /* bsr FUN_06004424 (linker-resolved) */
     mov r0, r4
     mov r13, r7

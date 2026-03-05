@@ -29,5 +29,6 @@ FUN_06007788:
     .4byte 0x00FFFFFF  /* 060077B4 = 0x00FFFFFF */
     .4byte FUN_0600A062  /* 060077B8 = 0x0600A062 */
     .4byte FUN_0600A044  /* 060077BC = 0x0600A044 */
-    .byte 0xA0, 0x09  /* 060077C0: bra 0x060077D6 */
+    .reloc ., R_SH_IND12W, FUN_060077D6 - 4
+    .2byte 0xA000    /* bra FUN_060077D6 (linker-resolved) */
     .byte 0xE7, 0x00  /* 060077C2: mov #0,r7 */

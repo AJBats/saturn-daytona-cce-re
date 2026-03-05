@@ -13,9 +13,11 @@ FUN_0600B4C4:
     dt r7
     bf/s .L_0600B4CA
     add #0x4, r2
-    .byte 0xB1, 0x76  /* 0600B4D4: bsr 0x0600B7C4 */
+    .reloc ., R_SH_IND12W, FUN_0600B7C4 - 4
+    .2byte 0xB000    /* bsr FUN_0600B7C4 (linker-resolved) */
     ldc r14, gbr
-    .byte 0xB4, 0x74  /* 0600B4D8: bsr 0x0600BDC4 */
+    .reloc ., R_SH_IND12W, FUN_0600BDC4 - 4
+    .2byte 0xB000    /* bsr FUN_0600BDC4 (linker-resolved) */
     mov #0x0, r4
     lds.l @r15+, pr
     rts

@@ -85,7 +85,8 @@ FUN_0600ACB4:
     mov r0, r4
     tst r4, r4
     bf .L_0600AD64
-    .byte 0xB0, 0xB4  /* 0600AD4C: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
     mov.l @r15, r3
     add #0x1, r13
@@ -106,10 +107,12 @@ FUN_0600ACB4:
     bf .L_0600AD76
     mov.l @r14, r1
     mov.w .L_wpool_0600AD82, r0
-    .byte 0xA0, 0x39  /* 0600AD72: bra 0x0600ADE8 */
+    .reloc ., R_SH_IND12W, FUN_0600ADE8 - 4
+    .2byte 0xA000    /* bra FUN_0600ADE8 (linker-resolved) */
     mov.l r12, @(r0, r1)
 .L_0600AD76:
-    .byte 0xA0, 0x2F  /* 0600AD76: bra 0x0600ADD8 */
+    .reloc ., R_SH_IND12W, FUN_0600ADD8 - 4
+    .2byte 0xA000    /* bra FUN_0600ADD8 (linker-resolved) */
     mov r12, r4
     .byte 0x03, 0x68  /* 0600AD7A: .word 0x0368 */
     .byte 0x03, 0x60  /* 0600AD7C: .word 0x0360 */

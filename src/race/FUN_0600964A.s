@@ -34,10 +34,12 @@ FUN_0600964A:
     .byte 0x89, 0x60  /* 06009680: bt 0x06009744 */
     cmp/eq #0x4, r0
     bf .L_0600968A
-    .byte 0xA0, 0x91  /* 06009686: bra 0x060097AC */
+    .reloc ., R_SH_IND12W, FUN_060097AC - 4
+    .2byte 0xA000    /* bra FUN_060097AC (linker-resolved) */
     nop
 .L_0600968A:
-    .byte 0xA0, 0xA7  /* 0600968A: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     nop
 .L_0600968E:
     .byte 0xD3, 0x1C  /* 0600968E: mov.l @(0x70,PC),r3  {[0x06009700] = 0x0603004C} */
@@ -52,7 +54,8 @@ FUN_0600964A:
     mov.w @r4, r3
     cmp/gt r2, r3
     bt .L_060096AA
-    .byte 0xA0, 0x99  /* 060096A6: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     nop
 .L_060096AA:
     .byte 0xD1, 0x16  /* 060096AA: mov.l @(0x58,PC),r1  {[0x06009704] = 0x06030A1C} */
@@ -63,7 +66,8 @@ FUN_0600964A:
     mov.w r11, @r14
     mov.b @r8, r3
     add #0x1, r3
-    .byte 0xA0, 0x8F  /* 060096BA: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     mov.b r3, @r8
 .L_060096BE:
     .byte 0xD3, 0x10  /* 060096BE: mov.l @(0x40,PC),r3  {[0x06009700] = 0x0603004C} */
@@ -78,7 +82,8 @@ FUN_0600964A:
     mov.w @r4, r3
     cmp/gt r2, r3
     bt .L_060096DA
-    .byte 0xA0, 0x81  /* 060096D6: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     nop
 .L_060096DA:
     .byte 0xD1, 0x0B  /* 060096DA: mov.l @(0x2C,PC),r1  {[0x06009708] = 0x0603072A} */
@@ -89,7 +94,8 @@ FUN_0600964A:
     mov.w r11, @r14
     mov.b @r8, r3
     add #0x1, r3
-    .byte 0xA0, 0x77  /* 060096EA: bra 0x060097DC */
+    .reloc ., R_SH_IND12W, FUN_060097DC - 4
+    .2byte 0xA000    /* bra FUN_060097DC (linker-resolved) */
     mov.b r3, @r8
     .byte 0xFF, 0xFF  /* 060096EE: .word 0xFFFF */
     .4byte sym_060520BE  /* 060096F0 = 0x060520BE */

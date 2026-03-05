@@ -68,6 +68,8 @@ FUN_0600E990:
     dmuls.l r2, r3
     mov.l @(4, r1), r2
     mov.l @(32, r1), r3
+    .global FUN_0600EA0E
+FUN_0600EA0E:
     sub r4, r2
     neg r2, r2
     sub r5, r3

@@ -10,9 +10,11 @@ FUN_06003A26:
     mov.l @(28, r14), r10
     nop
 .L_06003A30:
-    .byte 0xBA, 0x6E  /* 06003A30: bsr 0x06002F10 */
+    .reloc ., R_SH_IND12W, FUN_06002F10 - 4
+    .2byte 0xB000    /* bsr FUN_06002F10 (linker-resolved) */
     nop
-    .byte 0xBC, 0xD2  /* 06003A34: bsr 0x060033DC */
+    .reloc ., R_SH_IND12W, FUN_060033DC - 4
+    .2byte 0xB000    /* bsr FUN_060033DC (linker-resolved) */
     mov.l @(44, r14), r4
     .byte 0xC7, 0x0E  /* 06003A38: mova @(0x38,PC),r0  {0x06003A74} */
     shll r1

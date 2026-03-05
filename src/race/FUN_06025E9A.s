@@ -15,6 +15,8 @@ FUN_06025E9A:
     mov.l @r15+, r6
     mov.l @r15+, r5
     mov.l @r15+, r3
+    .global FUN_06025EB0
+FUN_06025EB0:
     mov.l @r15+, r1
     mov.l @(56, r0), r12
     sub r12, r11

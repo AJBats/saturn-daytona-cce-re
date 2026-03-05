@@ -74,6 +74,8 @@ FUN_06008F54:
 .L_06008FE6:
     .byte 0xD3, 0x2A  /* 06008FE6: mov.l @(0xA8,PC),r3  {[0x06009090] = 0x0605161D} */
     mov.b r14, @r3
+    .global FUN_06008FEA
+FUN_06008FEA:
     mov r14, r0
     .byte 0xD1, 0x29  /* 06008FEC: mov.l @(0xA4,PC),r1  {[0x06009094] = 0x060520CC} */
     mov.b r14, @r1

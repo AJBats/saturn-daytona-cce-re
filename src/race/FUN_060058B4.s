@@ -6,7 +6,8 @@
 FUN_060058B4:
     add #0xA, r6
     mov #0x2, r5
-    .byte 0xB3, 0x12  /* 060058B8: bsr 0x06005EE0 */
+    .reloc ., R_SH_IND12W, FUN_06005EE0 - 4
+    .2byte 0xB000    /* bsr FUN_06005EE0 (linker-resolved) */
     mov r7, r4
     mov.l .L_pool_060059DC, r4
     mov #0x1, r7
@@ -17,13 +18,15 @@ FUN_060058B4:
     shll2 r5
     shll2 r5
     shll r5
-    .byte 0xBB, 0xC0  /* 060058CE: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r13, r5
     mov #0x0, r7
     mov r11, r6
     add #0xC, r6
     mov #0x2, r5
-    .byte 0xB3, 0x01  /* 060058DA: bsr 0x06005EE0 */
+    .reloc ., R_SH_IND12W, FUN_06005EE0 - 4
+    .2byte 0xB000    /* bsr FUN_06005EE0 (linker-resolved) */
     mov r7, r4
     mov #0x3, r7
     mov.l .L_pool_060059E0, r3
@@ -35,7 +38,8 @@ FUN_060058B4:
     shll2 r5
     shll2 r5
     shll r5
-    .byte 0xBB, 0xAE  /* 060058F2: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r3, r5
     mov r12, r11
     shll2 r11
@@ -43,11 +47,13 @@ FUN_060058B4:
     shll r11
     mov r11, r5
     add #0x11, r5
-    .byte 0xB2, 0x25  /* 06005902: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x2, r4
     mov r11, r5
     add #0x10, r5
-    .byte 0xB2, 0x21  /* 0600590A: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x1, r4
     mov #0x5, r7
     mov.l .L_pool_060059E8, r3
@@ -59,7 +65,8 @@ FUN_060058B4:
     shll2 r5
     shll2 r5
     shll r5
-    .byte 0xBB, 0x96  /* 06005922: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r3, r5
     mov r12, r3
     mov.l .L_pool_06005978, r0
@@ -73,7 +80,8 @@ FUN_060058B4:
     extu.w r12, r3
     cmp/ge r2, r3
     bt .L_06005942
-    .byte 0xAF, 0x35  /* 0600593E: bra 0x060057AC */
+    .reloc ., R_SH_IND12W, FUN_060057AC - 4
+    .2byte 0xA000    /* bra FUN_060057AC (linker-resolved) */
     nop
 .L_06005942:
     extu.w r12, r12

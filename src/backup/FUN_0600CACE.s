@@ -40,25 +40,29 @@ FUN_0600CACE:
 .L_0600CB0C:
     .byte 0xD9, 0x68  /* 0600CB0C: mov.l @(0x1A0,PC),r9  {[0x0600CCB0] = 0x060298F6} */
     mov #0x0, r5
-    .byte 0xB0, 0xEC  /* 0600CB10: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov #0x1, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CBB2
     mov.b @r14, r0
     or #0x1, r0
-    .byte 0xB1, 0x34  /* 0600CB1E: bsr 0x0600CD8A */
+    .reloc ., R_SH_IND12W, FUN_0600CD8A - 4
+    .2byte 0xB000    /* bsr FUN_0600CD8A (linker-resolved) */
     mov.b r0, @r14
     extu.b r0, r4
     tst r4, r4
     bt .L_0600CB6E
     mov #0x0, r5
-    .byte 0xB0, 0xDF  /* 0600CB2A: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov r5, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CB5E
-    .byte 0xB1, 0x01  /* 0600CB34: bsr 0x0600CD3A */
+    .reloc ., R_SH_IND12W, FUN_0600CD3A - 4
+    .2byte 0xB000    /* bsr FUN_0600CD3A (linker-resolved) */
     nop
     extu.b r0, r4
     tst r4, r4
@@ -99,19 +103,22 @@ FUN_0600CACE:
     tst r3, r3
     bf .L_0600CC3C
     mov #0x1, r5
-    .byte 0xB0, 0xB6  /* 0600CB7C: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov r5, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CB9C
     mov.b @r14, r0
     or #0x2, r0
-    .byte 0xB1, 0x35  /* 0600CB8A: bsr 0x0600CDF8 */
+    .reloc ., R_SH_IND12W, FUN_0600CDF8 - 4
+    .2byte 0xB000    /* bsr FUN_0600CDF8 (linker-resolved) */
     mov.b r0, @r14
     extu.b r0, r4
     tst r4, r4
     bt .L_0600CC3C
-    .byte 0xB1, 0x63  /* 0600CB94: bsr 0x0600CE5E */
+    .reloc ., R_SH_IND12W, FUN_0600CE5E - 4
+    .2byte 0xB000    /* bsr FUN_0600CE5E (linker-resolved) */
     nop
     bra .L_0600CC3C
     nop
@@ -123,7 +130,8 @@ FUN_0600CACE:
     bf .L_0600CC26
     mov.b @r14, r0
     or #0x2, r0
-    .byte 0xB1, 0x58  /* 0600CBAA: bsr 0x0600CE5E */
+    .reloc ., R_SH_IND12W, FUN_0600CE5E - 4
+    .2byte 0xB000    /* bsr FUN_0600CE5E (linker-resolved) */
     mov.b r0, @r14
     bra .L_0600CC3C
     nop
@@ -137,12 +145,14 @@ FUN_0600CACE:
     mov #0x0, r5
     or #0x1, r0
     mov.b r0, @r14
-    .byte 0xB0, 0x92  /* 0600CBC4: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov r5, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CBF8
-    .byte 0xB0, 0xB4  /* 0600CBCE: bsr 0x0600CD3A */
+    .reloc ., R_SH_IND12W, FUN_0600CD3A - 4
+    .2byte 0xB000    /* bsr FUN_0600CD3A (linker-resolved) */
     nop
     extu.b r0, r4
     tst r4, r4
@@ -174,14 +184,16 @@ FUN_0600CACE:
     nop
 .L_0600CC04:
     mov #0x1, r5
-    .byte 0xB0, 0x71  /* 0600CC06: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov r5, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CC1C
     mov.b @r14, r0
     or #0x2, r0
-    .byte 0xB1, 0x23  /* 0600CC14: bsr 0x0600CE5E */
+    .reloc ., R_SH_IND12W, FUN_0600CE5E - 4
+    .2byte 0xB000    /* bsr FUN_0600CE5E (linker-resolved) */
     mov.b r0, @r14
     bra .L_0600CC3C
     nop
@@ -197,7 +209,8 @@ FUN_0600CACE:
 .L_0600CC2A:
     mov.b @r14, r0
     or #0x2, r0
-    .byte 0xB1, 0x16  /* 0600CC2E: bsr 0x0600CE5E */
+    .reloc ., R_SH_IND12W, FUN_0600CE5E - 4
+    .2byte 0xB000    /* bsr FUN_0600CE5E (linker-resolved) */
     mov.b r0, @r14
     bra .L_0600CC3C
     nop
@@ -211,14 +224,16 @@ FUN_0600CACE:
     tst r8, r8
     bt .L_0600CCD8
     mov #0x0, r5
-    .byte 0xB0, 0x52  /* 0600CC44: bsr 0x0600CCEC */
+    .reloc ., R_SH_IND12W, FUN_0600CCEC - 4
+    .2byte 0xB000    /* bsr FUN_0600CCEC (linker-resolved) */
     mov r5, r4
     exts.b r0, r0
     tst r0, r0
     bt .L_0600CC70
     mov.b @r14, r0
     or #0x4, r0
-    .byte 0xB0, 0x72  /* 0600CC52: bsr 0x0600CD3A */
+    .reloc ., R_SH_IND12W, FUN_0600CD3A - 4
+    .2byte 0xB000    /* bsr FUN_0600CD3A (linker-resolved) */
     mov.b r0, @r14
     extu.b r0, r4
     tst r4, r4

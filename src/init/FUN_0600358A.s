@@ -1261,6 +1261,8 @@ FUN_0600358A:
     .byte 0xE0, 0x53  /* 06003F8A: mov #83,r0 */
     .byte 0xA2, 0x04  /* 06003F8C: bra 0x06004398 */
     .byte 0x40, 0x08  /* 06003F8E: shll2 r0 */
+    .global FUN_06003F90
+FUN_06003F90:
     .byte 0xE0, 0x54  /* 06003F90: mov #84,r0 */
     .byte 0xA2, 0x01  /* 06003F92: bra 0x06004398 */
     .byte 0x40, 0x08  /* 06003F94: shll2 r0 */
@@ -1300,6 +1302,8 @@ FUN_0600358A:
     .byte 0xE0, 0x60  /* 06003FD8: mov #96,r0 */
     .byte 0xA1, 0xDD  /* 06003FDA: bra 0x06004398 */
     .byte 0x40, 0x08  /* 06003FDC: shll2 r0 */
+    .global FUN_06003FDE
+FUN_06003FDE:
     .byte 0xE0, 0x61  /* 06003FDE: mov #97,r0 */
     .byte 0xA1, 0xDA  /* 06003FE0: bra 0x06004398 */
     .byte 0x40, 0x08  /* 06003FE2: shll2 r0 */

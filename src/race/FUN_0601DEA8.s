@@ -5,7 +5,8 @@
     .type FUN_0601DEA8, @function
 FUN_0601DEA8:
     sts.l pr, @-r15
-    .byte 0xB0, 0x89  /* 0601DEAA: bsr 0x0601DFC0 */
+    .reloc ., R_SH_IND12W, FUN_0601DFC0 - 4
+    .2byte 0xB000    /* bsr FUN_0601DFC0 (linker-resolved) */
     mov.l @(44, r14), r4
     lds.l @r15+, pr
     .byte 0x90, 0x33  /* 0601DEB0: mov.w @(0x66,PC),r0  {0x0601DF1A} */

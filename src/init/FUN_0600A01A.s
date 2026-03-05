@@ -11,5 +11,6 @@ FUN_0600A01A:
     add #0x4, r0
     mov.l @r14, r3
     mov.l r7, @(r0, r3)
-    .byte 0xB4, 0xBA  /* 0600A028: bsr 0x0600A9A0 */
+    .reloc ., R_SH_IND12W, FUN_0600A9A0 - 4
+    .2byte 0xB000    /* bsr FUN_0600A9A0 (linker-resolved) */
     nop

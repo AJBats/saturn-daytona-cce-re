@@ -23,5 +23,6 @@ FUN_06007CD4:
     mov.l @r4, r3
     mov.l r5, @(52, r3)
     mov.l @r4, r2
-    .byte 0xA1, 0x61  /* 06007CFA: bra 0x06007FC0 */
+    .reloc ., R_SH_IND12W, FUN_06007FC0 - 4
+    .2byte 0xA000    /* bra FUN_06007FC0 (linker-resolved) */
     mov.l r5, @(56, r2)

@@ -41,7 +41,8 @@ FUN_06005EE0:
     jsr @r3
     mov r10, r1
     mov r0, r5
-    .byte 0xB0, 0x39  /* 06005F26: bsr 0x06005F9C */
+    .reloc ., R_SH_IND12W, FUN_06005F9C - 4
+    .2byte 0xB000    /* bsr FUN_06005F9C (linker-resolved) */
     mov r13, r4
     extu.w r12, r3
     .byte 0xD0, 0x3C  /* 06005F2C: mov.l @(0xF0,PC),r0  {[0x06006020] = 0x25E6A004} */
@@ -69,7 +70,8 @@ FUN_06005EE0:
     jsr @r2
     mov #0x64, r0
     mov r0, r5
-    .byte 0xB0, 0x1D  /* 06005F5E: bsr 0x06005F9C */
+    .reloc ., R_SH_IND12W, FUN_06005F9C - 4
+    .2byte 0xB000    /* bsr FUN_06005F9C (linker-resolved) */
     mov r13, r4
     extu.w r14, r3
     mov.l @(8, r15), r2
@@ -88,7 +90,8 @@ FUN_06005EE0:
     jsr @r2
     mov #0x64, r0
     mov r0, r5
-    .byte 0xB0, 0x0A  /* 06005F84: bsr 0x06005F9C */
+    .reloc ., R_SH_IND12W, FUN_06005F9C - 4
+    .2byte 0xB000    /* bsr FUN_06005F9C (linker-resolved) */
     mov r13, r4
     add #0xC, r15
 .L_06005F8A:

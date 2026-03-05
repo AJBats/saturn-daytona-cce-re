@@ -226,7 +226,8 @@ FUN_0600519C:
     .byte 0xD1, 0x02  /* 06005350: mov.l @(0x8,PC),r1  {[0x0600535C] = 0x28BE60DC} */
     .byte 0x31, 0x5D  /* 06005352: dmuls.l r5,r1 */
     .byte 0x05, 0x0A  /* 06005354: sts mach,r5 */
-    .byte 0xA0, 0x07  /* 06005356: bra 0x06005368 */
+    .reloc ., R_SH_IND12W, FUN_06005368 - 4
+    .2byte 0xA000    /* bra FUN_06005368 (linker-resolved) */
     .byte 0x00, 0x09  /* 06005358: nop */
     .byte 0x00, 0x00  /* 0600535A: .word 0x0000 */
     .4byte 0x28BE60DC  /* 0600535C = 0x28BE60DC */

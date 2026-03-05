@@ -38,21 +38,25 @@ FUN_06003EBE:
     extu.b r1, r1
     cmp/eq r3, r1
     bf .L_06003FC4
-    .byte 0xB6, 0x11  /* 06003F00: bsr 0x06004B26 */
+    .reloc ., R_SH_IND12W, FUN_06004B26 - 4
+    .2byte 0xB000    /* bsr FUN_06004B26 (linker-resolved) */
     mov.l @(16, r14), r4
-    .byte 0xB6, 0xB6  /* 06003F04: bsr 0x06004C74 */
+    .reloc ., R_SH_IND12W, FUN_06004C74 - 4
+    .2byte 0xB000    /* bsr FUN_06004C74 (linker-resolved) */
     mov r0, r4
     mov.l r0, @(16, r14)
     mov r0, r3
     mov.l @(24, r14), r2
     add r3, r2
     mov.l r2, @(24, r14)
-    .byte 0xB6, 0xAF  /* 06003F12: bsr 0x06004C74 */
+    .reloc ., R_SH_IND12W, FUN_06004C74 - 4
+    .2byte 0xB000    /* bsr FUN_06004C74 (linker-resolved) */
     mov r2, r4
     mov r0, r3
     mov.l r0, @(20, r14)
     mov.l @(32, r14), r4
-    .byte 0xB6, 0xAA  /* 06003F1C: bsr 0x06004C74 */
+    .reloc ., R_SH_IND12W, FUN_06004C74 - 4
+    .2byte 0xB000    /* bsr FUN_06004C74 (linker-resolved) */
     add r3, r4
     mov.l r0, @(28, r14)
     extu.w r13, r12
@@ -90,17 +94,20 @@ FUN_06003EBE:
     mov.b @r2, r1
     tst r1, r1
     bt .L_06003F78
-    .byte 0xB2, 0x48  /* 06003F64: bsr 0x060043F8 */
+    .reloc ., R_SH_IND12W, FUN_060043F8 - 4
+    .2byte 0xB000    /* bsr FUN_060043F8 (linker-resolved) */
     mov r13, r4
     bra .L_06003F78
     nop
 .L_06003F6C:
-    .byte 0xB2, 0x75  /* 06003F6C: bsr 0x0600445A */
+    .reloc ., R_SH_IND12W, FUN_0600445A - 4
+    .2byte 0xB000    /* bsr FUN_0600445A (linker-resolved) */
     mov r13, r4
     bra .L_06003F78
     nop
 .L_06003F74:
-    .byte 0xB3, 0x11  /* 06003F74: bsr 0x0600459A */
+    .reloc ., R_SH_IND12W, FUN_0600459A - 4
+    .2byte 0xB000    /* bsr FUN_0600459A (linker-resolved) */
     mov r13, r4
 .L_06003F78:
     mov.l @(16, r14), r3

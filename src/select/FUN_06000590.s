@@ -69,7 +69,8 @@ FUN_06000590:
     mov.b @r3, r0
     cmp/eq #0x1, r0
     bt .L_06000616
-    .byte 0xB0, 0x98  /* 06000612: bsr 0x06000746 */
+    .reloc ., R_SH_IND12W, FUN_06000746 - 4
+    .2byte 0xB000    /* bsr FUN_06000746 (linker-resolved) */
     nop
 .L_06000616:
     .byte 0xD5, 0x35  /* 06000616: mov.l @(0xD4,PC),r5  {[0x060006EC] = 0x25E62000} */

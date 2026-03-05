@@ -7,7 +7,8 @@ FUN_0602FADE:
     sts.l pr, @-r15
     add #-0x8, r15
     mov.l r4, @r15
-    .byte 0xBF, 0x58  /* 0602FAE4: bsr 0x0602F998 */
+    .reloc ., R_SH_IND12W, FUN_0602F998 - 4
+    .2byte 0xB000    /* bsr FUN_0602F998 (linker-resolved) */
     nop
     mov.l r0, @(4, r15)
     .byte 0xD2, 0x68  /* 0602FAEA: mov.l @(0x1A0,PC),r2  {[0x0602FC8C] = 0x06000354} */
@@ -18,7 +19,8 @@ FUN_0602FADE:
     nop
     mov.l r0, @r15
     mov.l @(4, r15), r4
-    .byte 0xBF, 0x75  /* 0602FAFA: bsr 0x0602F9E8 */
+    .reloc ., R_SH_IND12W, FUN_0602F9E8 - 4
+    .2byte 0xB000    /* bsr FUN_0602F9E8 (linker-resolved) */
     nop
     mov.l @r15, r0
     add #0x8, r15

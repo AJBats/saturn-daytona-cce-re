@@ -287,7 +287,8 @@ FUN_0600BDC8:
     bra .L_0600C244
     mov.b r13, @r4
 .L_0600BFD4:
-    .byte 0xB3, 0x88  /* 0600BFD4: bsr 0x0600C6E8 */
+    .reloc ., R_SH_IND12W, FUN_0600C6E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600C6E8 (linker-resolved) */
     nop
     extu.b r0, r0
     tst r0, r0
@@ -393,7 +394,8 @@ FUN_0600BDC8:
     extu.b r3, r3
     cmp/eq r3, r1
     bf .L_0600C094
-    .byte 0xB4, 0x9A  /* 0600C090: bsr 0x0600C9C8 */
+    .reloc ., R_SH_IND12W, FUN_0600C9C8 - 4
+    .2byte 0xB000    /* bsr FUN_0600C9C8 (linker-resolved) */
     mov r14, r4
 .L_0600C094:
     mov.l .L_pool_0600C1CC, r2
@@ -526,11 +528,13 @@ FUN_0600BDC8:
 .L_0600C17C:
     mov.l .L_pool_0600C1FC, r1
     mov.b r12, @r1
-    .byte 0xB3, 0xC0  /* 0600C180: bsr 0x0600C904 */
+    .reloc ., R_SH_IND12W, FUN_0600C904 - 4
+    .2byte 0xB000    /* bsr FUN_0600C904 (linker-resolved) */
     mov.b r12, @r10
     tst r0, r0
     bt .L_0600C244
-    .byte 0xB3, 0x54  /* 0600C188: bsr 0x0600C834 */
+    .reloc ., R_SH_IND12W, FUN_0600C834 - 4
+    .2byte 0xB000    /* bsr FUN_0600C834 (linker-resolved) */
     nop
     mov.l .L_pool_0600C200, r2
     jsr @r2
@@ -545,7 +549,8 @@ FUN_0600BDC8:
     tst r0, r0
     bt .L_0600C244
     mov.l .L_pool_0600C208, r3
-    .byte 0xB2, 0xC8  /* 0600C1A4: bsr 0x0600C738 */
+    .reloc ., R_SH_IND12W, FUN_0600C738 - 4
+    .2byte 0xB000    /* bsr FUN_0600C738 (linker-resolved) */
     mov.b r14, @r3
     extu.b r14, r0
     mov #0x5, r3
@@ -602,7 +607,8 @@ FUN_0600BDC8:
     mov.l .L_pool_0600C230, r2
     mov.b r12, @r2
     mov.b r12, @r10
-    .byte 0xB3, 0x4C  /* 0600C212: bsr 0x0600C8AE */
+    .reloc ., R_SH_IND12W, FUN_0600C8AE - 4
+    .2byte 0xB000    /* bsr FUN_0600C8AE (linker-resolved) */
     mov r14, r4
     tst r0, r0
     bt .L_0600C244
@@ -623,7 +629,8 @@ FUN_0600BDC8:
 .L_pool_0600C234:
     .4byte DAT_0601336C  /* 0600C234 = 0x0601336C (FUN_06013284 + 0xE8) */
 .L_0600C238:
-    .byte 0xB5, 0x1A  /* 0600C238: bsr 0x0600CC70 */
+    .reloc ., R_SH_IND12W, FUN_0600CC70 - 4
+    .2byte 0xB000    /* bsr FUN_0600CC70 (linker-resolved) */
     nop
     exts.b r0, r0
     tst r0, r0

@@ -7,7 +7,8 @@ FUN_0600E770:
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r14, r0
-    .byte 0xB0, 0x0B  /* 0600E776: bsr 0x0600E790 */
+    .reloc ., R_SH_IND12W, FUN_0600E790 - 4
+    .2byte 0xB000    /* bsr FUN_0600E790 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r14

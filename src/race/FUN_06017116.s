@@ -14,7 +14,8 @@ FUN_06017116:
     add r7, r0
     mov.l @(12, r14), r5
     mov.l r0, @(76, gbr)
-    .byte 0xBD, 0xE2  /* 06017128: bsr 0x06016CF0 */
+    .reloc ., R_SH_IND12W, FUN_06016CF0 - 4
+    .2byte 0xB000    /* bsr FUN_06016CF0 (linker-resolved) */
     extu.w r5, r5
     lds.l @r15+, pr
     rts

@@ -5,7 +5,8 @@
     .type FUN_060018F6, @function
 FUN_060018F6:
     sts.l pr, @-r15
-    .byte 0xBF, 0x4E  /* 060018F8: bsr 0x06001798 */
+    .reloc ., R_SH_IND12W, FUN_06001798 - 4
+    .2byte 0xB000    /* bsr FUN_06001798 (linker-resolved) */
     mov.l r3, @-r15
     add #0x4, r15
     lds.l @r15+, pr

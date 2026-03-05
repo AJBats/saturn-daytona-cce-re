@@ -37,8 +37,11 @@ FUN_06005658:
     shll r3
     add r2, r3
     mov.l r3, @r1
+    .global FUN_06005698
+FUN_06005698:
 .L_06005698:
-    .byte 0xB5, 0x76  /* 06005698: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #0x0, r4
     add #0x14, r15
     lds.l @r15+, pr
@@ -46,7 +49,8 @@ FUN_06005658:
     mov.l @r15+, r14
     .byte 0x24, 0x48  /* 060056A4: tst r4,r4 */
     .byte 0x8B, 0x01  /* 060056A6: bf 0x060056AC */
-    .byte 0xA5, 0x6E  /* 060056A8: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     .byte 0xE4, 0xF5  /* 060056AA: mov #-11,r4 */
     .byte 0xD2, 0x28  /* 060056AC: mov.l @(0xA0,PC),r2  {[0x06005750] = 0x0600D30A} */
     .byte 0x42, 0x2B  /* 060056AE: jmp @r2 */

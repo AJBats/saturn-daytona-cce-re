@@ -9,9 +9,13 @@ FUN_06001DF4:
     mov.l r9, @-r15
     mov r13, r5
     mov.l r2, @-r15
+    .global FUN_06001DFE
+FUN_06001DFE:
     jsr @r10
     nop
     add #0x10, r15
+    .global FUN_06001E04
+FUN_06001E04:
     lds.l @r15+, pr
     mov.l @r15+, r9
     mov.l @r15+, r10

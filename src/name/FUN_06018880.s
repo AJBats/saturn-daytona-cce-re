@@ -22,7 +22,8 @@ FUN_06018880:
     mov.l r2, @r4
     dt r2
     bf .L_060188C6
-    .byte 0xB0, 0x3B  /* 060188A4: bsr 0x0601891E */
+    .reloc ., R_SH_IND12W, FUN_0601891E - 4
+    .2byte 0xB000    /* bsr FUN_0601891E (linker-resolved) */
     nop
     .byte 0xD5, 0x2B  /* 060188A8: mov.l @(0xAC,PC),r5  {[0x06018958] = 0x20100063} */
     mov #0x1, r4

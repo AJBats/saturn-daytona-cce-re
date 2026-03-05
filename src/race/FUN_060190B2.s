@@ -276,7 +276,8 @@ FUN_060190B2:
 .L_pool_060192EC:
     .4byte sym_06054C20  /* 060192EC = 0x06054C20 */
 .L_060192F0:
-    .byte 0xBE, 0x93  /* 060192F0: bsr 0x0601901A */
+    .reloc ., R_SH_IND12W, FUN_0601901A - 4
+    .2byte 0xB000    /* bsr FUN_0601901A (linker-resolved) */
     nop
     .byte 0xD4, 0x8D  /* 060192F4: mov.l @(0x234,PC),r4  {[0x0601952C] = 0x0605690A} */
     .byte 0xD2, 0x8E  /* 060192F6: mov.l @(0x238,PC),r2  {[0x06019530] = 0x06054E54} */
@@ -478,7 +479,8 @@ FUN_060190B2:
 .L_0601947C:
     lds.l @r15+, pr
     mov.l @r15+, r8
-    .byte 0xAD, 0xCB  /* 06019480: bra 0x0601901A */
+    .reloc ., R_SH_IND12W, FUN_0601901A - 4
+    .2byte 0xA000    /* bra FUN_0601901A (linker-resolved) */
     mov.l @r15+, r14
 .L_06019484:
     lds.l @r15+, pr

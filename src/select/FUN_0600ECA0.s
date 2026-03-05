@@ -12,5 +12,6 @@ FUN_0600ECA0:
     cmp/eq #0x55, r0
     .byte 0x8B, 0x05  /* 0600ECAC: bf 0x0600ECBA */
     mov #0x2, r2
-    .byte 0xA0, 0x03  /* 0600ECB0: bra 0x0600ECBA */
+    .reloc ., R_SH_IND12W, FUN_0600ECBA - 4
+    .2byte 0xA000    /* bra FUN_0600ECBA (linker-resolved) */
     mov.b r2, @r11

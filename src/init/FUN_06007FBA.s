@@ -9,13 +9,15 @@ FUN_06007FBA:
     tst #0x1, r0
     bt .L_06007FDA
     mov r15, r5
-    .byte 0xBE, 0x39  /* 06007FC4: bsr 0x06007C3A */
+    .reloc ., R_SH_IND12W, FUN_06007C3A - 4
+    .2byte 0xB000    /* bsr FUN_06007C3A (linker-resolved) */
     mov r14, r4
     mov.l @r15, r0
     tst r0, r0
     bt .L_06007FD4
     mov.l @r15, r0
-    .byte 0xA0, 0x73  /* 06007FD0: bra 0x060080BA */
+    .reloc ., R_SH_IND12W, FUN_060080BA - 4
+    .2byte 0xA000    /* bra FUN_060080BA (linker-resolved) */
     nop
 .L_06007FD4:
     mov.l @(4, r15), r3
@@ -30,5 +32,6 @@ FUN_06007FBA:
     .byte 0xD3, 0x30  /* 06007FE4: mov.l @(0xC0,PC),r3  {[0x060080A8] = 0x060095F0} */
     jsr @r3
     add #0xC, r0
-    .byte 0xA0, 0x08  /* 06007FEA: bra 0x06007FFE */
+    .reloc ., R_SH_IND12W, FUN_06007FFE - 4
+    .2byte 0xA000    /* bra FUN_06007FFE (linker-resolved) */
     nop

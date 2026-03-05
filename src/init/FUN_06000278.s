@@ -20,7 +20,8 @@ FUN_06000278:
     jsr @r3
     mov #0x1, r4
 .L_06000296:
-    .byte 0xBF, 0x7D  /* 06000296: bsr 0x06000194 */
+    .reloc ., R_SH_IND12W, FUN_06000194 - 4
+    .2byte 0xB000    /* bsr FUN_06000194 (linker-resolved) */
     nop
     mov.l .L_pool_060002C8, r3
     jsr @r3

@@ -49,7 +49,8 @@ FUN_0600ED52:
     mov r10, r0
     mov.w r11, @r4
     mov.w r0, @(2, r4)
-    .byte 0xB0, 0x38  /* 0600EDA8: bsr 0x0600EE1C */
+    .reloc ., R_SH_IND12W, FUN_0600EE1C - 4
+    .2byte 0xB000    /* bsr FUN_0600EE1C (linker-resolved) */
     mov r13, r4
     cmp/eq #0x2, r0
     bf .L_0600EDB2

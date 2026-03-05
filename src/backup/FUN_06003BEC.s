@@ -7,12 +7,14 @@ FUN_06003BEC:
     sts.l pr, @-r15
     mov.l .L_pool_06003C38, r5
     mov.l .L_pool_06003C3C, r4
-    .byte 0xBE, 0xED  /* 06003BF2: bsr 0x060039D0 */
+    .reloc ., R_SH_IND12W, FUN_060039D0 - 4
+    .2byte 0xB000    /* bsr FUN_060039D0 (linker-resolved) */
     mov #0x10, r6
     mov #0x10, r6
     mov.l .L_pool_06003C38, r5
     mov.l .L_pool_06003C40, r4
-    .byte 0xAE, 0xE8  /* 06003BFC: bra 0x060039D0 */
+    .reloc ., R_SH_IND12W, FUN_060039D0 - 4
+    .2byte 0xA000    /* bra FUN_060039D0 (linker-resolved) */
     lds.l @r15+, pr
     .byte 0x07, 0xFF  /* 06003C00: mac.l @r15+,@r7+ */
     .byte 0xFF, 0xFF  /* 06003C02: .word 0xFFFF */

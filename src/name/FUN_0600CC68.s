@@ -26,6 +26,8 @@ FUN_0600CC68:
 .L_0600CC8A:
     bt .L_0600CC8E
     mov r0, r4
+    .global FUN_0600CC8E
+FUN_0600CC8E:
 .L_0600CC8E:
     mov.w @(0, r11), r0
     cmp/gt r1, r0

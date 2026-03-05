@@ -14,10 +14,12 @@ FUN_060024A2:
     mov r13, r11
     mov r10, r14
 .L_060024B2:
-    .byte 0xB0, 0x92  /* 060024B2: bsr 0x060025DA */
+    .reloc ., R_SH_IND12W, FUN_060025DA - 4
+    .2byte 0xB000    /* bsr FUN_060025DA (linker-resolved) */
     mov r14, r4
     add #0xC, r14
-    .byte 0xB0, 0x8F  /* 060024B8: bsr 0x060025DA */
+    .reloc ., R_SH_IND12W, FUN_060025DA - 4
+    .2byte 0xB000    /* bsr FUN_060025DA (linker-resolved) */
     mov r14, r4
     add #0x2, r11
     cmp/ge r8, r11
@@ -40,7 +42,8 @@ FUN_060024A2:
     mov r13, r10
     mov r11, r14
 .L_060024E0:
-    .byte 0xB0, 0x7B  /* 060024E0: bsr 0x060025DA */
+    .reloc ., R_SH_IND12W, FUN_060025DA - 4
+    .2byte 0xB000    /* bsr FUN_060025DA (linker-resolved) */
     mov r14, r4
     add #0x1, r10
     cmp/ge r8, r10
@@ -79,10 +82,12 @@ FUN_060024A2:
     mov r13, r11
     mov r10, r14
 .L_06002528:
-    .byte 0xB0, 0x57  /* 06002528: bsr 0x060025DA */
+    .reloc ., R_SH_IND12W, FUN_060025DA - 4
+    .2byte 0xB000    /* bsr FUN_060025DA (linker-resolved) */
     mov r14, r4
     add #0xC, r14
-    .byte 0xB0, 0x54  /* 0600252E: bsr 0x060025DA */
+    .reloc ., R_SH_IND12W, FUN_060025DA - 4
+    .2byte 0xB000    /* bsr FUN_060025DA (linker-resolved) */
     mov r14, r4
     add #0x2, r11
     cmp/ge r8, r11
@@ -100,23 +105,28 @@ FUN_060024A2:
     cmp/hs r13, r14
     bt .L_0600255E
 .L_0600254E:
-    .byte 0xB0, 0x8D  /* 0600254E: bsr 0x0600266C */
+    .reloc ., R_SH_IND12W, FUN_0600266C - 4
+    .2byte 0xB000    /* bsr FUN_0600266C (linker-resolved) */
     mov r14, r4
     add #0x18, r14
-    .byte 0xB0, 0x8A  /* 06002554: bsr 0x0600266C */
+    .reloc ., R_SH_IND12W, FUN_0600266C - 4
+    .2byte 0xB000    /* bsr FUN_0600266C (linker-resolved) */
     mov r14, r4
     add #0x18, r14
     cmp/hs r13, r14
     bf .L_0600254E
 .L_0600255E:
-    .byte 0xB0, 0xFF  /* 0600255E: bsr 0x06002760 */
+    .reloc ., R_SH_IND12W, FUN_06002760 - 4
+    .2byte 0xB000    /* bsr FUN_06002760 (linker-resolved) */
     nop
     .byte 0xD3, 0x40  /* 06002562: mov.l @(0x100,PC),r3  {[0x06002664] = 0x0602E814} */
     jsr @r3
     nop
-    .byte 0xB1, 0x92  /* 06002568: bsr 0x06002890 */
+    .reloc ., R_SH_IND12W, FUN_06002890 - 4
+    .2byte 0xB000    /* bsr FUN_06002890 (linker-resolved) */
     nop
-    .byte 0xB2, 0x25  /* 0600256C: bsr 0x060029BA */
+    .reloc ., R_SH_IND12W, FUN_060029BA - 4
+    .2byte 0xB000    /* bsr FUN_060029BA (linker-resolved) */
     nop
     .byte 0x96, 0x73  /* 06002570: mov.w @(0xE6,PC),r6  {0x0600265A} */
     mov r9, r5

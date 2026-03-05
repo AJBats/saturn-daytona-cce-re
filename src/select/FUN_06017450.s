@@ -7,10 +7,14 @@ FUN_06017450:
     sts.l pr, @-r15
     mov #-0x20, r1
     mov.w @(2, r1), r0
+    .global FUN_06017456
+FUN_06017456:
     cmp/pz r0
     mov.l .L_pool_0601747C, r6
     bt .L_0601745E
     mov.l .L_pool_06017480, r6
+    .global FUN_0601745E
+FUN_0601745E:
 .L_0601745E:
     add #-0xC, r15
     mov r15, r5
@@ -95,6 +99,8 @@ FUN_06017450:
     .byte 0x20, 0x08  /* 06017508: tst r0,r0 */
     .byte 0x2F, 0x26  /* 0601750A: mov.l r2,@-r15 */
     .byte 0x89, 0x55  /* 0601750C: bt 0x060175BA */
+    .global FUN_0601750E
+FUN_0601750E:
     .byte 0x2F, 0x36  /* 0601750E: mov.l r3,@-r15 */
     .byte 0xE2, 0x00  /* 06017510: mov #0,r2 */
     .byte 0x2F, 0x46  /* 06017512: mov.l r4,@-r15 */

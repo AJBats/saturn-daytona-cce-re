@@ -17,7 +17,8 @@ FUN_0600FFDA:
     mov r0, r4
     mov r0, r6
     mov.l @r15+, r4
-    .byte 0xAF, 0x5A  /* 0600FFF4: bra 0x0600FEAC */
+    .reloc ., R_SH_IND12W, FUN_0600FEAC - 4
+    .2byte 0xA000    /* bra FUN_0600FEAC (linker-resolved) */
     lds.l @r15+, pr
 .L_pool_0600FFF8:
     .4byte sym_0603A94C  /* 0600FFF8 = 0x0603A94C */

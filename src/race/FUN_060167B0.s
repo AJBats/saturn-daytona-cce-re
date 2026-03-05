@@ -172,7 +172,8 @@ FUN_060167B0:
     mov #0x0, r0
     mov.b r0, @(19, gbr)
     mov.l @(116, gbr), r0
-    .byte 0xB2, 0xB5  /* 060168F6: bsr 0x06016E64 */
+    .reloc ., R_SH_IND12W, FUN_06016E64 - 4
+    .2byte 0xB000    /* bsr FUN_06016E64 (linker-resolved) */
     mov.l r0, @(112, gbr)
     mov.b @(148, gbr), r0
     tst r0, r0

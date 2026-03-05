@@ -10,7 +10,8 @@ FUN_0600ADDC:
     mov.w @(12, r14), r0
     mov r14, r4
     mov r0, r5
-    .byte 0xB0, 0x15  /* 0600ADE6: bsr 0x0600AE14 */
+    .reloc ., R_SH_IND12W, FUN_0600AE14 - 4
+    .2byte 0xB000    /* bsr FUN_0600AE14 (linker-resolved) */
     add #0xE, r4
     mov r13, r6
     mov.b r12, @r14
@@ -18,7 +19,8 @@ FUN_0600ADDC:
     mov.w @(12, r14), r0
     mov r14, r4
     mov r0, r5
-    .byte 0xB0, 0x0D  /* 0600ADF6: bsr 0x0600AE14 */
+    .reloc ., R_SH_IND12W, FUN_0600AE14 - 4
+    .2byte 0xB000    /* bsr FUN_0600AE14 (linker-resolved) */
     add #0xE, r4
     add #0x2, r11
     mov.b r12, @r14

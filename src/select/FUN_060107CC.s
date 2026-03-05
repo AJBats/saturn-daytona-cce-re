@@ -5,7 +5,8 @@
     .type FUN_060107CC, @function
 FUN_060107CC:
     sts.l pr, @-r15
-    .byte 0xB0, 0x47  /* 060107CE: bsr 0x06010860 */
+    .reloc ., R_SH_IND12W, FUN_06010860 - 4
+    .2byte 0xB000    /* bsr FUN_06010860 (linker-resolved) */
     mov.l @(28, r14), r1
     mov.l @(4, r10), r0
     mov.l @(4, r11), r1
@@ -19,10 +20,12 @@ FUN_060107CC:
     mov.w @(128, gbr), r0
     tst #0x10, r0
     bt .L_060107EE
-    .byte 0xB1, 0x27  /* 060107EA: bsr 0x06010A3C */
+    .reloc ., R_SH_IND12W, FUN_06010A3C - 4
+    .2byte 0xB000    /* bsr FUN_06010A3C (linker-resolved) */
     mov r15, r7
 .L_060107EE:
-    .byte 0xB1, 0xF9  /* 060107EE: bsr 0x06010BE4 */
+    .reloc ., R_SH_IND12W, FUN_06010BE4 - 4
+    .2byte 0xB000    /* bsr FUN_06010BE4 (linker-resolved) */
     mov.w @(136, gbr), r0
     mov.l @(0, r10), r0
     mov.l @(0, r11), r1
@@ -32,11 +35,13 @@ FUN_060107CC:
     mov.l r1, @(16, r7)
     mov.l r2, @(20, r7)
     mov.l r3, @(24, r7)
-    .byte 0xB1, 0x4F  /* 06010802: bsr 0x06010AA4 */
+    .reloc ., R_SH_IND12W, FUN_06010AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06010AA4 (linker-resolved) */
     mov.w @(128, gbr), r0
     mov #0x4, r0
     mov.b r0, @(155, gbr)
-    .byte 0xB1, 0xCC  /* 0601080A: bsr 0x06010BA6 */
+    .reloc ., R_SH_IND12W, FUN_06010BA6 - 4
+    .2byte 0xB000    /* bsr FUN_06010BA6 (linker-resolved) */
     mov.w @(136, gbr), r0
     mov.w @(136, gbr), r0
     lds.l @r15+, pr

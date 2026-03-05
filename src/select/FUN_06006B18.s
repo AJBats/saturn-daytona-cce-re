@@ -5,6 +5,8 @@
     .type FUN_06006B18, @function
 FUN_06006B18:
     mov.l r14, @-r15
+    .global FUN_06006B1A
+FUN_06006B1A:
     mov.l .L_pool_06006B34, r5
     mov.l .L_pool_06006B3C, r3
     jsr @r3

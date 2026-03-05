@@ -49,7 +49,8 @@ FUN_06006EDA:
     .byte 0x81, 0x51  /* 06006F2C: mov.w r0,@(0x2,r5) */
     .byte 0x24, 0x62  /* 06006F2E: mov.l r6,@r4 */
     .byte 0xD3, 0x6F  /* 06006F30: mov.l @(0x1BC,PC),r3  {[0x060070F0] = 0x0602EF5C} */
-    .byte 0xA0, 0x13  /* 06006F32: bra 0x06006F5C */
+    .reloc ., R_SH_IND12W, FUN_06006F5C - 4
+    .2byte 0xA000    /* bra FUN_06006F5C (linker-resolved) */
     .byte 0x14, 0x33  /* 06006F34: mov.l r3,@(0xC,r4) */
     .byte 0xD3, 0x6F  /* 06006F36: mov.l @(0x1BC,PC),r3  {[0x060070F4] = 0x06051608} */
     .byte 0x60, 0x30  /* 06006F38: mov.b @r3,r0 */
@@ -66,7 +67,8 @@ FUN_06006EDA:
     .byte 0xE0, 0x14  /* 06006F4E: mov #20,r0 */
     .byte 0x81, 0x51  /* 06006F50: mov.w r0,@(0x2,r5) */
     .byte 0x24, 0x62  /* 06006F52: mov.l r6,@r4 */
-    .byte 0xA0, 0x02  /* 06006F54: bra 0x06006F5C */
+    .reloc ., R_SH_IND12W, FUN_06006F5C - 4
+    .2byte 0xA000    /* bra FUN_06006F5C (linker-resolved) */
     .byte 0x14, 0x33  /* 06006F56: mov.l r3,@(0xC,r4) */
     .byte 0x00, 0x0B  /* 06006F58: rts */
     .byte 0x00, 0x09  /* 06006F5A: nop */

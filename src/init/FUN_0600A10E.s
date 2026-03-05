@@ -40,7 +40,8 @@ FUN_0600A10E:
     cmp/ge r3, r6
     bf .L_0600A156
 .L_0600A152:
-    .byte 0xA0, 0x4A  /* 0600A152: bra 0x0600A1EA */
+    .reloc ., R_SH_IND12W, FUN_0600A1EA - 4
+    .2byte 0xA000    /* bra FUN_0600A1EA (linker-resolved) */
     mov #-0x6, r0
 .L_0600A156:
     cmp/eq r13, r4
@@ -70,13 +71,15 @@ FUN_0600A10E:
     cmp/eq #0x1, r0
     bt .L_0600A18A
 .L_0600A186:
-    .byte 0xA0, 0x30  /* 0600A186: bra 0x0600A1EA */
+    .reloc ., R_SH_IND12W, FUN_0600A1EA - 4
+    .2byte 0xA000    /* bra FUN_0600A1EA (linker-resolved) */
     mov #-0x7, r0
 .L_0600A18A:
     mov #0x18, r2
     cmp/ge r2, r12
     bf .L_0600A1A0
-    .byte 0xA0, 0x2B  /* 0600A190: bra 0x0600A1EA */
+    .reloc ., R_SH_IND12W, FUN_0600A1EA - 4
+    .2byte 0xA000    /* bra FUN_0600A1EA (linker-resolved) */
     mov #-0x8, r0
     .byte 0x03, 0x60  /* 0600A194: .word 0x0360 */
     .byte 0x03, 0x64  /* 0600A196: mov.b r6,@(r0,r3) */

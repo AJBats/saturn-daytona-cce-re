@@ -8,6 +8,8 @@ FUN_0600473C:
     jsr @r2
     mov #0x3C, r4
     add #0x8, r15
+    .global FUN_06004744
+FUN_06004744:
     add #0x14, r15
     lds.l @r15+, pr
     mov.l @r15+, r8

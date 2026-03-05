@@ -32,7 +32,8 @@ FUN_06004538:
     bra .L_06004572
     nop
 .L_0600456A:
-    .byte 0xB0, 0x0E  /* 0600456A: bsr 0x0600458A */
+    .reloc ., R_SH_IND12W, FUN_0600458A - 4
+    .2byte 0xB000    /* bsr FUN_0600458A (linker-resolved) */
     nop
     bra .L_06004580
     nop
@@ -42,7 +43,8 @@ FUN_06004538:
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf .L_06004580
-    .byte 0xB0, 0x05  /* 0600457C: bsr 0x0600458A */
+    .reloc ., R_SH_IND12W, FUN_0600458A - 4
+    .2byte 0xB000    /* bsr FUN_0600458A (linker-resolved) */
     nop
 .L_06004580:
     .byte 0xD3, 0x28  /* 06004580: mov.l @(0xA0,PC),r3  {[0x06004624] = 0x0600026C} */

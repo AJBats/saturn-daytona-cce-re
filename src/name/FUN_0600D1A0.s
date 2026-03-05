@@ -10,7 +10,8 @@ FUN_0600D1A0:
     mov.l @(4, r10), r0
     mov.l r0, @(4, r11)
     add #0x8, r11
-    .byte 0xB0, 0x30  /* 0600D1AC: bsr 0x0600D210 */
+    .reloc ., R_SH_IND12W, FUN_0600D210 - 4
+    .2byte 0xB000    /* bsr FUN_0600D210 (linker-resolved) */
     mov r9, r3
     mov.b @(153, gbr), r0
     add #0x2, r0

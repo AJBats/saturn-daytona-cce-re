@@ -22,14 +22,16 @@ FUN_06009FD6:
     tst r3, r3
     bf .L_06009FFC
 .L_06009FF8:
-    .byte 0xA0, 0x19  /* 06009FF8: bra 0x0600A02E */
+    .reloc ., R_SH_IND12W, FUN_0600A02E - 4
+    .2byte 0xA000    /* bra FUN_0600A02E (linker-resolved) */
     mov #-0x7, r0
 .L_06009FFC:
     .byte 0x90, 0x63  /* 06009FFC: mov.w @(0xC6,PC),r0  {0x0600A0C6} */
     mov.l @(r0, r13), r1
     tst r1, r1
     bt .L_0600A008
-    .byte 0xA0, 0x13  /* 0600A004: bra 0x0600A02E */
+    .reloc ., R_SH_IND12W, FUN_0600A02E - 4
+    .2byte 0xA000    /* bra FUN_0600A02E (linker-resolved) */
     mov #-0x1, r0
 .L_0600A008:
     .byte 0x90, 0x5D  /* 0600A008: mov.w @(0xBA,PC),r0  {0x0600A0C6} */

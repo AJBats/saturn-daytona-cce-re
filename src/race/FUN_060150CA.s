@@ -40,7 +40,8 @@ FUN_060150CA:
     bf/s .L_06015136
     mov.l @r3, r5
     mov r14, r6
-    .byte 0xB2, 0x23  /* 0601510E: bsr 0x06015558 */
+    .reloc ., R_SH_IND12W, FUN_06015558 - 4
+    .2byte 0xB000    /* bsr FUN_06015558 (linker-resolved) */
     mov #0x0, r4
     mov #0x1E, r0
     mov.b @r13, r6
@@ -56,13 +57,15 @@ FUN_060150CA:
     mov.b @(r0, r6), r6
     neg r6, r6
     add r14, r6
-    .byte 0xB2, 0x13  /* 0601512E: bsr 0x06015558 */
+    .reloc ., R_SH_IND12W, FUN_06015558 - 4
+    .2byte 0xB000    /* bsr FUN_06015558 (linker-resolved) */
     mov #0x1, r4
     bra .L_06015164
     nop
 .L_06015136:
     mov r14, r6
-    .byte 0xB2, 0x0E  /* 06015138: bsr 0x06015558 */
+    .reloc ., R_SH_IND12W, FUN_06015558 - 4
+    .2byte 0xB000    /* bsr FUN_06015558 (linker-resolved) */
     mov #0x0, r4
     .byte 0xD3, 0x25  /* 0601513C: mov.l @(0x94,PC),r3  {[0x060151D4] = 0x002FC233} */
     mov.b @r3, r0
@@ -82,7 +85,8 @@ FUN_060150CA:
     mov.b @(r0, r6), r6
     neg r6, r6
     add r14, r6
-    .byte 0xB1, 0xFA  /* 06015160: bsr 0x06015558 */
+    .reloc ., R_SH_IND12W, FUN_06015558 - 4
+    .2byte 0xB000    /* bsr FUN_06015558 (linker-resolved) */
     mov #0x1, r4
 .L_06015164:
     .byte 0xD3, 0x1C  /* 06015164: mov.l @(0x70,PC),r3  {[0x060151D8] = 0x0605160A} */
@@ -283,7 +287,8 @@ FUN_060150CA:
     mov.l r2, @(r0, r14)
     mov #0x4C, r0
     mov.l r2, @(r0, r14)
-    .byte 0xB3, 0xCA  /* 060152E0: bsr 0x06015A78 */
+    .reloc ., R_SH_IND12W, FUN_06015A78 - 4
+    .2byte 0xB000    /* bsr FUN_06015A78 (linker-resolved) */
     mov r14, r4
     mov.w .L_wpool_06015410, r1
     add r14, r1
@@ -332,7 +337,8 @@ FUN_060150CA:
     mov.w .L_wpool_06015414, r3
     add r14, r3
     mov.l r0, @r3
-    .byte 0xB0, 0xC4  /* 06015342: bsr 0x060154CE */
+    .reloc ., R_SH_IND12W, FUN_060154CE - 4
+    .2byte 0xB000    /* bsr FUN_060154CE (linker-resolved) */
     mov r14, r4
     add #-0x8, r15
     mov.b @r13, r0
@@ -367,7 +373,8 @@ FUN_060150CA:
     .byte 0xD2, 0x2B  /* 06015382: mov.l @(0xAC,PC),r2  {[0x06015430] = 0x0604CE64} */
     jsr @r2
     nop
-    .byte 0xB3, 0xB0  /* 06015388: bsr 0x06015AEC */
+    .reloc ., R_SH_IND12W, FUN_06015AEC - 4
+    .2byte 0xB000    /* bsr FUN_06015AEC (linker-resolved) */
     mov r0, r4
     mov #0x74, r1
     add r14, r1

@@ -26,6 +26,8 @@ FUN_06003F8C:
 .L_06003FAE:
     bt .L_06003FB2
     mov r0, r4
+    .global FUN_06003FB2
+FUN_06003FB2:
 .L_06003FB2:
     mov.w @(0, r11), r0
     cmp/gt r1, r0

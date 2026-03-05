@@ -10,7 +10,8 @@ FUN_06005E8C:
     mov r14, r6
     mov.l r2, @-r15
     mov.l r3, @-r15
-    .byte 0xA0, 0x0F  /* 06005E98: bra 0x06005EBA */
+    .reloc ., R_SH_IND12W, FUN_06005EBA - 4
+    .2byte 0xA000    /* bra FUN_06005EBA (linker-resolved) */
     mov r10, r5
     .byte 0xD3, 0x2E  /* 06005E9C: mov.l @(0xB8,PC),r3  {[0x06005F58] = 0x002CD2F8} */
     .byte 0x66, 0x32  /* 06005E9E: mov.l @r3,r6 */

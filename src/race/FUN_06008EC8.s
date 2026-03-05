@@ -25,7 +25,8 @@ FUN_06008EC8:
     bt .L_06008F44
     cmp/eq #0x4, r0
     bt .L_06008F44
-    .byte 0xA0, 0x7A  /* 06008EF2: bra 0x06008FEA */
+    .reloc ., R_SH_IND12W, FUN_06008FEA - 4
+    .2byte 0xA000    /* bra FUN_06008FEA (linker-resolved) */
     nop
 .L_06008EF6:
     .byte 0xD1, 0x1F  /* 06008EF6: mov.l @(0x7C,PC),r1  {[0x06008F74] = 0x0605492A} */
@@ -69,7 +70,8 @@ FUN_06008EC8:
     mov #0x5C, r0
     mov.l @r1, r2
     mov.l r3, @(r0, r2)
-    .byte 0xA0, 0x53  /* 06008F40: bra 0x06008FEA */
+    .reloc ., R_SH_IND12W, FUN_06008FEA - 4
+    .2byte 0xA000    /* bra FUN_06008FEA (linker-resolved) */
     nop
 .L_06008F44:
     mov.b @r12, r0

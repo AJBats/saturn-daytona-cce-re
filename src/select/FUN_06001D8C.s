@@ -11,7 +11,8 @@ FUN_06001D8C:
     mov r6, r0
     mov.b r0, @(8, r15)
     mov.b @r15, r4
-    .byte 0xBB, 0x41  /* 06001D9A: bsr 0x06001420 */
+    .reloc ., R_SH_IND12W, FUN_06001420 - 4
+    .2byte 0xB000    /* bsr FUN_06001420 (linker-resolved) */
     nop
     extu.b r0, r0
     mov #0xA, r2
@@ -37,7 +38,8 @@ FUN_06001D8C:
     mov.l r2, @-r15
     mov #0x1C, r0
     mov.b @(r0, r15), r4
-    .byte 0xBB, 0x27  /* 06001DCE: bsr 0x06001420 */
+    .reloc ., R_SH_IND12W, FUN_06001420 - 4
+    .2byte 0xB000    /* bsr FUN_06001420 (linker-resolved) */
     nop
     extu.b r0, r0
     .byte 0xD4, 0x23  /* 06001DD4: mov.l @(0x8C,PC),r4  {[0x06001E64] = 0x002DDD20} */
@@ -47,7 +49,8 @@ FUN_06001D8C:
     shll r0
     sub r3, r0
     mov r0, r6
-    .byte 0xB9, 0x7A  /* 06001DE2: bsr 0x060010DA */
+    .reloc ., R_SH_IND12W, FUN_060010DA - 4
+    .2byte 0xB000    /* bsr FUN_060010DA (linker-resolved) */
     mov #0x5, r7
     add #0x1C, r15
 .L_06001DE8:

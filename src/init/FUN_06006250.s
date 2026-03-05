@@ -7,7 +7,8 @@ FUN_06006250:
     sts.l pr, @-r15
     tst r4, r4
     bt .L_06006296
-    .byte 0xBF, 0xBF  /* 06006256: bsr 0x060061D8 */
+    .reloc ., R_SH_IND12W, FUN_060061D8 - 4
+    .2byte 0xB000    /* bsr FUN_060061D8 (linker-resolved) */
     nop
     cmp/eq #-0x1, r0
     bt/s .L_06006296

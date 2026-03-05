@@ -99,7 +99,8 @@ FUN_0600680C:
     mov.w @r1, r2
     mov.w r2, @r14
 .L_060068CC:
-    .byte 0xB0, 0x12  /* 060068CC: bsr 0x060068F4 */
+    .reloc ., R_SH_IND12W, FUN_060068F4 - 4
+    .2byte 0xB000    /* bsr FUN_060068F4 (linker-resolved) */
     nop
     mov.w @r14, r6
     extu.w r6, r6

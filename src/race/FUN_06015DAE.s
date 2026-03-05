@@ -58,7 +58,8 @@ FUN_06015DAE:
 .L_06015E0C:
     mov #0x9, r14
 .L_06015E0E:
-    .byte 0xB0, 0x2B  /* 06015E0E: bsr 0x06015E68 */
+    .reloc ., R_SH_IND12W, FUN_06015E68 - 4
+    .2byte 0xB000    /* bsr FUN_06015E68 (linker-resolved) */
     nop
     cmp/pz r0
     bt .L_06015E1A

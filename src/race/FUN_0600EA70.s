@@ -9,7 +9,8 @@ FUN_0600EA70:
     shll2 r4
     shll2 r4
     shll2 r5
-    .byte 0xBF, 0x2B  /* 0600EA7A: bsr 0x0600E8D4 */
+    .reloc ., R_SH_IND12W, FUN_0600E8D4 - 4
+    .2byte 0xB000    /* bsr FUN_0600E8D4 (linker-resolved) */
     shll2 r5
     tst r0, r0
     bt .L_0600EAA2
@@ -18,12 +19,14 @@ FUN_0600EA70:
     mov.w r0, @(16, r7)
     cmp/eq #0x0, r0
     bf .L_0600EA94
-    .byte 0xBF, 0x5C  /* 0600EA8C: bsr 0x0600E948 */
+    .reloc ., R_SH_IND12W, FUN_0600E948 - 4
+    .2byte 0xB000    /* bsr FUN_0600E948 (linker-resolved) */
     or r8, r11
     bra .L_0600EA9A
     nop
 .L_0600EA94:
-    .byte 0xBF, 0x3E  /* 0600EA94: bsr 0x0600E914 */
+    .reloc ., R_SH_IND12W, FUN_0600E914 - 4
+    .2byte 0xB000    /* bsr FUN_0600E914 (linker-resolved) */
     nop
     mov.l @(28, r3), r0
 .L_0600EA9A:

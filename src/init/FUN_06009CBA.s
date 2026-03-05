@@ -37,7 +37,8 @@ FUN_06009CBA:
     add #0x4, r0
     mov.l r4, @(r0, r2)
     mov r15, r4
-    .byte 0xB4, 0xA6  /* 06009CF8: bsr 0x0600A648 */
+    .reloc ., R_SH_IND12W, FUN_0600A648 - 4
+    .2byte 0xB000    /* bsr FUN_0600A648 (linker-resolved) */
     nop
     mov #0x0, r0
     add #0x4, r15

@@ -80,7 +80,8 @@ FUN_0601AE14:
     mov #0x58, r0
     mov.l @r8+, r3
     mov.l r3, @(r0, r14)
-    .byte 0xBF, 0x8E  /* 0601AEA4: bsr 0x0601ADC4 */
+    .reloc ., R_SH_IND12W, FUN_0601ADC4 - 4
+    .2byte 0xB000    /* bsr FUN_0601ADC4 (linker-resolved) */
     mov r14, r4
     mov.l @r10+, r3
     mov r14, r2

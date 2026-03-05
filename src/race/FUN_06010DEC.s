@@ -37,7 +37,8 @@ FUN_06010DEC:
     mov #0x1B, r6
 .L_06010E28:
     mov #0x0, r5
-    .byte 0xB6, 0x3B  /* 06010E2A: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     bra .L_06010E4E
     nop
@@ -50,7 +51,8 @@ FUN_06010DEC:
     bf .L_06010E4E
     mov #0x3, r6
     mov #0x0, r5
-    .byte 0xB6, 0x2F  /* 06010E42: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
@@ -98,7 +100,8 @@ FUN_06010DEC:
     mov #0x1C, r6
 .L_06010E98:
     mov #0x0, r5
-    .byte 0xB6, 0x03  /* 06010E9A: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     bra .L_06010ED0
     nop
@@ -123,7 +126,8 @@ FUN_06010DEC:
     bf .L_06010ED0
     mov #0x4, r6
     mov #0x0, r5
-    .byte 0xB5, 0xEE  /* 06010EC4: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
@@ -170,7 +174,8 @@ FUN_06010DEC:
     mov #0x1B, r6
 .L_06010F18:
     mov #0x0, r5
-    .byte 0xB5, 0xC3  /* 06010F1A: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     bra .L_06010F3E
     nop
@@ -183,7 +188,8 @@ FUN_06010DEC:
     bf .L_06010F3E
     mov #0x3, r6
     mov #0x0, r5
-    .byte 0xB5, 0xB7  /* 06010F32: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0
@@ -230,7 +236,8 @@ FUN_06010DEC:
     mov #0x1C, r6
 .L_06010F86:
     mov #0x0, r5
-    .byte 0xB5, 0x8C  /* 06010F88: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     bra .L_06010FBA
     nop
@@ -257,7 +264,8 @@ FUN_06010DEC:
     bf .L_06010FBA
     mov #0x4, r6
     mov #0x0, r5
-    .byte 0xB5, 0x79  /* 06010FAE: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     mov #0x12, r0
     mov.b @(r0, r14), r0

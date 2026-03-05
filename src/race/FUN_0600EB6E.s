@@ -29,7 +29,8 @@ FUN_0600EB6E:
     mov r6, r5
     mov r7, r6
     mov r1, r7
-    .byte 0xBF, 0x84  /* 0600EB9C: bsr 0x0600EAA8 */
+    .reloc ., R_SH_IND12W, FUN_0600EAA8 - 4
+    .2byte 0xB000    /* bsr FUN_0600EAA8 (linker-resolved) */
     nop
     mov.l @r15+, r14
     mov.l @r15+, r13

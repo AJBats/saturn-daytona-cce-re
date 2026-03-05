@@ -9,9 +9,12 @@ FUN_06017508:
     add r14, r4
     mov.l @(0, r4), r1
     mov.l @(8, r4), r3
+    .global FUN_06017512
+FUN_06017512:
     mov.w @(146, gbr), r0
     mov.l r0, @-r15
-    .byte 0xBD, 0xCD  /* 06017516: bsr 0x060170B4 */
+    .reloc ., R_SH_IND12W, FUN_060170B4 - 4
+    .2byte 0xB000    /* bsr FUN_060170B4 (linker-resolved) */
     extu.w r0, r6
     mov.l @(0, r14), r2
     mov.l @(8, r14), r4
@@ -24,5 +27,6 @@ FUN_06017508:
     mov r10, r7
     mov.l @r15+, r5
     lds.l @r15+, pr
-    .byte 0xAB, 0xDE  /* 06017530: bra 0x06016CF0 */
+    .reloc ., R_SH_IND12W, FUN_06016CF0 - 4
+    .2byte 0xA000    /* bra FUN_06016CF0 (linker-resolved) */
     mov.l r0, @(76, gbr)

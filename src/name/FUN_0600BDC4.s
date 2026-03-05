@@ -36,6 +36,8 @@ FUN_0600BDC4:
     .byte 0x00, 0x0B  /* 0600BDF6: rts */
     .byte 0x00, 0x09  /* 0600BDF8: nop */
     .byte 0x68, 0x6B  /* 0600BDFA: neg r6,r8 */
+    .global FUN_0600BDFC
+FUN_0600BDFC:
     .byte 0x57, 0xD1  /* 0600BDFC: mov.l @(0x4,r13),r7 */
     .byte 0xC9, 0x0E  /* 0600BDFE: and #0x0E,r0 */
     .byte 0x56, 0xC1  /* 0600BE00: mov.l @(0x4,r12),r6 */

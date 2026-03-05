@@ -26,6 +26,8 @@ FUN_0601EB70:
 .L_0601EB92:
     bt .L_0601EB96
     mov r0, r4
+    .global FUN_0601EB96
+FUN_0601EB96:
 .L_0601EB96:
     mov.w @(0, r11), r0
     cmp/gt r1, r0

@@ -7,6 +7,8 @@ FUN_0600ECB4:
     mov.l .L_pool_0600ECFC, r2
     jsr @r2
     mov r8, r9
+    .global FUN_0600ECBA
+FUN_0600ECBA:
     mov r9, r0
     lds.l @r15+, pr
     mov.l @r15+, r8

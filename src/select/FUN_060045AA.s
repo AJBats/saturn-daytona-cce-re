@@ -7,7 +7,8 @@ FUN_060045AA:
     mov.l r14, @-r15
     jsr @r2
     mov #0x3E, r4
-    .byte 0xA0, 0xC8  /* 060045B0: bra 0x06004744 */
+    .reloc ., R_SH_IND12W, FUN_06004744 - 4
+    .2byte 0xA000    /* bra FUN_06004744 (linker-resolved) */
     add #0x8, r15
     .byte 0x92, 0x2B  /* 060045B4: mov.w @(0x56,PC),r2  {0x0600460E} */
     .byte 0xE7, 0x26  /* 060045B6: mov #38,r7 */

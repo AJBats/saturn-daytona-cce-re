@@ -13,7 +13,8 @@ FUN_06004EC0:
     and r3, r0
     or #0xF0, r0
     ldc r0, sr
-    .byte 0xB0, 0x0E  /* 06004ED2: bsr 0x06004EF2 */
+    .reloc ., R_SH_IND12W, FUN_06004EF2 - 4
+    .2byte 0xB000    /* bsr FUN_06004EF2 (linker-resolved) */
     nop
     mov r0, r4
     .byte 0x92, 0x27  /* 06004ED8: mov.w @(0x4E,PC),r2  {0x06004F2A} */

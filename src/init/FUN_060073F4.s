@@ -19,13 +19,15 @@ FUN_060073F4:
     .byte 0xD2, 0x20  /* 0600740C: mov.l @(0x80,PC),r2  {[0x06007490] = 0x060136AC} */
     mov.l @r2, r3
     mov.l r3, @(20, r15)
-    .byte 0xB0, 0x0C  /* 06007412: bsr 0x0600742E */
+    .reloc ., R_SH_IND12W, FUN_0600742E - 4
+    .2byte 0xB000    /* bsr FUN_0600742E (linker-resolved) */
     nop
     extu.b r0, r0
     tst r0, r0
     bt .L_06007426
     mov r15, r4
-    .byte 0xB0, 0x06  /* 0600741E: bsr 0x0600742E */
+    .reloc ., R_SH_IND12W, FUN_0600742E - 4
+    .2byte 0xB000    /* bsr FUN_0600742E (linker-resolved) */
     nop
     extu.b r0, r0
     tst r0, r0

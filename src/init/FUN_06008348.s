@@ -27,7 +27,8 @@ FUN_06008348:
     bra .L_060083A6
     nop
 .L_06008370:
-    .byte 0xB0, 0x8B  /* 06008370: bsr 0x0600848A */
+    .reloc ., R_SH_IND12W, FUN_0600848A - 4
+    .2byte 0xB000    /* bsr FUN_0600848A (linker-resolved) */
     mov r13, r4
     mov.l @(12, r14), r0
     tst r0, r0

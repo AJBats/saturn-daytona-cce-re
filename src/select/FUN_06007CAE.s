@@ -13,7 +13,8 @@ FUN_06007CAE:
     mov.l r8, @-r15
     sts.l pr, @-r15
     add #-0x14, r15
-    .byte 0xB0, 0xE8  /* 06007CC0: bsr 0x06007E94 */
+    .reloc ., R_SH_IND12W, FUN_06007E94 - 4
+    .2byte 0xB000    /* bsr FUN_06007E94 (linker-resolved) */
     mov r4, r13
     .byte 0xDE, 0x1B  /* 06007CC4: mov.l @(0x6C,PC),r14  {[0x06007D34] = 0x002FC230} */
     mov #0x0, r0

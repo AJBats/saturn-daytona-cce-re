@@ -184,7 +184,8 @@ FUN_06003AD2:
     mov r15, r6
     add #0x4, r6
     mov r15, r5
-    .byte 0xB0, 0xCD  /* 06003C3E: bsr 0x06003DDC */
+    .reloc ., R_SH_IND12W, FUN_06003DDC - 4
+    .2byte 0xB000    /* bsr FUN_06003DDC (linker-resolved) */
     mov r14, r4
 .L_06003C42:
     mov.w @(8, r14), r0

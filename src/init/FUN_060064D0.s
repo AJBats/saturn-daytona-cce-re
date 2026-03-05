@@ -71,7 +71,8 @@ FUN_060064D0:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA1, 0x1B  /* 0600654E: bra 0x06006788 */
+    .reloc ., R_SH_IND12W, FUN_06006788 - 4
+    .2byte 0xA000    /* bra FUN_06006788 (linker-resolved) */
     mov.l @r15+, r14
 .L_06006552:
     add #0x4, r15

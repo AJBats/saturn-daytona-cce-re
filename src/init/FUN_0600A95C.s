@@ -18,6 +18,8 @@ FUN_0600A95C:
     mov.w .L_wpool_0600A984, r0
     mov.l r11, @(r0, r3)
     mov r11, r0
+    .global FUN_0600A976
+FUN_0600A976:
 .L_0600A976:
     add #0x4, r15
     lds.l @r15+, pr

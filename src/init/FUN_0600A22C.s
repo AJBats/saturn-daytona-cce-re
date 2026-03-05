@@ -17,7 +17,8 @@ FUN_0600A22C:
 .L_0600A240:
     mov.w .L_wpool_0600A28C, r12
 .L_0600A242:
-    .byte 0xB5, 0xEA  /* 0600A242: bsr 0x0600AE1A */
+    .reloc ., R_SH_IND12W, FUN_0600AE1A - 4
+    .2byte 0xB000    /* bsr FUN_0600AE1A (linker-resolved) */
     mov r12, r4
     tst r0, r0
     bt .L_0600A242
@@ -87,9 +88,12 @@ FUN_0600A22C:
     or #0x1, r0
     mov.b r0, @(11, r13)
 .L_0600A2C2:
-    .byte 0xB5, 0xF9  /* 0600A2C2: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
     mov #0x0, r0
+    .global FUN_0600A2C8
+FUN_0600A2C8:
 .L_0600A2C8:
     add #0xC, r15
     lds.l @r15+, pr

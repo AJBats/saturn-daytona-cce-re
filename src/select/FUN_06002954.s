@@ -464,7 +464,8 @@ FUN_06002954:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA0, 0x04  /* 06002CD0: bra 0x06002CDC */
+    .reloc ., R_SH_IND12W, FUN_06002CDC - 4
+    .2byte 0xA000    /* bra FUN_06002CDC (linker-resolved) */
     mov.l @r15+, r14
 .L_wpool_06002CD4:
     .byte 0x03, 0xC0  /* 06002CD4: .word 0x03C0 */

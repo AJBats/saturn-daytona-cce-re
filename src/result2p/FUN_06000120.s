@@ -73,7 +73,8 @@ FUN_06000120:
     bra .L_060003F2
     mov.b r0, @(2, r14)
 .L_0600019A:
-    .byte 0xB2, 0xE3  /* 0600019A: bsr 0x06000764 */
+    .reloc ., R_SH_IND12W, FUN_06000764 - 4
+    .2byte 0xB000    /* bsr FUN_06000764 (linker-resolved) */
     nop
     mov r13, r0
     mov.l .L_pool_06000228, r2
@@ -267,7 +268,8 @@ FUN_06000120:
     bra .L_060003F2
     mov.b r0, @(2, r14)
 .L_06000302:
-    .byte 0xB1, 0xE9  /* 06000302: bsr 0x060006D8 */
+    .reloc ., R_SH_IND12W, FUN_060006D8 - 4
+    .2byte 0xB000    /* bsr FUN_060006D8 (linker-resolved) */
     mov r14, r4
     tst r0, r0
     bt .L_060003F2

@@ -38,7 +38,8 @@ FUN_060006D8:
     tst r2, r2
     bf .L_06000732
     mov #0x1, r5
-    .byte 0xB2, 0xFA  /* 0600071A: bsr 0x06000D12 */
+    .reloc ., R_SH_IND12W, FUN_06000D12 - 4
+    .2byte 0xB000    /* bsr FUN_06000D12 (linker-resolved) */
     mov r14, r4
     mov #0x3, r6
     .byte 0xD2, 0x30  /* 06000720: mov.l @(0xC0,PC),r2  {[0x060007E4] = 0x002FC21C} */

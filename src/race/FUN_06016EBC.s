@@ -93,7 +93,8 @@ FUN_06016EBC:
     sts macl, r4
     add r9, r0
     xtrct r1, r4
-    .byte 0xA0, 0x0E  /* 06016F66: bra 0x06016F86 */
+    .reloc ., R_SH_IND12W, FUN_06016F86 - 4
+    .2byte 0xA000    /* bra FUN_06016F86 (linker-resolved) */
     mov #0x0, r1
 .L_06016F6A:
     mov.l @r2, r4

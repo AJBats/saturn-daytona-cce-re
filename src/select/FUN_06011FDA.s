@@ -5,9 +5,11 @@
     .type FUN_06011FDA, @function
 FUN_06011FDA:
     sts.l pr, @-r15
-    .byte 0xB0, 0x1E  /* 06011FDC: bsr 0x0601201C */
+    .reloc ., R_SH_IND12W, FUN_0601201C - 4
+    .2byte 0xB000    /* bsr FUN_0601201C (linker-resolved) */
     neg r8, r3
-    .byte 0xB0, 0x1C  /* 06011FE0: bsr 0x0601201C */
+    .reloc ., R_SH_IND12W, FUN_0601201C - 4
+    .2byte 0xB000    /* bsr FUN_0601201C (linker-resolved) */
     mov r8, r3
     mov.b @(154, gbr), r0
     add #0x2, r0

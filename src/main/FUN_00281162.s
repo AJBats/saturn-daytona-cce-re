@@ -27,6 +27,8 @@ FUN_00281162:
     shll2 r1
     add r2, r1
     mov.l r1, @r9
+    .global FUN_0028118E
+FUN_0028118E:
 .L_0028118E:
     .byte 0xD0, 0x05  /* 0028118E: mov.l @(0x14,PC),r0  {[0x002811A4] = 0x00281E18} */
     jsr @r0

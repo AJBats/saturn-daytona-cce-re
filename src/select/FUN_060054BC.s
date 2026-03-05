@@ -18,7 +18,8 @@ FUN_060054BC:
     mov.b @r14, r3
     tst r3, r3
     bf .L_060054DE
-    .byte 0xBF, 0xA3  /* 060054D6: bsr 0x06005420 */
+    .reloc ., R_SH_IND12W, FUN_06005420 - 4
+    .2byte 0xB000    /* bsr FUN_06005420 (linker-resolved) */
     nop
     bra .L_060054EA
     nop
@@ -27,7 +28,8 @@ FUN_060054BC:
     extu.b r0, r0
     cmp/eq #0x14, r0
     bf .L_060054EA
-    .byte 0xBF, 0x82  /* 060054E6: bsr 0x060053EE */
+    .reloc ., R_SH_IND12W, FUN_060053EE - 4
+    .2byte 0xB000    /* bsr FUN_060053EE (linker-resolved) */
     nop
 .L_060054EA:
     mov.b @r14, r3

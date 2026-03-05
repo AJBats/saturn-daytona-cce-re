@@ -48,7 +48,8 @@ FUN_060127C0:
     mov r0, r2
     mov.l @r15+, r0
     extu.w r1, r1
-    .byte 0xB1, 0x7F  /* 06012812: bsr 0x06012B14 */
+    .reloc ., R_SH_IND12W, FUN_06012B14 - 4
+    .2byte 0xB000    /* bsr FUN_06012B14 (linker-resolved) */
     nop
     cmp/gt r1, r4
     bt .L_0601281E
@@ -451,6 +452,8 @@ FUN_060127C0:
     .byte 0xD9, 0x15  /* 06012AF8: mov.l @(0x54,PC),r9  {[0x06012B50] = 0x0603F4BE} */
     .byte 0x49, 0x0B  /* 06012AFA: jsr @r9 */
     .byte 0x00, 0x09  /* 06012AFC: nop */
+    .global FUN_06012AFE
+FUN_06012AFE:
 .L_06012AFE:
     lds.l @r15+, pr
     mov.l @r15+, r14

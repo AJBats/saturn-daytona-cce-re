@@ -16,7 +16,8 @@ FUN_002813E8:
     bf/s .L_00281404
     mov #0x0, r12
     .byte 0xD0, 0x32  /* 002813FE: mov.l @(0xC8,PC),r0  {[0x002814C8] = 0x00281E18} */
-    .byte 0xA0, 0x55  /* 00281400: bra 0x002814AE */
+    .reloc ., R_SH_IND12W, FUN_002814AE - 4
+    .2byte 0xA000    /* bra FUN_002814AE (linker-resolved) */
     mov #-0xB, r4
 .L_00281404:
     mov r8, r13
@@ -37,7 +38,8 @@ FUN_002813E8:
     bt/s .L_0028142A
     mov #-0x11, r4
     .byte 0xD0, 0x28  /* 00281424: mov.l @(0xA0,PC),r0  {[0x002814C8] = 0x00281E18} */
-    .byte 0xA0, 0x42  /* 00281426: bra 0x002814AE */
+    .reloc ., R_SH_IND12W, FUN_002814AE - 4
+    .2byte 0xA000    /* bra FUN_002814AE (linker-resolved) */
     nop
 .L_0028142A:
     mov.l @(4, r8), r1

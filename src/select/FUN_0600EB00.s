@@ -27,15 +27,18 @@ FUN_0600EB00:
     mov #0x1, r8
     cmp/eq #0x1, r0
     bf .L_0600EB30
-    .byte 0xA0, 0xB8  /* 0600EB2C: bra 0x0600ECA0 */
+    .reloc ., R_SH_IND12W, FUN_0600ECA0 - 4
+    .2byte 0xA000    /* bra FUN_0600ECA0 (linker-resolved) */
     nop
 .L_0600EB30:
     cmp/eq #0x2, r0
     bf .L_0600EB38
-    .byte 0xA0, 0xBE  /* 0600EB34: bra 0x0600ECB4 */
+    .reloc ., R_SH_IND12W, FUN_0600ECB4 - 4
+    .2byte 0xA000    /* bra FUN_0600ECB4 (linker-resolved) */
     nop
 .L_0600EB38:
-    .byte 0xA0, 0xBF  /* 0600EB38: bra 0x0600ECBA */
+    .reloc ., R_SH_IND12W, FUN_0600ECBA - 4
+    .2byte 0xA000    /* bra FUN_0600ECBA (linker-resolved) */
     nop
 .L_0600EB3C:
     mov.l .L_pool_0600EBE4, r3

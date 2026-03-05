@@ -287,7 +287,8 @@ FUN_0600CF54:
     mov #0x2, r1
     mov.w r1, @(r0, r14)
 .L_0600D17A:
-    .byte 0xBE, 0x09  /* 0600D17A: bsr 0x0600CD90 */
+    .reloc ., R_SH_IND12W, FUN_0600CD90 - 4
+    .2byte 0xB000    /* bsr FUN_0600CD90 (linker-resolved) */
     mov r14, r4
     mov.l .L_pool_0600D1C4, r2
     jsr @r2

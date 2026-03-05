@@ -14,7 +14,8 @@ FUN_06005B86:
     mov.l r1, @-r15
     mov.l r13, @-r15
     mov.l @(r0, r15), r4
-    .byte 0xBA, 0xDA  /* 06005B9A: bsr 0x06005152 */
+    .reloc ., R_SH_IND12W, FUN_06005152 - 4
+    .2byte 0xB000    /* bsr FUN_06005152 (linker-resolved) */
     mov #0x0, r5
     mov r13, r7
     .byte 0xD3, 0x1A  /* 06005BA0: mov.l @(0x68,PC),r3  {[0x06005C0C] = 0x06008BB8} */
@@ -25,7 +26,8 @@ FUN_06005B86:
     mov r9, r1
     jsr @r3
     mov #0x64, r0
-    .byte 0xBF, 0x7C  /* 06005BB0: bsr 0x06005AAC */
+    .reloc ., R_SH_IND12W, FUN_06005AAC - 4
+    .2byte 0xB000    /* bsr FUN_06005AAC (linker-resolved) */
     mov r0, r4
     add #0x54, r15
     lds.l @r15+, pr

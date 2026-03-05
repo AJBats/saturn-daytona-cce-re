@@ -70,7 +70,8 @@ FUN_06007AF8:
     mov r0, r2
     mov.l r0, @-r15
     mov.w @r14, r7
-    .byte 0xBF, 0x8C  /* 06007B6C: bsr 0x06007A88 */
+    .reloc ., R_SH_IND12W, FUN_06007A88 - 4
+    .2byte 0xB000    /* bsr FUN_06007A88 (linker-resolved) */
     mov r6, r4
     add #0x8, r15
     lds.l @r15+, pr

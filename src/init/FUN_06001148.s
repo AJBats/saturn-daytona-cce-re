@@ -50,7 +50,8 @@ FUN_06001148:
     mov.l .L_pool_060011C8, r2
     jsr @r2
     nop
-    .byte 0xB0, 0x2E  /* 0600119C: bsr 0x060011FC */
+    .reloc ., R_SH_IND12W, FUN_060011FC - 4
+    .2byte 0xB000    /* bsr FUN_060011FC (linker-resolved) */
     nop
     mov.l .L_pool_060011F0, r4
     mov #0x0, r3

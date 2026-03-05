@@ -7,7 +7,8 @@ FUN_06008C90:
     mov r15, r6
     mov r15, r5
     add #0x8, r5
-    .byte 0xB2, 0x57  /* 06008C96: bsr 0x06009148 */
+    .reloc ., R_SH_IND12W, FUN_06009148 - 4
+    .2byte 0xB000    /* bsr FUN_06009148 (linker-resolved) */
     mov r13, r4
     tst r0, r0
     bf .L_06008CA4
@@ -137,6 +138,8 @@ FUN_06008C90:
     .byte 0xA0, 0x01  /* 06008D9C: bra 0x06008DA2 */
     .byte 0xE0, 0x02  /* 06008D9E: mov #2,r0 */
     .byte 0xE0, 0x02  /* 06008DA0: mov #2,r0 */
+    .global FUN_06008DA2
+FUN_06008DA2:
 .L_06008DA2:
     add #0x24, r15
     lds.l @r15+, pr

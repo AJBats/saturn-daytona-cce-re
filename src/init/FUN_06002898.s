@@ -14,7 +14,8 @@ FUN_06002898:
     mov #0x0, r1
     mov.l .L_pool_060028E4, r0
     mov.b r1, @r0
-    .byte 0xB0, 0xF0  /* 060028AC: bsr 0x06002A90 */
+    .reloc ., R_SH_IND12W, FUN_06002A90 - 4
+    .2byte 0xB000    /* bsr FUN_06002A90 (linker-resolved) */
     mov #0x6, r4
     mov.b @r15, r2
     mov #0xF, r1

@@ -41,7 +41,8 @@ FUN_06002048:
     tst r5, r5
     bt/s .L_060020B0
     nop
-    .byte 0xB4, 0xAE  /* 06002090: bsr 0x060029F0 */
+    .reloc ., R_SH_IND12W, FUN_060029F0 - 4
+    .2byte 0xB000    /* bsr FUN_060029F0 (linker-resolved) */
     nop
     tst r1, r1
     bt/s .L_060020AA

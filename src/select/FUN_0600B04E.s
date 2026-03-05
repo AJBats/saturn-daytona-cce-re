@@ -363,10 +363,12 @@ FUN_0600B04E:
     jsr @r1
     mov.b r3, @r0
     mov.l @r15, r4
-    .byte 0xB4, 0x6E  /* 0600B30E: bsr 0x0600BBEE */
+    .reloc ., R_SH_IND12W, FUN_0600BBEE - 4
+    .2byte 0xB000    /* bsr FUN_0600BBEE (linker-resolved) */
     mov.b @r4, r4
     .byte 0xD2, 0x1C  /* 0600B312: mov.l @(0x70,PC),r2  {[0x0600B384] = 0x060532A9} */
-    .byte 0xB5, 0x01  /* 0600B314: bsr 0x0600BD1A */
+    .reloc ., R_SH_IND12W, FUN_0600BD1A - 4
+    .2byte 0xB000    /* bsr FUN_0600BD1A (linker-resolved) */
     mov.b @r2, r4
     mov.l @r15, r0
     mov.b @r0, r0
@@ -436,7 +438,8 @@ FUN_0600B04E:
     .4byte sym_06034644  /* 0600B390 = 0x06034644 */
 .L_0600B394:
     mov.b @(2, r10), r0
-    .byte 0xB4, 0x6B  /* 0600B396: bsr 0x0600BC70 */
+    .reloc ., R_SH_IND12W, FUN_0600BC70 - 4
+    .2byte 0xB000    /* bsr FUN_0600BC70 (linker-resolved) */
     mov r0, r4
 .L_0600B39A:
     mov #0x0, r2
@@ -502,7 +505,8 @@ FUN_0600B04E:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA1, 0x8B  /* 0600B414: bra 0x0600B72E */
+    .reloc ., R_SH_IND12W, FUN_0600B72E - 4
+    .2byte 0xA000    /* bra FUN_0600B72E (linker-resolved) */
     mov.l @r15+, r14
 .L_0600B418:
     mov.w .L_wpool_0600B490, r2
@@ -770,14 +774,17 @@ FUN_0600B04E:
     mov #0x15, r0
     mov.l r0, @r1
 .L_0600B5FA:
-    .byte 0xB0, 0x98  /* 0600B5FA: bsr 0x0600B72E */
+    .reloc ., R_SH_IND12W, FUN_0600B72E - 4
+    .2byte 0xB000    /* bsr FUN_0600B72E (linker-resolved) */
     nop
     mov r10, r4
     mov.l r4, @r15
-    .byte 0xB2, 0xF4  /* 0600B602: bsr 0x0600BBEE */
+    .reloc ., R_SH_IND12W, FUN_0600BBEE - 4
+    .2byte 0xB000    /* bsr FUN_0600BBEE (linker-resolved) */
     mov.b @r4, r4
     .byte 0xD2, 0x2C  /* 0600B606: mov.l @(0xB0,PC),r2  {[0x0600B6B8] = 0x060532A9} */
-    .byte 0xB3, 0x87  /* 0600B608: bsr 0x0600BD1A */
+    .reloc ., R_SH_IND12W, FUN_0600BD1A - 4
+    .2byte 0xB000    /* bsr FUN_0600BD1A (linker-resolved) */
     mov.b @r2, r4
     mov.l @r15, r0
     mov.b @r0, r0
@@ -806,7 +813,8 @@ FUN_0600B04E:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA3, 0x16  /* 0600B640: bra 0x0600BC70 */
+    .reloc ., R_SH_IND12W, FUN_0600BC70 - 4
+    .2byte 0xA000    /* bra FUN_0600BC70 (linker-resolved) */
     mov.l @r15+, r14
 .L_0600B644:
     mov.l @r9, r1

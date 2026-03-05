@@ -5,12 +5,16 @@
     .type FUN_0601F262, @function
 FUN_0601F262:
     sts.l pr, @-r15
-    .byte 0xB0, 0x0A  /* 0601F264: bsr 0x0601F27C */
+    .reloc ., R_SH_IND12W, FUN_0601F27C - 4
+    .2byte 0xB000    /* bsr FUN_0601F27C (linker-resolved) */
     mov r8, r3
-    .byte 0xB0, 0x08  /* 0601F268: bsr 0x0601F27C */
+    .reloc ., R_SH_IND12W, FUN_0601F27C - 4
+    .2byte 0xB000    /* bsr FUN_0601F27C (linker-resolved) */
     neg r8, r3
     mov.b @(154, gbr), r0
     add #0x2, r0
+    .global FUN_0601F270
+FUN_0601F270:
     mov.b r0, @(154, gbr)
     lds.l @r15+, pr
     rts

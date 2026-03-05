@@ -15,7 +15,8 @@ FUN_0600581A:
     shll2 r5
     shll2 r5
     shll r5
-    .byte 0xBC, 0x0F  /* 06005830: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r3, r5
     .byte 0xD3, 0x60  /* 06005834: mov.l @(0x180,PC),r3  {[0x060059B8] = 0x06051CB5} */
     extu.w r12, r5
@@ -23,14 +24,18 @@ FUN_0600581A:
     shll2 r5
     shll2 r5
     add #0x21, r5
-    .byte 0xB0, 0xD6  /* 06005840: bsr 0x060059F0 */
+    .reloc ., R_SH_IND12W, FUN_060059F0 - 4
+    .2byte 0xB000    /* bsr FUN_060059F0 (linker-resolved) */
     add #0x1, r4
     extu.w r12, r5
     shll2 r5
     shll2 r5
     add #0x20, r5
-    .byte 0xB0, 0xD0  /* 0600584C: bsr 0x060059F0 */
+    .reloc ., R_SH_IND12W, FUN_060059F0 - 4
+    .2byte 0xB000    /* bsr FUN_060059F0 (linker-resolved) */
     mov #0x1, r4
+    .global FUN_06005850
+FUN_06005850:
     .byte 0xD4, 0x5A  /* 06005850: mov.l @(0x168,PC),r4  {[0x060059BC] = 0x002E1066} */
     mov #0x3, r7
     mov #0x12, r6
@@ -39,7 +44,8 @@ FUN_0600581A:
     shll2 r5
     shll2 r5
     shll r5
-    .byte 0xBB, 0xF7  /* 06005860: bsr 0x06005052 */
+    .reloc ., R_SH_IND12W, FUN_06005052 - 4
+    .2byte 0xB000    /* bsr FUN_06005052 (linker-resolved) */
     add r8, r5
     .byte 0xD0, 0x56  /* 06005864: mov.l @(0x158,PC),r0  {[0x060059C0] = 0x25E6A032} */
     mov #0x2, r7

@@ -105,7 +105,8 @@ FUN_0600BBD8:
     mov r14, r5
 .L_0600BCB2:
     mov.l @r15+, r13
-    .byte 0xA0, 0x03  /* 0600BCB4: bra 0x0600BCBE */
+    .reloc ., R_SH_IND12W, FUN_0600BCBE - 4
+    .2byte 0xA000    /* bra FUN_0600BCBE (linker-resolved) */
     mov.l @r15+, r14
 .L_0600BCB8:
     mov.l @r15+, r13

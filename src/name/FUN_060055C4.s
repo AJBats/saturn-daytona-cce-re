@@ -50,7 +50,8 @@ FUN_060055C4:
     mov.b r3, @(r0, r13)
     mov.l @(44, r15), r2
     mov.l r2, @-r15
-    .byte 0xBE, 0xA6  /* 0600561E: bsr 0x0600536E */
+    .reloc ., R_SH_IND12W, FUN_0600536E - 4
+    .2byte 0xB000    /* bsr FUN_0600536E (linker-resolved) */
     mov r13, r4
     add #0x18, r15
     lds.l @r15+, pr

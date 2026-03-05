@@ -9,7 +9,8 @@ FUN_060054E8:
     bf .L_060054F6
     mov #-0xB, r4
     add #0x4, r15
-    .byte 0xA6, 0x49  /* 060054F2: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     lds.l @r15+, pr
 .L_060054F6:
     add #0xC, r4
@@ -28,7 +29,8 @@ FUN_060054E8:
     jsr @r1
     nop
     mov.l r0, @r15
-    .byte 0xB6, 0x37  /* 06005516: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     mov #0x0, r4
     mov r0, r4
     cmp/pz r4

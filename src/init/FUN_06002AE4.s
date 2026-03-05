@@ -33,7 +33,8 @@ FUN_06002AE4:
     mov.b @r14, r2
     add #0x1, r2
     mov.b r2, @r14
-    .byte 0xBF, 0xB8  /* 06002B1C: bsr 0x06002A90 */
+    .reloc ., R_SH_IND12W, FUN_06002A90 - 4
+    .2byte 0xB000    /* bsr FUN_06002A90 (linker-resolved) */
     mov.b @r14, r4
     mov.b @r14, r0
     extu.b r0, r0
@@ -53,7 +54,8 @@ FUN_06002AE4:
     mov.b @r14, r2
     add #-0x1, r2
     mov.b r2, @r14
-    .byte 0xBF, 0xA5  /* 06002B42: bsr 0x06002A90 */
+    .reloc ., R_SH_IND12W, FUN_06002A90 - 4
+    .2byte 0xB000    /* bsr FUN_06002A90 (linker-resolved) */
     mov.b @r14, r4
     mov.b @r14, r2
     tst r2, r2

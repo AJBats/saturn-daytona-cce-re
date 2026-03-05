@@ -26,5 +26,7 @@ FUN_060085DE:
     lds.l @r15+, pr
     rts
     nop
+    .global FUN_06008608
+FUN_06008608:
     .byte 0x00, 0x0B  /* 06008608: rts */
     .byte 0xE0, 0x01  /* 0600860A: mov #1,r0 */

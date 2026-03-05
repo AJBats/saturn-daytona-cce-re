@@ -145,7 +145,8 @@ FUN_06010C64:
     bf .L_06010D72
     mov #0x12, r6
     mov #0x0, r5
-    .byte 0xB6, 0x99  /* 06010D6E: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
 .L_06010D72:
     mov.w .L_wpool_06010DC4, r0

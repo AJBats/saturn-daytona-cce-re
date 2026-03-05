@@ -9,7 +9,8 @@ FUN_0600A826:
     bra .L_0600A866
     mov #0x1, r0
 .L_0600A82E:
-    .byte 0xB3, 0x43  /* 0600A82E: bsr 0x0600AEB8 */
+    .reloc ., R_SH_IND12W, FUN_0600AEB8 - 4
+    .2byte 0xB000    /* bsr FUN_0600AEB8 (linker-resolved) */
     nop
     mov.l @r15, r2
     mov.w .L_wpool_0600A874, r0

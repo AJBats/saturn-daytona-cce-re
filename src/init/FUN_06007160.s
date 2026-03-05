@@ -21,6 +21,8 @@ FUN_06007160:
     .byte 0xC9, 0x80  /* 0600717A: and #0x80,r0 */
 .L_0600717C:
     mov.b r0, @r6
+    .global FUN_0600717E
+FUN_0600717E:
 .L_0600717E:
     lds.l @r15+, pr
     mov.l @r15+, r8

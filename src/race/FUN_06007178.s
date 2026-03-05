@@ -52,7 +52,8 @@ FUN_06007178:
     add r3, r6
     mov.l @(4, r15), r4
     add #0x14, r15
-    .byte 0xAA, 0x1E  /* 060071D0: bra 0x06006610 */
+    .reloc ., R_SH_IND12W, FUN_06006610 - 4
+    .2byte 0xA000    /* bra FUN_06006610 (linker-resolved) */
     lds.l @r15+, pr
     .byte 0xD2, 0x74  /* 060071D4: mov.l @(0x1D0,PC),r2  {[0x060073A8] = 0x0605492A} */
     .byte 0x74, 0x10  /* 060071D6: add #16,r4 */

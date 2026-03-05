@@ -27,6 +27,8 @@ FUN_00281634:
 .L_0028165A:
     mov.l @(8, r10), r10
     mov.l r10, @r9
+    .global FUN_0028165E
+FUN_0028165E:
 .L_0028165E:
     mov.l .L_pool_00281674, r0
     jsr @r0

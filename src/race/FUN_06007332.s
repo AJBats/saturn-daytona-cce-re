@@ -16,6 +16,8 @@ FUN_06007332:
     .byte 0xD2, 0x10  /* 06007344: mov.l @(0x40,PC),r2  {[0x06007388] = 0x0602D052} */
     jmp @r2
     lds.l @r15+, pr
+    .global FUN_0600734A
+FUN_0600734A:
     .byte 0xE2, 0x7F  /* 0600734A: mov #127,r2 */
     .byte 0xD1, 0x25  /* 0600734C: mov.l @(0x94,PC),r1  {[0x060073E4] = 0x25F80110} */
     .byte 0xE0, 0x00  /* 0600734E: mov #0,r0 */

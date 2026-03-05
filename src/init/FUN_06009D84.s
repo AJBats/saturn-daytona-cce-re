@@ -33,7 +33,8 @@ FUN_06009D84:
     .byte 0x52, 0xF3  /* 06009DB8: mov.l @(0xC,r15),r2 */
     .byte 0x90, 0x61  /* 06009DBA: mov.w @(0xC2,PC),r0  {0x06009E80} */
     .byte 0x03, 0x26  /* 06009DBC: mov.l r2,@(r0,r3) */
-    .byte 0xB4, 0x74  /* 06009DBE: bsr 0x0600A6AA */
+    .reloc ., R_SH_IND12W, FUN_0600A6AA - 4
+    .2byte 0xB000    /* bsr FUN_0600A6AA (linker-resolved) */
     .byte 0x00, 0x09  /* 06009DC0: nop */
     .byte 0xE0, 0x00  /* 06009DC2: mov #0,r0 */
     .byte 0x7F, 0x04  /* 06009DC4: add #4,r15 */

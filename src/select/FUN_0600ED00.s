@@ -47,5 +47,6 @@ FUN_0600ED00:
     bf .L_0600ED42
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte 0xA0, 0x00  /* 0600ED4E: bra 0x0600ED52 */
+    .reloc ., R_SH_IND12W, FUN_0600ED52 - 4
+    .2byte 0xA000    /* bra FUN_0600ED52 (linker-resolved) */
     mov.l @r15+, r14

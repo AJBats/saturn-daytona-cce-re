@@ -14,7 +14,8 @@ FUN_06008A8E:
     extu.b r3, r3
     add r12, r3
     mov.l r3, @r13
-    .byte 0xB9, 0x4A  /* 06008AA0: bsr 0x06007D38 */
+    .reloc ., R_SH_IND12W, FUN_06007D38 - 4
+    .2byte 0xB000    /* bsr FUN_06007D38 (linker-resolved) */
     mov r14, r4
     add #0x1, r14
     mov #0x74, r3
@@ -23,7 +24,8 @@ FUN_06008A8E:
     extu.b r3, r3
     add r12, r3
     mov.l r3, @r13
-    .byte 0xB9, 0x41  /* 06008AB2: bsr 0x06007D38 */
+    .reloc ., R_SH_IND12W, FUN_06007D38 - 4
+    .2byte 0xB000    /* bsr FUN_06007D38 (linker-resolved) */
     mov r14, r4
     add #0x1, r14
     extu.b r14, r3

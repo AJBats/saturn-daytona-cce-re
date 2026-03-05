@@ -16,7 +16,8 @@ FUN_060163E8:
     bf .L_06016408
     cmp/eq #0x4, r0
     bf .L_06016408
-    .byte 0xB0, 0x2B  /* 06016400: bsr 0x0601645A */
+    .reloc ., R_SH_IND12W, FUN_0601645A - 4
+    .2byte 0xB000    /* bsr FUN_0601645A (linker-resolved) */
     mov #0x0, r4
     bra .L_0601643A
     nop
@@ -25,7 +26,8 @@ FUN_060163E8:
     bf .L_06016418
     cmp/eq #0x4, r0
     bt .L_06016418
-    .byte 0xB0, 0x23  /* 06016410: bsr 0x0601645A */
+    .reloc ., R_SH_IND12W, FUN_0601645A - 4
+    .2byte 0xB000    /* bsr FUN_0601645A (linker-resolved) */
     mov #0x0, r4
     bra .L_0601643A
     nop
@@ -35,7 +37,8 @@ FUN_060163E8:
     bf .L_0601642A
     cmp/eq #0x3, r0
     bf .L_0601642A
-    .byte 0xB0, 0x1A  /* 06016422: bsr 0x0601645A */
+    .reloc ., R_SH_IND12W, FUN_0601645A - 4
+    .2byte 0xB000    /* bsr FUN_0601645A (linker-resolved) */
     mov #0x1, r4
     bra .L_0601643A
     nop
@@ -44,7 +47,8 @@ FUN_060163E8:
     bf .L_0601643A
     cmp/eq #0x0, r0
     bf .L_0601643A
-    .byte 0xB0, 0x12  /* 06016432: bsr 0x0601645A */
+    .reloc ., R_SH_IND12W, FUN_0601645A - 4
+    .2byte 0xB000    /* bsr FUN_0601645A (linker-resolved) */
     mov #0x1, r4
     bra .L_0601643A
     nop
@@ -54,7 +58,8 @@ FUN_060163E8:
     bf .L_06016454
     cmp/eq #0x3, r0
     bf .L_06016454
-    .byte 0xA0, 0x15  /* 06016444: bra 0x06016472 */
+    .reloc ., R_SH_IND12W, FUN_06016472 - 4
+    .2byte 0xA000    /* bra FUN_06016472 (linker-resolved) */
     nop
     .4byte sym_060529A8  /* 06016448 = 0x060529A8 */
     .4byte sym_060529AC  /* 0601644C = 0x060529AC */

@@ -34,5 +34,6 @@ FUN_06000920:
     mov r14, r4
 .L_06000958:
     lds.l @r15+, pr
-    .byte 0xA0, 0x00  /* 0600095A: bra 0x0600095E */
+    .reloc ., R_SH_IND12W, FUN_0600095E - 4
+    .2byte 0xA000    /* bra FUN_0600095E (linker-resolved) */
     mov.l @r15+, r14

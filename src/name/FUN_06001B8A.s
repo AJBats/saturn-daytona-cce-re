@@ -18,7 +18,8 @@ FUN_06001B8A:
 .L_06001BA0:
     mov r12, r0
     mov.b @(r0, r14), r5
-    .byte 0xBE, 0xFE  /* 06001BA4: bsr 0x060019A4 */
+    .reloc ., R_SH_IND12W, FUN_060019A4 - 4
+    .2byte 0xB000    /* bsr FUN_060019A4 (linker-resolved) */
     mov r14, r4
     add #0x1, r14
 .L_06001BAA:

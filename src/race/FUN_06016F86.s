@@ -5,7 +5,8 @@
     .type FUN_06016F86, @function
 FUN_06016F86:
     sts.l pr, @-r15
-    .byte 0xB3, 0x00  /* 06016F88: bsr 0x0601758C */
+    .reloc ., R_SH_IND12W, FUN_0601758C - 4
+    .2byte 0xB000    /* bsr FUN_0601758C (linker-resolved) */
     add r0, r4
     lds.l @r15+, pr
     mov.b @(150, gbr), r0
@@ -100,5 +101,6 @@ FUN_06016F86:
 .L_06017034:
     rts
     nop
-    .byte 0xA0, 0x0C  /* 06017038: bra 0x06017054 */
+    .reloc ., R_SH_IND12W, FUN_06017054 - 4
+    .2byte 0xA000    /* bra FUN_06017054 (linker-resolved) */
     .byte 0x00, 0x09  /* 0601703A: nop */

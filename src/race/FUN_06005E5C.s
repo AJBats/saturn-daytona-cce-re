@@ -16,7 +16,8 @@ FUN_06005E5C:
     shll2 r5
     shll r5
     add #0x10, r5
-    .byte 0xBF, 0x6C  /* 06005E74: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x1, r4
     mov #0x1, r5
     xor r14, r5
@@ -24,7 +25,8 @@ FUN_06005E5C:
     shll2 r5
     shll r5
     add #0x10, r5
-    .byte 0xBF, 0x64  /* 06005E84: bsr 0x06005D50 */
+    .reloc ., R_SH_IND12W, FUN_06005D50 - 4
+    .2byte 0xB000    /* bsr FUN_06005D50 (linker-resolved) */
     mov #0x2, r4
     mov.l .L_pool_06005ED8, r2
     extu.b r14, r3

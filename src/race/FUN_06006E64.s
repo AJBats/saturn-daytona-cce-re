@@ -33,6 +33,8 @@ FUN_06006E64:
     mov.l @r15, r4
     mov #0x28, r5
     .byte 0xD2, 0x8B  /* 06006E98: mov.l @(0x22C,PC),r2  {[0x060070C8] = 0x0602D102} */
+    .global FUN_06006E9A
+FUN_06006E9A:
     add r3, r4
     add #0x4, r15
     lds.l @r15+, pr

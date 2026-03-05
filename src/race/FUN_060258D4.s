@@ -12,9 +12,13 @@ FUN_060258D4:
     shlr16 r1
     mov r14, r0
     mov.l r1, @(r0, r8)
+    .global FUN_060258E4
+FUN_060258E4:
     mov.w .L_wpool_0602590E, r1
     mov.l @(r0, r1), r4
     mov.w .L_wpool_0602590C, r1
+    .global FUN_060258EA
+FUN_060258EA:
     mov.l @(r0, r1), r5
     mov.w .L_wpool_06025910, r1
     mov.l @(r0, r1), r6

@@ -42,7 +42,8 @@ FUN_060082D8:
     mov r4, r13
 .L_06008318:
     mov.l @r15, r5
-    .byte 0xB0, 0x49  /* 0600831A: bsr 0x060083B0 */
+    .reloc ., R_SH_IND12W, FUN_060083B0 - 4
+    .2byte 0xB000    /* bsr FUN_060083B0 (linker-resolved) */
     mov r12, r4
     cmp/eq #0x7, r0
     bt/s .L_06008334

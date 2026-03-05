@@ -11,7 +11,8 @@ FUN_06018840:
     mov.l r4, @(4, r15)
     mov.l r5, @(8, r15)
     mov.l r6, @r15
-    .byte 0xB0, 0x17  /* 0601884E: bsr 0x06018880 */
+    .reloc ., R_SH_IND12W, FUN_06018880 - 4
+    .2byte 0xB000    /* bsr FUN_06018880 (linker-resolved) */
     mov.l r3, @r2
     mov.l r0, @(12, r15)
     .byte 0xD2, 0x3F  /* 06018854: mov.l @(0xFC,PC),r2  {[0x06018954] = 0x06000358} */
@@ -22,9 +23,11 @@ FUN_06018840:
     jsr @r3
     nop
     mov.l @(12, r15), r4
-    .byte 0xB0, 0x34  /* 06018864: bsr 0x060188D0 */
+    .reloc ., R_SH_IND12W, FUN_060188D0 - 4
+    .2byte 0xB000    /* bsr FUN_060188D0 (linker-resolved) */
     nop
-    .byte 0xB0, 0x84  /* 06018868: bsr 0x06018974 */
+    .reloc ., R_SH_IND12W, FUN_06018974 - 4
+    .2byte 0xB000    /* bsr FUN_06018974 (linker-resolved) */
     nop
     tst r0, r0
     bt .L_06018878

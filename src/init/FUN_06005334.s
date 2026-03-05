@@ -30,7 +30,8 @@ FUN_06005334:
     jsr @r11
     mov r14, r4
 .L_06005364:
-    .byte 0xB0, 0x62  /* 06005364: bsr 0x0600542C */
+    .reloc ., R_SH_IND12W, FUN_0600542C - 4
+    .2byte 0xB000    /* bsr FUN_0600542C (linker-resolved) */
     mov r14, r4
 .L_06005368:
     .byte 0x92, 0x54  /* 06005368: mov.w @(0xA8,PC),r2  {0x06005414} */

@@ -149,7 +149,8 @@ FUN_06010A84:
 .L_06010B98:
     mov #0x0, r6
     mov r6, r5
-    .byte 0xB7, 0x82  /* 06010B9C: bsr 0x06011AA4 */
+    .reloc ., R_SH_IND12W, FUN_06011AA4 - 4
+    .2byte 0xB000    /* bsr FUN_06011AA4 (linker-resolved) */
     mov r14, r4
     mov.l @(48, r14), r0
     or #0x4, r0

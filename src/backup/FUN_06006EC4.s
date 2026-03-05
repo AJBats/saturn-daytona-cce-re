@@ -8,5 +8,6 @@ FUN_06006EC4:
     mov r3, r4
     swap.w r1, r1
     exts.w r1, r1
-    .byte 0xA0, 0x13  /* 06006ECC: bra 0x06006EF6 */
+    .reloc ., R_SH_IND12W, FUN_06006EF6 - 4
+    .2byte 0xA000    /* bra FUN_06006EF6 (linker-resolved) */
     mov r1, r2

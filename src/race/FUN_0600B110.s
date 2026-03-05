@@ -72,7 +72,8 @@ FUN_0600B110:
     mov.w r2, @r1
     mov.l .L_pool_0600B27C, r2
     mov.b @r2, r0
-    .byte 0xB1, 0xCC  /* 0600B1A0: bsr 0x0600B53C */
+    .reloc ., R_SH_IND12W, FUN_0600B53C - 4
+    .2byte 0xB000    /* bsr FUN_0600B53C (linker-resolved) */
     mov.b r0, @r3
     mov.l @r12, r3
     mov.w @(8, r3), r0
@@ -85,7 +86,8 @@ FUN_0600B110:
     mov.l @(8, r2), r3
     cmp/hs r3, r12
     bt .L_0600B1BE
-    .byte 0xB2, 0x13  /* 0600B1BA: bsr 0x0600B5E4 */
+    .reloc ., R_SH_IND12W, FUN_0600B5E4 - 4
+    .2byte 0xB000    /* bsr FUN_0600B5E4 (linker-resolved) */
     nop
 .L_0600B1BE:
     mov.w .L_wpool_0600B268, r2

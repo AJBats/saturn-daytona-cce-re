@@ -14,10 +14,12 @@ FUN_0600DA12:
     mov r13, r11
     mov r10, r14
 .L_0600DA22:
-    .byte 0xB0, 0x92  /* 0600DA22: bsr 0x0600DB4A */
+    .reloc ., R_SH_IND12W, FUN_0600DB4A - 4
+    .2byte 0xB000    /* bsr FUN_0600DB4A (linker-resolved) */
     mov r14, r4
     add #0xC, r14
-    .byte 0xB0, 0x8F  /* 0600DA28: bsr 0x0600DB4A */
+    .reloc ., R_SH_IND12W, FUN_0600DB4A - 4
+    .2byte 0xB000    /* bsr FUN_0600DB4A (linker-resolved) */
     mov r14, r4
     add #0x2, r11
     cmp/ge r8, r11
@@ -40,7 +42,8 @@ FUN_0600DA12:
     mov r13, r10
     mov r11, r14
 .L_0600DA50:
-    .byte 0xB0, 0x7B  /* 0600DA50: bsr 0x0600DB4A */
+    .reloc ., R_SH_IND12W, FUN_0600DB4A - 4
+    .2byte 0xB000    /* bsr FUN_0600DB4A (linker-resolved) */
     mov r14, r4
     add #0x1, r10
     cmp/ge r8, r10
@@ -79,10 +82,12 @@ FUN_0600DA12:
     mov r13, r11
     mov r10, r14
 .L_0600DA98:
-    .byte 0xB0, 0x57  /* 0600DA98: bsr 0x0600DB4A */
+    .reloc ., R_SH_IND12W, FUN_0600DB4A - 4
+    .2byte 0xB000    /* bsr FUN_0600DB4A (linker-resolved) */
     mov r14, r4
     add #0xC, r14
-    .byte 0xB0, 0x54  /* 0600DA9E: bsr 0x0600DB4A */
+    .reloc ., R_SH_IND12W, FUN_0600DB4A - 4
+    .2byte 0xB000    /* bsr FUN_0600DB4A (linker-resolved) */
     mov r14, r4
     add #0x2, r11
     cmp/ge r8, r11
@@ -100,23 +105,28 @@ FUN_0600DA12:
     cmp/hs r13, r14
     bt .L_0600DACE
 .L_0600DABE:
-    .byte 0xB0, 0x8D  /* 0600DABE: bsr 0x0600DBDC */
+    .reloc ., R_SH_IND12W, FUN_0600DBDC - 4
+    .2byte 0xB000    /* bsr FUN_0600DBDC (linker-resolved) */
     mov r14, r4
     add #0x18, r14
-    .byte 0xB0, 0x8A  /* 0600DAC4: bsr 0x0600DBDC */
+    .reloc ., R_SH_IND12W, FUN_0600DBDC - 4
+    .2byte 0xB000    /* bsr FUN_0600DBDC (linker-resolved) */
     mov r14, r4
     add #0x18, r14
     cmp/hs r13, r14
     bf .L_0600DABE
 .L_0600DACE:
-    .byte 0xB0, 0xFF  /* 0600DACE: bsr 0x0600DCD0 */
+    .reloc ., R_SH_IND12W, FUN_0600DCD0 - 4
+    .2byte 0xB000    /* bsr FUN_0600DCD0 (linker-resolved) */
     nop
     .byte 0xD3, 0x40  /* 0600DAD2: mov.l @(0x100,PC),r3  {[0x0600DBD4] = 0x06037A24} */
     jsr @r3
     nop
-    .byte 0xB1, 0x92  /* 0600DAD8: bsr 0x0600DE00 */
+    .reloc ., R_SH_IND12W, FUN_0600DE00 - 4
+    .2byte 0xB000    /* bsr FUN_0600DE00 (linker-resolved) */
     nop
-    .byte 0xB2, 0x25  /* 0600DADC: bsr 0x0600DF2A */
+    .reloc ., R_SH_IND12W, FUN_0600DF2A - 4
+    .2byte 0xB000    /* bsr FUN_0600DF2A (linker-resolved) */
     nop
     .byte 0x96, 0x73  /* 0600DAE0: mov.w @(0xE6,PC),r6  {0x0600DBCA} */
     mov r9, r5

@@ -46,7 +46,8 @@ FUN_06006A6C:
     cmp/eq #0x1, r0
     bt/s .L_06006ADA
     shll2 r6
-    .byte 0xA0, 0xD3  /* 06006AD6: bra 0x06006C80 */
+    .reloc ., R_SH_IND12W, FUN_06006C80 - 4
+    .2byte 0xA000    /* bra FUN_06006C80 (linker-resolved) */
     nop
 .L_06006ADA:
     .byte 0xDB, 0x3A  /* 06006ADA: mov.l @(0xE8,PC),r11  {[0x06006BC4] = 0x06052098} */

@@ -9,7 +9,8 @@ FUN_06000918:
     mov.l r11, @-r15
     mov.l r9, @-r15
     mov.l r2, @-r15
-    .byte 0xA0, 0x0E  /* 06000922: bra 0x06000942 */
+    .reloc ., R_SH_IND12W, FUN_06000942 - 4
+    .2byte 0xA000    /* bra FUN_06000942 (linker-resolved) */
     mov r10, r5
     .byte 0xD3, 0x28  /* 06000926: mov.l @(0xA0,PC),r3  {[0x060009C8] = 0x00251A70} */
     .byte 0xD4, 0x28  /* 06000928: mov.l @(0xA0,PC),r4  {[0x060009CC] = 0x00250A10} */

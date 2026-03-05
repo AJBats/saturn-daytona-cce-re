@@ -10,14 +10,16 @@ FUN_060083C4:
     bt/s .L_060083D4
     mov r12, r13
     mov.l r13, @r10
-    .byte 0xA0, 0x54  /* 060083D0: bra 0x0600847C */
+    .reloc ., R_SH_IND12W, FUN_0600847C - 4
+    .2byte 0xA000    /* bra FUN_0600847C (linker-resolved) */
     mov #0x6, r0
 .L_060083D4:
     mov.l @(48, r14), r1
     tst r1, r1
     bf .L_060083E0
     mov.l r13, @r10
-    .byte 0xA0, 0x4E  /* 060083DC: bra 0x0600847C */
+    .reloc ., R_SH_IND12W, FUN_0600847C - 4
+    .2byte 0xA000    /* bra FUN_0600847C (linker-resolved) */
     mov.l @(52, r14), r0
 .L_060083E0:
     mov.l @(52, r14), r0
@@ -33,5 +35,6 @@ FUN_060083C4:
     .byte 0x89, 0x1D  /* 060083F4: bt 0x06008432 */
     cmp/eq #0x5, r0
     .byte 0x89, 0x22  /* 060083F8: bt 0x06008440 */
-    .byte 0xA0, 0x3D  /* 060083FA: bra 0x06008478 */
+    .reloc ., R_SH_IND12W, FUN_06008478 - 4
+    .2byte 0xA000    /* bra FUN_06008478 (linker-resolved) */
     nop

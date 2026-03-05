@@ -14,7 +14,8 @@ FUN_060200D6:
     mov.l @(8, r5), r2
     sub r0, r2
     mov r1, r4
-    .byte 0xBE, 0x8F  /* 060200EA: bsr 0x0601FE0C */
+    .reloc ., R_SH_IND12W, FUN_0601FE0C - 4
+    .2byte 0xB000    /* bsr FUN_0601FE0C (linker-resolved) */
     mov r2, r5
     mov.l @r15+, r5
     mov.l @r15+, r4
@@ -50,7 +51,8 @@ FUN_060200D6:
     shar r0
     mov.l r0, @(8, r7)
     mov r6, r4
-    .byte 0xBE, 0xDD  /* 06020132: bsr 0x0601FEF0 */
+    .reloc ., R_SH_IND12W, FUN_0601FEF0 - 4
+    .2byte 0xB000    /* bsr FUN_0601FEF0 (linker-resolved) */
     mov r7, r5
     add #0x18, r15
     mov.l @r15+, r4
@@ -61,7 +63,8 @@ FUN_060200D6:
     sub r0, r2
     shar r2
     mov r1, r4
-    .byte 0xBE, 0x60  /* 06020148: bsr 0x0601FE0C */
+    .reloc ., R_SH_IND12W, FUN_0601FE0C - 4
+    .2byte 0xB000    /* bsr FUN_0601FE0C (linker-resolved) */
     mov r2, r5
     neg r0, r0
     mov.l @r15+, r1

@@ -5,6 +5,8 @@
     .type FUN_0600250E, @function
 FUN_0600250E:
     mov r0, r5
+    .global FUN_06002510
+FUN_06002510:
     .byte 0xD0, 0x15  /* 06002510: mov.l @(0x54,PC),r0  {[0x06002568] = 0x0000FFF0} */
     add #0x8, r5
     and r0, r5
@@ -17,6 +19,8 @@ FUN_0600250E:
     mov.w @r0+, r6
     shll2 r5
     shll2 r6
+    .global FUN_06002528
+FUN_06002528:
     neg r5, r0
     mov.l r6, @-r15
     mov.l r5, @-r15

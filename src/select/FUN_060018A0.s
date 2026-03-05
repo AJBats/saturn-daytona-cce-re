@@ -9,7 +9,8 @@ FUN_060018A0:
     add #0x2, r5
     jsr @r3
     mov r10, r1
-    .byte 0xBF, 0xBA  /* 060018AA: bsr 0x06001822 */
+    .reloc ., R_SH_IND12W, FUN_06001822 - 4
+    .2byte 0xB000    /* bsr FUN_06001822 (linker-resolved) */
     mov r0, r4
     mov r13, r7
     .byte 0xD3, 0x15  /* 060018B0: mov.l @(0x54,PC),r3  {[0x06001908] = 0x06008B10} */

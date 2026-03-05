@@ -19,7 +19,8 @@ FUN_060077A0:
     .byte 0xD2, 0x2E  /* 060077B8: mov.l @(0xB8,PC),r2  {[0x06007874] = 0x0602991C} */
     jsr @r2
     mov #0x32, r6
-    .byte 0xBE, 0xBD  /* 060077BE: bsr 0x0600753C */
+    .reloc ., R_SH_IND12W, FUN_0600753C - 4
+    .2byte 0xB000    /* bsr FUN_0600753C (linker-resolved) */
     add #0x10, r15
     .byte 0xD3, 0x2D  /* 060077C2: mov.l @(0xB4,PC),r3  {[0x06007878] = 0x06042369} */
     mov.b @r3, r0
@@ -37,7 +38,8 @@ FUN_060077A0:
     jsr @r2
     nop
 .L_060077DE:
-    .byte 0xB5, 0xFB  /* 060077DE: bsr 0x060083D8 */
+    .reloc ., R_SH_IND12W, FUN_060083D8 - 4
+    .2byte 0xB000    /* bsr FUN_060083D8 (linker-resolved) */
     nop
     .byte 0xD2, 0x29  /* 060077E2: mov.l @(0xA4,PC),r2  {[0x06007888] = 0x002FC233} */
     mov.b @r2, r0
@@ -65,27 +67,33 @@ FUN_060077A0:
     mov #0x1B, r5
     mov #0x49, r4
 .L_06007810:
-    .byte 0xB6, 0xE0  /* 06007810: bsr 0x060085D4 */
+    .reloc ., R_SH_IND12W, FUN_060085D4 - 4
+    .2byte 0xB000    /* bsr FUN_060085D4 (linker-resolved) */
     nop
 .L_06007814:
-    .byte 0xB3, 0xA9  /* 06007814: bsr 0x06007F6A */
+    .reloc ., R_SH_IND12W, FUN_06007F6A - 4
+    .2byte 0xB000    /* bsr FUN_06007F6A (linker-resolved) */
     mov #0x0, r4
-    .byte 0xB3, 0xA7  /* 06007818: bsr 0x06007F6A */
+    .reloc ., R_SH_IND12W, FUN_06007F6A - 4
+    .2byte 0xB000    /* bsr FUN_06007F6A (linker-resolved) */
     mov #0x1, r4
     mov #0x1B, r6
     mov #0x2B, r5
-    .byte 0xB0, 0x0D  /* 06007820: bsr 0x0600783E */
+    .reloc ., R_SH_IND12W, FUN_0600783E - 4
+    .2byte 0xB000    /* bsr FUN_0600783E (linker-resolved) */
     mov #0x0, r4
     mov #0x1B, r6
     mov #0x49, r5
     mov #0x1, r4
-    .byte 0xA0, 0x08  /* 0600782A: bra 0x0600783E */
+    .reloc ., R_SH_IND12W, FUN_0600783E - 4
+    .2byte 0xA000    /* bra FUN_0600783E (linker-resolved) */
     lds.l @r15+, pr
 .L_0600782E:
     mov #0x1B, r6
     mov #0x2E, r5
     mov #0x0, r4
-    .byte 0xA0, 0x03  /* 06007834: bra 0x0600783E */
+    .reloc ., R_SH_IND12W, FUN_0600783E - 4
+    .2byte 0xA000    /* bra FUN_0600783E (linker-resolved) */
     lds.l @r15+, pr
 .L_06007838:
     lds.l @r15+, pr

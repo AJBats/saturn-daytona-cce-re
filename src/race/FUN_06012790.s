@@ -16,7 +16,8 @@ FUN_06012790:
     mov.l @(0, r14), r8
     mov.l @(8, r14), r9
     mov.l @(0, r13), r6
-    .byte 0xA1, 0xDD  /* 060127A8: bra 0x06012B66 */
+    .reloc ., R_SH_IND12W, FUN_06012B66 - 4
+    .2byte 0xA000    /* bra FUN_06012B66 (linker-resolved) */
     mov.l @(8, r13), r7
 .L_060127AC:
     mov.l @(0, r14), r6

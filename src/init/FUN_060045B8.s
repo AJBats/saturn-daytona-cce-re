@@ -17,7 +17,8 @@ FUN_060045B8:
     rts
     mov #-0x1, r0
 .L_060045D0:
-    .byte 0xB0, 0x32  /* 060045D0: bsr 0x06004638 */
+    .reloc ., R_SH_IND12W, FUN_06004638 - 4
+    .2byte 0xB000    /* bsr FUN_06004638 (linker-resolved) */
     mov #0x40, r4
     tst r0, r0
     bt .L_060045DE
@@ -25,7 +26,8 @@ FUN_060045B8:
     rts
     mov #-0x1, r0
 .L_060045DE:
-    .byte 0xB0, 0x42  /* 060045DE: bsr 0x06004666 */
+    .reloc ., R_SH_IND12W, FUN_06004666 - 4
+    .2byte 0xB000    /* bsr FUN_06004666 (linker-resolved) */
     nop
     tst r0, r0
     bt .L_060045EC
@@ -33,7 +35,8 @@ FUN_060045B8:
     rts
     mov #-0x1, r0
 .L_060045EC:
-    .byte 0xB0, 0x67  /* 060045EC: bsr 0x060046BE */
+    .reloc ., R_SH_IND12W, FUN_060046BE - 4
+    .2byte 0xB000    /* bsr FUN_060046BE (linker-resolved) */
     nop
     mov #0x0, r0
     lds.l @r15+, pr

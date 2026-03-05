@@ -9,7 +9,8 @@ FUN_06007A2C:
     mov.l r4, @r15
     mov r15, r4
     add #0x20, r4
-    .byte 0xB0, 0x85  /* 06007A36: bsr 0x06007B44 */
+    .reloc ., R_SH_IND12W, FUN_06007B44 - 4
+    .2byte 0xB000    /* bsr FUN_06007B44 (linker-resolved) */
     mov r6, r13
     mov #0x0, r4
     cmp/gt r4, r13
@@ -20,7 +21,8 @@ FUN_06007A2C:
     add #0x4, r5
     mov r15, r4
     add #0x20, r4
-    .byte 0xB1, 0xA8  /* 06007A4A: bsr 0x06007D9E */
+    .reloc ., R_SH_IND12W, FUN_06007D9E - 4
+    .2byte 0xB000    /* bsr FUN_06007D9E (linker-resolved) */
     nop
     mov r0, r4
     tst r4, r4
@@ -35,7 +37,8 @@ FUN_06007A2C:
     bt .L_06007A74
     mov r15, r5
     add #0x4, r5
-    .byte 0xB3, 0x32  /* 06007A66: bsr 0x060080CE */
+    .reloc ., R_SH_IND12W, FUN_060080CE - 4
+    .2byte 0xB000    /* bsr FUN_060080CE (linker-resolved) */
     mov r14, r4
     add #0xC, r14
     add #-0x1, r13

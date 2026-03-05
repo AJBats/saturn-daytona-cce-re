@@ -8,7 +8,8 @@ FUN_0601CE28:
     mov.l r7, @-r15
     mov.l r6, @-r15
     mov.l r5, @-r15
-    .byte 0xB0, 0x04  /* 0601CE30: bsr 0x0601CE3C */
+    .reloc ., R_SH_IND12W, FUN_0601CE3C - 4
+    .2byte 0xB000    /* bsr FUN_0601CE3C (linker-resolved) */
     mov r15, r5
     add #0xC, r15
     lds.l @r15+, pr

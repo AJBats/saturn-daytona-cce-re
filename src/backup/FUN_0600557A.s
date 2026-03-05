@@ -17,6 +17,7 @@ FUN_0600557A:
     mov r0, r4
     mov r0, r6
     mov.l @r15+, r4
-    .byte 0xAF, 0x30  /* 06005594: bra 0x060053F8 */
+    .reloc ., R_SH_IND12W, FUN_060053F8 - 4
+    .2byte 0xA000    /* bra FUN_060053F8 (linker-resolved) */
     lds.l @r15+, pr
     .byte 0x60, 0x53  /* 06005598: mov r5,r0 */

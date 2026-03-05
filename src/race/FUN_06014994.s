@@ -392,7 +392,8 @@ FUN_06014994:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA0, 0x02  /* 06014C60: bra 0x06014C68 */
+    .reloc ., R_SH_IND12W, FUN_06014C68 - 4
+    .2byte 0xA000    /* bra FUN_06014C68 (linker-resolved) */
     mov.l @r15+, r14
     .byte 0x00, 0x0B  /* 06014C64: rts */
     .byte 0x00, 0x09  /* 06014C66: nop */

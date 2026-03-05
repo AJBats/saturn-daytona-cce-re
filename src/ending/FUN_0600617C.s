@@ -1793,6 +1793,8 @@ FUN_0600617C:
     mov.l r9, @(0, r13)
     mov.l r9, @(4, r13)
     mov.l r9, @(8, r13)
+    .global FUN_06006F76
+FUN_06006F76:
     mov.l r9, @(12, r13)
     mov.l r9, @(16, r13)
     mov.l r9, @(20, r13)
@@ -2049,6 +2051,8 @@ FUN_0600617C:
     mov.l r5, @(32, r3)
     mov.l r5, @(32, r3)
     mov.l r4, @(56, r14)
+    .global FUN_06007176
+FUN_06007176:
     mov.l r4, @(60, r14)
     mov.l r5, @(0, r14)
     mov.l r5, @(4, r14)
@@ -2939,6 +2943,8 @@ FUN_0600617C:
     and r6, r14
     xor r6, r14
     or r6, r14
+    .global FUN_0600786A
+FUN_0600786A:
     cmp/str r6, r14
     mov.w r1, @r4
     mov.w r1, @r4

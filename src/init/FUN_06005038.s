@@ -82,7 +82,8 @@ FUN_06005038:
     jmp @r2
     mov.l @r15+, r14
 .L_060050C2:
-    .byte 0xB7, 0x21  /* 060050C2: bsr 0x06005F08 */
+    .reloc ., R_SH_IND12W, FUN_06005F08 - 4
+    .2byte 0xB000    /* bsr FUN_06005F08 (linker-resolved) */
     mov r14, r4
     mov r0, r14
     cmp/pz r14

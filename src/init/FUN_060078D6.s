@@ -28,14 +28,16 @@ FUN_060078D6:
     bf .L_0600790A
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte 0xB0, 0x8E  /* 06007902: bsr 0x06007A22 */
+    .reloc ., R_SH_IND12W, FUN_06007A22 - 4
+    .2byte 0xB000    /* bsr FUN_06007A22 (linker-resolved) */
     mov r14, r4
     bra .L_06007912
     nop
 .L_0600790A:
     mov.l @(4, r13), r6
     mov.l @(8, r13), r5
-    .byte 0xB0, 0xBC  /* 0600790E: bsr 0x06007A8A */
+    .reloc ., R_SH_IND12W, FUN_06007A8A - 4
+    .2byte 0xB000    /* bsr FUN_06007A8A (linker-resolved) */
     mov r14, r4
 .L_06007912:
     mov r0, r4

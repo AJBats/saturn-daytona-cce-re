@@ -12,7 +12,8 @@ FUN_0600270C:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    .byte 0xB0, 0x32  /* 0600271C: bsr 0x06002784 */
+    .reloc ., R_SH_IND12W, FUN_06002784 - 4
+    .2byte 0xB000    /* bsr FUN_06002784 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r8

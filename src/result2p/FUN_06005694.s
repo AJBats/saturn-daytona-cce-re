@@ -6,7 +6,8 @@
 FUN_06005694:
     sts.l pr, @-r15
     mov.l .L_pool_060056A4, r6
-    .byte 0xB0, 0x14  /* 06005698: bsr 0x060056C4 */
+    .reloc ., R_SH_IND12W, FUN_060056C4 - 4
+    .2byte 0xB000    /* bsr FUN_060056C4 (linker-resolved) */
     nop
     lds.l @r15+, pr
     rts

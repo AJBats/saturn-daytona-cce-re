@@ -5,6 +5,8 @@
     .type FUN_0601D07E, @function
 FUN_0601D07E:
     mov r0, r5
+    .global FUN_0601D080
+FUN_0601D080:
     .byte 0xD0, 0x18  /* 0601D080: mov.l @(0x60,PC),r0  {[0x0601D0E4] = 0x0000FFF0} */
     add #0x8, r5
     and r0, r5
@@ -17,6 +19,8 @@ FUN_0601D07E:
     mov.w @r0+, r6
     shll2 r5
     shll2 r6
+    .global FUN_0601D098
+FUN_0601D098:
     neg r5, r0
     mov.l r6, @-r15
     mov.l r0, @-r15
@@ -52,7 +56,8 @@ FUN_0601D07E:
     .byte 0xD1, 0x02  /* 0601D0D6: mov.l @(0x8,PC),r1  {[0x0601D0E0] = 0x28BE60DC} */
     .byte 0x31, 0x5D  /* 0601D0D8: dmuls.l r5,r1 */
     .byte 0x05, 0x0A  /* 0601D0DA: sts mach,r5 */
-    .byte 0xA0, 0x0A  /* 0601D0DC: bra 0x0601D0F4 */
+    .reloc ., R_SH_IND12W, FUN_0601D0F4 - 4
+    .2byte 0xA000    /* bra FUN_0601D0F4 (linker-resolved) */
     .byte 0x00, 0x09  /* 0601D0DE: nop */
     .4byte 0x28BE60DC  /* 0601D0E0 = 0x28BE60DC */
 .L_pool_0601D0E4:

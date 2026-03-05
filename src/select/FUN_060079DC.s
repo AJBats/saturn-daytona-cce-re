@@ -8,5 +8,6 @@ FUN_060079DC:
     mov r13, r6
     mov.l r9, @-r15
     mov.l r2, @-r15
-    .byte 0xA0, 0x71  /* 060079E4: bra 0x06007ACA */
+    .reloc ., R_SH_IND12W, FUN_06007ACA - 4
+    .2byte 0xA000    /* bra FUN_06007ACA (linker-resolved) */
     mov r11, r5

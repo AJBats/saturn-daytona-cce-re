@@ -106,6 +106,8 @@ FUN_060104C4:
     mov.l @(r0, r14), r8
     mov.l @(8, r8), r8
     add r12, r4
+    .global FUN_06010590
+FUN_06010590:
     mov.l r4, @r15
     jsr @r11
     nop

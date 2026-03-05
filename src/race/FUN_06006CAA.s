@@ -16,7 +16,8 @@ FUN_06006CAA:
     mov.b @r2, r4
     extu.b r0, r0
     mov.b @(r0, r14), r5
-    .byte 0xAD, 0x93  /* 06006CC2: bra 0x060067EC */
+    .reloc ., R_SH_IND12W, FUN_060067EC - 4
+    .2byte 0xA000    /* bra FUN_060067EC (linker-resolved) */
     mov.l @r15+, r14
     .byte 0xFF, 0xFF  /* 06006CC6: .word 0xFFFF */
     .4byte sym_25E3F95C  /* 06006CC8 = 0x25E3F95C */

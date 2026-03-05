@@ -6,7 +6,8 @@
 FUN_06004E32:
     sts.l pr, @-r15
     .byte 0x94, 0x78  /* 06004E34: mov.w @(0xF0,PC),r4  {0x06004F28} */
-    .byte 0xBF, 0xF9  /* 06004E36: bsr 0x06004E2C */
+    .reloc ., R_SH_IND12W, FUN_06004E2C - 4
+    .2byte 0xB000    /* bsr FUN_06004E2C (linker-resolved) */
     nop
     .byte 0x92, 0x75  /* 06004E3A: mov.w @(0xEA,PC),r2  {0x06004F28} */
     .byte 0xD3, 0x3D  /* 06004E3C: mov.l @(0xF4,PC),r3  {[0x06004F34] = 0x0601361C} */

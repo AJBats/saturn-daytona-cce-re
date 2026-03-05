@@ -21,14 +21,16 @@ FUN_0600A8BC:
     mov r13, r7
     mov r12, r6
     mov r11, r5
-    .byte 0xBE, 0x04  /* 0600A8DC: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     mov.w @r14, r4
     add #0x10, r13
     add #0x2, r14
     mov r13, r7
     mov r12, r6
     mov r11, r5
-    .byte 0xBD, 0xFD  /* 0600A8EA: bsr 0x0600A4E8 */
+    .reloc ., R_SH_IND12W, FUN_0600A4E8 - 4
+    .2byte 0xB000    /* bsr FUN_0600A4E8 (linker-resolved) */
     mov.w @r14, r4
     add #0x10, r13
     add #0x2, r10

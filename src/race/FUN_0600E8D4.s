@@ -26,7 +26,8 @@ FUN_0600E8D4:
     mov.l @r6, r0
     tst r0, r0
     bt .L_0600E90C
-    .byte 0xA0, 0x46  /* 0600E900: bra 0x0600E990 */
+    .reloc ., R_SH_IND12W, FUN_0600E990 - 4
+    .2byte 0xA000    /* bra FUN_0600E990 (linker-resolved) */
     nop
 .L_pool_0600E904:
     .4byte 0x40000000  /* 0600E904 = 0x40000000 */

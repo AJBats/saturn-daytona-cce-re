@@ -73,6 +73,8 @@ FUN_0600753C:
     add #0x1, r14
     add #0x1, r6
     add #-0x1, r10
+    .global FUN_060075C6
+FUN_060075C6:
     cmp/pl r10
     .byte 0x89, 0xB5  /* 060075C8: bt 0x06007536 */
     cmp/pl r12

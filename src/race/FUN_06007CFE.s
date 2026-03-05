@@ -13,7 +13,8 @@ FUN_06007CFE:
     tst r0, r0
     bt .L_06007D14
     lds.l @r15+, pr
-    .byte 0xA4, 0x06  /* 06007D10: bra 0x06008520 */
+    .reloc ., R_SH_IND12W, FUN_06008520 - 4
+    .2byte 0xA000    /* bra FUN_06008520 (linker-resolved) */
     mov.l @r15+, r14
 .L_06007D14:
     .byte 0xD1, 0x3A  /* 06007D14: mov.l @(0xE8,PC),r1  {[0x06007E00] = 0x060072C4} */
@@ -24,7 +25,8 @@ FUN_06007CFE:
     add r3, r5
     shll2 r5
     exts.b r5, r5
-    .byte 0xB1, 0xB4  /* 06007D24: bsr 0x06008090 */
+    .reloc ., R_SH_IND12W, FUN_06008090 - 4
+    .2byte 0xB000    /* bsr FUN_06008090 (linker-resolved) */
     add r1, r5
     .byte 0xD3, 0x33  /* 06007D28: mov.l @(0xCC,PC),r3  {[0x06007DF8] = 0x06052094} */
     mov #0x0, r1

@@ -8,7 +8,8 @@ FUN_0600C598:
     mov #0x13, r6
     mov.l r2, @-r15
     mov.l r3, @-r15
-    .byte 0xA0, 0x0F  /* 0600C5A0: bra 0x0600C5C2 */
+    .reloc ., R_SH_IND12W, FUN_0600C5C2 - 4
+    .2byte 0xA000    /* bra FUN_0600C5C2 (linker-resolved) */
     mov r13, r5
     .byte 0xD3, 0x4A  /* 0600C5A4: mov.l @(0x128,PC),r3  {[0x0600C6D0] = 0x00273100} */
     .byte 0x66, 0x32  /* 0600C5A6: mov.l @r3,r6 */

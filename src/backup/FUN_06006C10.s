@@ -30,7 +30,8 @@ FUN_06006C10:
     shlr16 r0
     cmp/hs r1, r0
     bt .L_06006C5C
-    .byte 0xB0, 0x11  /* 06006C42: bsr 0x06006C68 */
+    .reloc ., R_SH_IND12W, FUN_06006C68 - 4
+    .2byte 0xB000    /* bsr FUN_06006C68 (linker-resolved) */
     mov r5, r1
     mov.l @(48, r14), r1
     mov.l @(8, r1), r8
@@ -41,7 +42,8 @@ FUN_06006C10:
     cmp/hs r1, r0
     bt .L_06006C5C
     mov.l @r8+, r0
-    .byte 0xB8, 0x98  /* 06006C58: bsr 0x06005D8C */
+    .reloc ., R_SH_IND12W, FUN_06005D8C - 4
+    .2byte 0xB000    /* bsr FUN_06005D8C (linker-resolved) */
     mov.l r0, @(128, gbr)
 .L_06006C5C:
     mov.l @(44, r14), r4

@@ -11,9 +11,13 @@ FUN_06005EAC:
     mov.l r2, @-r15
     mov r10, r5
     mov.l r3, @-r15
+    .global FUN_06005EBA
+FUN_06005EBA:
     jsr @r8
     nop
     add #0x10, r15
+    .global FUN_06005EC0
+FUN_06005EC0:
     mov.l .L_pool_06005F64, r4
     mov #0x10, r6
     mov.l .L_pool_06005F68, r3
@@ -28,7 +32,8 @@ FUN_06005EAC:
     jsr @r3
     mov r6, r4
     mov #0x2, r2
-    .byte 0xA0, 0x93  /* 06005EDC: bra 0x06006006 */
+    .reloc ., R_SH_IND12W, FUN_06006006 - 4
+    .2byte 0xA000    /* bra FUN_06006006 (linker-resolved) */
     mov.b r2, @r11
     .byte 0x61, 0xD1  /* 06005EE0: mov.w @r13,r1 */
     .byte 0x71, 0x01  /* 06005EE2: add #1,r1 */
@@ -37,11 +42,13 @@ FUN_06005EAC:
     .byte 0x63, 0x3D  /* 06005EE8: extu.w r3,r3 */
     .byte 0x33, 0x57  /* 06005EEA: cmp/gt r5,r3 */
     .byte 0x89, 0x01  /* 06005EEC: bt 0x06005EF2 */
-    .byte 0xA0, 0x8A  /* 06005EEE: bra 0x06006006 */
+    .reloc ., R_SH_IND12W, FUN_06006006 - 4
+    .2byte 0xA000    /* bra FUN_06006006 (linker-resolved) */
     .byte 0x00, 0x09  /* 06005EF0: nop */
     .byte 0xE3, 0x03  /* 06005EF2: mov #3,r3 */
     .byte 0x24, 0xE2  /* 06005EF4: mov.l r14,@r4 */
-    .byte 0xA0, 0x86  /* 06005EF6: bra 0x06006006 */
+    .reloc ., R_SH_IND12W, FUN_06006006 - 4
+    .2byte 0xA000    /* bra FUN_06006006 (linker-resolved) */
     .byte 0x2B, 0x30  /* 06005EF8: mov.b r3,@r11 */
     .byte 0xFF, 0xFF  /* 06005EFA: .word 0xFFFF */
     .4byte sym_0605311C  /* 06005EFC = 0x0605311C */

@@ -161,7 +161,8 @@ FUN_06009020:
     mov.l r14, @(r0, r2)
     mov.l r14, @(12, r15)
 .L_06009154:
-    .byte 0xB0, 0xC4  /* 06009154: bsr 0x060092E0 */
+    .reloc ., R_SH_IND12W, FUN_060092E0 - 4
+    .2byte 0xB000    /* bsr FUN_060092E0 (linker-resolved) */
     nop
     bra .L_0600928A
     nop

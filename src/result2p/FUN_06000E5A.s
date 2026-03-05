@@ -150,7 +150,8 @@ FUN_06000E5A:
     mov.l @r15+, r14
     .byte 0xD2, 0x07  /* 06000F88: mov.l @(0x1C,PC),r2  {[0x06000FA8] = 0x06099EA8} */
     .byte 0xE3, 0x00  /* 06000F8A: mov #0,r3 */
-    .byte 0xAC, 0xE6  /* 06000F8C: bra 0x0600095C */
+    .reloc ., R_SH_IND12W, FUN_0600095C - 4
+    .2byte 0xA000    /* bra FUN_0600095C (linker-resolved) */
     .byte 0x22, 0x30  /* 06000F8E: mov.b r3,@r2 */
 .L_wpool_06000F90:
     .byte 0x01, 0x90  /* 06000F90: .word 0x0190 */

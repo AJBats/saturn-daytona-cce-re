@@ -33,7 +33,8 @@ FUN_06004C70:
     bt .L_06004CAA
     mov r15, r4
     add #0x8, r4
-    .byte 0xB0, 0x08  /* 06004CA6: bsr 0x06004CBA */
+    .reloc ., R_SH_IND12W, FUN_06004CBA - 4
+    .2byte 0xB000    /* bsr FUN_06004CBA (linker-resolved) */
     nop
 .L_06004CAA:
     .byte 0xD2, 0x16  /* 06004CAA: mov.l @(0x58,PC),r2  {[0x06004D04] = 0x0600A02C} */

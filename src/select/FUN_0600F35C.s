@@ -20,7 +20,8 @@ FUN_0600F35C:
     mov.w @r11, r2
     tst r2, r2
     bf .L_0600F3A0
-    .byte 0xB1, 0x3A  /* 0600F37C: bsr 0x0600F5F4 */
+    .reloc ., R_SH_IND12W, FUN_0600F5F4 - 4
+    .2byte 0xB000    /* bsr FUN_0600F5F4 (linker-resolved) */
     nop
     .byte 0xD3, 0x55  /* 0600F380: mov.l @(0x154,PC),r3  {[0x0600F4D8] = 0x002FC21C} */
     mov.b @r3, r0
@@ -65,7 +66,8 @@ FUN_0600F35C:
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf .L_0600F3D4
-    .byte 0xB1, 0x10  /* 0600F3D0: bsr 0x0600F5F4 */
+    .reloc ., R_SH_IND12W, FUN_0600F5F4 - 4
+    .2byte 0xB000    /* bsr FUN_0600F5F4 (linker-resolved) */
     nop
 .L_0600F3D4:
     .byte 0xD0, 0x46  /* 0600F3D4: mov.l @(0x118,PC),r0  {[0x0600F4F0] = 0x260133FC} */

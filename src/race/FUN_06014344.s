@@ -105,7 +105,8 @@ FUN_06014344:
     shll r4
     mov #0x7C, r0
     mov.l @(r0, r14), r2
-    .byte 0xB2, 0xA9  /* 06014416: bsr 0x0601496C */
+    .reloc ., R_SH_IND12W, FUN_0601496C - 4
+    .2byte 0xB000    /* bsr FUN_0601496C (linker-resolved) */
     add r2, r4
     mov #0x14, r5
     mov.l r0, @(4, r14)

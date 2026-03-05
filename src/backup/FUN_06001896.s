@@ -6,7 +6,8 @@
 FUN_06001896:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xB9, 0xFD  /* 0600189A: bsr 0x06000C98 */
+    .reloc ., R_SH_IND12W, FUN_06000C98 - 4
+    .2byte 0xB000    /* bsr FUN_06000C98 (linker-resolved) */
     mov #0x1, r14
     .byte 0xD2, 0x5E  /* 0600189E: mov.l @(0x178,PC),r2  {[0x06001A18] = 0x002FD72A} */
     .byte 0xD7, 0x5E  /* 060018A0: mov.l @(0x178,PC),r7  {[0x06001A1C] = 0x060353B4} */

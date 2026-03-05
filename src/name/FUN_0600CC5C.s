@@ -8,5 +8,6 @@ FUN_0600CC5C:
     mov r3, r4
     swap.w r1, r1
     exts.w r1, r1
-    .byte 0xA0, 0x13  /* 0600CC64: bra 0x0600CC8E */
+    .reloc ., R_SH_IND12W, FUN_0600CC8E - 4
+    .2byte 0xA000    /* bra FUN_0600CC8E (linker-resolved) */
     mov r1, r2

@@ -22,7 +22,8 @@ FUN_0600A1F6:
     mov r0, r4
     tst r4, r4
     bt .L_0600A21E
-    .byte 0xA0, 0x55  /* 0600A21A: bra 0x0600A2C8 */
+    .reloc ., R_SH_IND12W, FUN_0600A2C8 - 4
+    .2byte 0xA000    /* bra FUN_0600A2C8 (linker-resolved) */
     mov #-0xB, r0
 .L_0600A21E:
     mov.l @r15, r3

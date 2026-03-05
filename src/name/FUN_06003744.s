@@ -7,6 +7,8 @@ FUN_06003744:
     mov.l .L_pool_0600378C, r2
     jsr @r2
     mov r8, r9
+    .global FUN_0600374A
+FUN_0600374A:
     mov r9, r0
     lds.l @r15+, pr
     mov.l @r15+, r8

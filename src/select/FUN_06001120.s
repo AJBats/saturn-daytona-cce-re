@@ -9,9 +9,11 @@ FUN_06001120:
     mov.l @(32, r15), r7
     mov.l @(28, r15), r6
     mov.l @(36, r15), r4
-    .byte 0xBF, 0x2F  /* 0600112A: bsr 0x06000F8C */
+    .reloc ., R_SH_IND12W, FUN_06000F8C - 4
+    .2byte 0xB000    /* bsr FUN_06000F8C (linker-resolved) */
     mov r13, r5
-    .byte 0xA0, 0x38  /* 0600112E: bra 0x060011A2 */
+    .reloc ., R_SH_IND12W, FUN_060011A2 - 4
+    .2byte 0xA000    /* bra FUN_060011A2 (linker-resolved) */
     add #0x1C, r15
     .byte 0x3E, 0xC2  /* 06001132: cmp/hs r12,r14 */
     .byte 0x92, 0x65  /* 06001134: mov.w @(0xCA,PC),r2  {0x06001202} */

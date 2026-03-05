@@ -13,6 +13,8 @@ FUN_06025F02:
     bt .L_06025F42
 .L_06025F10:
     .byte 0xD0, 0x09  /* 06025F10: mov.l @(0x24,PC),r0  {[0x06025F38] = 0x00010000} */
+    .global FUN_06025F12
+FUN_06025F12:
     mov.l r0, @(344, gbr)
     mov.l @r15+, r0
     lds.l @r15+, pr
@@ -48,6 +50,8 @@ FUN_06025F02:
     mov #0x1, r2
     add r2, r1
     mov.b @r1, r2
+    .global FUN_06025F58
+FUN_06025F58:
     tst r2, r2
     bf .L_06025F10
     mov.l @(48, gbr), r0

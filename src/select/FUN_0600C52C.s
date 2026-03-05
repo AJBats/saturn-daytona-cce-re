@@ -8,7 +8,8 @@ FUN_0600C52C:
     mov #0x13, r6
     mov.l r2, @-r15
     mov.l r3, @-r15
-    .byte 0xA0, 0x45  /* 0600C534: bra 0x0600C5C2 */
+    .reloc ., R_SH_IND12W, FUN_0600C5C2 - 4
+    .2byte 0xA000    /* bra FUN_0600C5C2 (linker-resolved) */
     mov r13, r5
     .byte 0x02, 0x00  /* 0600C538: .word 0x0200 */
     .byte 0xFF, 0xFF  /* 0600C53A: .word 0xFFFF */

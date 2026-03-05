@@ -203,7 +203,8 @@ FUN_060011FC:
     bra .L_06001394
     mov.b r0, @(10, r2)
 .L_06001370:
-    .byte 0xB1, 0x38  /* 06001370: bsr 0x060015E4 */
+    .reloc ., R_SH_IND12W, FUN_060015E4 - 4
+    .2byte 0xB000    /* bsr FUN_060015E4 (linker-resolved) */
     mov r13, r4
     mov r0, r4
     mov r8, r5
@@ -236,7 +237,8 @@ FUN_060011FC:
     mov.b @r6, r6
     sts macl, r5
     exts.b r5, r5
-    .byte 0xB0, 0x4C  /* 060013AE: bsr 0x0600144A */
+    .reloc ., R_SH_IND12W, FUN_0600144A - 4
+    .2byte 0xB000    /* bsr FUN_0600144A (linker-resolved) */
     add r2, r5
     add #0x1, r12
 .L_060013B4:

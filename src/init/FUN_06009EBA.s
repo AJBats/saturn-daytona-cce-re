@@ -4,7 +4,8 @@
     .global FUN_06009EBA
     .type FUN_06009EBA, @function
 FUN_06009EBA:
-    .byte 0xB4, 0xE7  /* 06009EBA: bsr 0x0600A88C */
+    .reloc ., R_SH_IND12W, FUN_0600A88C - 4
+    .2byte 0xB000    /* bsr FUN_0600A88C (linker-resolved) */
     nop
     mov #0x0, r0
     add #0x4, r15

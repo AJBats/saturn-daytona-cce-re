@@ -81,6 +81,8 @@ FUN_0600F166:
     .byte 0x00, 0x09  /* 0600F1F6: nop */
     .byte 0x01, 0x18  /* 0600F1F8: .word 0x0118 */
     .byte 0x01, 0x1C  /* 0600F1FA: mov.b @(r0,r1),r1 */
+    .global FUN_0600F1FC
+FUN_0600F1FC:
 .L_0600F1FC:
     rts
     nop
@@ -145,17 +147,28 @@ FUN_0600F166:
     .byte 0x96, 0x98  /* 0600F27A: mov.w @(0x130,PC),r6  {0x0600F3AE} */
     .byte 0x9A, 0x9C  /* 0600F27C: mov.w @(0x138,PC),r10  {0x0600F3B8} */
     .byte 0x9E, 0xA0  /* 0600F27E: mov.w @(0x140,PC),r14  {0x0600F3C2} */
-    .byte 0xA2, 0xA4  /* 0600F280: bra 0x0600F7CC */
-    .byte 0xA6, 0xA8  /* 0600F282: bra 0x0600FFD6 */
-    .byte 0xAA, 0xAC  /* 0600F284: bra 0x0600E7E0 */
-    .byte 0xAE, 0xB0  /* 0600F286: bra 0x0600EFEA */
-    .byte 0xB1, 0xB2  /* 0600F288: bsr 0x0600F5F0 */
-    .byte 0xB3, 0xB4  /* 0600F28A: bsr 0x0600F9F6 */
-    .byte 0xB5, 0xB6  /* 0600F28C: bsr 0x0600FDFC */
-    .byte 0xB7, 0xB8  /* 0600F28E: bsr 0x06010202 */
-    .byte 0xB9, 0xBA  /* 0600F290: bsr 0x0600E608 */
-    .byte 0xBB, 0xBC  /* 0600F292: bsr 0x0600EA0E */
-    .byte 0xBD, 0xBE  /* 0600F294: bsr 0x0600EE14 */
+    .reloc ., R_SH_IND12W, FUN_0600F7CC - 4
+    .2byte 0xA000    /* bra FUN_0600F7CC (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600FFD6 - 4
+    .2byte 0xA000    /* bra FUN_0600FFD6 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600E7E0 - 4
+    .2byte 0xA000    /* bra FUN_0600E7E0 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600EFEA - 4
+    .2byte 0xA000    /* bra FUN_0600EFEA (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600F5F0 - 4
+    .2byte 0xB000    /* bsr FUN_0600F5F0 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600F9F6 - 4
+    .2byte 0xB000    /* bsr FUN_0600F9F6 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600FDFC - 4
+    .2byte 0xB000    /* bsr FUN_0600FDFC (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_06010202 - 4
+    .2byte 0xB000    /* bsr FUN_06010202 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600E608 - 4
+    .2byte 0xB000    /* bsr FUN_0600E608 (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600EA0E - 4
+    .2byte 0xB000    /* bsr FUN_0600EA0E (linker-resolved) */
+    .reloc ., R_SH_IND12W, FUN_0600EE14 - 4
+    .2byte 0xB000    /* bsr FUN_0600EE14 (linker-resolved) */
     .byte 0xBF, 0xC0  /* 0600F296: bsr 0x0600F21A */
     .byte 0xC1, 0xC2  /* 0600F298: mov.w r0,@(0x184,GBR) */
     .byte 0xC3, 0xC4  /* 0600F29A: trapa #0xC4 */

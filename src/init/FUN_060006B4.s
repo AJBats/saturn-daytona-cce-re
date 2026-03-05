@@ -55,7 +55,8 @@ FUN_060006B4:
 .L_06000710:
     cmp/pz r14
     bt .L_06000718
-    .byte 0xB3, 0xC3  /* 06000714: bsr 0x06000E9E */
+    .reloc ., R_SH_IND12W, FUN_06000E9E - 4
+    .2byte 0xB000    /* bsr FUN_06000E9E (linker-resolved) */
     nop
 .L_06000718:
     mov.l .L_pool_06000738, r3

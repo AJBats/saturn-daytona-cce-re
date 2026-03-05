@@ -208,7 +208,8 @@ FUN_0600AE44:
     extu.w r12, r6
     jsr @r14
     mov r13, r5
-    .byte 0xB0, 0x70  /* 0600AFCC: bsr 0x0600B0B0 */
+    .reloc ., R_SH_IND12W, FUN_0600B0B0 - 4
+    .2byte 0xB000    /* bsr FUN_0600B0B0 (linker-resolved) */
     nop
     mov.b @r11, r0
     extu.b r0, r0

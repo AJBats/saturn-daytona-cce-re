@@ -62,7 +62,8 @@ FUN_06007FEE:
     .byte 0xD3, 0x0B  /* 0600805C: mov.l @(0x2C,PC),r3  {[0x0600808C] = 0x060072C4} */
     .byte 0x65, 0x5E  /* 0600805E: exts.b r5,r5 */
     .byte 0x35, 0x3C  /* 06008060: add r3,r5 */
-    .byte 0xA0, 0x15  /* 06008062: bra 0x06008090 */
+    .reloc ., R_SH_IND12W, FUN_06008090 - 4
+    .2byte 0xA000    /* bra FUN_06008090 (linker-resolved) */
     .byte 0x7F, 0x04  /* 06008064: add #4,r15 */
     .byte 0xFF, 0xFF  /* 06008066: .word 0xFFFF */
     .4byte sym_0605161C  /* 06008068 = 0x0605161C */

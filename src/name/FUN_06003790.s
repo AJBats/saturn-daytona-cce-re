@@ -47,5 +47,6 @@ FUN_06003790:
     bf .L_060037D2
     lds.l @r15+, pr
     mov.l @r15+, r13
-    .byte 0xA0, 0x00  /* 060037DE: bra 0x060037E2 */
+    .reloc ., R_SH_IND12W, FUN_060037E2 - 4
+    .2byte 0xA000    /* bra FUN_060037E2 (linker-resolved) */
     mov.l @r15+, r14

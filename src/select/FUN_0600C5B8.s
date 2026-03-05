@@ -9,9 +9,13 @@ FUN_0600C5B8:
     mov.l r2, @-r15
     mov r13, r5
     mov.l r3, @-r15
+    .global FUN_0600C5C2
+FUN_0600C5C2:
     jsr @r10
     nop
     add #0x10, r15
+    .global FUN_0600C5C8
+FUN_0600C5C8:
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11

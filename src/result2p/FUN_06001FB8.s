@@ -12,7 +12,8 @@ FUN_06001FB8:
     tst r0, r0
     bt/s .L_06001FD0
     mov #0x0, r6
-    .byte 0xB0, 0x69  /* 06001FC8: bsr 0x0600209E */
+    .reloc ., R_SH_IND12W, FUN_0600209E - 4
+    .2byte 0xB000    /* bsr FUN_0600209E (linker-resolved) */
     mov r6, r14
     bra .L_06002094
     nop
@@ -101,7 +102,8 @@ FUN_06001FB8:
     bf .L_06002092
     mov.b r6, @r14
 .L_0600208A:
-    .byte 0xB0, 0x08  /* 0600208A: bsr 0x0600209E */
+    .reloc ., R_SH_IND12W, FUN_0600209E - 4
+    .2byte 0xB000    /* bsr FUN_0600209E (linker-resolved) */
     mov r6, r14
     bra .L_06002094
     nop

@@ -103,7 +103,8 @@ FUN_06009290:
     bra .L_0600935A
     mov #0x0, r0
 .L_0600934C:
-    .byte 0xB0, 0x92  /* 0600934C: bsr 0x06009474 */
+    .reloc ., R_SH_IND12W, FUN_06009474 - 4
+    .2byte 0xB000    /* bsr FUN_06009474 (linker-resolved) */
     mov r14, r4
     tst r0, r0
     bt .L_06009358

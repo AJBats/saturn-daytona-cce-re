@@ -32,6 +32,8 @@ FUN_06026040:
     mov.l @(8, r5), r2
     add r5, r2
     .byte 0x95, 0x4D  /* 06026076: mov.w @(0x9A,PC),r5  {0x06026114} */
+    .global FUN_06026078
+FUN_06026078:
     mulu.w r5, r1
     sts macl, r1
     mulu.w r5, r3

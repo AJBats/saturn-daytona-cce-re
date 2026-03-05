@@ -18,6 +18,8 @@ FUN_06009680:
     mov #0x1, r2
     mov.l r3, @(12, r14)
     mov.l r2, @(16, r14)
+    .global FUN_0600969C
+FUN_0600969C:
     add #0x1C, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

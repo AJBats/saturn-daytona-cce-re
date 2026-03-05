@@ -14,7 +14,8 @@ FUN_06005DBA:
     mov #-0xB, r4
     add #0x4, r15
     lds.l @r15+, pr
-    .byte 0xA1, 0xDB  /* 06005DCE: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     mov.l @r15+, r14
     .byte 0xFF, 0xFF  /* 06005DD2: .word 0xFFFF */
     .4byte DAT_06013620  /* 06005DD4 = 0x06013620 (FUN_0600EA84 + 0x4B9C) */

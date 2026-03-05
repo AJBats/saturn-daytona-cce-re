@@ -10,7 +10,8 @@ FUN_060174C0:
     ldc r14, gbr
     mov.l @(8, r13), r1
     mov.l r13, @-r15
-    .byte 0xB0, 0x1A  /* 060174CC: bsr 0x06017504 */
+    .reloc ., R_SH_IND12W, FUN_06017504 - 4
+    .2byte 0xB000    /* bsr FUN_06017504 (linker-resolved) */
     mov.l @(12, r13), r3
     mov.l @r15+, r13
     mov.l @(16, r13), r0
@@ -24,7 +25,8 @@ FUN_060174C0:
     mov.l @(24, r13), r0
     shll r0
     bf .L_060174EE
-    .byte 0xBD, 0xB5  /* 060174E6: bsr 0x06017054 */
+    .reloc ., R_SH_IND12W, FUN_06017054 - 4
+    .2byte 0xB000    /* bsr FUN_06017054 (linker-resolved) */
     nop
     bra .L_060174FE
     nop
@@ -35,7 +37,8 @@ FUN_060174C0:
     .byte 0x04, 0x29  /* UNKNOWN */
     cmp/pz r5
     bt .L_060174FE
-    .byte 0xBD, 0x9F  /* 060174FA: bsr 0x0601703C */
+    .reloc ., R_SH_IND12W, FUN_0601703C - 4
+    .2byte 0xB000    /* bsr FUN_0601703C (linker-resolved) */
     nop
 .L_060174FE:
     lds.l @r15+, pr

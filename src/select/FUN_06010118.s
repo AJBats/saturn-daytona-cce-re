@@ -7,16 +7,19 @@ FUN_06010118:
     sts.l pr, @-r15
     mov.l .L_pool_06010144, r4
     mov.l .L_pool_06010148, r14
-    .byte 0xB0, 0x25  /* 0601011E: bsr 0x0601016C */
+    .reloc ., R_SH_IND12W, FUN_0601016C - 4
+    .2byte 0xB000    /* bsr FUN_0601016C (linker-resolved) */
     nop
     mov.l .L_pool_0601014C, r4
     mov.l .L_pool_06010150, r14
-    .byte 0xB0, 0x21  /* 06010126: bsr 0x0601016C */
+    .reloc ., R_SH_IND12W, FUN_0601016C - 4
+    .2byte 0xB000    /* bsr FUN_0601016C (linker-resolved) */
     nop
     mov.l .L_pool_06010154, r0
     jsr @r0
     nop
-    .byte 0xB4, 0x9C  /* 06010130: bsr 0x06010A6C */
+    .reloc ., R_SH_IND12W, FUN_06010A6C - 4
+    .2byte 0xB000    /* bsr FUN_06010A6C (linker-resolved) */
     mov #0x0, r4
     lds.l @r15+, pr
     rts

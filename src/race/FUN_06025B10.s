@@ -16,6 +16,8 @@ FUN_06025B10:
     mov.l .L_pool_06025B54, r1
     sts mach, r4
     sts macl, r5
+    .global FUN_06025B28
+FUN_06025B28:
     xtrct r4, r5
     sub r1, r5
     mov r5, r1
@@ -38,7 +40,10 @@ FUN_06025B10:
 .L_pool_06025B4C:
     .4byte 0x00000101  /* 06025B4C = 0x00000101 */
 .L_pool_06025B50:
-    .4byte 0x00016666  /* 06025B50 = 0x00016666 */
+    .2byte 0x0001
+    .global FUN_06025B52
+FUN_06025B52:
+    .2byte 0x6666
 .L_pool_06025B54:
     .4byte 0x00006666  /* 06025B54 = 0x00006666 */
 .L_pool_06025B58:
@@ -111,6 +116,8 @@ FUN_06025B10:
     dmuls.l r4, r8
     sts mach, r8
     sts macl, r4
+    .global FUN_06025BE0
+FUN_06025BE0:
     xtrct r8, r4
     mov r14, r0
     .byte 0x91, 0x5A  /* 06025BE4: mov.w @(0xB4,PC),r1  {0x06025C9C} */
@@ -153,7 +160,8 @@ FUN_06025B10:
     sts macl, r5
     xtrct r4, r5
 .L_06025C30:
-    .byte 0xB0, 0x06  /* 06025C30: bsr 0x06025C40 */
+    .reloc ., R_SH_IND12W, FUN_06025C40 - 4
+    .2byte 0xB000    /* bsr FUN_06025C40 (linker-resolved) */
     nop
     add r4, r5
     shar r5

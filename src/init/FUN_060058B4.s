@@ -8,7 +8,8 @@ FUN_060058B4:
     mov #0x0, r7
     mov r7, r6
     mov r7, r5
-    .byte 0xBE, 0xB3  /* 060058BC: bsr 0x06005626 */
+    .reloc ., R_SH_IND12W, FUN_06005626 - 4
+    .2byte 0xB000    /* bsr FUN_06005626 (linker-resolved) */
     mov r14, r4
     add #0x4, r15
     mov.l @r15, r0
@@ -54,12 +55,16 @@ FUN_060058B4:
     bra .L_06005918
     mov #-0x10, r4
 .L_06005910:
-    .byte 0xB4, 0x84  /* 06005910: bsr 0x0600621C */
+    .reloc ., R_SH_IND12W, FUN_0600621C - 4
+    .2byte 0xB000    /* bsr FUN_0600621C (linker-resolved) */
     mov r14, r4
     mov.l r9, @(8, r14)
     mov #0x0, r4
+    .global FUN_06005918
+FUN_06005918:
 .L_06005918:
-    .byte 0xB4, 0x36  /* 06005918: bsr 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xB000    /* bsr FUN_06006188 (linker-resolved) */
     nop
     add #0x14, r15
     lds.l @r15+, pr

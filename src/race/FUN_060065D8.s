@@ -16,7 +16,8 @@ FUN_060065D8:
 .L_060065E8:
     mov.l .L_pool_0600660C, r6
     mov r14, r5
-    .byte 0xA0, 0x10  /* 060065EC: bra 0x06006610 */
+    .reloc ., R_SH_IND12W, FUN_06006610 - 4
+    .2byte 0xA000    /* bra FUN_06006610 (linker-resolved) */
     mov.l @r15+, r14
     .4byte FUN_06008A5C  /* 060065F0 = 0x06008A5C */
     .4byte sym_002E1484  /* 060065F4 = 0x002E1484 */

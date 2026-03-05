@@ -6,7 +6,8 @@
 FUN_0601D678:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xB0, 0x0C  /* 0601D67C: bsr 0x0601D698 */
+    .reloc ., R_SH_IND12W, FUN_0601D698 - 4
+    .2byte 0xB000    /* bsr FUN_0601D698 (linker-resolved) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r14

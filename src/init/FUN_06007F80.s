@@ -23,6 +23,8 @@ FUN_06007F80:
     .byte 0x89, 0x01  /* 06007FA0: bt 0x06007FA6 */
     .byte 0x2A, 0x40  /* 06007FA2: mov.b r4,@r10 */
     .byte 0x7A, 0x01  /* 06007FA4: add #1,r10 */
+    .global FUN_06007FA6
+FUN_06007FA6:
     .byte 0x3D, 0xB3  /* 06007FA6: cmp/ge r11,r13 */
     .byte 0x8B, 0xD1  /* 06007FA8: bf 0x06007F4E */
 .L_06007FAA:

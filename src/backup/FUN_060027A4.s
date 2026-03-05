@@ -5,7 +5,8 @@
     .type FUN_060027A4, @function
 FUN_060027A4:
     mov.l r14, @-r15
-    .byte 0xA0, 0x11  /* 060027A6: bra 0x060027CC */
+    .reloc ., R_SH_IND12W, FUN_060027CC - 4
+    .2byte 0xA000    /* bra FUN_060027CC (linker-resolved) */
     mov.l r3, @-r15
     .byte 0xE3, 0x00  /* 060027AA: mov #0,r3 */
     .byte 0x2F, 0x36  /* 060027AC: mov.l r3,@-r15 */

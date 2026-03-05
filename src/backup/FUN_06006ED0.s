@@ -26,6 +26,8 @@ FUN_06006ED0:
 .L_06006EF2:
     bt .L_06006EF6
     mov r0, r4
+    .global FUN_06006EF6
+FUN_06006EF6:
 .L_06006EF6:
     mov.w @(0, r11), r0
     cmp/gt r1, r0

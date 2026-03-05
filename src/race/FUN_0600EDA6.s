@@ -60,6 +60,8 @@ FUN_0600EDA6:
     mov.l @r15+, r0
     mov.w .L_wpool_0600EE26, r2
     and r2, r3
+    .global FUN_0600EE14
+FUN_0600EE14:
     tst r3, r3
     bf .L_0600EE30
     .byte 0xDC, 0x04  /* 0600EE18: mov.l @(0x10,PC),r12  {[0x0600EE2C] = 0x0603704A} */

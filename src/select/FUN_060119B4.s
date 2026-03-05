@@ -99,6 +99,8 @@ FUN_060119B4:
     .byte 0x00, 0x0B  /* 06011A6A: rts */
     .byte 0x00, 0x09  /* 06011A6C: nop */
     .byte 0x00, 0x09  /* 06011A6E: nop */
+    .global FUN_06011A70
+FUN_06011A70:
     .byte 0x84, 0x71  /* 06011A70: mov.b @(0x1,r7),r0 */
     .byte 0xE6, 0x10  /* 06011A72: mov #16,r6 */
     .byte 0x51, 0x73  /* 06011A74: mov.l @(0xC,r7),r1 */
@@ -115,6 +117,8 @@ FUN_060119B4:
     .byte 0x17, 0x36  /* 06011A8A: mov.l r3,@(0x18,r7) */
     .byte 0x00, 0x0B  /* 06011A8C: rts */
     .byte 0x80, 0x71  /* 06011A8E: mov.b r0,@(0x1,r7) */
+    .global FUN_06011A90
+FUN_06011A90:
     .byte 0x84, 0x71  /* 06011A90: mov.b @(0x1,r7),r0 */
     .byte 0xE6, 0x30  /* 06011A92: mov #48,r6 */
     .byte 0x51, 0x73  /* 06011A94: mov.l @(0xC,r7),r1 */
@@ -131,6 +135,8 @@ FUN_060119B4:
     .byte 0x17, 0x26  /* 06011AAA: mov.l r2,@(0x18,r7) */
     .byte 0x00, 0x0B  /* 06011AAC: rts */
     .byte 0x80, 0x71  /* 06011AAE: mov.b r0,@(0x1,r7) */
+    .global FUN_06011AB0
+FUN_06011AB0:
     .byte 0x84, 0x71  /* 06011AB0: mov.b @(0x1,r7),r0 */
     .byte 0xE6, 0x20  /* 06011AB2: mov #32,r6 */
     .byte 0x51, 0x73  /* 06011AB4: mov.l @(0xC,r7),r1 */

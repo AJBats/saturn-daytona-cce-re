@@ -12,7 +12,8 @@ FUN_0600CF66:
     mov.b @r1, r0
     tst r0, r0
     bt .L_0600CF7E
-    .byte 0xB1, 0x3B  /* 0600CF76: bsr 0x0600D1F0 */
+    .reloc ., R_SH_IND12W, FUN_0600D1F0 - 4
+    .2byte 0xB000    /* bsr FUN_0600D1F0 (linker-resolved) */
     nop
     .byte 0xD1, 0x62  /* 0600CF7A: mov.l @(0x188,PC),r1  {[0x0600D104] = 0x002FC21C} */
     mov.b r0, @r1

@@ -18,5 +18,6 @@ FUN_0600EC80:
     .byte 0xD3, 0x18  /* 0600EC96: mov.l @(0x60,PC),r3  {[0x0600ECF8] = 0x06034B86} */
     jsr @r3
     mov.b r8, @r11
-    .byte 0xA0, 0x0D  /* 0600EC9C: bra 0x0600ECBA */
+    .reloc ., R_SH_IND12W, FUN_0600ECBA - 4
+    .2byte 0xA000    /* bra FUN_0600ECBA (linker-resolved) */
     nop

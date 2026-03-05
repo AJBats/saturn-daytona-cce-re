@@ -10,7 +10,8 @@ FUN_06012F70:
     neg r1, r0
     and #0x1F, r0
     add r0, r1
-    .byte 0xB0, 0x06  /* 06012F7C: bsr 0x06012F8C */
+    .reloc ., R_SH_IND12W, FUN_06012F8C - 4
+    .2byte 0xB000    /* bsr FUN_06012F8C (linker-resolved) */
     mov.l r1, @r6
     lds.l @r15+, pr
     rts

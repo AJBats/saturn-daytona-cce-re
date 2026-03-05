@@ -26,7 +26,8 @@ FUN_06006544:
     mov.b @r8, r0
     cmp/eq #0x4, r0
     bf .L_06006572
-    .byte 0xB3, 0x4B  /* 0600656E: bsr 0x06006C08 */
+    .reloc ., R_SH_IND12W, FUN_06006C08 - 4
+    .2byte 0xB000    /* bsr FUN_06006C08 (linker-resolved) */
     nop
 .L_06006572:
     mov.b @r13, r3
@@ -42,7 +43,8 @@ FUN_06006544:
     jsr @r2
     nop
     mov.l .L_pool_0600662C, r3
-    .byte 0xB1, 0x3D  /* 0600658C: bsr 0x0600680A */
+    .reloc ., R_SH_IND12W, FUN_0600680A - 4
+    .2byte 0xB000    /* bsr FUN_0600680A (linker-resolved) */
     mov.b @r3, r4
     mov.l .L_pool_06006630, r1
     jsr @r1
@@ -104,6 +106,8 @@ FUN_06006544:
     mov.l .L_pool_06006654, r1
     mov.b r2, @r3
     mov.b r14, @r1
+    .global FUN_06006602
+FUN_06006602:
 .L_06006602:
     add #0xC, r15
     lds.l @r15+, pr

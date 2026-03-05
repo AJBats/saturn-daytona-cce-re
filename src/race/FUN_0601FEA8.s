@@ -5,9 +5,11 @@
     .type FUN_0601FEA8, @function
 FUN_0601FEA8:
     sts.l pr, @-r15
-    .byte 0xBF, 0xAF  /* 0601FEAA: bsr 0x0601FE0C */
+    .reloc ., R_SH_IND12W, FUN_0601FE0C - 4
+    .2byte 0xB000    /* bsr FUN_0601FE0C (linker-resolved) */
     mov.l r4, @-r15
-    .byte 0xBF, 0x45  /* 0601FEAE: bsr 0x0601FD3C */
+    .reloc ., R_SH_IND12W, FUN_0601FD3C - 4
+    .2byte 0xB000    /* bsr FUN_0601FD3C (linker-resolved) */
     mov r0, r4
     mov #-0x1, r3
     shll8 r3

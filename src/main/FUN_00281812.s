@@ -31,6 +31,8 @@ FUN_00281812:
     mov r8, r0
 .L_00281842:
     add #0x4, r14
+    .global FUN_00281844
+FUN_00281844:
     mov r14, r15
     lds.l @r15+, pr
     mov.l @r15+, r14

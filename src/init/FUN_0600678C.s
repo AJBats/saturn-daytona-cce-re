@@ -46,7 +46,8 @@ FUN_0600678C:
     bra .L_060067E2
     mov r3, r4
 .L_060067D4:
-    .byte 0xBF, 0xAD  /* 060067D4: bsr 0x06006732 */
+    .reloc ., R_SH_IND12W, FUN_06006732 - 4
+    .2byte 0xB000    /* bsr FUN_06006732 (linker-resolved) */
     mov r14, r4
     cmp/eq #0x1, r0
     bf .L_060067EC
@@ -55,7 +56,8 @@ FUN_0600678C:
     mov.l r3, @(8, r14)
 .L_060067E2:
     lds.l @r15+, pr
-    .byte 0xAC, 0xD0  /* 060067E4: bra 0x06006188 */
+    .reloc ., R_SH_IND12W, FUN_06006188 - 4
+    .2byte 0xA000    /* bra FUN_06006188 (linker-resolved) */
     mov.l @r15+, r14
 .L_060067E8:
     mov #0x1, r2

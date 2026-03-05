@@ -39,6 +39,8 @@ FUN_0600E79A:
     add r3, r5
     mov.l r5, @(0, r0)
     dmuls.l r8, r9
+    .global FUN_0600E7E0
+FUN_0600E7E0:
     mov.w .L_wpool_0600E7FC, r10
     sts mach, r8
     sts macl, r9

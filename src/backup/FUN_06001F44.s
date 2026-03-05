@@ -12,5 +12,6 @@ FUN_06001F44:
     cmp/eq #0x55, r0
     .byte 0x8B, 0x05  /* 06001F50: bf 0x06001F5E */
     mov #0x2, r2
-    .byte 0xA0, 0x03  /* 06001F54: bra 0x06001F5E */
+    .reloc ., R_SH_IND12W, FUN_06001F5E - 4
+    .2byte 0xA000    /* bra FUN_06001F5E (linker-resolved) */
     mov.b r2, @r11

@@ -65,7 +65,8 @@ FUN_0600742E:
     extu.b r0, r7
     mov r7, r6
     sub r7, r3
-    .byte 0xA0, 0x34  /* 060074C0: bra 0x0600752C */
+    .reloc ., R_SH_IND12W, FUN_0600752C - 4
+    .2byte 0xA000    /* bra FUN_0600752C (linker-resolved) */
     mov.l r3, @(16, r4)
 .L_060074C4:
     mov.l @(8, r4), r3
@@ -88,7 +89,8 @@ FUN_0600742E:
     mov r7, r14
     extu.b r0, r0
     mov r0, r9
-    .byte 0xA0, 0x1D  /* 060074EC: bra 0x0600752A */
+    .reloc ., R_SH_IND12W, FUN_0600752A - 4
+    .2byte 0xA000    /* bra FUN_0600752A (linker-resolved) */
     sub r5, r9
 .L_060074F0:
     mov.l @(12, r4), r2

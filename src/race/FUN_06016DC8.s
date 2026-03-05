@@ -9,5 +9,6 @@ FUN_06016DC8:
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
-    .byte 0xA0, 0x11  /* 06016DD2: bra 0x06016DF8 */
+    .reloc ., R_SH_IND12W, FUN_06016DF8 - 4
+    .2byte 0xA000    /* bra FUN_06016DF8 (linker-resolved) */
     mov r5, r11

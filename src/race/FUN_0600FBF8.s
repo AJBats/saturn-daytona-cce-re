@@ -274,6 +274,8 @@ FUN_0600FBF8:
     .byte 0x00, 0xDC  /* 0600FDF6: mov.b @(r0,r13),r0 */
     .byte 0x00, 0xDC  /* 0600FDF8: mov.b @(r0,r13),r0 */
     .byte 0x00, 0xDC  /* 0600FDFA: mov.b @(r0,r13),r0 */
+    .global FUN_0600FDFC
+FUN_0600FDFC:
     .byte 0x00, 0xDC  /* 0600FDFC: mov.b @(r0,r13),r0 */
     .byte 0x00, 0xDC  /* 0600FDFE: mov.b @(r0,r13),r0 */
     .byte 0x00, 0x96  /* 0600FE00: mov.l r9,@(r0,r0) */

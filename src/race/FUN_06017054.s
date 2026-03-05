@@ -19,6 +19,8 @@ FUN_06017054:
     mov.b r0, @(157, gbr)
     .byte 0x00, 0x7C  /* 0601706C: mov.b @(r0,r7),r0 */
     .byte 0x00, 0x9C  /* 0601706E: mov.b @(r0,r9),r0 */
+    .global FUN_06017070
+FUN_06017070:
     .byte 0xE0, 0x00  /* 06017070: mov #0,r0 */
     .byte 0x00, 0x00  /* 06017072: .word 0x0000 */
     .4byte sym_FFFFFFD0  /* 06017074 = 0xFFFFFFD0 */

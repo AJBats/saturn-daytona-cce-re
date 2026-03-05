@@ -10,7 +10,8 @@ FUN_06016A80:
     mov.l @(0, r4), r5
     clrmac
     mov.l @(8, r4), r6
-    .byte 0xB0, 0x0D  /* 06016A8C: bsr 0x06016AAA */
+    .reloc ., R_SH_IND12W, FUN_06016AAA - 4
+    .2byte 0xB000    /* bsr FUN_06016AAA (linker-resolved) */
     ldc r4, gbr
     mov.l @r15+, r14
     mov.l @r15+, r13

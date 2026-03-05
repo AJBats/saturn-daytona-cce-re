@@ -25,7 +25,8 @@ FUN_06001EBE:
     add r3, r4
 .L_06001EE2:
     shlr16 r4
-    .byte 0xBE, 0xB8  /* 06001EE4: bsr 0x06001C58 */
+    .reloc ., R_SH_IND12W, FUN_06001C58 - 4
+    .2byte 0xB000    /* bsr FUN_06001C58 (linker-resolved) */
     exts.w r4, r4
     .byte 0xD1, 0x0D  /* 06001EE8: mov.l @(0x34,PC),r1  {[0x06001F20] = 0x0601332C} */
     mov r0, r5
@@ -46,7 +47,8 @@ FUN_06001EBE:
     shlr16 r14
     exts.w r14, r14
     mov.l r14, @r15
-    .byte 0xBF, 0x84  /* 06001F0C: bsr 0x06001E18 */
+    .reloc ., R_SH_IND12W, FUN_06001E18 - 4
+    .2byte 0xB000    /* bsr FUN_06001E18 (linker-resolved) */
     mov r14, r4
     add #0x4, r15
     lds.l @r15+, macl

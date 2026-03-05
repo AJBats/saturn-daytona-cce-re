@@ -14,9 +14,11 @@ FUN_0600736E:
     bra .L_06007394
     nop
 .L_06007380:
-    .byte 0xB0, 0x17  /* 06007380: bsr 0x060073B2 */
+    .reloc ., R_SH_IND12W, FUN_060073B2 - 4
+    .2byte 0xB000    /* bsr FUN_060073B2 (linker-resolved) */
     mov r12, r4
-    .byte 0xB0, 0x22  /* 06007384: bsr 0x060073CC */
+    .reloc ., R_SH_IND12W, FUN_060073CC - 4
+    .2byte 0xB000    /* bsr FUN_060073CC (linker-resolved) */
     mov #0xF, r4
     mov.l @r14, r2
     add #-0x1, r2

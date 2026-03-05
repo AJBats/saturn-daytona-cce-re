@@ -12,23 +12,27 @@ FUN_06004280:
     mov.l r13, @-r15
     mov r9, r0
     mov.l r0, @(164, gbr)
-    .byte 0xB0, 0xAE  /* 06004290: bsr 0x060043F0 */
+    .reloc ., R_SH_IND12W, FUN_060043F0 - 4
+    .2byte 0xB000    /* bsr FUN_060043F0 (linker-resolved) */
     mov #0x4, r0
     mov.l @(24, gbr), r0
     exts.w r0, r9
     swap.w r0, r0
     exts.w r0, r8
-    .byte 0xB0, 0xC8  /* 0600429C: bsr 0x06004430 */
+    .reloc ., R_SH_IND12W, FUN_06004430 - 4
+    .2byte 0xB000    /* bsr FUN_06004430 (linker-resolved) */
     nop
     mov.b @(153, gbr), r0
     tst r0, r0
     bt .L_060042C4
-    .byte 0xB1, 0x7B  /* 060042A6: bsr 0x060045A0 */
+    .reloc ., R_SH_IND12W, FUN_060045A0 - 4
+    .2byte 0xB000    /* bsr FUN_060045A0 (linker-resolved) */
     nop
     mov.b @(154, gbr), r0
     tst r0, r0
     bt .L_060042C4
-    .byte 0xB2, 0x1A  /* 060042B0: bsr 0x060046E8 */
+    .reloc ., R_SH_IND12W, FUN_060046E8 - 4
+    .2byte 0xB000    /* bsr FUN_060046E8 (linker-resolved) */
     nop
     mov.l @r15+, r13
     mov.l @r15+, r12

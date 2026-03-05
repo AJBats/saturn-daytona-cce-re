@@ -9,6 +9,8 @@ FUN_06007FE0:
     and r0, r4
     mov.l .L_pool_0600805C, r0
     shlr2 r4
+    .global FUN_06007FEA
+FUN_06007FEA:
     add r4, r0
     mov.w @r0+, r0
     rts

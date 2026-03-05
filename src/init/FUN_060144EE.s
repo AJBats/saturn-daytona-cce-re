@@ -19,7 +19,8 @@ FUN_060144EE:
 .L_06014506:
     jsr @r13
     nop
-    .byte 0xBF, 0x5D  /* 0601450A: bsr 0x060143C8 */
+    .reloc ., R_SH_IND12W, FUN_060143C8 - 4
+    .2byte 0xB000    /* bsr FUN_060143C8 (linker-resolved) */
     nop
 .L_0601450E:
     mov.b @r11, r2
@@ -361,7 +362,8 @@ FUN_060144EE:
     .byte 0x01, 0x01  /* 060147C6: .word 0x0101 */
     .byte 0x15, 0x5E  /* 060147C8: mov.l r5,@(0x38,r5) */
     .byte 0x80, 0x06  /* 060147CA: mov.b r0,@(0x6,r0) */
-    .byte 0xB9, 0x22  /* 060147CC: bsr 0x06013A14 */
+    .reloc ., R_SH_IND12W, FUN_06013A14 - 4
+    .2byte 0xB000    /* bsr FUN_06013A14 (linker-resolved) */
     .byte 0x10, 0x07  /* 060147CE: mov.l r0,@(0x1C,r0) */
     .byte 0xCE, 0x80  /* 060147D0: xor.b #0x80,@(r0,GBR) */
     .byte 0x80, 0x00  /* 060147D2: mov.b r0,@(0x0,r0) */

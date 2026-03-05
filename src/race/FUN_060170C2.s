@@ -11,6 +11,8 @@ FUN_060170C2:
     mov.l r0, @-r15
     mov r4, r1
     mov r5, r3
+    .global FUN_060170D0
+FUN_060170D0:
     mov.l r1, @-r15
     mov.l r3, @-r15
     mov #0x0, r4

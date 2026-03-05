@@ -208,7 +208,8 @@ FUN_060106D8:
 .L_wpool_06010860:
     .byte 0xD1, 0x6B  /* 06010860: mov.l @(0x1AC,PC),r1  {[0x06010A10] = 0x53835553} */
 .L_wpool_06010862:
-    .byte 0xAE, 0x95  /* 06010862: bra 0x06010590 */
+    .reloc ., R_SH_IND12W, FUN_06010590 - 4
+    .2byte 0xA000    /* bra FUN_06010590 (linker-resolved) */
 .L_wpool_06010864:
     .byte 0x00, 0x80  /* 06010864: .word 0x0080 */
     .byte 0xFF, 0xFF  /* 06010866: .word 0xFFFF */

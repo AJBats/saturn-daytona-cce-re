@@ -30,7 +30,8 @@ FUN_0600A394:
     add r11, r14
     mov.w r0, @(8, r14)
     mov.l @(4, r15), r4
-    .byte 0xB5, 0xD5  /* 0600A3C6: bsr 0x0600AF74 */
+    .reloc ., R_SH_IND12W, FUN_0600AF74 - 4
+    .2byte 0xB000    /* bsr FUN_0600AF74 (linker-resolved) */
     mov.b @r4, r4
     extu.b r0, r0
     mov.l @r15, r2
@@ -77,5 +78,6 @@ FUN_0600A394:
     mov.l @r15+, r11
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xA0, 0xD6  /* 0600A424: bra 0x0600A5D4 */
+    .reloc ., R_SH_IND12W, FUN_0600A5D4 - 4
+    .2byte 0xA000    /* bra FUN_0600A5D4 (linker-resolved) */
     mov.l @r15+, r14

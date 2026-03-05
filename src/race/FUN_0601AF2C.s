@@ -84,7 +84,8 @@ FUN_0601AF2C:
     .byte 0x31, 0xC0  /* 0601AFBC: cmp/eq r12,r1 */
     .byte 0x89, 0x62  /* 0601AFBE: bt 0x0601B086 */
     .byte 0x65, 0xC3  /* 0601AFC0: mov r12,r5 */
-    .byte 0xBE, 0xFF  /* 0601AFC2: bsr 0x0601ADC4 */
+    .reloc ., R_SH_IND12W, FUN_0601ADC4 - 4
+    .2byte 0xB000    /* bsr FUN_0601ADC4 (linker-resolved) */
     .byte 0x64, 0xE3  /* 0601AFC4: mov r14,r4 */
     .byte 0xA0, 0x5E  /* 0601AFC6: bra 0x0601B086 */
     .byte 0x00, 0x09  /* 0601AFC8: nop */

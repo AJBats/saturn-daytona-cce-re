@@ -13,7 +13,8 @@ FUN_0600683C:
     .byte 0x89, 0x2D  /* 06006848: bt 0x060068A6 */
     cmp/eq #0x2, r0
     .byte 0x89, 0x4C  /* 0600684C: bt 0x060068E8 */
-    .byte 0xA0, 0x50  /* 0600684E: bra 0x060068F2 */
+    .reloc ., R_SH_IND12W, FUN_060068F2 - 4
+    .2byte 0xA000    /* bra FUN_060068F2 (linker-resolved) */
     nop
 .L_06006852:
     mov r14, r0

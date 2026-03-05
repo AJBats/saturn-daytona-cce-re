@@ -21,7 +21,8 @@ FUN_0601176C:
     mov.l .L_pool_0601184C, r2
     jsr @r2
     mov r14, r4
-    .byte 0xBD, 0xFC  /* 0601178E: bsr 0x0601138A */
+    .reloc ., R_SH_IND12W, FUN_0601138A - 4
+    .2byte 0xB000    /* bsr FUN_0601138A (linker-resolved) */
     mov r13, r4
     mov #0x5C, r0
     mov.l @(r0, r13), r4
@@ -45,7 +46,8 @@ FUN_0601176C:
     mov.l .L_pool_0601184C, r3
     jsr @r3
     mov r13, r4
-    .byte 0xBD, 0xE6  /* 060117BA: bsr 0x0601138A */
+    .reloc ., R_SH_IND12W, FUN_0601138A - 4
+    .2byte 0xB000    /* bsr FUN_0601138A (linker-resolved) */
     mov r13, r4
     mov #0x5C, r0
     mov.l @(r0, r13), r4

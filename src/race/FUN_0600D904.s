@@ -192,7 +192,8 @@ FUN_0600D904:
     mov.l @(r0, r1), r2
     cmp/pl r2
     bt .L_0600DA50
-    .byte 0xB0, 0x60  /* 0600DA4A: bsr 0x0600DB0E */
+    .reloc ., R_SH_IND12W, FUN_0600DB0E - 4
+    .2byte 0xB000    /* bsr FUN_0600DB0E (linker-resolved) */
     nop
     mov r14, r0
 .L_0600DA50:
@@ -251,7 +252,8 @@ FUN_0600D904:
     .byte 0x91, 0xA3  /* 0600DAB6: mov.w @(0x146,PC),r1  {0x0600DC00} */
     mov.l r2, @(r0, r1)
 .L_0600DABA:
-    .byte 0xB0, 0x39  /* 0600DABA: bsr 0x0600DB30 */
+    .reloc ., R_SH_IND12W, FUN_0600DB30 - 4
+    .2byte 0xB000    /* bsr FUN_0600DB30 (linker-resolved) */
     nop
     mov.l @r15+, r9
     mov.l @r15+, r5

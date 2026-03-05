@@ -10,13 +10,15 @@ FUN_06009BD8:
     mov.b @(r0, r4), r0
     cmp/eq #0x1, r0
     bt .L_06009BE8
-    .byte 0xA0, 0x40  /* 06009BE4: bra 0x06009C68 */
+    .reloc ., R_SH_IND12W, FUN_06009C68 - 4
+    .2byte 0xA000    /* bra FUN_06009C68 (linker-resolved) */
     mov #-0x7, r0
 .L_06009BE8:
     mov #0x18, r2
     cmp/ge r2, r12
     bf .L_06009C0C
-    .byte 0xA0, 0x3B  /* 06009BEE: bra 0x06009C68 */
+    .reloc ., R_SH_IND12W, FUN_06009C68 - 4
+    .2byte 0xA000    /* bra FUN_06009C68 (linker-resolved) */
     mov #-0x8, r0
     .byte 0xFF, 0xFF  /* 06009BF2: .word 0xFFFF */
     .4byte DAT_0601001A  /* 06009BF4 = 0x0601001A (FUN_0600EA84 + 0x1596) */

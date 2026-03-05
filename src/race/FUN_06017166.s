@@ -55,7 +55,8 @@ FUN_06017166:
     .byte 0xD0, 0xB1  /* 060171C4: mov.l @(0x2C4,PC),r0  {[0x0601748C] = 0x06036AA8} */
     jsr @r0
     mov.l @(0, r12), r4
-    .byte 0xBF, 0xA0  /* 060171CA: bsr 0x0601710E */
+    .reloc ., R_SH_IND12W, FUN_0601710E - 4
+    .2byte 0xB000    /* bsr FUN_0601710E (linker-resolved) */
     nop
     mov.l @r15+, r6
     bf .L_060171DE
@@ -126,7 +127,8 @@ FUN_06017166:
     .byte 0xD0, 0x90  /* 0601724A: mov.l @(0x240,PC),r0  {[0x0601748C] = 0x06036AA8} */
     jsr @r0
     mov.l @(0, r12), r4
-    .byte 0xBF, 0x5D  /* 06017250: bsr 0x0601710E */
+    .reloc ., R_SH_IND12W, FUN_0601710E - 4
+    .2byte 0xB000    /* bsr FUN_0601710E (linker-resolved) */
     nop
     mov.l @r15+, r6
     bt .L_060171D2
@@ -256,7 +258,8 @@ FUN_06017166:
     .byte 0x2C, 0xBF  /* 0601733C: muls.w r11,r12 */
     .byte 0x53, 0x41  /* 0601733E: mov.l @(0x4,r4),r3 */
     .byte 0xD1, 0x6B  /* 06017340: mov.l @(0x1AC,PC),r1  {[0x060174F0] = 0x650F4001} */
-    .byte 0xAE, 0x95  /* 06017342: bra 0x06017070 */
+    .reloc ., R_SH_IND12W, FUN_06017070 - 4
+    .2byte 0xA000    /* bra FUN_06017070 (linker-resolved) */
 .L_06017344:
     mov.l @(140, gbr), r0
     tst r0, r0
@@ -368,7 +371,8 @@ FUN_06017166:
     cmp/ge r4, r8
     mov.l r10, @-r15
     bt .L_06017432
-    .byte 0xBE, 0x53  /* 0601740A: bsr 0x060170B4 */
+    .reloc ., R_SH_IND12W, FUN_060170B4 - 4
+    .2byte 0xB000    /* bsr FUN_060170B4 (linker-resolved) */
     mov.l @(12, r10), r6
     mov.l @r15+, r9
     mov.l @(0, r14), r2
@@ -381,7 +385,8 @@ FUN_06017166:
     mov.l @(76, gbr), r0
     add r7, r0
     mov.l @(12, r9), r5
-    .byte 0xBC, 0x64  /* 06017424: bsr 0x06016CF0 */
+    .reloc ., R_SH_IND12W, FUN_06016CF0 - 4
+    .2byte 0xB000    /* bsr FUN_06016CF0 (linker-resolved) */
     mov.l r0, @(76, gbr)
 .L_06017428:
     mov.l @r15+, r0
@@ -406,7 +411,8 @@ FUN_06017166:
     add r7, r0
     mov.l @(12, r14), r5
     mov.l r0, @(76, gbr)
-    .byte 0xBC, 0x4E  /* 06017450: bsr 0x06016CF0 */
+    .reloc ., R_SH_IND12W, FUN_06016CF0 - 4
+    .2byte 0xB000    /* bsr FUN_06016CF0 (linker-resolved) */
     extu.w r5, r5
     bra .L_06017428
     nop

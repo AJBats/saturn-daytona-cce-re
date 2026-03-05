@@ -28,7 +28,8 @@ FUN_0600F104:
     mov #0x0, r2
     mov #0x2B, r0
     mov.b r2, @(r0, r15)
-    .byte 0xB0, 0x6C  /* 0600F134: bsr 0x0600F210 */
+    .reloc ., R_SH_IND12W, FUN_0600F210 - 4
+    .2byte 0xB000    /* bsr FUN_0600F210 (linker-resolved) */
     nop
     mov.l .L_pool_0600F1F0, r4
     mov #0x64, r3

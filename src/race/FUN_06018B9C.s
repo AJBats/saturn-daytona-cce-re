@@ -89,7 +89,8 @@ FUN_06018B9C:
     jsr @r3
     mov.l @r5, r5
 .L_06018C3E:
-    .byte 0xB0, 0x57  /* 06018C3E: bsr 0x06018CF0 */
+    .reloc ., R_SH_IND12W, FUN_06018CF0 - 4
+    .2byte 0xB000    /* bsr FUN_06018CF0 (linker-resolved) */
     nop
     mov.l .L_pool_06018C7C, r1
     mov.l @r1, r1

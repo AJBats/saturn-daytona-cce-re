@@ -24,7 +24,8 @@ FUN_06002118:
     mov.l @r0, r0
     add r0, r3
     mov.w @r3+, r7
-    .byte 0xB0, 0xDC  /* 06002140: bsr 0x060022FC */
+    .reloc ., R_SH_IND12W, FUN_060022FC - 4
+    .2byte 0xB000    /* bsr FUN_060022FC (linker-resolved) */
     nop
     tst r2, r2
     bt/s .L_06002176
@@ -74,7 +75,8 @@ FUN_06002118:
     mov.l r3, @-r15
     mov.l r7, @-r15
     mov.l r2, @-r15
-    .byte 0xB0, 0x80  /* 060021A0: bsr 0x060022A4 */
+    .reloc ., R_SH_IND12W, FUN_060022A4 - 4
+    .2byte 0xB000    /* bsr FUN_060022A4 (linker-resolved) */
     sub r1, r5
     mov.l @r15+, r2
     mov.l @r15+, r7

@@ -16,6 +16,8 @@ FUN_06006C80:
     mov.l r5, @r6
     bf/s .L_06006C86
     add #0x4, r6
+    .global FUN_06006C96
+FUN_06006C96:
     add #0xC, r15
     lds.l @r15+, macl
     lds.l @r15+, pr

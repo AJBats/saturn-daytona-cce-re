@@ -45,6 +45,8 @@ FUN_06007274:
     add #0x2, r2
     rts
     mov.b r0, @(1, r2)
+    .global FUN_060072C6
+FUN_060072C6:
     .byte 0xD4, 0x1E  /* 060072C6: mov.l @(0x78,PC),r4  {[0x06007340] = 0x060136B0} */
     .byte 0x60, 0x40  /* 060072C8: mov.b @r4,r0 */
     .byte 0x60, 0x0C  /* 060072CA: extu.b r0,r0 */

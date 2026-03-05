@@ -31,7 +31,8 @@ FUN_06009F2C:
     bt .L_06009F66
     mov.l @r13, r2
     add #0x6, r2
-    .byte 0xB0, 0x55  /* 06009F62: bsr 0x0600A010 */
+    .reloc ., R_SH_IND12W, FUN_0600A010 - 4
+    .2byte 0xB000    /* bsr FUN_0600A010 (linker-resolved) */
     mov.l r2, @r13
 .L_06009F66:
     mov.l @r13, r0

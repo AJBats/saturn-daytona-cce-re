@@ -17,7 +17,8 @@ FUN_06002700:
     mov.b r0, @(4, r15)
     mov #0x0, r0
     mov.b r0, @(5, r15)
-    .byte 0xBF, 0x96  /* 0600271A: bsr 0x0600264A */
+    .reloc ., R_SH_IND12W, FUN_0600264A - 4
+    .2byte 0xB000    /* bsr FUN_0600264A (linker-resolved) */
     nop
     add #0x10, r15
     lds.l @r15+, pr

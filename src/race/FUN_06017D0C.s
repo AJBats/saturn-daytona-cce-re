@@ -5,11 +5,14 @@
     .type FUN_06017D0C, @function
 FUN_06017D0C:
     sts.l pr, @-r15
-    .byte 0xB0, 0x63  /* 06017D0E: bsr 0x06017DD8 */
+    .reloc ., R_SH_IND12W, FUN_06017DD8 - 4
+    .2byte 0xB000    /* bsr FUN_06017DD8 (linker-resolved) */
     nop
-    .byte 0xB0, 0xE9  /* 06017D12: bsr 0x06017EE8 */
+    .reloc ., R_SH_IND12W, FUN_06017EE8 - 4
+    .2byte 0xB000    /* bsr FUN_06017EE8 (linker-resolved) */
     nop
-    .byte 0xB0, 0xBD  /* 06017D16: bsr 0x06017E94 */
+    .reloc ., R_SH_IND12W, FUN_06017E94 - 4
+    .2byte 0xB000    /* bsr FUN_06017E94 (linker-resolved) */
     nop
     lds.l @r15+, pr
     rts

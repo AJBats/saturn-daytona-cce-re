@@ -37,7 +37,8 @@ FUN_06008490:
     mov.l @(44, r14), r0
     mov r0, r13
 .L_060084CE:
-    .byte 0xB2, 0x64  /* 060084CE: bsr 0x0600899A */
+    .reloc ., R_SH_IND12W, FUN_0600899A - 4
+    .2byte 0xB000    /* bsr FUN_0600899A (linker-resolved) */
     mov r14, r4
     mov r0, r1
     .byte 0xD3, 0x2F  /* 060084D4: mov.l @(0xBC,PC),r3  {[0x06008594] = 0x06008E60} */

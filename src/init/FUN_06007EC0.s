@@ -10,5 +10,6 @@ FUN_06007EC0:
     .byte 0x8D, 0x03  /* 06007EC6: bt/s 0x06007ED0 */
     add #0x1, r13
     mov.l @r15, r0
-    .byte 0xA0, 0xF5  /* 06007ECC: bra 0x060080BA */
+    .reloc ., R_SH_IND12W, FUN_060080BA - 4
+    .2byte 0xA000    /* bra FUN_060080BA (linker-resolved) */
     nop

@@ -64,6 +64,8 @@ FUN_0028143E:
     mov #0x0, r4
 .L_002814AC:
     .byte 0xD0, 0x06  /* 002814AC: mov.l @(0x18,PC),r0  {[0x002814C8] = 0x00281E18} */
+    .global FUN_002814AE
+FUN_002814AE:
 .L_002814AE:
     jsr @r0
     nop

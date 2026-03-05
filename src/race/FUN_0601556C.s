@@ -173,7 +173,8 @@ FUN_0601556C:
     lds.l @r15+, pr
     mov.l @r15+, r12
     mov.l @r15+, r13
-    .byte 0xAF, 0x0B  /* 060156B4: bra 0x060154CE */
+    .reloc ., R_SH_IND12W, FUN_060154CE - 4
+    .2byte 0xA000    /* bra FUN_060154CE (linker-resolved) */
     mov.l @r15+, r14
 .L_wpool_060156B8:
     .byte 0x00, 0x80  /* 060156B8: .word 0x0080 */
