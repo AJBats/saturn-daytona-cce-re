@@ -1,5 +1,6 @@
 {
   "module_base": "0x06000000",
+  "runtime_base": "0x06005200",
   "module_size": 84000,
   "function_count": 552,
   "dat_symbols": {
@@ -28,10 +29,20 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3505"
     },
+    "DAT_0601927A": {
+      "absolute": "0x0601927A",
+      "parent_fun": "FUN_06013FB4",
+      "offset": "0x52C6"
+    },
     "DAT_06007300": {
       "absolute": "0x06007300",
       "parent_fun": "FUN_060072E4",
       "offset": "0x1C"
+    },
+    "DAT_060195C8": {
+      "absolute": "0x060195C8",
+      "parent_fun": "FUN_060143C8",
+      "offset": "0x5200"
     },
     "DAT_06013C78": {
       "absolute": "0x06013C78",
@@ -52,6 +63,21 @@
       "absolute": "0x06000320",
       "parent_fun": "FUN_06000310",
       "offset": "0x10"
+    },
+    "DAT_060191A8": {
+      "absolute": "0x060191A8",
+      "parent_fun": "FUN_06013FA8",
+      "offset": "0x5200"
+    },
+    "DAT_060194E0": {
+      "absolute": "0x060194E0",
+      "parent_fun": "FUN_060142E0",
+      "offset": "0x5200"
+    },
+    "DAT_0601925C": {
+      "absolute": "0x0601925C",
+      "parent_fun": "FUN_06013FB4",
+      "offset": "0x52A8"
     },
     "DAT_06013AF4": {
       "absolute": "0x06013AF4",
@@ -77,6 +103,11 @@
       "absolute": "0x0601335D",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48D9"
+    },
+    "DAT_06019476": {
+      "absolute": "0x06019476",
+      "parent_fun": "FUN_06014096",
+      "offset": "0x53E0"
     },
     "DAT_06011F98": {
       "absolute": "0x06011F98",
@@ -222,6 +253,11 @@
       "absolute": "0x060133FA",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4976"
+    },
+    "DAT_060196EE": {
+      "absolute": "0x060196EE",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x5200"
     },
     "DAT_06010B40": {
       "absolute": "0x06010B40",
@@ -397,6 +433,16 @@
       "absolute": "0x06011994",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x2F10"
+    },
+    "DAT_06019A00": {
+      "absolute": "0x06019A00",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x5512"
+    },
+    "DAT_060199E0": {
+      "absolute": "0x060199E0",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x54F2"
     },
     "DAT_06013366": {
       "absolute": "0x06013366",
@@ -3233,6 +3279,11 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x52A0"
     },
+    "DAT_060151A8": {
+      "absolute": "0x060151A8",
+      "parent_fun": "FUN_0600EA84",
+      "offset": "0x6724"
+    },
     "DAT_06013DA8": {
       "absolute": "0x06013DA8",
       "parent_fun": "FUN_0600EA84",
@@ -3242,6 +3293,11 @@
       "absolute": "0x06013D26",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x52A2"
+    },
+    "DAT_06019788": {
+      "absolute": "0x06019788",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x529A"
     },
     "DAT_0601315C": {
       "absolute": "0x0601315C",
@@ -3282,6 +3338,46 @@
       "absolute": "0x0601335C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48D8"
+    },
+    "DAT_06019794": {
+      "absolute": "0x06019794",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52A6"
+    },
+    "DAT_060197AC": {
+      "absolute": "0x060197AC",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52BE"
+    },
+    "DAT_060197A0": {
+      "absolute": "0x060197A0",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52B2"
+    },
+    "DAT_060197B8": {
+      "absolute": "0x060197B8",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52CA"
+    },
+    "DAT_060197C4": {
+      "absolute": "0x060197C4",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52D6"
+    },
+    "DAT_060197D0": {
+      "absolute": "0x060197D0",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52E2"
+    },
+    "DAT_060197E0": {
+      "absolute": "0x060197E0",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52F2"
+    },
+    "DAT_060197EC": {
+      "absolute": "0x060197EC",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x52FE"
     },
     "DAT_06002FA4": {
       "absolute": "0x06002FA4",
@@ -3327,41 +3423,60 @@
       "absolute": "0x060133B2",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x492E"
+    },
+    "DAT_060197F8": {
+      "absolute": "0x060197F8",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x530A"
+    },
+    "DAT_0601983A": {
+      "absolute": "0x0601983A",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x534C"
+    },
+    "DAT_0601987C": {
+      "absolute": "0x0601987C",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x538E"
+    },
+    "DAT_060198B6": {
+      "absolute": "0x060198B6",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x53C8"
+    },
+    "DAT_060198F8": {
+      "absolute": "0x060198F8",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x540A"
+    },
+    "DAT_0601993A": {
+      "absolute": "0x0601993A",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x544C"
+    },
+    "DAT_0601997C": {
+      "absolute": "0x0601997C",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x548E"
+    },
+    "DAT_060199BE": {
+      "absolute": "0x060199BE",
+      "parent_fun": "FUN_060144EE",
+      "offset": "0x54D0"
     }
   },
   "sym_symbols": {
     "sym_06028000": {
       "absolute": "0x06028000"
     },
-    "sym_0601927A": {
-      "absolute": "0x0601927A"
-    },
-    "sym_060195C8": {
-      "absolute": "0x060195C8"
-    },
     "sym_25F80000": {
       "absolute": "0x25F80000"
-    },
-    "sym_060191A8": {
-      "absolute": "0x060191A8"
     },
     "sym_00200000": {
       "absolute": "0x00200000"
     },
     "sym_002FC000": {
       "absolute": "0x002FC000"
-    },
-    "sym_060194E0": {
-      "absolute": "0x060194E0"
-    },
-    "sym_0601925C": {
-      "absolute": "0x0601925C"
-    },
-    "sym_06019476": {
-      "absolute": "0x06019476"
-    },
-    "sym_060196EE": {
-      "absolute": "0x060196EE"
     },
     "sym_25E00000": {
       "absolute": "0x25E00000"
@@ -3450,14 +3565,8 @@
     "sym_25A00000": {
       "absolute": "0x25A00000"
     },
-    "sym_06019A00": {
-      "absolute": "0x06019A00"
-    },
     "sym_25A0A000": {
       "absolute": "0x25A0A000"
-    },
-    "sym_060199E0": {
-      "absolute": "0x060199E0"
     },
     "sym_25A004E0": {
       "absolute": "0x25A004E0"
@@ -3594,14 +3703,8 @@
     "sym_24306033": {
       "absolute": "0x24306033"
     },
-    "sym_060151A8": {
-      "absolute": "0x060151A8"
-    },
     "sym_060FFC00": {
       "absolute": "0x060FFC00"
-    },
-    "sym_06019788": {
-      "absolute": "0x06019788"
     },
     "sym_002FE800": {
       "absolute": "0x002FE800"
@@ -3609,32 +3712,8 @@
     "sym_06019A20": {
       "absolute": "0x06019A20"
     },
-    "sym_06019794": {
-      "absolute": "0x06019794"
-    },
-    "sym_060197AC": {
-      "absolute": "0x060197AC"
-    },
-    "sym_060197A0": {
-      "absolute": "0x060197A0"
-    },
     "sym_00220000": {
       "absolute": "0x00220000"
-    },
-    "sym_060197B8": {
-      "absolute": "0x060197B8"
-    },
-    "sym_060197C4": {
-      "absolute": "0x060197C4"
-    },
-    "sym_060197D0": {
-      "absolute": "0x060197D0"
-    },
-    "sym_060197E0": {
-      "absolute": "0x060197E0"
-    },
-    "sym_060197EC": {
-      "absolute": "0x060197EC"
     }
   }
 }

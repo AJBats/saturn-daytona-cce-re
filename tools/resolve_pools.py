@@ -29,6 +29,7 @@ FILES_DIR = os.path.join(PROJDIR, 'build', 'disc', 'files')
 SRC_DIR = os.path.join(PROJDIR, 'src')
 
 # Module registry (matches split_modules.py)
+# (disc_path, linker_base) — linker_base is the address used in .s filenames and .ld scripts
 MODULES = {
     'main':     ('0',                    0x00280000),
     'init':     ('DAYTONA/0',            0x06000000),
@@ -38,6 +39,13 @@ MODULES = {
     'name':     ('DAYTONA/NAME.BIN',     0x06000000),
     'backup':   ('DAYTONA/BKUP.BIN',     0x06000000),
     'ending':   ('DAYTONA/ENDING.BIN',   0x06000000),
+}
+
+# Runtime load addresses — where IP.BIN/main actually loads modules in HWR.
+# May differ from linker_base. Modules not listed default to linker_base.
+RUNTIME_BASES = {
+    'init': 0x06005200,  # Confirmed: IP.BIN First Read Address field = 0x06005200
+    # Other HWR modules: likely 0x06005200 but not yet verified empirically
 }
 
 # Saturn memory ranges where a 32-bit value is almost certainly an address
@@ -85,25 +93,34 @@ def build_pool_map(data, base_addr):
     return pool_map
 
 
-def scan_data_tables(data, base_addr, mod_size, pool_offsets, min_run=2):
+def scan_data_tables(data, base_addr, mod_size, pool_offsets, min_run=2,
+                     runtime_base=None):
     """
     Scan binary for non-pool inline data tables containing module-internal addresses.
 
-    Finds 4-byte aligned 32-bit values within [base_addr, base_addr + mod_size) that
+    Finds 4-byte aligned 32-bit values within the module's address range that
     aren't pool entries.  Only returns entries in runs of >= min_run consecutive matches
     to filter false positives from code regions where instruction bytes happen to look
     like addresses (e.g. clrmac = 0x0028).
 
+    When runtime_base differs from base_addr, the scan range extends to cover the
+    union of linker range [base_addr, base_addr+size) and runtime range
+    [runtime_base, runtime_base+size).
+
     Returns {offset_in_binary: u32_value}.
     """
+    if runtime_base is None:
+        runtime_base = base_addr
+
     candidates = {}
-    mod_end = base_addr + mod_size
+    # Union of linker and runtime ranges
+    range_end = max(base_addr + mod_size, runtime_base + mod_size)
 
     for off in range(0, len(data) - 3, 4):
         if off in pool_offsets:
             continue
         val = struct.unpack_from('>I', data, off)[0]
-        if base_addr <= val < mod_end:
+        if base_addr <= val < range_end:
             candidates[off] = val
 
     if not candidates:
@@ -144,7 +161,8 @@ def get_func_addrs(src_dir):
     return sorted(addrs)
 
 
-def classify_value(val, mod_base, mod_size, func_set, func_sorted):
+def classify_value(val, mod_base, mod_size, func_set, func_sorted,
+                   runtime_base=None):
     """
     Classify a 32-bit pool value.
 
@@ -152,10 +170,21 @@ def classify_value(val, mod_base, mod_size, func_set, func_sorted):
       kind:   'FUN', 'DAT', 'SYM', 'LITERAL'
       symbol: e.g. 'FUN_00280018', 'DAT_0028B030', 'sym_06000000', '0x00000001'
       info:   dict with extra data (DAT_: parent/offset, SYM_: absolute) or None
-    """
-    mod_end = mod_base + mod_size
 
-    # Within module binary?
+    When runtime_base differs from mod_base, a "shadow zone" exists: addresses in
+    [mod_base+size, runtime_base+size) are inside the binary at runtime but past the
+    linker range.  These are classified as DAT_ with the parent function found by
+    mapping the runtime address back to a linker address.  The offset naturally
+    includes the base difference so PROVIDE(DAT_X = FUN_Y + offset) resolves to the
+    correct runtime address.
+    """
+    if runtime_base is None:
+        runtime_base = mod_base
+
+    mod_end = mod_base + mod_size
+    runtime_end = runtime_base + mod_size
+
+    # Within linker range? (existing behavior, unchanged)
     if mod_base <= val < mod_end:
         if val in func_set:
             return ('FUN', 'FUN_%08X' % val, None)
@@ -166,6 +195,28 @@ def classify_value(val, mod_base, mod_size, func_set, func_sorted):
                 parent = f
             else:
                 break
+        return ('DAT', 'DAT_%08X' % val, {
+            'parent': 'FUN_%08X' % parent,
+            'offset': val - parent,
+            'absolute': val,
+        })
+
+    # Shadow zone: in runtime range but past linker range.
+    # These addresses are inside the binary at runtime (base 0x06005200) but outside
+    # the linker's address space (base 0x06000000).  Map back to linker address
+    # to find the containing function.
+    if runtime_base > mod_base and mod_end <= val < runtime_end:
+        # Map runtime address -> linker address for function lookup
+        linker_val = mod_base + (val - runtime_base)
+        parent = func_sorted[0]
+        for f in func_sorted:
+            if f <= linker_val:
+                parent = f
+            else:
+                break
+        # offset = val - parent includes the base difference (0x5200 for init).
+        # This is intentional: PROVIDE(DAT_X = FUN_Y + offset) must resolve to
+        # the runtime address val, not the linker address.
         return ('DAT', 'DAT_%08X' % val, {
             'parent': 'FUN_%08X' % parent,
             'offset': val - parent,
@@ -259,6 +310,30 @@ def transform_file(filepath, pool_map, classifications, mod_base):
     return n_replaced
 
 
+def reclassify_file(filepath, reclass_map):
+    """
+    Reclassify .4byte symbol references in an already-transformed .s file.
+
+    reclass_map: {old_symbol: new_symbol} e.g. {'sym_0601927A': 'DAT_0601927A'}
+    Returns number of replacements made.
+    """
+    with open(filepath, 'r') as f:
+        content = f.read()
+
+    new_content = content
+    n_changes = 0
+    for old_sym, new_sym in reclass_map.items():
+        if old_sym in new_content:
+            new_content = new_content.replace(old_sym, new_sym)
+            n_changes += 1
+
+    if new_content != content:
+        with open(filepath, 'w', newline='\n') as f:
+            f.write(new_content)
+
+    return n_changes
+
+
 def update_linker_script(ld_path, classifications, pool_map):
     """Append PROVIDE statements for DAT_ and sym_ symbols to the linker script."""
     # Collect unique symbols
@@ -275,12 +350,56 @@ def update_linker_script(ld_path, classifications, pool_map):
     with open(ld_path, 'r') as f:
         content = f.read()
 
+    # Preserve manually-added PROVIDEs (between manual markers, or before auto marker)
+    manual_marker = '/* --- manual symbols (preserved across resolve_pools.py runs) --- */'
+    manual_block = ''
+    if manual_marker in content:
+        start = content.index(manual_marker)
+        # Find end: either auto-marker or EOF
+        auto_marker = '\n/* --- resolve_pools.py: auto-generated symbols --- */\n'
+        if auto_marker in content[start:]:
+            end = content.index(auto_marker, start)
+        else:
+            end = len(content)
+        manual_block = content[start:end].rstrip() + '\n'
+
+    # Also collect any PROVIDE lines between auto-marker start that aren't in our
+    # auto-generated set (these are manually-added symbols we should preserve)
+    auto_marker = '\n/* --- resolve_pools.py: auto-generated symbols --- */\n'
+    preserved = []
+    if auto_marker in content:
+        auto_section = content[content.index(auto_marker) + len(auto_marker):]
+        provide_re = re.compile(r'PROVIDE\((\w+)\s*=')
+        auto_syms = set(dat_syms.keys()) | set(ext_syms.keys())
+        for line in auto_section.split('\n'):
+            m = provide_re.search(line)
+            if m and m.group(1) not in auto_syms:
+                preserved.append(line)
+
     # Remove any previously appended symbol block (idempotent re-runs)
     marker = '\n/* --- resolve_pools.py: auto-generated symbols --- */\n'
-    if marker in content:
+    # Also remove manual marker section if present (will be re-appended)
+    if manual_marker in content:
+        content = content[:content.index(manual_marker)].rstrip() + '\n'
+    elif marker in content:
         content = content[:content.index(marker)]
 
-    parts = [content, marker]
+    parts = [content]
+
+    # Re-add manual block if it exists, or create one for preserved symbols
+    if manual_block or preserved:
+        parts.append('\n%s\n' % manual_marker)
+        if manual_block:
+            # Skip the marker line itself (already added)
+            lines = manual_block.split('\n')
+            for line in lines:
+                if line.strip() and manual_marker not in line:
+                    parts.append(line + '\n')
+        for line in preserved:
+            if line.strip():
+                parts.append(line + '\n')
+
+    parts.append(marker)
 
     if dat_syms:
         parts.append('/* DAT_ symbols: within-binary data (%d) */\n' % len(dat_syms))
@@ -299,7 +418,8 @@ def update_linker_script(ld_path, classifications, pool_map):
     return len(dat_syms), len(ext_syms)
 
 
-def write_symbols_json(out_path, classifications, pool_map, func_sorted, mod_base, mod_size):
+def write_symbols_json(out_path, classifications, pool_map, func_sorted, mod_base, mod_size,
+                       runtime_base=None):
     """Write symbol registry JSON for gen_free_ld.py consumption."""
     dat_entries = {}
     sym_entries = {}
@@ -317,8 +437,12 @@ def write_symbols_json(out_path, classifications, pool_map, func_sorted, mod_bas
                 'absolute': '0x%08X' % info['absolute'],
             }
 
+    if runtime_base is None:
+        runtime_base = mod_base
+
     data = {
         'module_base': '0x%08X' % mod_base,
+        'runtime_base': '0x%08X' % runtime_base,
         'module_size': mod_size,
         'function_count': len(func_sorted),
         'dat_symbols': dat_entries,
@@ -349,6 +473,7 @@ def main():
             sys.exit(1)
 
         rel_path, mod_base = MODULES[mod_name]
+        runtime_base = RUNTIME_BASES.get(mod_name, mod_base)
         bin_path = os.path.join(FILES_DIR, rel_path)
         src_dir = os.path.join(SRC_DIR, mod_name)
 
@@ -362,6 +487,9 @@ def main():
 
         print('=' * 60)
         print('  %s  (%d bytes, base 0x%08X)' % (mod_name, mod_size, mod_base))
+        if runtime_base != mod_base:
+            print('  Runtime base: 0x%08X  (shadow zone: 0x%08X-0x%08X)' % (
+                runtime_base, mod_base + mod_size, runtime_base + mod_size))
         print('=' * 60)
 
         func_sorted = get_func_addrs(src_dir)
@@ -373,7 +501,8 @@ def main():
 
         # Scan for non-pool inline data tables
         table_map, table_runs = scan_data_tables(
-            data, mod_base, mod_size, set(pool_map.keys()))
+            data, mod_base, mod_size, set(pool_map.keys()),
+            runtime_base=runtime_base)
         if table_map:
             print('  Table entries: %d (in %d runs)' % (len(table_map), len(table_runs)))
             for addr, count in table_runs:
@@ -389,7 +518,8 @@ def main():
 
         for offset in sorted(combined_map.keys()):
             val = combined_map[offset]
-            result = classify_value(val, mod_base, mod_size, func_set, func_sorted)
+            result = classify_value(val, mod_base, mod_size, func_set, func_sorted,
+                                   runtime_base=runtime_base)
             classifications[offset] = result
             counts[result[0]] += 1
 
@@ -444,6 +574,31 @@ def main():
             print('  Transformed: %d entries in %d / %d files' % (
                 total_replaced, files_modified, len(s_files)))
 
+            # Reclassify existing .4byte references (sym_ <-> DAT_) if
+            # runtime_base differs from linker base (shadow zone fix)
+            if runtime_base != mod_base:
+                reclass_map = {}
+                for offset in sorted(combined_map.keys()):
+                    val = combined_map[offset]
+                    new_kind, new_sym, _ = classifications[offset]
+                    # Compare against what the old classification would have been
+                    old_kind, old_sym, _ = classify_value(
+                        val, mod_base, mod_size, func_set, func_sorted,
+                        runtime_base=mod_base)  # old behavior: no runtime offset
+                    if old_sym != new_sym:
+                        reclass_map[old_sym] = new_sym
+
+                if reclass_map:
+                    reclass_count = 0
+                    for fname in s_files:
+                        fpath = os.path.join(src_dir, fname)
+                        n = reclassify_file(fpath, reclass_map)
+                        reclass_count += n
+                    print('  Reclassified: %d symbols in .s files (%d unique sym->DAT)' % (
+                        reclass_count, len(reclass_map)))
+                    for old, new in sorted(reclass_map.items()):
+                        print('    %s -> %s' % (old, new))
+
             # Update linker script with absolute PROVIDEs
             ld_path = os.path.join(src_dir, '%s.ld' % mod_name)
             n_dat, n_sym = update_linker_script(ld_path, classifications, combined_map)
@@ -453,7 +608,8 @@ def main():
             # Write symbol registry for gen_free_ld.py
             json_path = os.path.join(src_dir, '%s_symbols.json' % mod_name)
             n_d, n_s = write_symbols_json(
-                json_path, classifications, combined_map, func_sorted, mod_base, mod_size)
+                json_path, classifications, combined_map, func_sorted, mod_base, mod_size,
+                runtime_base=runtime_base)
             print('  Wrote JSON:  %s' % json_path)
 
             print()
