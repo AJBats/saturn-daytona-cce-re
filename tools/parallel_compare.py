@@ -99,7 +99,7 @@ class MednafenInstance:
             f'export HOME="{home_wsl}" DISPLAY=:0 MEDNAFEN_ALLOWMULTI=1; '
             f'rm -f "{home_wsl}/.mednafen/mednafen.lck"; '
             f'"{mednafen_wsl}" '
-            f'--sound 0 --automation "{self.ipc_dir_wsl}" "{cue_wsl}"'
+            f'--sound 0 --ss.bios_sanity 0 --automation "{self.ipc_dir_wsl}" "{cue_wsl}"'
         )
         # Log stdout to a file for debugging; pipe stderr
         self.log_path = os.path.join(self.ipc_dir, "mednafen_stdout.log")
