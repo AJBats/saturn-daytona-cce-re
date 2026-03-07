@@ -1,4 +1,12 @@
-/* FUN_00280A24  0x00280A24 */
+/* FUN_00280A24  0x00280A24
+ *
+ * STATIC ANALYSIS THEORY: CD driver loader. Loads "FLD_KNL.BIN" (Sega Basic
+ * Library file system kernel) from CD to 0x00200000 (low LWR). The filename
+ * string is at DAT_00280A18. Calls GFS_Open (FUN_00280C7C) then GFS_Read
+ * (FUN_002811D4) with dest=sym_00200000. The library version string
+ * "GFS_SBL Version 2.10 1996-02-01" is embedded at 0x00280A64.
+ * The loaded FLD_KNL code at 0x00200588 is the actual writer to 0x06005200.
+ */
 
     .section .text.FUN_00280A24
     .global FUN_00280A24

@@ -192,7 +192,55 @@ The gap 0x00288800–0x0028ADFF is zeroed (BSS region within the file).
 First action: set the stack to the **top of HWR** (0x06100000), then jump to
 the real entry at 0x00280050. Main lives in LWR but uses HWR for its stack.
 
-## 8. Open Questions
+## 8. CD Loading Chain (STATIC ANALYSIS — not yet empirically verified)
+
+**Source:** Static analysis of main module `.s` files — pool references, string decoding,
+and call graph tracing. No emulator stepping was used. Needs dynamic verification.
+
+### Theory: Main loads a CD driver, which loads init to HWR
+
+The writer caught by the watchpoint at 0x06005200 (PC=0x00200588, frame 791) is NOT
+code in main. It is code inside **FLD_KNL.BIN**, the Sega Basic Library's CD filesystem
+kernel, which main loads to low LWR (0x00200000) before using it to read modules from disc.
+
+### Identified functions (static analysis)
+
+| Function | Proposed role | Evidence |
+|----------|--------------|---------|
+| `FUN_002803C8` (entry at 0x002803C0) | **Module loader** — opens CD files, reads to RAM | Multiple GFS calls, HWR address refs, "XBAND.BIN" string at 0x00280550 |
+| `FUN_00280A24` | **CD driver loader** — loads FLD_KNL.BIN to 0x00200000 | Pool refs: dest=`sym_00200000`, calls GFS_Open + GFS_Read; "GFS_SBL Version 2.10 1996-02-01" string at 0x00280A64 |
+| `FUN_00280910` | **CD system bootstrap** — inits GFS, loads driver, enters module | Calls FUN_00280A24, stores 0x200000 at `sym_06002270`, jumps to `sym_06002100` |
+| `FUN_00280C7C` | **GFS_Open** — opens a CD file | Called with filename pointers as r4 |
+| `FUN_002811D4` | **GFS_Read** — reads CD sectors to memory | Called with dest address in r6, size in r7 |
+| `FUN_00280C14` | **GFS_Close** (probable) | Called at start/end of module loader with same arg |
+| `FUN_002809DA` | **CD device open** — opens CD, writes to HWR dispatch fields | Stores at `sym_06000CCC`–`sym_06000CCE` |
+
+### Embedded strings (confirmed from binary)
+
+| Address | String | Significance |
+|---------|--------|-------------|
+| 0x00280A18 | `FLD_KNL.BIN` | SBL file system driver filename |
+| 0x00280A64 | `GFS_SBL Version 2.10 1996-02-01` | SBL CD filesystem library version |
+| 0x00280550 | `XBAND.BIN` | XBand modem support file |
+
+### Proposed loading chain
+
+```
+Main case 1 (0x00280098)
+  → FUN_002803C0 (module loader)
+    → GFS_Open / GFS_Read to load files from CD
+      → Internally uses FLD_KNL.BIN (loaded to 0x00200000)
+        → FLD_KNL code at 0x00200588 writes to 0x06005200 (HWR)
+```
+
+### What needs verification
+
+- [ ] Confirm FUN_002803C8 is actually called during case 1 boot path
+- [ ] Confirm FLD_KNL.BIN load to 0x00200000 happens before the 0x06005200 write
+- [ ] Determine the actual init module load address (0x06005200? 0x06000000? elsewhere?)
+- [ ] Trace when the 0x06005200 writes settle (last write frame)
+
+## 9. Open Questions
 
 - [ ] Who patches IP.BIN at runtime? (BIOS or self-modifying code?)
 - [x] What code is at 0x00280000? → **files/0 (main), byte-perfect match to disc**
