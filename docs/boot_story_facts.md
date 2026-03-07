@@ -237,62 +237,175 @@ confirming static analysis theory.
 IP.BIN ends at 0x06002EFF. XBLIBNET.BIN starts at 0x06002F00 — back-to-back, no overlap.
 XBLIBNET.BIN ends at 0x060050C5. Init write begins at 0x06005200 — 0x13A byte gap.
 
-## 9. CD Loading Chain (STATIC ANALYSIS — not yet empirically verified)
+## 9. Init Module Load (observed frames 796–814)
 
-**Source:** Static analysis of main module `.s` files — pool references, string decoding,
-and call graph tracing. No emulator stepping was used. Needs dynamic verification.
+### Init loads at 0x06005200 — confirmed byte-identical to DAYTONA/0
 
-### Theory: Main loads a CD driver, which loads init to HWR
+Write watchpoint at 0x06005200 caught the first write at frame 796. Frame-by-frame
+HWR dumps tracked the load to completion at frame 814. Every byte matches the disc file.
 
-The writer caught by the watchpoint at 0x06005200 (PC=0x00200588, frame 796) is NOT
-code in main. It is code inside **FLD_KNL.BIN**, the Sega Basic Library's CD filesystem
-kernel, which main loads to low LWR (0x00200000) before using it to read modules from disc.
+**Init module: DAYTONA/0 (84,000 bytes) at 0x06005200–0x06019A1F.**
 
-### Identified functions (static analysis)
+### Load timeline
 
-| Function | Proposed role | Evidence |
-|----------|--------------|---------|
-| `FUN_002803C8` (entry at 0x002803C0) | **Module loader** — opens CD files, reads to RAM | Multiple GFS calls, HWR address refs, "XBAND.BIN" string at 0x00280550 |
-| `FUN_00280A24` | **CD driver loader** — loads FLD_KNL.BIN to 0x00200000 | Pool refs: dest=`sym_00200000`, calls GFS_Open + GFS_Read; "GFS_SBL Version 2.10 1996-02-01" string at 0x00280A64 |
-| `FUN_00280910` | **CD system bootstrap** — inits GFS, loads driver, enters module | Calls FUN_00280A24, stores 0x200000 at `sym_06002270`, jumps to `sym_06002100` |
-| `FUN_00280C7C` | **GFS_Open** — opens a CD file | Called with filename pointers as r4 |
-| `FUN_002811D4` | **GFS_Read** — reads CD sectors to memory | Called with dest address in r6, size in r7 |
-| `FUN_00280C14` | **GFS_Close** (probable) | Called at start/end of module loader with same arg |
-| `FUN_002809DA` | **CD device open** — opens CD, writes to HWR dispatch fields | Stores at `sym_06000CCC`–`sym_06000CCE` |
+| Frame | Loaded | % | Delta | Note |
+|-------|--------|---|-------|------|
+| 796 | 4 B | 0.0% | — | First write (watchpoint break) |
+| 797 | 2,048 B | 2.4% | +2,044 | 1 CD sector |
+| 798 | 6,144 B | 7.3% | +4,096 | 2 sectors |
+| 799 | 12,288 B | 14.6% | +6,144 | 3 sectors |
+| 800 | 16,384 B | 19.5% | +4,096 | |
+| 801 | 22,528 B | 26.8% | +6,144 | |
+| 802 | 26,624 B | 31.7% | +4,096 | |
+| 803 | 32,768 B | 39.0% | +6,144 | |
+| 804 | 36,864 B | 43.9% | +4,096 | |
+| 805 | 43,008 B | 51.2% | +6,144 | |
+| 806 | 47,104 B | 56.1% | +4,096 | |
+| 807 | 52,612 B | 62.6% | +5,508 | Irregular (CD seek?) |
+| 808 | 52,612 B | 62.6% | +0 | Stall |
+| 809 | 60,200 B | 71.7% | +7,588 | Burst after stall |
+| 810–812 | 60,200 B | 71.7% | +0 | Stall (3 frames) |
+| 813 | 83,968 B | 100.0% | +23,768 | Nearly complete |
+| **814** | **84,000 B** | **100%** | +32 | **Fully loaded, byte-identical** |
+
+All HWR dumps preserved: `build/dumps/hwr_frame796.bin` through `hwr_frame814.bin`.
+
+Loading rate: alternating ~4096/6144 bytes per frame (2–3 CD sectors), with occasional
+stalls (likely CD seek/buffer latency). Total load time: 18 frames (~300ms at 60fps).
+
+## 10. Call Stack at Frame 814 (observed)
+
+At frame 814 (init fully loaded), PC = 0x060023FA — inside IP.BIN's VBlank wait function.
+The main CD loading call chain is still on the stack, interrupted by VBlank.
+
+### Stack walk (SP = 0x060FFF60, bottom to top)
+
+```
+0x0028009E  main state machine (case handler dispatch)
+0x00280168  main entry
+0x002804E6  FUN_002803C8 — module loader
+0x0028094C  FUN_00280910 — CD system bootstrap
+0x00280A44  FUN_00280A24 — CD driver loader (FLD_KNL.BIN)
+0x00280C7C  FUN_00280C7C — GFS_Open
+0x0600221A  IP.BIN (VBlank handler return)
+  → PC = 0x060023FA (VBlank wait loop inside IP.BIN)
+```
+
+Strings on the stack: `GAMEINFO.BIN`, `DAYTONA` — CD filesystem path arguments.
+
+**This confirms the static analysis call chain from section 9 (old) is correct.**
+Main's state machine → module loader → CD bootstrap → GFS operations.
+
+### VBlank interrupt during CD load
+
+The CPU is in IP.BIN's VBlank handler (FUN_060023E6) while the CD load is in progress.
+This is a **hardware interrupt**, not a callback — the SH-2 VBlank-IN interrupt fires
+every frame via the VBR vector table (VBR = 0x06000000), preempting the blocking CD read.
+
+IP.BIN's display code (SEGA logo) keeps running as the VBlank handler while main's
+CD loading functions sit on the stack waiting. This is why IP.BIN remains in memory
+and hasn't been overwritten — it's actively serving as the display handler during boot.
+
+## 11. SBL Documentation Confirmation
+
+The Sega Basic Library (SBL) "Interface Process" documentation describes the exact
+boot sequence we observed. Every step matches our empirical findings.
+
+### SBL Interface Process (documented)
+
+| Step | SBL Doc | Our Observation |
+|------|---------|-----------------|
+| 1 | Load game IP to 0x06002000 | IP.BIN at 0x06002000 (confirmed frame 668) |
+| 2 | Copy System ID (0x100 bytes) to 0x06000C00 | IP.BIN header at 0x06000C00 (confirmed frame 796) |
+| 3 | Copy params (0x20 bytes from 0x060020E0) to 0x060002A0 | Present in BIOS dispatch area |
+| 4 | Load Demo-Demo data (4B) to 0x06000CCC | FUN_002809DA writes to sym_06000CCC (static + stack) |
+| 5 | **Load FLD_KNL.BIN at 0x00200000** | **FUN_00280A24 loads it (static + stack confirmed)** |
+| 6 | **Rewrite hook at 0x06002270 to 0x00200000** | **FUN_00280910 stores 0x200000 at sym_06002270** |
+| 7 | Jump to security code at 0x06002100 | IP.BIN entry / auth code |
+
+### SBL Kernel Process (documented)
+
+| Step | SBL Doc | Our Observation |
+|------|---------|-----------------|
+| 1 | Re-register VBLANK-IN interrupt (vector 40) | IP.BIN VBlank handler active during CD load (frame 814) |
+| 2 | Navigate to game subdirectory | "DAYTONA" string on stack |
+| 3 | Load first read file (fid=2) | Init (DAYTONA/0) loaded to 0x06005200 |
+
+### SBL Memory Map vs Our Dump
+
+| SBL Address | SBL Contents | Our Dump |
+|-------------|-------------|----------|
+| 0x06000C00 | System ID save (0x100) | IP.BIN header ("SEGA SEGASATURN...") |
+| 0x06000CCC | Demo-Demo data (4 bytes) | FUN_002809DA writes here |
+| 0x06002000 | IP Start Address | IP.BIN still resident |
+| 0x06002270 | First read hook (4 bytes) | FUN_00280910 stores 0x200000 here |
+| 0x00200000 | Kernel program (FLD_KNL.BIN) | Writer at 0x00200588 (CD sector I/O) |
+
+### SBL Kernel Memory Layout (documented)
+
+| Address | SBL Contents | Notes |
+|---------|-------------|-------|
+| 0x00200000 | Hook table (4 bytes) | |
+| 0x00200004 | Reserved (0xFC bytes) | |
+| 0x00200100 | Kernel program (0x1F00) | FLD_KNL.BIN code (4984 bytes from disc) |
+| 0x00202000 | Free space | |
+
+**Source:** SBL Saturn System Library documentation, "Interface Process" section.
+Cross-referenced with: https://antime.kapsi.fi/sega/docs.html
+
+## 12. CD Loading Functions in Main (confirmed)
+
+Originally static analysis (section 9 old), now **confirmed by call stack** at frame 814.
+
+### Identified functions
+
+| Function | Role | Confirmation |
+|----------|------|-------------|
+| `FUN_002803C8` (entry 0x002803C0) | **Module loader** | On stack at 0x002804E6 |
+| `FUN_00280910` | **CD system bootstrap** | On stack at 0x0028094C |
+| `FUN_00280A24` | **CD driver loader** (FLD_KNL.BIN → 0x00200000) | On stack at 0x00280A44 |
+| `FUN_00280C7C` | **GFS_Open** | On stack at 0x00280C7C |
+| `FUN_002811D4` | **GFS_Read** (CD sector read) | Static analysis (calls with dest in r6) |
+| `FUN_00280C14` | **GFS_Close** (probable) | Static analysis only |
+| `FUN_002809DA` | **CD device open** (writes 0x06000CCC) | Static analysis, matches SBL Demo-Demo data |
 
 ### Embedded strings (confirmed from binary)
 
 | Address | String | Significance |
 |---------|--------|-------------|
-| 0x00280A18 | `FLD_KNL.BIN` | SBL file system driver filename |
-| 0x00280A64 | `GFS_SBL Version 2.10 1996-02-01` | SBL CD filesystem library version |
+| 0x00280A18 | `FLD_KNL.BIN` | SBL file system kernel filename |
+| 0x00280A64 | `GFS_SBL Version 2.10 1996-02-01` | SBL CD library version string |
 | 0x00280550 | `XBAND.BIN` | XBand modem support file |
 
-### Proposed loading chain
+### Complete boot loading chain (confirmed)
 
 ```
-Main case 1 (0x00280098)
-  → FUN_002803C0 (module loader)
-    → GFS_Open / GFS_Read to load files from CD
-      → Internally uses FLD_KNL.BIN (loaded to 0x00200000)
-        → FLD_KNL code at 0x00200588 writes to 0x06005200 (HWR)
+BIOS → IP.BIN (0x06002100)
+  → Display SEGA logo, auth, jump to 0x00280000
+
+Main entry (0x00280050)
+  → State machine case 1 (0x0028009E)
+    → FUN_002803C8 — module loader (0x002804E6)
+      → FUN_00280910 — CD bootstrap (0x0028094C)
+        → FUN_00280A24 — load FLD_KNL.BIN to 0x00200000 (0x00280A44)
+        → Store 0x200000 at 0x06002270 (SBL hook)
+        → GFS_Open "GAMEINFO.BIN", "DAYTONA" (0x00280C7C)
+          → FLD_KNL code at 0x00200588 reads CD sectors
+            → Writes XBLIBNET.BIN to 0x06002F00 (frames 668–796)
+            → Writes DAYTONA/0 (init) to 0x06005200 (frames 796–814)
+
+Meanwhile: VBlank interrupt → IP.BIN display handler keeps SEGA logo on screen
 ```
 
-### What needs verification
-
-- [x] XBLIBNET.BIN loaded by main (not present at frame 668, present at frame 796)
-- [ ] Confirm FUN_002803C8 is actually called during case 1 boot path
-- [ ] Confirm FLD_KNL.BIN load to 0x00200000 happens before the 0x06005200 write
-- [ ] Determine the actual init module load address (0x06005200? 0x06000000? elsewhere?)
-- [ ] Trace when the 0x06005200 writes settle (last write frame)
-
-## 10. Open Questions
+## 13. Open Questions
 
 - [ ] Who patches IP.BIN at runtime? (BIOS or self-modifying code?)
 - [x] What code is at 0x00280000? → **files/0 (main), byte-perfect match to disc**
-- [ ] What happens after the jump to 0x00280050 (main's real entry)?
-- [ ] Does 0x06005200 ever get used later in the boot chain?
-- [ ] What BIOS function at vector 0x06000300 does (interrupt handler install?)
+- [x] What happens after the jump to 0x00280050? → **State machine → module loader → CD load**
+- [x] Does 0x06005200 ever get used? → **Yes — init module loads here (84,000 bytes)**
+- [x] What BIOS function at vector 0x06000300 does? → **Installs VBlank interrupt handler**
 - [ ] What BIOS function at vector 0x06000344 does (CD init?)
 - [ ] What's in the 32 bytes at file 0x7BC–0x7DB (pre-compressed data)
-- [ ] Purpose of the 12 utility functions (FUN_06002280 through FUN_06002594)
+- [ ] What happens after init finishes loading? (main hands off to init entry?)
+- [ ] Does init overwrite IP.BIN / XBLIBNET.BIN, or do they coexist?
+- [ ] What is init's entry point relative to its load address?
