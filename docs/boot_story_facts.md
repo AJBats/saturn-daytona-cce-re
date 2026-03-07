@@ -661,14 +661,46 @@ Three sub-modules confirmed loaded at the same address:
 
 | State | Sub-module | Address | Disc file | Match |
 |-------|-----------|---------|-----------|-------|
-| Early boot (frame 1008) | BKUP.BIN | 0x06028000 | DAYTONA/BKUP.BIN | 100% (first 256 B) |
-| Racing | RACE.BIN | 0x06028000 | DAYTONA/RACE.BIN | confirmed present |
+| Early boot (frame ~1011) | BKUP.BIN | 0x06028000 | DAYTONA/BKUP.BIN | 100% (first 256 B) |
+| Attract mode (frame ~1495) | RACE.BIN | 0x06028000 | DAYTONA/RACE.BIN | confirmed present |
 | Track select | SLCT.BIN | 0x06028000 | DAYTONA/SLCT.BIN | 98.8% (193,439/195,761 B) |
 
 The 1.2% SLCT.BIN mismatches are all BSS regions: disc bytes are `00 00 00 00`
 but memory has runtime values (palette data like `7B DE 77 BD 73 9C`, gradient
 tables, state variables). Code sections are byte-identical. This is normal —
 zero-initialized data filled at runtime, not complex loading logic.
+
+### Boot-to-attract module sequence (observed via watchpoint)
+
+Watchpoint at 0x0602800C (offset +0x0C from base — first byte where all
+modules diverge) caught the complete boot-to-attract sequence:
+
+| Frame | old → new | Module | Note |
+|-------|-----------|--------|------|
+| ~1011 | 0x00000000 → 0xDD152FA6 | BKUP.BIN | Save data check |
+| ~1495 | 0xDD152FA6 → 0x2FA62F96 | RACE.BIN | Attract mode demo race |
+
+BKUP.BIN runs for ~480 frames (~8 seconds), called repeatedly by init once
+per frame (R0=file size on first call, R0=0 on subsequent calls). Then init
+swaps it for RACE.BIN to start the attract mode demo.
+
+Same writer both times: PC=0x0600D9C0 (init's CD code), same callstack.
+
+### Watchpoint technique: offset +0x0C
+
+All 6 code modules share identical first 12 bytes (`2F E6 24 48 2F D6 2F C6
+2F B6 EC 00` — SH-2 prologue pushing r14-r11). At offset 0x0C they diverge:
+
+| Module | Value at +0x0C |
+|--------|---------------|
+| BKUP.BIN | DD 15 2F A6 |
+| ENDING.BIN | 2F 96 E9 00 |
+| NAME.BIN | 2F 96 EA 00 |
+| RACE.BIN | 2F A6 2F 96 |
+| RESULT2P.BIN | DE 31 8D 1C |
+| SLCT.BIN | 2F 96 2F 86 |
+
+Watchpoint at **0x0602800C** reliably detects every module swap.
 
 ### Init loads sub-modules via its own CD code (not FLD_KNL)
 
