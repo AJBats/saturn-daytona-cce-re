@@ -153,7 +153,8 @@ Original code at 0x06002D7C–0x06002D86 overwritten. Runtime contains `06 00 0D
 | 0x0E44–45 | `41 2B` (jmp @r1) | `00 09` (nop) | Replaced with nop |
 | 0x0E48–4A | `06 00 52` (0x06005200) | `00 28 00` (0x00280000) | **Jump target changed** |
 
-**Who patches it is unknown.** Could be BIOS, could be IP.BIN self-modifying. Not yet investigated.
+**Patched by the BIOS.** See section 13 — BIOS ROM at PC=0x00002F0A writes 0x00280000
+to 0x060020F0 at frame 437. The final jump patch at 0x0E40 follows the same pattern.
 
 ## 6. CPU State at IP.BIN Exit (frame 668)
 
@@ -293,7 +294,7 @@ The main CD loading call chain is still on the stack, interrupted by VBlank.
 
 Strings on the stack: `GAMEINFO.BIN`, `DAYTONA` — CD filesystem path arguments.
 
-**This confirms the static analysis call chain from section 9 (old) is correct.**
+**This confirms the static analysis call chain from section 12 is correct.**
 Main's state machine → module loader → CD bootstrap → GFS operations.
 
 ### VBlank interrupt during CD load
@@ -355,7 +356,7 @@ Cross-referenced with: https://antime.kapsi.fi/sega/docs.html
 
 ## 12. CD Loading Functions in Main (confirmed)
 
-Originally static analysis (section 9 old), now **confirmed by call stack** at frame 814.
+Originally static analysis, now **confirmed by call stack** at frame 814.
 
 ### Identified functions
 
@@ -400,7 +401,7 @@ Meanwhile: VBlank interrupt → IP.BIN display handler keeps SEGA logo on screen
 ## 13. Mailbox Mechanism at 0x060020F0 (empirically confirmed)
 
 The disc header's "first read address" field at **0x060020F0** is used as a
-**mailbox** for module transitions. Three writers observed:
+**mailbox** for module transitions. Two writers observed so far:
 
 ### Writer 1: BIOS patches disc header (frame 437)
 
@@ -450,11 +451,11 @@ Main's callstack at the write:
 | 0x00280168 | main — dispatcher |
 | 0x0028009E | main — early entry |
 
-### Writer 3: Not yet observed
+### No further writes observed
 
 Watchpoint ran through init's entire attract mode (10,000+ frames) with
-no third write to 0x060020F0. Init has not yet requested a module transition.
-The next write will likely occur when the player presses START.
+no third write to 0x060020F0. Init has not written to this mailbox.
+Whether it's used for subsequent transitions is unknown.
 
 ### Implications
 
@@ -465,7 +466,7 @@ loaded (frame 814) or the jump occurs (frame 861). There must be a separate
 handler when to actually trigger the handoff. This gating mechanism has not
 been identified yet.
 
-## 14. IP.BIN VBlank Handler Does the Handoff (empirically confirmed)
+## 14. IP.BIN Handoff Code Does Both Transitions (empirically confirmed)
 
 ### Discovery
 
@@ -476,8 +477,17 @@ Breakpoint at 0x06002D88 (IP.BIN's register-clear function) caught two hits:
 | 1 | 670 | 0x06002244 (IP.BIN) | IP.BIN → main handoff |
 | 2 | 861 | 0x06002244 (IP.BIN) | main → init handoff |
 
-**Same caller both times.** IP.BIN's "final jump" code at ~0x06002240 is reusable.
+**Same caller both times.** IP.BIN's handoff code at ~0x06002240 is reusable.
 It reads the target from 0x060020F0, calls register-clear, and jumps.
+
+**Note:** Frame numbers vary slightly between experiment runs (e.g., section 1
+reports frame 668 for the same IP.BIN→main transition from a different run).
+The sequence is consistent; exact frame numbers are approximate.
+
+**Context difference:** Hit 1 (frame 670) occurs during IP.BIN's initial boot
+sequence. Hit 2 (frame 861) occurs during a VBlank interrupt — main's CD code
+is still on the stack. The same code path at 0x06002244 is used in both
+contexts.
 
 ### Main's call chain is NOT unwound
 
@@ -485,7 +495,7 @@ At the second hit (frame 861), main's full CD loading call chain was still on th
 
 ```
 SP = 0x060FFF60 (main's stack, NOT reset yet)
-PR = 0x06002244 (IP.BIN — the VBlank handler calling register-clear)
+PR = 0x06002244 (IP.BIN handoff code, called during VBlank)
 
 Stack contents:
   0x00280A44  main — FLD_KNL loader
@@ -497,7 +507,7 @@ Stack contents:
 ```
 
 The VBlank hardware interrupt fires on top of main's blocked CD loading code.
-When the VBlank handler detects the load is complete, it calls register-clear
+When the handoff code detects the load is complete, it calls register-clear
 and jumps — **without ever returning to main's code**. Main's entire call
 chain is abandoned in place. It never unwinds.
 
@@ -511,7 +521,7 @@ was never hit — execution never returned through main's call chain.
 2. Main begins loading init via CD                            [frame 796]
 3. Init fully loaded (84,000 bytes)                           [frame 814]
 4. VBlank interrupt fires                                     [frame 861]
-5. IP.BIN VBlank handler detects load complete (HOW? unknown)
+5. IP.BIN handoff code detects load complete (HOW? unknown)
 6. Handler calls FUN_06002D88 (register-clear)
 7. Register-clear zeros all regs, sets SP=0x06002000
 8. Handler jumps to [0x060020F0] = 0x06005200                 → init running
@@ -519,18 +529,16 @@ was never hit — execution never returned through main's call chain.
 
 ### Gating mechanism unknown (critical gap)
 
-The VBlank handler fires every frame (~60fps). Most frames it just draws the
-SEGA logo and returns. On one specific frame (861), it triggers the handoff.
+The handoff code at 0x06002244 is reachable every frame via VBlank. Most
+frames it just draws the SEGA logo and returns. On one specific frame (861),
+it triggers the handoff.
 
 **The WHERE and WHEN are separate.** 0x060020F0 is written at frame 730, but
 the jump doesn't happen until frame 861. Something else gates the decision.
 This is the most important unanswered question in the boot chain.
 
-Untested possibilities:
-- A separate flag in memory set by the CD driver when the load completes
-- A countdown or frame counter
-- The VBlank handler checks if code exists at the target address
-- An SBL kernel callback mechanism
+Not yet investigated — the gating condition could be a flag, counter, address
+check, or SBL callback. No evidence yet to distinguish these.
 
 ### CPU state at init entry
 
@@ -559,39 +567,43 @@ call back into main's functions is not yet confirmed.
 
 ## 15. Boot Chain Diagram (complete, empirically verified)
 
+Frame numbers are approximate and vary slightly between experiment runs.
+
 ```
 BIOS                                                         [frame ~0–437]
   │  Load IP.BIN to 0x06002000
-  │  Patch disc header: 0x060020F0 = 0x00280000             [frame 437]
+  │  Patch disc header: 0x060020F0 = 0x00280000             [frame ~437]
   │  Load files/0 (main) to 0x00280000
   └──Jump to IP.BIN entry (0x06002100)
 
-IP.BIN (0x06002100)                                          [frame ~437–670]
+IP.BIN (0x06002100)                                          [frame ~437–668]
   │  Display SEGA logo, authenticate
   │  Call FUN_06002D88 (register-clear): zero all regs, SP=0x06002000
   │  Read [0x060020F0] = 0x00280000
-  └──JMP 0x00280000 ──────────────────────────────────────── [frame 670]
+  └──JMP 0x00280000 ──────────────────────────────────────── [frame ~668]
 
-Main (0x00280000, LWR — permanent resident)                  [frame 670–861]
+Main (0x00280000, LWR — permanent resident)                  [frame ~668–861]
   │  Set SP=0x06100000 (top of HWR)
   │  State machine entry → module loader
-  │  Write 0x06005200 to mailbox at 0x060020F0              [frame 730]
+  │  Write 0x06005200 to mailbox at 0x060020F0              [frame ~730]
   │  Load FLD_KNL.BIN to 0x00200000 (SBL CD kernel)
   │  Load XBLIBNET.BIN to 0x06002F00
-  │  Load DAYTONA/0 (init) to 0x06005200                    [frames 796–814]
+  │  Load DAYTONA/0 (init) to 0x06005200                    [frames ~796–814]
   │  (main's CD code continues blocking on stack...)
   │
-  │  VBlank interrupt → IP.BIN handler detects load complete
+  │  VBlank interrupt → IP.BIN handoff code detects load complete
   │  Call FUN_06002D88 (register-clear): zero all regs, SP=0x06002000
   │  Read [0x060020F0] = 0x06005200
-  └──JMP 0x06005200 ──────────────────────────────────────── [frame 861]
+  └──JMP 0x06005200 ──────────────────────────────────────── [frame ~861]
      (main's call chain abandoned — never unwinds)
 
-Init (0x06005200, HWR)                                       [frame 861–?]
+Init (0x06005200, HWR — permanent dispatcher)                [frame ~861+]
   │  First instruction: mov.w + ldc sr (set interrupt mask)
-  │  Attract mode / title screen running
-  │  GBR=0x06057800, PC in 0x06005xxx range
-  └──(next module transition: not yet observed)
+  │  Load BKUP.BIN to 0x06028000 (own CD code)              [frame ~1008]
+  │  Call BKUP.BIN as function (R0=size, R13=base)          [frame ~1023]
+  │  Load/call further sub-modules at 0x06028000
+  │  (RACE.BIN, SLCT.BIN, etc. — DLL-style hot-swap)
+  └──Init remains resident, dispatching sub-modules indefinitely
 ```
 
 ## 16. Open Questions
@@ -601,19 +613,19 @@ Init (0x06005200, HWR)                                       [frame 861–?]
 - [x] What happens after the jump to 0x00280050? → **State machine → module loader → CD load**
 - [x] Does 0x06005200 ever get used? → **Yes — init module loads here (84,000 bytes)**
 - [x] What BIOS function at vector 0x06000300 does? → **Installs VBlank interrupt handler**
-- [x] What happens after init finishes loading? → **IP.BIN VBlank handler calls register-clear and jumps to init**
+- [x] What happens after init finishes loading? → **IP.BIN handoff code calls register-clear and jumps to init (via VBlank at frame ~861)**
 - [x] What is init's entry point relative to its load address? → **Offset 0x0000 — first byte**
-- [x] What does main do during the 40-frame gap? → **Nothing special — main's code is blocked on stack. The VBlank handler decides when to jump.**
+- [x] What does main do during the 40-frame gap? → **Nothing special — main's code is blocked on stack. The handoff code decides when to jump.**
 - [ ] What BIOS function at vector 0x06000344 does (CD init?)
 - [ ] What's in the 32 bytes at file 0x7BC–0x7DB (pre-compressed data)
 - [x] Does init overwrite IP.BIN / XBLIBNET.BIN, or do they coexist? → **Init loads at 0x06005200, well above IP.BIN (ends 0x06002EFF) and XBLIBNET (ends ~0x060050C5). They coexist.**
 - [x] Can init (or other HWR modules) call back into main's functions in LWR? → **Not yet confirmed with a specific call, but main remains intact at 0x00280000 during racing (section 17)**
-- [ ] What condition does the VBlank handler check before triggering the handoff?
+- [ ] What condition does the handoff code at 0x06002244 check before triggering the jump?
 - [ ] Does init→next module use the same 0x060020F0 mailbox mechanism? (10K+ frames, no write yet)
 - [ ] Who writes 0x060020F0 for the next transition — init directly, or via main?
 - [ ] Is 0x060020F0 the jump target or is there indirection? (confirmed: handler reads it directly)
 - [x] What triggers init to load sub-modules (RACE.BIN, SLCT.BIN)? → **Init's state machine. BKUP.BIN is first (frame 1008), called like a function from 0x06007306**
-- [x] Does init use SBL CD functions or its own loader for sub-module loading? → **Own statically-linked GFS_SBL (same version 2.10, independent code at 0x0600D9C0). Does NOT call FLD_KNL or main.**
+- [x] Does init use SBL CD functions or its own loader for sub-module loading? → **Own CD code built with same SBL SDK (version 2.10), independently compiled (3% byte similarity to FLD_KNL). Does NOT call FLD_KNL or main.**
 
 ## 17. Init Is the Permanent Dispatcher (empirically confirmed)
 
@@ -669,9 +681,11 @@ PR  = 0x0600DAF8  (init code)
 R14 = 0x06028000  (write destination)
 ```
 
-Init has its own statically-linked SBL CD library (`GFS_SBL Version 2.10
-1996-02-01` at 0x06011AF4 — same version as main's copy at 0x00280A64).
-The code is independently compiled, not shared with FLD_KNL or main at runtime.
+Init has its own CD loading code, built with the same SBL SDK version
+(`GFS_SBL Version 2.10 1996-02-01` string at 0x06011AF4 — same as main's
+at 0x00280A64). The actual code is independently compiled and only 3%
+similar at the byte level to FLD_KNL's sector writer. Init does not call
+into FLD_KNL or main at runtime.
 
 Init references 0x00200000 (FLD_KNL base) only as a **memory range boundary**
 in address classification code, not as a call target. Zero pool constants
@@ -692,9 +706,9 @@ Stack: SP+0x000 → 0x06005240 (init return address)
 ```
 
 This is **conventional function call dispatch**, not a one-way handoff:
-- Init calls `jsr @0x06028000` from 0x06007306
+- Init calls into 0x06028000 (PR=0x06007306 is the return address)
 - Sub-module receives: R0=file size, R13=base address
-- When done, sub-module returns to init (PR → 0x06005240)
+- When done, sub-module returns to init at 0x06007306
 - Init then loads the next module into the same slot
 
 This is fundamentally different from the boot chain handoffs (IP.BIN→main→init)
