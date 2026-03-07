@@ -612,8 +612,8 @@ Init (0x06005200, HWR)                                       [frame 861–?]
 - [ ] Does init→next module use the same 0x060020F0 mailbox mechanism? (10K+ frames, no write yet)
 - [ ] Who writes 0x060020F0 for the next transition — init directly, or via main?
 - [ ] Is 0x060020F0 the jump target or is there indirection? (confirmed: handler reads it directly)
-- [ ] What triggers init to load sub-modules (RACE.BIN, SLCT.BIN)? Player input? State machine?
-- [ ] Does init use SBL CD functions or its own loader for sub-module loading?
+- [x] What triggers init to load sub-modules (RACE.BIN, SLCT.BIN)? → **Init's state machine. BKUP.BIN is first (frame 1008), called like a function from 0x06007306**
+- [x] Does init use SBL CD functions or its own loader for sub-module loading? → **Own statically-linked GFS_SBL (same version 2.10, independent code at 0x0600D9C0). Does NOT call FLD_KNL or main.**
 
 ## 17. Init Is the Permanent Dispatcher (empirically confirmed)
 
@@ -645,10 +645,11 @@ Byte comparison of init region (0x06005200–0x06019A1F) against disc DAYTONA/0:
 
 ### Sub-module hot-swap at 0x06028000
 
-Two sub-modules confirmed loaded at the same address:
+Three sub-modules confirmed loaded at the same address:
 
 | State | Sub-module | Address | Disc file | Match |
 |-------|-----------|---------|-----------|-------|
+| Early boot (frame 1008) | BKUP.BIN | 0x06028000 | DAYTONA/BKUP.BIN | 100% (first 256 B) |
 | Racing | RACE.BIN | 0x06028000 | DAYTONA/RACE.BIN | confirmed present |
 | Track select | SLCT.BIN | 0x06028000 | DAYTONA/SLCT.BIN | 98.8% (193,439/195,761 B) |
 
@@ -657,11 +658,64 @@ but memory has runtime values (palette data like `7B DE 77 BD 73 9C`, gradient
 tables, state variables). Code sections are byte-identical. This is normal —
 zero-initialized data filled at runtime, not complex loading logic.
 
-### R13 = init base address
+### Init loads sub-modules via its own CD code (not FLD_KNL)
 
-During racing, R13 = 0x06028000 — the sub-module base address. Init likely uses
-R13 as a base pointer for accessing the currently loaded sub-module's dispatch
-table or entry points. (GBR = 0x06057800 during init's main loop.)
+Write watchpoint at 0x06028000 caught the first sub-module load at frame 1008.
+The writer is init's own code — no involvement from main or FLD_KNL.BIN:
+
+```
+PC  = 0x0600D9C0  (init's CD sector writer)
+PR  = 0x0600DAF8  (init code)
+R14 = 0x06028000  (write destination)
+```
+
+Init has its own statically-linked SBL CD library (`GFS_SBL Version 2.10
+1996-02-01` at 0x06011AF4 — same version as main's copy at 0x00280A64).
+The code is independently compiled, not shared with FLD_KNL or main at runtime.
+
+Init references 0x00200000 (FLD_KNL base) only as a **memory range boundary**
+in address classification code, not as a call target. Zero pool constants
+point into FLD_KNL's code range.
+
+### Sub-modules are called like functions (DLL-style dispatch)
+
+Breakpoint at 0x06028000 caught init calling into BKUP.BIN at frame 1023:
+
+```
+PC  = 0x06028002  (BKUP.BIN entry, one instruction in)
+PR  = 0x06007306  (init — the caller, return address)
+R0  = 0x00016EA5  (= 93,861 = BKUP.BIN's exact file size)
+R5  = 0x06028000  (sub-module base address)
+R13 = 0x06028000  (base pointer — same value)
+SP  = 0x06001FFC
+Stack: SP+0x000 → 0x06005240 (init return address)
+```
+
+This is **conventional function call dispatch**, not a one-way handoff:
+- Init calls `jsr @0x06028000` from 0x06007306
+- Sub-module receives: R0=file size, R13=base address
+- When done, sub-module returns to init (PR → 0x06005240)
+- Init then loads the next module into the same slot
+
+This is fundamentally different from the boot chain handoffs (IP.BIN→main→init)
+which are one-way jumps that abandon the caller's stack. Sub-module calls are
+**reversible** — init stays on the stack and regains control when the sub-module
+returns.
+
+### 0x06028000 is hardcoded in init (compile-time constant)
+
+Init loads 0x06028000 into R13 at 0x0600522C (entry function, one of the first
+instructions). The value appears as pool constants at two locations:
+- 0x060052DC (entry function pool)
+- 0x060194A0 (near end of init)
+
+This is a compile-time linker layout, not computed at runtime.
+
+### R13 = sub-module base pointer
+
+R13 = 0x06028000 throughout sub-module execution. Init sets it at startup and
+passes it to sub-modules. Sub-modules use R13 to reference their own data
+relative to the load address.
 
 ### Architectural reframing
 
