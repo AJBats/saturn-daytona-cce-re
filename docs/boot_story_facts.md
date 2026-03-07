@@ -192,14 +192,59 @@ The gap 0x00288800–0x0028ADFF is zeroed (BSS region within the file).
 First action: set the stack to the **top of HWR** (0x06100000), then jump to
 the real entry at 0x00280050. Main lives in LWR but uses HWR for its stack.
 
-## 8. CD Loading Chain (STATIC ANALYSIS — not yet empirically verified)
+## 8. HWR State at First Init Write (observed at frame 796)
+
+Write watchpoint at 0x06005200 broke at frame 796. Writer: PC=0x00200588, PR=0x00200578.
+Full HWR dump: `build/dumps/hwr_watchpoint_frame796.bin`
+
+### HWR memory map at frame 796
+
+| Region | Address | Size | Contents |
+|--------|---------|------|----------|
+| BIOS dispatch | 0x06000000–0x06000AFE | 2815 B | Interrupt vectors, BIOS handlers |
+| (gap) | 0x06000AFF–0x06000BFF | 257 B | Zeros |
+| IP.BIN header | 0x06000C00–0x06000E18 | 537 B | Still resident (`SEGA SEGASATURN...`) |
+| (gap) | 0x06000E19–0x06001031 | 537 B | Zeros |
+| BIOS font data | 0x06001032–0x06001E1F | 3566 B | Character glyphs (SEGA logo text) |
+| (gap) | 0x06001E20–0x06001FFF | 480 B | Zeros |
+| IP.BIN code+data | 0x06002000–0x06002E4A | 3659 B | Still resident (0xF00 byte file) |
+| (gap) | 0x06002E4B–0x06002F7F | 309 B | Zeros |
+| **XBLIBNET.BIN** | **0x06002F80–0x060050C4** | 8517 B | XBand modem library (fully loaded) |
+| (gap) | 0x060050C5–0x060051FF | 315 B | Zeros |
+| **First init write** | **0x06005200–0x06005203** | 4 B | `93 5A 43 0E` — just started |
+| Empty | 0x06005204–0x060FFBFF | ~1021 KB | All zeros |
+| Stack | 0x060FFC00–0x060FFFFF | 1 KB | Call frames (grows down from 0x06100000) |
+
+### XBLIBNET.BIN identification
+
+**Empirically confirmed.** The 8116 non-zero bytes at 0x06002F00 match disc file
+`GAMEINFO/XBLIBNET.BIN` (8646 bytes) at 99.5% (39 mismatches in first ~0x350 bytes,
+likely runtime-patched header/init area).
+
+Evidence:
+- Modem AT command string at 0x060032A0: `AT &D0&Q6&S1E0V1&C1W2L3M1s7=30s8=1\N`
+- Code at 0x06003300 matches XBLIBNET.BIN offset 0x400 byte-for-byte
+- Struct at 0x06003250: `{0x00000001, 0x06002F00}` — pointer to library load address
+
+**Not present at frame 668** (IP.BIN exit) — HWR 0x06002F00 was all zeros.
+Therefore **main loaded XBLIBNET.BIN** between frames 668–796, before the init write began.
+
+Main has "XBAND.BIN" as an embedded filename at 0x00280550 (inside module loader FUN_002803C8),
+confirming static analysis theory.
+
+### Layout observation
+
+IP.BIN ends at 0x06002EFF. XBLIBNET.BIN starts at 0x06002F00 — back-to-back, no overlap.
+XBLIBNET.BIN ends at 0x060050C5. Init write begins at 0x06005200 — 0x13A byte gap.
+
+## 9. CD Loading Chain (STATIC ANALYSIS — not yet empirically verified)
 
 **Source:** Static analysis of main module `.s` files — pool references, string decoding,
 and call graph tracing. No emulator stepping was used. Needs dynamic verification.
 
 ### Theory: Main loads a CD driver, which loads init to HWR
 
-The writer caught by the watchpoint at 0x06005200 (PC=0x00200588, frame 791) is NOT
+The writer caught by the watchpoint at 0x06005200 (PC=0x00200588, frame 796) is NOT
 code in main. It is code inside **FLD_KNL.BIN**, the Sega Basic Library's CD filesystem
 kernel, which main loads to low LWR (0x00200000) before using it to read modules from disc.
 
@@ -235,12 +280,13 @@ Main case 1 (0x00280098)
 
 ### What needs verification
 
+- [x] XBLIBNET.BIN loaded by main (not present at frame 668, present at frame 796)
 - [ ] Confirm FUN_002803C8 is actually called during case 1 boot path
 - [ ] Confirm FLD_KNL.BIN load to 0x00200000 happens before the 0x06005200 write
 - [ ] Determine the actual init module load address (0x06005200? 0x06000000? elsewhere?)
 - [ ] Trace when the 0x06005200 writes settle (last write frame)
 
-## 9. Open Questions
+## 10. Open Questions
 
 - [ ] Who patches IP.BIN at runtime? (BIOS or self-modifying code?)
 - [x] What code is at 0x00280000? → **files/0 (main), byte-perfect match to disc**
