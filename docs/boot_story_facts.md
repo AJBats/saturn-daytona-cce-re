@@ -682,12 +682,12 @@ modules diverge) caught the complete boot-to-attract sequence:
 
 BKUP.BIN runs for ~480 frames (~8 seconds), called repeatedly by init once
 per frame (R0=file size on first call, R0=0 on subsequent calls). Then init
-swaps it for RACE.BIN to start the attract mode demo.
+swaps it for RACE.BIN.
 
-During the BKUP phase, the screen shows unskippable splash screens (SEGA
-Sports logo, Daytona license text). Init renders these itself while calling
-BKUP each frame for save data work in the background. The splash screens
-and save check run concurrently.
+During the BKUP phase, the screen shows splash screens (SEGA Sports logo,
+Daytona license text). RACE.BIN is loaded while splash screens are still
+visible — the demo race does not start immediately on load. Who renders
+the splash screens (init or BKUP) is not yet confirmed.
 
 Same writer both times: PC=0x0600D9C0 (init's CD code), same callstack.
 
