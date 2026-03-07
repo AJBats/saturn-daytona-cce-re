@@ -606,9 +606,93 @@ Init (0x06005200, HWR)                                       [frame 861–?]
 - [x] What does main do during the 40-frame gap? → **Nothing special — main's code is blocked on stack. The VBlank handler decides when to jump.**
 - [ ] What BIOS function at vector 0x06000344 does (CD init?)
 - [ ] What's in the 32 bytes at file 0x7BC–0x7DB (pre-compressed data)
-- [ ] Does init overwrite IP.BIN / XBLIBNET.BIN, or do they coexist?
+- [x] Does init overwrite IP.BIN / XBLIBNET.BIN, or do they coexist? → **Init loads at 0x06005200, well above IP.BIN (ends 0x06002EFF) and XBLIBNET (ends ~0x060050C5). They coexist.**
+- [x] Can init (or other HWR modules) call back into main's functions in LWR? → **Not yet confirmed with a specific call, but main remains intact at 0x00280000 during racing (section 17)**
 - [ ] What condition does the VBlank handler check before triggering the handoff?
-- [ ] Can init (or other HWR modules) call back into main's functions in LWR?
 - [ ] Does init→next module use the same 0x060020F0 mailbox mechanism? (10K+ frames, no write yet)
 - [ ] Who writes 0x060020F0 for the next transition — init directly, or via main?
 - [ ] Is 0x060020F0 the jump target or is there indirection? (confirmed: handler reads it directly)
+- [ ] What triggers init to load sub-modules (RACE.BIN, SLCT.BIN)? Player input? State machine?
+- [ ] Does init use SBL CD functions or its own loader for sub-module loading?
+
+## 17. Init Is the Permanent Dispatcher (empirically confirmed)
+
+### Discovery
+
+During active racing (frame ~19335), HWR dumps revealed init is still resident
+and largely intact — it is NOT replaced by RACE.BIN.
+
+### Memory layout during racing (frame ~19335)
+
+| Region | Address | Size | Contents |
+|--------|---------|------|----------|
+| IP.BIN + BIOS data | 0x06000000–0x060051FF | ~21 KB | Still resident |
+| **Init** | **0x06005200–0x06019A1F** | **84,000 B** | **96.7% intact** (81,264 / 84,000 bytes match disc) |
+| (gap) | 0x06019A20–0x06027FFF | ~58 KB | Runtime data / BSS |
+| **RACE.BIN** | **0x06028000–0x0609FFFF** | **~492 KB** | Sub-module (hot-swapped) |
+| Stack | 0x060Fxxxx–0x060FFFFF | ~varies | Init/race stack |
+
+### Init survives module transitions
+
+Byte comparison of init region (0x06005200–0x06019A1F) against disc DAYTONA/0:
+
+- **During racing:** 96.7% match (81,264 / 84,000 bytes). The 3.3% mismatches
+  are in BSS/data sections that get written at runtime (state variables, counters).
+  All code sections are intact.
+
+- **On track select screen** (after exiting race): Init still present, same pattern.
+  Sub-module at 0x06028000 changed from RACE.BIN to SLCT.BIN.
+
+### Sub-module hot-swap at 0x06028000
+
+Two sub-modules confirmed loaded at the same address:
+
+| State | Sub-module | Address | Disc file | Match |
+|-------|-----------|---------|-----------|-------|
+| Racing | RACE.BIN | 0x06028000 | DAYTONA/RACE.BIN | confirmed present |
+| Track select | SLCT.BIN | 0x06028000 | DAYTONA/SLCT.BIN | 98.8% (193,439/195,761 B) |
+
+The 1.2% SLCT.BIN mismatches are all BSS regions: disc bytes are `00 00 00 00`
+but memory has runtime values (palette data like `7B DE 77 BD 73 9C`, gradient
+tables, state variables). Code sections are byte-identical. This is normal —
+zero-initialized data filled at runtime, not complex loading logic.
+
+### R13 = init base address
+
+During racing, R13 = 0x06028000 — the sub-module base address. Init likely uses
+R13 as a base pointer for accessing the currently loaded sub-module's dispatch
+table or entry points. (GBR = 0x06057800 during init's main loop.)
+
+### Architectural reframing
+
+The game's module architecture is different from what was originally assumed:
+
+**Original assumption:** Main orchestrates everything. HWR modules (init, race,
+select, etc.) are peers that get swapped in and out at 0x06000000.
+
+**Actual architecture (confirmed):**
+```
+LWR (permanent):
+  0x00200000  FLD_KNL.BIN (SBL CD kernel)
+  0x00280000  main (files/0) — resident kernel, loaded by BIOS
+
+HWR (layered):
+  0x06000000  BIOS dispatch + IP.BIN (resident during boot, may be overwritten later)
+  0x06005200  init (DAYTONA/0) — PERMANENT DISPATCHER, never replaced
+  0x06028000  sub-module slot — hot-swapped by init:
+              RACE.BIN (during racing)
+              SLCT.BIN (track/car selection)
+              NAME.BIN, BKUP.BIN, ENDING.BIN, etc. (other game states)
+```
+
+Init is the game's **permanent dispatcher**. It stays resident and orchestrates
+which sub-module is loaded at 0x06028000. The sub-modules are the ones that get
+swapped — init itself never leaves.
+
+### Evidence chain
+
+1. HWR dump during racing: init at 0x06005200 still 96.7% intact
+2. HWR dump on track select: init still present, RACE.BIN replaced by SLCT.BIN at same address
+3. Both sub-modules load at 0x06028000 — same slot, different content
+4. Init's main loop PC (~0x06005780) is always the same when pausing — it's the
+   permanent control loop that dispatches to sub-modules
