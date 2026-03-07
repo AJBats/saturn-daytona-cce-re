@@ -44,13 +44,19 @@ public class ImportFunctionBoundaries extends GhidraScript {
 
         println("Detected module: " + moduleName + " (program: " + progName + ")");
 
-        // Get known function addresses from src/
-        List<long[]> known = getFunctionAddressesFromSrc(moduleName);
+        // Get known function addresses from hardcoded list or src/
         Map<Long, String> knownMap = new LinkedHashMap<>();
-        for (long[] entry : known) {
-            knownMap.put(entry[0], String.format("FUN_%08X", entry[0]));
+        Map<Long, String> hardcoded = getHardcodedFunctions(moduleName);
+        if (hardcoded != null) {
+            knownMap = hardcoded;
+            println("Found " + knownMap.size() + " hardcoded function addresses for " + moduleName);
+        } else {
+            List<long[]> known = getFunctionAddressesFromSrc(moduleName);
+            for (long[] entry : known) {
+                knownMap.put(entry[0], String.format("FUN_%08X", entry[0]));
+            }
+            println("Found " + known.size() + " function addresses in src/" + moduleName + "/");
         }
-        println("Found " + known.size() + " function addresses in src/" + moduleName + "/");
 
         // Get existing functions in Ghidra
         FunctionManager fm = currentProgram.getFunctionManager();
@@ -123,7 +129,7 @@ public class ImportFunctionBoundaries extends GhidraScript {
 
         println("");
         println("=== Summary for " + moduleName + " ===");
-        println("  Known from src/:   " + known.size());
+        println("  Known addresses:   " + knownMap.size());
         println("  Already in Ghidra: " + skipped);
         println("  Newly created:     " + created);
         println("  Failed:            " + failed);
@@ -140,7 +146,32 @@ public class ImportFunctionBoundaries extends GhidraScript {
         if (progName.equalsIgnoreCase("NAME.BIN")) return "name";
         if (progName.equalsIgnoreCase("BKUP.BIN")) return "backup";
         if (progName.equalsIgnoreCase("ENDING.BIN")) return "ending";
+        if (progName.toUpperCase().contains("IP")) return "ipbin";
         return null;
+    }
+
+    private Map<Long, String> getHardcodedFunctions(String moduleName) {
+        if (!"ipbin".equals(moduleName)) return null;
+
+        Map<Long, String> map = new LinkedHashMap<>();
+        map.put(0x06002100L, "ip_entry");
+        map.put(0x06002280L, "FUN_06002280");
+        map.put(0x0600231CL, "FUN_0600231C");
+        map.put(0x06002348L, "sega_auth_check");
+        map.put(0x060023E6L, "FUN_060023E6");
+        map.put(0x06002404L, "FUN_06002404");
+        map.put(0x0600245CL, "FUN_0600245C");
+        map.put(0x06002486L, "FUN_06002486");
+        map.put(0x060024D8L, "FUN_060024D8");
+        map.put(0x06002510L, "FUN_06002510");
+        map.put(0x0600255CL, "FUN_0600255C");
+        map.put(0x06002594L, "FUN_06002594");
+        map.put(0x060026DCL, "decompress_entry");
+        map.put(0x06002702L, "decompress_main");
+        map.put(0x0600270AL, "bitstream_reader");
+        map.put(0x06002D88L, "FUN_06002D88");
+        map.put(0x06002F20L, "FUN_06002F20");
+        return map;
     }
 
     private List<long[]> getFunctionAddressesFromSrc(String moduleName) {
