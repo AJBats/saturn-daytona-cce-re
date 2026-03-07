@@ -172,11 +172,31 @@ Observed by breaking at 0x06002E44 (final jump delay slot).
 
 **Full memory dumps saved:** `build/dumps/ipbin_exit_*.bin` (all 6 regions, frame 668)
 
-## 7. Open Questions
+## 7. Main Module Entry (observed at frame 668)
+
+At the moment IP.BIN jumps, `files/0` (main, 44KB / 0xB030 bytes) is already
+loaded at 0x00280000 in LWR. **100% byte-identical to disc file** — zero differences.
+
+LWR is otherwise empty: only 0x00280000–0x0028B02F contains data.
+The gap 0x00288800–0x0028ADFF is zeroed (BSS region within the file).
+
+### Entry trampoline (0x00280000)
+
+```
+0x00280000: mov.l @(0x00280010), r0   ; r0 = 0x00280050 (real entry point)
+0x00280002: mov.l @(0x00280014), r15  ; SP = 0x06100000 (top of HWR)
+0x00280004: jmp @r0                    ; jump to 0x00280050
+0x00280006: nop
+```
+
+First action: set the stack to the **top of HWR** (0x06100000), then jump to
+the real entry at 0x00280050. Main lives in LWR but uses HWR for its stack.
+
+## 8. Open Questions
 
 - [ ] Who patches IP.BIN at runtime? (BIOS or self-modifying code?)
-- [ ] What code is at 0x00280000? (main module / files/0?)
-- [ ] What happens after the jump to 0x00280000?
+- [x] What code is at 0x00280000? → **files/0 (main), byte-perfect match to disc**
+- [ ] What happens after the jump to 0x00280050 (main's real entry)?
 - [ ] Does 0x06005200 ever get used later in the boot chain?
 - [ ] What BIOS function at vector 0x06000300 does (interrupt handler install?)
 - [ ] What BIOS function at vector 0x06000344 does (CD init?)
