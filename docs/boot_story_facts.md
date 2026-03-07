@@ -601,8 +601,12 @@ Init (0x06005200, HWR — permanent dispatcher)                [frame ~861+]
   │  First instruction: mov.w + ldc sr (set interrupt mask)
   │  Load BKUP.BIN to 0x06028000 (own CD code)              [frame ~1008]
   │  Call BKUP.BIN as function (R0=size, R13=base)          [frame ~1023]
-  │  Load/call further sub-modules at 0x06028000
-  │  (RACE.BIN, SLCT.BIN, etc. — DLL-style hot-swap)
+  │  Load RACE.BIN to 0x06028000 (attract demo)             [frame ~1495]
+  │  ...attract cycle: BKUP ↔ RACE...
+  │  On START: load SLCT.BIN (menu + track/car select)      [frame ~9042]
+  │  On race start: load RACE.BIN                           [frame ~10007]
+  │  Post-race: load SLCT.BIN (back to track select)        [frame ~16096]
+  │  (observed: SLCT ↔ RACE cycle during normal play)
   └──Init remains resident, dispatching sub-modules indefinitely
 ```
 
@@ -626,6 +630,10 @@ Init (0x06005200, HWR — permanent dispatcher)                [frame ~861+]
 - [ ] Is 0x060020F0 the jump target or is there indirection? (confirmed: handler reads it directly)
 - [x] What triggers init to load sub-modules (RACE.BIN, SLCT.BIN)? → **Init's state machine. BKUP.BIN is first (frame 1008), called like a function from 0x06007306**
 - [x] Does init use SBL CD functions or its own loader for sub-module loading? → **Own CD code built with same SBL SDK (version 2.10), independently compiled (3% byte similarity to FLD_KNL). Does NOT call FLD_KNL or main.**
+- [x] Does SLCT handle both main menu and track selection? → **Yes. START press during attract loads SLCT, which presents the full menu flow including track/car selection.**
+- [x] What happens post-race? → **Returns to SLCT (track select) in observed runs. Other outcomes (winning → ENDING/NAME?) not tested.**
+- [ ] Do ENDING, NAME, and RESULT2P load at 0x06028000? (assumed from binary structure, not empirically confirmed)
+- [ ] What module sequence occurs when the player wins a race?
 
 ## 17. Init Is the Permanent Dispatcher (empirically confirmed)
 
@@ -657,27 +665,34 @@ Byte comparison of init region (0x06005200–0x06019A1F) against disc DAYTONA/0:
 
 ### Sub-module hot-swap at 0x06028000
 
-Three sub-modules confirmed loaded at the same address:
+Three sub-modules empirically confirmed loaded at 0x06028000:
 
-| State | Sub-module | Address | Disc file | Match |
-|-------|-----------|---------|-----------|-------|
-| Early boot (frame ~1011) | BKUP.BIN | 0x06028000 | DAYTONA/BKUP.BIN | 100% (first 256 B) |
-| Attract mode (frame ~1495) | RACE.BIN | 0x06028000 | DAYTONA/RACE.BIN | confirmed present |
-| Track select | SLCT.BIN | 0x06028000 | DAYTONA/SLCT.BIN | 98.8% (193,439/195,761 B) |
+| State | Sub-module | Fingerprint @+0x0C | Disc file | Match |
+|-------|-----------|-------------------|-----------|-------|
+| Early boot (frame ~1011) | BKUP.BIN | 0xDD152FA6 | DAYTONA/BKUP.BIN | 100% (first 256 B) |
+| Attract/racing | RACE.BIN | 0x2FA62F96 | DAYTONA/RACE.BIN | confirmed present |
+| Menu/track select | SLCT.BIN | 0x2F962F86 | DAYTONA/SLCT.BIN | 98.8% (193,439/195,761 B) |
+
+Three sub-modules NOT yet observed: ENDING.BIN (0x2F96E900), NAME.BIN
+(0x2F96EA00), RESULT2P.BIN (0xDE318D1C). Assumed to use same slot based
+on matching binary structure (same prologue, same compile-time base).
 
 The 1.2% SLCT.BIN mismatches are all BSS regions: disc bytes are `00 00 00 00`
 but memory has runtime values (palette data like `7B DE 77 BD 73 9C`, gradient
 tables, state variables). Code sections are byte-identical. This is normal —
 zero-initialized data filled at runtime, not complex loading logic.
 
-### Boot-to-attract module sequence (observed via watchpoint)
+### Module sequence (observed via watchpoint)
 
 Watchpoint at 0x0602800C (offset +0x0C from base — first byte where all
-modules diverge) caught the complete boot-to-attract sequence:
+modules diverge) caught module swaps across boot, attract mode, and
+player-driven gameplay.
 
-| Frame | old → new | Module | Note |
-|-------|-----------|--------|------|
-| ~1011 | 0x00000000 → 0xDD152FA6 | BKUP.BIN | Save data check |
+**Boot and attract mode:**
+
+| Frame | old → new | Module | Context |
+|-------|-----------|--------|---------|
+| ~1011 | 0x00000000 → 0xDD152FA6 | BKUP.BIN | Save data check + splash screens |
 | ~1495 | 0xDD152FA6 → 0x2FA62F96 | RACE.BIN | Attract mode demo race |
 
 BKUP.BIN runs for ~480 frames (~8 seconds), called repeatedly by init once
@@ -689,7 +704,28 @@ Daytona license text). RACE.BIN is loaded while splash screens are still
 visible — the demo race does not start immediately on load. Who renders
 the splash screens (init or BKUP) is not yet confirmed.
 
-Same writer both times: PC=0x0600D9C0 (init's CD code), same callstack.
+**Player-driven gameplay (single session, continued from attract):**
+
+| Frame | old → new | Module | Context |
+|-------|-----------|--------|---------|
+| ~9042 | RACE → 0x2F962F86 | SLCT.BIN | START pressed during attract mode |
+| ~10007 | SLCT → 0x2FA62F96 | RACE.BIN | Player selected a race |
+| ~16096 | RACE → 0x2F962F86 | SLCT.BIN | Post-race → back to track select |
+| ~31275 | SLCT → 0x2FA62F96 | RACE.BIN | Player selected another race |
+| ~37364 | RACE → 0x2F962F86 | SLCT.BIN | Post-race → back to track select |
+
+**Observations:**
+- Post-race always returned to SLCT in our runs (last-place finishes).
+  Different race outcomes (winning, etc.) may trigger other modules
+  (ENDING, NAME, RESULT2P) — not yet tested.
+- SLCT handles both the main menu AND track/car selection (confirmed —
+  START press loads SLCT, which presents the full menu flow).
+- Only 3 of 6 sub-modules observed loading: BKUP, RACE, SLCT.
+  ENDING, NAME, and RESULT2P are assumed to use the same 0x06028000
+  slot (same prologue pattern, same compile-time base) but not yet
+  empirically confirmed.
+
+Same writer every time: PC=0x0600D9C0 (init's CD code), same callstack.
 
 ### Watchpoint technique: offset +0x0C
 
