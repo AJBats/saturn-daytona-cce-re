@@ -397,118 +397,218 @@ Main entry (0x00280050)
 Meanwhile: VBlank interrupt → IP.BIN display handler keeps SEGA logo on screen
 ```
 
-## 13. Main-to-Init Handoff (observed at frame 854)
+## 13. Mailbox Mechanism at 0x060020F0 (empirically confirmed)
 
-### Handoff mechanism
+The disc header's "first read address" field at **0x060020F0** is used as a
+**mailbox** for module transitions. Three writers observed:
 
-Breakpoint at 0x06005200 (init's first byte) hit at frame 854.
-40 frames after init was fully loaded (frame 814).
+### Writer 1: BIOS patches disc header (frame 437)
 
-**CPU state at init entry:**
+Watchpoint on 0x060020F0 caught the first write at frame 437.
+
 ```
-R0-R14 = 0x00000000 (all zeroed)
+PC  = 0x00002F0A  (BIOS ROM)
+PR  = 0x00002EFA  (BIOS ROM)
+R3  = 0x00280000  (value being written)
+R14 = 0x060020F0  (target address — used as pointer)
+old = 0x00000000 → new = 0x00280000
+```
+
+**The BIOS patches the disc header**, changing the first-read address from
+0x06005200 (on disc) to 0x00280000 (main's entry in LWR). This answers the
+open question from section 5 about who patches IP.BIN at runtime.
+
+### Writer 2: Main sets init's entry address (frame 730)
+
+Second watchpoint hit at frame 730.
+
+```
+PC  = 0x00283EF0  (main, LWR)
+PR  = 0x0028402C  (main, LWR)
+R3  = 0x06005200  (value being written)
+R4  = 0x060020F0  (target address)
+old = 0x00280000 → new = 0x06005200
+```
+
+**Main writes init's entry address to the mailbox BEFORE init is loaded.**
+At frame 730, 0x06005200 is still all zeros — init doesn't start loading
+until frame 796. Main sets the "jump here when done" address first, then
+begins the CD load.
+
+Main's callstack at the write:
+
+| Address | Identity |
+|---------|----------|
+| 0x0028402C | immediate caller (PR) |
+| 0x00283AA4 | main — deep in loader pipeline |
+| 0x00283976 | main |
+| 0x00282312 | main |
+| 0x00281712 | main |
+| 0x002812D0 | main |
+| 0x00280994 | main — CD bootstrap area |
+| 0x002804E6 | main — module loader (FUN_002803C8) |
+| 0x00280168 | main — dispatcher |
+| 0x0028009E | main — early entry |
+
+### Writer 3: Not yet observed
+
+Watchpoint ran through init's entire attract mode (10,000+ frames) with
+no third write to 0x060020F0. Init has not yet requested a module transition.
+The next write will likely occur when the player presses START.
+
+### Implications
+
+The address at 0x060020F0 controls **WHERE** IP.BIN's handler will jump,
+but **not WHEN**. Main writes the address at frame 730, long before init is
+loaded (frame 814) or the jump occurs (frame 861). There must be a separate
+"go" signal — a flag, counter, or memory check — that tells the VBlank
+handler when to actually trigger the handoff. This gating mechanism has not
+been identified yet.
+
+## 14. IP.BIN VBlank Handler Does the Handoff (empirically confirmed)
+
+### Discovery
+
+Breakpoint at 0x06002D88 (IP.BIN's register-clear function) caught two hits:
+
+| Hit | Frame | Caller (PR) | Purpose |
+|-----|-------|-------------|---------|
+| 1 | 670 | 0x06002244 (IP.BIN) | IP.BIN → main handoff |
+| 2 | 861 | 0x06002244 (IP.BIN) | main → init handoff |
+
+**Same caller both times.** IP.BIN's "final jump" code at ~0x06002240 is reusable.
+It reads the target from 0x060020F0, calls register-clear, and jumps.
+
+### Main's call chain is NOT unwound
+
+At the second hit (frame 861), main's full CD loading call chain was still on the stack:
+
+```
+SP = 0x060FFF60 (main's stack, NOT reset yet)
+PR = 0x06002244 (IP.BIN — the VBlank handler calling register-clear)
+
+Stack contents:
+  0x00280A44  main — FLD_KNL loader
+  0x0028094C  main — CD bootstrap
+  0x002804E6  main — module loader
+  0x00280C7C  main — GFS_Open
+  0x00280168  main — dispatcher
+  0x0028009E  main — early entry
+```
+
+The VBlank hardware interrupt fires on top of main's blocked CD loading code.
+When the VBlank handler detects the load is complete, it calls register-clear
+and jumps — **without ever returning to main's code**. Main's entire call
+chain is abandoned in place. It never unwinds.
+
+This explains why the breakpoint at 0x002804E6 (inside main's module loader)
+was never hit — execution never returned through main's call chain.
+
+### The handoff sequence
+
+```
+1. Main writes 0x06005200 to mailbox at 0x060020F0           [frame 730]
+2. Main begins loading init via CD                            [frame 796]
+3. Init fully loaded (84,000 bytes)                           [frame 814]
+4. VBlank interrupt fires                                     [frame 861]
+5. IP.BIN VBlank handler detects load complete (HOW? unknown)
+6. Handler calls FUN_06002D88 (register-clear)
+7. Register-clear zeros all regs, sets SP=0x06002000
+8. Handler jumps to [0x060020F0] = 0x06005200                 → init running
+```
+
+### Gating mechanism unknown (critical gap)
+
+The VBlank handler fires every frame (~60fps). Most frames it just draws the
+SEGA logo and returns. On one specific frame (861), it triggers the handoff.
+
+**The WHERE and WHEN are separate.** 0x060020F0 is written at frame 730, but
+the jump doesn't happen until frame 861. Something else gates the decision.
+This is the most important unanswered question in the boot chain.
+
+Untested possibilities:
+- A separate flag in memory set by the CD driver when the load completes
+- A countdown or frame counter
+- The VBlank handler checks if code exists at the target address
+- An SBL kernel callback mechanism
+
+### CPU state at init entry
+
+```
+R0-R14 = 0x00000000 (all zeroed by FUN_06002D88)
 R15 (SP) = 0x06002000
-PC = 0x06005202 (one instruction in — breakpoint just fired)
-PR = 0x00000000 (no return address)
+PC = 0x06005202 (one instruction in)
+PR = 0x00000000 (no return address — one-way jump)
 GBR = 0x00000000
 VBR = 0x06000000
 SR = 0x00000000
 ```
 
-**This is a one-way jump, not a call.** PR=0 means there is no return address.
-Main zeroed all registers, set SP to 0x06002000, and jumped to init.
-Init has no way to return to main — the call chain is discarded.
+### Init entry = first byte of loaded binary
 
-### Same pattern as IP.BIN → main
-
-| | IP.BIN → main (frame 668) | main → init (frame 854) |
-|---|---|---|
-| All regs zeroed | Yes | Yes |
-| SP set | 0x06002000 | 0x06002000 |
-| PR | 0x00000000 | 0x00000000 |
-| VBR | 0x06000000 | 0x06000000 |
-| Jump target | 0x00280000 (LWR) | 0x06005200 (HWR) |
-| Mechanism | Clean JMP, no return | Clean JMP, no return |
-
-**The Saturn boot chain is a one-way relay.** Each stage loads the next,
-clears CPU state, and jumps forward. No stage ever returns.
-
-### Stale main call stack (ghost data at 0x060FFE00–0x060FFFFF)
-
-Main's old stack was never zeroed — the return addresses are still visible as
-stale data. This is how we confirmed the complete call chain in section 12.
-
-| Stack addr | Value | Identity |
-|------------|-------|----------|
-| 0x060FFFD8 | 0x0028009E | main — early entry |
-| 0x060FFFCC | 0x00280168 | main — dispatcher |
-| 0x060FFF90 | 0x00280C7C | main — GFS_Open |
-| 0x060FFF88 | 0x002804E6 | main — module loader (FUN_002803C8) |
-| 0x060FFF84 | 0x0028094C | main — CD bootstrap (FUN_00280910) |
-| 0x060FFF68 | 0x00280A44 | main — FLD_KNL loader (FUN_00280A24) |
-| 0x060FFED8 | 0x06005200 | init entry point (as data value — main had this address) |
-| 0x060FFF98 | "GAMEINFO.BIN" | CD path argument (string data) |
-| 0x060FFFA8 | "DAYTONA" | CD subdirectory argument |
-
-Init's entry address (0x06005200) was on main's stack as a data value, confirming
-main computed or read this address before jumping to it.
+Init's entry point is 0x06005200 — exactly the load address. Offset 0x0000.
+The first instruction of the binary IS the entry point.
 
 ### Main is a resident kernel
 
 **Main's code at 0x00280000 is still intact after the handoff.** Verified by reading
 0x00280000 at frame 854 — same bytes as the retail binary.
 
-Main is not a disposable bootloader. It stays resident in LWR permanently while
-HWR modules (init, race, select, etc.) swap in and out. This suggests init and
-other modules may call back into main for shared services (CD loading, etc.).
+Main stays resident in LWR permanently. Whether init (or other HWR modules)
+call back into main's functions is not yet confirmed.
 
-### Init entry = first byte of loaded binary
-
-Init's entry point is 0x06005200 — exactly the load address. Offset 0x0000.
-The first instruction of the binary IS the entry point. No header, no offset.
-
-### 40-frame gap (frames 814–854)
-
-Init was fully loaded by frame 814, but the handoff didn't happen until frame 854.
-Main spent 40 frames (~667ms) doing post-load work before jumping. What it did
-during this gap is not yet investigated.
-
-## 14. Boot Chain Diagram (complete, empirically verified)
+## 15. Boot Chain Diagram (complete, empirically verified)
 
 ```
-BIOS → IP.BIN (0x06002100)                              [frame ~0–668]
-  │  Display SEGA logo, authenticate, patch header
-  │  Zero all registers, SP=0x06002000
-  └──JMP 0x00280000 ──────────────────────────────────── [frame 668]
+BIOS                                                         [frame ~0–437]
+  │  Load IP.BIN to 0x06002000
+  │  Patch disc header: 0x060020F0 = 0x00280000             [frame 437]
+  │  Load files/0 (main) to 0x00280000
+  └──Jump to IP.BIN entry (0x06002100)
 
-Main (0x00280000, LWR — permanent resident)              [frame 668–854]
+IP.BIN (0x06002100)                                          [frame ~437–670]
+  │  Display SEGA logo, authenticate
+  │  Call FUN_06002D88 (register-clear): zero all regs, SP=0x06002000
+  │  Read [0x060020F0] = 0x00280000
+  └──JMP 0x00280000 ──────────────────────────────────────── [frame 670]
+
+Main (0x00280000, LWR — permanent resident)                  [frame 670–861]
   │  Set SP=0x06100000 (top of HWR)
   │  State machine entry → module loader
+  │  Write 0x06005200 to mailbox at 0x060020F0              [frame 730]
   │  Load FLD_KNL.BIN to 0x00200000 (SBL CD kernel)
   │  Load XBLIBNET.BIN to 0x06002F00
-  │  Load DAYTONA/0 (init) to 0x06005200               [frames 796–814]
-  │  Post-load work (40 frames)                         [frames 814–854]
-  │  Zero all registers, SP=0x06002000
-  └──JMP 0x06005200 ──────────────────────────────────── [frame 854]
+  │  Load DAYTONA/0 (init) to 0x06005200                    [frames 796–814]
+  │  (main's CD code continues blocking on stack...)
+  │
+  │  VBlank interrupt → IP.BIN handler detects load complete
+  │  Call FUN_06002D88 (register-clear): zero all regs, SP=0x06002000
+  │  Read [0x060020F0] = 0x06005200
+  └──JMP 0x06005200 ──────────────────────────────────────── [frame 861]
+     (main's call chain abandoned — never unwinds)
 
-Init (0x06005200, HWR)                                   [frame 854–?]
+Init (0x06005200, HWR)                                       [frame 861–?]
   │  First instruction: mov.w + ldc sr (set interrupt mask)
-  │  ...
-  └──(presumably loads next module: race, select, etc.)
+  │  Attract mode / title screen running
+  │  GBR=0x06057800, PC in 0x06005xxx range
+  └──(next module transition: not yet observed)
 ```
 
-## 15. Open Questions
+## 16. Open Questions
 
-- [ ] Who patches IP.BIN at runtime? (BIOS or self-modifying code?)
+- [x] Who patches IP.BIN at runtime? → **BIOS ROM at PC=0x00002F0A, frame 437**
 - [x] What code is at 0x00280000? → **files/0 (main), byte-perfect match to disc**
 - [x] What happens after the jump to 0x00280050? → **State machine → module loader → CD load**
 - [x] Does 0x06005200 ever get used? → **Yes — init module loads here (84,000 bytes)**
 - [x] What BIOS function at vector 0x06000300 does? → **Installs VBlank interrupt handler**
-- [x] What happens after init finishes loading? → **Main does 40 frames of post-load work, then clean JMP to 0x06005200**
+- [x] What happens after init finishes loading? → **IP.BIN VBlank handler calls register-clear and jumps to init**
 - [x] What is init's entry point relative to its load address? → **Offset 0x0000 — first byte**
+- [x] What does main do during the 40-frame gap? → **Nothing special — main's code is blocked on stack. The VBlank handler decides when to jump.**
 - [ ] What BIOS function at vector 0x06000344 does (CD init?)
 - [ ] What's in the 32 bytes at file 0x7BC–0x7DB (pre-compressed data)
 - [ ] Does init overwrite IP.BIN / XBLIBNET.BIN, or do they coexist?
-- [ ] What does main do during the 40-frame gap (frames 814–854)?
+- [ ] What condition does the VBlank handler check before triggering the handoff?
 - [ ] Can init (or other HWR modules) call back into main's functions in LWR?
-- [ ] Does init→race follow the same one-way handoff pattern?
+- [ ] Does init→next module use the same 0x060020F0 mailbox mechanism? (10K+ frames, no write yet)
+- [ ] Who writes 0x060020F0 for the next transition — init directly, or via main?
+- [ ] Is 0x060020F0 the jump target or is there indirection? (confirmed: handler reads it directly)
