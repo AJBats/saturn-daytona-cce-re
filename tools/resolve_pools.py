@@ -184,11 +184,19 @@ def classify_value(val, mod_base, mod_size, func_set, func_sorted,
     mod_end = mod_base + mod_size
     runtime_end = runtime_base + mod_size
 
-    # Within linker range? (existing behavior, unchanged)
+    # Within linker range?
     if mod_base <= val < mod_end:
+        # Function addresses are always FUN_ regardless of zone
         if val in func_set:
             return ('FUN', 'FUN_%08X' % val, None)
-        # Find nearest function at or before this address
+
+        # Pre-binary zone: address is in linker range but BEFORE the runtime
+        # base.  These refer to BIOS infrastructure (vector table, dispatch
+        # table, handler stubs) at fixed runtime addresses — must NOT shift.
+        if runtime_base > mod_base and val < runtime_base:
+            return ('SYM', 'sym_%08X' % val, {'absolute': val})
+
+        # Normal in-binary data reference
         parent = func_sorted[0]
         for f in func_sorted:
             if f <= val:

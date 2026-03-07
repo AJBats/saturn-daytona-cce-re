@@ -165,6 +165,7 @@ def main():
     correct_shifts = 0
     entry_pool_shifts = 0  # pool entries in pinned entry referencing shifted targets
     entry_refs = 0         # references pointing into pinned entry (correct, don't shift)
+    prebinary_refs = 0     # references to pre-binary zone [mod_base, runtime_base) — correct, don't shift
 
     # --- Pinned entry region: compare retail[off] vs shifted[off] (no shift) ---
     for off in range(0, min(entry_size, retail_size) - 3, 2):
@@ -197,6 +198,9 @@ def main():
                 # Check if it points into the pinned entry (correct — entry doesn't move)
                 if entry_size and r_val < entry_end:
                     entry_refs += 1
+                # Pre-binary zone: BIOS infrastructure addresses that don't shift
+                elif runtime_base > mod_base and r_val < runtime_base:
+                    prebinary_refs += 1
                 else:
                     missed.append((off, r_val))
         else:
@@ -250,6 +254,8 @@ def main():
         print('  Entry pool shifts: %d (pinned entry referencing shifted targets)' % entry_pool_shifts)
         if entry_refs:
             print('  Entry refs: %d (point into pinned entry, correct)' % entry_refs)
+    if prebinary_refs:
+        print('  Pre-binary refs: %d (BIOS infrastructure, correct)' % prebinary_refs)
     print('  MISSED: %d real + %d likely-data = %d total' % (
         len(real_missed), len(data_missed), len(filtered_missed)))
     if real_wrong or data_wrong:

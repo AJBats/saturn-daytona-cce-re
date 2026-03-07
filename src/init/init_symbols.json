@@ -59,11 +59,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x3504"
     },
-    "DAT_06000320": {
-      "absolute": "0x06000320",
-      "parent_fun": "FUN_06000310",
-      "offset": "0x10"
-    },
     "DAT_060191A8": {
       "absolute": "0x060191A8",
       "parent_fun": "FUN_06013FA8",
@@ -128,11 +123,6 @@
       "absolute": "0x06011F9F",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x351B"
-    },
-    "DAT_06000340": {
-      "absolute": "0x06000340",
-      "parent_fun": "FUN_06000334",
-      "offset": "0xC"
     },
     "DAT_06005568": {
       "absolute": "0x06005568",
@@ -384,11 +374,6 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48AC"
     },
-    "DAT_06002000": {
-      "absolute": "0x06002000",
-      "parent_fun": "FUN_06001FBE",
-      "offset": "0x42"
-    },
     "DAT_0600737C": {
       "absolute": "0x0600737C",
       "parent_fun": "FUN_0600736E",
@@ -413,16 +398,6 @@
       "absolute": "0x06007498",
       "parent_fun": "FUN_0600742E",
       "offset": "0x6A"
-    },
-    "DAT_06005100": {
-      "absolute": "0x06005100",
-      "parent_fun": "FUN_06005038",
-      "offset": "0xC8"
-    },
-    "DAT_06000250": {
-      "absolute": "0x06000250",
-      "parent_fun": "FUN_0600019A",
-      "offset": "0xB6"
     },
     "DAT_06007430": {
       "absolute": "0x06007430",
@@ -624,35 +599,10 @@
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4A08"
     },
-    "DAT_06002FC8": {
-      "absolute": "0x06002FC8",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x5A"
-    },
     "DAT_06013374": {
       "absolute": "0x06013374",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x48F0"
-    },
-    "DAT_06002FDC": {
-      "absolute": "0x06002FDC",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x6E"
-    },
-    "DAT_06002FBC": {
-      "absolute": "0x06002FBC",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x4E"
-    },
-    "DAT_06002FF8": {
-      "absolute": "0x06002FF8",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x8A"
-    },
-    "DAT_06002FF4": {
-      "absolute": "0x06002FF4",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x86"
     },
     "DAT_0601362C": {
       "absolute": "0x0601362C",
@@ -914,21 +864,6 @@
       "parent_fun": "FUN_060096B4",
       "offset": "0x20"
     },
-    "DAT_06000CCC": {
-      "absolute": "0x06000CCC",
-      "parent_fun": "FUN_06000B3C",
-      "offset": "0x190"
-    },
-    "DAT_0600026C": {
-      "absolute": "0x0600026C",
-      "parent_fun": "FUN_0600019A",
-      "offset": "0xD2"
-    },
-    "DAT_0600029C": {
-      "absolute": "0x0600029C",
-      "parent_fun": "FUN_06000278",
-      "offset": "0x24"
-    },
     "DAT_0600C868": {
       "absolute": "0x0600C868",
       "parent_fun": "FUN_0600B7A0",
@@ -948,11 +883,6 @@
       "absolute": "0x060135FC",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4B78"
-    },
-    "DAT_06000288": {
-      "absolute": "0x06000288",
-      "parent_fun": "FUN_06000278",
-      "offset": "0x10"
     },
     "DAT_06009AA8": {
       "absolute": "0x06009AA8",
@@ -983,11 +913,6 @@
       "absolute": "0x0601360C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4B88"
-    },
-    "DAT_06000314": {
-      "absolute": "0x06000314",
-      "parent_fun": "FUN_06000310",
-      "offset": "0x4"
     },
     "DAT_06013618": {
       "absolute": "0x06013618",
@@ -1068,11 +993,6 @@
       "absolute": "0x06013628",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4BA4"
-    },
-    "DAT_06000344": {
-      "absolute": "0x06000344",
-      "parent_fun": "FUN_06000334",
-      "offset": "0x10"
     },
     "DAT_06013620": {
       "absolute": "0x06013620",
@@ -1189,20 +1109,10 @@
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x290C"
     },
-    "DAT_06000CCD": {
-      "absolute": "0x06000CCD",
-      "parent_fun": "FUN_06000B3C",
-      "offset": "0x191"
-    },
     "DAT_0600CBB6": {
       "absolute": "0x0600CBB6",
       "parent_fun": "FUN_0600B7A0",
       "offset": "0x1416"
-    },
-    "DAT_06000CCE": {
-      "absolute": "0x06000CCE",
-      "parent_fun": "FUN_06000B3C",
-      "offset": "0x192"
     },
     "DAT_0600DE4A": {
       "absolute": "0x0600DE4A",
@@ -1918,11 +1828,6 @@
       "absolute": "0x06010594",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x1B10"
-    },
-    "DAT_06000300": {
-      "absolute": "0x06000300",
-      "parent_fun": "FUN_060002DE",
-      "offset": "0x22"
     },
     "DAT_06011B84": {
       "absolute": "0x06011B84",
@@ -3379,21 +3284,6 @@
       "parent_fun": "FUN_060144EE",
       "offset": "0x52FE"
     },
-    "DAT_06002FA4": {
-      "absolute": "0x06002FA4",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x36"
-    },
-    "DAT_06002FF0": {
-      "absolute": "0x06002FF0",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x82"
-    },
-    "DAT_06002FB8": {
-      "absolute": "0x06002FB8",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x4A"
-    },
     "DAT_060133DC": {
       "absolute": "0x060133DC",
       "parent_fun": "FUN_0600EA84",
@@ -3413,11 +3303,6 @@
       "absolute": "0x0601339C",
       "parent_fun": "FUN_0600EA84",
       "offset": "0x4918"
-    },
-    "DAT_06002F9C": {
-      "absolute": "0x06002F9C",
-      "parent_fun": "FUN_06002F6E",
-      "offset": "0x2E"
     },
     "DAT_060133B2": {
       "absolute": "0x060133B2",
@@ -3472,11 +3357,17 @@
     "sym_25F80000": {
       "absolute": "0x25F80000"
     },
+    "sym_06000320": {
+      "absolute": "0x06000320"
+    },
     "sym_00200000": {
       "absolute": "0x00200000"
     },
     "sym_002FC000": {
       "absolute": "0x002FC000"
+    },
+    "sym_06000340": {
+      "absolute": "0x06000340"
     },
     "sym_25E00000": {
       "absolute": "0x25E00000"
@@ -3529,6 +3420,9 @@
     "sym_0601B000": {
       "absolute": "0x0601B000"
     },
+    "sym_06002000": {
+      "absolute": "0x06002000"
+    },
     "sym_FFFFFE16": {
       "absolute": "0xFFFFFE16"
     },
@@ -3555,6 +3449,12 @@
     },
     "sym_FFFFFE10": {
       "absolute": "0xFFFFFE10"
+    },
+    "sym_06005100": {
+      "absolute": "0x06005100"
+    },
+    "sym_06000250": {
+      "absolute": "0x06000250"
     },
     "sym_21000000": {
       "absolute": "0x21000000"
@@ -3604,6 +3504,21 @@
     "sym_260133FC": {
       "absolute": "0x260133FC"
     },
+    "sym_06002FC8": {
+      "absolute": "0x06002FC8"
+    },
+    "sym_06002FDC": {
+      "absolute": "0x06002FDC"
+    },
+    "sym_06002FBC": {
+      "absolute": "0x06002FBC"
+    },
+    "sym_06002FF8": {
+      "absolute": "0x06002FF8"
+    },
+    "sym_06002FF4": {
+      "absolute": "0x06002FF4"
+    },
     "sym_20000000": {
       "absolute": "0x20000000"
     },
@@ -3613,8 +3528,20 @@
     "sym_00100000": {
       "absolute": "0x00100000"
     },
+    "sym_06000CCC": {
+      "absolute": "0x06000CCC"
+    },
+    "sym_0600026C": {
+      "absolute": "0x0600026C"
+    },
+    "sym_0600029C": {
+      "absolute": "0x0600029C"
+    },
     "sym_002C4020": {
       "absolute": "0x002C4020"
+    },
+    "sym_06000288": {
+      "absolute": "0x06000288"
     },
     "sym_25FE0000": {
       "absolute": "0x25FE0000"
@@ -3624,6 +3551,9 @@
     },
     "sym_25FE0008": {
       "absolute": "0x25FE0008"
+    },
+    "sym_06000314": {
+      "absolute": "0x06000314"
     },
     "sym_25FE0010": {
       "absolute": "0x25FE0010"
@@ -3654,6 +3584,15 @@
     },
     "sym_25890020": {
       "absolute": "0x25890020"
+    },
+    "sym_06000344": {
+      "absolute": "0x06000344"
+    },
+    "sym_06000CCD": {
+      "absolute": "0x06000CCD"
+    },
+    "sym_06000CCE": {
+      "absolute": "0x06000CCE"
     },
     "sym_044CFFFF": {
       "absolute": "0x044CFFFF"
@@ -3703,6 +3642,9 @@
     "sym_24306033": {
       "absolute": "0x24306033"
     },
+    "sym_06000300": {
+      "absolute": "0x06000300"
+    },
     "sym_060FFC00": {
       "absolute": "0x060FFC00"
     },
@@ -3714,6 +3656,18 @@
     },
     "sym_00220000": {
       "absolute": "0x00220000"
+    },
+    "sym_06002FA4": {
+      "absolute": "0x06002FA4"
+    },
+    "sym_06002FF0": {
+      "absolute": "0x06002FF0"
+    },
+    "sym_06002FB8": {
+      "absolute": "0x06002FB8"
+    },
+    "sym_06002F9C": {
+      "absolute": "0x06002F9C"
     }
   }
 }
