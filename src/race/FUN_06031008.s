@@ -12,7 +12,7 @@ FUN_06031008:
     mov.l r10, @-r15
     mov.l r9, @-r15
     mov r4, r10
-    .byte 0xDB, 0x21  /* 06031018: mov.l @(0x84,PC),r11  {[0x060310A0] = 0x060520BA} */
+    .byte 0xDB, 0x21
     extu.b r10, r12
     mov.l r8, @-r15
     shll r12

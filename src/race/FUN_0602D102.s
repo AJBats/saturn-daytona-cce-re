@@ -8,7 +8,7 @@ FUN_0602D102:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.l r10, @-r15
-    .byte 0x9A, 0x5B  /* 0602D10A: mov.w @(0xB6,PC),r10  {0x0602D1C4} */
+    .byte 0x9A, 0x5B
     bra .L_0602D12A
     mov r7, r12
 .L_0602D110:

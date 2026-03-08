@@ -20,9 +20,9 @@ FUN_060429D6:
     cmp/pl r0
     bf/s .L_06042A2C
     mov.l @(24, r14), r13
-    .byte 0xD6, 0x2D  /* 0601A9F4: mov.l @(0xB4,PC),r6  {[0x0601AAAC] = 0x00080000} */
+    .byte 0xD6, 0x2D
     mov.l @(8, r14), r5
-    .byte 0xD2, 0x2D  /* 0601A9F8: mov.l @(0xB4,PC),r2  {[0x0601AAB0] = 0x06042454} */
+    .byte 0xD2, 0x2D
     jsr @r2
     mov.l @r14, r4
     mov r0, r4
@@ -42,7 +42,7 @@ FUN_060429D6:
     mov r3, r7
     mov.w @(14, r14), r0
     mov r14, r5
-    .byte 0xD3, 0x24  /* 0601AA20: mov.l @(0x90,PC),r3  {[0x0601AAB4] = 0x06047DBC} */
+    .byte 0xD3, 0x24
     add #0x20, r5
     jsr @r3
     mov r0, r4
@@ -71,7 +71,7 @@ FUN_060429D6:
     mov.w @(14, r14), r0
     add r3, r0
     mov.w r0, @(14, r14)
-    .byte 0xD3, 0x18  /* 0601AA54: mov.l @(0x60,PC),r3  {[0x0601AAB8] = 0x06047D68} */
+    .byte 0xD3, 0x18
     jsr @r3
     exts.w r0, r4
     mov.w @r13, r2
@@ -102,10 +102,10 @@ FUN_060429D6:
 .L_06042A8A:
     bra .L_06042ABC
     mov.l r2, @(8, r14)
-    .byte 0x06, 0xE0  /* 0601AA8E: .word 0x06E0 */
+    .byte 0x06, 0xE0
 .L_wpool_06042A90:
-    .byte 0x00, 0xE1  /* 0601AA90: .word 0x00E1 */
-    .byte 0xFF, 0xFF  /* 0601AA92: .word 0xFFFF */
+    .byte 0x00, 0xE1
+    .byte 0xFF, 0xFF
     .4byte sym_06053644  /* 0601AA94 = 0x06053644 */
     .4byte DAT_060512BC  /* 060512BC = FUN_0604E0F6 + 0x31C6 */
     .4byte sym_06008E48  /* 0601AA9C = 0x06030E48 */
@@ -121,11 +121,11 @@ FUN_060429D6:
 .L_pool_06042AB8:
     .4byte DAT_06047D68  /* 06047D68 = FUN_06047D3C + 0x2C */
 .L_06042ABC:
-    .byte 0xD7, 0x2A  /* 0601AABC: mov.l @(0xA8,PC),r7  {[0x0601AB68] = 0x00224000} */
+    .byte 0xD7, 0x2A
     mov r15, r6
     mov.l @(8, r14), r5
     add #0x8, r6
-    .byte 0xD3, 0x29  /* 0601AAC4: mov.l @(0xA4,PC),r3  {[0x0601AB6C] = 0x06036AA8} */
+    .byte 0xD3, 0x29
     jsr @r3
     mov.l @r14, r4
     mov.w @(24, r15), r0
@@ -137,7 +137,7 @@ FUN_060429D6:
     add #0x60, r0
     mov.w r0, @(18, r14)
     exts.w r0, r0
-    .byte 0x93, 0x41  /* 0601AADC: mov.w @(0x82,PC),r3  {0x0601AB62} */
+    .byte 0x93, 0x41
     cmp/ge r3, r0
     bf .L_06042AEC
     mov #0x0, r0

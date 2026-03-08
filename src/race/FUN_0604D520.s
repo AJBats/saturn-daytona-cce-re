@@ -5,7 +5,7 @@
     .type FUN_0604D520, @function
 FUN_0604D520:
     sts.l pr, @-r15
-    .byte 0xDD, 0x30  /* 06025522: mov.l @(0xC0,PC),r13  {[0x060255E4] = 0x06035EE8} */
+    .byte 0xDD, 0x30
     jsr @r13
     nop
     lds.l @r15+, pr
@@ -19,4 +19,4 @@ FUN_0604D520:
     ldc.l @r15+, gbr
     rts
     nop
-    .byte 0xFF, 0xFF  /* 0602553E: .word 0xFFFF */
+    .byte 0xFF, 0xFF

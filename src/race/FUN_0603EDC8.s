@@ -5,7 +5,7 @@
     .type FUN_0603EDC8, @function
 FUN_0603EDC8:
     sts.l pr, @-r15
-    .byte 0xD0, 0xAA  /* 06016DCA: mov.l @(0x2A8,PC),r0  {[0x06017074] = 0xFFFFFFD0} */
+    .byte 0xD0, 0xAA
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15

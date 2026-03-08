@@ -42,12 +42,12 @@ FUN_06047A08:
     rts
     nop
 .L_wpool_06047A48:
-    .byte 0x60, 0x00  /* 0601FA48: mov.b @r0,r0 */
+    .byte 0x60, 0x00
 .L_wpool_06047A4A:
-    .byte 0x01, 0xA0  /* 0601FA4A: .word 0x01A0 */
+    .byte 0x01, 0xA0
 .L_wpool_06047A4C:
-    .byte 0x01, 0xC0  /* 0601FA4C: .word 0x01C0 */
-    .byte 0x00, 0x00  /* 0601FA4E: .word 0x0000 */
+    .byte 0x01, 0xC0
+    .byte 0x00, 0x00
 .L_pool_06047A50:
     .4byte sym_06054914  /* 0601FA50 = 0x06054914 */
 .L_pool_06047A54:
@@ -61,15 +61,15 @@ FUN_06047A08:
     .4byte sym_0601BE00  /* 0601FA64 = 0x0601BE00 (init cross-ref, fixed) */
 .L_pool_06047A68:
     .4byte DAT_06047A78  /* 06047A78 = FUN_06047A08 + 0x70 */
-    .byte 0x00, 0x00  /* 0601FA6C: .word 0x0000 */
-    .byte 0x00, 0x00  /* 0601FA6E: .word 0x0000 */
-    .byte 0x01, 0x5F  /* 0601FA70: mac.l @r5+,@r1+ */
-    .byte 0x00, 0x6F  /* 0601FA72: mac.l @r6+,@r0+ */
-    .byte 0x00, 0xB0  /* 0601FA74: .word 0x00B0 */
-    .byte 0x00, 0x38  /* 0601FA76: .word 0x0038 */
-    .byte 0x00, 0x00  /* 0601FA78: .word 0x0000 */
-    .byte 0x00, 0x71  /* 0601FA7A: .word 0x0071 */
-    .byte 0x01, 0x5F  /* 0601FA7C: mac.l @r5+,@r1+ */
-    .byte 0x00, 0xDF  /* 0601FA7E: mac.l @r13+,@r0+ */
-    .byte 0x00, 0xB0  /* 0601FA80: .word 0x00B0 */
-    .byte 0x00, 0xA8  /* 0601FA82: .word 0x00A8 */
+    .byte 0x00, 0x00
+    .byte 0x00, 0x00
+    .byte 0x01, 0x5F
+    .byte 0x00, 0x6F
+    .byte 0x00, 0xB0
+    .byte 0x00, 0x38
+    .byte 0x00, 0x00
+    .byte 0x00, 0x71
+    .byte 0x01, 0x5F
+    .byte 0x00, 0xDF
+    .byte 0x00, 0xB0
+    .byte 0x00, 0xA8

@@ -4,7 +4,7 @@
     .global FUN_0603F7B8
     .type FUN_0603F7B8, @function
 FUN_0603F7B8:
-    .byte 0xD0, 0x87  /* 060177B8: mov.l @(0x21C,PC),r0  {[0x060179D8] = 0xFFFFFFE8} */
+    .byte 0xD0, 0x87
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
@@ -68,7 +68,7 @@ FUN_0603F7B8:
     shlr16 r1
     add r1, r0
     shll16 r1
-    .byte 0x95, 0xCC  /* 06017836: mov.w @(0x198,PC),r5  {0x060179D2} */
+    .byte 0x95, 0xCC
     add r14, r5
     mov.w @r5, r5
     cmp/ge r5, r0
@@ -101,7 +101,7 @@ FUN_0603F7B8:
     xtrct r1, r0
     add r2, r0
     mov.l r0, @(52, gbr)
-    .byte 0xD1, 0x59  /* 06017874: mov.l @(0x164,PC),r1  {[0x060179DC] = 0x00008000} */
+    .byte 0xD1, 0x59
     mov.w @(128, gbr), r0
     add r1, r7
     shll r1
@@ -109,7 +109,7 @@ FUN_0603F7B8:
     bf .L_0603F890
     add #0x1, r0
     sub r1, r7
-    .byte 0x95, 0xA5  /* 06017884: mov.w @(0x14A,PC),r5  {0x060179D2} */
+    .byte 0x95, 0xA5
     add r14, r5
     mov.w @r5, r5
     cmp/ge r5, r0
@@ -124,7 +124,7 @@ FUN_0603F7B8:
     add r0, r4
     mov r7, r5
     mov.l @(76, gbr), r0
-    .byte 0x97, 0x98  /* 060178A0: mov.w @(0x130,PC),r7  {0x060179D4} */
+    .byte 0x97, 0x98
     mov r0, r6
     mov.l @r15+, r0
     sub r0, r15

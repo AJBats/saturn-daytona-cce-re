@@ -71,8 +71,8 @@ FUN_06043B04:
     .4byte DAT_0604507E  /* 0604507E = FUN_0604507E */
 .L_pool_06043B84:
     .4byte DAT_060457DC  /* 060457DC = FUN_060457AC + 0x30 */
-    .byte 0xC7, 0x1A  /* 0601BB88: mova @(0x68,PC),r0  {0x0601BBF4} */
+    .byte 0xC7, 0x1A
     .reloc ., R_SH_IND12W, FUN_06043B90 - 4
     .2byte 0xA000    /* bra FUN_0601BB90 (linker-resolved) */
-    .byte 0x00, 0x09  /* 0601BB8C: nop */
-    .byte 0xC7, 0x20  /* 0601BB8E: mova @(0x80,PC),r0  {0x0601BC10} */
+    .byte 0x00, 0x09
+    .byte 0xC7, 0x20

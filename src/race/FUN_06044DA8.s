@@ -12,4 +12,4 @@ FUN_06044DA8:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09  /* 0601CDB6: nop */
+    .byte 0x00, 0x09

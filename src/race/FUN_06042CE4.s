@@ -101,12 +101,12 @@ FUN_06042CE4:
     rts
     mov.l @r15+, r14
 .L_wpool_06042D94:
-    .byte 0x01, 0x92  /* 0601AD94: .word 0x0192 */
+    .byte 0x01, 0x92
 .L_wpool_06042D96:
-    .byte 0x00, 0xA0  /* 0601AD96: .word 0x00A0 */
+    .byte 0x00, 0xA0
 .L_wpool_06042D98:
-    .byte 0x03, 0xC0  /* 0601AD98: .word 0x03C0 */
-    .byte 0xFF, 0xFF  /* 0601AD9A: .word 0xFFFF */
+    .byte 0x03, 0xC0
+    .byte 0xFF, 0xFF
 .L_pool_06042D9C:
     .4byte sym_06053644  /* 0601AD9C = 0x06053644 */
 .L_pool_06042DA0:

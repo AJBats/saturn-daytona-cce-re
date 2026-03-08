@@ -41,14 +41,14 @@ FUN_06035EE8:
     bra .L_06035F3C
     nop
 .L_wpool_06035F2E:
-    .byte 0x00, 0xAC  /* 06035F2E: mov.b @(r0,r10),r0 */
+    .byte 0x00, 0xAC
 .L_wpool_06035F30:
-    .byte 0x40, 0x00  /* 06035F30: shll r0 */
-    .byte 0x00, 0x00  /* 06035F32: .word 0x0000 */
+    .byte 0x40, 0x00
+    .byte 0x00, 0x00
 .L_pool_06035F34:
     .4byte 0x00000134  /* 06035F34 = 0x00000134 */
 .L_06035F38:
-    .byte 0xD4, 0x1F  /* 06035F38: mov.l @(0x7C,PC),r4  {[0x06035FB8] = 0xFFFF0000} */
+    .byte 0xD4, 0x1F
     or r4, r6
 .L_06035F3C:
     add r6, r3

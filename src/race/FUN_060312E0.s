@@ -132,7 +132,7 @@ FUN_060312E0:
     rts
     mov.l @r15+, r14
 .L_wpool_060313C6:
-    .byte 0x00, 0x84  /* 060313C6: mov.b r8,@(r0,r0) */
+    .byte 0x00, 0x84
 .L_pool_060313C8:
     .4byte sym_060540B4  /* 060313C8 = 0x060540B4 */
 .L_pool_060313CC:

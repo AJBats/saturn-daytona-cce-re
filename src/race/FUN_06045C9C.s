@@ -20,7 +20,7 @@ FUN_06045C9C:
     mov.w r4, @-r7
     sub r6, r0
     mov.w r0, @-r7
-    .byte 0x47, 0x7F  /* UNKNOWN */
+    .byte 0x47, 0x7F
     add #0x4, r15
     sts macl, r0
     cmp/pz r0

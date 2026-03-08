@@ -7,7 +7,7 @@ FUN_06033CBE:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov r5, r13
-    .byte 0xD3, 0x39  /* 06033CC4: mov.l @(0xE4,PC),r3  {[0x06033DAC] = 0x0602D8B4} */
+    .byte 0xD3, 0x39
     mov.l r12, @-r15
     mov.l r11, @-r15
     sts.l pr, @-r15
@@ -15,9 +15,9 @@ FUN_06033CBE:
     jsr @r3
     mov r6, r14
     mov r13, r12
-    .byte 0xD3, 0x36  /* 06033CD4: mov.l @(0xD8,PC),r3  {[0x06033DB0] = 0x0000F600} */
+    .byte 0xD3, 0x36
     mov #0x0, r11
-    .byte 0xD2, 0x36  /* 06033CD8: mov.l @(0xD8,PC),r2  {[0x06033DB4] = 0x25E41400} */
+    .byte 0xD2, 0x36
     mov r13, r4
     add #0x4, r12
     add #0x1C, r4
@@ -59,11 +59,11 @@ FUN_06033CBE:
     tst r3, r3
     bf/s .L_06033D2A
     shlr2 r7
-    .byte 0xD6, 0x24  /* 06033D24: mov.l @(0x90,PC),r6  {[0x06033DB8] = 0x002F2CC0} */
+    .byte 0xD6, 0x24
     bra .L_06033D2C
     nop
 .L_06033D2A:
-    .byte 0xD6, 0x24  /* 06033D2A: mov.l @(0x90,PC),r6  {[0x06033DBC] = 0x002E2780} */
+    .byte 0xD6, 0x24
 .L_06033D2C:
     mov #0x0, r2
     cmp/hs r7, r2
@@ -79,11 +79,11 @@ FUN_06033CBE:
 .L_06033D40:
     mov.w .L_wpool_06033D94, r12
     extu.b r14, r4
-    .byte 0xDD, 0x1E  /* 06033D44: mov.l @(0x78,PC),r13  {[0x06033DC0] = 0x25F00600} */
+    .byte 0xDD, 0x1E
     mov r5, r0
     mov.w .L_wpool_06033D96, r7
     shll8 r4
-    .byte 0xD1, 0x1D  /* 06033D4C: mov.l @(0x74,PC),r1  {[0x06033DC4] = 0x25F00800} */
+    .byte 0xD1, 0x1D
     mov r11, r14
     mov.w .L_wpool_06033D98, r5
     add r4, r13
@@ -121,12 +121,12 @@ FUN_06033CBE:
     rts
     mov.l @r15+, r14
 .L_wpool_06033D94:
-    .byte 0x00, 0x80  /* 06033D94: .word 0x0080 */
+    .byte 0x00, 0x80
 .L_wpool_06033D96:
-    .byte 0x03, 0xE0  /* 06033D96: .word 0x03E0 */
+    .byte 0x03, 0xE0
 .L_wpool_06033D98:
-    .byte 0x7C, 0x00  /* 06033D98: add #0,r12 */
-    .byte 0xFF, 0xFF  /* 06033D9A: .word 0xFFFF */
+    .byte 0x7C, 0x00
+    .byte 0xFF, 0xFF
     .4byte DAT_0604F63C  /* 0604F63C = FUN_0604E0F6 + 0x1546 */
     .4byte DAT_0604F64C  /* 0604F64C = FUN_0604E0F6 + 0x1556 */
     .4byte DAT_0604F65C  /* 0604F65C = FUN_0604E0F6 + 0x1566 */

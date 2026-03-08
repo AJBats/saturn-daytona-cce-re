@@ -4,7 +4,7 @@
     .global FUN_06042DC4
     .type FUN_06042DC4, @function
 FUN_06042DC4:
-    .byte 0xD0, 0x52  /* 0601ADC4: mov.l @(0x148,PC),r0  {[0x0601AF10] = 0x002E3AD0} */
+    .byte 0xD0, 0x52
     mov r5, r6
     shll2 r6
     mov.l @(r0, r6), r6

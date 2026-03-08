@@ -6,7 +6,7 @@
 FUN_06030A5C:
     mov.l @(8, r4), r4
     sub r3, r4
-    .byte 0xD3, 0x1B  /* 06030A60: mov.l @(0x6C,PC),r3  {[0x06030AD0] = 0x06047E0C} */
+    .byte 0xD3, 0x1B
     jsr @r3
     mov r2, r5
     mov r0, r5

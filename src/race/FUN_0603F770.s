@@ -39,4 +39,4 @@ FUN_0603F770:
     add r7, r3
     rts
     add #-0x30, r4
-    .byte 0x00, 0x00  /* 060177B6: .word 0x0000 */
+    .byte 0x00, 0x00

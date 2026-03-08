@@ -14,8 +14,8 @@ FUN_060463E4:
     mov r0, r7
     add #-0x8, r15
     mov r15, r5
-    .byte 0x96, 0x8E  /* 0601E3F8: mov.w @(0x11C,PC),r6  {0x0601E518} */
-    .byte 0xD4, 0x48  /* 0601E3FA: mov.l @(0x120,PC),r4  {[0x0601E51C] = 0x00000220} */
+    .byte 0x96, 0x8E
+    .byte 0xD4, 0x48
     add r14, r4
     nop
 .L_06046400:

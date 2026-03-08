@@ -5,12 +5,12 @@
     .type FUN_060468B0, @function
 FUN_060468B0:
     mov.l r14, @-r15
-    .byte 0xDE, 0x34  /* 0601E8B2: mov.l @(0xD0,PC),r14  {[0x0601E984] = 0x06057800} */
+    .byte 0xDE, 0x34
     mov #-0x20, r1
     mov.w @(2, r1), r0
     cmp/pz r0
     bt .L_060468BE
-    .byte 0xDE, 0x32  /* 0601E8BC: mov.l @(0xC8,PC),r14  {[0x0601E988] = 0x06057C00} */
+    .byte 0xDE, 0x32
 .L_060468BE:
     ldc r14, gbr
     mov.l r4, @(44, r14)
@@ -51,4 +51,4 @@ FUN_060468B0:
     lds.l @r15+, pr
     rts
     ldc.l @r15+, gbr
-    .byte 0x00, 0x09  /* 0601E906: nop */
+    .byte 0x00, 0x09

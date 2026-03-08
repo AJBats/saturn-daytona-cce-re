@@ -52,4 +52,4 @@ FUN_06046E64:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09  /* 0601EEBA: nop */
+    .byte 0x00, 0x09

@@ -7,7 +7,7 @@ FUN_0603344E:
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov r4, r13
-    .byte 0xDE, 0x53  /* 06033454: mov.l @(0x14C,PC),r14  {[0x060335A4] = 0x0602D052} */
+    .byte 0xDE, 0x53
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov #0x0, r12
@@ -15,4 +15,4 @@ FUN_0603344E:
     mov.l r9, @-r15
     mov.l r8, @-r15
     mov #0x8, r8
-    .byte 0xD9, 0x4C  /* 06033464: mov.l @(0x130,PC),r9  {[0x06033598] = 0x002E4348} */
+    .byte 0xD9, 0x4C

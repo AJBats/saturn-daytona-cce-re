@@ -5,7 +5,7 @@
     .type FUN_0603F9FC, @function
 FUN_0603F9FC:
     mov.l r14, @-r15
-    .byte 0xD0, 0x8E  /* 060179FE: mov.l @(0x238,PC),r0  {[0x06017C38] = 0x0603E14C} */
+    .byte 0xD0, 0x8E
     jsr @r0
     nop
     mov.l @r15+, r14

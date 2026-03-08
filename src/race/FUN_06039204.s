@@ -76,14 +76,14 @@ FUN_06039204:
     add r3, r5
     bra .L_060392F6
     nop
-    .byte 0x01, 0xB0  /* 06011292: .word 0x01B0 */
-    .byte 0x00, 0xF0  /* 06011294: .word 0x00F0 */
-    .byte 0x01, 0xAE  /* 06011296: mov.l @(r0,r10),r1 */
-    .byte 0x01, 0xF4  /* 06011298: mov.b r15,@(r0,r1) */
-    .byte 0x00, 0xD0  /* 0601129A: .word 0x00D0 */
+    .byte 0x01, 0xB0
+    .byte 0x00, 0xF0
+    .byte 0x01, 0xAE
+    .byte 0x01, 0xF4
+    .byte 0x00, 0xD0
 .L_wpool_0603929C:
-    .byte 0x01, 0xA4  /* 0601129C: mov.b r10,@(r0,r1) */
-    .byte 0xFF, 0xFF  /* 0601129E: .word 0xFFFF */
+    .byte 0x01, 0xA4
+    .byte 0xFF, 0xFF
 .L_pool_060392A0:
     .4byte sym_06052804  /* 060112A0 = 0x06052804 */
 .L_pool_060392A4:
@@ -98,7 +98,7 @@ FUN_06039204:
     .4byte DAT_0603DB9C  /* 0603DB9C = FUN_0603DB9C */
 .L_060392B8:
     mov.w @(4, r4), r0
-    .byte 0x93, 0x7D  /* 060112BA: mov.w @(0xFA,PC),r3  {0x060113B8} */
+    .byte 0x93, 0x7D
     add r14, r3
     mov.w @r3, r3
     extu.w r3, r3
@@ -117,7 +117,7 @@ FUN_06039204:
     bra .L_060392F6
     nop
 .L_060392DE:
-    .byte 0x90, 0x6B  /* 060112DE: mov.w @(0xD6,PC),r0  {0x060113B8} */
+    .byte 0x90, 0x6B
     mov.b @r5, r2
     mov.w @(r0, r14), r3
     extu.w r3, r3
@@ -154,7 +154,7 @@ FUN_06039204:
     bf .L_06039260
 .L_0603931E:
     mov #0x20, r4
-    .byte 0xD2, 0x27  /* 06011320: mov.l @(0x9C,PC),r2  {[0x060113C0] = 0x06030A5C} */
+    .byte 0xD2, 0x27
     mov #0x12, r0
     mov.b @(r0, r14), r1
     mov r1, r3
@@ -169,8 +169,8 @@ FUN_06039204:
     sub r3, r1
     jsr @r2
     mov r4, r0
-    .byte 0x91, 0x3C  /* 0601133E: mov.w @(0x78,PC),r1  {0x060113BA} */
-    .byte 0xD2, 0x1F  /* 06011340: mov.l @(0x7C,PC),r2  {[0x060113C0] = 0x06030A5C} */
+    .byte 0x91, 0x3C
+    .byte 0xD2, 0x1F
     add r14, r1
     mov.l r0, @r1
     mov #0x12, r0
@@ -187,10 +187,10 @@ FUN_06039204:
     sub r3, r1
     jsr @r2
     mov r4, r0
-    .byte 0x91, 0x2B  /* 06011362: mov.w @(0x56,PC),r1  {0x060113BC} */
+    .byte 0x91, 0x2B
     add r14, r1
     mov.l r0, @r1
-    .byte 0x90, 0x29  /* 06011368: mov.w @(0x52,PC),r0  {0x060113BE} */
+    .byte 0x90, 0x29
     mov.w @(r0, r14), r3
     mov.l @(60, r14), r2
     add #0x12, r0

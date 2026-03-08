@@ -17,5 +17,5 @@ FUN_0603FCF4:
     lds.l @r15+, pr
     rts
     add #0x10, r15
-    .byte 0x7F, 0xF0  /* 06017D08: add #-16,r15 */
-    .byte 0x66, 0xF3  /* 06017D0A: mov r15,r6 */
+    .byte 0x7F, 0xF0
+    .byte 0x66, 0xF3

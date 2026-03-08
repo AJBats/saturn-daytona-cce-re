@@ -16,7 +16,7 @@ FUN_06045EC8:
     mov.b @(128, gbr), r0
     mov #0x30, r2
     and r0, r2
-    .byte 0x90, 0x21  /* 0601DEE0: mov.w @(0x42,PC),r0  {0x0601DF26} */
+    .byte 0x90, 0x21
     or r2, r0
     rts
     mov.w r0, @(0, r7)

@@ -14,9 +14,9 @@ FUN_0602F274:
     bf .L_0602F2B0
     mov.w @(6, r14), r0
     mov #0x2, r6
-    .byte 0xD2, 0x3C  /* 0602F288: mov.l @(0xF0,PC),r2  {[0x0602F37C] = 0x25E6A000} */
+    .byte 0xD2, 0x3C
     mov r3, r5
-    .byte 0xD1, 0x40  /* 0602F28C: mov.l @(0x100,PC),r1  {[0x0602F390] = 0x0602D102} */
+    .byte 0xD1, 0x40
     mov r0, r4
     mov.w @(4, r14), r0
     shll2 r4
@@ -28,11 +28,11 @@ FUN_0602F274:
     jsr @r1
     add r2, r4
     mov.l @r15, r4
-    .byte 0xD3, 0x45  /* 0602F2A4: mov.l @(0x114,PC),r3  {[0x0602F3BC] = 0x06013BB4} */
+    .byte 0xD3, 0x45
     jsr @r3
     nop
     mov #0x0, r2
-    .byte 0xD3, 0x44  /* 0602F2AC: mov.l @(0x110,PC),r3  {[0x0602F3C0] = 0x06051F48} */
+    .byte 0xD3, 0x44
     mov.b r2, @r3
 .L_0602F2B0:
     add #0x4, r15

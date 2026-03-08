@@ -21,9 +21,9 @@ FUN_0603F9B2:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x82  /* 060179D2: .word 0x0082 */
-    .byte 0x00, 0x30  /* 060179D4: .word 0x0030 */
-    .byte 0x40, 0x00  /* 060179D6: shll r0 */
+    .byte 0x00, 0x82
+    .byte 0x00, 0x30
+    .byte 0x40, 0x00
     .4byte sym_FFFFFFE8  /* 060179D8 = 0xFFFFFFE8 */
     .4byte 0x00008000  /* 060179DC = 0x00008000 */
     .4byte sym_FFFFFFBC  /* 060179E0 = 0xFFFFFFBC */

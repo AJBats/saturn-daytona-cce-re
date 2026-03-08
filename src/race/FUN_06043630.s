@@ -64,11 +64,11 @@ FUN_06043630:
     rts
     mov.l @r15+, r14
 .L_wpool_060436A2:
-    .byte 0x66, 0x83  /* 0601B6A2: mov r8,r6 */
+    .byte 0x66, 0x83
 .L_wpool_060436A4:
-    .byte 0x38, 0xE3  /* 0601B6A4: cmp/ge r14,r8 */
+    .byte 0x38, 0xE3
 .L_wpool_060436A6:
-    .byte 0x80, 0x00  /* 0601B6A6: mov.b r0,@(0x0,r0) */
+    .byte 0x80, 0x00
 .L_pool_060436A8:
     .4byte DAT_06044DBA  /* 06044DBA = FUN_06044DB8 + 0x2 */
 .L_pool_060436AC:

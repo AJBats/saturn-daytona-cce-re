@@ -5,7 +5,7 @@
     .type FUN_0603F6D2, @function
 FUN_0603F6D2:
     mov.l r14, @-r15
-    .byte 0xDB, 0x1F  /* 060176D4: mov.l @(0x7C,PC),r11  {[0x06017754] = 0x00004000} */
+    .byte 0xDB, 0x1F
     mov r4, r14
     ldc r4, gbr
     .reloc ., R_SH_IND12W, FUN_0603F6F8 - 4

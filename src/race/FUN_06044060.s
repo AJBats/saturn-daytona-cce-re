@@ -52,7 +52,7 @@ FUN_06044060:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x00, 0x00  /* 0601C0BE: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_060440C0:
     .4byte DAT_06044D80  /* 06044D80 = FUN_06044D80 */
 .L_pool_060440C4:

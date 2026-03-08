@@ -21,9 +21,9 @@ FUN_0603F6F8:
     lds.l @r15+, pr
     rts
     mov.w r0, @(14, r14)
-    .byte 0x00, 0xAC  /* 06017716: mov.b @(r0,r10),r0 */
-    .byte 0x00, 0x54  /* 06017718: mov.b r5,@(r0,r0) */
-    .byte 0x00, 0x00  /* 0601771A: .word 0x0000 */
+    .byte 0x00, 0xAC
+    .byte 0x00, 0x54
+    .byte 0x00, 0x00
     .4byte sym_06007500  /* 0601771C = 0x0602F500 */
     .4byte 0x00000800  /* 06017720 = 0x00000800 */
     .4byte DAT_0603ECF0  /* 0603ECF0 = FUN_0603ECF0 */
@@ -41,6 +41,6 @@ FUN_0603F6F8:
     .4byte 0x00004000  /* 06017754 = 0x00004000 */
 .L_pool_0603F758:
     .4byte DAT_06047E0C  /* 06047E0C = FUN_06047E0C */
-    .byte 0x7F, 0xF4  /* 0601775C: add #-12,r15 */
-    .byte 0x65, 0xF3  /* 0601775E: mov r15,r5 */
-    .byte 0x15, 0x10  /* 06017760: mov.l r1,@(0x0,r5) */
+    .byte 0x7F, 0xF4
+    .byte 0x65, 0xF3
+    .byte 0x15, 0x10

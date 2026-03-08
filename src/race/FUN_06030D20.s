@@ -6,13 +6,13 @@
 FUN_06030D20:
     mov.l r14, @-r15
     mov #0x0, r6
-    .byte 0xD7, 0x57  /* 06030D24: mov.l @(0x15C,PC),r7  {[0x06030E84] = 0x06052098} */
+    .byte 0xD7, 0x57
     mov #0x4C, r1
     mov.l r13, @-r15
     extu.b r4, r14
-    .byte 0xDD, 0x54  /* 06030D2C: mov.l @(0x150,PC),r13  {[0x06030E80] = 0x060520AF} */
+    .byte 0xDD, 0x54
     mov r14, r5
-    .byte 0xD4, 0x55  /* 06030D30: mov.l @(0x154,PC),r4  {[0x06030E88] = 0x060520AB} */
+    .byte 0xD4, 0x55
     mov r13, r0
     mov.b r6, @(r0, r14)
     mov.l @r7, r0
@@ -33,7 +33,7 @@ FUN_06030D20:
     mov.b r6, @r5
 .L_06030D52:
     mov r4, r0
-    .byte 0xD5, 0x4D  /* 06030D54: mov.l @(0x134,PC),r5  {[0x06030E8C] = 0x060520AD} */
+    .byte 0xD5, 0x4D
     mov.b @(r0, r14), r2
     extu.b r2, r2
     mov r5, r0
@@ -51,16 +51,16 @@ FUN_06030D20:
     add #0x1, r2
     mov.b r2, @(r0, r14)
 .L_06030D76:
-    .byte 0xD1, 0x3F  /* 06030D76: mov.l @(0xFC,PC),r1  {[0x06030E74] = 0x0605492A} */
+    .byte 0xD1, 0x3F
     mov.b @r1, r3
     tst r3, r3
     bf .L_06030D9C
-    .byte 0xD0, 0x40  /* 06030D7E: mov.l @(0x100,PC),r0  {[0x06030E80] = 0x060520AF} */
+    .byte 0xD0, 0x40
     mov.b @(r0, r14), r3
     extu.b r3, r3
     tst r3, r3
     bt .L_06030D9C
-    .byte 0xD3, 0x41  /* 06030D88: mov.l @(0x104,PC),r3  {[0x06030E90] = 0x0602FA08} */
+    .byte 0xD3, 0x41
     mov r14, r0
     mov.b @(r0, r13), r0
     mov #0x1, r4
@@ -74,10 +74,10 @@ FUN_06030D20:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xD4, 0x3C  /* 06030DA2: mov.l @(0xF0,PC),r4  {[0x06030E94] = 0x06030DAA} */
-    .byte 0xD3, 0x3C  /* 06030DA4: mov.l @(0xF0,PC),r3  {[0x06030E98] = 0x0602F500} */
-    .byte 0x43, 0x2B  /* 06030DA6: jmp @r3 */
-    .byte 0x00, 0x09  /* 06030DA8: nop */
-    .byte 0xD3, 0x3C  /* 06030DAA: mov.l @(0xF0,PC),r3  {[0x06030E9C] = 0x06037E28} */
-    .byte 0x43, 0x2B  /* 06030DAC: jmp @r3 */
-    .byte 0xE4, 0x01  /* 06030DAE: mov #1,r4 */
+    .byte 0xD4, 0x3C
+    .byte 0xD3, 0x3C
+    .byte 0x43, 0x2B
+    .byte 0x00, 0x09
+    .byte 0xD3, 0x3C
+    .byte 0x43, 0x2B
+    .byte 0xE4, 0x01

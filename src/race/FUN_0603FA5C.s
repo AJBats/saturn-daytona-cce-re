@@ -5,10 +5,10 @@
     .type FUN_0603FA5C, @function
 FUN_0603FA5C:
     mov.l r14, @-r15
-    .byte 0xD7, 0x78  /* 06017A5E: mov.l @(0x1E0,PC),r7  {[0x06017C40] = 0x060529AD} */
-    .byte 0xD0, 0x78  /* 06017A60: mov.l @(0x1E0,PC),r0  {[0x06017C44] = 0x060529AC} */
+    .byte 0xD7, 0x78
+    .byte 0xD0, 0x78
     mov.b @r7, r7
-    .byte 0xDE, 0x78  /* 06017A64: mov.l @(0x1E0,PC),r14  {[0x06017C48] = 0x060529A8} */
+    .byte 0xDE, 0x78
     add r7, r4
     mov.b @r0, r0
     mov.l @r14, r14

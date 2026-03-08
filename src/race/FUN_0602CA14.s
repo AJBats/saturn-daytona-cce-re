@@ -118,10 +118,10 @@ FUN_0602CA14:
     bra .L_0602CAFA
     mov.b r0, @(4, r4)
 .L_wpool_0602CADE:
-    .byte 0x01, 0x54  /* 0602CADE: mov.b r5,@(r0,r1) */
+    .byte 0x01, 0x54
 .L_wpool_0602CAE0:
-    .byte 0x00, 0xFF  /* 0602CAE0: mac.l @r15+,@r0+ */
-    .byte 0xFF, 0xFF  /* 0602CAE2: .word 0xFFFF */
+    .byte 0x00, 0xFF
+    .byte 0xFF, 0xFF
 .L_pool_0602CAE4:
     .4byte sym_06051C2C  /* 0602CAE4 = 0x06051C2C */
 .L_pool_0602CAE8:

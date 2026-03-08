@@ -6,8 +6,8 @@
 FUN_06029588:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xD4, 0x2B  /* 0602958C: mov.l @(0xAC,PC),r4  {[0x0602963C] = 0x0602F2C4} */
-    .byte 0xDE, 0x2C  /* 0602958E: mov.l @(0xB0,PC),r14  {[0x06029640] = 0x06051610} */
+    .byte 0xD4, 0x2B
+    .byte 0xDE, 0x2C
     mov.w @(2, r4), r0
     extu.w r0, r0
     tst #0x8, r0
@@ -36,7 +36,7 @@ FUN_06029588:
     bf .L_060295C4
     mov.w r4, @r14
 .L_060295C4:
-    .byte 0xD2, 0x1F  /* 060295C4: mov.l @(0x7C,PC),r2  {[0x06029644] = 0x0602E888} */
+    .byte 0xD2, 0x1F
     mov #0x16, r5
     jsr @r2
     mov #0x1A, r4
@@ -44,8 +44,8 @@ FUN_06029588:
     mov r0, r5
     lds.l @r15+, pr
     extu.w r4, r4
-    .byte 0xD3, 0x1C  /* 060295D4: mov.l @(0x70,PC),r3  {[0x06029648] = 0x0602EE58} */
+    .byte 0xD3, 0x1C
     jmp @r3
     mov.l @r15+, r14
-    .byte 0x00, 0x0B  /* 060295DA: rts */
-    .byte 0x00, 0x09  /* 060295DC: nop */
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09

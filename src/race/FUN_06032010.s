@@ -4,7 +4,7 @@
     .global FUN_06032010
     .type FUN_06032010, @function
 FUN_06032010:
-    .byte 0xD3, 0x61  /* 06032010: mov.l @(0x184,PC),r3  {[0x06032198] = 0x060520DC} */
+    .byte 0xD3, 0x61
     mov.l @r3, r5
     mov.b @r5, r0
     cmp/eq #0x0, r0
@@ -18,17 +18,17 @@ FUN_06032010:
     bra .L_06032098
     nop
 .L_0603202A:
-    .byte 0xD2, 0x5C  /* 0603202A: mov.l @(0x170,PC),r2  {[0x0603219C] = 0x0603004C} */
+    .byte 0xD2, 0x5C
     jmp @r2
     mov #0x0, r4
 .L_06032030:
-    .byte 0xD4, 0x5B  /* 06032030: mov.l @(0x16C,PC),r4  {[0x060321A0] = 0x060520E8} */
+    .byte 0xD4, 0x5B
     mov.w @(4, r5), r0
-    .byte 0xD5, 0x5C  /* 06032034: mov.l @(0x170,PC),r5  {[0x060321A8] = 0x06052094} */
+    .byte 0xD5, 0x5C
     mov r0, r2
     shll r0
     add r2, r0
-    .byte 0xD2, 0x59  /* 0603203C: mov.l @(0x164,PC),r2  {[0x060321A4] = 0x060520EC} */
+    .byte 0xD2, 0x59
     shll2 r0
     mov.l @r2, r1
     shll r0
@@ -67,12 +67,12 @@ FUN_06032010:
 .L_06032084:
     mov.w @(4, r5), r0
     shll2 r0
-    .byte 0xD1, 0x48  /* 06032088: mov.l @(0x120,PC),r1  {[0x060321AC] = 0x060520E4} */
+    .byte 0xD1, 0x48
     shll r0
-    .byte 0xD3, 0x48  /* 0603208C: mov.l @(0x120,PC),r3  {[0x060321B0] = 0x060520E0} */
+    .byte 0xD3, 0x48
     mov.l @r1, r2
     add r2, r0
-    .byte 0xD2, 0x48  /* 06032092: mov.l @(0x120,PC),r2  {[0x060321B4] = 0x06030824} */
+    .byte 0xD2, 0x48
     jmp @r2
     mov.l r0, @r3
 .L_06032098:

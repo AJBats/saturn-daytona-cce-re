@@ -36,10 +36,10 @@ FUN_0604DE2C:
     bra .L_0604DE74
     add r1, r4
 .L_wpool_0604DE66:
-    .byte 0x00, 0x00  /* 06025E66: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_wpool_0604DE68:
-    .byte 0x00, 0x08  /* 06025E68: clrt */
-    .byte 0x00, 0x00  /* 06025E6A: .word 0x0000 */
+    .byte 0x00, 0x08
+    .byte 0x00, 0x00
     .4byte DAT_0604DE2C  /* 0604DE2C = FUN_0604DE2C */
 .L_0604DE70:
     shar r4
@@ -50,9 +50,9 @@ FUN_0604DE2C:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l @r15+, r0
-    .byte 0xDC, 0x11  /* 06025E7E: mov.l @(0x44,PC),r12  {[0x06025EC4] = 0x001E0000} */
+    .byte 0xDC, 0x11
     cmp/ge r12, r2
-    .byte 0x89, 0x30  /* 06025E82: bt 0x06025EE6 */
+    .byte 0x89, 0x30
     mov.l r1, @-r15
     mov.l r3, @-r15
     mov.l r5, @-r15
@@ -63,4 +63,4 @@ FUN_0604DE2C:
     sub r7, r5
     mov r10, r4
     sub r8, r4
-    .byte 0xD0, 0x0B  /* 06025E98: mov.l @(0x2C,PC),r0  {[0x06025EC8] = 0x06047E0C} */
+    .byte 0xD0, 0x0B

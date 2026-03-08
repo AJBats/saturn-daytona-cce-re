@@ -37,8 +37,8 @@ FUN_0603C2BC:
     rts
     mov.l @r15+, r12
 .L_wpool_0603C2F4:
-    .byte 0x00, 0x80  /* 060142F4: .word 0x0080 */
-    .byte 0xFF, 0xFF  /* 060142F6: .word 0xFFFF */
+    .byte 0x00, 0x80
+    .byte 0xFF, 0xFF
     .4byte sym_06008A5C  /* 060142F8 = 0x06030A5C */
     .4byte DAT_0604C88C  /* 0604C88C = FUN_0604C76C + 0x120 */
     .4byte sym_06013BB4  /* 06014300 = 0x06013BB4 (init cross-ref, fixed) */

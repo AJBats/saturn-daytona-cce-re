@@ -6,9 +6,9 @@
 FUN_0603D558:
     mov.l r14, @-r15
     mov #0x7C, r0
-    .byte 0xD2, 0x24  /* 0601555C: mov.l @(0x90,PC),r2  {[0x060155F0] = 0x06030A5C} */
+    .byte 0xD2, 0x24
     exts.w r6, r1
-    .byte 0xD3, 0x22  /* 06015560: mov.l @(0x88,PC),r3  {[0x060155EC] = 0x060FD400} */
+    .byte 0xD3, 0x22
     mov #0x27, r14
     mov.l r13, @-r15
     sub r4, r14

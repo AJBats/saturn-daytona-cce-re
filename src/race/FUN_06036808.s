@@ -26,7 +26,7 @@ FUN_06036808:
     bra .L_06036842
     nop
 .L_wpool_06036832:
-    .byte 0x01, 0x14  /* 06036832: mov.b r1,@(r0,r1) */
+    .byte 0x01, 0x14
 .L_pool_06036834:
     .4byte 0x0000000F  /* 06036834 = 0x0000000F */
 .L_pool_06036838:
@@ -94,11 +94,11 @@ FUN_06036808:
     rts
     nop
 .L_wpool_060368B2:
-    .byte 0x00, 0x0E  /* 060368B2: mov.l @(r0,r0),r0 */
+    .byte 0x00, 0x0E
 .L_wpool_060368B4:
-    .byte 0x01, 0x10  /* 060368B4: .word 0x0110 */
+    .byte 0x01, 0x10
 .L_wpool_060368B6:
-    .byte 0x01, 0x70  /* 060368B6: .word 0x0170 */
+    .byte 0x01, 0x70
 .L_pool_060368B8:
     .4byte DAT_0604E144  /* 0604E144 = FUN_0604E0F6 + 0x4E */
 .L_pool_060368BC:
@@ -111,5 +111,5 @@ FUN_06036808:
     .4byte 0x00000108  /* 060368C8 = 0x00000108 */
 .L_pool_060368CC:
     .4byte 0x0000010C  /* 060368CC = 0x0000010C */
-    .byte 0x00, 0x0B  /* 060368D0: rts */
-    .byte 0x00, 0x09  /* 060368D2: nop */
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09

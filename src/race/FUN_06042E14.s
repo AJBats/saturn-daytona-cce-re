@@ -134,9 +134,9 @@ FUN_06042E14:
     rts
     mov.l @r15+, r14
 .L_wpool_06042F0C:
-    .byte 0x01, 0x2C  /* 0601AF0C: mov.b @(r0,r2),r1 */
+    .byte 0x01, 0x2C
 .L_wpool_06042F0E:
-    .byte 0x01, 0xCC  /* 0601AF0E: mov.b @(r0,r12),r1 */
+    .byte 0x01, 0xCC
     .4byte sym_002E3AD0  /* 0601AF10 = 0x002E3AD0 */
     .4byte sym_06053D2C  /* 0601AF14 = 0x06053D2C */
     .4byte DAT_060515AC  /* 060515AC = FUN_0604E0F6 + 0x34B6 */

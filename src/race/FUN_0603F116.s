@@ -6,7 +6,7 @@
 FUN_0603F116:
     sts.l pr, @-r15
     mov.l @(76, gbr), r0
-    .byte 0xD7, 0xD5  /* 0601711A: mov.l @(0x354,PC),r7  {[0x06017470] = 0x00008000} */
+    .byte 0xD7, 0xD5
     cmp/pz r0
     bf .L_0603F122
     neg r7, r7
@@ -20,4 +20,4 @@ FUN_0603F116:
     lds.l @r15+, pr
     rts
     sett
-    .byte 0x4F, 0x13  /* 06017132: .word 0x4F13 */
+    .byte 0x4F, 0x13

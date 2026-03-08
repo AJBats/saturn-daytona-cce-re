@@ -9,5 +9,5 @@ FUN_0603C796:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov r4, r11
-    .byte 0xD3, 0x12  /* 060147A0: mov.l @(0x48,PC),r3  {[0x060147EC] = 0x060529A8} */
+    .byte 0xD3, 0x12
     add #0x10, r11

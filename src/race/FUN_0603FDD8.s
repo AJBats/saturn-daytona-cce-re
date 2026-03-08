@@ -21,18 +21,18 @@ FUN_0603FDD8:
     mac.l @r4+, @r5+
     mov.l r0, @-r15
     mov.l r1, @-r15
-    .byte 0xD2, 0x50  /* 06017DFA: mov.l @(0x140,PC),r2  {[0x06017F3C] = 0x00008000} */
+    .byte 0xD2, 0x50
     sts mach, r1
     sts macl, r4
     cmp/ge r2, r1
     bt .L_0603FE0E
-    .byte 0xD0, 0x4E  /* 06017E04: mov.l @(0x138,PC),r0  {[0x06017F40] = 0x0604016C} */
+    .byte 0xD0, 0x4E
     jsr @r0
     xtrct r1, r4
     bra .L_0603FE18
     nop
 .L_0603FE0E:
-    .byte 0xD0, 0x4C  /* 06017E0E: mov.l @(0x130,PC),r0  {[0x06017F40] = 0x0604016C} */
+    .byte 0xD0, 0x4C
     jsr @r0
     mov r1, r4
     shll8 r0
@@ -41,16 +41,16 @@ FUN_0603FDD8:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l r0, @-r15
-    .byte 0xD2, 0x47  /* 06017E1E: mov.l @(0x11C,PC),r2  {[0x06017F3C] = 0x00008000} */
+    .byte 0xD2, 0x47
     cmp/ge r2, r1
     bt .L_0603FE2E
-    .byte 0xD0, 0x46  /* 06017E24: mov.l @(0x118,PC),r0  {[0x06017F40] = 0x0604016C} */
+    .byte 0xD0, 0x46
     jsr @r0
     xtrct r1, r4
     bra .L_0603FE38
     nop
 .L_0603FE2E:
-    .byte 0xD0, 0x44  /* 06017E2E: mov.l @(0x110,PC),r0  {[0x06017F40] = 0x0604016C} */
+    .byte 0xD0, 0x44
     jsr @r0
     mov r1, r4
     shll8 r0

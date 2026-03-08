@@ -18,8 +18,8 @@ FUN_0604E0BC:
     bt .L_0604E0D6
     neg r0, r0
 .L_0604E0D6:
-    .byte 0x91, 0x20  /* 060260D6: mov.w @(0x40,PC),r1  {0x0602611A} */
-    .byte 0x92, 0x20  /* 060260D8: mov.w @(0x40,PC),r2  {0x0602611C} */
+    .byte 0x91, 0x20
+    .byte 0x92, 0x20
     mov r2, r3
     sub r1, r3
     cmp/gt r2, r0
@@ -35,4 +35,4 @@ FUN_0604E0BC:
     shll16 r0
     mov.l r4, @-r15
     mov r0, r4
-    .byte 0xDC, 0x0B  /* 060260F4: mov.l @(0x2C,PC),r12  {[0x06026124] = 0x0604818C} */
+    .byte 0xDC, 0x0B

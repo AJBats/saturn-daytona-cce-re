@@ -25,9 +25,9 @@ FUN_0603AB14:
     bra .L_0603AB5C
     mov.w r4, @r6
 .L_wpool_0603AB3C:
-    .byte 0x00, 0x12  /* 06012B3C: stc gbr,r0 */
+    .byte 0x00, 0x12
 .L_wpool_0603AB3E:
-    .byte 0x40, 0x00  /* 06012B3E: shll r0 */
+    .byte 0x40, 0x00
     .4byte DAT_06047D3C  /* 06047D3C = FUN_06047D3C */
     .4byte DAT_06047D20  /* 06047D20 = FUN_06047B34 + 0x1EC */
     .4byte sym_06052834  /* 06012B48 = 0x06052834 */

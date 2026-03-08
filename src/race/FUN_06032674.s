@@ -302,7 +302,7 @@ FUN_06032674:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0xFF  /* 060328AE: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_060328B0:
     .4byte sym_060520F6  /* 060328B0 = 0x060520F6 */
 .L_pool_060328B4:

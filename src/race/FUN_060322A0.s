@@ -66,9 +66,9 @@ FUN_060322A0:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x01, 0x92  /* 0603230C: .word 0x0192 */
+    .byte 0x01, 0x92
 .L_wpool_0603230E:
-    .byte 0x0E, 0x00  /* 0603230E: .word 0x0E00 */
+    .byte 0x0E, 0x00
     .4byte sym_002E0F58  /* 06032310 = 0x002E0F58 */
     .4byte sym_002E0FA0  /* 06032314 = 0x002E0FA0 */
     .4byte sym_002E0F88  /* 06032318 = 0x002E0F88 */

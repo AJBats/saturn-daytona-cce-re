@@ -6,7 +6,7 @@
 FUN_06030A8E:
     sts.l pr, @-r15
     sts.l macl, @-r15
-    .byte 0xDD, 0x0E  /* 06030A92: mov.l @(0x38,PC),r13  {[0x06030ACC] = 0x06052094} */
+    .byte 0xDD, 0x0E
 .L_06030A94:
     mov #0x74, r3
     mulu.w r3, r14

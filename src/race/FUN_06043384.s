@@ -42,11 +42,11 @@ FUN_06043384:
     lds.l @r15+, macl
     rts
     mov.l @r15+, r14
-    .byte 0x07, 0xAE  /* 0601B3CC: mov.l @(r0,r10),r7 */
-    .byte 0x17, 0x0A  /* 0601B3CE: mov.l r0,@(0x28,r7) */
-    .byte 0x26, 0x66  /* 0601B3D0: mov.l r6,@-r6 */
+    .byte 0x07, 0xAE
+    .byte 0x17, 0x0A
+    .byte 0x26, 0x66
 .L_wpool_060433D2:
-    .byte 0x08, 0x00  /* 0601B3D2: .word 0x0800 */
+    .byte 0x08, 0x00
     .4byte DAT_0604CEF0  /* 0604CEF0 = FUN_0604C76C + 0x784 */
     .4byte 0x40F00000  /* 0601B3D8 = 0x40F00000 */
     .4byte DAT_0604CFE8  /* 0604CFE8 = FUN_0604CFDE + 0xA */

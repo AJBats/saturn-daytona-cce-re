@@ -93,7 +93,7 @@ FUN_0602B100:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x00  /* 0602B1A2: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_0602B1A4:
     .4byte 0x00000060  /* 0602B1A4 = 0x00000060 */
 .L_pool_0602B1A8:

@@ -29,7 +29,7 @@ FUN_060459C4:
     add #0x8, r0
     mov.l r0, @(40, r14)
     mov.l r5, @-r15
-    .byte 0x95, 0x8A  /* 0601D9F4: mov.w @(0x114,PC),r5  {0x0601DB0C} */
+    .byte 0x95, 0x8A
     add r14, r5
     mov #0x3, r7
     nop

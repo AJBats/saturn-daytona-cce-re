@@ -49,7 +49,7 @@ FUN_0604805C:
     mov.l r0, @(12, r7)
     rts
     mov r7, r5
-    .byte 0x00, 0x00  /* 060200B6: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_060480B8:
     .4byte 0x2AAAAAAA  /* 060200B8 = 0x2AAAAAAA */
 .L_pool_060480BC:

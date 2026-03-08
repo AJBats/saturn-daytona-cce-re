@@ -19,6 +19,6 @@ FUN_0603C970:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0xFF  /* 0601498E: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_0603C990:
     .4byte DAT_06048180  /* 06048180 = FUN_060480D6 + 0xAA */

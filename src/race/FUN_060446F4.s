@@ -67,10 +67,10 @@ FUN_060446F4:
     rts
     mov.l @r15+, r14
 .L_wpool_06044762:
-    .byte 0x00, 0x08  /* 0601C762: clrt */
+    .byte 0x00, 0x08
 .L_wpool_06044764:
-    .byte 0x00, 0x84  /* 0601C764: mov.b r8,@(r0,r0) */
-    .byte 0x00, 0x00  /* 0601C766: .word 0x0000 */
+    .byte 0x00, 0x84
+    .byte 0x00, 0x00
 .L_pool_06044768:
     .4byte sym_06054910  /* 0601C768 = 0x06054910 */
 .L_pool_0604476C:

@@ -43,8 +43,8 @@ FUN_060425DC:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x05, 0x78  /* 0601A624: .word 0x0578 */
-    .byte 0xFF, 0xFF  /* 0601A626: .word 0xFFFF */
+    .byte 0x05, 0x78
+    .byte 0xFF, 0xFF
     .4byte sym_06054920  /* 0601A628 = 0x06054920 */
     .4byte DAT_0604EC6C  /* 0604EC6C = FUN_0604E0F6 + 0xB76 */
 .L_pool_06042630:

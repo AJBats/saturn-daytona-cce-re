@@ -85,22 +85,22 @@ FUN_06033BD8:
 .L_pool_06033C90:
     .4byte DAT_0604F630  /* 0604F630 = FUN_0604E0F6 + 0x153A */
 .L_06033C94:
-    .byte 0xD4, 0x41  /* 06033C94: mov.l @(0x104,PC),r4  {[0x06033D9C] = 0x0604F63C} */
+    .byte 0xD4, 0x41
     mov r13, r6
     bra .L_06033CB2
     mov r14, r5
 .L_06033C9C:
-    .byte 0xD4, 0x40  /* 06033C9C: mov.l @(0x100,PC),r4  {[0x06033DA0] = 0x0604F64C} */
+    .byte 0xD4, 0x40
     mov r13, r6
     bra .L_06033CB2
     mov r14, r5
 .L_06033CA4:
-    .byte 0xD4, 0x3F  /* 06033CA4: mov.l @(0xFC,PC),r4  {[0x06033DA4] = 0x0604F65C} */
+    .byte 0xD4, 0x3F
     mov r13, r6
     bra .L_06033CB2
     mov r14, r5
 .L_06033CAC:
-    .byte 0xD4, 0x3E  /* 06033CAC: mov.l @(0xF8,PC),r4  {[0x06033DA8] = 0x0604F668} */
+    .byte 0xD4, 0x3E
     mov r13, r6
     mov r14, r5
 .L_06033CB2:

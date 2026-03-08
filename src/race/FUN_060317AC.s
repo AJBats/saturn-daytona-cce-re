@@ -50,10 +50,10 @@ FUN_060317DC:
     rts
     mov.l @r15+, r14
 .L_wpool_06031800:
-    .byte 0x01, 0xC4  /* 06031800: mov.b r12,@(r0,r1) */
-    .byte 0x01, 0x0E  /* 06031802: mov.l @(r0,r0),r1 */
-    .byte 0x01, 0x72  /* 06031804: .word 0x0172 */
-    .byte 0xFF, 0xFF  /* 06031806: .word 0xFFFF */
+    .byte 0x01, 0xC4
+    .byte 0x01, 0x0E
+    .byte 0x01, 0x72
+    .byte 0xFF, 0xFF
     .4byte DAT_06030742  /* 06030742 = FUN_0603072A + 0x18 */
 .L_pool_0603180C:
     .4byte sym_060520C6  /* 0603180C = 0x060520C6 */

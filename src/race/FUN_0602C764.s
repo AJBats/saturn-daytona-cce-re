@@ -4,39 +4,39 @@
     .global FUN_0602C764
     .type FUN_0602C764, @function
 FUN_0602C764:
-    .byte 0xD3, 0x8D  /* 0602C764: mov.l @(0x234,PC),r3  {[0x0602C99C] = 0x0605492A} */
+    .byte 0xD3, 0x8D
     mov.b @r3, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf .L_0602C77A
     extu.b r4, r0
-    .byte 0xD2, 0x8B  /* 0602C770: mov.l @(0x22C,PC),r2  {[0x0602C9A0] = 0x060520CD} */
+    .byte 0xD2, 0x8B
     mov.b @r2, r1
     extu.b r1, r1
     cmp/eq r0, r1
     bf .L_0602C7C0
 .L_0602C77A:
     mov #0x3, r1
-    .byte 0xD2, 0x89  /* 0602C77C: mov.l @(0x224,PC),r2  {[0x0602C9A4] = 0x002FC233} */
+    .byte 0xD2, 0x89
     mov.b @r2, r3
     cmp/ge r1, r3
     bf .L_0602C790
-    .byte 0xD2, 0x88  /* 0602C784: mov.l @(0x220,PC),r2  {[0x0602C9A8] = 0x002FC21C} */
+    .byte 0xD2, 0x88
     extu.b r4, r0
     mov.b @r2, r3
     extu.b r3, r3
     cmp/eq r3, r0
     bf .L_0602C7C0
 .L_0602C790:
-    .byte 0xD5, 0x86  /* 0602C790: mov.l @(0x218,PC),r5  {[0x0602C9AC] = 0x06051BA4} */
-    .byte 0xD3, 0x87  /* 0602C792: mov.l @(0x21C,PC),r3  {[0x0602C9B0] = 0x06051F40} */
+    .byte 0xD5, 0x86
+    .byte 0xD3, 0x87
     mov.b @r3, r0
     cmp/eq #0x1, r0
     bt/s .L_0602C7B8
     mov #0x1, r6
-    .byte 0xD0, 0x85  /* 0602C79C: mov.l @(0x214,PC),r0  {[0x0602C9B4] = 0x06051BB0} */
+    .byte 0xD0, 0x85
     extu.b r4, r4
-    .byte 0xD3, 0x85  /* 0602C7A0: mov.l @(0x214,PC),r3  {[0x0602C9B8] = 0x06051CB4} */
+    .byte 0xD3, 0x85
     mov r4, r2
     shll2 r4
     shll2 r4

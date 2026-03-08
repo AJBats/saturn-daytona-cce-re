@@ -11,4 +11,4 @@ FUN_060400B6:
     lds.l @r15+, pr
     rts
     add #0xC, r15
-    .byte 0x00, 0x09  /* 060180C2: nop */
+    .byte 0x00, 0x09

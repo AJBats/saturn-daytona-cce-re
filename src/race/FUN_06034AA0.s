@@ -102,9 +102,9 @@ FUN_06034AA0:
     bra .L_06034B96
     mov #0x0, r4
 .L_wpool_06034B5C:
-    .byte 0x10, 0x00  /* 06034B5C: mov.l r0,@(0x0,r0) */
+    .byte 0x10, 0x00
 .L_wpool_06034B5E:
-    .byte 0x00, 0xF0  /* 06034B5E: .word 0x00F0 */
+    .byte 0x00, 0xF0
     .4byte sym_060072C4  /* 06034B60 = 0x0602F2C4 (init cross-ref, fixed) */
     .4byte DAT_06030090  /* 06030090 = FUN_06030090 */
     .4byte sym_06052094  /* 06034B68 = 0x06052094 */

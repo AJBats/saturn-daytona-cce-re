@@ -11,10 +11,10 @@ FUN_06030AD8:
     mov.b r3, @r15
     mov r15, r4
     mov.b r0, @(2, r15)
-    .byte 0xD3, 0x3F  /* 06030AE6: mov.l @(0xFC,PC),r3  {[0x06030BE4] = 0x0602F84A} */
+    .byte 0xD3, 0x3F
     jsr @r3
     nop
-    .byte 0xD2, 0x3E  /* 06030AEC: mov.l @(0xF8,PC),r2  {[0x06030BE8] = 0x0602FA08} */
+    .byte 0xD2, 0x3E
     jsr @r2
     mov #0x1, r4
     add #0x10, r15

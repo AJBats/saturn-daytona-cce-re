@@ -7,12 +7,12 @@ FUN_0604507E:
     mov r0, r5
     .global FUN_06045080
 FUN_06045080:
-    .byte 0xD0, 0x18  /* 0601D080: mov.l @(0x60,PC),r0  {[0x0601D0E4] = 0x0000FFF0} */
+    .byte 0xD0, 0x18
     add #0x8, r5
     and r0, r5
     tst r5, r5
-    .byte 0x89, 0xE8  /* 0601D088: bt 0x0601D05C */
-    .byte 0xD0, 0x17  /* 0601D08A: mov.l @(0x5C,PC),r0  {[0x0601D0E8] = 0x0604833C} */
+    .byte 0x89, 0xE8
+    .byte 0xD0, 0x17
     shlr2 r5
     add r5, r0
     mov.w @r0+, r5
@@ -53,17 +53,17 @@ FUN_06045098:
     add #0x10, r15
     rts
     add #-0x30, r4
-    .byte 0xD1, 0x02  /* 0601D0D6: mov.l @(0x8,PC),r1  {[0x0601D0E0] = 0x28BE60DC} */
-    .byte 0x31, 0x5D  /* 0601D0D8: dmuls.l r5,r1 */
-    .byte 0x05, 0x0A  /* 0601D0DA: sts mach,r5 */
+    .byte 0xD1, 0x02
+    .byte 0x31, 0x5D
+    .byte 0x05, 0x0A
     .reloc ., R_SH_IND12W, FUN_060450F4 - 4
     .2byte 0xA000    /* bra FUN_0601D0F4 (linker-resolved) */
-    .byte 0x00, 0x09  /* 0601D0DE: nop */
+    .byte 0x00, 0x09
     .4byte 0x28BE60DC  /* 0601D0E0 = 0x28BE60DC */
 .L_pool_060450E4:
     .4byte 0x0000FFF0  /* 0601D0E4 = 0x0000FFF0 */
 .L_pool_060450E8:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD1, 0x16  /* 0601D0EC: mov.l @(0x58,PC),r1  {[0x0601D148] = 0x28BE60DC} */
-    .byte 0x31, 0x0D  /* 0601D0EE: dmuls.l r0,r1 */
-    .byte 0x00, 0x0A  /* 0601D0F0: sts mach,r0 */
+    .byte 0xD1, 0x16
+    .byte 0x31, 0x0D
+    .byte 0x00, 0x0A

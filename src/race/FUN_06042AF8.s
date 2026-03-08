@@ -58,10 +58,10 @@ FUN_06042AF8:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x06, 0x00  /* 0601AB62: .word 0x0600 */
+    .byte 0x06, 0x00
 .L_wpool_06042B64:
-    .byte 0x03, 0x00  /* 0601AB64: .word 0x0300 */
-    .byte 0xFF, 0xFF  /* 0601AB66: .word 0xFFFF */
+    .byte 0x03, 0x00
+    .byte 0xFF, 0xFF
     .4byte sym_00224000  /* 0601AB68 = 0x00224000 */
     .4byte DAT_06036AA8  /* 06036AA8 = FUN_06036AA8 */
 .L_pool_06042B70:

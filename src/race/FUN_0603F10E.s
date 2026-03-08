@@ -5,6 +5,6 @@
     .type FUN_0603F10E, @function
 FUN_0603F10E:
     tst r0, r0
-    .byte 0x89, 0x01  /* 06017110: bt 0x06017116 */
+    .byte 0x89, 0x01
     rts
     nop

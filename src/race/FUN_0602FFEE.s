@@ -35,7 +35,7 @@ FUN_0602FFEE:
     shll r5
     add r3, r5
     extu.b r5, r5
-    .byte 0xD3, 0x16  /* 0603002C: mov.l @(0x58,PC),r3  {[0x06030088] = 0x0604F0A0} */
+    .byte 0xD3, 0x16
     shll2 r5
     add r3, r5
     mov.l r5, @r15
@@ -51,21 +51,21 @@ FUN_0602FFEE:
     mov.l r1, @(28, r2)
     rts
     add #0x4, r15
-    .byte 0x7F, 0xFC  /* 0603004C: add #-4,r15 */
-    .byte 0x2F, 0x40  /* 0603004E: mov.b r4,@r15 */
-    .byte 0x65, 0xF0  /* 06030050: mov.b @r15,r5 */
-    .byte 0x63, 0x53  /* 06030052: mov r5,r3 */
-    .byte 0x64, 0xF0  /* 06030054: mov.b @r15,r4 */
-    .byte 0x45, 0x00  /* 06030056: shll r5 */
-    .byte 0x35, 0x3C  /* 06030058: add r3,r5 */
-    .byte 0x45, 0x08  /* 0603005A: shll2 r5 */
-    .byte 0xD3, 0x0B  /* 0603005C: mov.l @(0x2C,PC),r3  {[0x0603008C] = 0x0602F2C4} */
-    .byte 0x65, 0x5E  /* 0603005E: exts.b r5,r5 */
-    .byte 0x35, 0x3C  /* 06030060: add r3,r5 */
+    .byte 0x7F, 0xFC
+    .byte 0x2F, 0x40
+    .byte 0x65, 0xF0
+    .byte 0x63, 0x53
+    .byte 0x64, 0xF0
+    .byte 0x45, 0x00
+    .byte 0x35, 0x3C
+    .byte 0x45, 0x08
+    .byte 0xD3, 0x0B
+    .byte 0x65, 0x5E
+    .byte 0x35, 0x3C
     .reloc ., R_SH_IND12W, FUN_06030090 - 4
     .2byte 0xA000    /* bra FUN_06030090 (linker-resolved) */
-    .byte 0x7F, 0x04  /* 06030064: add #4,r15 */
-    .byte 0xFF, 0xFF  /* 06030066: .word 0xFFFF */
+    .byte 0x7F, 0x04
+    .byte 0xFF, 0xFF
     .4byte sym_0605161C  /* 06030068 = 0x0605161C */
     .4byte sym_060070BE  /* 0603006C = 0x0602F0BE (init cross-ref, fixed) */
     .4byte sym_06052094  /* 06030070 = 0x06052094 */

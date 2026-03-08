@@ -18,8 +18,8 @@ FUN_0602EA6C:
     mov #0x70, r14
     bra .L_0602EAC2
     mov r14, r7
-    .byte 0x01, 0x9A  /* 0602EA88: .word 0x019A */
-    .byte 0x00, 0x88  /* 0602EA8A: .word 0x0088 */
+    .byte 0x01, 0x9A
+    .byte 0x00, 0x88
     .4byte sym_06052094  /* 0602EA8C = 0x06052094 */
     .4byte sym_06052098  /* 0602EA90 = 0x06052098 */
     .4byte sym_25E3FAB0  /* 0602EA94 = 0x25E3FAB0 */
@@ -37,9 +37,9 @@ FUN_0602EA6C:
     mov #0x0, r7
 .L_0602EAC2:
     mov r7, r6
-    .byte 0xDC, 0x3D  /* 0602EAC4: mov.l @(0xF4,PC),r12  {[0x0602EBBC] = 0x06052094} */
+    .byte 0xDC, 0x3D
     mov #0x30, r0
-    .byte 0xD5, 0x3D  /* 0602EAC8: mov.l @(0xF4,PC),r5  {[0x0602EBC0] = 0x00E00000} */
+    .byte 0xD5, 0x3D
     mov.l @r12, r13
     mov.b @(r0, r13), r0
     extu.b r0, r0
@@ -50,7 +50,7 @@ FUN_0602EA6C:
     .2byte 0xA000    /* bra FUN_0602EC80 (linker-resolved) */
     nop
 .L_0602EADA:
-    .byte 0xDB, 0x3A  /* 0602EADA: mov.l @(0xE8,PC),r11  {[0x0602EBC4] = 0x06052098} */
+    .byte 0xDB, 0x3A
     mov.l @r11, r2
     mov.w @(12, r2), r0
     shll8 r0

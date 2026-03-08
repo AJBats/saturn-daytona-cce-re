@@ -5,7 +5,7 @@
     .type FUN_06046FD4, @function
 FUN_06046FD4:
     mov.b r0, @(152, gbr)
-    .byte 0x91, 0xD2  /* 0601EFD6: mov.w @(0x1A4,PC),r1  {0x0601F17E} */
+    .byte 0x91, 0xD2
     add r14, r1
     mov.l @(0, r10), r0
     mov.l r0, @(0, r1)
@@ -28,7 +28,7 @@ FUN_06046FD4:
     mov r9, r0
     mov.b r0, @(4, r1)
     add #0x8, r1
-    .byte 0x92, 0xBB  /* 0601F004: mov.w @(0x176,PC),r2  {0x0601F17E} */
+    .byte 0x92, 0xBB
     add r14, r2
     mov.l @(0, r2), r0
     mov.l r0, @(0, r1)

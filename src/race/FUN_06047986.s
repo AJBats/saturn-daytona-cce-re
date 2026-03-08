@@ -16,6 +16,6 @@ FUN_06047986:
     rts
     nop
 .L_wpool_06047998:
-    .byte 0x01, 0xAC  /* 0601F998: mov.b @(r0,r10),r1 */
-    .byte 0x00, 0x00  /* 0601F99A: .word 0x0000 */
+    .byte 0x01, 0xAC
+    .byte 0x00, 0x00
     .4byte sym_0601B002  /* 0601F99C = 0x0601B002 (init cross-ref, fixed) */

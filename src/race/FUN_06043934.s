@@ -40,7 +40,7 @@ FUN_06043934:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x00, 0x00  /* 0601B97A: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_0604397C:
     .4byte DAT_06044DBA  /* 06044DBA = FUN_06044DB8 + 0x2 */
 .L_pool_06043980:

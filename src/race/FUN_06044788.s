@@ -76,12 +76,12 @@ FUN_06044788:
     rts
     nop
 .L_wpool_0604480C:
-    .byte 0x00, 0x00  /* 0601C80C: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_wpool_0604480E:
-    .byte 0x01, 0x30  /* 0601C80E: .word 0x0130 */
+    .byte 0x01, 0x30
 .L_wpool_06044810:
-    .byte 0x00, 0x50  /* 0601C810: .word 0x0050 */
-    .byte 0x00, 0x00  /* 0601C812: .word 0x0000 */
+    .byte 0x00, 0x50
+    .byte 0x00, 0x00
 .L_pool_06044814:
     .4byte sym_00220000  /* 0601C814 = 0x00220000 */
 .L_pool_06044818:
@@ -93,10 +93,10 @@ FUN_06044788:
 .L_pool_06044824:
     .4byte 0xFD000108  /* 0601C824 = 0xFD000108 */
 .L_pool_06044828:
-    .byte 0x00, 0x04  /* 0601C828: mov.b r0,@(r0,r0) */
-    .byte 0x08, 0x0C  /* 0601C82A: mov.b @(r0,r0),r8 */
-    .byte 0x10, 0x0C  /* 0601C82C: mov.l r0,@(0x30,r0) */
-    .byte 0x08, 0x04  /* 0601C82E: mov.b r0,@(r0,r8) */
+    .byte 0x00, 0x04
+    .byte 0x08, 0x0C
+    .byte 0x10, 0x0C
+    .byte 0x08, 0x04
 .L_pool_06044830:
-    .byte 0x00, 0x20  /* 0601C830: .word 0x0020 */
-    .byte 0x30, 0x10  /* 0601C832: cmp/eq r1,r0 */
+    .byte 0x00, 0x20
+    .byte 0x30, 0x10

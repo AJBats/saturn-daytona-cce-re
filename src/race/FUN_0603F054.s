@@ -17,12 +17,12 @@ FUN_0603F054:
     and #0x3, r0
     rts
     mov.b r0, @(157, gbr)
-    .byte 0x00, 0x7C  /* 0601706C: mov.b @(r0,r7),r0 */
-    .byte 0x00, 0x9C  /* 0601706E: mov.b @(r0,r9),r0 */
+    .byte 0x00, 0x7C
+    .byte 0x00, 0x9C
     .global FUN_0603F070
 FUN_0603F070:
-    .byte 0xE0, 0x00  /* 06017070: mov #0,r0 */
-    .byte 0x00, 0x00  /* 06017072: .word 0x0000 */
+    .byte 0xE0, 0x00
+    .byte 0x00, 0x00
     .4byte sym_FFFFFFD0  /* 06017074 = 0xFFFFFFD0 */
     .4byte 0x00004000  /* 06017078 = 0x00004000 */
     .4byte DAT_06047E0C  /* 06047E0C = FUN_06047E0C */

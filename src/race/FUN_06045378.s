@@ -24,7 +24,7 @@ FUN_06045378:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x00  /* 0601D39A: .word 0x0000 */
+    .byte 0x00, 0x00
     .4byte DAT_060477B4  /* 060477B4 = FUN_06047770 + 0x44 */
     .4byte DAT_060479D6  /* 060479D6 = FUN_060479D6 */
 .L_pool_060453A4:

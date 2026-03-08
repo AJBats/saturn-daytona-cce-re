@@ -136,7 +136,7 @@ FUN_06032E44:
     mov.l .L_pool_06032FB8, r4
     bra .L_06032FC0
     mov #0x6, r12
-    .byte 0xFF, 0xFF  /* 06032F42: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_06032F44:
     .4byte sym_06051616  /* 06032F44 = 0x06051616 */
 .L_pool_06032F48:
@@ -304,8 +304,8 @@ FUN_06032E44:
     jmp @r3
     mov.l @r15+, r14
 .L_wpool_06033080:
-    .byte 0x02, 0x0E  /* 06033080: mov.l @(r0,r0),r2 */
-    .byte 0xFF, 0xFF  /* 06033082: .word 0xFFFF */
+    .byte 0x02, 0x0E
+    .byte 0xFF, 0xFF
 .L_pool_06033084:
     .4byte sym_002E431C  /* 06033084 = 0x002E431C */
 .L_pool_06033088:

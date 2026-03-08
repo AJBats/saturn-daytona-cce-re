@@ -14,13 +14,13 @@ FUN_0603BF5A:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x02, 0xCD  /* 06013F6E: mov.w @(r0,r12),r2 */
-    .byte 0x02, 0xEB  /* 06013F70: .word 0x02EB */
-    .byte 0x02, 0xFF  /* 06013F72: mac.l @r15+,@r2+ */
-    .byte 0x01, 0x2E  /* 06013F74: mov.l @(r0,r2),r1 */
-    .byte 0x80, 0x00  /* 06013F76: mov.b r0,@(0x0,r0) */
-    .byte 0x00, 0x96  /* 06013F78: mov.l r9,@(r0,r0) */
-    .byte 0x01, 0xE0  /* 06013F7A: .word 0x01E0 */
+    .byte 0x02, 0xCD
+    .byte 0x02, 0xEB
+    .byte 0x02, 0xFF
+    .byte 0x01, 0x2E
+    .byte 0x80, 0x00
+    .byte 0x00, 0x96
+    .byte 0x01, 0xE0
     .4byte sym_25E6A03E  /* 06013F7C = 0x25E6A03E */
     .4byte sym_002DF622  /* 06013F80 = 0x002DF622 */
     .4byte sym_25E6A04E  /* 06013F84 = 0x25E6A04E */

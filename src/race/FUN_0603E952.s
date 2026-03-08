@@ -41,10 +41,10 @@ FUN_0603E952:
     .reloc ., R_SH_IND12W, FUN_0603EEBC - 4
     .2byte 0xA000    /* bra FUN_06016EBC (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x00, 0x7C  /* 0601698C: mov.b @(r0,r7),r0 */
-    .byte 0x00, 0x54  /* 0601698E: mov.b r5,@(r0,r0) */
-    .byte 0x00, 0x9C  /* 06016990: mov.b @(r0,r9),r0 */
-    .byte 0x00, 0x00  /* 06016992: .word 0x0000 */
+    .byte 0x00, 0x7C
+    .byte 0x00, 0x54
+    .byte 0x00, 0x9C
+    .byte 0x00, 0x00
     .4byte sym_FFFFFFF0  /* 06016994 = 0xFFFFFFF0 */
     .4byte DAT_060400F8  /* 060400F8 = FUN_060400F8 */
     .4byte 0x0000025E  /* 0601699C = 0x0000025E */

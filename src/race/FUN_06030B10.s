@@ -7,10 +7,10 @@ FUN_06030B10:
     extu.w r3, r3
     cmp/ge r1, r3
     bt .L_06030B74
-    .byte 0xD5, 0x36  /* 06030B16: mov.l @(0xD8,PC),r5  {[0x06030BF0] = 0x06052098} */
-    .byte 0x90, 0x60  /* 06030B18: mov.w @(0xC0,PC),r0  {0x06030BDC} */
+    .byte 0xD5, 0x36
+    .byte 0x90, 0x60
     mov.l @r5, r2
-    .byte 0xD1, 0x35  /* 06030B1C: mov.l @(0xD4,PC),r1  {[0x06030BF4] = 0x06052094} */
+    .byte 0xD1, 0x35
     mov.l @(r0, r2), r3
     mov.l r3, @r15
     mov #0x2C, r0
@@ -38,7 +38,7 @@ FUN_06030B10:
 .L_06030B4A:
     extu.b r6, r6
     mov.l @r5, r2
-    .byte 0x90, 0x46  /* 06030B4E: mov.w @(0x8C,PC),r0  {0x06030BDE} */
+    .byte 0x90, 0x46
     mov.l @(r0, r2), r3
     shlr2 r3
     shlr2 r3
@@ -48,14 +48,14 @@ FUN_06030B10:
 .L_06030B5C:
     mov.l @r5, r2
     mov.l @(52, r2), r3
-    .byte 0x90, 0x3E  /* 06030B60: mov.w @(0x7C,PC),r0  {0x06030BE0} */
+    .byte 0x90, 0x3E
     mov.l r3, @(8, r15)
     mov.l @r5, r2
     mov r15, r5
     mov.w @(r0, r2), r3
     extu.w r3, r3
     mov.l r3, @(12, r15)
-    .byte 0xD3, 0x22  /* 06030B6E: mov.l @(0x88,PC),r3  {[0x06030BF8] = 0x0602F940} */
+    .byte 0xD3, 0x22
     jsr @r3
     nop
 .L_06030B74:

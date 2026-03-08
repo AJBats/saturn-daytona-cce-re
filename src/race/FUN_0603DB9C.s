@@ -93,7 +93,7 @@ FUN_0603DB9C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0xFF  /* 06015C4A: .word 0xFFFF */
+    .byte 0xFF, 0xFF
     .4byte sym_00220000  /* 06015C4C = 0x00220000 */
     .4byte sym_00224000  /* 06015C50 = 0x00224000 */
     .4byte sym_06054920  /* 06015C54 = 0x06054920 */

@@ -5,9 +5,9 @@
     .type FUN_06030DEE, @function
 FUN_06030DEE:
     sts.l pr, @-r15
-    .byte 0xD3, 0x2B  /* 06030DF0: mov.l @(0xAC,PC),r3  {[0x06030EA0] = 0x0603EA0A} */
+    .byte 0xD3, 0x2B
     add #-0x4, r15
-    .byte 0xD1, 0x2B  /* 06030DF4: mov.l @(0xAC,PC),r1  {[0x06030EA4] = 0x060520B2} */
+    .byte 0xD1, 0x2B
     mov.w r4, @r15
     mov.w @r3, r4
     extu.w r4, r4
@@ -15,21 +15,21 @@ FUN_06030DEE:
     extu.w r2, r2
     cmp/eq r2, r4
     bt .L_06030E2A
-    .byte 0xD2, 0x28  /* 06030E04: mov.l @(0xA0,PC),r2  {[0x06030EA8] = 0x0602E888} */
+    .byte 0xD2, 0x28
     mov #0xC, r5
     jsr @r2
     mov #0xA, r4
-    .byte 0xD4, 0x2B  /* 06030E0C: mov.l @(0xAC,PC),r4  {[0x06030EBC] = 0x0604F3E4} */
-    .byte 0xD3, 0x28  /* 06030E0E: mov.l @(0xA0,PC),r3  {[0x06030EB0] = 0x0602E89E} */
+    .byte 0xD4, 0x2B
+    .byte 0xD3, 0x28
     jsr @r3
     mov r0, r5
-    .byte 0xD2, 0x24  /* 06030E14: mov.l @(0x90,PC),r2  {[0x06030EA8] = 0x0602E888} */
+    .byte 0xD2, 0x24
     mov #0xD, r5
     jsr @r2
     mov #0xA, r4
     mov.w @r15, r4
     mov r0, r5
-    .byte 0xD3, 0x25  /* 06030E20: mov.l @(0x94,PC),r3  {[0x06030EB8] = 0x0602EE58} */
+    .byte 0xD3, 0x25
     jsr @r3
     extu.w r4, r4
 .L_06030E26:

@@ -36,7 +36,7 @@ FUN_0604002C:
     add r7, r3
     rts
     add #-0x30, r4
-    .byte 0x7F, 0xF4  /* 0601806C: add #-12,r15 */
-    .byte 0x65, 0xF3  /* 0601806E: mov r15,r5 */
-    .byte 0x15, 0x10  /* 06018070: mov.l r1,@(0x0,r5) */
-    .byte 0x15, 0x21  /* 06018072: mov.l r2,@(0x4,r5) */
+    .byte 0x7F, 0xF4
+    .byte 0x65, 0xF3
+    .byte 0x15, 0x10
+    .byte 0x15, 0x21

@@ -77,12 +77,12 @@ FUN_0602FAF8:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0x01  /* 0602FB78: .word 0xFF01 */
+    .byte 0xFF, 0x01
 .L_wpool_0602FB7A:
-    .byte 0xFF, 0x40  /* 0602FB7A: .word 0xFF40 */
+    .byte 0xFF, 0x40
 .L_wpool_0602FB7C:
-    .byte 0xFF, 0x60  /* 0602FB7C: .word 0xFF60 */
-    .byte 0xFF, 0xFF  /* 0602FB7E: .word 0xFFFF */
+    .byte 0xFF, 0x60
+    .byte 0xFF, 0xFF
     .4byte sym_25F80110  /* 0602FB80 = 0x25F80110 */
     .4byte sym_06051F55  /* 0602FB84 = 0x06051F55 */
     .4byte sym_06051F64  /* 0602FB88 = 0x06051F64 */

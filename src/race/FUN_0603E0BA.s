@@ -11,12 +11,12 @@ FUN_0603E0BA:
     mov.w @(128, gbr), r0
     mov.b @(r0, r5), r5
     extu.b r5, r5
-    .byte 0xD1, 0x1D  /* 060160C8: mov.l @(0x74,PC),r1  {[0x06016140] = 0x0603FBD0} */
+    .byte 0xD1, 0x1D
     jsr @r1
     mov r5, r10
     mov.l @(4, r13), r4
     mov.l r0, @-r15
-    .byte 0xD0, 0x1C  /* 060160D2: mov.l @(0x70,PC),r0  {[0x06016144] = 0x0603FC10} */
+    .byte 0xD0, 0x1C
     jsr @r0
     mov.l @(8, r13), r5
     mov r6, r5
@@ -24,13 +24,13 @@ FUN_0603E0BA:
     mov r10, r6
     mov.l @(12, r13), r8
     lds.l @r15+, pr
-    .byte 0xD0, 0x19  /* 060160E2: mov.l @(0x64,PC),r0  {[0x06016148] = 0x0603FAEA} */
+    .byte 0xD0, 0x19
     jmp @r0
     mov.l @(0, r13), r7
-    .byte 0x01, 0xA4  /* 060160E8: mov.b r10,@(r0,r1) */
-    .byte 0x01, 0x92  /* 060160EA: .word 0x0192 */
-    .byte 0x01, 0xD8  /* 060160EC: .word 0x01D8 */
-    .byte 0x00, 0x84  /* 060160EE: mov.b r8,@(r0,r0) */
+    .byte 0x01, 0xA4
+    .byte 0x01, 0x92
+    .byte 0x01, 0xD8
+    .byte 0x00, 0x84
     .4byte sym_06054920  /* 060160F0 = 0x06054920 */
     .4byte sym_060529F8  /* 060160F4 = 0x060529F8 */
     .4byte sym_06054924  /* 060160F8 = 0x06054924 */

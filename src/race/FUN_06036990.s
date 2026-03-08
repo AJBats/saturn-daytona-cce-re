@@ -108,8 +108,8 @@ FUN_06036A0E:
     bra .L_06036A66
     nop
 .L_wpool_06036A54:
-    .byte 0x00, 0x34  /* 06036A54: mov.b r3,@(r0,r0) */
-    .byte 0x00, 0x00  /* 06036A56: .word 0x0000 */
+    .byte 0x00, 0x34
+    .byte 0x00, 0x00
     .4byte sym_FFFFFF00  /* 06036A58 = 0xFFFFFF00 */
 .L_pool_06036A5C:
     .4byte sym_00228000  /* 06036A5C = 0x00228000 */

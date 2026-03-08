@@ -20,4 +20,4 @@ FUN_06036770:
     mov.l @r15+, r8
     rts
     nop
-    .byte 0x00, 0xC0  /* 0603678E: .word 0x00C0 */
+    .byte 0x00, 0xC0

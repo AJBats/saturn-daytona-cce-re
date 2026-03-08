@@ -16,5 +16,5 @@ FUN_06045AF4:
     mov.l r2, @(4, r0)
     rts
     mov.l r3, @(8, r0)
-    .byte 0x02, 0x00  /* 0601DB0C: .word 0x0200 */
-    .byte 0x00, 0x09  /* 0601DB0E: nop */
+    .byte 0x02, 0x00
+    .byte 0x00, 0x09

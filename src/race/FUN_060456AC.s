@@ -5,11 +5,11 @@
     .type FUN_060456AC, @function
 FUN_060456AC:
     mov.l r14, @-r15
-    .byte 0xDE, 0x0D  /* 0601D6AE: mov.l @(0x34,PC),r14  {[0x0601D6E4] = 0x06057800} */
+    .byte 0xDE, 0x0D
     .reloc ., R_SH_IND12W, FUN_060456C2 - 4
     .2byte 0xB000    /* bsr FUN_0601D6C2 (linker-resolved) */
     ldc r14, gbr
-    .byte 0xDE, 0x0C  /* 0601D6B4: mov.l @(0x30,PC),r14  {[0x0601D6E8] = 0x06057C00} */
+    .byte 0xDE, 0x0C
     .reloc ., R_SH_IND12W, FUN_060456C2 - 4
     .2byte 0xB000    /* bsr FUN_0601D6C2 (linker-resolved) */
     ldc r14, gbr

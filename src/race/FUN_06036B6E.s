@@ -5,18 +5,18 @@
     .type FUN_06036B6E, @function
 FUN_06036B6E:
     mov.l r14, @-r15
-    .byte 0xD1, 0x05  /* 06036B70: mov.l @(0x14,PC),r1  {[0x06036B88] = 0x06054920} */
+    .byte 0xD1, 0x05
     mov.b @r1, r1
     shll2 r1
-    .byte 0xD2, 0x05  /* 06036B76: mov.l @(0x14,PC),r2  {[0x06036B8C] = 0x0604E1DC} */
+    .byte 0xD2, 0x05
     add r1, r2
     mov.l @r2, r2
     cmp/ge r2, r5
     bt .L_06036B94
-    .byte 0xD1, 0x03  /* 06036B80: mov.l @(0xC,PC),r1  {[0x06036B90] = 0x00224000} */
+    .byte 0xD1, 0x03
     bra .L_06036B96
     nop
-    .byte 0x00, 0x00  /* 06036B86: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_06036B88:
     .4byte sym_06054920  /* 06036B88 = 0x06054920 */
 .L_pool_06036B8C:
@@ -24,7 +24,7 @@ FUN_06036B6E:
 .L_pool_06036B90:
     .4byte sym_00224000  /* 06036B90 = 0x00224000 */
 .L_06036B94:
-    .byte 0xD1, 0x07  /* 06036B94: mov.l @(0x1C,PC),r1  {[0x06036BB4] = 0x00220000} */
+    .byte 0xD1, 0x07
 .L_06036B96:
     mov r6, r5
     mov r7, r6

@@ -5,7 +5,7 @@
     .type FUN_0603EAAA, @function
 FUN_0603EAAA:
     sts.l pr, @-r15
-    .byte 0xD0, 0x5A  /* 06016AAC: mov.l @(0x168,PC),r0  {[0x06016C18] = 0xFFFFFFBC} */
+    .byte 0xD0, 0x5A
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
@@ -72,7 +72,7 @@ FUN_0603EAAA:
     mov.l r4, @(0, r14)
     mov.l r6, @(8, r14)
     mov.l @(72, gbr), r0
-    .byte 0xDB, 0x3B  /* 06016B2C: mov.l @(0xEC,PC),r11  {[0x06016C1C] = 0x00004000} */
+    .byte 0xDB, 0x3B
     tst r0, r0
     bt .L_0603EB38
     mov r3, r4
@@ -80,7 +80,7 @@ FUN_0603EAAA:
     .2byte 0xB000    /* bsr FUN_060176F8 (linker-resolved) */
     mov r1, r5
 .L_0603EB38:
-    .byte 0xD0, 0x39  /* 06016B38: mov.l @(0xE4,PC),r0  {[0x06016C20] = 0x06044D80} */
+    .byte 0xD0, 0x39
     jsr @r0
     mov.l @r15+, r4
     mov r4, r13
@@ -90,7 +90,7 @@ FUN_0603EAAA:
     mov.l @r15+, r4
     mov.l @(168, gbr), r0
     mov.l r6, @-r15
-    .byte 0xD1, 0x35  /* 06016B4C: mov.l @(0xD4,PC),r1  {[0x06016C24] = 0x06036AA8} */
+    .byte 0xD1, 0x35
     jsr @r1
     mov r0, r7
     .reloc ., R_SH_IND12W, FUN_0603F10E - 4
@@ -103,7 +103,7 @@ FUN_0603EAAA:
     shlr16 r5
     mov #0x2, r1
     cmp/eq r5, r1
-    .byte 0x00, 0x29  /* UNKNOWN */
+    .byte 0x00, 0x29
     mov.b r0, @(19, gbr)
     mov.w @(14, gbr), r0
     tst r5, r5
@@ -127,29 +127,29 @@ FUN_0603EAAA:
     mov.l r6, @-r15
     mov.l r6, @(4, r14)
     mov r13, r4
-    .byte 0xD1, 0x26  /* 06016B8E: mov.l @(0x98,PC),r1  {[0x06016C28] = 0x0604507E} */
+    .byte 0xD1, 0x26
     jsr @r1
     extu.w r0, r0
-    .byte 0xD0, 0x25  /* 06016B94: mov.l @(0x94,PC),r0  {[0x06016C2C] = 0x0604002C} */
+    .byte 0xD0, 0x25
     jsr @r0
     mov r12, r5
     mov r2, r4
     mov r1, r10
     mov r2, r11
     mov r3, r12
-    .byte 0xD0, 0x23  /* 06016BA2: mov.l @(0x8C,PC),r0  {[0x06016C30] = 0x06047E0C} */
+    .byte 0xD0, 0x23
     jsr @r0
     mov r1, r5
     mov r11, r4
     mov.w r0, @(16, gbr)
-    .byte 0xD0, 0x20  /* 06016BAC: mov.l @(0x80,PC),r0  {[0x06016C30] = 0x06047E0C} */
+    .byte 0xD0, 0x20
     jsr @r0
     mov r12, r5
     neg r0, r0
     mov.w r0, @(12, gbr)
     mov r0, r2
-    .byte 0xD5, 0x1E  /* 06016BB8: mov.l @(0x78,PC),r5  {[0x06016C34] = 0x00028000} */
-    .byte 0xD1, 0x1F  /* 06016BBA: mov.l @(0x7C,PC),r1  {[0x06016C38] = 0x06047D20} */
+    .byte 0xD5, 0x1E
+    .byte 0xD1, 0x1F
     jsr @r1
     mov r0, r4
     dmuls.l r0, r5

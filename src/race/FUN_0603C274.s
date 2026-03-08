@@ -12,7 +12,7 @@ FUN_0603C274:
     mov.l r8, @-r15
     mov.w @(22, r15), r0
     mov r0, r8
-    .byte 0x99, 0x36  /* 06014284: mov.w @(0x6C,PC),r9  {0x060142F4} */
+    .byte 0x99, 0x36
     bra .L_0603C2A8
     mov r11, r12
 .L_0603C28A:

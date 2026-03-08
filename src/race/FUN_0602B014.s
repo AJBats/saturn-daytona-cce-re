@@ -104,7 +104,7 @@ FUN_0602B014:
     mov.l @r15+, r0
     bra .L_0602B088
     nop
-    .byte 0x00, 0x00  /* 0602B0D2: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_0602B0D4:
     .4byte sym_04000000  /* 0602B0D4 = 0x04000000 */
 .L_pool_0602B0D8:
@@ -127,4 +127,4 @@ FUN_0602B014:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09  /* 0602B0FE: nop */
+    .byte 0x00, 0x09

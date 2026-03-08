@@ -34,6 +34,6 @@ FUN_060479A0:
     rts
     mov.l @r15+, r0
 .L_wpool_060479D2:
-    .byte 0x01, 0xAC  /* 0601F9D2: mov.b @(r0,r10),r1 */
+    .byte 0x01, 0xAC
 .L_wpool_060479D4:
-    .byte 0x01, 0xCC  /* 0601F9D4: mov.b @(r0,r12),r1 */
+    .byte 0x01, 0xCC

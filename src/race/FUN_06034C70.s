@@ -16,11 +16,11 @@ FUN_06034C70:
     bf .L_06034CE4
     bra .L_06034CE6
     mov #0x0, r4
-    .byte 0x01, 0xBD  /* 06034C88: mov.w @(r0,r11),r1 */
-    .byte 0x04, 0x04  /* 06034C8A: mov.b r0,@(r0,r4) */
+    .byte 0x01, 0xBD
+    .byte 0x04, 0x04
 .L_wpool_06034C8C:
-    .byte 0x20, 0x00  /* 06034C8C: mov.b r0,@r0 */
-    .byte 0xFF, 0xFF  /* 06034C8E: .word 0xFFFF */
+    .byte 0x20, 0x00
+    .byte 0xFF, 0xFF
     .4byte sym_0605492C  /* 06034C90 = 0x0605492C */
     .4byte sym_06052248  /* 06034C94 = 0x06052248 */
     .4byte DAT_0602CC84  /* 0602CC84 = FUN_0602CC74 + 0x10 */
@@ -49,4 +49,4 @@ FUN_06034C70:
 .L_06034CE6:
     rts
     mov r4, r0
-    .byte 0x00, 0x00  /* 06034CEA: .word 0x0000 */
+    .byte 0x00, 0x00

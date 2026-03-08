@@ -97,13 +97,13 @@ FUN_06033718:
     jmp @r2
     mov.l @r15+, r14
 .L_wpool_060337C0:
-    .byte 0x04, 0x00  /* 060337C0: .word 0x0400 */
+    .byte 0x04, 0x00
 .L_wpool_060337C2:
-    .byte 0x02, 0x00  /* 060337C2: .word 0x0200 */
+    .byte 0x02, 0x00
 .L_wpool_060337C4:
-    .byte 0x00, 0xE0  /* 060337C4: .word 0x00E0 */
+    .byte 0x00, 0xE0
 .L_wpool_060337C6:
-    .byte 0x01, 0x00  /* 060337C6: .word 0x0100 */
+    .byte 0x01, 0x00
     .4byte DAT_06030C9E  /* 06030C9E = FUN_06030C9E */
 .L_pool_060337CC:
     .4byte sym_06051F92  /* 060337CC = 0x06051F92 */

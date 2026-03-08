@@ -228,11 +228,11 @@ FUN_0603E14C:
     rts
     nop
 .L_wpool_0603E2DE:
-    .byte 0x01, 0xA4  /* 060162DE: mov.b r10,@(r0,r1) */
+    .byte 0x01, 0xA4
 .L_wpool_0603E2E0:
-    .byte 0x01, 0x92  /* 060162E0: .word 0x0192 */
+    .byte 0x01, 0x92
 .L_wpool_0603E2E2:
-    .byte 0x00, 0x84  /* 060162E2: mov.b r8,@(r0,r0) */
+    .byte 0x00, 0x84
 .L_pool_0603E2E4:
     .4byte sym_FFFFFFE8  /* 060162E4 = 0xFFFFFFE8 */
 .L_pool_0603E2E8:

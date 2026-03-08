@@ -126,7 +126,7 @@ FUN_0604208C:
     mov r13, r4
     bra .L_06042394
     nop
-    .byte 0xFF, 0xFF  /* 0601A16E: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_06042170:
     .4byte sym_002FC233  /* 0601A170 = 0x002FC233 */
 .L_pool_06042174:
@@ -267,9 +267,9 @@ FUN_0604208C:
     bra .L_06042394
     nop
 .L_wpool_06042270:
-    .byte 0x02, 0xD0  /* 0601A270: .word 0x02D0 */
+    .byte 0x02, 0xD0
 .L_wpool_06042272:
-    .byte 0x01, 0x58  /* 0601A272: .word 0x0158 */
+    .byte 0x01, 0x58
 .L_pool_06042274:
     .4byte sym_06056A14  /* 0601A274 = 0x06056A14 */
 .L_pool_06042278:
@@ -437,8 +437,8 @@ FUN_0604208C:
     jmp @r2
     mov.l @r15+, r14
 .L_wpool_060423AC:
-    .byte 0x01, 0x68  /* 0601A3AC: .word 0x0168 */
-    .byte 0xFF, 0xFF  /* 0601A3AE: .word 0xFFFF */
+    .byte 0x01, 0x68
+    .byte 0xFF, 0xFF
 .L_pool_060423B0:
     .4byte sym_06056A4C  /* 0601A3B0 = 0x06056A4C */
 .L_pool_060423B4:

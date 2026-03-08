@@ -24,6 +24,6 @@ FUN_06032E14:
     mov r7, r0
     rts
     mov.w r0, @(14, r4)
-    .byte 0x00, 0x89  /* 06032E3C: .word 0x0089 */
-    .byte 0xFF, 0xFF  /* 06032E3E: .word 0xFFFF */
+    .byte 0x00, 0x89
+    .byte 0xFF, 0xFF
     .4byte sym_06052146  /* 06032E40 = 0x06052146 */

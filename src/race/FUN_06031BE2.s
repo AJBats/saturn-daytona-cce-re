@@ -9,7 +9,7 @@ FUN_06031BE2:
     mov #0x0, r13
     mov.l r12, @-r15
     sts.l pr, @-r15
-    .byte 0xDC, 0x1F  /* 06031BEC: mov.l @(0x7C,PC),r12  {[0x06031C6C] = 0x060520CC} */
+    .byte 0xDC, 0x1F
     mov.b @r12, r0
     cmp/eq #0x0, r0
     bt/s .L_06031BFE
@@ -20,24 +20,24 @@ FUN_06031BE2:
     nop
 .L_06031BFE:
     mov #0x6, r1
-    .byte 0xD2, 0x11  /* 06031C00: mov.l @(0x44,PC),r2  {[0x06031C48] = 0x06052098} */
+    .byte 0xD2, 0x11
     mov #0x5C, r0
     mov.l @r2, r3
     mov.l r1, @(r0, r3)
-    .byte 0xD3, 0x0D  /* 06031C08: mov.l @(0x34,PC),r3  {[0x06031C40] = 0x0602F168} */
+    .byte 0xD3, 0x0D
     jsr @r3
     nop
-    .byte 0xD2, 0x1A  /* 06031C0E: mov.l @(0x68,PC),r2  {[0x06031C78] = 0x060520C8} */
-    .byte 0xD3, 0x0C  /* 06031C10: mov.l @(0x30,PC),r3  {[0x06031C44] = 0x06051F82} */
+    .byte 0xD2, 0x1A
+    .byte 0xD3, 0x0C
     mov.w r13, @r2
-    .byte 0xD1, 0x19  /* 06031C14: mov.l @(0x64,PC),r1  {[0x06031C7C] = 0x0602FACC} */
+    .byte 0xD1, 0x19
     jsr @r1
     mov.b r13, @r3
     mov.b @r12, r3
     add #0x1, r3
     mov.b r3, @r12
 .L_06031C20:
-    .byte 0xD1, 0x17  /* 06031C20: mov.l @(0x5C,PC),r1  {[0x06031C80] = 0x06051F55} */
+    .byte 0xD1, 0x17
     mov.b @r1, r2
     tst r2, r2
     bf .L_06031C2A
@@ -49,7 +49,7 @@ FUN_06031BE2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0xFF  /* 06031C36: .word 0xFFFF */
+    .byte 0xFF, 0xFF
     .4byte DAT_06030BA4  /* 06030BA4 = FUN_06030BA4 */
     .4byte DAT_06030C9E  /* 06030C9E = FUN_06030C9E */
 .L_pool_06031C40:
@@ -76,34 +76,34 @@ FUN_06031BE2:
     .4byte DAT_0602FACC  /* 0602FACC = FUN_0602FA98 + 0x34 */
 .L_pool_06031C80:
     .4byte sym_06051F55  /* 06031C80 = 0x06051F55 */
-    .byte 0xD6, 0x31  /* 06031C84: mov.l @(0xC4,PC),r6  {[0x06031D4C] = 0x002FC39A} */
-    .byte 0x63, 0x60  /* 06031C86: mov.b @r6,r3 */
-    .byte 0xD2, 0x31  /* 06031C88: mov.l @(0xC4,PC),r2  {[0x06031D50] = 0x060520F0} */
-    .byte 0x22, 0x30  /* 06031C8A: mov.b r3,@r2 */
-    .byte 0xD1, 0x31  /* 06031C8C: mov.l @(0xC4,PC),r1  {[0x06031D54] = 0x002FC234} */
-    .byte 0x63, 0x10  /* 06031C8E: mov.b @r1,r3 */
-    .byte 0xD0, 0x31  /* 06031C90: mov.l @(0xC4,PC),r0  {[0x06031D58] = 0x060520F1} */
-    .byte 0x20, 0x30  /* 06031C92: mov.b r3,@r0 */
-    .byte 0xD4, 0x31  /* 06031C94: mov.l @(0xC4,PC),r4  {[0x06031D5C] = 0x002FC22F} */
-    .byte 0x63, 0x40  /* 06031C96: mov.b @r4,r3 */
-    .byte 0xD2, 0x31  /* 06031C98: mov.l @(0xC4,PC),r2  {[0x06031D60] = 0x060520F2} */
-    .byte 0x22, 0x30  /* 06031C9A: mov.b r3,@r2 */
-    .byte 0xD5, 0x31  /* 06031C9C: mov.l @(0xC4,PC),r5  {[0x06031D64] = 0x002FC233} */
-    .byte 0x63, 0x50  /* 06031C9E: mov.b @r5,r3 */
-    .byte 0xD1, 0x31  /* 06031CA0: mov.l @(0xC4,PC),r1  {[0x06031D68] = 0x060520F3} */
-    .byte 0x21, 0x30  /* 06031CA2: mov.b r3,@r1 */
-    .byte 0xD3, 0x31  /* 06031CA4: mov.l @(0xC4,PC),r3  {[0x06031D6C] = 0x0601335C} */
-    .byte 0x60, 0x30  /* 06031CA6: mov.b @r3,r0 */
-    .byte 0xD2, 0x31  /* 06031CA8: mov.l @(0xC4,PC),r2  {[0x06031D70] = 0x0604F4B0} */
-    .byte 0x70, 0xFF  /* 06031CAA: add #-1,r0 */
-    .byte 0xD1, 0x31  /* 06031CAC: mov.l @(0xC4,PC),r1  {[0x06031D74] = 0x06054924} */
-    .byte 0x02, 0x2C  /* 06031CAE: mov.b @(r0,r2),r2 */
-    .byte 0x24, 0x20  /* 06031CB0: mov.b r2,@r4 */
-    .byte 0xE4, 0x00  /* 06031CB2: mov #0,r4 */
-    .byte 0xD2, 0x30  /* 06031CB4: mov.l @(0xC0,PC),r2  {[0x06031D78] = 0x060520D6} */
-    .byte 0x25, 0x40  /* 06031CB6: mov.b r4,@r5 */
-    .byte 0xE5, 0x01  /* 06031CB8: mov #1,r5 */
-    .byte 0x26, 0x50  /* 06031CBA: mov.b r5,@r6 */
-    .byte 0x21, 0x50  /* 06031CBC: mov.b r5,@r1 */
-    .byte 0x00, 0x0B  /* 06031CBE: rts */
-    .byte 0x22, 0x41  /* 06031CC0: mov.w r4,@r2 */
+    .byte 0xD6, 0x31
+    .byte 0x63, 0x60
+    .byte 0xD2, 0x31
+    .byte 0x22, 0x30
+    .byte 0xD1, 0x31
+    .byte 0x63, 0x10
+    .byte 0xD0, 0x31
+    .byte 0x20, 0x30
+    .byte 0xD4, 0x31
+    .byte 0x63, 0x40
+    .byte 0xD2, 0x31
+    .byte 0x22, 0x30
+    .byte 0xD5, 0x31
+    .byte 0x63, 0x50
+    .byte 0xD1, 0x31
+    .byte 0x21, 0x30
+    .byte 0xD3, 0x31
+    .byte 0x60, 0x30
+    .byte 0xD2, 0x31
+    .byte 0x70, 0xFF
+    .byte 0xD1, 0x31
+    .byte 0x02, 0x2C
+    .byte 0x24, 0x20
+    .byte 0xE4, 0x00
+    .byte 0xD2, 0x30
+    .byte 0x25, 0x40
+    .byte 0xE5, 0x01
+    .byte 0x26, 0x50
+    .byte 0x21, 0x50
+    .byte 0x00, 0x0B
+    .byte 0x22, 0x41

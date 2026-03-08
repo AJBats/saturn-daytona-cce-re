@@ -57,5 +57,5 @@ FUN_0602FA08:
     add #0x1, r10
     extu.w r10, r3
     cmp/ge r8, r3
-    .byte 0x8B, 0xC5  /* 0602FA70: bf 0x0602F9FE */
-    .byte 0xD3, 0x14  /* 0602FA72: mov.l @(0x50,PC),r3  {[0x0602FAC4] = 0x06051F55} */
+    .byte 0x8B, 0xC5
+    .byte 0xD3, 0x14

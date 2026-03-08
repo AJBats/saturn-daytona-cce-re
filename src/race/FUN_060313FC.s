@@ -227,8 +227,8 @@ FUN_060313FC:
     bra .L_060315E4
     nop
 .L_wpool_060315AC:
-    .byte 0x01, 0x68  /* 060315AC: .word 0x0168 */
-    .byte 0xFF, 0xFF  /* 060315AE: .word 0xFFFF */
+    .byte 0x01, 0x68
+    .byte 0xFF, 0xFF
 .L_pool_060315B0:
     .4byte sym_06051CB0  /* 060315B0 = 0x06051CB0 */
 .L_pool_060315B4:
@@ -300,7 +300,7 @@ FUN_060313FC:
     add r14, r9
     mov.b r12, @r9
 .L_06031632:
-    .byte 0xD0, 0x2F  /* 06031632: mov.l @(0xBC,PC),r0  {[0x060316F0] = 0x060520BE} */
+    .byte 0xD0, 0x2F
     mov.b @(r0, r14), r0
     add #0x4, r15
     lds.l @r15+, pr

@@ -19,5 +19,5 @@ FUN_06047270:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x0B  /* 0601F278: rts */
-    .byte 0x00, 0x09  /* 0601F27A: nop */
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09

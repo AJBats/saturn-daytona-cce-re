@@ -29,4 +29,4 @@ FUN_060400C4:
     add #-0x30, r4
     rts
     mov.l r3, @(8, r6)
-    .byte 0x00, 0x09  /* 060180F6: nop */
+    .byte 0x00, 0x09

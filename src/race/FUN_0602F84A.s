@@ -48,7 +48,7 @@ FUN_0602F84A:
     add #0x1, r11
     extu.w r11, r2
     cmp/ge r8, r2
-    .byte 0x8B, 0xD1  /* 0602F8A0: bf 0x0602F846 */
+    .byte 0x8B, 0xD1
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9
@@ -56,8 +56,8 @@ FUN_0602F84A:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r13
-    .byte 0xFF, 0x01  /* 0602F8B0: .word 0xFF01 */
-    .byte 0xFF, 0xFF  /* 0602F8B2: .word 0xFFFF */
+    .byte 0xFF, 0x01
+    .byte 0xFF, 0xFF
     .4byte sym_06051FA1  /* 0602F8B4 = 0x06051FA1 */
     .4byte sym_06051FA2  /* 0602F8B8 = 0x06051FA2 */
     .4byte 0x0000F001  /* 0602F8BC = 0x0000F001 */

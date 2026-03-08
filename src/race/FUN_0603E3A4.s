@@ -7,7 +7,7 @@ FUN_0603E3A4:
     sts.l pr, @-r15
 .L_0603E3A6:
     ldc r14, gbr
-    .byte 0xD1, 0x29  /* 060163A8: mov.l @(0xA4,PC),r1  {[0x06016450] = 0xFFFFFE92} */
+    .byte 0xD1, 0x29
     mov #0x11, r0
     mov.b r0, @r1
     mov.b @(193, gbr), r0
@@ -35,9 +35,9 @@ FUN_0603E3A4:
     rts
     nop
 .L_pool_0603E3DC:
-    .byte 0x03, 0xE4  /* 060163DC: mov.b r14,@(r0,r3) */
-    .byte 0x03, 0xE4  /* 060163DE: mov.b r14,@(r0,r3) */
-    .byte 0x06, 0x16  /* 060163E0: mov.l r1,@(r0,r6) */
-    .byte 0x06, 0xDE  /* 060163E2: mov.l @(r0,r13),r6 */
-    .byte 0x05, 0x86  /* 060163E4: mov.l r8,@(r0,r5) */
-    .byte 0x05, 0x86  /* 060163E6: mov.l r8,@(r0,r5) */
+    .byte 0x03, 0xE4
+    .byte 0x03, 0xE4
+    .byte 0x06, 0x16
+    .byte 0x06, 0xDE
+    .byte 0x05, 0x86
+    .byte 0x05, 0x86

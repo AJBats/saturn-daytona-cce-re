@@ -5,7 +5,7 @@
     .type FUN_0603EBF6, @function
 FUN_0603EBF6:
     mov.l r14, @-r15
-    .byte 0xD0, 0x10  /* 06016BF8: mov.l @(0x40,PC),r0  {[0x06016C3C] = 0x0603FFD0} */
+    .byte 0xD0, 0x10
     jsr @r0
     nop
     mov.l @r15+, r14
@@ -32,6 +32,6 @@ FUN_0603EBF6:
     .4byte DAT_06047D20  /* 06047D20 = FUN_06047B34 + 0x1EC */
 .L_pool_0603EC3C:
     .4byte DAT_0603FFD0  /* 0603FFD0 = FUN_0603FFD0 */
-    .byte 0x7F, 0xF4  /* 06016C40: add #-12,r15 */
-    .byte 0x65, 0xF3  /* 06016C42: mov r15,r5 */
-    .byte 0x15, 0x10  /* 06016C44: mov.l r1,@(0x0,r5) */
+    .byte 0x7F, 0xF4
+    .byte 0x65, 0xF3
+    .byte 0x15, 0x10

@@ -17,7 +17,7 @@ FUN_06036914:
     neg r5, r2
     mov.l r2, @-r15
     mac.l @r15+, @r3+
-    .byte 0xD3, 0x4A  /* 0603692E: mov.l @(0x128,PC),r3  {[0x06036A58] = 0xFFFFFF00} */
+    .byte 0xD3, 0x4A
     mov.l r1, @(0, r3)
     sts mach, r0
     mov.l r0, @(16, r3)

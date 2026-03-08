@@ -60,13 +60,13 @@ FUN_0602F5B2:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x03, 0x00  /* 0602F61C: .word 0x0300 */
-    .byte 0x1F, 0x00  /* 0602F61E: mov.l r0,@(0x0,r15) */
-    .byte 0x35, 0x34  /* 0602F620: div1 r3,r5 */
-    .byte 0x30, 0x02  /* 0602F622: cmp/hs r0,r0 */
+    .byte 0x03, 0x00
+    .byte 0x1F, 0x00
+    .byte 0x35, 0x34
+    .byte 0x30, 0x02
 .L_wpool_0602F624:
-    .byte 0x00, 0x80  /* 0602F624: .word 0x0080 */
-    .byte 0xFF, 0xFF  /* 0602F626: .word 0xFFFF */
+    .byte 0x00, 0x80
+    .byte 0xFF, 0xFF
     .4byte sym_25F80020  /* 0602F628 = 0x25F80020 */
     .4byte sym_25F8000E  /* 0602F62C = 0x25F8000E */
     .4byte sym_25F80000  /* 0602F630 = 0x25F80000 */

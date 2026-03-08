@@ -4,13 +4,13 @@
     .global FUN_060324E8
     .type FUN_060324E8, @function
 FUN_060324E8:
-    .byte 0xD3, 0x5D  /* 060324E8: mov.l @(0x174,PC),r3  {[0x06032660] = 0x06054910} */
+    .byte 0xD3, 0x5D
     mov #0x2, r2
     mov.l @r3, r1
     mov #0x0, r0
     mov.w r2, @r1
     mov.w r0, @(2, r1)
-    .byte 0x90, 0xB3  /* 060324F4: mov.w @(0x166,PC),r0  {0x0603265E} */
+    .byte 0x90, 0xB3
     mov.w r0, @(4, r1)
     mov r5, r0
     mov.w r0, @(6, r1)

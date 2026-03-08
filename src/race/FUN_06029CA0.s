@@ -24,7 +24,7 @@ FUN_06029CA0:
     nop
     bra .L_06029D26
     nop
-    .byte 0x00, 0x00  /* 06029CC6: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_06029CC8:
     .4byte sym_06051B40  /* 06029CC8 = 0x06051B40 */
 .L_pool_06029CCC:
@@ -115,7 +115,7 @@ FUN_06029CA0:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x00  /* 06029D76: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_06029D78:
     .4byte DAT_06044D80  /* 06044D80 = FUN_06044D80 */
 .L_pool_06029D7C:

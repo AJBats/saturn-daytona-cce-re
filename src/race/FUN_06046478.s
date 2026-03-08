@@ -88,7 +88,7 @@ FUN_06046478:
     bra .L_06046508
     mov.l r3, @(4, r10)
 .L_wpool_06046518:
-    .byte 0xFF, 0x00  /* 0601E518: .word 0xFF00 */
-    .byte 0x00, 0x00  /* 0601E51A: .word 0x0000 */
+    .byte 0xFF, 0x00
+    .byte 0x00, 0x00
 .L_pool_0604651C:
     .4byte 0x00000220  /* 0601E51C = 0x00000220 */

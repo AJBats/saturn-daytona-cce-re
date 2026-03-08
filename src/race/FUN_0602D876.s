@@ -13,7 +13,7 @@ FUN_0602D876:
     add #0x4, r0
     mov.w @r1, r3
     mov.w r3, @(r0, r9)
-    .byte 0xD2, 0x50  /* 0602D888: mov.l @(0x140,PC),r2  {[0x0602D9CC] = 0x002E105E} */
+    .byte 0xD2, 0x50
     add #-0x2, r0
     mov.w @r2, r3
     mov.w r3, @(r0, r9)
@@ -25,7 +25,7 @@ FUN_0602D876:
     .2byte 0xB000    /* bsr FUN_0602DC80 (linker-resolved) */
     mov #0x0, r4
     mov #0x1, r7
-    .byte 0xD4, 0x4E  /* 0602D89C: mov.l @(0x138,PC),r4  {[0x0602D9D8] = 0x002E1552} */
+    .byte 0xD4, 0x4E
     mov #0x7, r6
     mov r14, r5
     add #0x9, r5

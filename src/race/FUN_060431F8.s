@@ -96,18 +96,18 @@ FUN_060431F8:
     mov.l @(8, r4), r3
     bra .L_06043360
     mov.l r3, @(20, r4)
-    .byte 0x40, 0x00  /* 0601B2A6: shll r0 */
-    .byte 0x00, 0xE1  /* 0601B2A8: .word 0x00E1 */
+    .byte 0x40, 0x00
+    .byte 0x00, 0xE1
 .L_wpool_060432AA:
-    .byte 0x10, 0x00  /* 0601B2AA: mov.l r0,@(0x0,r0) */
+    .byte 0x10, 0x00
 .L_wpool_060432AC:
-    .byte 0x00, 0xA5  /* 0601B2AC: mov.w r10,@(r0,r0) */
+    .byte 0x00, 0xA5
 .L_wpool_060432AE:
-    .byte 0x0C, 0xCC  /* 0601B2AE: mov.b @(r0,r12),r12 */
+    .byte 0x0C, 0xCC
 .L_wpool_060432B0:
-    .byte 0x2A, 0xAA  /* 0601B2B0: xor r10,r10 */
+    .byte 0x2A, 0xAA
 .L_wpool_060432B2:
-    .byte 0x00, 0x96  /* 0601B2B2: mov.l r9,@(r0,r0) */
+    .byte 0x00, 0x96
 .L_pool_060432B4:
     .4byte sym_06054044  /* 0601B2B4 = 0x06054044 */
     .4byte sym_06008E48  /* 0601B2B8 = 0x06030E48 */
@@ -121,7 +121,7 @@ FUN_060431F8:
 .L_060432CC:
     mov.w @r14, r0
     add #-0x10, r15
-    .byte 0xD2, 0x40  /* 0601B2D0: mov.l @(0x100,PC),r2  {[0x0601B3D4] = 0x0604CEF0} */
+    .byte 0xD2, 0x40
     neg r0, r0
     add #0x1, r0
     shar r0
@@ -129,25 +129,25 @@ FUN_060431F8:
     mov.l r15, @-r15
     mov #0x0, r0
     mov.l r0, @-r15
-    .byte 0xD0, 0x3D  /* 0601B2E0: mov.l @(0xF4,PC),r0  {[0x0601B3D8] = 0x40F00000} */
+    .byte 0xD0, 0x3D
     mov.l r0, @-r15
-    .byte 0xD0, 0x3D  /* 0601B2E4: mov.l @(0xF4,PC),r0  {[0x0601B3DC] = 0x0604CFE8} */
+    .byte 0xD0, 0x3D
     mov r15, r2
     add #0x10, r2
     jsr @r0
     mov.l r2, @-r15
-    .byte 0xD2, 0x3C  /* 0601B2EE: mov.l @(0xF0,PC),r2  {[0x0601B3E0] = 0x0604CE64} */
+    .byte 0xD2, 0x3C
     jsr @r2
     nop
-    .byte 0x95, 0x6A  /* 0601B2F4: mov.w @(0xD4,PC),r5  {0x0601B3CC} */
+    .byte 0x95, 0x6A
     mov r0, r10
     jsr @r12
     mov r0, r4
-    .byte 0x95, 0x67  /* 0601B2FC: mov.w @(0xCE,PC),r5  {0x0601B3CE} */
+    .byte 0x95, 0x67
     mov r0, r11
     jsr @r12
     mov r10, r4
-    .byte 0x95, 0x64  /* 0601B304: mov.w @(0xC8,PC),r5  {0x0601B3D0} */
+    .byte 0x95, 0x64
     mov r0, r13
     jsr @r12
     mov r10, r4

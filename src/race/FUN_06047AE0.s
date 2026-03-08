@@ -17,8 +17,8 @@ FUN_06047AE0:
     rts
     mov.l r4, @(4, r0)
 .L_wpool_06047AF8:
-    .byte 0x00, 0x0A  /* 0601FAF8: sts mach,r0 */
+    .byte 0x00, 0x0A
 .L_wpool_06047AFA:
-    .byte 0x80, 0x00  /* 0601FAFA: mov.b r0,@(0x0,r0) */
+    .byte 0x80, 0x00
 .L_pool_06047AFC:
     .4byte sym_0605490C  /* 0601FAFC = 0x0605490C */

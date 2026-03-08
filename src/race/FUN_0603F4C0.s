@@ -34,7 +34,7 @@ FUN_0603F4C0:
     shlr r0
     exts.w r0, r5
     shlr r0
-    .byte 0x04, 0x29  /* UNKNOWN */
+    .byte 0x04, 0x29
     cmp/pz r5
     bt .L_0603F4FE
     .reloc ., R_SH_IND12W, FUN_0603F03C - 4

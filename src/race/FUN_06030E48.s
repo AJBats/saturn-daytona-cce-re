@@ -7,7 +7,7 @@ FUN_06030E48:
     mov.l .L_pool_06030EA4, r1
     rts
     mov.w r3, @r1
-    .byte 0xFF, 0xFF  /* 06030E4E: .word 0xFFFF */
+    .byte 0xFF, 0xFF
     .4byte sym_06007BA0  /* 06030E50 = 0x0602FBA0 */
     .4byte sym_06054920  /* 06030E54 = 0x06054920 */
     .4byte sym_002FC3A2  /* 06030E58 = 0x002FC3A2 */

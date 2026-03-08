@@ -15,16 +15,16 @@ FUN_0603C1B0:
     mov.w .L_wpool_0603C1C8, r13
     bra .L_0603C234
     mov #0x8, r14
-    .byte 0x00, 0x80  /* 060141C6: .word 0x0080 */
+    .byte 0x00, 0x80
 .L_wpool_0603C1C8:
-    .byte 0x0F, 0xFF  /* 060141C8: mac.l @r15+,@r15+ */
-    .byte 0xFF, 0xFF  /* 060141CA: .word 0xFFFF */
+    .byte 0x0F, 0xFF
+    .byte 0xFF, 0xFF
     .4byte sym_25E20000  /* 060141CC = 0x25E20000 */
     .4byte 0x0000F000  /* 060141D0 = 0x0000F000 */
 .L_0603C1D4:
     mov.w @r5, r11
     extu.w r11, r11
-    .byte 0xD2, 0x47  /* 060141D8: mov.l @(0x11C,PC),r2  {[0x060142F8] = 0x06030A5C} */
+    .byte 0xD2, 0x47
     mov r11, r1
     jsr @r2
     mov r14, r0
@@ -42,7 +42,7 @@ FUN_0603C1B0:
     extu.w r0, r0
     mov.w @r3, r1
     extu.w r1, r1
-    .byte 0xD3, 0x3F  /* 060141FC: mov.l @(0xFC,PC),r3  {[0x060142FC] = 0x0604C88C} */
+    .byte 0xD3, 0x3F
     and r13, r1
     add r0, r1
     shll2 r1
@@ -87,7 +87,7 @@ FUN_0603C1B0:
     cmp/ge r0, r3
     bf .L_0603C264
     lds.l @r15+, macl
-    .byte 0xD2, 0x2A  /* 06014254: mov.l @(0xA8,PC),r2  {[0x06014300] = 0x06013BB4} */
+    .byte 0xD2, 0x2A
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11

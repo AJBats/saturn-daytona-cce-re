@@ -4,7 +4,7 @@
     .global FUN_06035B0E
     .type FUN_06035B0E, @function
 FUN_06035B0E:
-    .byte 0x97, 0x7C  /* 06035B0E: mov.w @(0xF8,PC),r7  {0x06035C0A} */
+    .byte 0x97, 0x7C
     mov.w @(r0, r7), r3
     mov #0x4, r4
     cmp/gt r4, r3

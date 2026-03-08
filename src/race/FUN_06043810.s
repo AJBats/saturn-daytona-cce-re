@@ -29,7 +29,7 @@ FUN_06043810:
     rts
     add #-0x30, r4
 .L_wpool_0604383E:
-    .byte 0x0B, 0x64  /* 0601B83E: mov.b r6,@(r0,r11) */
+    .byte 0x0B, 0x64
 .L_pool_06043840:
     .4byte DAT_06044DBA  /* 06044DBA = FUN_06044DB8 + 0x2 */
 .L_pool_06043844:

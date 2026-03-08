@@ -4,9 +4,9 @@
     .global FUN_0602FFC0
     .type FUN_0602FFC0, @function
 FUN_0602FFC0:
-    .byte 0xD5, 0x2F  /* 0602FFC0: mov.l @(0xBC,PC),r5  {[0x06030080] = 0x06052098} */
+    .byte 0xD5, 0x2F
     mov #0x2C, r0
-    .byte 0xD4, 0x2A  /* 0602FFC4: mov.l @(0xA8,PC),r4  {[0x06030070] = 0x06052094} */
+    .byte 0xD4, 0x2A
     add #-0x4, r15
     mov.l @r4, r3
     mov.l @r5, r2

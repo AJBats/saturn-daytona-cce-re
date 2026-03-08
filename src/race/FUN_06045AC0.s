@@ -13,8 +13,8 @@ FUN_06045AC0:
     mov.w @(128, gbr), r0
     add r1, r12
     tst #0x20, r0
-    .byte 0x8F, 0x0F  /* 0601DAD2: bf/s 0x0601DAF4 */
+    .byte 0x8F, 0x0F
     add r1, r13
     rts
     nop
-    .byte 0x00, 0x09  /* 0601DADA: nop */
+    .byte 0x00, 0x09

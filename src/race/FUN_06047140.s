@@ -36,6 +36,6 @@ FUN_06047140:
     shll16 r0
     rts
     or r0, r3
-    .byte 0x01, 0x00  /* 0601F17E: .word 0x0100 */
-    .byte 0x01, 0x40  /* 0601F180: .word 0x0140 */
-    .byte 0x00, 0x09  /* 0601F182: nop */
+    .byte 0x01, 0x00
+    .byte 0x01, 0x40
+    .byte 0x00, 0x09

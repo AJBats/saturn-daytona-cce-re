@@ -36,7 +36,7 @@ FUN_06039B90:
 .L_06039BC6:
     rts
     mov.l @r15+, r14
-    .byte 0xFF, 0xFF  /* 06011BCA: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_06039BCC:
     .4byte sym_060540B4  /* 06011BCC = 0x060540B4 */
 .L_pool_06039BD0:

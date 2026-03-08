@@ -51,10 +51,10 @@ FUN_0602B1C0:
     .4byte DAT_06045958  /* 06045958 = FUN_060458DE + 0x7A */
 .L_pool_0602B218:
     .4byte DAT_06044DF0  /* 06044DF0 = FUN_06044DB8 + 0x38 */
-    .byte 0xD1, 0x02  /* 0602B21C: mov.l @(0x8,PC),r1  {[0x0602B228] = 0xFFFFFE92} */
-    .byte 0xE0, 0x11  /* 0602B21E: mov #17,r0 */
-    .byte 0x21, 0x00  /* 0602B220: mov.b r0,@r1 */
-    .byte 0x00, 0x0B  /* 0602B222: rts */
-    .byte 0x00, 0x09  /* 0602B224: nop */
-    .byte 0x00, 0x00  /* 0602B226: .word 0x0000 */
+    .byte 0xD1, 0x02
+    .byte 0xE0, 0x11
+    .byte 0x21, 0x00
+    .byte 0x00, 0x0B
+    .byte 0x00, 0x09
+    .byte 0x00, 0x00
     .4byte sym_FFFFFE92  /* 0602B228 = 0xFFFFFE92 */

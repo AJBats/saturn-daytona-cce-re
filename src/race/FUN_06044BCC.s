@@ -73,7 +73,7 @@ FUN_06044BCC:
     bra .L_06044C9A
     nop
 .L_wpool_06044C52:
-    .byte 0x00, 0xF0  /* 0601CC52: .word 0x00F0 */
+    .byte 0x00, 0xF0
 .L_pool_06044C54:
     .4byte sym_002FC23C  /* 0601CC54 = 0x002FC23C */
 .L_pool_06044C58:

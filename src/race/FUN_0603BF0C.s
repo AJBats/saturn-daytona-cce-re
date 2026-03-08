@@ -8,7 +8,7 @@ FUN_0603BF0C:
     add #0x1, r1
     mov r1, r0
     cmp/eq #0x8, r0
-    .byte 0x8F, 0x21  /* 06013F14: bf/s 0x06013F5A */
+    .byte 0x8F, 0x21
     mov.l r1, @(8, r14)
     mov #0x3, r2
     mov.w r2, @r14

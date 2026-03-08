@@ -37,4 +37,4 @@ FUN_060451BE:
     rts
     nop
     .4byte sym_0605410C  /* 0601D1F4 = 0x0605410C */
-    .byte 0x60, 0x53  /* 0601D1F8: mov r5,r0 */
+    .byte 0x60, 0x53

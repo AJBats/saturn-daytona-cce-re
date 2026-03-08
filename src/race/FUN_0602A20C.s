@@ -70,7 +70,7 @@ FUN_0602A20C:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x00  /* 0602A286: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_0602A288:
     .4byte sym_FFFFFE92  /* 0602A288 = 0xFFFFFE92 */
 .L_pool_0602A28C:

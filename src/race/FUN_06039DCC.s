@@ -123,22 +123,22 @@ FUN_06039DCC:
     rts
     mov.l @r15+, r14
 .L_wpool_06039EAA:
-    .byte 0x00, 0xB0  /* 06011EAA: .word 0x00B0 */
+    .byte 0x00, 0xB0
 .L_wpool_06039EAC:
-    .byte 0x00, 0xB2  /* 06011EAC: .word 0x00B2 */
+    .byte 0x00, 0xB2
 .L_wpool_06039EAE:
-    .byte 0x01, 0xC1  /* 06011EAE: .word 0x01C1 */
+    .byte 0x01, 0xC1
 .L_wpool_06039EB0:
-    .byte 0x02, 0x5E  /* 06011EB0: mov.l @(r0,r5),r2 */
+    .byte 0x02, 0x5E
 .L_wpool_06039EB2:
-    .byte 0x40, 0x00  /* 06011EB2: shll r0 */
+    .byte 0x40, 0x00
 .L_wpool_06039EB4:
-    .byte 0x02, 0x58  /* 06011EB4: .word 0x0258 */
+    .byte 0x02, 0x58
 .L_wpool_06039EB6:
-    .byte 0x01, 0xBC  /* 06011EB6: mov.b @(r0,r11),r1 */
+    .byte 0x01, 0xBC
 .L_wpool_06039EB8:
-    .byte 0x00, 0xB4  /* 06011EB8: mov.b r11,@(r0,r0) */
-    .byte 0xFF, 0xFF  /* 06011EBA: .word 0xFFFF */
+    .byte 0x00, 0xB4
+    .byte 0xFF, 0xFF
 .L_pool_06039EBC:
     .4byte DAT_06039AA4  /* 06039AA4 = FUN_06039AA4 */
 .L_pool_06039EC0:

@@ -75,24 +75,24 @@ FUN_0603BAF4:
     .reloc ., R_SH_IND12W, FUN_0603BBCC - 4
     .2byte 0xA000    /* bra FUN_06013BCC (linker-resolved) */
     mov.l @(8, r9), r1
-    .byte 0x20, 0x00  /* 06013B7A: mov.b r0,@r0 */
-    .byte 0x01, 0xC9  /* 06013B7C: .word 0x01C9 */
-    .byte 0x01, 0xD3  /* 06013B7E: .word 0x01D3 */
-    .byte 0x01, 0xDD  /* 06013B80: mov.w @(r0,r13),r1 */
-    .byte 0x00, 0x87  /* 06013B82: mul.l r8,r0 */
-    .byte 0x30, 0x00  /* 06013B84: cmp/eq r0,r0 */
-    .byte 0x01, 0xF1  /* 06013B86: .word 0x01F1 */
-    .byte 0x02, 0x05  /* 06013B88: mov.w r0,@(r0,r2) */
+    .byte 0x20, 0x00
+    .byte 0x01, 0xC9
+    .byte 0x01, 0xD3
+    .byte 0x01, 0xDD
+    .byte 0x00, 0x87
+    .byte 0x30, 0x00
+    .byte 0x01, 0xF1
+    .byte 0x02, 0x05
 .L_wpool_0603BB8A:
-    .byte 0x02, 0x19  /* 06013B8A: .word 0x0219 */
+    .byte 0x02, 0x19
 .L_wpool_0603BB8C:
-    .byte 0x17, 0x70  /* 06013B8C: mov.l r7,@(0x0,r7) */
+    .byte 0x17, 0x70
 .L_wpool_0603BB8E:
-    .byte 0x03, 0xE8  /* 06013B8E: .word 0x03E8 */
+    .byte 0x03, 0xE8
 .L_wpool_0603BB90:
-    .byte 0x02, 0x2D  /* 06013B90: mov.w @(r0,r2),r2 */
+    .byte 0x02, 0x2D
 .L_wpool_0603BB92:
-    .byte 0x02, 0x41  /* 06013B92: .word 0x0241 */
+    .byte 0x02, 0x41
     .4byte DAT_0604C88C  /* 0604C88C = FUN_0604C76C + 0x120 */
     .4byte sym_06008A5C  /* 06013B98 = 0x06030A5C */
     .4byte sym_25E6A006  /* 06013B9C = 0x25E6A006 */

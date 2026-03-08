@@ -51,7 +51,7 @@ FUN_0604595E:
     lds.l @r15+, pr
     rts
     ldc.l @r15+, gbr
-    .byte 0x00, 0x09  /* 0601D9AE: nop */
+    .byte 0x00, 0x09
 .L_060459B0:
     mov.l r7, @-r15
     .reloc ., R_SH_IND12W, FUN_06045ADC - 4

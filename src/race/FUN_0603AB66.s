@@ -9,4 +9,4 @@ FUN_0603AB66:
     sub r6, r5
     mov r9, r4
     sub r7, r4
-    .byte 0xD0, 0x2B  /* 06012B70: mov.l @(0xAC,PC),r0  {[0x06012C20] = 0x06047E0C} */
+    .byte 0xD0, 0x2B

@@ -12,41 +12,41 @@ FUN_06044A9A:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    .byte 0xD8, 0x16  /* 0601CAAA: mov.l @(0x58,PC),r8  {[0x0601CB04] = 0x06054910} */
+    .byte 0xD8, 0x16
     mov.l @r8, r9
     mov.w .L_wpool_06044AFE, r0
     mov.w r0, @(0, r9)
-    .byte 0xD0, 0x17  /* 0601CAB2: mov.l @(0x5C,PC),r0  {[0x0601CB10] = 0x01320032} */
-    .byte 0xD1, 0x17  /* 0601CAB4: mov.l @(0x5C,PC),r1  {[0x0601CB14] = 0x01550055} */
+    .byte 0xD0, 0x17
+    .byte 0xD1, 0x17
     mov.l r0, @(12, r9)
     mov.l r1, @(20, r9)
     add #0x20, r9
-    .byte 0xDE, 0x12  /* 0601CABC: mov.l @(0x48,PC),r14  {[0x0601CB08] = 0x0605224C} */
+    .byte 0xDE, 0x12
     .reloc ., R_SH_IND12W, FUN_06044834 - 4
     .2byte 0xB000    /* bsr FUN_0601C834 (linker-resolved) */
     mov r14, r4
     mov r0, r13
     mov.w .L_wpool_06044B00, r12
-    .byte 0xD4, 0x11  /* 0601CAC6: mov.l @(0x44,PC),r4  {[0x0601CB0C] = 0x06052424} */
+    .byte 0xD4, 0x11
     .reloc ., R_SH_IND12W, FUN_06044B20 - 4
     .2byte 0xB000    /* bsr FUN_0601CB20 (linker-resolved) */
     nop
     mov.w .L_wpool_06044AFE, r0
     mov.w r0, @(0, r9)
-    .byte 0xD0, 0x11  /* 0601CAD0: mov.l @(0x44,PC),r0  {[0x0601CB18] = 0x013200A2} */
-    .byte 0xD1, 0x12  /* 0601CAD2: mov.l @(0x48,PC),r1  {[0x0601CB1C] = 0x015500C5} */
+    .byte 0xD0, 0x11
+    .byte 0xD1, 0x12
     mov.l r0, @(12, r9)
     mov.l r1, @(20, r9)
     add #0x20, r9
     .global FUN_06044ADA
 FUN_06044ADA:
-    .byte 0xDE, 0x0C  /* 0601CADA: mov.l @(0x30,PC),r14  {[0x0601CB0C] = 0x06052424} */
+    .byte 0xDE, 0x0C
     .reloc ., R_SH_IND12W, FUN_06044834 - 4
     .2byte 0xB000    /* bsr FUN_0601C834 (linker-resolved) */
     mov r14, r4
     mov r0, r13
     mov.w .L_wpool_06044B02, r12
-    .byte 0xD4, 0x08  /* 0601CAE4: mov.l @(0x20,PC),r4  {[0x0601CB08] = 0x0605224C} */
+    .byte 0xD4, 0x08
     .reloc ., R_SH_IND12W, FUN_06044B20 - 4
     .2byte 0xB000    /* bsr FUN_0601CB20 (linker-resolved) */
     nop
@@ -61,11 +61,11 @@ FUN_06044ADA:
     rts
     mov.l @r15+, r14
 .L_wpool_06044AFE:
-    .byte 0x00, 0x08  /* 0601CAFE: clrt */
+    .byte 0x00, 0x08
 .L_wpool_06044B00:
-    .byte 0x00, 0x40  /* 0601CB00: .word 0x0040 */
+    .byte 0x00, 0x40
 .L_wpool_06044B02:
-    .byte 0x00, 0xB0  /* 0601CB02: .word 0x00B0 */
+    .byte 0x00, 0xB0
 .L_pool_06044B04:
     .4byte sym_06054910  /* 0601CB04 = 0x06054910 */
 .L_pool_06044B08:

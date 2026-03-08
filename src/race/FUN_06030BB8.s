@@ -22,11 +22,11 @@ FUN_06030BB8:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
-    .byte 0x01, 0x68  /* 06030BDA: .word 0x0168 */
-    .byte 0x00, 0xD4  /* 06030BDC: mov.b r13,@(r0,r0) */
-    .byte 0x00, 0x80  /* 06030BDE: .word 0x0080 */
-    .byte 0x01, 0x7A  /* 06030BE0: .word 0x017A */
-    .byte 0xFF, 0xFF  /* 06030BE2: .word 0xFFFF */
+    .byte 0x01, 0x68
+    .byte 0x00, 0xD4
+    .byte 0x00, 0x80
+    .byte 0x01, 0x7A
+    .byte 0xFF, 0xFF
     .4byte sym_0600784A  /* 06030BE4 = 0x0602F84A */
     .4byte sym_06007A08  /* 06030BE8 = 0x0602FA08 */
     .4byte sym_06013366  /* 06030BEC = 0x06013366 (init cross-ref, fixed) */

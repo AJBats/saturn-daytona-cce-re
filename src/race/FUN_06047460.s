@@ -64,4 +64,4 @@ FUN_06047460:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09  /* 0601F4D2: nop */
+    .byte 0x00, 0x09

@@ -157,12 +157,12 @@ FUN_0602CB28:
     rts
     mov.l @r15+, r14
 .L_wpool_0602CC54:
-    .byte 0x01, 0x54  /* 0602CC54: mov.b r5,@(r0,r1) */
+    .byte 0x01, 0x54
 .L_wpool_0602CC56:
-    .byte 0x01, 0x00  /* 0602CC56: .word 0x0100 */
+    .byte 0x01, 0x00
 .L_wpool_0602CC58:
-    .byte 0x03, 0x54  /* 0602CC58: mov.b r5,@(r0,r3) */
-    .byte 0xFF, 0xFF  /* 0602CC5A: .word 0xFFFF */
+    .byte 0x03, 0x54
+    .byte 0xFF, 0xFF
 .L_pool_0602CC5C:
     .4byte sym_002FC233  /* 0602CC5C = 0x002FC233 */
 .L_pool_0602CC60:

@@ -42,7 +42,7 @@ FUN_0604737A:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09  /* 0601F3C2: nop */
-    .byte 0xC4, 0xA5  /* 0601F3C4: mov.b @(0xA5,GBR),r0 */
-    .byte 0x20, 0x08  /* 0601F3C6: tst r0,r0 */
-    .byte 0x8B, 0x24  /* 0601F3C8: bf 0x0601F414 */
+    .byte 0x00, 0x09
+    .byte 0xC4, 0xA5
+    .byte 0x20, 0x08
+    .byte 0x8B, 0x24

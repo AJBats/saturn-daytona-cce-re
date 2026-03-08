@@ -8,5 +8,5 @@ FUN_0603C338:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov r4, r13
-    .byte 0xD3, 0x13  /* 06014340: mov.l @(0x4C,PC),r3  {[0x06014390] = 0x060529A8} */
+    .byte 0xD3, 0x13
     add #0x10, r13

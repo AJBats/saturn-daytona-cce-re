@@ -81,12 +81,12 @@ FUN_06043748:
     rts
     mov.l @r15+, r14
 .L_wpool_060437DC:
-    .byte 0x63, 0xE4  /* 0601B7DC: mov.b @r14+,r3 */
+    .byte 0x63, 0xE4
 .L_wpool_060437DE:
-    .byte 0xF1, 0xC7  /* 0601B7DE: .word 0xF1C7 */
+    .byte 0xF1, 0xC7
 .L_wpool_060437E0:
-    .byte 0x10, 0x00  /* 0601B7E0: mov.l r0,@(0x0,r0) */
-    .byte 0x00, 0x00  /* 0601B7E2: .word 0x0000 */
+    .byte 0x10, 0x00
+    .byte 0x00, 0x00
 .L_pool_060437E4:
     .4byte DAT_06044DBA  /* 06044DBA = FUN_06044DB8 + 0x2 */
 .L_pool_060437E8:

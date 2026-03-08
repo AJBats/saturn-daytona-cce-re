@@ -31,11 +31,11 @@ FUN_06035C58:
 .L_06035C84:
     rts
     mov.l @r15+, r3
-    .byte 0x05, 0x1E  /* 06035C88: mov.l @(r0,r1),r5 */
-    .byte 0x00, 0xA0  /* 06035C8A: .word 0x00A0 */
+    .byte 0x05, 0x1E
+    .byte 0x00, 0xA0
 .L_wpool_06035C8C:
-    .byte 0x01, 0x76  /* 06035C8C: mov.l r7,@(r0,r1) */
-    .byte 0x00, 0x00  /* 06035C8E: .word 0x0000 */
+    .byte 0x01, 0x76
+    .byte 0x00, 0x00
 .L_pool_06035C90:
     .4byte 0x0000000F  /* 06035C90 = 0x0000000F */
 .L_pool_06035C94:

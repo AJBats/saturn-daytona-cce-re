@@ -6,5 +6,5 @@
 FUN_0602FAEC:
     mov.l r14, @-r15
     mov #-0x40, r7
-    .byte 0xD3, 0x27  /* 0602FAF0: mov.l @(0x9C,PC),r3  {[0x0602FB90] = 0x06054928} */
+    .byte 0xD3, 0x27
     mov #-0x20, r6

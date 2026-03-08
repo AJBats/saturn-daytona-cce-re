@@ -11,7 +11,7 @@ FUN_0602F940:
     add r5, r0
     mov.w @(r0, r13), r2
     cmp/gt r2, r3
-    .byte 0x8B, 0x16  /* 0602F94E: bf 0x0602F97E */
+    .byte 0x8B, 0x16
     mov r14, r2
     add r4, r2
     add r13, r2

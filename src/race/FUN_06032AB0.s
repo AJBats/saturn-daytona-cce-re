@@ -135,9 +135,9 @@ FUN_06032AB0:
     rts
     mov.l @r15+, r14
 .L_wpool_06032BA2:
-    .byte 0x00, 0xB6  /* 06032BA2: mov.l r11,@(r0,r0) */
+    .byte 0x00, 0xB6
 .L_wpool_06032BA4:
-    .byte 0x40, 0x00  /* 06032BA4: shll r0 */
-    .byte 0xFF, 0xFF  /* 06032BA6: .word 0xFFFF */
+    .byte 0x40, 0x00
+    .byte 0xFF, 0xFF
 .L_pool_06032BA8:
     .4byte sym_06052146  /* 06032BA8 = 0x06052146 */

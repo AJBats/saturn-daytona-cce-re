@@ -17,9 +17,9 @@ FUN_0602DC80:
     add #-0x4, r15
     jsr @r3
     mov #0x64, r0
-    .byte 0xDB, 0x3D  /* 0602DC9C: mov.l @(0xF4,PC),r11  {[0x0602DD94] = 0x002E11A6} */
+    .byte 0xDB, 0x3D
     extu.w r5, r12
-    .byte 0xDA, 0x40  /* 0602DCA0: mov.l @(0x100,PC),r10  {[0x0602DDA4] = 0x25E6A01E} */
+    .byte 0xDA, 0x40
     mov r0, r14
     add #0x3, r12
     shll2 r12
@@ -49,15 +49,15 @@ FUN_0602DC80:
     mov r10, r4
 .L_0602DCD2:
     mov #0xA, r9
-    .byte 0xDA, 0x34  /* 0602DCD4: mov.l @(0xD0,PC),r10  {[0x0602DDA8] = 0x25E6A022} */
+    .byte 0xDA, 0x34
     mov r13, r1
-    .byte 0xD2, 0x29  /* 0602DCD8: mov.l @(0xA4,PC),r2  {[0x0602DD80] = 0x06030A5C} */
+    .byte 0xD2, 0x29
     add r12, r10
     jsr @r2
     mov r9, r0
     tst r0, r0
     bt .L_0602DD0E
-    .byte 0xD2, 0x26  /* 0602DCE4: mov.l @(0x98,PC),r2  {[0x0602DD80] = 0x06030A5C} */
+    .byte 0xD2, 0x26
     extu.w r14, r14
     mov #0x64, r3
     mov r13, r1
@@ -87,9 +87,9 @@ FUN_0602DC80:
     mov r10, r4
 .L_0602DD16:
     mov #0x2, r7
-    .byte 0xD5, 0x24  /* 0602DD18: mov.l @(0x90,PC),r5  {[0x0602DDAC] = 0x25E6A026} */
+    .byte 0xD5, 0x24
     mov r13, r1
-    .byte 0xD3, 0x1A  /* 0602DD1C: mov.l @(0x68,PC),r3  {[0x0602DD88] = 0x0604C88C} */
+    .byte 0xD3, 0x1A
     mov r7, r6
     add r12, r5
     jsr @r3

@@ -33,6 +33,6 @@ FUN_0604728E:
     extu.w r0, r0
     rts
     or r0, r3
-    .byte 0x01, 0x40  /* 0601F2C6: .word 0x0140 */
-    .byte 0x01, 0x80  /* 0601F2C8: .word 0x0180 */
-    .byte 0x00, 0x09  /* 0601F2CA: nop */
+    .byte 0x01, 0x40
+    .byte 0x01, 0x80
+    .byte 0x00, 0x09

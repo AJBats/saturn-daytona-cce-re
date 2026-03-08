@@ -15,7 +15,7 @@ FUN_06045E06:
     bt/s .L_06045E32
     extu.w r0, r3
     mov.w @(2, r2), r0
-    .byte 0xD1, 0x08  /* 0601DE1C: mov.l @(0x20,PC),r1  {[0x0601DE40] = 0x0601B000} */
+    .byte 0xD1, 0x08
     shll2 r0
     shll r0
     add r0, r1
@@ -33,6 +33,6 @@ FUN_06045E06:
     add r3, r0
     rts
     mov.w r0, @(2, r2)
-    .byte 0x00, 0x00  /* 0601DE3E: .word 0x0000 */
+    .byte 0x00, 0x00
 .L_pool_06045E40:
     .4byte sym_0601B000  /* 0601DE40 = 0x0601B000 (init cross-ref, fixed) */

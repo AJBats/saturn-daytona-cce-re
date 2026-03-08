@@ -56,10 +56,10 @@ FUN_0602DE5C:
     rts
     mov.l @r15+, r14
 .L_wpool_0602DEBE:
-    .byte 0x01, 0xD8  /* 0602DEBE: .word 0x01D8 */
+    .byte 0x01, 0xD8
 .L_wpool_0602DEC0:
-    .byte 0x01, 0xCA  /* 0602DEC0: .word 0x01CA */
-    .byte 0xFF, 0xFF  /* 0602DEC2: .word 0xFFFF */
+    .byte 0x01, 0xCA
+    .byte 0xFF, 0xFF
     .4byte sym_06008A5C  /* 0602DEC4 = 0x06030A5C */
     .4byte sym_25E6A000  /* 0602DEC8 = 0x25E6A000 */
     .4byte sym_002E10D2  /* 0602DECC = 0x002E10D2 */

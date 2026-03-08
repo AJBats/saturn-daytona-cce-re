@@ -212,7 +212,7 @@ FUN_0603CE88:
     nop
     bra .L_0603D096
     nop
-    .byte 0xFF, 0xFF  /* 0601501A: .word 0xFFFF */
+    .byte 0xFF, 0xFF
 .L_pool_0603D01C:
     .4byte sym_06052A0D  /* 0601501C = 0x06052A0D */
 .L_pool_0603D020:
@@ -276,21 +276,21 @@ FUN_0603CE88:
 .L_0603D094:
     mov.b r14, @r6
 .L_0603D096:
-    .byte 0xD2, 0x44  /* 06015096: mov.l @(0x110,PC),r2  {[0x060151A8] = 0x06052A04} */
-    .byte 0xD3, 0x44  /* 06015098: mov.l @(0x110,PC),r3  {[0x060151AC] = 0x060529AD} */
+    .byte 0xD2, 0x44
+    .byte 0xD3, 0x44
     mov.b r14, @r2
     mov.b r14, @r3
-    .byte 0xD0, 0x44  /* 0601509E: mov.l @(0x110,PC),r0  {[0x060151B0] = 0x06054923} */
-    .byte 0xD2, 0x44  /* 060150A0: mov.l @(0x110,PC),r2  {[0x060151B4] = 0x06052A05} */
+    .byte 0xD0, 0x44
+    .byte 0xD2, 0x44
     mov.b @r0, r1
-    .byte 0xD0, 0x45  /* 060150A4: mov.l @(0x114,PC),r0  {[0x060151BC] = 0x0605224C} */
+    .byte 0xD0, 0x45
     mov.b r1, @r2
-    .byte 0xD1, 0x43  /* 060150A8: mov.l @(0x10C,PC),r1  {[0x060151B8] = 0x002FC21C} */
+    .byte 0xD1, 0x43
     mov.b @r1, r3
-    .byte 0x92, 0x79  /* 060150AC: mov.w @(0xF2,PC),r2  {0x060151A2} */
+    .byte 0x92, 0x79
     extu.b r3, r3
     muls.w r2, r3
-    .byte 0xD2, 0x43  /* 060150B2: mov.l @(0x10C,PC),r2  {[0x060151C0] = 0x06052A08} */
+    .byte 0xD2, 0x43
     sts macl, r3
     exts.w r3, r3
     add r0, r3

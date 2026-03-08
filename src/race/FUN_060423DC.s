@@ -8,10 +8,10 @@ FUN_060423DC:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    .byte 0xD7, 0x32  /* 0601A3E4: mov.l @(0xC8,PC),r7  {[0x0601A4B0] = 0x0605224C} */
+    .byte 0xD7, 0x32
     mov.l @r4, r14
     mov.l @(4, r4), r13
-    .byte 0xD3, 0x32  /* 0601A3EA: mov.l @(0xC8,PC),r3  {[0x0601A4B4] = 0x06054922} */
+    .byte 0xD3, 0x32
     mov.b @r3, r11
     extu.b r11, r11
     tst r11, r11
@@ -61,7 +61,7 @@ FUN_060423DC:
     bra .L_0604244A
     mov r7, r0
 .L_06042440:
-    .byte 0x92, 0x35  /* 0601A440: mov.w @(0x6A,PC),r2  {0x0601A4AE} */
+    .byte 0x92, 0x35
     dt r11
     bf/s .L_060423F6
     add r2, r7

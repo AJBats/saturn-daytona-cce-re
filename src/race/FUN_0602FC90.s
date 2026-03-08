@@ -6,8 +6,8 @@
 FUN_0602FC90:
     rts
     mov.l @r15+, r14
-    .byte 0x01, 0xD8  /* 0602FC94: .word 0x01D8 */
-    .byte 0xFF, 0xFF  /* 0602FC96: .word 0xFFFF */
+    .byte 0x01, 0xD8
+    .byte 0xFF, 0xFF
     .4byte sym_06052094  /* 0602FC98 = 0x06052094 */
     .4byte sym_06051FAC  /* 0602FC9C = 0x06051FAC */
     .4byte sym_0605224C  /* 0602FCA0 = 0x0605224C */
