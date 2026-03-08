@@ -2,8 +2,9 @@
 """Merge split function .s files back into Translation Unit (TU) groups.
 
 Reads TU group definitions from detect_tu_groups.py JSON output and merges
-the constituent .s files into a single file per TU, converting cross-section
-.byte 0xDn, 0xYY pool loads to proper mov.l label, rN instructions.
+the constituent .s files into a single file per TU. Raw .byte pool loads
+are preserved (relative displacements unchanged in contiguous layout).
+BSR/BRA relocs targeting merged partners are inlined to direct branches.
 
 Usage:
     python tools/merge_tu.py build/tu_groups.json --group FUN_06045368
@@ -156,27 +157,61 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     if first_addr % 4 != 0:
         return False, (f"Section start 0x{first_addr:08X} not 4-byte aligned")
 
-    # Read all .s files
+    # Read all .s files, handling secondary entry points (functions that are
+    # .global labels inside another group member's file, not separate .s files)
     file_data = {}
+    embedded_fns = set()  # Functions without own file, embedded in another member
     for fn in functions:
         filepath = os.path.join(SRC_DIR, f"{fn}.s")
         if not os.path.exists(filepath):
+            # Check if this function is a .global label inside another member's file
+            found_in = None
+            for other_fn in functions:
+                if other_fn == fn:
+                    continue
+                other_path = os.path.join(SRC_DIR, f"{other_fn}.s")
+                if not os.path.exists(other_path):
+                    continue
+                with open(other_path, "r") as f:
+                    content = f.read()
+                if f".global {fn}" in content:
+                    found_in = other_fn
+                    break
+            if found_in:
+                embedded_fns.add(fn)
+                continue
             return False, f"Source file not found: {filepath}"
         with open(filepath, "r") as f:
             file_data[fn] = f.readlines()
 
+    # Functions that have their own .s files (not embedded in another)
+    file_functions = [fn for fn in functions if fn not in embedded_fns]
+
+    # If the group head is embedded in another group's file, we can't merge
+    if functions[0] in embedded_fns:
+        return False, (f"Group head {functions[0]} is embedded in another "
+                       f"group's file — merge that group first")
+
     if dry_run:
-        print(f"  Would merge {len(functions)} functions into {functions[0]}.s")
+        print(f"  Would merge {len(file_functions)} files into {functions[0]}.s")
+        if embedded_fns:
+            print(f"  ({len(embedded_fns)} embedded: {', '.join(sorted(embedded_fns))})")
         print(f"  {len(cross_refs)} cross-section refs become same-section")
-        for fn in functions[1:]:
-            print(f"  Would stub {fn}.s")
+        for fn in file_functions[1:]:
+            print(f"  Would remove {fn}.s")
         return True, "dry-run"
 
     # Convert .reloc R_SH_IND12W BSR/BRA directives targeting merged partners
     # When target is now in same section, assembler can compute displacement directly
+    # Include embedded functions AND any .global labels defined in the merged files
     reloc_conversions = 0
     fun_set = set(functions)
-    for fn in functions:
+    for fn in file_functions:
+        for line in file_data[fn]:
+            m = re.match(r'\s*\.global\s+(FUN_[0-9A-Fa-f]+)', line)
+            if m:
+                fun_set.add(m.group(1))
+    for fn in file_functions:
         lines = file_data[fn]
         i = 0
         while i < len(lines):
@@ -205,12 +240,12 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     first_fun = functions[0]
     merged_lines = []
 
-    # Header comment
+    # Header comment (list all functions including embedded ones)
     fun_list = " + ".join(functions)
     merged_lines.append(f"/* TU: {fun_list} */\n")
     merged_lines.append("\n")
 
-    for i, fn in enumerate(functions):
+    for i, fn in enumerate(file_functions):
         lines = file_data[fn]
 
         if i == 0:
@@ -240,13 +275,14 @@ def merge_tu_group(group_name, group_data, dry_run=False):
 
     # Remove merged partner .s files (code now lives in the host file)
     removed = 0
-    for fn in functions[1:]:
+    for fn in file_functions[1:]:
         partner_path = os.path.join(SRC_DIR, f"{fn}.s")
         if os.path.exists(partner_path):
             os.remove(partner_path)
             removed += 1
 
-    return True, (f"Merged {len(functions)} functions, "
+    embed_msg = f", {len(embedded_fns)} embedded" if embedded_fns else ""
+    return True, (f"Merged {len(file_functions)} files ({len(functions)} functions{embed_msg}), "
                   f"{len(cross_refs)} pool refs now same-section, "
                   f"{reloc_conversions} relocs inlined, "
                   f"removed {removed} files")
