@@ -233,17 +233,18 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     with open(merged_path, "w", newline="\n") as f:
         f.writelines(merged_lines)
 
-    # Write stubs for remaining functions
+    # Remove merged partner .s files (code now lives in the host file)
+    removed = 0
     for fn in functions[1:]:
-        stub_path = os.path.join(SRC_DIR, f"{fn}.s")
-        with open(stub_path, "w", newline="\n") as f:
-            f.write(f"/* Merged into {first_fun}.s */\n")
+        partner_path = os.path.join(SRC_DIR, f"{fn}.s")
+        if os.path.exists(partner_path):
+            os.remove(partner_path)
+            removed += 1
 
-    stubbed = len(functions) - 1
     return True, (f"Merged {len(functions)} functions, "
                   f"{len(cross_refs)} pool refs now same-section, "
                   f"{reloc_conversions} relocs inlined, "
-                  f"stubbed {stubbed} files")
+                  f"removed {removed} files")
 
 
 def main():

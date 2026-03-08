@@ -56,4 +56,3 @@ FUN_06045378:
 .L_pool_060453B4:
     .4byte DAT_060452D0  /* 060452D0 = FUN_0604523A + 0x96 */
 
-/* Merged into FUN_06045368.s */

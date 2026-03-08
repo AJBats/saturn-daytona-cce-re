@@ -28,7 +28,10 @@ BASE = 0x06028000
 
 
 def get_merged_functions(src_dir):
-    """Scan source files for merge stubs to find which functions are merged.
+    """Scan source files for TU merge headers to find which functions are merged.
+
+    Reads TU headers like /* TU: FUN_A + FUN_B + FUN_C */ from host files,
+    and also legacy merge stubs like /* Merged into FUN_A.s */.
 
     Returns a dict mapping merged function name -> host function name.
     E.g., {"FUN_06045378": "FUN_06045368"} means FUN_06045378's code is
@@ -41,11 +44,22 @@ def get_merged_functions(src_dir):
         filepath = os.path.join(src_dir, fname)
         with open(filepath, "r") as f:
             first_line = f.readline().strip()
+
+        # Legacy stub format: /* Merged into FUN_XXXX.s */
         m = re.match(r'/\*\s*Merged into (FUN_[0-9A-Fa-f]+)\.s\s*\*/', first_line)
         if m:
             fun_name = fname[:-2]  # Remove .s
-            host_name = m.group(1)
-            merged[fun_name] = host_name
+            merged[fun_name] = m.group(1)
+            continue
+
+        # TU header format: /* TU: FUN_A + FUN_B + FUN_C */
+        m = re.match(r'/\*\s*TU:\s*(FUN_[0-9A-Fa-f]+(?:\s*\+\s*FUN_[0-9A-Fa-f]+)+)\s*\*/',
+                     first_line)
+        if m:
+            host_name = fname[:-2]  # The file IS the host
+            names = [n.strip() for n in m.group(1).split("+")]
+            for name in names[1:]:  # Skip first (it's the host)
+                merged[name] = host_name
     return merged
 
 
