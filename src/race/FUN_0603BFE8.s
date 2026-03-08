@@ -1,0 +1,17 @@
+/* FUN_0603BFE8  0x0603BFE8 */
+
+    .section .text.FUN_0603BFE8
+    .global FUN_0603BFE8
+    .type FUN_0603BFE8, @function
+FUN_0603BFE8:
+    sts.l pr, @-r15
+    .byte 0xD4, 0x3A  /* 06013FEA: mov.l @(0xE8,PC),r4  {[0x060140D4] = 0x0603BFFE} */
+    .byte 0xD3, 0x3A  /* 06013FEC: mov.l @(0xE8,PC),r3  {[0x060140D8] = 0x06013B78} */
+    jsr @r3
+    nop
+    mov r0, r4
+    mov #0x0, r0
+    mov.w r0, @(16, r4)
+    lds.l @r15+, pr
+    rts
+    mov.l r0, @(20, r4)

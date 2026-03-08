@@ -99,9 +99,15 @@ class MednafenBot:
         with open(tmp, "w", newline="\n") as f:
             f.write(f"# {self.seq}{padding}\n")
             f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
+        for attempt in range(20):
+            try:
+                if os.path.exists(self.action_file):
+                    os.remove(self.action_file)
+                os.rename(tmp, self.action_file)
+                return
+            except PermissionError:
+                time.sleep(0.05)
+        raise PermissionError(f"Cannot write action file after 20 retries")
 
     def wait_ack(self, keyword, timeout=30):
         deadline = time.time() + timeout

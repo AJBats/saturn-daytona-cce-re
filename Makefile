@@ -154,15 +154,23 @@ disc-allshift: all
 	@echo "  All-shifted disc ready for boot test."
 	@echo "  Output: build/disc/rebuilt_disc/"
 
+# Single-module shift: build one module with +4 shift, inject with everything else retail.
+# Usage: make disc-shift-MOD  (e.g., make disc-shift-race, make disc-shift-init)
+define single_shift_rules
+.PHONY: disc-shift-$(1)
+disc-shift-$(1): all
+	$$(MAKE) SHIFT=4 $(1)-free-bin
+	@python3 $$(PROJDIR)/tools/inject_disc.py --override $(1):$$(PROJDIR)/build/$(1)/$(1)_free.bin
+	@echo ""
+	@echo "  Disc with shifted $(1) ready for boot test."
+	@echo "  Output: build/disc/rebuilt_disc/"
+endef
+$(foreach mod,$(MODULES),$(eval $(call single_shift_rules,$(mod))))
+
 # Backward-compat aliases (main-only)
 .PHONY: validate-free disc-4shift
 validate-free: validate-free-main
-disc-4shift: all
-	$(MAKE) SHIFT=4 main-free-bin
-	@python3 $(PROJDIR)/tools/inject_disc.py --override main:$(PROJDIR)/build/main/main_free.bin
-	@echo ""
-	@echo "  Shifted disc ready for boot test."
-	@echo "  Output: build/disc/rebuilt_disc/"
+disc-4shift: disc-shift-main
 
 info:
 	@echo "Modules  : $(MODULES)"
