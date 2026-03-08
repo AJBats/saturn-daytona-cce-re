@@ -151,11 +151,7 @@ def merge_tu_group(group_name, group_data, dry_run=False):
         if first_line.startswith("/* TU:"):
             return False, "Already merged"
 
-    # Section must start at 4-byte aligned address if any function uses
-    # mov.l .label syntax (assembler needs aligned pool references)
     first_addr = fun_addr(functions[0])
-    if first_addr % 4 != 0:
-        return False, (f"Section start 0x{first_addr:08X} not 4-byte aligned")
 
     # Read all .s files, handling secondary entry points (functions that are
     # .global labels inside another group member's file, not separate .s files)

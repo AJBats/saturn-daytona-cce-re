@@ -1,3 +1,5 @@
+/* TU: FUN_06044A9A + FUN_06044ADA */
+
 /* FUN_06044A9A  0x06044A9A */
 
     .section .text.FUN_06044A9A
