@@ -16,14 +16,37 @@ Defaults:
 Exit code 0 if no cross-section refs, 1 otherwise.
 """
 
+import os
+import re
 import struct
 import subprocess
 import sys
-import os
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLDIR = os.path.join("D:/Projects/SaturnReverseTest/tools/sh-elf/bin")
 BASE = 0x06028000
+
+
+def get_merged_functions(src_dir):
+    """Scan source files for merge stubs to find which functions are merged.
+
+    Returns a dict mapping merged function name -> host function name.
+    E.g., {"FUN_06045378": "FUN_06045368"} means FUN_06045378's code is
+    in FUN_06045368.s (same section).
+    """
+    merged = {}
+    for fname in os.listdir(src_dir):
+        if not fname.startswith("FUN_") or not fname.endswith(".s"):
+            continue
+        filepath = os.path.join(src_dir, fname)
+        with open(filepath, "r") as f:
+            first_line = f.readline().strip()
+        m = re.match(r'/\*\s*Merged into (FUN_[0-9A-Fa-f]+)\.s\s*\*/', first_line)
+        if m:
+            fun_name = fname[:-2]  # Remove .s
+            host_name = m.group(1)
+            merged[fun_name] = host_name
+    return merged
 
 
 def get_section_map(elf_path):
@@ -32,6 +55,9 @@ def get_section_map(elf_path):
     Returns a sorted list of (start_addr, section_name) tuples representing
     section boundaries. Each function's .text.FUN_XXXX section starts at
     the function's address and extends to the next section.
+
+    Functions whose .s files are merge stubs are assigned to their host
+    function's section rather than getting their own section boundary.
     """
     nm_path = os.path.join(TOOLDIR, "sh-elf-nm")
     wsl_elf = elf_path.replace("\\", "/")
@@ -50,6 +76,12 @@ def get_section_map(elf_path):
         print(f"ERROR: sh-elf-nm failed: {result.stderr}", file=sys.stderr)
         sys.exit(2)
 
+    # Detect merged functions from source files
+    src_dir = os.path.join(PROJECT, "src", "race")
+    merged = get_merged_functions(src_dir)
+    if merged:
+        print(f"  ({len(merged)} functions merged into host sections)")
+
     sections = []
     for line in result.stdout.splitlines():
         parts = line.strip().split()
@@ -57,6 +89,9 @@ def get_section_map(elf_path):
             continue
         addr_str, typ, name = parts
         if typ == "T" and name.startswith("FUN_"):
+            # Skip merged functions — they don't have their own section
+            if name in merged:
+                continue
             addr = int(addr_str, 16)
             section = f".text.{name}"
             sections.append((addr, section))
@@ -129,9 +164,9 @@ def scan_pool_refs(data, sections):
 
 def main():
     bin_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
-        PROJECT, "build", "race", "race_free.bin")
+        PROJECT, "build", "race", "race.bin")
     elf_path = sys.argv[2] if len(sys.argv) > 2 else os.path.join(
-        PROJECT, "build", "race", "race_free.elf")
+        PROJECT, "build", "race", "race.elf")
 
     if not os.path.exists(bin_path):
         print(f"ERROR: binary not found: {bin_path}")
