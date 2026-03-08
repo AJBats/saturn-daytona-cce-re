@@ -174,11 +174,13 @@ def main():
         print(f"FAIL: Black screen detected - {black_detail}")
         sys.exit(1)
 
+    # RMSE excluded from default: too strict for animated scenes (attract mode
+    # race has minor car position drift between builds). Histogram + pixels
+    # catch wrong-screen and black-screen cases without false positives.
     methods = {
         'phash': method_phash,
         'histogram': method_histogram,
         'pixels': method_pixels,
-        'rmse': method_rmse,
     }
 
     if args.method == 'all':

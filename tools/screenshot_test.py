@@ -34,16 +34,16 @@ RETAIL_CUE = os.path.join(PROJECT, "external_resources",
                           "Daytona USA - Circuit Edition (Japan)",
                           "Daytona USA - Circuit Edition (Japan).cue")
 
-# Frame-precise input trace (captured 2026-03-02)
-# Frame 146: START skips BIOS intro
-# Frame 1032: Sega Sports logo — screenshot checkpoint
+# Frame-precise input trace (captured 2026-03-07)
+# Frame 164: START skips BIOS intro
+# Frame 1990: Attract mode race demo — screenshot checkpoint
 TRACE = [
-    (146,  "input START"),
-    (152,  "input_release START"),
-    (1032, "screenshot"),
+    (164,  "input START"),
+    (170,  "input_release START"),
+    (1990, "screenshot"),
 ]
 
-SCREENSHOT_FRAME = 1032
+SCREENSHOT_FRAME = 1990
 
 
 class MednafenBot:
