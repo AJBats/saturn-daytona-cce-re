@@ -121,6 +121,11 @@ def find_existing_label(lines, line_idx):
 def merge_tu_group(group_name, group_data, dry_run=False):
     """Merge a TU group's .s files into a single file.
 
+    Concatenates function .s files into one shared section. Cross-section
+    pool loads (.byte 0xDn, 0xYY) are LEFT AS-IS — since the functions are
+    contiguous, relative displacements are preserved in the merged section.
+    Only BSR relocs targeting merged partners are inlined to direct bsr.
+
     Returns (success, message) tuple.
     """
     functions = group_data["functions"]
@@ -132,159 +137,61 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     if not cross_refs:
         return False, "No cross-section refs to fix"
 
-    # Section must start at 4-byte aligned address for mov.l @(disp,PC)
+    # Skip already-merged groups (first file already has TU header)
+    first_path = os.path.join(SRC_DIR, f"{functions[0]}.s")
+    if os.path.exists(first_path):
+        with open(first_path, "r") as f:
+            first_line = f.readline().strip()
+        if first_line.startswith("/* TU:"):
+            return False, "Already merged"
+
+    # Section must start at 4-byte aligned address if any function uses
+    # mov.l .label syntax (assembler needs aligned pool references)
     first_addr = fun_addr(functions[0])
     if first_addr % 4 != 0:
-        return False, (f"First function at 0x{first_addr:08X} is not 4-byte aligned "
-                       f"(assembler rejects mov.l with unaligned section start)")
+        return False, (f"Section start 0x{first_addr:08X} not 4-byte aligned")
 
-    # Read and parse all .s files
+    # Read all .s files
     file_data = {}
     for fn in functions:
         filepath = os.path.join(SRC_DIR, f"{fn}.s")
         if not os.path.exists(filepath):
             return False, f"Source file not found: {filepath}"
-
-        lines, addr_map, base = parse_s_file(filepath)
-        file_data[fn] = {
-            "filepath": filepath,
-            "lines": lines,
-            "addr_map": addr_map,
-            "base_addr": base,
-        }
-
-    # Collect all modifications needed
-    # 1. Labels to add at pool addresses
-    pool_labels = {}  # pool_addr -> label_name
-    # 2. Instructions to convert
-    instr_conversions = []  # (fun_name, line_idx, label_name, register)
-
-    for ref in cross_refs:
-        instr_addr = int(ref["instr_addr"], 16)
-        pool_addr = int(ref["pool_addr"], 16)
-        instr_fun = ref["instr_fun"]
-        pool_fun = ref["pool_fun"]
-        reg = ref["register"]
-
-        # Check instruction is in our group
-        if instr_fun not in file_data:
-            return False, f"Instruction function {instr_fun} not in group"
-        if pool_fun not in file_data:
-            return False, f"Pool function {pool_fun} not in group"
-
-        # Find instruction line
-        idata = file_data[instr_fun]
-        if instr_addr not in idata["addr_map"]:
-            return False, f"Instruction at 0x{instr_addr:08X} not found in {instr_fun}"
-        instr_line_idx = idata["addr_map"][instr_addr]
-
-        # Verify it's actually a .byte 0xDn instruction
-        instr_line = idata["lines"][instr_line_idx].strip()
-        if not re.match(r'\.byte\s+0x[Dd][0-9A-Fa-f],\s*0x[0-9A-Fa-f]{2}', instr_line):
-            # Might already be converted to mov.l
-            if "mov.l" in instr_line:
-                continue  # Already converted
-            return False, (f"Line at 0x{instr_addr:08X} in {instr_fun} is not "
-                          f".byte 0xDn: '{instr_line}'")
-
-        # Find or create pool label
-        pdata = file_data[pool_fun]
-        if pool_addr not in pdata["addr_map"]:
-            return False, f"Pool at 0x{pool_addr:08X} not found in {pool_fun}"
-        pool_line_idx = pdata["addr_map"][pool_addr]
-
-        # Check for existing label
-        existing = find_existing_label(pdata["lines"], pool_line_idx)
-        if existing:
-            label_name = existing
-        elif pool_addr in pool_labels:
-            label_name = pool_labels[pool_addr]
-        else:
-            label_name = f".L_pool_{pool_addr:08X}"
-            pool_labels[pool_addr] = label_name
-
-        instr_conversions.append((instr_fun, instr_line_idx, label_name, reg))
+        with open(filepath, "r") as f:
+            file_data[fn] = f.readlines()
 
     if dry_run:
         print(f"  Would merge {len(functions)} functions into {functions[0]}.s")
-        print(f"  Would convert {len(instr_conversions)} .byte instructions to mov.l")
-        print(f"  Would add {len(pool_labels)} new pool labels")
+        print(f"  {len(cross_refs)} cross-section refs become same-section")
         for fn in functions[1:]:
             print(f"  Would stub {fn}.s")
         return True, "dry-run"
 
-    # === Apply modifications ===
-
-    # Add labels to pool entries (work backwards to preserve line indices)
-    for pool_addr in sorted(pool_labels.keys(), reverse=True):
-        label_name = pool_labels[pool_addr]
-        # Find which function file contains this pool address
-        for fn in functions:
-            fd = file_data[fn]
-            if pool_addr in fd["addr_map"]:
-                line_idx = fd["addr_map"][pool_addr]
-                # Get indentation of the pool line
-                pool_line = fd["lines"][line_idx]
-                indent = pool_line[:len(pool_line) - len(pool_line.lstrip())]
-                # Insert label before the pool line (no indent for labels)
-                label_line = f"{label_name}:\n"
-                fd["lines"].insert(line_idx, label_line)
-                # Update addr_map: shift all indices after this line
-                new_map = {}
-                for addr, idx in fd["addr_map"].items():
-                    if idx >= line_idx:
-                        new_map[addr] = idx + 1
-                    else:
-                        new_map[addr] = idx
-                fd["addr_map"] = new_map
-                break
-
-    # Convert .byte instructions to mov.l
-    for instr_fun, line_idx, label_name, reg in instr_conversions:
-        fd = file_data[instr_fun]
-        # Re-find the line index (might have shifted due to label insertions)
-        # Actually, label insertions only happen in OTHER files (pool files),
-        # and instr conversions happen in the instruction file. For 2-function
-        # groups, these are different files, so no conflict.
-        # For larger groups, we need to be careful.
-
-        old_line = fd["lines"][line_idx]
-        indent = old_line[:len(old_line) - len(old_line.lstrip())]
-
-        # Preserve any trailing comment
-        comment = ""
-        if "/*" in old_line:
-            comment_start = old_line.index("/*")
-            # Check if comment is on the same line as the .byte
-            comment = "    " + old_line[comment_start:].rstrip() + "\n"
-
-        new_line = f"{indent}mov.l {label_name}, r{reg}\n"
-        fd["lines"][line_idx] = new_line
-
-    # Convert .reloc R_SH_IND12W BSR directives targeting merged partners
+    # Convert .reloc R_SH_IND12W BSR/BRA directives targeting merged partners
     # When target is now in same section, assembler can compute displacement directly
-    bsr_conversions = 0
+    reloc_conversions = 0
     fun_set = set(functions)
     for fn in functions:
-        fd = file_data[fn]
+        lines = file_data[fn]
         i = 0
-        while i < len(fd["lines"]):
-            line = fd["lines"][i].strip()
+        while i < len(lines):
+            line = lines[i].strip()
             m = re.match(
                 r'\.reloc\s+\.\s*,\s*R_SH_IND12W\s*,\s*(FUN_[0-9A-Fa-f]+)\s*-\s*4',
                 line)
             if m and m.group(1) in fun_set:
                 target = m.group(1)
-                # Next line should be .2byte 0xB000 (the BSR placeholder)
-                if i + 1 < len(fd["lines"]):
-                    next_line = fd["lines"][i + 1].strip()
-                    if re.match(r'\.2byte\s+0xB000', next_line):
-                        indent = fd["lines"][i][:len(fd["lines"][i]) -
-                                                  len(fd["lines"][i].lstrip())]
-                        fd["lines"][i] = f"{indent}bsr {target}\n"
-                        # Remove the .2byte line
-                        fd["lines"].pop(i + 1)
-                        bsr_conversions += 1
+                # Next line should be .2byte 0xB000 (BSR) or 0xA000 (BRA)
+                if i + 1 < len(lines):
+                    next_line = lines[i + 1].strip()
+                    bsr_m = re.match(r'\.2byte\s+0xB000', next_line)
+                    bra_m = re.match(r'\.2byte\s+0xA000', next_line)
+                    if bsr_m or bra_m:
+                        mnemonic = "bsr" if bsr_m else "bra"
+                        indent = lines[i][:len(lines[i]) - len(lines[i].lstrip())]
+                        lines[i] = f"{indent}{mnemonic} {target}\n"
+                        lines.pop(i + 1)
+                        reloc_conversions += 1
                         continue
             i += 1
 
@@ -299,16 +206,16 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     merged_lines.append("\n")
 
     for i, fn in enumerate(functions):
-        fd = file_data[fn]
+        lines = file_data[fn]
 
         if i == 0:
-            # First function: use its section directive
-            for line in fd["lines"]:
+            # First function: use its section directive and all content
+            for line in lines:
                 merged_lines.append(line)
         else:
             # Subsequent functions: skip section directive, keep everything else
             merged_lines.append("\n")
-            for line in fd["lines"]:
+            for line in lines:
                 stripped = line.strip()
                 # Skip the original header comment
                 if stripped.startswith("/*") and fn in stripped and stripped.endswith("*/"):
@@ -332,13 +239,10 @@ def merge_tu_group(group_name, group_data, dry_run=False):
         with open(stub_path, "w", newline="\n") as f:
             f.write(f"/* Merged into {first_fun}.s */\n")
 
-    converted = len(instr_conversions)
-    labels_added = len(pool_labels)
     stubbed = len(functions) - 1
     return True, (f"Merged {len(functions)} functions, "
-                  f"converted {converted} pool loads, "
-                  f"added {labels_added} labels, "
-                  f"{bsr_conversions} BSR relocs inlined, "
+                  f"{len(cross_refs)} pool refs now same-section, "
+                  f"{reloc_conversions} relocs inlined, "
                   f"stubbed {stubbed} files")
 
 
