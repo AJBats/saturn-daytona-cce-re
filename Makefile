@@ -25,6 +25,9 @@ MODULES := main init race select result2p name backup ending
 # Shift variable for free.ld builds (0 = no shift, 4 = +4 byte shift)
 SHIFT ?= 0
 
+# Mod overlay: MOD=name activates mods/<name>/<module>/ file overrides
+MOD ?=
+
 # Original binary paths (relative to build/disc/files/) for byte-comparison
 ORIG_PATH_main     := 0
 ORIG_PATH_init     := DAYTONA/0
@@ -35,7 +38,7 @@ ORIG_PATH_name     := DAYTONA/NAME.BIN
 ORIG_PATH_backup   := DAYTONA/BKUP.BIN
 ORIG_PATH_ending   := DAYTONA/ENDING.BIN
 
-.PHONY: all validate retail 4shift clean info
+.PHONY: all validate retail 4shift noptest clean info
 
 # ─── Default: free.ld zero-shift build ─────────────────────────────────────
 all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
@@ -59,8 +62,16 @@ define module_rules
 $(PROJDIR)/build/$(1):
 	mkdir -p $$@
 
-SRCS_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
-OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRCS_$(1)))
+# Source collection with optional mod overlay
+ifdef MOD
+  MOD_SRCS_$(1) := $$(wildcard $(PROJDIR)/mods/$(MOD)/$(1)/FUN_*.s)
+  MOD_NAMES_$(1) := $$(notdir $$(MOD_SRCS_$(1)))
+  SRC_ONLY_$(1) := $$(filter-out $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_NAMES_$(1))),$$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s))
+  OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o))
+else
+  SRC_ONLY_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
+  OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRC_ONLY_$(1)))
+endif
 
 # Per-module config change detection
 PREV_SHIFT_$(1) := $$(shell cat $(PROJDIR)/build/$(1)/.shift 2>/dev/null)
@@ -68,6 +79,13 @@ ifneq ($$(SHIFT),$$(PREV_SHIFT_$(1)))
     $$(shell rm -f $(PROJDIR)/build/$(1)/$(1)_free.elf $(PROJDIR)/build/$(1)/$(1)_free.bin)
 endif
 
+# Mod overlay pattern rule (checked first)
+ifdef MOD
+$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.s | $(PROJDIR)/build/$(1)
+	$(AS) -big -o $$@ $$<
+endif
+
+# Default src pattern rule
 $(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/src/$(1)/%.s | $(PROJDIR)/build/$(1)
 	$(AS) -big -o $$@ $$<
 
@@ -137,6 +155,22 @@ validate-retail: retail
 		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
 	@echo ""
 	@echo "  Disc ready: race +4 shift, others zero-shift."
+	@echo "  Output: build/disc/rebuilt_disc/"
+
+# ─── noptest: race with NOP-resized functions, inject disc ────────────────
+# Rebuilds race with mods/nop_resize/ overlay (non-uniform function resize),
+# other modules normal. Tests that symbolization handles arbitrary resizing.
+noptest:
+	@echo "=== NOP resize test: rebuilding race with overlay ==="
+	$(MAKE) -f $(PROJDIR)/Makefile MOD=nop_resize \
+		$(PROJDIR)/build/race/race_free.bin
+	$(MAKE) -f $(PROJDIR)/Makefile \
+		$(foreach mod,$(filter-out race,$(MODULES)),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+	@python3 $(PROJDIR)/tools/inject_disc.py \
+		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+	@echo ""
+	@echo "  Disc ready: race with NOP-resized functions."
+	@echo "  Modified: FUN_0604708C (+2), FUN_06035748 (+2)"
 	@echo "  Output: build/disc/rebuilt_disc/"
 
 clean:
