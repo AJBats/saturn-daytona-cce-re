@@ -2,18 +2,15 @@
 """Full 3-class build validation for Daytona USA CCE.
 
 Test procedure:
-  1. make validate          — 8/8 modules byte-identical to retail
-  2. make validate-free-all — 8/8 free.ld zero-shift byte-identical
-  3. disc-allshift + boot   — build SHIFT=4, inject disc, screenshot test
-
-The boot test (class 3) constructs all paths internally — no human input,
-no chance to accidentally test the retail disc instead of the rebuild.
+  1. make validate       — 8/8 free.ld zero-shift byte-identical to retail
+  2. make validate-retail — 8/8 retail .ld byte-identical to original
+  3. make 4shift + boot  — race +4 shift disc, screenshot boot test
 
 Usage:
     python tools/validate_build.py                # all 3 classes
-    python tools/validate_build.py --class retail  # retail match only
     python tools/validate_build.py --class free    # free zero-shift only
-    python tools/validate_build.py --class free4   # shifted + boot test only
+    python tools/validate_build.py --class retail  # retail .ld only
+    python tools/validate_build.py --class 4shift  # shifted + boot test only
 """
 
 import os
@@ -49,22 +46,23 @@ def header(title):
     print("=" * 60)
 
 
-def test_retail():
-    """Class 1: make validate — 8/8 modules byte-identical to retail."""
-    header("CLASS 1: Retail build — make validate")
+def test_free():
+    """Class 1: make validate — 8/8 free.ld zero-shift byte-identical to retail."""
+    header("CLASS 1: Free build (zero-shift) — make validate")
 
     projdir = wsl_path(PROJECT)
     rc, out, err = run_wsl(f'make -C "{projdir}" validate 2>&1', timeout=300)
 
-    # Show module results
+    # Count module-level PASS/FAIL lines (start with "  PASS" or "  FAIL")
     pass_count = 0
     fail_count = 0
     for line in out.strip().split("\n"):
-        if "PASS" in line or "FAIL" in line:
-            print(f"  {line.strip()}")
-            if "PASS" in line:
+        stripped = line.strip()
+        if stripped.startswith("PASS ") or stripped.startswith("FAIL "):
+            print(f"  {stripped}")
+            if stripped.startswith("PASS"):
                 pass_count += 1
-            if "FAIL" in line:
+            else:
                 fail_count += 1
 
     passed = pass_count == 8 and fail_count == 0
@@ -72,23 +70,22 @@ def test_retail():
     return passed
 
 
-def test_free():
-    """Class 2: make validate-free-all — 8/8 free.ld zero-shift match."""
-    header("CLASS 2: Free build (zero-shift) — make validate-free-all")
+def test_retail():
+    """Class 2: make validate-retail — 8/8 retail .ld byte-identical."""
+    header("CLASS 2: Retail build — make validate-retail")
 
     projdir = wsl_path(PROJECT)
-    rc, out, err = run_wsl(
-        f'make -C "{projdir}" validate-free-all 2>&1', timeout=300
-    )
+    rc, out, err = run_wsl(f'make -C "{projdir}" validate-retail 2>&1', timeout=300)
 
     pass_count = 0
     fail_count = 0
     for line in out.strip().split("\n"):
-        if "PASS" in line or "FAIL" in line:
-            print(f"  {line.strip()}")
-            if "PASS" in line:
+        stripped = line.strip()
+        if stripped.startswith("PASS ") or stripped.startswith("FAIL "):
+            print(f"  {stripped}")
+            if stripped.startswith("PASS"):
                 pass_count += 1
-            if "FAIL" in line:
+            else:
                 fail_count += 1
 
     passed = pass_count == 8 and fail_count == 0
@@ -96,16 +93,13 @@ def test_free():
     return passed
 
 
-def test_free_shifted():
-    """Class 3: Free +4 shift — build, inject disc, screenshot boot test."""
-    header("CLASS 3: Free +4 shift — disc build + boot test")
+def test_4shift():
+    """Class 3: make 4shift — race +4 shift disc + screenshot boot test."""
+    header("CLASS 3: Race +4 shift — disc build + boot test")
 
-    # Step 1: Build all 8 with SHIFT=4 and inject into disc
     projdir = wsl_path(PROJECT)
-    print("  Building all 8 modules with SHIFT=4...")
-    rc, out, err = run_wsl(
-        f'make -C "{projdir}" disc-allshift 2>&1', timeout=300
-    )
+    print("  Building race +4 shift disc...")
+    rc, out, err = run_wsl(f'make -C "{projdir}" 4shift 2>&1', timeout=300)
 
     if rc != 0:
         print(f"  Build FAILED (rc={rc})")
@@ -125,7 +119,7 @@ def test_free_shifted():
         if line.strip().startswith("OK") or "injected" in line:
             print(f"    {line.strip()}")
 
-    # Step 2: Screenshot boot test against the rebuilt disc
+    # Screenshot boot test against the rebuilt disc
     print("\n  Running boot test against rebuilt disc...")
     print(f"    Disc: {REBUILT_CUE}")
 
@@ -135,7 +129,6 @@ def test_free_shifted():
         capture_output=True, text=True, timeout=300, cwd=PROJECT,
     )
 
-    # Show boot test output
     for line in result.stdout.strip().split("\n"):
         print(f"    {line}")
     if result.stderr.strip():
@@ -151,24 +144,13 @@ def main():
     parser = argparse.ArgumentParser(description="Full 3-class build validation")
     parser.add_argument(
         "--class", dest="test_class",
-        choices=["retail", "free", "free4", "all"],
+        choices=["free", "retail", "4shift", "all"],
         default="all", help="Which test class to run (default: all)"
     )
     args = parser.parse_args()
 
     results = {}
     overall = True
-
-    if args.test_class in ("retail", "all"):
-        passed = test_retail()
-        results["retail"] = passed
-        if not passed:
-            overall = False
-            if args.test_class == "all":
-                print("\n  Stopping: retail match failed, no point continuing.")
-                results["free"] = None
-                results["free4"] = None
-                return print_summary(results, overall)
 
     if args.test_class in ("free", "all"):
         passed = test_free()
@@ -177,12 +159,23 @@ def main():
             overall = False
             if args.test_class == "all":
                 print("\n  Stopping: free match failed, no point continuing.")
-                results["free4"] = None
+                results["retail"] = None
+                results["4shift"] = None
                 return print_summary(results, overall)
 
-    if args.test_class in ("free4", "all"):
-        passed = test_free_shifted()
-        results["free4"] = passed
+    if args.test_class in ("retail", "all"):
+        passed = test_retail()
+        results["retail"] = passed
+        if not passed:
+            overall = False
+            if args.test_class == "all":
+                print("\n  Stopping: retail match failed, no point continuing.")
+                results["4shift"] = None
+                return print_summary(results, overall)
+
+    if args.test_class in ("4shift", "all"):
+        passed = test_4shift()
+        results["4shift"] = passed
         if not passed:
             overall = False
 

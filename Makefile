@@ -1,22 +1,17 @@
 # Daytona USA CCE — Multi-module Build System
 #
 # Each module is a standalone binary assembled independently:
-#   src/<name>/<name>.s + src/<name>/<name>.ld  ->  build/<name>/<name>.bin
+#   src/<name>/FUN_*.s  -[as]-> .o  -[ld]-> .elf  -[objcopy]-> .bin
 #
 # This Makefile is designed to run from WSL. From Windows: wsl make
 # The sh-elf toolchain is shared with the '95 project.
 #
-#   make                   — build all 8 code modules (demo/result are data, not built)
-#   make validate          — byte-compare each rebuilt bin against original extracted files
-#   make disc              — build all + inject into a copy of the retail disc image
-#   make disc-validate     — rebuild disc + verify it is byte-identical to retail
-#   make validate-free-all — all 8 modules free.ld (zero shift), verify byte-identical
-#   make disc-allshift     — all 8 modules +4 shift, inject, ready for boot test
-#   make <mod>-free-bin    — build one module's free binary (with SHIFT=N)
-#   make validate-free     — main only (backward compat)
-#   make disc-4shift       — main only (backward compat)
-#   make clean             — remove build/<name>/ directories (never touches src/)
-#   make info              — print configuration
+#   make              — build all 8 modules with free.ld (zero shift)
+#   make validate     — build free (zero shift) + byte-compare against retail
+#   make retail       — build all 8 modules with retail .ld
+#   make 4shift       — race +4 shift, other 7 zero-shift, inject disc
+#   make clean        — remove build/ directories (never touches src/)
+#   make info         — print configuration
 
 PROJDIR := /mnt/d/Projects/DaytonaCCEReverse
 TOOLDIR := /mnt/d/Projects/SaturnReverseTest/tools/sh-elf/bin
@@ -27,82 +22,10 @@ OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 
 MODULES := main init race select result2p name backup ending
 
-# Shift variable for free.ld testing (0 = no shift, 4 = +4 byte shift test)
+# Shift variable for free.ld builds (0 = no shift, 4 = +4 byte shift)
 SHIFT ?= 0
 
-# Declare 'all' first so it is the default goal (eval'd rules come later)
-.PHONY: all validate disc disc-validate validate-free disc-4shift \
-        validate-free-all disc-allshift clean info
-all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod).bin)
-	@echo ""
-	@echo "========================================"
-	@echo "  All 8 code modules built."
-	@echo "========================================"
-	@echo ""
-
-# ─── Per-module build rules ──────────────────────────────────────────────────
-#
-# Each module follows the same pattern:
-#   src/<name>/<name>.s  -[as]--> build/<name>/<name>.o
-#                        -[ld]--> build/<name>/<name>.elf
-#                    -[objcopy]--> build/<name>/<name>.bin
-
-define module_rules
-
-$(PROJDIR)/build/$(1):
-	mkdir -p $$@
-
-SRCS_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
-OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRCS_$(1)))
-
-$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/src/$(1)/%.s | $(PROJDIR)/build/$(1)
-	$(AS) -big -o $$@ $$<
-
-$(PROJDIR)/build/$(1)/$(1).elf: $$(OBJS_$(1)) $(PROJDIR)/src/$(1)/$(1).ld
-	$(LD) -T $(PROJDIR)/src/$(1)/$(1).ld -o $$@ $$(OBJS_$(1))
-
-$(PROJDIR)/build/$(1)/$(1).bin: $(PROJDIR)/build/$(1)/$(1).elf
-	$(OBJCOPY) -O binary $$< $$@
-	@echo "  built: $(1).bin"
-
-endef
-
-$(foreach mod,$(MODULES),$(eval $(call module_rules,$(mod))))
-
-validate: all
-	@python3 $(PROJDIR)/tools/validate_modules.py
-
-disc: all
-	@python3 $(PROJDIR)/tools/inject_disc.py
-
-RETAIL_TRACK := $(PROJDIR)/external_resources/Daytona USA - Circuit Edition (Japan)/Daytona USA - Circuit Edition (Japan) (Track 01).bin
-REBUILT_TRACK := $(PROJDIR)/build/disc/rebuilt_disc/Track 01.bin
-
-disc-validate: disc
-	@if cmp -s "$(RETAIL_TRACK)" "$(REBUILT_TRACK)"; then \
-		echo "PASS: rebuilt disc is byte-identical to retail"; \
-	else \
-		echo "FAIL: rebuilt disc differs from retail"; \
-		cmp -l "$(RETAIL_TRACK)" "$(REBUILT_TRACK)" 2>/dev/null | head -5; \
-	fi
-
-clean:
-	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
-	@echo "Build directories cleaned."
-
-# ─── Free-layout builds (all modules) ────────────────────────────────────────
-#
-# Each module can be built with <mod>_free.ld instead of <mod>.ld.  Supports
-# --defsym __pad_size=N to shift all function addresses for relocation
-# validation.  Depends on 'all' to ensure .o files are compiled first, then
-# re-links using the free linker script.
-#
-#   make <mod>-free-bin          — build one module's free binary
-#   make validate-free-<mod>     — zero-shift byte-identical check
-#   make validate-free-all       — all 8 modules zero-shift check
-#   make disc-allshift           — build all 8 with SHIFT=4, inject into disc
-
-# Original binary paths (relative to build/disc/files/)
+# Original binary paths (relative to build/disc/files/) for byte-comparison
 ORIG_PATH_main     := 0
 ORIG_PATH_init     := DAYTONA/0
 ORIG_PATH_race     := DAYTONA/RACE.BIN
@@ -112,65 +35,113 @@ ORIG_PATH_name     := DAYTONA/NAME.BIN
 ORIG_PATH_backup   := DAYTONA/BKUP.BIN
 ORIG_PATH_ending   := DAYTONA/ENDING.BIN
 
-define free_module_rules
+.PHONY: all validate retail 4shift clean info
 
-.PHONY: $(1)-free-bin validate-free-$(1)
+# ─── Default: free.ld zero-shift build ─────────────────────────────────────
+all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+	@echo ""
+	@echo "========================================"
+	@echo "  All 8 modules built (free, shift=$(SHIFT))."
+	@echo "========================================"
+	@echo ""
 
-$(1)-free-bin: all
+# ─── Per-module assembly rules (shared by retail and free) ─────────────────
+#
+# .o files are built once from src/<name>/FUN_*.s, then linked with either
+# the retail or free linker script.
+#
+# Config change detection is per-module: build/<mod>/.shift tracks the SHIFT
+# value used for each module's free link. If it changes, the stale ELF/bin
+# are nuked so make rebuilds with the new shift.
+
+define module_rules
+
+$(PROJDIR)/build/$(1):
+	mkdir -p $$@
+
+SRCS_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
+OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRCS_$(1)))
+
+# Per-module config change detection
+PREV_SHIFT_$(1) := $$(shell cat $(PROJDIR)/build/$(1)/.shift 2>/dev/null)
+ifneq ($$(SHIFT),$$(PREV_SHIFT_$(1)))
+    $$(shell rm -f $(PROJDIR)/build/$(1)/$(1)_free.elf $(PROJDIR)/build/$(1)/$(1)_free.bin)
+endif
+
+$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/src/$(1)/%.s | $(PROJDIR)/build/$(1)
+	$(AS) -big -o $$@ $$<
+
+# Retail link
+$(PROJDIR)/build/$(1)/$(1).elf: $$(OBJS_$(1)) $(PROJDIR)/src/$(1)/$(1).ld
+	$(LD) -T $(PROJDIR)/src/$(1)/$(1).ld -o $$@ $$(OBJS_$(1))
+
+$(PROJDIR)/build/$(1)/$(1).bin: $(PROJDIR)/build/$(1)/$(1).elf
+	$(OBJCOPY) -O binary $$< $$@
+	@echo "  built (retail): $(1).bin"
+
+# Free link (with optional shift)
+$(PROJDIR)/build/$(1)/$(1)_free.elf: $$(OBJS_$(1)) $(PROJDIR)/src/$(1)/$(1)_free.ld
 	$(LD) -T $(PROJDIR)/src/$(1)/$(1)_free.ld \
 		$$(if $$(filter-out 0,$$(SHIFT)),--defsym __pad_size=$$(SHIFT)) \
-		-o $(PROJDIR)/build/$(1)/$(1)_free.elf \
-		$$(wildcard $(PROJDIR)/build/$(1)/FUN_*.o)
-	$(OBJCOPY) -O binary $(PROJDIR)/build/$(1)/$(1)_free.elf \
-		$(PROJDIR)/build/$(1)/$(1)_free.bin
-	@echo "  built (free): $(1)_free.bin (shift=$$(SHIFT))"
+		-o $$@ $$(OBJS_$(1))
+	@echo "$$(SHIFT)" > $(PROJDIR)/build/$(1)/.shift
 
-validate-free-$(1): $(1)-free-bin
-	@if cmp -s "$(PROJDIR)/build/disc/files/$$(ORIG_PATH_$(1))" \
-	            "$(PROJDIR)/build/$(1)/$(1)_free.bin"; then \
-		echo "PASS: $(1)_free.bin is byte-identical to original"; \
-	else \
-		echo "FAIL: $(1)_free.bin differs from original"; \
-		cmp -l "$(PROJDIR)/build/disc/files/$$(ORIG_PATH_$(1))" \
-		       "$(PROJDIR)/build/$(1)/$(1)_free.bin" 2>/dev/null | head -5; \
-	fi
+$(PROJDIR)/build/$(1)/$(1)_free.bin: $(PROJDIR)/build/$(1)/$(1)_free.elf
+	$(OBJCOPY) -O binary $$< $$@
+	@echo "  built (free): $(1)_free.bin (shift=$$(SHIFT))"
 
 endef
 
-$(foreach mod,$(MODULES),$(eval $(call free_module_rules,$(mod))))
+$(foreach mod,$(MODULES),$(eval $(call module_rules,$(mod))))
 
-# Aggregate targets
-.PHONY: validate-free-all disc-allshift
+# ─── validate: free zero-shift + byte-compare against retail ───────────────
+validate: all
+	@PASS=0; FAIL=0; \
+	$(foreach mod,$(MODULES),\
+		if cmp -s "$(PROJDIR)/build/disc/files/$(ORIG_PATH_$(mod))" \
+		          "$(PROJDIR)/build/$(mod)/$(mod)_free.bin"; then \
+			printf "  PASS  %-12s (%s bytes)\n" "$(mod)" "$$(wc -c < "$(PROJDIR)/build/$(mod)/$(mod)_free.bin" | tr -d ' ')"; \
+			PASS=$$((PASS+1)); \
+		else \
+			printf "  FAIL  %-12s\n" "$(mod)"; \
+			FAIL=$$((FAIL+1)); \
+		fi;) \
+	echo ""; \
+	if [ "$$FAIL" = "0" ]; then echo "RESULT: PASS ($$PASS/$$PASS)"; else echo "RESULT: FAIL"; exit 1; fi
 
-validate-free-all: $(foreach mod,$(MODULES),validate-free-$(mod))
+# ─── retail: build with retail .ld ─────────────────────────────────────────
+retail: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod).bin)
 	@echo ""
-	@echo "All free-layout validations complete."
+	@echo "========================================"
+	@echo "  All 8 modules built (retail)."
+	@echo "========================================"
+	@echo ""
 
-disc-allshift: all
-	$(MAKE) SHIFT=4 $(foreach mod,$(MODULES),$(mod)-free-bin)
+# validate-retail: retail build + byte-compare
+.PHONY: validate-retail
+validate-retail: retail
+	@python3 $(PROJDIR)/tools/validate_modules.py
+
+# ─── 4shift: race shifted, others zero-shift, inject disc ─────────────────
+# Re-links race directly with --defsym __pad_size=4, without a recursive make
+# that would trigger config checks on the other 7 modules.
+4shift: all
+	$(LD) -T $(PROJDIR)/src/race/race_free.ld --defsym __pad_size=4 \
+		-o $(PROJDIR)/build/race/race_free.elf \
+		$(wildcard $(PROJDIR)/build/race/FUN_*.o)
+	$(OBJCOPY) -O binary $(PROJDIR)/build/race/race_free.elf \
+		$(PROJDIR)/build/race/race_free.bin
+	@echo "4" > $(PROJDIR)/build/race/.shift
+	@echo "  built (free): race_free.bin (shift=4)"
 	@python3 $(PROJDIR)/tools/inject_disc.py \
 		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
 	@echo ""
-	@echo "  All-shifted disc ready for boot test."
+	@echo "  Disc ready: race +4 shift, others zero-shift."
 	@echo "  Output: build/disc/rebuilt_disc/"
 
-# Single-module shift: build one module with +4 shift, inject with everything else retail.
-# Usage: make disc-shift-MOD  (e.g., make disc-shift-race, make disc-shift-init)
-define single_shift_rules
-.PHONY: disc-shift-$(1)
-disc-shift-$(1): all
-	$$(MAKE) SHIFT=4 $(1)-free-bin
-	@python3 $$(PROJDIR)/tools/inject_disc.py --override $(1):$$(PROJDIR)/build/$(1)/$(1)_free.bin
-	@echo ""
-	@echo "  Disc with shifted $(1) ready for boot test."
-	@echo "  Output: build/disc/rebuilt_disc/"
-endef
-$(foreach mod,$(MODULES),$(eval $(call single_shift_rules,$(mod))))
-
-# Backward-compat aliases (main-only)
-.PHONY: validate-free disc-4shift
-validate-free: validate-free-main
-disc-4shift: disc-shift-main
+clean:
+	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
+	@echo "Build directories cleaned."
 
 info:
 	@echo "Modules  : $(MODULES)"
