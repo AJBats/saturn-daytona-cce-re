@@ -146,7 +146,7 @@ validate-retail: retail
 4shift: all
 	$(LD) -T $(PROJDIR)/src/race/race_free.ld --defsym __pad_size=4 \
 		-o $(PROJDIR)/build/race/race_free.elf \
-		$(wildcard $(PROJDIR)/build/race/FUN_*.o)
+		$(OBJS_race)
 	$(OBJCOPY) -O binary $(PROJDIR)/build/race/race_free.elf \
 		$(PROJDIR)/build/race/race_free.bin
 	@echo "4" > $(PROJDIR)/build/race/.shift
