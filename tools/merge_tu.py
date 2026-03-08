@@ -137,6 +137,11 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     if not cross_refs:
         return False, "No cross-section refs to fix"
 
+    # Entry functions have special linker handling (pinned sections) — skip
+    ENTRY_FUNCTIONS = {"FUN_06028000"}
+    if functions[0] in ENTRY_FUNCTIONS:
+        return False, "Entry function (special linker handling)"
+
     # Skip already-merged groups (first file already has TU header)
     first_path = os.path.join(SRC_DIR, f"{functions[0]}.s")
     if os.path.exists(first_path):

@@ -26,6 +26,8 @@ import tempfile
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDNAFEN_DIR = os.path.join(PROJECT, "mednafen")
 MEDNAFEN = os.path.join(MEDNAFEN_DIR, "src", "mednafen.exe")
+if not os.path.exists(MEDNAFEN):
+    MEDNAFEN = os.path.join(MEDNAFEN_DIR, "mednafen_gcc494.exe")
 MEDNAFEN_HOME = os.path.join(MEDNAFEN_DIR, "home")
 GOLDEN = os.path.join(PROJECT, "build", "screenshots", "golden_boot.png")
 SCREENSHOTS_DIR = os.path.join(PROJECT, "build", "screenshots")
