@@ -837,3 +837,205 @@ swapped — init itself never leaves.
 3. Both sub-modules load at 0x06028000 — same slot, different content
 4. Init's main loop PC (~0x06005780) is always the same when pausing — it's the
    permanent control loop that dispatches to sub-modules
+
+## 18. Compressed Code Payloads in RACE.BIN (empirically confirmed)
+
+RACE.BIN contains at least one compressed code payload embedded as data within the
+binary. At runtime, race calls init, which calls the BIOS decompressor to unpack
+it into a separate HWR region.
+
+### Discovery
+
+A 16KB block of SH-2 code exists at 0x060A0000–0x060A3FFF during attract mode
+racing (frame ~1465 onwards). This code is not present on disc as a separate file
+and does not byte-match any disc binary.
+
+### How it gets there
+
+**Observed** via write watchpoint on 0x060A17C0 at frame 1465 (retail disc):
+
+```
+Writer:     BIOS decompressor at PC=0x00002002
+            (byte-copy loop: mov.b @R0+, R1 / mov.b R1, @R7 / loop)
+Call chain: race (0x06028270, 0x06028320, 0x06029FD4)
+              → init (0x0601336C)
+                → BIOS decompressor (0x00001FE2 → 0x00002002)
+```
+
+**Parameter block** observed on stack at 0x06001F88:
+```
+0x060A0000   destination (HWR, above race binary)
+0x06037F20   source: compressed data within RACE.BIN (offset 0xFF20)
+0x06039F98   second parameter (offset 0x11F98 in race)
+0x0603EB6E   third parameter (offset 0x16B6E in race)
+```
+
+### Evidence the source is compressed data
+
+| Address    | Race offset | Entropy (256B) | SH-2 prologues | Assessment |
+|------------|-------------|----------------|-----------------|------------|
+| 0x06037F20 | 0xFF20      | 5.81 bits/byte | 0               | Compressed |
+| 0x06039F98 | 0x11F98     | 6.26 bits/byte | 0               | Compressed |
+| 0x0603EB6E | 0x16B6E     | 6.14 bits/byte | 2               | Compressed |
+
+All three regions show high entropy and no SH-2 instruction patterns, consistent
+with compressed data rather than code or structured data.
+
+### The decompressed code
+
+The decompressed block at 0x060A0000 contains:
+- ~14KB of content spanning 0x060A0003–0x060A3837
+- 25 functions detected via prologue analysis
+- Self-contained: 28 of 31 resolved bsrf/braf calls target addresses within the block
+- References shared state at 0x06000340, 0x06000348, 0x06000354 (low HWR, below init)
+- Zero pool constant references to race's address range (0x06028000–0x06052000)
+- Zero direct calls into race
+
+### HWR memory layout during attract mode racing (frame 2195)
+
+```
+0x06000000–0x06015FFF   88KB   init (permanent)
+0x06019000–0x06019FFF    4KB   init overflow / data
+0x0601B000–0x06023FFF   36KB   runtime data
+0x06028000–0x06054FFF  180KB   RACE.BIN + BSS
+0x06056000–0x0605CFFF  ~16KB   race runtime data
+0x06060000–0x060A3FFF ~272KB   large runtime work area (includes decompressed code)
+0x060ED000–0x060FFFFF  ~52KB   stack + misc
+```
+
+The decompressed code block at 0x060A0000 sits at the top of the large runtime
+work area. The lower portion of this area (0x06060000–0x0609FFFF) is populated
+during racing with runtime data (196KB of non-zero content at frame 2195).
+
+### Relevance to non-uniform shifting
+
+The three source addresses (0x06037F20, 0x06039F98, 0x0603EB6E) are **not
+symbolized** in the race source — grep finds zero references to any of them
+as DAT_ labels or .reloc entries. If race functions before these offsets change
+size (non-uniform shift), the compressed data blobs move but the unsymbolized
+pointers do not follow, causing the decompressor to read from wrong addresses.
+
+### Open questions
+
+1. What compression algorithm does the BIOS use? (Likely LZSS or similar)
+2. Are the three parameters (0x06037F20, 0x06039F98, 0x0603EB6E) three separate
+   compressed programs, or source + dictionary + relocation table for one program?
+3. Which race function loads these addresses? Are they pool constants in race code
+   or computed from a table?
+4. Are there additional compressed payloads in RACE.BIN beyond these three?
+5. Does the decompressor also perform address relocation, or is the decompressed
+   code position-independent?
+
+---
+
+## 19. BKUP.BIN cross-module parameter table (SOFT THEORY — March 2025)
+
+> **Confidence: LOW.** The observations below are real, but the causal link to
+> the noptest bug has a known contradiction (see "Weak spot" below). Treat this
+> section as working notes, not established fact.
+
+### Discovery: BKUP.BIN contains a decompressor parameter table
+
+BKUP.BIN at disc offset 0x20A0 (runtime 0x0602A0A0 when loaded at 0x06028000)
+contains an 8-dword table that exactly matches the decompressor parameters from
+section 18:
+
+```
+Offset  Value       Meaning
+0x20A0  0x20100063  unknown (VDP-area address?)
+0x20A4  0x2010001F  unknown (VDP-area address?)
+0x20A8  0x06039F98  compressed source 2 (base + 0x11F98)
+0x20AC  0x06037F20  compressed source 1 (base + 0xFF20)
+0x20B0  0x060A0000  decompressor destination
+0x20B4  0x0603EB4C  near compressed source 3 (base + 0x16B4C)
+0x20B8  0x06039FA4  unknown (base + 0x11FA4)
+0x20BC  0x0603A10C  unknown (base + 0x1A10C)
+```
+
+**Verified**: binary search of all disc files — only BKUP.BIN contains the
+literal bytes `06 03 7F 20` or `06 03 9F 98`. RACE.BIN and init do NOT.
+
+### Observed boot sequence
+
+Runtime tracing (conditional watchpoints, memory snapshots, header comparison)
+established this timeline:
+
+| Frame | Module at 0x06028000 | 0x060A0000 content | 0x06000354 (init data) |
+|-------|---------------------|--------------------|----------------------|
+| 1016  | BKUP.BIN (loading)  | not yet populated  | 0x00000000           |
+| 1100  | BKUP.BIN (loaded)   | not checked        | 0x00000000           |
+| 1466  | BKUP.BIN            | SH-2 code (helper) | **0x06037F20** ← written here |
+| 1800  | RACE.BIN            | RACE.BIN code at 0x20A0 | 0x06037F20      |
+| 1990  | RACE.BIN            | VDP/sprite data    | 0x06037F20           |
+
+Key observations:
+- **Frame 1016**: Conditional watchpoint on 0x0602A0AC (eq 0x06037F20) caught
+  init's FIFO scatter-copy at PC=0x0600D9C0 loading BKUP.BIN from CD via
+  hardware FIFO port 0x25818000. The parameter table values are part of
+  BKUP.BIN's disc data.
+- **Frame 1466**: Conditional watchpoint on 0x06000354 (eq 0x06037F20) caught
+  decompressed code at PC=0x060A001C (PR=0x0007D624, BIOS) writing R4 to @R14.
+  Registers: R4=0x06037F20, R5=0x06039F98. Stack contained all three source
+  addresses (SP+0x028=0x06037F20, SP+0x02C=0x06039F98, SP+0x030=0x0603EB6E).
+  BKUP.BIN was still loaded at 0x06028000 (confirmed by header comparison).
+- **Frame 1990**: RACE.BIN loaded. 0x060A0000 now contains small VDP-like data
+  values (different from frame 1466's SH-2 helper code). The parameter table
+  area at 0x0602A0A0 contains RACE.BIN's original code bytes, NOT the parameter
+  table. But 0x06000354 still holds 0x06037F20.
+
+### Shared offset coincidence
+
+Both BKUP.BIN and RACE.BIN use the same base address 0x06028000. The three
+source addresses (0x06037F20 = base+0xFF20, etc.) resolve to the same file
+offsets in both modules. However:
+
+| Offset   | RACE.BIN content    | BKUP.BIN content |
+|----------|--------------------|--------------------|
+| 0x0FF20  | High-entropy data  | All zeros          |
+| 0x11F98  | High-entropy data  | All zeros          |
+| 0x16B4C  | High-entropy data  | Non-zero (different) |
+
+RACE.BIN has compressed data at these offsets; BKUP.BIN mostly has zeros.
+This suggests the addresses in BKUP.BIN's parameter table are intended for
+use with RACE.BIN (or any module loaded at the same base), not BKUP.BIN itself.
+
+### Theory: BKUP.BIN pre-stages decompressor addresses for RACE.BIN
+
+**Proposed flow**:
+1. BKUP.BIN loads at 0x06028000
+2. Its compressed data decompresses helper code to 0x060A0000
+3. Helper code stores source addresses (0x06037F20, etc.) into init's
+   permanent data area (0x06000354+)
+4. RACE.BIN loads, overwriting BKUP.BIN
+5. RACE.BIN's decompressor uses the pre-staged addresses from init data
+
+If true, shifting RACE.BIN without updating BKUP.BIN's parameter table
+would cause wrong addresses — explaining the noptest bug.
+
+### Weak spot: uniform +4 shift works
+
+Uniform +4 shift has been tested and works (full races complete). Under this
+theory, BKUP.BIN (unmodified) would store 0x06037F20 while RACE.BIN's
+compressed data shifted to 0x06037F24 — a 4-byte error. Yet the game runs fine.
+
+This means either:
+- **RACE.BIN recomputes its own addresses** independently (making the BKUP.BIN
+  stored value irrelevant, or only used by BKUP.BIN itself)
+- **The decompression to 0x060A0000 happens differently** for RACE.BIN than
+  for BKUP.BIN
+- **The stored value at 0x06000354 is not used** for RACE.BIN's decompression
+
+This contradiction lowers confidence in BKUP.BIN being the root cause. The
+BKUP.BIN parameter table is real, but its role in the noptest failure is
+unproven.
+
+### What's needed next
+
+1. **Run a noptest build in the emulator** and catch the exact divergence point —
+   this would give a smoking gun instead of theories
+2. **Trace RACE.BIN's own decompression** — set conditional watchpoint on
+   0x060A0000 after RACE.BIN loads (frame 1800+) to see if/when RACE.BIN
+   decompresses its own data and what addresses it uses
+3. **Compare 0x06000354 across uniform vs non-uniform builds** — if the value
+   changes with uniform shift, RACE.BIN recomputes it; if it stays 0x06037F20,
+   BKUP.BIN is the source
