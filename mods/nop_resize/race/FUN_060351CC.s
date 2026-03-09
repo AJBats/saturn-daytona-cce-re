@@ -807,7 +807,7 @@ FUN_060356F8:
     .global FUN_06035748
     .type FUN_06035748, @function
 FUN_06035748:
-    nop                  /* +4 bytes: non-uniform resize test */
+    nop                  /* +4 bytes: shift test */
     nop
     mov #0x1, r4
     mov.l @r15+, r10

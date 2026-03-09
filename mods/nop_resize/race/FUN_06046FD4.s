@@ -62,6 +62,7 @@ FUN_06047014:
     mov.w @(r0, r1), r0
     bsrf r0
     nop
+.L_bsrf_return:
     add #0x8, r10
     mov.b @(152, gbr), r0
     dt r0
@@ -78,22 +79,23 @@ FUN_06047014:
     nop
     .byte 0x00, 0x09
 .L_pool_06047058:
-    .byte 0x00, 0x3E
-    .byte 0x00, 0x52
-    .byte 0x00, 0x6E
-    .byte 0x00, 0xDA
-    .byte 0x00, 0x8A
-    .byte 0x00, 0xDA
-    .byte 0x00, 0x9C
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xB2
-    .byte 0x00, 0xC4
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xDA
-    .byte 0x00, 0xDA
+    .short .L_inline_06047078 - .L_bsrf_return
+    .short FUN_0604708C - .L_bsrf_return
+    .short FUN_060470A8 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short FUN_060470C4 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short FUN_060470D6 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short FUN_060470EC - .L_bsrf_return
+    .short FUN_060470FE - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+    .short .L_null_06047114 - .L_bsrf_return
+.L_inline_06047078:
     .byte 0x50, 0xA0
     .byte 0x1B, 0x00
     .byte 0x50, 0xA1
@@ -108,9 +110,9 @@ FUN_06047014:
     .global FUN_0604708C
     .type FUN_0604708C, @function
 FUN_0604708C:
-    sts.l pr, @-r15
-    nop                  /* +4 bytes: non-uniform resize test */
+    nop                  /* +4 bytes: shift test */
     nop
+    sts.l pr, @-r15
     mov.l @(0, r10), r0
     mov.l r0, @(0, r11)
     mov.l @(4, r10), r0
@@ -198,6 +200,7 @@ FUN_060470FE:
     lds.l @r15+, pr
     rts
     nop
+.L_null_06047114:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
 
