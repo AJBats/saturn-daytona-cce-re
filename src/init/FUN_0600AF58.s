@@ -73,7 +73,7 @@ FUN_0600AF58:
     .byte 0x00, 0x1E  /* 0600AFDC: mov.l @(r0,r1),r0 */
     .byte 0xFF, 0xFF  /* 0600AFDE: .word 0xFFFF */
     .4byte DAT_060136F4  /* 0600AFE0 = 0x060136F4 (FUN_0600EA84 + 0x4C70) */
-    .4byte DAT_06000300  /* 0600AFE4 = 0x06000300 (FUN_060002DE + 0x22) */
+    .4byte sym_06000300  /* 0600AFE4 = 0x06000300 (FUN_060002DE + 0x22) */
     .4byte DAT_06011B84  /* 0600AFE8 = 0x06011B84 (FUN_0600EA84 + 0x3100) */
     .byte 0x53, 0x42  /* 0600AFEC: mov.l @(0x8,r4),r3 */
     .byte 0xE6, 0xB0  /* 0600AFEE: mov #-80,r6 */

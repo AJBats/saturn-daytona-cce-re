@@ -23,7 +23,9 @@ import os
 import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MEDNAFEN = os.path.join(PROJECT, "mednafen", "src", "mednafen")
+MEDNAFEN_DIR = os.path.join(PROJECT, "mednafen")
+MEDNAFEN = os.path.join(MEDNAFEN_DIR, "src", "mednafen.exe")
+MED_HOME = os.path.join(MEDNAFEN_DIR, "home")
 
 # Frame-precise input trace (skip BIOS intro)
 BIOS_SKIP = [
@@ -32,18 +34,10 @@ BIOS_SKIP = [
 ]
 
 
-def wsl_path(win_path):
-    """Convert Windows path to WSL path."""
-    abs_path = os.path.abspath(win_path)
-    drive = abs_path[0].lower()
-    rest = abs_path[2:].replace("\\", "/")
-    return f"/mnt/{drive}{rest}"
-
-
 class MednafenBot:
-    """Minimal Mednafen automation driver."""
+    """Minimal Mednafen automation driver (Windows native)."""
 
-    def __init__(self, ipc_dir, cue_wsl):
+    def __init__(self, ipc_dir, cue_path):
         self.ipc_dir = ipc_dir
         self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
         self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
@@ -51,46 +45,48 @@ class MednafenBot:
         self.last_ack = ""
         self.proc = None
         self.stderr_file = None
-        self.cue_wsl = cue_wsl
+        self.cue_path = cue_path
 
     def start(self, timeout=30):
-        subprocess.run(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
         os.makedirs(self.ipc_dir, exist_ok=True)
+        os.makedirs(MED_HOME, exist_ok=True)
         for f in [self.action_file, self.ack_file]:
             if os.path.exists(f):
                 os.remove(f)
 
-        mednafen_wsl = wsl_path(MEDNAFEN)
-        ipc_wsl = wsl_path(self.ipc_dir)
+        lockfile = os.path.join(MED_HOME, "mednafen.lck")
+        if os.path.exists(lockfile):
+            os.remove(lockfile)
 
-        launch_cmd = (
-            f'export DISPLAY=:0; '
-            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
-            f'"{mednafen_wsl}" '
-            f'-ss.bios_sanity 0 --sound 0 '
-            f'--automation "{ipc_wsl}" "{self.cue_wsl}"'
-        )
+        env = os.environ.copy()
+        env["MEDNAFEN_HOME"] = MED_HOME
 
         self.stderr_file = tempfile.NamedTemporaryFile(
             mode="w", suffix="_mednafen_stderr.txt", delete=False,
         )
         self.proc = subprocess.Popen(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
+            [MEDNAFEN, "--sound", "0",
+             "--automation", self.ipc_dir, self.cue_path],
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             stderr=self.stderr_file,
+            env=env,
         )
 
         deadline = time.time() + timeout
         while time.time() < deadline:
+            if self.proc.poll() is not None:
+                print(f"  [!] Mednafen exited (rc={self.proc.returncode})")
+                return False
             if os.path.exists(self.ack_file):
-                with open(self.ack_file) as f:
-                    content = f.read().strip()
-                if "ready" in content:
-                    self.last_ack = content
-                    return True
+                try:
+                    with open(self.ack_file) as f:
+                        content = f.read().strip()
+                    if "ready" in content:
+                        self.last_ack = content
+                        return True
+                except (IOError, PermissionError):
+                    pass
             time.sleep(0.2)
 
         self.proc.kill()
@@ -103,9 +99,15 @@ class MednafenBot:
         with open(tmp, "w", newline="\n") as f:
             f.write(f"# {self.seq}{padding}\n")
             f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
+        for attempt in range(20):
+            try:
+                if os.path.exists(self.action_file):
+                    os.remove(self.action_file)
+                os.rename(tmp, self.action_file)
+                return
+            except PermissionError:
+                time.sleep(0.05)
+        raise PermissionError(f"Cannot write action file after 20 retries")
 
     def wait_ack(self, keyword, timeout=30):
         deadline = time.time() + timeout
@@ -143,10 +145,6 @@ class MednafenBot:
                 self.proc.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 self.proc.kill()
-        subprocess.run(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
 
 
 def main():
@@ -168,23 +166,22 @@ def main():
     # Ensure output directory exists
     os.makedirs(os.path.dirname(os.path.abspath(output_file)), exist_ok=True)
 
-    cue_wsl = wsl_path(cue_file)
-    output_wsl = wsl_path(os.path.abspath(output_file))
+    output_abs = os.path.abspath(output_file)
     ipc_dir = os.path.join(PROJECT, "build", "trace_ipc")
 
     print(f"Disc:   {cue_file}")
     print(f"Frames: {frames}")
     print(f"Output: {output_file}")
 
-    bot = MednafenBot(ipc_dir, cue_wsl)
+    bot = MednafenBot(ipc_dir, os.path.abspath(cue_file))
 
     print("Launching Mednafen...")
-    if not bot.start(timeout=30):
+    if not bot.start(timeout=45):
         print("ERROR: Mednafen failed to start")
         sys.exit(1)
 
     print("Starting unified trace...")
-    ack = bot.send_and_wait(f"unified_trace {output_wsl}", "ok")
+    ack = bot.send_and_wait(f"unified_trace {output_abs}", "ok")
     if not ack:
         print("ERROR: unified_trace command failed")
         bot.quit()

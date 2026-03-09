@@ -1,4 +1,10 @@
-/* FUN_002809DA  0x002809DA */
+/* FUN_002809DA  0x002809DA
+ *
+ * STATIC ANALYSIS THEORY: CD device open. Calls GFS_Open (FUN_00280C7C),
+ * then writes status fields to HWR dispatch area: sym_06000CCC (flag=1),
+ * sym_06000CCD (arg from r5/r8), sym_06000CCE (file handle).
+ * String "FLD_KNL.BIN" is embedded at 0x00280A18 after this function's pool.
+ */
 
     .section .text.FUN_002809DA
     .global FUN_002809DA

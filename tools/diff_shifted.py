@@ -32,7 +32,7 @@ import sys
 
 PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Module registry: (disc_path_relative_to_files_dir, base_address)
+# Module registry: (disc_path_relative_to_files_dir, linker_base)
 MODULES = {
     'main':     ('0',                    0x00280000),
     'init':     ('DAYTONA/0',            0x06000000),
@@ -42,6 +42,11 @@ MODULES = {
     'name':     ('DAYTONA/NAME.BIN',     0x06000000),
     'backup':   ('DAYTONA/BKUP.BIN',     0x06000000),
     'ending':   ('DAYTONA/ENDING.BIN',   0x06000000),
+}
+
+# Runtime load addresses (may differ from linker base)
+RUNTIME_BASES = {
+    'init': 0x06005200,  # Confirmed: IP.BIN First Read Address
 }
 
 
@@ -111,6 +116,7 @@ def main():
         sys.exit(1)
 
     disc_rel, mod_base = MODULES[mod_name]
+    runtime_base = RUNTIME_BASES.get(mod_name, mod_base)
 
     retail_path = os.path.join(PROJDIR, 'build', 'disc', 'files', disc_rel)
     shifted_path = os.path.join(PROJDIR, 'build', mod_name, mod_name + '_free.bin')
@@ -130,14 +136,19 @@ def main():
 
     retail_size = len(retail)
     shifted_size = len(shifted)
-    mod_end = mod_base + retail_size
+    # Module range: union of linker range and runtime range
+    mod_end = max(mod_base + retail_size, runtime_base + retail_size)
     entry_end = mod_base + entry_size  # end of pinned entry region
 
     print('Binary Diff: %s — retail vs +%d shifted' % (mod_name, shift))
     print('=' * 60)
     print('  Retail:  %d bytes' % retail_size)
     print('  Shifted: %d bytes (expected %d)' % (shifted_size, retail_size + shift))
-    print('  Module:  0x%08X - 0x%08X' % (mod_base, mod_end))
+    print('  Module:  0x%08X - 0x%08X (linker)' % (mod_base, mod_base + retail_size))
+    if runtime_base != mod_base:
+        print('  Runtime: 0x%08X - 0x%08X (shadow zone: 0x%08X-0x%08X)' % (
+            runtime_base, runtime_base + retail_size,
+            mod_base + retail_size, runtime_base + retail_size))
     print()
 
     if shifted_size != retail_size + shift:
@@ -154,6 +165,7 @@ def main():
     correct_shifts = 0
     entry_pool_shifts = 0  # pool entries in pinned entry referencing shifted targets
     entry_refs = 0         # references pointing into pinned entry (correct, don't shift)
+    prebinary_refs = 0     # references to pre-binary zone [mod_base, runtime_base) — correct, don't shift
 
     # --- Pinned entry region: compare retail[off] vs shifted[off] (no shift) ---
     for off in range(0, min(entry_size, retail_size) - 3, 2):
@@ -186,6 +198,9 @@ def main():
                 # Check if it points into the pinned entry (correct — entry doesn't move)
                 if entry_size and r_val < entry_end:
                     entry_refs += 1
+                # Pre-binary zone: BIOS infrastructure addresses that don't shift
+                elif runtime_base > mod_base and r_val < runtime_base:
+                    prebinary_refs += 1
                 else:
                     missed.append((off, r_val))
         else:
@@ -239,6 +254,8 @@ def main():
         print('  Entry pool shifts: %d (pinned entry referencing shifted targets)' % entry_pool_shifts)
         if entry_refs:
             print('  Entry refs: %d (point into pinned entry, correct)' % entry_refs)
+    if prebinary_refs:
+        print('  Pre-binary refs: %d (BIOS infrastructure, correct)' % prebinary_refs)
     print('  MISSED: %d real + %d likely-data = %d total' % (
         len(real_missed), len(data_missed), len(filtered_missed)))
     if real_wrong or data_wrong:

@@ -1,4 +1,12 @@
-/* FUN_002803C8  0x002803C8 */
+/* FUN_002803C8  0x002803C8
+ *
+ * STATIC ANALYSIS THEORY: Module loader. Opens CD files via GFS (Sega Basic
+ * Library), reads them into RAM, and initializes loaded modules. Called from
+ * main's state machine case 1 (entry point at 0x002803C0 in FUN_002802A6.s).
+ * Uses GFS_Open (FUN_00280C7C), GFS_Read (FUN_002811D4), and GFS_Close
+ * (FUN_00280C14). References HWR addresses sym_06002F00 and sym_06002F28.
+ * String "XBAND.BIN" embedded at 0x00280550 after this function's pool.
+ */
 
     .section .text.FUN_002803C8
     .global FUN_002803C8

@@ -1,4 +1,11 @@
-/* FUN_00280910  0x00280910 */
+/* FUN_00280910  0x00280910
+ *
+ * STATIC ANALYSIS THEORY: CD system bootstrap. Initializes the CD subsystem
+ * (FUN_00280970), opens a CD device (FUN_002809D8), loads the FLD_KNL.BIN
+ * driver to 0x00200000 (FUN_00280A24), stores the driver address (0x200000)
+ * at sym_06002270 in HWR, then jumps to sym_06002100 (module entry in HWR).
+ * Not directly referenced by any pool — likely called via function pointer table.
+ */
 
     .section .text.FUN_00280910
     .global FUN_00280910

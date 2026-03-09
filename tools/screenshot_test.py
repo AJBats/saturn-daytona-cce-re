@@ -2,18 +2,17 @@
 """
 Screenshot boot test for Daytona USA CCE.
 
-Launches WSL debug Mednafen in automation mode (headless), replays a
-frame-precise input trace (START to skip BIOS), takes a screenshot at the
-Sega Sports logo, and compares against a golden baseline.
+Launches the Windows automation Mednafen, replays a frame-precise input trace
+(START to skip BIOS), takes a screenshot at the Sega Sports logo, and compares
+against a golden baseline.
 
 PASS = all 4 comparison methods pass.
 FAIL = black screen or comparison mismatch.
 
 Usage:
-    python tools/screenshot_test.py                        # test retail disc
-    python tools/screenshot_test.py path/to/disc.cue       # test custom disc
-    python tools/screenshot_test.py --capture-golden        # capture new golden
-    python tools/screenshot_test.py --show                  # show window
+    python tools/screenshot_test.py path/to/disc.cue   # test custom disc
+    python tools/screenshot_test.py --capture-golden    # capture new golden
+    python tools/screenshot_test.py --show              # show window
 """
 
 import subprocess
@@ -25,7 +24,11 @@ import argparse
 import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MEDNAFEN = os.path.join(PROJECT, "mednafen", "src", "mednafen")
+MEDNAFEN_DIR = os.path.join(PROJECT, "mednafen")
+MEDNAFEN = os.path.join(MEDNAFEN_DIR, "src", "mednafen.exe")
+if not os.path.exists(MEDNAFEN):
+    MEDNAFEN = os.path.join(MEDNAFEN_DIR, "mednafen_gcc494.exe")
+MEDNAFEN_HOME = os.path.join(MEDNAFEN_DIR, "home")
 GOLDEN = os.path.join(PROJECT, "build", "screenshots", "golden_boot.png")
 SCREENSHOTS_DIR = os.path.join(PROJECT, "build", "screenshots")
 
@@ -33,34 +36,22 @@ RETAIL_CUE = os.path.join(PROJECT, "external_resources",
                           "Daytona USA - Circuit Edition (Japan)",
                           "Daytona USA - Circuit Edition (Japan).cue")
 
-# Frame-precise input trace (captured 2026-03-02)
-# Frame 146: START skips BIOS intro
-# Frame 1032: Sega Sports logo — screenshot checkpoint
+# Frame-precise input trace (captured 2026-03-07)
+# Frame 164: START skips BIOS intro
+# Frame 1990: Attract mode race demo — screenshot checkpoint
 TRACE = [
-    (146,  "input START"),
-    (152,  "input_release START"),
-    (1032, "screenshot"),
+    (164,  "input START"),
+    (170,  "input_release START"),
+    (1990, "screenshot"),
 ]
 
-SCREENSHOT_FRAME = 1032
-
-
-def wsl_path(win_path):
-    """Convert Windows path to WSL path."""
-    drive = win_path[0].lower()
-    rest = win_path[2:].replace("\\", "/")
-    return f"/mnt/{drive}{rest}"
+SCREENSHOT_FRAME = 1990
 
 
 class MednafenBot:
-    """Drives WSL Mednafen via automation IPC.
+    """Drives Windows Mednafen via automation IPC."""
 
-    Based on the proven MednafenBot from Daytona '95 test_boot_auto.py.
-    Key difference from naive send(): frame_advance waits for 'done'
-    ack, not just the immediate 'ok' ack.
-    """
-
-    def __init__(self, ipc_dir, cue_wsl, show=False, verbose=False):
+    def __init__(self, ipc_dir, cue_path, show=False, verbose=False):
         self.ipc_dir = ipc_dir
         self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
         self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
@@ -70,43 +61,41 @@ class MednafenBot:
         self.stderr_file = None
         self.show = show
         self.verbose = verbose
-        self.cue_wsl = cue_wsl
+        self.cue_path = cue_path
 
     def start(self, timeout=30):
         """Launch Mednafen and wait for ready ack."""
-        # Kill any leftover Mednafen processes inside WSL (proc.kill() only
-        # kills the wsl.exe wrapper on Windows, leaving the real process alive)
-        subprocess.run(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
         os.makedirs(self.ipc_dir, exist_ok=True)
+        os.makedirs(MEDNAFEN_HOME, exist_ok=True)
         for f in [self.action_file, self.ack_file]:
             if os.path.exists(f):
                 os.remove(f)
 
-        mednafen_wsl = wsl_path(MEDNAFEN)
-        ipc_wsl = wsl_path(self.ipc_dir)
+        # Remove stale lockfile
+        lockfile = os.path.join(MEDNAFEN_HOME, "mednafen.lck")
+        if os.path.exists(lockfile):
+            os.remove(lockfile)
 
-        launch_cmd = (
-            f'export DISPLAY=:0; '
-            f'rm -f "$HOME/.mednafen/mednafen.lck"; '
-            f'"{mednafen_wsl}" '
-            f'-ss.bios_sanity 0 --sound 0 '
-            f'--automation "{ipc_wsl}" "{self.cue_wsl}"'
-        )
+        env = os.environ.copy()
+        env["MEDNAFEN_HOME"] = MEDNAFEN_HOME
 
         self.stderr_file = tempfile.NamedTemporaryFile(
             mode="w", suffix="_mednafen_stderr.txt", delete=False,
         )
         self.proc = subprocess.Popen(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", launch_cmd],
+            [MEDNAFEN, "--sound", "0",
+             "--automation", self.ipc_dir, self.cue_path],
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             stderr=self.stderr_file,
+            env=env,
         )
 
         deadline = time.time() + timeout
         while time.time() < deadline:
+            if self.proc.poll() is not None:
+                print(f" FAIL: Mednafen exited with code {self.proc.returncode}")
+                return False
             if os.path.exists(self.ack_file):
                 with open(self.ack_file) as f:
                     content = f.read().strip()
@@ -174,11 +163,6 @@ class MednafenBot:
                 self.proc.wait(timeout=5)
             except subprocess.TimeoutExpired:
                 self.proc.kill()
-        # Also kill inside WSL — proc.kill() only kills the wsl.exe wrapper
-        subprocess.run(
-            ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", "pkill -9 mednafen"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
         if self.stderr_file:
             self.stderr_file.close()
             try:
@@ -201,11 +185,14 @@ def main():
                         help="Show all ack messages")
     args = parser.parse_args()
 
-    # Resolve to absolute path (wsl_path needs a drive letter)
+    # Resolve to absolute path
     args.cue = os.path.abspath(args.cue)
 
     if not os.path.exists(args.cue):
         print(f"ERROR: CUE not found: {args.cue}")
+        sys.exit(2)
+    if not os.path.exists(MEDNAFEN):
+        print(f"ERROR: Mednafen not found: {MEDNAFEN}")
         sys.exit(2)
     if not args.capture_golden and not os.path.exists(args.golden):
         print(f"ERROR: Golden screenshot not found: {args.golden}")
@@ -216,9 +203,7 @@ def main():
 
     # IPC directory
     ipc_dir = os.path.join(PROJECT, "build", "screenshot_test_ipc")
-    cue_wsl = wsl_path(args.cue)
     test_path = os.path.join(SCREENSHOTS_DIR, "test_boot.png")
-    screenshot_wsl = wsl_path(test_path)
 
     # Delete stale screenshot so we never compare leftovers from a previous run
     if os.path.exists(test_path):
@@ -230,7 +215,7 @@ def main():
     print(f"Screenshot at frame {SCREENSHOT_FRAME}")
 
     # Launch
-    bot = MednafenBot(ipc_dir, cue_wsl, show=args.show, verbose=args.verbose)
+    bot = MednafenBot(ipc_dir, args.cue, show=args.show, verbose=args.verbose)
     print("Launching Mednafen...", end="", flush=True)
     if not bot.start():
         print(" FAIL: Mednafen did not start")
@@ -257,9 +242,10 @@ def main():
 
         if cmd == "screenshot":
             print(f"  screenshot @ frame {target_frame}...", end="", flush=True)
+            shot_path = test_path.replace("\\", "/")
             ack = bot.send_and_wait(
-                f"screenshot {screenshot_wsl}",
-                "ok screenshot_queued",
+                f"screenshot {shot_path}",
+                "ok screenshot",
             )
             if not ack:
                 print(" FAIL: screenshot not queued")

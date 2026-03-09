@@ -19,7 +19,7 @@ import sys
 PROJDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(PROJDIR, 'src')
 
-# Module entry points
+# Module linker bases (address used in .s filenames and linker scripts)
 MODULE_ENTRIES = {
     'main':     0x00280000,
     'init':     0x06000000,
@@ -55,6 +55,8 @@ def main():
         syms = json.load(f)
 
     mod_base = int(syms['module_base'], 16)
+    runtime_base = int(syms.get('runtime_base', syms['module_base']), 16)
+    runtime_offset = runtime_base - mod_base
     dat_symbols = syms['dat_symbols']
     sym_symbols = syms['sym_symbols']
 
@@ -67,6 +69,13 @@ def main():
     lines.append(' * Functions can change size without breaking the binary.')
     lines.append(' * __pad_size shifts all FUN_ addresses to validate relocation.')
     lines.append(' *')
+    if runtime_offset:
+        lines.append(' * Runtime offset: 0x%X  (linker base 0x%08X, runtime base 0x%08X)' % (
+            runtime_offset, mod_base, runtime_base))
+        lines.append(' * IP.BIN/main loads this module at 0x%08X, not 0x%08X.' % (
+            runtime_base, mod_base))
+        lines.append(' * Shadow-zone DAT_ offsets include this difference.' )
+        lines.append(' *')
     lines.append(' * Usage:')
     lines.append(' *   make validate-free          # zero-shift, byte-identical')
     lines.append(' *   make disc-4shift            # +4 shift boot test')
@@ -80,6 +89,15 @@ def main():
     lines.append('')
     lines.append('/* Default: no padding. Override with --defsym __pad_size=N */')
     lines.append('PROVIDE(__pad_size = 0);')
+    if runtime_offset:
+        lines.append('')
+        lines.append('/* Runtime load offset: module loads at 0x%08X, not linker base 0x%08X.' % (
+            runtime_base, mod_base))
+        lines.append('   Shadow-zone DAT_ symbols (0x%08X-0x%08X) use offsets that' % (
+            mod_base + int(syms['module_size']), runtime_base + int(syms['module_size'])))
+        lines.append('   include this 0x%X difference so they resolve to correct runtime addresses. */' % (
+            runtime_offset))
+        lines.append('__runtime_offset = 0x%X;' % runtime_offset)
     lines.append('')
     lines.append('SECTIONS')
     lines.append('{')
@@ -104,14 +122,30 @@ def main():
 
     # DAT_ symbols: within-binary, relative to nearest function
     if dat_symbols:
+        shadow_start = mod_base + int(syms['module_size'])
+        shadow_end = runtime_base + int(syms['module_size']) if runtime_offset else 0
+
+        n_normal = sum(1 for s in dat_symbols
+                       if int(s.replace('DAT_', ''), 16) < shadow_start)
+        n_shadow = len(dat_symbols) - n_normal
+
         lines.append('')
-        lines.append('/* DAT_ symbols: within-binary data, relative to nearest function (%d) */' %
-                      len(dat_symbols))
+        if n_shadow:
+            lines.append('/* DAT_ symbols: %d normal + %d shadow-zone = %d total */' % (
+                n_normal, n_shadow, len(dat_symbols)))
+        else:
+            lines.append('/* DAT_ symbols: within-binary data, relative to nearest function (%d) */' %
+                          len(dat_symbols))
         for sym_name in sorted(dat_symbols.keys()):
             info = dat_symbols[sym_name]
             parent = info['parent_fun']
             offset = int(info['offset'], 16)
-            lines.append('PROVIDE(%s = %s + 0x%X);' % (sym_name, parent, offset))
+            addr = int(sym_name.replace('DAT_', ''), 16)
+            if shadow_start <= addr < shadow_end:
+                lines.append('PROVIDE(%s = %s + 0x%X);  /* shadow-zone: runtime 0x%08X */' % (
+                    sym_name, parent, offset, addr))
+            else:
+                lines.append('PROVIDE(%s = %s + 0x%X);' % (sym_name, parent, offset))
 
     # sym_ symbols: external addresses, absolute
     if sym_symbols:
