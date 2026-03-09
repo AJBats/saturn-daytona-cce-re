@@ -47,5 +47,5 @@ FUN_0603E350:
     mov.b @r5, r13
     tst r13, r13
     .byte 0x8B, 0x01    /* bf 0x0603E3A4 */
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop

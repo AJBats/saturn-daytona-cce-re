@@ -456,7 +456,7 @@ FUN_06031738:
 .L_06031744:
     .byte 0xD3, 0x33    /* mov.l @(0x06031814), r3 */
     jsr @r3
-    .byte 0x00, 0x09
+    nop
     mov r14, r4
     add r12, r4
     mov.w @r4, r2

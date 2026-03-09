@@ -170,6 +170,6 @@ FUN_06040EA0:
     mov.l r0, @(4, r14)
     mov.b r0, @(0, r14)
 .L_06040FDE:
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
     .byte 0x00, 0x09

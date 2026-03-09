@@ -2735,10 +2735,10 @@ FUN_0604E0F6:
     mov.w r0, @(r0, r0)
     mov.l r0, @(r0, r0)
     mul.l r0, r0
-    .byte 0x00, 0x08
-    .byte 0x00, 0x09
+    clrt
+    nop
     sts mach, r0
-    .byte 0x00, 0x0B
+    rts
     mov.b @(r0, r0), r0
     .byte 0x00, 0x0D
     .byte 0x00, 0x0E

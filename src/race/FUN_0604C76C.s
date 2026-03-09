@@ -290,7 +290,7 @@ FUN_0604C76C:
     mov.l r0, @(4, r1)
     mov.l @r2, r0
     mov.l r0, @r1
-    .byte 0x00, 0x0B
+    rts
     mov.l @r15+, r3
     .byte 0x00, 0x09
     .4byte DAT_0604C9AA  /* 0x0604C9AA = FUN_0604C76C + 0x23E */

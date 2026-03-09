@@ -345,7 +345,7 @@ FUN_06043124:
     mov.l r2, @(r0, r4)
     mov.l @(4, r4), r3
     add r2, r3
-    .byte 0x00, 0x0B
+    rts
     mov.l r3, @(4, r4)
 .L_wpool_0604319E:
     .byte 0x01, 0xD0

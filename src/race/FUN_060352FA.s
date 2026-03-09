@@ -37,7 +37,7 @@ FUN_060352FA:
     bt .L_06035358
     add #0x1, r2
     bra .L_0603535A
-    .byte 0x00, 0x09
+    nop
 .L_wpool_06035350:
     .byte 0x00, 0x5C
     .byte 0x00, 0x00

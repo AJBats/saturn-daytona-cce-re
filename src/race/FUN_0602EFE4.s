@@ -79,5 +79,5 @@ FUN_0602EFE4:
     .2byte 0xA000    /* bra FUN_0602F072 (linker-resolved) */
     mov.l r3, @(12, r4)
 .L_0602F06E:
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop

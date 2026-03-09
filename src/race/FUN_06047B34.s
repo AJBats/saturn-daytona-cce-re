@@ -92,8 +92,8 @@ FUN_06047B34:
     mov.l r6, @(20, r1)
     mov.l r7, @(16, r1)
 .L_06047BD8:
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 .L_wpool_06047BDC:
     .byte 0x01, 0x01
 .L_wpool_06047BDE:
@@ -140,8 +140,8 @@ FUN_06047B34:
     mov.l r5, @(16, r1)
     mov.l r6, @(24, r1)
     mov.l r2, @(28, r1)
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 .L_wpool_06047C46:
     .byte 0x5E, 0x01
 .L_wpool_06047C48:

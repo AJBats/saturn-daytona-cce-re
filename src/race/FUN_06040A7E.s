@@ -124,7 +124,7 @@ FUN_06040A7E:
     mov.w .L_wpool_06040B74, r6
     .byte 0xD0, 0x02    /* mov.l @(0x06040B78), r0 */
     jmp @r0
-    .byte 0x00, 0x09
+    nop
 .L_wpool_06040B74:
     .byte 0x01, 0x00
     .byte 0x00, 0x00
