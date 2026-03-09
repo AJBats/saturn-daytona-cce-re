@@ -6,9 +6,9 @@
 FUN_0602FD44:
     sts.l pr, @-r15
     mov r13, r2
-    .byte 0xD4, 0x2D
+    .byte 0xD4, 0x2D    /* mov.l @(0x0602FE00), r4 */
     shll r3
-    .byte 0xDE, 0x2A
+    .byte 0xDE, 0x2A    /* mov.l @(0x0602FDF8), r14 */
     add #-0x4, r15
     add r2, r3
     shll2 r3
@@ -16,7 +16,7 @@ FUN_0602FD44:
     add r4, r3
     mov.w @r3, r1
     extu.w r1, r1
-    .byte 0x93, 0x48
+    .byte 0x93, 0x48    /* mov.w @(0x0602FDF0), r3 */
     tst r3, r1
     bt .L_0602FD6A
     mov.l @r14, r2
@@ -25,7 +25,7 @@ FUN_0602FD44:
     mov.w r0, @(14, r2)
 .L_0602FD6A:
     mov r13, r3
-    .byte 0xDC, 0x25
+    .byte 0xDC, 0x25    /* mov.l @(0x0602FE04), r12 */
     mov r13, r2
     shll r3
     add r2, r3
@@ -42,7 +42,7 @@ FUN_0602FD44:
     mov.w r0, @(14, r3)
 .L_0602FD8A:
     mov r13, r0
-    .byte 0x97, 0x31
+    .byte 0x97, 0x31    /* mov.w @(0x0602FDF2), r7 */
     mov r13, r3
-    .byte 0x96, 0x30
+    .byte 0x96, 0x30    /* mov.w @(0x0602FDF4), r6 */
     shll r0

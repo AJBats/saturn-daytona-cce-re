@@ -5,7 +5,7 @@
     .type FUN_0603F0B4, @function
 FUN_0603F0B4:
     sts.l pr, @-r15
-    .byte 0xD0, 0xEA
+    .byte 0xD0, 0xEA    /* mov.l @(0x0603F460), r0 */
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15

@@ -6,7 +6,7 @@
 FUN_0602F4A6:
     mov.l r14, @-r15
     sts.l macl, @-r15
-    .byte 0xD2, 0x24
+    .byte 0xD2, 0x24    /* mov.l @(0x0602F53C), r2 */
     mov.b @r2, r3
     tst r3, r3
     bf/s .L_0602F4B8
@@ -21,11 +21,11 @@ FUN_0602F4A6:
     add #0x6, r14
 .L_0602F4C2:
     mov #0xF, r5
-    .byte 0xD3, 0x20
+    .byte 0xD3, 0x20    /* mov.l @(0x0602F548), r3 */
     exts.w r14, r4
     lds.l @r15+, macl
     shll2 r4
-    .byte 0xD2, 0x21
+    .byte 0xD2, 0x21    /* mov.l @(0x0602F554), r2 */
     shll2 r4
     shll2 r4
     shll r4

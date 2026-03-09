@@ -6,8 +6,8 @@
 FUN_0602FCFE:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xD2, 0x3E
-    .byte 0x90, 0x72
+    .byte 0xD2, 0x3E    /* mov.l @(0x0602FDFC), r2 */
+    .byte 0x90, 0x72    /* mov.w @(0x0602FDEC), r0 */
     mov.l @r2, r3
     mov.l @(r0, r3), r0
     tst r0, r0

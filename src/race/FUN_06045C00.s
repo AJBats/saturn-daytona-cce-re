@@ -45,48 +45,48 @@ FUN_06045C02:
     .byte 0x00, 0x09
     .global FUN_06045C3C
 FUN_06045C3C:
-    .byte 0xC9, 0x0E
-    .byte 0x61, 0x03
-    .byte 0xC7, 0x13
-    .byte 0x00, 0x1D
-    .byte 0x00, 0x23
-    .byte 0x50, 0xA0
-    .byte 0x51, 0xB0
-    .byte 0x52, 0xC0
-    .byte 0x53, 0xD0
-    .byte 0x17, 0x03
-    .byte 0x17, 0x14
-    .byte 0x17, 0x25
-    .byte 0x00, 0x0B
-    .byte 0x17, 0x36
-    .byte 0x51, 0xB0
-    .byte 0x52, 0xC0
-    .byte 0x17, 0x03
-    .byte 0x17, 0x04
-    .byte 0x17, 0x15
-    .byte 0x00, 0x0B
-    .byte 0x17, 0x26
-    .byte 0x51, 0xB0
-    .byte 0x52, 0xC0
-    .byte 0x17, 0x03
-    .byte 0x17, 0x14
-    .byte 0x17, 0x15
-    .byte 0x00, 0x0B
-    .byte 0x17, 0x26
-    .byte 0x51, 0xB0
-    .byte 0x52, 0xC0
-    .byte 0x17, 0x03
-    .byte 0x17, 0x14
-    .byte 0x17, 0x25
-    .byte 0x00, 0x0B
-    .byte 0x17, 0x26
-    .byte 0x51, 0xB0
-    .byte 0x52, 0xC0
-    .byte 0x17, 0x03
-    .byte 0x17, 0x14
-    .byte 0x17, 0x25
-    .byte 0x00, 0x0B
-    .byte 0x17, 0x06
+    and #0xE, r0
+    mov r0, r1
+    .byte 0xC7, 0x13    /* mova @(0x06045C90), r0 */
+    mov.w @(r0, r1), r0
+    braf r0
+    mov.l @(0, r10), r0
+    mov.l @(0, r11), r1
+    mov.l @(0, r12), r2
+    mov.l @(0, r13), r3
+    mov.l r0, @(12, r7)
+    mov.l r1, @(16, r7)
+    mov.l r2, @(20, r7)
+    rts
+    mov.l r3, @(24, r7)
+    mov.l @(0, r11), r1
+    mov.l @(0, r12), r2
+    mov.l r0, @(12, r7)
+    mov.l r0, @(16, r7)
+    mov.l r1, @(20, r7)
+    rts
+    mov.l r2, @(24, r7)
+    mov.l @(0, r11), r1
+    mov.l @(0, r12), r2
+    mov.l r0, @(12, r7)
+    mov.l r1, @(16, r7)
+    mov.l r1, @(20, r7)
+    rts
+    mov.l r2, @(24, r7)
+    mov.l @(0, r11), r1
+    mov.l @(0, r12), r2
+    mov.l r0, @(12, r7)
+    mov.l r1, @(16, r7)
+    mov.l r2, @(20, r7)
+    rts
+    mov.l r2, @(24, r7)
+    mov.l @(0, r11), r1
+    mov.l @(0, r12), r2
+    mov.l r0, @(12, r7)
+    mov.l r1, @(16, r7)
+    mov.l r2, @(20, r7)
+    rts
+    mov.l r0, @(24, r7)
     .byte 0x00, 0x00
     .byte 0x00, 0x10
     .byte 0x00, 0x1E

@@ -5,26 +5,26 @@
     .type FUN_0604CFDE, @function
 FUN_0604CFDE:
     mov #0x0, r10
-    .byte 0xD8, 0x57
+    .byte 0xD8, 0x57    /* mov.l @(0x0604D140), r8 */
     mov #0x0, r1
     .reloc ., R_SH_IND12W, FUN_0604D0F4 - 4
     .2byte 0xA000    /* bra FUN_060250F4 (linker-resolved) */
     mov #0x8, r0
-    .byte 0x2F, 0x06
-    .byte 0x2F, 0x16
-    .byte 0x2F, 0x46
-    .byte 0x2F, 0x56
-    .byte 0x2F, 0x66
-    .byte 0x2F, 0x76
-    .byte 0x54, 0xF7
-    .byte 0x55, 0xF8
-    .byte 0x56, 0xF9
-    .byte 0x57, 0xFA
-    .byte 0x2F, 0x26
-    .byte 0x2F, 0x36
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    mov.l r0, @-r15
+    mov.l r1, @-r15
+    mov.l r4, @-r15
+    mov.l r5, @-r15
+    mov.l r6, @-r15
+    mov.l r7, @-r15
+    mov.l @(28, r15), r4
+    mov.l @(32, r15), r5
+    mov.l @(36, r15), r6
+    mov.l @(40, r15), r7
+    mov.l r2, @-r15
+    mov.l r3, @-r15
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15

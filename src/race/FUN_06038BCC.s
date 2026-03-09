@@ -46,7 +46,7 @@ FUN_06038BCC:
     mov.w r0, @(22, r14)
     mov.w @(24, r13), r0
     mov.w r0, @(24, r14)
-    .byte 0x95, 0x3E
+    mov.w .L_wpool_06038C98, r5
     mov #0x48, r0
     mov.l @(r0, r13), r3
     shlr16 r3
@@ -56,14 +56,14 @@ FUN_06038BCC:
     jsr @r3
     mov.l @(r0, r13), r4
     mov #0x0, r3
-    .byte 0x91, 0x36
+    mov.w .L_wpool_06038C9C, r1
     mov.l r0, @(36, r14)
     mov.w @(14, r13), r0
     add r14, r1
     mov.l r0, @(56, r14)
     mov.w @(14, r13), r0
     mov.l r0, @(60, r14)
-    .byte 0x90, 0x2E
+    mov.w .L_wpool_06038C9A, r0
     mov.l r3, @(r0, r14)
     mov.w @(14, r13), r0
     mov.l r0, @r1
@@ -116,8 +116,11 @@ FUN_06038C64:
     bra .L_06038D1C
     mov.w r2, @(r0, r14)
     .byte 0x01, 0xA4
+.L_wpool_06038C98:
     .byte 0x02, 0x5E
+.L_wpool_06038C9A:
     .byte 0x00, 0xAC
+.L_wpool_06038C9C:
     .byte 0x01, 0x34
 .L_wpool_06038C9E:
     .byte 0x01, 0x90

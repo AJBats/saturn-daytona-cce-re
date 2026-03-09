@@ -136,7 +136,7 @@ FUN_06038A84:
 .L_pool_06038B80:
     .4byte sym_002FC21C  /* 06010B80 = 0x002FC21C */
 .L_06038B84:
-    .byte 0x90, 0x87
+    .byte 0x90, 0x87    /* mov.w @(0x06038C96), r0 */
     mov.w @(r0, r14), r0
     extu.w r0, r0
     cmp/eq #0x23, r0
@@ -157,7 +157,7 @@ FUN_06038A84:
     bra .L_06038BBA
     mov.l r0, @(48, r14)
 .L_06038BA8:
-    .byte 0x90, 0x75
+    .byte 0x90, 0x75    /* mov.w @(0x06038C96), r0 */
     mov.w @(r0, r14), r0
     extu.w r0, r0
     cmp/eq #0x23, r0

@@ -101,55 +101,55 @@ FUN_06046C14:
     .byte 0x00, 0x09
     .global FUN_06046CD0
 FUN_06046CD0:
-    .byte 0x84, 0x71
-    .byte 0xE6, 0x10
-    .byte 0x51, 0x73
-    .byte 0x65, 0x07
-    .byte 0x52, 0x74
-    .byte 0x25, 0x69
-    .byte 0x53, 0x75
-    .byte 0xC9, 0xEF
-    .byte 0x54, 0x76
-    .byte 0x20, 0x5B
-    .byte 0x17, 0x23
-    .byte 0x17, 0x14
-    .byte 0x17, 0x45
-    .byte 0x17, 0x36
-    .byte 0x00, 0x0B
-    .byte 0x80, 0x71
+    mov.b @(1, r7), r0
+    mov #0x10, r6
+    mov.l @(12, r7), r1
+    not r0, r5
+    mov.l @(16, r7), r2
+    and r6, r5
+    mov.l @(20, r7), r3
+    and #0xEF, r0
+    mov.l @(24, r7), r4
+    or r5, r0
+    mov.l r2, @(12, r7)
+    mov.l r1, @(16, r7)
+    mov.l r4, @(20, r7)
+    mov.l r3, @(24, r7)
+    rts
+    mov.b r0, @(1, r7)
     .global FUN_06046CF0
 FUN_06046CF0:
-    .byte 0x84, 0x71
-    .byte 0xE6, 0x30
-    .byte 0x51, 0x73
-    .byte 0x65, 0x07
-    .byte 0x52, 0x74
-    .byte 0x25, 0x69
-    .byte 0x53, 0x75
-    .byte 0xC9, 0xCF
-    .byte 0x54, 0x76
-    .byte 0x20, 0x5B
-    .byte 0x17, 0x33
-    .byte 0x17, 0x44
-    .byte 0x17, 0x15
-    .byte 0x17, 0x26
-    .byte 0x00, 0x0B
-    .byte 0x80, 0x71
+    mov.b @(1, r7), r0
+    mov #0x30, r6
+    mov.l @(12, r7), r1
+    not r0, r5
+    mov.l @(16, r7), r2
+    and r6, r5
+    mov.l @(20, r7), r3
+    and #0xCF, r0
+    mov.l @(24, r7), r4
+    or r5, r0
+    mov.l r3, @(12, r7)
+    mov.l r4, @(16, r7)
+    mov.l r1, @(20, r7)
+    mov.l r2, @(24, r7)
+    rts
+    mov.b r0, @(1, r7)
     .global FUN_06046D10
 FUN_06046D10:
-    .byte 0x84, 0x71
-    .byte 0xE6, 0x20
-    .byte 0x51, 0x73
-    .byte 0x65, 0x07
-    .byte 0x52, 0x74
-    .byte 0x25, 0x69
-    .byte 0x53, 0x75
-    .byte 0xC9, 0xDF
-    .byte 0x54, 0x76
-    .byte 0x20, 0x5B
-    .byte 0x17, 0x43
-    .byte 0x17, 0x34
-    .byte 0x17, 0x25
-    .byte 0x17, 0x16
-    .byte 0x00, 0x0B
-    .byte 0x80, 0x71
+    mov.b @(1, r7), r0
+    mov #0x20, r6
+    mov.l @(12, r7), r1
+    not r0, r5
+    mov.l @(16, r7), r2
+    and r6, r5
+    mov.l @(20, r7), r3
+    and #0xDF, r0
+    mov.l @(24, r7), r4
+    or r5, r0
+    mov.l r4, @(12, r7)
+    mov.l r3, @(16, r7)
+    mov.l r2, @(20, r7)
+    mov.l r1, @(24, r7)
+    rts
+    mov.b r0, @(1, r7)

@@ -8,13 +8,13 @@ FUN_0602E5A8:
     extu.b r5, r5
     tst r5, r5
     bt .L_0602E5B6
-    .byte 0xDE, 0x12
+    .byte 0xDE, 0x12    /* mov.l @(0x0602E5FC), r14 */
     bra .L_0602E5B8
     nop
 .L_0602E5B6:
-    .byte 0xDE, 0x12
+    .byte 0xDE, 0x12    /* mov.l @(0x0602E600), r14 */
 .L_0602E5B8:
-    .byte 0xD6, 0x12
+    .byte 0xD6, 0x12    /* mov.l @(0x0602E604), r6 */
     mov r14, r5
     .reloc ., R_SH_IND12W, FUN_0602E610 - 4
     .2byte 0xA000    /* bra FUN_0602E610 (linker-resolved) */

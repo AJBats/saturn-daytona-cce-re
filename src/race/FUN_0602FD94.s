@@ -61,7 +61,7 @@ FUN_0602FD94:
     .4byte sym_060072C4  /* 0602FE00 = 0x0602F2C4 (init cross-ref, fixed) */
     .4byte 0x00008000  /* 0602FE04 = 0x00008000 */
 .L_0602FE08:
-    .byte 0x95, 0x7E
+    .byte 0x95, 0x7E    /* mov.w @(0x0602FF08), r5 */
     mov r13, r2
     mov r13, r3
     shll r2
@@ -133,7 +133,7 @@ FUN_0602FD94:
     shll r1
     add r3, r1
     shll2 r1
-    .byte 0x93, 0x3B
+    .byte 0x93, 0x3B    /* mov.w @(0x0602FF0A), r3 */
     exts.b r1, r1
     add r4, r1
     mov.w @r1, r2
@@ -141,11 +141,11 @@ FUN_0602FD94:
     tst r3, r2
     bt .L_0602FECE
     mov.l @r14, r4
-    .byte 0xD2, 0x1A
+    .byte 0xD2, 0x1A    /* mov.l @(0x0602FF0C), r2 */
     mov.w @(14, r4), r0
     jsr @r2
     mov r0, r4
-    .byte 0xD3, 0x19
+    .byte 0xD3, 0x19    /* mov.l @(0x0602FF10), r3 */
     shll r0
     neg r0, r0
     mov.l r0, @r15
@@ -168,7 +168,7 @@ FUN_0602FD94:
     extu.b r13, r13
     tst r13, r13
     bf .L_0602FEE2
-    .byte 0xD3, 0x0F
+    .byte 0xD3, 0x0F    /* mov.l @(0x0602FF14), r3 */
     add #0x4, r15
     lds.l @r15+, pr
     mov.l @r15+, r12

@@ -21,18 +21,18 @@ FUN_0603FD20:
     mac.l @r4+, @r5+
     mov.l r0, @-r15
     mov.l r1, @-r15
-    .byte 0xD2, 0x7E
+    .byte 0xD2, 0x7E    /* mov.l @(0x0603FF3C), r2 */
     sts mach, r1
     sts macl, r4
     cmp/ge r2, r1
     bt .L_0603FD56
-    .byte 0xD0, 0x7C
+    .byte 0xD0, 0x7C    /* mov.l @(0x0603FF40), r0 */
     jsr @r0
     xtrct r1, r4
     bra .L_0603FD60
     nop
 .L_0603FD56:
-    .byte 0xD0, 0x7A
+    .byte 0xD0, 0x7A    /* mov.l @(0x0603FF40), r0 */
     jsr @r0
     mov r1, r4
     shll8 r0
@@ -41,16 +41,16 @@ FUN_0603FD20:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l r0, @-r15
-    .byte 0xD2, 0x75
+    .byte 0xD2, 0x75    /* mov.l @(0x0603FF3C), r2 */
     cmp/ge r2, r1
     bt .L_0603FD76
-    .byte 0xD0, 0x74
+    .byte 0xD0, 0x74    /* mov.l @(0x0603FF40), r0 */
     jsr @r0
     xtrct r1, r4
     bra .L_0603FD80
     nop
 .L_0603FD76:
-    .byte 0xD0, 0x72
+    .byte 0xD0, 0x72    /* mov.l @(0x0603FF40), r0 */
     jsr @r0
     mov r1, r4
     shll8 r0

@@ -22,11 +22,11 @@ FUN_0603BFFE:
     bra .L_0603C07A
     nop
 .L_0603C020:
-    .byte 0xDD, 0x2E
+    .byte 0xDD, 0x2E    /* mov.l @(0x0603C0DC), r13 */
     mov #0x0, r11
-    .byte 0x98, 0x4C
-    .byte 0x99, 0x4C
-    .byte 0xDA, 0x2D
+    .byte 0x98, 0x4C    /* mov.w @(0x0603C0C0), r8 */
+    .byte 0x99, 0x4C    /* mov.w @(0x0603C0C2), r9 */
+    .byte 0xDA, 0x2D    /* mov.l @(0x0603C0E0), r10 */
 .L_0603C02A:
     mov r13, r14
     mov.l @(4, r12), r3
@@ -37,7 +37,7 @@ FUN_0603BFFE:
     tst r0, r0
     bf .L_0603C04E
     mov #0x2, r6
-    .byte 0xD4, 0x29
+    .byte 0xD4, 0x29    /* mov.l @(0x0603C0E4), r4 */
     .reloc ., R_SH_IND12W, FUN_0603C2BC - 4
     .2byte 0xB000    /* bsr FUN_060142BC (linker-resolved) */
     mov #0x8, r5
@@ -50,7 +50,7 @@ FUN_0603BFFE:
     nop
 .L_0603C04E:
     mov #0x66, r3
-    .byte 0x92, 0x38
+    .byte 0x92, 0x38    /* mov.w @(0x0603C0C4), r2 */
     mov.w @(16, r14), r0
     mulu.w r3, r0
     sts macl, r0

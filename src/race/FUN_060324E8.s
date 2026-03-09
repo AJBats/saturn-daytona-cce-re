@@ -12,7 +12,7 @@ FUN_060324E8:
     mov #0x0, r0
     mov.w r2, @r1
     mov.w r0, @(2, r1)
-    .byte 0x90, 0xB3
+    mov.w .L_wpool_0603265E, r0
     mov.w r0, @(4, r1)
     mov r5, r0
     mov.w r0, @(6, r1)
@@ -199,6 +199,7 @@ FUN_0603252C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_wpool_0603265E:
     .byte 0x00, 0x80
 .L_pool_06032660:
     .4byte sym_06054910  /* 06032660 = 0x06054910 */

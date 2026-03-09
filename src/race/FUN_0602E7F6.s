@@ -66,21 +66,21 @@ FUN_0602E7F6:
     tst r4, r4
     bf/s .L_0602E872
     extu.b r5, r5
-    .byte 0xDE, 0x39
-    .byte 0x94, 0x6A
+    .byte 0xDE, 0x39    /* mov.l @(0x0602E950), r14 */
+    .byte 0x94, 0x6A    /* mov.w @(0x0602E944), r4 */
     bra .L_0602E876
     nop
 .L_0602E872:
-    .byte 0xDE, 0x38
-    .byte 0x94, 0x67
+    .byte 0xDE, 0x38    /* mov.l @(0x0602E954), r14 */
+    .byte 0x94, 0x67    /* mov.w @(0x0602E946), r4 */
 .L_0602E876:
     tst r5, r5
     bt/s .L_0602E880
     extu.b r6, r6
-    .byte 0x93, 0x64
+    .byte 0x93, 0x64    /* mov.w @(0x0602E948), r3 */
     add r3, r4
 .L_0602E880:
-    .byte 0x92, 0x63
+    .byte 0x92, 0x63    /* mov.w @(0x0602E94A), r2 */
     mov #0x7, r7
-    .byte 0xD3, 0x34
+    .byte 0xD3, 0x34    /* mov.l @(0x0602E958), r3 */
     mul.l r2, r6

@@ -16,7 +16,7 @@ FUN_0604256C:
     mov.b @r3, r13
     mov.l .L_pool_06042630, r14
     extu.b r13, r13
-    .byte 0x96, 0x50
+    mov.w .L_wpool_06042624, r6
     shll2 r13
     shll r13
     mov.l @(r0, r13), r13
@@ -107,6 +107,7 @@ FUN_060425DC:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_wpool_06042624:
     .byte 0x05, 0x78
     .byte 0xFF, 0xFF
 .L_pool_06042628:

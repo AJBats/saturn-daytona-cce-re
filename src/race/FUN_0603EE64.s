@@ -23,16 +23,16 @@ FUN_0603EE64:
     nop
 .L_0603EE82:
     mov.l @(72, gbr), r0
-    .byte 0xD4, 0x84
+    .byte 0xD4, 0x84    /* mov.l @(0x0603F098), r4 */
     mov r0, r1
     shlr16 r0
     add r14, r4
     mov.l @r4, r5
-    .byte 0xD4, 0x83
+    .byte 0xD4, 0x83    /* mov.l @(0x0603F09C), r4 */
     shll2 r0
     mov.l @(r0, r4), r6
     mov.l @(120, gbr), r0
-    .byte 0xD7, 0x82
+    .byte 0xD7, 0x82    /* mov.l @(0x0603F0A0), r7 */
     dmuls.l r6, r0
     sts mach, r0
     sts macl, r6

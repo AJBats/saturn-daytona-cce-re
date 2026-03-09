@@ -192,8 +192,8 @@ FUN_060354A0:
     mov r2, r11
 .L_060355EE:
     mov r14, r0
-    .byte 0x91, 0x21
-    .byte 0x93, 0x21
+    .byte 0x91, 0x21    /* mov.w @(0x06035636), r1 */
+    .byte 0x93, 0x21    /* mov.w @(0x06035638), r3 */
     mov.l @(r0, r1), r2
     mov.l @(r0, r3), r4
     sub r2, r10
@@ -202,7 +202,7 @@ FUN_060354A0:
     shar r11
     shar r10
     shar r11
-    .byte 0x95, 0x19
+    .byte 0x95, 0x19    /* mov.w @(0x0603563A), r5 */
     mov.b @(r0, r5), r6
     mov #0x2, r5
     cmp/eq r6, r5

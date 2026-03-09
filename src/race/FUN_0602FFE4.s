@@ -6,6 +6,6 @@
 FUN_0602FFE4:
     mov.b @(r0, r2), r1
     extu.b r1, r1
-    .byte 0xD0, 0x26
+    .byte 0xD0, 0x26    /* mov.l @(0x06030084), r0 */
     shll r1
     mov.w @(r0, r1), r2

@@ -12,13 +12,13 @@ FUN_0603CD32:
     mov.l r9, @-r15
     mov.l r8, @-r15
     sts.l pr, @-r15
-    .byte 0xD3, 0x1F
-    .byte 0xD8, 0x1F
+    .byte 0xD3, 0x1F    /* mov.l @(disp,PC), r3 -> .L_pool_0603CDC0 */
+    .byte 0xD8, 0x1F    /* mov.l @(disp,PC), r8 -> .L_pool_0603CDC4 */
     mov.l @r3, r14
-    .byte 0xD9, 0x1F
-    .byte 0xDA, 0x20
-    .byte 0xDB, 0x20
-    .byte 0xDC, 0x21
+    .byte 0xD9, 0x1F    /* mov.l @(disp,PC), r9 -> .L_pool_0603CDC8 */
+    .byte 0xDA, 0x20    /* mov.l @(disp,PC), r10 -> .L_pool_0603CDCC */
+    .byte 0xDB, 0x20    /* mov.l @(disp,PC), r11 -> .L_pool_0603CDD0 */
+    .byte 0xDC, 0x21    /* mov.l @(disp,PC), r12 -> .L_pool_0603CDD4 */
     bra .L_0603CDA0
     mov #0x0, r13
 .L_0603CD54:

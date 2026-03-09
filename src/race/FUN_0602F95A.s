@@ -22,42 +22,43 @@ FUN_0602F95A:
     mov.w r3, @r2
     bra .L_0602F9C6
     nop
-    .byte 0x60, 0xE3
-    .byte 0x30, 0x4C
-    .byte 0x03, 0xDD
-    .byte 0x60, 0xE3
-    .byte 0x30, 0x5C
-    .byte 0x02, 0xDD
-    .byte 0x33, 0x23
-    .byte 0x89, 0x18
-    .byte 0x62, 0xE3
-    .byte 0x32, 0x4C
-    .byte 0x6D, 0x93
-    .byte 0x32, 0x9C
-    .byte 0x60, 0xE3
-    .byte 0x1F, 0x21
-    .byte 0x30, 0x5C
-    .byte 0x63, 0x21
-    .byte 0x73, 0x08
-    .byte 0x22, 0x31
-    .byte 0x52, 0xF1
-    .byte 0x63, 0x21
-    .byte 0x02, 0xDD
-    .byte 0x33, 0x23
-    .byte 0x8B, 0x0C
-    .byte 0x62, 0xE3
-    .byte 0x32, 0x4C
-    .byte 0x6D, 0xC3
-    .byte 0x32, 0xCC
-    .byte 0x60, 0xE3
-    .byte 0x30, 0x5C
-    .byte 0x03, 0xDD
-    .byte 0x22, 0x31
-    .byte 0xA0, 0x03
-    .byte 0x00, 0x09
-    .byte 0x85, 0xF4
-    .byte 0x70, 0x01
-    .byte 0x81, 0xF4
+    mov r14, r0
+    add r4, r0
+    mov.w @(r0, r13), r3
+    mov r14, r0
+    add r5, r0
+    mov.w @(r0, r13), r2
+    cmp/ge r2, r3
+    bt .L_0602F9C0
+    mov r14, r2
+    add r4, r2
+    mov r9, r13
+    add r9, r2
+    mov r14, r0
+    mov.l r2, @(4, r15)
+    add r5, r0
+    mov.w @r2, r3
+    add #0x8, r3
+    mov.w r3, @r2
+    mov.l @(4, r15), r2
+    mov.w @r2, r3
+    mov.w @(r0, r13), r2
+    cmp/ge r2, r3
+    bf .L_0602F9C6
+    mov r14, r2
+    add r4, r2
+    mov r12, r13
+    add r12, r2
+    mov r14, r0
+    add r5, r0
+    mov.w @(r0, r13), r3
+    mov.w r3, @r2
+    bra .L_0602F9C6
+    nop
+.L_0602F9C0:
+    mov.w @(8, r15), r0
+    add #0x1, r0
+    mov.w r0, @(8, r15)
 .L_0602F9C6:
     add #0x1, r6
     mov.l @(12, r15), r3
@@ -70,7 +71,7 @@ FUN_0602F95A:
     add #0x2, r10
     extu.w r6, r3
     cmp/ge r11, r3
-    .byte 0x8F, 0xAE
+    .byte 0x8F, 0xAE    /* bf/s 0x0602F93C */
     add #0x2, r9
     mov.w @r15, r3
     add #0x1, r3

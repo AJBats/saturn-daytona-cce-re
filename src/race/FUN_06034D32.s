@@ -6,10 +6,10 @@
 FUN_06034D32:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xDE, 0x13
+    .byte 0xDE, 0x13    /* mov.l @(disp,PC), r14 -> .L_pool_06034D84 */
     jsr @r14
     mov #0x0, r4
-    .byte 0xD3, 0x0F
+    .byte 0xD3, 0x0F    /* mov.l @(disp,PC), r3 -> .L_pool_06034D7C */
     mov.b @r3, r0
     cmp/eq #0x1, r0
     bf .L_06034D4C
@@ -18,19 +18,19 @@ FUN_06034D32:
     bra .L_06034D60
     nop
 .L_06034D4C:
-    .byte 0xD1, 0x0A
+    .byte 0xD1, 0x0A    /* mov.l @(disp,PC), r1 -> .L_pool_06034D78 */
     mov #0x2, r0
     mov.b @r1, r2
     cmp/ge r0, r2
     bf .L_06034D60
     jsr @r14
     mov #0x1, r4
-    .byte 0xD2, 0x0B
+    .byte 0xD2, 0x0B    /* mov.l @(disp,PC), r2 -> .L_pool_06034D88 */
     jsr @r2
     nop
 .L_06034D60:
     lds.l @r15+, pr
-    .byte 0xD3, 0x0A
+    .byte 0xD3, 0x0A    /* mov.l @(disp,PC), r3 -> .L_pool_06034D8C */
     jmp @r3
     mov.l @r15+, r14
     .byte 0x00, 0x80

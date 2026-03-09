@@ -8,19 +8,19 @@ FUN_0603BF20:
     add #0x1, r2
     mov.l r2, @(8, r14)
     mov r2, r1
-    .byte 0x93, 0x26
+    .byte 0x93, 0x26    /* mov.w @(0x0603BF78), r3 */
     cmp/eq r3, r1
-    .byte 0x8B, 0x15
+    .byte 0x8B, 0x15    /* bf 0x0603BF5A */
     mov.w r13, @r14
     mov.l r13, @(8, r14)
-    .byte 0x91, 0x22
+    .byte 0x91, 0x22    /* mov.w @(0x0603BF7A), r1 */
     mov.l @(4, r14), r2
     cmp/ge r1, r2
-    .byte 0x8B, 0x0F
-    .byte 0xD2, 0x17
+    .byte 0x8B, 0x0F    /* bf 0x0603BF5A */
+    .byte 0xD2, 0x17    /* mov.l @(0x0603BF98), r2 */
     jsr @r2
     nop
-    .byte 0xD4, 0x16
+    .byte 0xD4, 0x16    /* mov.l @(0x0603BF9C), r4 */
     add #0xC, r15
     lds.l @r15+, pr
     mov #0x14, r6

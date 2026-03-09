@@ -213,12 +213,12 @@ FUN_06034D90:
 .L_pool_06034F20:
     .4byte sym_060527D8  /* 06034F20 = 0x060527D8 */
 .L_06034F24:
-    .byte 0x90, 0x86
+    .byte 0x90, 0x86    /* mov.w @(0x06035034), r0 */
     mov.l @(r0, r4), r1
     mov.w @r6, r3
     mov #0x24, r0
     mov.w r3, @(r0, r1)
-    .byte 0x90, 0x81
+    .byte 0x90, 0x81    /* mov.w @(0x06035034), r0 */
     mov.w @r7, r3
     mov.l @(r0, r4), r2
     mov #0x26, r0

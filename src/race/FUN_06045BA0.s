@@ -4,7 +4,7 @@
     .global FUN_06045BA0
     .type FUN_06045BA0, @function
 FUN_06045BA0:
-    .byte 0x89, 0x2E
+    .byte 0x89, 0x2E    /* bt 0x06045C00 */
     mov r0, r1
     mova .L_pool_06045BAC, r0
     mov.w @(r0, r1), r1

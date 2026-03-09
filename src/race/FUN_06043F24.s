@@ -56,36 +56,36 @@ FUN_06043F24:
     .byte 0x66, 0x08
     .byte 0x06, 0x05
     .byte 0x66, 0x0C
-    .byte 0x06, 0x05
-    .byte 0x66, 0x10
-    .byte 0x06, 0x05
-    .byte 0x66, 0x18
-    .byte 0x06, 0x05
-    .byte 0x66, 0x1C
-    .byte 0x06, 0x05
-    .byte 0x66, 0x24
-    .byte 0x06, 0x05
-    .byte 0x66, 0x20
-    .byte 0x06, 0x05
-    .byte 0x66, 0x30
-    .byte 0x06, 0x05
-    .byte 0x66, 0x28
-    .byte 0x06, 0x05
-    .byte 0x66, 0x2C
-    .byte 0x06, 0x05
-    .byte 0x66, 0x34
-    .byte 0x06, 0x05
-    .byte 0x66, 0x40
-    .byte 0x06, 0x05
-    .byte 0x66, 0x38
-    .byte 0x06, 0x05
-    .byte 0x66, 0x3C
-    .byte 0x06, 0x05
-    .byte 0x66, 0x44
-    .byte 0x06, 0x05
-    .byte 0x66, 0x48
-    .byte 0x06, 0x05
-    .byte 0x66, 0x4C
+    mov.w r0, @(r0, r6)
+    mov.b @r1, r6
+    mov.w r0, @(r0, r6)
+    swap.b r1, r6
+    mov.w r0, @(r0, r6)
+    extu.b r1, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r2+, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r2, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r3, r6
+    mov.w r0, @(r0, r6)
+    swap.b r2, r6
+    mov.w r0, @(r0, r6)
+    extu.b r2, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r3+, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r4, r6
+    mov.w r0, @(r0, r6)
+    swap.b r3, r6
+    mov.w r0, @(r0, r6)
+    extu.b r3, r6
+    mov.w r0, @(r0, r6)
+    mov.b @r4+, r6
+    mov.w r0, @(r0, r6)
+    swap.b r4, r6
+    mov.w r0, @(r0, r6)
+    extu.b r4, r6
     .byte 0x00, 0x00
     .byte 0x00, 0x00
     .byte 0x00, 0x00

@@ -5,12 +5,12 @@
     .type FUN_060299B6, @function
 FUN_060299B6:
     sts.l pr, @-r15
-    .byte 0xD0, 0x05
+    .byte 0xD0, 0x05    /* mov.l @(disp,PC), r0 -> .L_pool_060299D0 */
     mov.b @r0, r0
     cmp/eq #0x2, r0
     bt/s .L_060299D8
     nop
-    .byte 0xD0, 0x04
+    .byte 0xD0, 0x04    /* mov.l @(disp,PC), r0 -> .L_pool_060299D4 */
     jsr @r0
     nop
     mov #0x0, r2
@@ -22,19 +22,19 @@ FUN_060299B6:
 .L_pool_060299D4:
     .4byte DAT_06045368  /* 06045368 = FUN_06045368 */
 .L_060299D8:
-    .byte 0xD0, 0x14
+    .byte 0xD0, 0x14    /* mov.l @(disp,PC), r0 -> .L_pool_06029A2C */
     jsr @r0
     nop
     mov #0x1, r2
 .L_060299E0:
     mov.l r2, @-r15
-    .byte 0xD4, 0x13
-    .byte 0xD0, 0x13
+    .byte 0xD4, 0x13    /* mov.l @(disp,PC), r4 -> .L_pool_06029A30 */
+    .byte 0xD0, 0x13    /* mov.l @(disp,PC), r0 -> .L_pool_06029A34 */
     jsr @r0
     mov.b @r4, r4
     mov.l @r15+, r2
-    .byte 0xD1, 0x12
-    .byte 0xD0, 0x13
+    .byte 0xD1, 0x12    /* mov.l @(disp,PC), r1 -> .L_pool_06029A38 */
+    .byte 0xD0, 0x13    /* mov.l @(disp,PC), r0 -> .L_pool_06029A3C */
     mov.b @r0, r0
     shll2 r0
     tst r2, r2
@@ -42,9 +42,9 @@ FUN_060299B6:
     add #0x20, r0
 .L_060299FA:
     mov.l @(r0, r1), r1
-    .byte 0xD0, 0x10
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06029A40 */
     mov.l r1, @r0
-    .byte 0xD0, 0x10
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06029A44 */
     jsr @r0
     nop
     lds.l @r15+, pr
@@ -80,23 +80,25 @@ FUN_060299B6:
     .4byte sym_06051738  /* 06029A40 = 0x06051738 */
 .L_pool_06029A44:
     .4byte DAT_060477D4  /* 060477D4 = FUN_060477D4 */
-    .byte 0xD1, 0x04
-    .byte 0xD2, 0x03
-    .byte 0xE0, 0x00
-    .byte 0x42, 0x10
-    .byte 0x8F, 0xFD
-    .byte 0x21, 0x04
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    .byte 0xD1, 0x04    /* mov.l @(0x06029A5C), r1 */
+    .byte 0xD2, 0x03    /* mov.l @(0x06029A58), r2 */
+    mov #0x0, r0
+.L_06029A4E:
+    dt r2
+    bf/s .L_06029A4E
+    mov.b r0, @-r1
+    rts
+    nop
     .4byte 0x00003318  /* 06029A58 = 0x00003318 */
     .4byte sym_06054920  /* 06029A5C = 0x06054920 */
-    .byte 0xD1, 0x04
-    .byte 0xD2, 0x03
-    .byte 0xE0, 0x00
-    .byte 0x42, 0x10
-    .byte 0x8F, 0xFD
-    .byte 0x21, 0x04
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    .byte 0xD1, 0x04    /* mov.l @(0x06029A74), r1 */
+    .byte 0xD2, 0x03    /* mov.l @(0x06029A70), r2 */
+    mov #0x0, r0
+.L_06029A66:
+    dt r2
+    bf/s .L_06029A66
+    mov.b r0, @-r1
+    rts
+    nop
     .4byte 0x00005450  /* 06029A70 = 0x00005450 */
     .4byte sym_06056A58  /* 06029A74 = 0x06056A58 */

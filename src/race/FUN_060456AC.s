@@ -5,11 +5,11 @@
     .type FUN_060456AC, @function
 FUN_060456AC:
     mov.l r14, @-r15
-    .byte 0xDE, 0x0D
+    .byte 0xDE, 0x0D    /* mov.l @(0x060456E4), r14 */
     .reloc ., R_SH_IND12W, FUN_060456C2 - 4
     .2byte 0xB000    /* bsr FUN_0601D6C2 (linker-resolved) */
     ldc r14, gbr
-    .byte 0xDE, 0x0C
+    .byte 0xDE, 0x0C    /* mov.l @(0x060456E8), r14 */
     .reloc ., R_SH_IND12W, FUN_060456C2 - 4
     .2byte 0xB000    /* bsr FUN_0601D6C2 (linker-resolved) */
     ldc r14, gbr

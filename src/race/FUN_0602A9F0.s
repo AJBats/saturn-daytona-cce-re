@@ -82,21 +82,22 @@ FUN_0602A9F0:
     .4byte DAT_06047670  /* 06047670 = FUN_06047588 + 0xE8 */
 .L_pool_0602AA80:
     .4byte DAT_06044DF0  /* 06044DF0 = FUN_06044DB8 + 0x38 */
-    .byte 0x2F, 0x06
-    .byte 0x2F, 0x26
-    .byte 0xE0, 0x00
-    .byte 0xE2, 0x20
-    .byte 0x21, 0x02
-    .byte 0x71, 0x04
-    .byte 0x21, 0x02
-    .byte 0x71, 0x04
-    .byte 0x21, 0x02
-    .byte 0x71, 0x04
-    .byte 0x21, 0x02
-    .byte 0x42, 0x10
-    .byte 0x8F, 0xF6
-    .byte 0x71, 0x04
-    .byte 0x62, 0xF6
-    .byte 0x60, 0xF6
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l r0, @-r15
+    mov.l r2, @-r15
+    mov #0x0, r0
+    mov #0x20, r2
+.L_0602AA8C:
+    mov.l r0, @r1
+    add #0x4, r1
+    mov.l r0, @r1
+    add #0x4, r1
+    mov.l r0, @r1
+    add #0x4, r1
+    mov.l r0, @r1
+    dt r2
+    bf/s .L_0602AA8C
+    add #0x4, r1
+    mov.l @r15+, r2
+    mov.l @r15+, r0
+    rts
+    nop

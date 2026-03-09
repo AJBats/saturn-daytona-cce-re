@@ -111,7 +111,7 @@ FUN_06040EA0:
     add r14, r5
     mova .L_pool_06040FD4, r0
     mov.l r0, @(8, r14)
-    .byte 0xC7, 0x1C
+    .byte 0xC7, 0x1C    /* mova @(0x06040FE4), r0 */
     mov.l r0, @(12, r14)
     mov #0x4, r0
     mov.l r0, @(4, r14)
@@ -164,11 +164,12 @@ FUN_06040EA0:
 .L_pool_06040FD0:
     .4byte DAT_06040DCC  /* 06040DCC = FUN_06040DCC */
 .L_pool_06040FD4:
-    .byte 0x50, 0xE1
-    .byte 0x40, 0x10
-    .byte 0x8F, 0x01
-    .byte 0x1E, 0x01
-    .byte 0x80, 0xE0
+    mov.l @(4, r14), r0
+    dt r0
+    bf/s .L_06040FDE
+    mov.l r0, @(4, r14)
+    mov.b r0, @(0, r14)
+.L_06040FDE:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x09

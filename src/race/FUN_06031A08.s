@@ -42,30 +42,30 @@ FUN_06031A08:
 .L_pool_06031A5C:
     .4byte sym_060520CC  /* 06031A5C = 0x060520CC */
 .L_06031A60:
-    .byte 0xD3, 0x75
+    .byte 0xD3, 0x75    /* mov.l @(0x06031C38), r3 */
     jsr @r3
     nop
-    .byte 0xD2, 0x75
+    .byte 0xD2, 0x75    /* mov.l @(0x06031C3C), r2 */
     jsr @r2
     nop
-    .byte 0xD3, 0x74
+    .byte 0xD3, 0x74    /* mov.l @(0x06031C40), r3 */
     jsr @r3
     nop
     mov #0x6, r1
     mov.w r13, @r11
     mov.b @r12, r2
-    .byte 0xD0, 0x72
+    .byte 0xD0, 0x72    /* mov.l @(0x06031C44), r0 */
     extu.b r2, r2
     mov.b r13, @(r0, r2)
     mov #0x5C, r0
-    .byte 0xD2, 0x71
+    .byte 0xD2, 0x71    /* mov.l @(0x06031C48), r2 */
     mov.l @r2, r3
     mov.l r1, @(r0, r3)
     mov.b @r12, r3
-    .byte 0xD1, 0x70
+    .byte 0xD1, 0x70    /* mov.l @(0x06031C4C), r1 */
     mov.b r3, @r1
     mov.b @r12, r4
-    .byte 0xD3, 0x70
+    .byte 0xD3, 0x70    /* mov.l @(0x06031C50), r3 */
     jsr @r3
     extu.b r4, r4
     mov.b @r14, r2
@@ -73,16 +73,16 @@ FUN_06031A08:
     mov.b r2, @r14
 .L_06031A9A:
     mov.b @r12, r4
-    .byte 0xD3, 0x6D
+    .byte 0xD3, 0x6D    /* mov.l @(0x06031C54), r3 */
     jsr @r3
     extu.b r4, r4
     mov #0x2E, r0
-    .byte 0xD3, 0x6C
+    .byte 0xD3, 0x6C    /* mov.l @(0x06031C58), r3 */
     mov.l @r3, r2
     mov.b @(r0, r2), r1
     tst r1, r1
     bf .L_06031AF8
-    .byte 0xD1, 0x6B
+    .byte 0xD1, 0x6B    /* mov.l @(0x06031C5C), r1 */
     jsr @r1
     mov #0x2, r4
     mov.b @r14, r3
@@ -91,16 +91,16 @@ FUN_06031A08:
     mov.b r3, @r14
 .L_06031ABC:
     mov.b @r12, r4
-    .byte 0xD3, 0x65
+    .byte 0xD3, 0x65    /* mov.l @(0x06031C54), r3 */
     jsr @r3
     extu.b r4, r4
-    .byte 0xD3, 0x64
+    .byte 0xD3, 0x64    /* mov.l @(0x06031C58), r3 */
     mov #0x2E, r0
     mov.l @r3, r2
     mov.b @(r0, r2), r1
     tst r1, r1
     bf .L_06031AF8
-    .byte 0xD2, 0x63
+    .byte 0xD2, 0x63    /* mov.l @(0x06031C60), r2 */
     jsr @r2
     nop
     mov.b @r14, r3
@@ -108,7 +108,7 @@ FUN_06031A08:
     bra .L_06031AF8
     mov.b r3, @r14
 .L_06031ADE:
-    .byte 0xD1, 0x61
+    .byte 0xD1, 0x61    /* mov.l @(0x06031C64), r1 */
     jsr @r1
     nop
     mov.w @r11, r2
@@ -122,7 +122,7 @@ FUN_06031A08:
     mov.w r13, @r11
     mov.b r13, @r14
 .L_06031AF8:
-    .byte 0xD3, 0x5B
+    .byte 0xD3, 0x5B    /* mov.l @(0x06031C68), r3 */
     mov r10, r0
     mov.b r13, @r3
     lds.l @r15+, pr

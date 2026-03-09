@@ -67,32 +67,32 @@ FUN_060474D4:
     nop
     .global FUN_06047548
 FUN_06047548:
-    .byte 0xC9, 0x0E
-    .byte 0x61, 0x03
-    .byte 0xC7, 0x0B
-    .byte 0x00, 0x1D
-    .byte 0x00, 0x23
-    .byte 0x51, 0xA0
-    .byte 0x52, 0xB0
-    .byte 0x53, 0xC0
-    .byte 0x00, 0x0B
-    .byte 0x54, 0xD0
-    .byte 0x62, 0x13
-    .byte 0x53, 0xB0
-    .byte 0x00, 0x0B
-    .byte 0x54, 0xC0
-    .byte 0x52, 0xB0
-    .byte 0x63, 0x23
-    .byte 0x00, 0x0B
-    .byte 0x54, 0xC0
-    .byte 0x52, 0xB0
-    .byte 0x53, 0xC0
-    .byte 0x00, 0x0B
-    .byte 0x64, 0x33
-    .byte 0x52, 0xB0
-    .byte 0x53, 0xC0
-    .byte 0x00, 0x0B
-    .byte 0x64, 0x13
+    and #0xE, r0
+    mov r0, r1
+    .byte 0xC7, 0x0B    /* mova @(0x0604757C), r0 */
+    mov.w @(r0, r1), r0
+    braf r0
+    mov.l @(0, r10), r1
+    mov.l @(0, r11), r2
+    mov.l @(0, r12), r3
+    rts
+    mov.l @(0, r13), r4
+    mov r1, r2
+    mov.l @(0, r11), r3
+    rts
+    mov.l @(0, r12), r4
+    mov.l @(0, r11), r2
+    mov r2, r3
+    rts
+    mov.l @(0, r12), r4
+    mov.l @(0, r11), r2
+    mov.l @(0, r12), r3
+    rts
+    mov r3, r4
+    mov.l @(0, r11), r2
+    mov.l @(0, r12), r3
+    rts
+    mov r1, r4
     .byte 0x00, 0x00
     .byte 0x00, 0x08
     .byte 0x00, 0x10

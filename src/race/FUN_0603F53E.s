@@ -27,7 +27,7 @@ FUN_0603F53E:
     bt .L_0603F568
     neg r1, r1
 .L_0603F568:
-    .byte 0xD0, 0x6D
+    .byte 0xD0, 0x6D    /* mov.l @(0x0603F720), r0 */
     cmp/ge r0, r1
     mov.l @(184, gbr), r0
     bt .L_0603F572
@@ -40,7 +40,7 @@ FUN_0603F53E:
     add r7, r0
     mov.l r0, @(76, gbr)
     mov.w @(146, gbr), r0
-    .byte 0xD1, 0x68
+    .byte 0xD1, 0x68    /* mov.l @(0x0603F724), r1 */
     jsr @r1
     mov r0, r5
     lds.l @r15+, pr

@@ -154,12 +154,12 @@ FUN_06035B30:
 .L_06035C42:
     cmp/pz r4
     bf .L_06035C4C
-    .byte 0x95, 0x1F
+    .byte 0x95, 0x1F    /* mov.w @(0x06035C88), r5 */
     sub r5, r4
     mov.l r4, @(r0, r2)
 .L_06035C4C:
     mov.l r3, @(r0, r1)
-    .byte 0x92, 0x1C
+    .byte 0x92, 0x1C    /* mov.w @(0x06035C8A), r2 */
     lds.l @r15+, pr
     rts
     mov.l r7, @(r0, r2)

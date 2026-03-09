@@ -293,13 +293,13 @@ FUN_0602D530:
     cmp/ge r0, r3
     bf .L_0602D724
 .L_0602D748:
-    .byte 0xD2, 0x89
+    .byte 0xD2, 0x89    /* mov.l @(0x0602D970), r2 */
     jsr @r2
     nop
     mov r14, r6
-    .byte 0xD5, 0x88
+    .byte 0xD5, 0x88    /* mov.l @(0x0602D974), r5 */
     mov #0x2, r7
-    .byte 0xD4, 0x88
+    .byte 0xD4, 0x88    /* mov.l @(0x0602D978), r4 */
 .L_0602D756:
     add #0x2, r6
     mov.b r14, @r4
@@ -314,13 +314,13 @@ FUN_0602D530:
     bf/s .L_0602D756
     add #0x3, r4
     mov #0x1, r2
-    .byte 0xD1, 0x83
-    .byte 0xD3, 0x82
-    .byte 0xD0, 0x83
+    .byte 0xD1, 0x83    /* mov.l @(0x0602D980), r1 */
+    .byte 0xD3, 0x82    /* mov.l @(0x0602D97C), r3 */
+    .byte 0xD0, 0x83    /* mov.l @(0x0602D984), r0 */
     mov.b r14, @r3
     mov.b r2, @r1
     mov.b r14, @r0
-    .byte 0xD3, 0x82
+    .byte 0xD3, 0x82    /* mov.l @(0x0602D988), r3 */
     mov.b r14, @r3
     lds.l @r15+, pr
     mov.l @r15+, r11

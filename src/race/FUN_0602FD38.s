@@ -8,5 +8,5 @@ FUN_0602FD38:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov r4, r13
-    .byte 0x95, 0x55
+    .byte 0x95, 0x55    /* mov.w @(0x0602FDEE), r5 */
     mov r13, r3

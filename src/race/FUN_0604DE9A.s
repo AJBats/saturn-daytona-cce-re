@@ -20,10 +20,10 @@ FUN_0604DEB0:
     mov.l @r15+, r1
     mov.l @(56, r0), r12
     sub r12, r11
-    .byte 0xDA, 0x05
+    .byte 0xDA, 0x05    /* mov.l @(disp,PC), r10 -> .L_pool_0604DECC */
     tst r10, r11
     bt .L_0604DED4
-    .byte 0xDA, 0x04
+    .byte 0xDA, 0x04    /* mov.l @(disp,PC), r10 -> .L_pool_0604DED0 */
     bra .L_0604DED8
     or r10, r11
     .byte 0x00, 0x00
@@ -34,14 +34,14 @@ FUN_0604DEB0:
 .L_pool_0604DED0:
     .4byte 0xFFFF0000  /* 06025ED0 = 0xFFFF0000 */
 .L_0604DED4:
-    .byte 0xDA, 0x15
+    .byte 0xDA, 0x15    /* mov.l @(0x0604DF2C), r10 */
     and r10, r11
 .L_0604DED8:
     cmp/pz r11
     bt .L_0604DEDE
     neg r11, r11
 .L_0604DEDE:
-    .byte 0xDA, 0x14
+    .byte 0xDA, 0x14    /* mov.l @(0x0604DF30), r10 */
     cmp/ge r10, r11
     bt .L_0604DEE6
     mov #0x1E, r3
@@ -49,12 +49,12 @@ FUN_0604DEB0:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x4F, 0x13
-    .byte 0x60, 0x43
-    .byte 0x40, 0x1E
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    stc.l gbr, @-r15
+    mov r4, r0
+    ldc r0, gbr
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15

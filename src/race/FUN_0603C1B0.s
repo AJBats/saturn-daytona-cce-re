@@ -24,7 +24,7 @@ FUN_0603C1B0:
 .L_0603C1D4:
     mov.w @r5, r11
     extu.w r11, r11
-    .byte 0xD2, 0x47
+    .byte 0xD2, 0x47    /* mov.l @(0x0603C2F8), r2 */
     mov r11, r1
     jsr @r2
     mov r14, r0
@@ -42,7 +42,7 @@ FUN_0603C1B0:
     extu.w r0, r0
     mov.w @r3, r1
     extu.w r1, r1
-    .byte 0xD3, 0x3F
+    .byte 0xD3, 0x3F    /* mov.l @(0x0603C2FC), r3 */
     and r13, r1
     add r0, r1
     shll2 r1
@@ -87,7 +87,7 @@ FUN_0603C1B0:
     cmp/ge r0, r3
     bf .L_0603C264
     lds.l @r15+, macl
-    .byte 0xD2, 0x2A
+    .byte 0xD2, 0x2A    /* mov.l @(0x0603C300), r2 */
     lds.l @r15+, pr
     mov.l @r15+, r10
     mov.l @r15+, r11

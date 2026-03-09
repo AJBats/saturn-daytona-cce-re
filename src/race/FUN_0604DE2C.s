@@ -50,9 +50,9 @@ FUN_0604DE2C:
     mov.l @r15+, r4
     mov.l @r15+, r1
     mov.l @r15+, r0
-    .byte 0xDC, 0x11
+    .byte 0xDC, 0x11    /* mov.l @(0x0604DEC4), r12 */
     cmp/ge r12, r2
-    .byte 0x89, 0x30
+    .byte 0x89, 0x30    /* bt 0x0604DEE6 */
     mov.l r1, @-r15
     mov.l r3, @-r15
     mov.l r5, @-r15
@@ -63,4 +63,4 @@ FUN_0604DE2C:
     sub r7, r5
     mov r10, r4
     sub r8, r4
-    .byte 0xD0, 0x0B
+    .byte 0xD0, 0x0B    /* mov.l @(0x0604DEC8), r0 */

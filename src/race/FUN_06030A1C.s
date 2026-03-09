@@ -6,7 +6,7 @@
     .global FUN_06030A1C
     .type FUN_06030A1C, @function
 FUN_06030A1C:
-    .byte 0xD5, 0x2B
+    mov.l .L_pool_06030ACC, r5
     mov #0x2D, r0
     mov.l @r5, r3
     mov #0x0, r2
@@ -35,7 +35,7 @@ FUN_06030A1C:
 FUN_06030A48:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xDE, 0x1F
+    mov.l .L_pool_06030ACC, r14
     add #-0x4, r15
     mov.l @r14, r5
     mov.l @r4, r3
@@ -49,7 +49,7 @@ FUN_06030A48:
 FUN_06030A5C:
     mov.l @(8, r4), r4
     sub r3, r4
-    .byte 0xD3, 0x1B
+    .byte 0xD3, 0x1B    /* mov.l @(0x06030AD0), r3 */
     jsr @r3
     mov r2, r5
     mov r0, r5
@@ -75,14 +75,14 @@ FUN_06030A80:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov #0x2, r11
-    .byte 0xDC, 0x11
+    .byte 0xDC, 0x11    /* mov.l @(0x06030AD4), r12 */
 
     .global FUN_06030A8E
     .type FUN_06030A8E, @function
 FUN_06030A8E:
     sts.l pr, @-r15
     sts.l macl, @-r15
-    .byte 0xDD, 0x0E
+    mov.l .L_pool_06030ACC, r13
 .L_06030A94:
     mov #0x74, r3
     mulu.w r3, r14

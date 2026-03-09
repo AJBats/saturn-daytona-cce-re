@@ -41,6 +41,6 @@ FUN_0603F6F8:
     .4byte 0x00004000  /* 06017754 = 0x00004000 */
 .L_pool_0603F758:
     .4byte DAT_06047E0C  /* 06047E0C = FUN_06047E0C */
-    .byte 0x7F, 0xF4
-    .byte 0x65, 0xF3
-    .byte 0x15, 0x10
+    add #-0xC, r15
+    mov r15, r5
+    mov.l r1, @(0, r5)

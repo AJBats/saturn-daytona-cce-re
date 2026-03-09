@@ -52,42 +52,42 @@ FUN_06045F46:
     mov.w @(r0, r2), r0
     braf r0
     mov.w @(8, r10), r0
-    .byte 0x21, 0x01
-    .byte 0x85, 0xB4
-    .byte 0x81, 0x11
-    .byte 0x85, 0xC4
-    .byte 0x81, 0x12
-    .byte 0x85, 0xD4
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x13
-    .byte 0x21, 0x01
-    .byte 0x81, 0x11
-    .byte 0x85, 0xB4
-    .byte 0x81, 0x12
-    .byte 0x85, 0xC4
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x13
-    .byte 0x21, 0x01
-    .byte 0x85, 0xB4
-    .byte 0x81, 0x11
-    .byte 0x81, 0x12
-    .byte 0x85, 0xC4
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x13
-    .byte 0x21, 0x01
-    .byte 0x85, 0xB4
-    .byte 0x81, 0x11
-    .byte 0x85, 0xC4
-    .byte 0x81, 0x12
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x13
-    .byte 0x21, 0x01
-    .byte 0x81, 0x13
-    .byte 0x85, 0xB4
-    .byte 0x81, 0x11
-    .byte 0x85, 0xC4
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x12
+    mov.w r0, @r1
+    mov.w @(8, r11), r0
+    mov.w r0, @(2, r1)
+    mov.w @(8, r12), r0
+    mov.w r0, @(4, r1)
+    mov.w @(8, r13), r0
+    rts
+    mov.w r0, @(6, r1)
+    mov.w r0, @r1
+    mov.w r0, @(2, r1)
+    mov.w @(8, r11), r0
+    mov.w r0, @(4, r1)
+    mov.w @(8, r12), r0
+    rts
+    mov.w r0, @(6, r1)
+    mov.w r0, @r1
+    mov.w @(8, r11), r0
+    mov.w r0, @(2, r1)
+    mov.w r0, @(4, r1)
+    mov.w @(8, r12), r0
+    rts
+    mov.w r0, @(6, r1)
+    mov.w r0, @r1
+    mov.w @(8, r11), r0
+    mov.w r0, @(2, r1)
+    mov.w @(8, r12), r0
+    mov.w r0, @(4, r1)
+    rts
+    mov.w r0, @(6, r1)
+    mov.w r0, @r1
+    mov.w r0, @(6, r1)
+    mov.w @(8, r11), r0
+    mov.w r0, @(2, r1)
+    mov.w @(8, r12), r0
+    rts
+    mov.w r0, @(4, r1)
     .byte 0x00, 0x00
 .L_pool_06045FB0:
     .4byte sym_0601B000  /* 0601DFB0 = 0x0601B000 (init cross-ref, fixed) */

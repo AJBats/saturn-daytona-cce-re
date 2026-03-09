@@ -7,7 +7,7 @@ FUN_0602F072:
     mov.l r14, @-r15
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte 0xD3, 0x1E
+    .byte 0xD3, 0x1E    /* mov.l @(disp,PC), r3 -> .L_pool_0602F0F4 */
     mov.l r4, @r15
     mov.b @r3, r1
     tst r1, r1
@@ -23,9 +23,9 @@ FUN_0602F072:
     mov #0x5, r6
     mov.w @(2, r14), r0
     mov r6, r5
-    .byte 0xD3, 0x1C
+    .byte 0xD3, 0x1C    /* mov.l @(disp,PC), r3 -> .L_pool_0602F10C */
     mov r0, r4
-    .byte 0xD2, 0x0A
+    .byte 0xD2, 0x0A    /* mov.l @(disp,PC), r2 -> .L_pool_0602F0C8 */
     shll2 r4
     shll2 r4
     shll2 r4
@@ -33,7 +33,7 @@ FUN_0602F072:
     jsr @r2
     add r3, r4
     mov.l @r15, r4
-    .byte 0xD3, 0x14
+    .byte 0xD3, 0x14    /* mov.l @(disp,PC), r3 -> .L_pool_0602F100 */
     add #0x4, r15
     lds.l @r15+, pr
     jmp @r3

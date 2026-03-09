@@ -386,7 +386,7 @@ FUN_06035EE8:
 .L_pool_06035F34:
     .4byte 0x00000134  /* 06035F34 = 0x00000134 */
 .L_06035F38:
-    .byte 0xD4, 0x1F
+    .byte 0xD4, 0x1F    /* mov.l @(0x06035FB8), r4 */
     or r4, r6
 .L_06035F3C:
     add r6, r3

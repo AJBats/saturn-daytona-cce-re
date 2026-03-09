@@ -6,5 +6,5 @@
 FUN_06046602:
     mov.l @(16, r1), r8
     tst r8, r8
-    .byte 0x89, 0x11
+    .byte 0x89, 0x11    /* bt 0x0604662C */
     add r1, r8

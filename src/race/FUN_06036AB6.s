@@ -14,8 +14,8 @@ FUN_06036AB6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x1C
-    .byte 0xD2, 0x1D
+    .byte 0xD1, 0x1C    /* mov.l @(disp,PC), r1 -> .L_pool_06036B3C */
+    .byte 0xD2, 0x1D    /* mov.l @(disp,PC), r2 -> .L_pool_06036B40 */
     tst r1, r0
     bt .L_06036AD2
     or r2, r0
@@ -27,8 +27,8 @@ FUN_06036AB6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x16
-    .byte 0xD2, 0x17
+    .byte 0xD1, 0x16    /* mov.l @(disp,PC), r1 -> .L_pool_06036B3C */
+    .byte 0xD2, 0x17    /* mov.l @(disp,PC), r2 -> .L_pool_06036B40 */
     tst r1, r0
     bt .L_06036AEA
     or r2, r0
@@ -40,8 +40,8 @@ FUN_06036AB6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x10
-    .byte 0xD2, 0x11
+    .byte 0xD1, 0x10    /* mov.l @(disp,PC), r1 -> .L_pool_06036B3C */
+    .byte 0xD2, 0x11    /* mov.l @(disp,PC), r2 -> .L_pool_06036B40 */
     tst r1, r0
     bt .L_06036B02
     or r2, r0
@@ -57,8 +57,8 @@ FUN_06036AB6:
     shlr2 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x0A
-    .byte 0xD2, 0x0B
+    .byte 0xD1, 0x0A    /* mov.l @(disp,PC), r1 -> .L_pool_06036B44 */
+    .byte 0xD2, 0x0B    /* mov.l @(disp,PC), r2 -> .L_pool_06036B48 */
     tst r1, r0
     bt .L_06036B22
     or r2, r0

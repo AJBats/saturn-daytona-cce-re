@@ -9,5 +9,5 @@ FUN_0603C796:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov r4, r11
-    .byte 0xD3, 0x12
+    .byte 0xD3, 0x12    /* mov.l @(0x0603C7EC), r3 */
     add #0x10, r11

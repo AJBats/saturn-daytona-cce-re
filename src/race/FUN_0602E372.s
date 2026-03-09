@@ -6,7 +6,7 @@
 FUN_0602E372:
     mov.l r14, @-r15
     sts.l macl, @-r15
-    .byte 0xD2, 0x1A
+    .byte 0xD2, 0x1A    /* mov.l @(disp,PC), r2 -> .L_pool_0602E3E0 */
     mov.b @r2, r3
     tst r3, r3
     bf .L_0602E382
@@ -14,7 +14,7 @@ FUN_0602E372:
     mov #0xC, r14
 .L_0602E382:
     extu.b r4, r14
-    .byte 0xD1, 0x17
+    .byte 0xD1, 0x17    /* mov.l @(disp,PC), r1 -> .L_pool_0602E3E4 */
     mov #0x5C, r2
     mov.l @r1, r0
     mov #0xE, r3
@@ -25,15 +25,15 @@ FUN_0602E372:
     bf/s .L_0602E39E
     add #0x5, r14
     mov.w .L_wpool_0602E3B8, r0
-    .byte 0xD3, 0x13
+    .byte 0xD3, 0x13    /* mov.l @(disp,PC), r3 -> .L_pool_0602E3E8 */
     mov.w r0, @r3
 .L_0602E39E:
     mov #0x8, r6
-    .byte 0xD3, 0x12
+    .byte 0xD3, 0x12    /* mov.l @(disp,PC), r3 -> .L_pool_0602E3EC */
     mov #0xE, r5
     lds.l @r15+, macl
     exts.w r14, r4
-    .byte 0xD2, 0x11
+    .byte 0xD2, 0x11    /* mov.l @(disp,PC), r2 -> .L_pool_0602E3F0 */
     shll2 r4
     shll2 r4
     shll2 r4

@@ -8,12 +8,13 @@ FUN_0602F30A:
     add r2, r5
     jmp @r1
     lds.l @r15+, pr
-    .byte 0x64, 0x4C
-    .byte 0x24, 0x48
-    .byte 0x8D, 0x03
-    .byte 0xE7, 0x05
-    .byte 0xD4, 0x2C
+    extu.b r4, r4
+    tst r4, r4
+    bt/s .L_0602F320
+    mov #0x5, r7
+    .byte 0xD4, 0x2C    /* mov.l @(0x0602F3CC), r4 */
     .reloc ., R_SH_IND12W, FUN_0602F322 - 4
     .2byte 0xA000    /* bra FUN_0602F322 (linker-resolved) */
-    .byte 0x00, 0x09
-    .byte 0xD4, 0x29
+    nop
+.L_0602F320:
+    .byte 0xD4, 0x29    /* mov.l @(0x0602F3C8), r4 */

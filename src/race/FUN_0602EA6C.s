@@ -37,9 +37,9 @@ FUN_0602EA6C:
     mov #0x0, r7
 .L_0602EAC2:
     mov r7, r6
-    .byte 0xDC, 0x3D
+    .byte 0xDC, 0x3D    /* mov.l @(0x0602EBBC), r12 */
     mov #0x30, r0
-    .byte 0xD5, 0x3D
+    .byte 0xD5, 0x3D    /* mov.l @(0x0602EBC0), r5 */
     mov.l @r12, r13
     mov.b @(r0, r13), r0
     extu.b r0, r0
@@ -50,7 +50,7 @@ FUN_0602EA6C:
     .2byte 0xA000    /* bra FUN_0602EC80 (linker-resolved) */
     nop
 .L_0602EADA:
-    .byte 0xDB, 0x3A
+    .byte 0xDB, 0x3A    /* mov.l @(0x0602EBC4), r11 */
     mov.l @r11, r2
     mov.w @(12, r2), r0
     shll8 r0

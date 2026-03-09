@@ -22,7 +22,7 @@ FUN_06040DCC:
 .L_06040DE6:
     mov.b @(0, r14), r0
     tst r0, r0
-    .byte 0x89, 0x06
+    bt .L_06040DFA
 
     .global FUN_06040DEC
     .type FUN_06040DEC, @function
@@ -34,8 +34,9 @@ FUN_06040DEC:
     nop
     mov.l @r15+, r13
     mov.l @r15+, r14
+.L_06040DFA:
     dt r13
-    .byte 0x8F, 0xF3
+    bf/s .L_06040DE6
     add #0x44, r14
     lds.l @r15+, pr
     mov.l @r15+, r8

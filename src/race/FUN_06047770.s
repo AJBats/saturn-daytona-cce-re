@@ -41,17 +41,18 @@ FUN_06047770:
     .byte 0x00, 0x00
 .L_pool_060477B0:
     .4byte sym_0601B000  /* 0601F7B0 = 0x0601B000 (init cross-ref, fixed) */
-    .byte 0xD1, 0x05
-    .byte 0xE0, 0x00
-    .byte 0xD2, 0x05
-    .byte 0x21, 0x06
-    .byte 0x21, 0x06
-    .byte 0x21, 0x06
-    .byte 0x42, 0x10
-    .byte 0x8F, 0xFA
-    .byte 0x21, 0x06
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    .byte 0xD1, 0x05    /* mov.l @(0x060477CC), r1 */
+    mov #0x0, r0
+    .byte 0xD2, 0x05    /* mov.l @(0x060477D0), r2 */
+.L_060477BA:
+    mov.l r0, @-r1
+    mov.l r0, @-r1
+    mov.l r0, @-r1
+    dt r2
+    bf/s .L_060477BA
+    mov.l r0, @-r1
+    rts
+    nop
     .byte 0x00, 0x00
     .4byte sym_06065000  /* 0601F7CC = 0x06065000 */
     .4byte 0x00000500  /* 0601F7D0 = 0x00000500 */

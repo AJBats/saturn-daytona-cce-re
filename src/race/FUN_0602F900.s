@@ -4,8 +4,8 @@
     .global FUN_0602F900
     .type FUN_0602F900, @function
 FUN_0602F900:
-    .byte 0xD4, 0x6F
-    .byte 0xD3, 0x70
+    .byte 0xD4, 0x6F    /* mov.l @(0x0602FAC0), r4 */
+    .byte 0xD3, 0x70    /* mov.l @(0x0602FAC4), r3 */
     mov.b @r3, r0
     cmp/eq #0x0, r0
     bf/s .L_0602F910
@@ -17,7 +17,7 @@ FUN_0602F900:
     cmp/eq #0x1, r0
     bt .L_0602F91C
     cmp/eq #0x2, r0
-    .byte 0x89, 0x70
+    .byte 0x89, 0x70    /* bt 0x0602F9FA */
     .reloc ., R_SH_IND12W, FUN_0602FA76 - 4
     .2byte 0xA000    /* bra FUN_0602FA76 (linker-resolved) */
     nop

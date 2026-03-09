@@ -150,17 +150,17 @@ FUN_0603B284:
     mov.l r0, @-r15
     mov.l r4, @-r15
     mov r4, r0
-    .byte 0xD4, 0x5A
+    .byte 0xD4, 0x5A    /* mov.l @(0x0603B500), r4 */
     mov.l r0, @(16, r4)
     mov.l @r15+, r4
     mov.l @r15+, r0
     mov.l r0, @-r15
     mov r4, r0
-    .byte 0xD4, 0x57
+    .byte 0xD4, 0x57    /* mov.l @(0x0603B500), r4 */
     mov.l r0, @(4, r4)
     mov.l @r15+, r0
     mov r3, r4
-    .byte 0xD0, 0x56
+    .byte 0xD0, 0x56    /* mov.l @(0x0603B504), r0 */
     jsr @r0
     nop
     mov.l @(36, r14), r1
@@ -173,24 +173,24 @@ FUN_0603B284:
     add r1, r2
     mov.l r0, @-r15
     mov r2, r0
-    .byte 0xD4, 0x51
+    .byte 0xD4, 0x51    /* mov.l @(0x0603B508), r4 */
     dmuls.l r0, r4
     sts mach, r4
     sts macl, r0
     xtrct r4, r0
-    .byte 0xD4, 0x4C
+    .byte 0xD4, 0x4C    /* mov.l @(0x0603B500), r4 */
     mov.l r0, @(20, r4)
     mov.l @r15+, r0
     mov.l @(36, r14), r4
     sub r1, r4
     mov.l r0, @-r15
     mov r4, r0
-    .byte 0xD4, 0x4B
+    .byte 0xD4, 0x4B    /* mov.l @(0x0603B508), r4 */
     dmuls.l r0, r4
     sts mach, r4
     sts macl, r0
     xtrct r4, r0
-    .byte 0xD4, 0x49
+    .byte 0xD4, 0x49    /* mov.l @(0x0603B50C), r4 */
     mov.l r0, @(20, r4)
     mov.l @r15+, r0
     mov.l @r15+, r4
@@ -198,18 +198,18 @@ FUN_0603B284:
     shlr r4
     mov r4, r3
     mov.l r4, @-r15
-    .byte 0xD5, 0x47
+    .byte 0xD5, 0x47    /* mov.l @(0x0603B510), r5 */
     add r5, r10
     neg r10, r4
     mov r3, r9
     mov.l @(0, r13), r5
     mov.l @(8, r13), r6
-    .byte 0xD0, 0x41
+    .byte 0xD0, 0x41    /* mov.l @(0x0603B504), r0 */
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    .byte 0xD0, 0x42
+    .byte 0xD0, 0x42    /* mov.l @(0x0603B514), r0 */
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -218,7 +218,7 @@ FUN_0603B284:
     xtrct r11, r3
     mov.l r0, @-r15
     mov r3, r0
-    .byte 0xD3, 0x39
+    .byte 0xD3, 0x39    /* mov.l @(0x0603B500), r3 */
     mov.l r0, @(8, r3)
     mov.l @r15+, r0
     dmuls.l r8, r9
@@ -227,22 +227,22 @@ FUN_0603B284:
     xtrct r8, r9
     mov.l r0, @-r15
     mov r9, r0
-    .byte 0xD9, 0x34
+    .byte 0xD9, 0x34    /* mov.l @(0x0603B500), r9 */
     mov.l r0, @(12, r9)
     mov.l @r15+, r0
     mov.l @r15+, r3
-    .byte 0xD5, 0x36
+    .byte 0xD5, 0x36    /* mov.l @(0x0603B510), r5 */
     add r5, r10
     neg r10, r4
     mov r3, r9
     mov.l @(0, r14), r5
     mov.l @(8, r14), r6
-    .byte 0xD0, 0x30
+    .byte 0xD0, 0x30    /* mov.l @(0x0603B504), r0 */
     jsr @r0
     nop
     mov r0, r8
     neg r10, r4
-    .byte 0xD0, 0x32
+    .byte 0xD0, 0x32    /* mov.l @(0x0603B514), r0 */
     jsr @r0
     nop
     dmuls.l r0, r3
@@ -251,7 +251,7 @@ FUN_0603B284:
     xtrct r11, r3
     mov.l r0, @-r15
     mov r3, r0
-    .byte 0xD3, 0x2B
+    .byte 0xD3, 0x2B    /* mov.l @(0x0603B50C), r3 */
     mov.l r0, @(8, r3)
     mov.l @r15+, r0
     dmuls.l r8, r9
@@ -260,15 +260,15 @@ FUN_0603B284:
     xtrct r8, r9
     mov.l r0, @-r15
     mov r9, r0
-    .byte 0xD9, 0x27
+    .byte 0xD9, 0x27    /* mov.l @(0x0603B50C), r9 */
     mov.l r0, @(12, r9)
     mov.l @r15+, r0
-    .byte 0xD4, 0x22
-    .byte 0xD9, 0x28
+    .byte 0xD4, 0x22    /* mov.l @(0x0603B500), r4 */
+    .byte 0xD9, 0x28    /* mov.l @(0x0603B518), r9 */
     jsr @r9
     nop
-    .byte 0xD4, 0x23
-    .byte 0xD9, 0x26
+    .byte 0xD4, 0x23    /* mov.l @(0x0603B50C), r4 */
+    .byte 0xD9, 0x26    /* mov.l @(0x0603B518), r9 */
     jsr @r9
     nop
     .global FUN_0603B484

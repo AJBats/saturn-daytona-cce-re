@@ -26,4 +26,4 @@ FUN_0603AF0C:
     sub r6, r5
     mov r9, r4
     sub r7, r4
-    .byte 0xD0, 0x28
+    .byte 0xD0, 0x28    /* mov.l @(0x0603AFD8), r0 */

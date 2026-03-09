@@ -9,16 +9,18 @@ FUN_06045DAA:
     mov r6, r4
 .L_06045DB0:
     cmp/ge r5, r4
-    .byte 0x89, 0xC1
+    .byte 0x89, 0xC1    /* bt 0x06045D38 */
     rts
     mov r5, r4
-    .byte 0x34, 0x63
-    .byte 0x89, 0x00
-    .byte 0x64, 0x63
-    .byte 0x34, 0x53
-    .byte 0x89, 0x00
-    .byte 0x64, 0x53
-    .byte 0xE1, 0x04
-    .byte 0x41, 0x28
-    .byte 0x00, 0x0B
-    .byte 0x34, 0x1C
+    cmp/ge r6, r4
+    bt .L_06045DBE
+    mov r6, r4
+.L_06045DBE:
+    cmp/ge r5, r4
+    bt .L_06045DC4
+    mov r5, r4
+.L_06045DC4:
+    mov #0x4, r1
+    shll16 r1
+    rts
+    add r1, r4

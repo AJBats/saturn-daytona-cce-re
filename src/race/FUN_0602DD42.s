@@ -5,9 +5,9 @@
     .type FUN_0602DD42, @function
 FUN_0602DD42:
     extu.b r4, r0
-    .byte 0xD1, 0x1A
+    .byte 0xD1, 0x1A    /* mov.l @(0x0602DDB0), r1 */
     shll r0
-    .byte 0xD2, 0x1A
+    .byte 0xD2, 0x1A    /* mov.l @(0x0602DDB4), r2 */
     mov.w @(r0, r1), r3
     rts
     mov.w r3, @r2

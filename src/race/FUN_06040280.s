@@ -8,9 +8,9 @@
 FUN_06040280:
     mov.l r14, @-r15
     mov r4, r2
-    .byte 0xD0, 0x3D
+    .byte 0xD0, 0x3D    /* mov.l @(0x0604037C), r0 */
     mov r4, r14
-    .byte 0xD3, 0x3B
+    .byte 0xD3, 0x3B    /* mov.l @(0x06040378), r3 */
     shll2 r2
     mov.l r13, @-r15
     shll2 r14
@@ -184,27 +184,27 @@ FUN_060402A4:
 .L_pool_060403D4:
     .4byte sym_06056684  /* 060183D4 = 0x06056684 */
 .L_060403D8:
-    .byte 0xD1, 0x40
+    .byte 0xD1, 0x40    /* mov.l @(0x060404DC), r1 */
     mov.l @r1, r3
-    .byte 0xD0, 0x40
+    .byte 0xD0, 0x40    /* mov.l @(0x060404E0), r0 */
     mov.l r3, @r14
     mov.l @r0, r3
     add #0x4, r14
-    .byte 0xD1, 0x3F
+    .byte 0xD1, 0x3F    /* mov.l @(0x060404E4), r1 */
     mov.l r3, @r14
     mov.l @r1, r3
     add #0x4, r14
-    .byte 0xD0, 0x3E
+    .byte 0xD0, 0x3E    /* mov.l @(0x060404E8), r0 */
     mov.l r3, @r14
     mov.l @r0, r3
     add #0x4, r14
-    .byte 0xD1, 0x3D
+    .byte 0xD1, 0x3D    /* mov.l @(0x060404EC), r1 */
     mov.l r3, @r14
     mov.l @r1, r3
     add #0x4, r14
     mov.l r3, @r14
     add #0x4, r14
-    .byte 0xD3, 0x3B
+    .byte 0xD3, 0x3B    /* mov.l @(0x060404F0), r3 */
     mov.l @r3, r2
     mov.l r2, @r14
 .L_06040406:
@@ -222,37 +222,37 @@ FUN_060402A4:
     .type FUN_06040418, @function
 FUN_06040418:
     sts.l pr, @-r15
-    .byte 0xD5, 0x36
-    .byte 0xD4, 0x36
-    .byte 0xD3, 0x37
+    mov.l .L_pool_060404F4, r5
+    .byte 0xD4, 0x36    /* mov.l @(0x060404F8), r4 */
+    mov.l .L_pool_060404FC, r3
     jsr @r3
     nop
-    .byte 0xD5, 0x33
-    .byte 0xD4, 0x36
-    .byte 0xD2, 0x36
+    mov.l .L_pool_060404F4, r5
+    .byte 0xD4, 0x36    /* mov.l @(0x06040500), r4 */
+    mov.l .L_pool_06040504, r2
     jsr @r2
     nop
-    .byte 0xD3, 0x36
-    .byte 0xD2, 0x36
+    .byte 0xD3, 0x36    /* mov.l @(0x06040508), r3 */
+    .byte 0xD2, 0x36    /* mov.l @(0x0604050C), r2 */
     mov.l @r3, r6
     mov.l @r2, r5
-    .byte 0xD1, 0x36
-    .byte 0xD3, 0x36
+    .byte 0xD1, 0x36    /* mov.l @(0x06040510), r1 */
+    .byte 0xD3, 0x36    /* mov.l @(0x06040514), r3 */
     jsr @r3
     mov.l @r1, r4
-    .byte 0xD3, 0x36
-    .byte 0xD1, 0x36
+    .byte 0xD3, 0x36    /* mov.l @(0x06040518), r3 */
+    .byte 0xD1, 0x36    /* mov.l @(0x0604051C), r1 */
     mov.l @r3, r2
     mov.w @(4, r2), r0
     mov.w r0, @r1
     bsr FUN_06040280
     mov #0x0, r4
-    .byte 0xD3, 0x34
+    .byte 0xD3, 0x34    /* mov.l @(0x06040520), r3 */
     mov.b @r3, r0
     extu.b r0, r0
     cmp/eq #0x2, r0
     bt .L_0604045E
-    .byte 0xD2, 0x33
+    .byte 0xD2, 0x33    /* mov.l @(0x06040524), r2 */
     mov.b @r2, r0
     tst r0, r0
     bt .L_06040462
@@ -260,12 +260,12 @@ FUN_06040418:
     bsr FUN_06040280
     mov #0x1, r4
 .L_06040462:
-    .byte 0xD4, 0x31
-    .byte 0xD3, 0x31
+    .byte 0xD4, 0x31    /* mov.l @(0x06040528), r4 */
+    .byte 0xD3, 0x31    /* mov.l @(0x0604052C), r3 */
     mov.l @r3, r2
-    .byte 0xD1, 0x32
+    .byte 0xD1, 0x32    /* mov.l @(0x06040534), r1 */
     mov.w @(4, r2), r0
-    .byte 0xD2, 0x30
+    .byte 0xD2, 0x30    /* mov.l @(0x06040530), r2 */
     mov.w r0, @r4
     mov.l @r2, r0
     mov.w @(4, r0), r0
@@ -432,14 +432,14 @@ FUN_06040480:
     .4byte sym_060565D4  /* 060185C4 = 0x060565D4 */
 .L_pool_060405C8:
     .4byte sym_060565C8  /* 060185C8 = 0x060565C8 */
-    .byte 0xD1, 0x08
-    .byte 0x61, 0x10
-    .byte 0x31, 0x1C
-    .byte 0xC7, 0x02
-    .byte 0x01, 0x1D
-    .byte 0xD0, 0x07
-    .byte 0x01, 0x23
-    .byte 0x60, 0x02
+    .byte 0xD1, 0x08    /* mov.l @(0x060405F0), r1 */
+    mov.b @r1, r1
+    add r1, r1
+    .byte 0xC7, 0x02    /* mova @(0x060405DC), r0 */
+    mov.w @(r0, r1), r1
+    .byte 0xD0, 0x07    /* mov.l @(0x060405F4), r0 */
+    braf r1
+    mov.l @r0, r0
     .byte 0x00, 0x0E
     .byte 0x00, 0x1C
     .byte 0x00, 0x2A
@@ -482,8 +482,8 @@ FUN_06040480:
     .byte 0xE6, 0x03
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
-    .byte 0x26, 0x68
-    .byte 0x8F, 0x02
-    .byte 0x76, 0xFF
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    tst r6, r6
+    .byte 0x8F, 0x02    /* bf/s 0x0604063E */
+    add #-0x1, r6
+    rts
+    nop

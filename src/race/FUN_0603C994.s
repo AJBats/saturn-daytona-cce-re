@@ -311,22 +311,22 @@ FUN_0603C994:
 .L_pool_0603CBC4:
     .4byte sym_060529A0  /* 06014BC4 = 0x060529A0 */
 .L_0603CBC8:
-    .byte 0x90, 0x75
+    .byte 0x90, 0x75    /* mov.w @(0x0603CCB6), r0 */
     mov.b r13, @(r0, r14)
 .L_0603CBCC:
-    .byte 0x90, 0x74
+    .byte 0x90, 0x74    /* mov.w @(0x0603CCB8), r0 */
     mov.b @(r0, r14), r3
-    .byte 0xD0, 0x3C
+    .byte 0xD0, 0x3C    /* mov.l @(0x0603CCC4), r0 */
     extu.b r3, r3
-    .byte 0xD1, 0x3B
+    .byte 0xD1, 0x3B    /* mov.l @(0x0603CCC4), r1 */
     mov.b @(r0, r3), r0
-    .byte 0xD2, 0x3C
+    .byte 0xD2, 0x3C    /* mov.l @(0x0603CCCC), r2 */
     xor #0x1, r0
     add r3, r1
     mov.b r0, @r1
-    .byte 0xD3, 0x39
+    .byte 0xD3, 0x39    /* mov.l @(0x0603CCC8), r3 */
     mov.b @r3, r4
-    .byte 0x90, 0x69
+    .byte 0x90, 0x69    /* mov.w @(0x0603CCBA), r0 */
     extu.b r4, r4
     mov.w @(r0, r14), r3
     shll2 r4
@@ -340,12 +340,12 @@ FUN_0603C994:
     extu.w r1, r1
     cmp/eq r1, r3
     bf .L_0603CC08
-    .byte 0xD1, 0x33
-    .byte 0x90, 0x5B
+    .byte 0xD1, 0x33    /* mov.l @(0x0603CCD0), r1 */
+    .byte 0x90, 0x5B    /* mov.w @(0x0603CCBC), r0 */
     bra .L_0603CC24
     mov.l r1, @(r0, r14)
 .L_0603CC08:
-    .byte 0x90, 0x57
+    .byte 0x90, 0x57    /* mov.w @(0x0603CCBA), r0 */
     mov.w @(r0, r14), r3
     add #0x8, r0
     mov.l @(r0, r14), r1
@@ -356,17 +356,17 @@ FUN_0603C994:
     extu.b r3, r3
     cmp/eq r0, r3
     bf .L_0603CC24
-    .byte 0xD1, 0x2D
-    .byte 0x90, 0x4C
+    .byte 0xD1, 0x2D    /* mov.l @(0x0603CCD4), r1 */
+    .byte 0x90, 0x4C    /* mov.w @(0x0603CCBC), r0 */
     mov.l r1, @(r0, r14)
 .L_0603CC24:
-    .byte 0x90, 0x4B
+    .byte 0x90, 0x4B    /* mov.w @(0x0603CCBE), r0 */
     mov.l @(r0, r14), r14
     mov.l @(8, r15), r3
     add #0x1, r3
     mov.l r3, @(8, r15)
 .L_0603CC2E:
-    .byte 0xD1, 0x2A
+    .byte 0xD1, 0x2A    /* mov.l @(0x0603CCD8), r1 */
     mov.l @(8, r15), r3
     mov.b @r1, r2
     cmp/ge r2, r3
@@ -374,13 +374,13 @@ FUN_0603C994:
     bra .L_0603C9F0
     nop
 .L_0603CC3C:
-    .byte 0x95, 0x40
+    .byte 0x95, 0x40    /* mov.w @(0x0603CCC0), r5 */
     mov.l @(12, r15), r4
-    .byte 0xD3, 0x26
+    .byte 0xD3, 0x26    /* mov.l @(0x0603CCDC), r3 */
     jsr @r3
     nop
     mov r0, r4
-    .byte 0xD2, 0x25
+    .byte 0xD2, 0x25    /* mov.l @(0x0603CCE0), r2 */
     shlr16 r4
     exts.w r4, r4
     mov.w r4, @r2

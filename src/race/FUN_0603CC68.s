@@ -91,7 +91,7 @@ FUN_0603CC68:
     jsr @r9
     mov r14, r4
 .L_0603CD14:
-    .byte 0x90, 0x50
+    .byte 0x90, 0x50    /* mov.w @(0x0603CDB8), r0 */
     add #0x1, r13
     mov.l @(r0, r14), r14
 .L_0603CD1A:

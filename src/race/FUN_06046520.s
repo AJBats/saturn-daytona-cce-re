@@ -15,8 +15,8 @@ FUN_06046520:
     mov r0, r7
     add #-0x8, r15
     mov r15, r5
-    .byte 0x96, 0x7B
-    .byte 0xD4, 0x3E
+    .byte 0x96, 0x7B    /* mov.w @(0x06046630), r6 */
+    .byte 0xD4, 0x3E    /* mov.l @(0x06046634), r4 */
     add r14, r4
 .L_0604653C:
     mov.w @r13+, r12

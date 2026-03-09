@@ -17,9 +17,9 @@ FUN_0602E544:
     bt .L_0602E56E
 .L_0602E55A:
     extu.w r14, r4
-    .byte 0xD3, 0x25
+    .byte 0xD3, 0x25    /* mov.l @(0x0602E5F4), r3 */
     mov #0x2, r7
-    .byte 0xD2, 0x25
+    .byte 0xD2, 0x25    /* mov.l @(0x0602E5F8), r2 */
     shll2 r4
     shll r4
     add r3, r4
@@ -30,11 +30,11 @@ FUN_0602E544:
     mov r14, r3
     lds.l @r15+, pr
     add #0x4, r12
-    .byte 0xD2, 0x20
+    .byte 0xD2, 0x20    /* mov.l @(0x0602E5F8), r2 */
     mov #0x2, r7
     shll2 r14
     add r3, r14
-    .byte 0xD3, 0x1D
+    .byte 0xD3, 0x1D    /* mov.l @(0x0602E5F4), r3 */
     mov r7, r6
     shll r14
     sub r14, r13
@@ -47,12 +47,13 @@ FUN_0602E544:
     mov.l @r15+, r13
     jmp @r2
     mov.l @r15+, r14
-    .byte 0x64, 0x4C
-    .byte 0x24, 0x48
-    .byte 0x89, 0x02
-    .byte 0xD0, 0x17
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
-    .byte 0xD0, 0x17
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    extu.b r4, r4
+    tst r4, r4
+    bt .L_0602E5A2
+    .byte 0xD0, 0x17    /* mov.l @(0x0602E5FC), r0 */
+    rts
+    nop
+.L_0602E5A2:
+    .byte 0xD0, 0x17    /* mov.l @(0x0602E600), r0 */
+    rts
+    nop

@@ -16,7 +16,7 @@ FUN_0604660A:
     .reloc ., R_SH_IND12W, FUN_06045FC0 - 4
     .2byte 0xB000    /* bsr FUN_0601DFC0 (linker-resolved) */
     mov.l @(44, r14), r4
-    .byte 0xC7, 0x0E
+    .byte 0xC7, 0x0E    /* mova @(0x06046658), r0 */
     shll r1
     mov.w @(r0, r1), r0
     mov.w r0, @(8, r10)

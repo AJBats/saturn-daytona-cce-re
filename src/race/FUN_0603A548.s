@@ -6,5 +6,5 @@
 FUN_0603A548:
     mov.l r14, @-r15
     mov r4, r14
-    .byte 0x90, 0x4E
+    .byte 0x90, 0x4E    /* mov.w @(0x0603A5EC), r0 */
     mov #0x0, r4

@@ -32,4 +32,4 @@ FUN_060457AC:
     .byte 0x00, 0x09
     .global FUN_060457DC
 FUN_060457DC:
-    .byte 0x4F, 0x13
+    stc.l gbr, @-r15

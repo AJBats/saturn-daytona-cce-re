@@ -8,14 +8,14 @@ FUN_0602AAB6:
     mov.l r5, @-r15
     mov r4, r14
     mov.l @(0, r14), r4
-    .byte 0xD2, 0x1A
+    .byte 0xD2, 0x1A    /* mov.l @(disp,PC), r2 -> .L_pool_0602AB28 */
     add r4, r2
     shlr16 r2
     mov #-0x20, r0
     and r0, r2
     shll r2
     mov.l @(8, r14), r5
-    .byte 0xD1, 0x16
+    .byte 0xD1, 0x16    /* mov.l @(disp,PC), r1 -> .L_pool_0602AB28 */
     sub r5, r1
     shlr16 r1
     shlr2 r1
@@ -23,8 +23,8 @@ FUN_0602AAB6:
     shlr r1
     add r2, r1
     shll2 r1
-    .byte 0xD0, 0x13
-    .byte 0xD6, 0x14
+    .byte 0xD0, 0x13    /* mov.l @(disp,PC), r0 -> .L_pool_0602AB2C */
+    .byte 0xD6, 0x14    /* mov.l @(disp,PC), r6 -> .L_pool_0602AB30 */
     mov.b @r6, r6
     shll2 r6
     mov.l @(r0, r6), r13
@@ -32,7 +32,7 @@ FUN_0602AAB6:
     tst r13, r13
     bt/s .L_0602AB40
     mov #0x0, r14
-    .byte 0xD0, 0x11
+    .byte 0xD0, 0x11    /* mov.l @(disp,PC), r0 -> .L_pool_0602AB34 */
     shll2 r6
     mov.l @(r0, r6), r12
     cmp/ge r4, r12
@@ -75,7 +75,7 @@ FUN_0602AAB6:
     nop
     mov #0x2, r14
 .L_0602AB40:
-    .byte 0xD0, 0x12
+    .byte 0xD0, 0x12    /* mov.l @(disp,PC), r0 -> .L_pool_0602AB8C */
     mov.l @r0, r13
     mov.l @(4, r13), r6
     add r13, r6
@@ -90,7 +90,7 @@ FUN_0602AAB6:
     bt .L_0602AB72
     mov r13, r0
     shll2 r0
-    .byte 0xD1, 0x0B
+    .byte 0xD1, 0x0B    /* mov.l @(disp,PC), r1 -> .L_pool_0602AB8C */
     mov.l @r1, r13
     mov.l @(12, r13), r6
     add r13, r6

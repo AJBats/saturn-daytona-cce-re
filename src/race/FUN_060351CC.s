@@ -160,12 +160,12 @@ FUN_060351CC:
     .byte 0x02, 0x34
 .L_pool_060352E4:
     .4byte sym_060FFA00  /* 060352E4 = 0x060FFA00 */
-    .byte 0x4F, 0x13
-    .byte 0x60, 0x43
-    .byte 0x40, 0x1E
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    stc.l gbr, @-r15
+    mov r4, r0
+    ldc r0, gbr
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15

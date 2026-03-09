@@ -186,7 +186,7 @@ FUN_060394A8:
     add #0x33, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -194,7 +194,7 @@ FUN_060394A8:
     mov.w .L_wpool_06039676, r0
     mov.b @(r0, r14), r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -223,7 +223,7 @@ FUN_060394A8:
     add #0x33, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -241,7 +241,7 @@ FUN_060394A8:
     mov.w .L_wpool_06039676, r0
     mov.b @(r0, r14), r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0

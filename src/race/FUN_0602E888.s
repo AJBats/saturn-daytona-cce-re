@@ -6,7 +6,7 @@
 FUN_0602E888:
     mov.l r4, @-r15
     sts macl, r6
-    .byte 0xD1, 0x33
+    .byte 0xD1, 0x33    /* mov.l @(0x0602E95C), r1 */
     shll r6
     mov.w @(4, r15), r0
     add r6, r14

@@ -54,7 +54,7 @@ FUN_0603C094:
     shll2 r6
     mov.l r13, @(8, r5)
     mov.w r0, @(12, r5)
-    .byte 0xD3, 0x31
+    .byte 0xD3, 0x31    /* mov.l @(0x0603C1CC), r3 */
     mov r11, r0
     mov.w r0, @(14, r5)
     mov #0x32, r0
@@ -82,7 +82,7 @@ FUN_0603C094:
     bf/s .L_0603C12C
     add #0x4, r7
 .L_0603C138:
-    .byte 0xD8, 0x25
+    .byte 0xD8, 0x25    /* mov.l @(0x0603C1D0), r8 */
     mov r4, r10
     extu.w r14, r7
     mul.l r7, r4
@@ -121,7 +121,7 @@ FUN_0603C094:
     bf/s .L_0603C158
     add #0x2, r9
 .L_0603C180:
-    .byte 0x92, 0x21
+    .byte 0x92, 0x21    /* mov.w @(0x0603C1C6), r2 */
     add #0x1, r10
     add r2, r13
     extu.w r14, r3

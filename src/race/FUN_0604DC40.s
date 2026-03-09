@@ -97,7 +97,7 @@ FUN_0604DCE0:
     mov #0x0, r4
 .L_0604DCF4:
     mov.l @(52, r0), r2
-    .byte 0xD3, 0x1E
+    .byte 0xD3, 0x1E    /* mov.l @(0x0604DD70), r3 */
     shll2 r2
     add r2, r3
     mov.l @r3, r4

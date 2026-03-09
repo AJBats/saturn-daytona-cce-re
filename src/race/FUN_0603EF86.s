@@ -17,7 +17,7 @@ FUN_0603EF86:
     add #-0x1, r0
     mov.b r0, @(150, gbr)
     mov r0, r6
-    .byte 0xD0, 0x43
+    .byte 0xD0, 0x43    /* mov.l @(0x0603F0AC), r0 */
     shll r4
     mov.w @(r0, r4), r5
     mov.b @(156, gbr), r0
@@ -28,7 +28,7 @@ FUN_0603EF86:
     extu.w r5, r0
     mov.w r0, @(26, gbr)
     mov.l @(72, gbr), r0
-    .byte 0xD4, 0x3B
+    .byte 0xD4, 0x3B    /* mov.l @(0x0603F0A0), r4 */
     add r4, r0
     cmp/pz r0
     bt .L_0603EFBC
@@ -52,7 +52,7 @@ FUN_0603EF86:
     mov r4, r5
     shll r4
     add r5, r4
-    .byte 0xD5, 0x34
+    .byte 0xD5, 0x34    /* mov.l @(0x0603F0B0), r5 */
     add r5, r4
     mov.l @(0, r4), r5
     mov.l @(4, r4), r6
@@ -85,7 +85,7 @@ FUN_0603EF86:
     mov.l r7, @(28, r14)
     mov.w r0, @(32, gbr)
     mov.l @(72, gbr), r0
-    .byte 0xD4, 0x20
+    .byte 0xD4, 0x20    /* mov.l @(0x0603F0A0), r4 */
     add r4, r0
     cmp/pz r0
     bt .L_0603F026

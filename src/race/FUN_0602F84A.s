@@ -48,7 +48,7 @@ FUN_0602F84A:
     add #0x1, r11
     extu.w r11, r2
     cmp/ge r8, r2
-    .byte 0x8B, 0xD1
+    .byte 0x8B, 0xD1    /* bf 0x0602F846 */
     lds.l @r15+, pr
     mov.l @r15+, r8
     mov.l @r15+, r9

@@ -45,7 +45,7 @@ FUN_06046990:
     .byte 0x00, 0x09
     .reloc ., R_SH_IND12W, FUN_06046A90 - 4
     .2byte 0xA000    /* bra FUN_0601EA90 (linker-resolved) */
-    .byte 0x00, 0x09
+    nop
     .byte 0xE0, 0xFF
     .byte 0x81, 0x73
     .byte 0x90, 0x22

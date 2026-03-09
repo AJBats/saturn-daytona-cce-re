@@ -14,9 +14,9 @@ FUN_0603BFA8:
     tst r0, r0
     bf .L_0603BFCA
     mov #0x0, r3
-    .byte 0xD5, 0x43
+    .byte 0xD5, 0x43    /* mov.l @(0x0603C0CC), r5 */
     mov #0x3, r7
-    .byte 0xD4, 0x43
+    .byte 0xD4, 0x43    /* mov.l @(0x0603C0D0), r4 */
     mov.l r3, @-r15
     .reloc ., R_SH_IND12W, FUN_0603C274 - 4
     .2byte 0xB000    /* bsr FUN_06014274 (linker-resolved) */
@@ -24,13 +24,13 @@ FUN_0603BFA8:
     add #0x4, r15
 .L_0603BFCA:
     mov.l @(4, r14), r1
-    .byte 0xD3, 0x3E
+    .byte 0xD3, 0x3E    /* mov.l @(0x0603C0C8), r3 */
     jsr @r3
     mov #0x1E, r0
     cmp/eq #0x14, r0
     bf .L_0603BFE2
     mov #0x3, r6
-    .byte 0xD4, 0x3C
+    .byte 0xD4, 0x3C    /* mov.l @(0x0603C0CC), r4 */
     mov #0x13, r5
     lds.l @r15+, pr
     .reloc ., R_SH_IND12W, FUN_0603C2BC - 4

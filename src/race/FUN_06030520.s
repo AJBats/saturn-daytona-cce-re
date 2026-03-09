@@ -189,7 +189,7 @@ FUN_06030520:
     .4byte sym_0605161C  /* 0603067C = 0x0605161C */
 .L_06030680:
     mov.l @r4, r0
-    .byte 0x93, 0x77
+    mov.w .L_wpool_06030774, r3
     mov.l @(28, r0), r2
     add r3, r2
     mov.l r2, @(28, r0)
@@ -237,7 +237,7 @@ FUN_06030520:
     mov.w r0, @r1
     mov.l @r4, r3
     mov.l @r5, r0
-    .byte 0x91, 0x4A
+    mov.w .L_wpool_06030776, r1
     mov.w @(r0, r1), r0
     mov.w r0, @(14, r3)
     mov.l @r4, r3
@@ -285,42 +285,48 @@ FUN_0603072A:
     .reloc ., R_SH_IND12W, FUN_06030824 - 4
     .2byte 0xB000    /* bsr FUN_06030824 (linker-resolved) */
     nop
-    .byte 0xD4, 0x14
+    mov.l .L_pool_06030784, r4
     mov #0x0, r3
     mov.l @r4, r2
     mov.l r3, @(20, r2)
     mov.l @r4, r2
-    .byte 0xD3, 0x13
+    mov.l .L_pool_06030788, r3
     lds.l @r15+, pr
     rts
     mov.l r3, @(24, r2)
-    .byte 0xD2, 0x12
-    .byte 0x60, 0x20
-    .byte 0x60, 0x0C
-    .byte 0x88, 0x00
-    .byte 0x89, 0x09
-    .byte 0x88, 0x01
-    .byte 0x89, 0x07
-    .byte 0x88, 0x02
-    .byte 0x89, 0x09
-    .byte 0x88, 0x03
-    .byte 0x89, 0x07
-    .byte 0x88, 0x04
-    .byte 0x89, 0x01
-    .byte 0xA0, 0x08
-    .byte 0x00, 0x09
-    .byte 0xD5, 0x0B
-    .byte 0xD4, 0x0C
-    .byte 0xA0, 0x02
-    .byte 0x00, 0x09
-    .byte 0xD5, 0x0B
-    .byte 0xD4, 0x0C
+    .byte 0xD2, 0x12    /* mov.l @(0x0603078C), r2 */
+    mov.b @r2, r0
+    extu.b r0, r0
+    cmp/eq #0x0, r0
+    bt .L_06030760
+    cmp/eq #0x1, r0
+    bt .L_06030760
+    cmp/eq #0x2, r0
+    bt .L_06030768
+    cmp/eq #0x3, r0
+    bt .L_06030768
+    cmp/eq #0x4, r0
+    bt .L_06030760
+    bra .L_06030770
+    nop
+.L_06030760:
+    .byte 0xD5, 0x0B    /* mov.l @(0x06030790), r5 */
+    .byte 0xD4, 0x0C    /* mov.l @(0x06030794), r4 */
+    bra .L_0603076C
+    nop
+.L_06030768:
+    .byte 0xD5, 0x0B    /* mov.l @(0x06030798), r5 */
+    .byte 0xD4, 0x0C    /* mov.l @(0x0603079C), r4 */
     .reloc ., R_SH_IND12W, FUN_060308C0 - 4
+.L_0603076C:
     .2byte 0xA000    /* bra FUN_060308C0 (linker-resolved) */
-    .byte 0x00, 0x09
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    nop
+.L_06030770:
+    rts
+    nop
+.L_wpool_06030774:
     .byte 0x19, 0x99
+.L_wpool_06030776:
     .byte 0x01, 0x42
 .L_pool_06030778:
     .4byte 0x00080000  /* 06030778 = 0x00080000 */

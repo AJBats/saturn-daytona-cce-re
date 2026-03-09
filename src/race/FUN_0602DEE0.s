@@ -36,7 +36,7 @@ FUN_0602DEE0:
     mov.l .L_pool_0602E018, r11
 .L_0602DF16:
     mov r12, r7
-    .byte 0x90, 0x70
+    mov.w .L_wpool_0602DFFC, r0
     mov r14, r6
     mov.l .L_pool_0602E01C, r3
     mov.l r2, @-r15
@@ -62,7 +62,7 @@ FUN_0602DEE0:
     mov r14, r6
     mov.w r1, @(r0, r3)
     mov #0x1, r3
-    .byte 0x90, 0x56
+    mov.w .L_wpool_0602DFFC, r0
     mov.l r3, @-r15
     jsr @r2
     mov r10, r1
@@ -157,6 +157,7 @@ FUN_0602DF9C:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+.L_wpool_0602DFFC:
     .byte 0x17, 0x70
     .byte 0xFF, 0xFF
 .L_pool_0602E000:

@@ -5,4 +5,4 @@
     .type FUN_0604698C, @function
 FUN_0604698C:
     tst #0x40, r0
-    .byte 0x89, 0x1D
+    .byte 0x89, 0x1D    /* bt 0x060469CC */

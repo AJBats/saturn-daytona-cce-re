@@ -24,8 +24,8 @@ FUN_06036BC6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x28
-    .byte 0xD2, 0x29
+    .byte 0xD1, 0x28    /* mov.l @(disp,PC), r1 -> .L_pool_06036C90 */
+    .byte 0xD2, 0x29    /* mov.l @(disp,PC), r2 -> .L_pool_06036C94 */
     tst r1, r0
     bt .L_06036BF6
     or r2, r0
@@ -37,8 +37,8 @@ FUN_06036BC6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x22
-    .byte 0xD2, 0x23
+    .byte 0xD1, 0x22    /* mov.l @(disp,PC), r1 -> .L_pool_06036C90 */
+    .byte 0xD2, 0x23    /* mov.l @(disp,PC), r2 -> .L_pool_06036C94 */
     tst r1, r0
     bt .L_06036C0E
     or r2, r0
@@ -50,8 +50,8 @@ FUN_06036BC6:
     shlr8 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x1C
-    .byte 0xD2, 0x1D
+    .byte 0xD1, 0x1C    /* mov.l @(disp,PC), r1 -> .L_pool_06036C90 */
+    .byte 0xD2, 0x1D    /* mov.l @(disp,PC), r2 -> .L_pool_06036C94 */
     tst r1, r0
     bt .L_06036C26
     or r2, r0
@@ -68,8 +68,8 @@ FUN_06036BC6:
     shlr2 r0
     mov.l r1, @-r15
     mov.l r2, @-r15
-    .byte 0xD1, 0x16
-    .byte 0xD2, 0x16
+    .byte 0xD1, 0x16    /* mov.l @(disp,PC), r1 -> .L_pool_06036C98 */
+    .byte 0xD2, 0x16    /* mov.l @(disp,PC), r2 -> .L_pool_06036C9C */
     tst r1, r0
     bt .L_06036C48
     or r2, r0
@@ -80,14 +80,14 @@ FUN_06036BC6:
 .L_06036C4E:
     mov.w @(16, r7), r0
     shll r0
-    .byte 0xD2, 0x13
+    .byte 0xD2, 0x13    /* mov.l @(disp,PC), r2 -> .L_pool_06036CA0 */
     add r0, r2
     mov.w @r2, r2
     mov.l @r15+, r7
     mov.l @r15+, r6
     mov.l @r15+, r5
     mov.l @r15+, r4
-    .byte 0xD0, 0x10
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06036CA4 */
     mov.w @(r0, r5), r1
     exts.w r1, r1
     mov.w .L_wpool_06036C88, r0
@@ -135,7 +135,7 @@ FUN_06036BC6:
     mov.l r7, @-r15
     mov.l @(0, r6), r4
     mov.l @(8, r6), r5
-    .byte 0xDD, 0x0C
+    .byte 0xDD, 0x0C    /* mov.l @(disp,PC), r13 -> .L_pool_06036CE8 */
     jsr @r13
     nop
     mov.l @r15+, r7
@@ -164,9 +164,9 @@ FUN_06036BC6:
     .byte 0x00, 0x00
 .L_pool_06036CE8:
     .4byte DAT_06047E0C  /* 06047E0C = FUN_06047E0C */
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15

@@ -4,8 +4,8 @@
     .global FUN_060385CE
     .type FUN_060385CE, @function
 FUN_060385CE:
-    .byte 0xD6, 0x18
-    .byte 0xD5, 0x18
+    .byte 0xD6, 0x18    /* mov.l @(disp,PC), r6 -> .L_pool_06038630 */
+    .byte 0xD5, 0x18    /* mov.l @(disp,PC), r5 -> .L_pool_06038634 */
     mov.l @(56, r4), r7
     mov.w .L_wpool_06038610, r0
     mov.w @(r0, r4), r3
@@ -30,7 +30,7 @@ FUN_060385CE:
     mov.w @(r0, r4), r2
     cmp/eq r2, r3
     bf .L_0603863C
-    .byte 0xD2, 0x0D
+    .byte 0xD2, 0x0D    /* mov.l @(disp,PC), r2 -> .L_pool_06038638 */
     bra .L_06038674
     nop
     .byte 0x01, 0x60
@@ -70,7 +70,7 @@ FUN_060385CE:
     mov.w @r3, r3
     cmp/eq r3, r0
     bf .L_06038694
-    .byte 0xD3, 0x1F
+    .byte 0xD3, 0x1F    /* mov.l @(disp,PC), r3 -> .L_pool_060386D0 */
     mov.w .L_wpool_060386C4, r0
     bra .L_06038694
     mov.l r3, @(r0, r4)
@@ -88,7 +88,7 @@ FUN_060385CE:
     mov.w @(r0, r4), r3
     cmp/eq r3, r2
     bf .L_0603867A
-    .byte 0xD2, 0x17
+    .byte 0xD2, 0x17    /* mov.l @(disp,PC), r2 -> .L_pool_060386D0 */
 .L_06038674:
     mov.w .L_wpool_060386C4, r0
     bra .L_06038694
@@ -104,7 +104,7 @@ FUN_060385CE:
     mov.w @r3, r3
     cmp/eq r3, r0
     bf .L_06038694
-    .byte 0xD3, 0x11
+    .byte 0xD3, 0x11    /* mov.l @(disp,PC), r3 -> .L_pool_060386D4 */
     mov.w .L_wpool_060386C4, r0
     mov.l r3, @(r0, r4)
 .L_06038694:

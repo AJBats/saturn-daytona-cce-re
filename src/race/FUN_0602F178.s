@@ -16,17 +16,17 @@ FUN_0602F178:
     tst r1, r1
     bt/s .L_0602F196
     mov #0x2, r7
-    .byte 0xD4, 0x80
+    .byte 0xD4, 0x80    /* mov.l @(0x0602F394), r4 */
     bra .L_0602F198
     nop
 .L_0602F196:
-    .byte 0xD4, 0x80
+    .byte 0xD4, 0x80    /* mov.l @(0x0602F398), r4 */
 .L_0602F198:
     mov.w @(8, r15), r0
     mov r7, r6
-    .byte 0xD3, 0x77
+    .byte 0xD3, 0x77    /* mov.l @(0x0602F37C), r3 */
     mov r0, r5
-    .byte 0xD2, 0x79
+    .byte 0xD2, 0x79    /* mov.l @(0x0602F388), r2 */
     shll2 r5
     mov.w @(12, r15), r0
     shll2 r5
@@ -41,13 +41,13 @@ FUN_0602F178:
     extu.b r4, r4
     tst r4, r4
     bt .L_0602F1C4
-    .byte 0xD5, 0x77
+    .byte 0xD5, 0x77    /* mov.l @(0x0602F39C), r5 */
     bra .L_0602F1C6
     nop
 .L_0602F1C4:
-    .byte 0xD5, 0x76
+    .byte 0xD5, 0x76    /* mov.l @(0x0602F3A0), r5 */
 .L_0602F1C6:
-    .byte 0xD3, 0x77
+    .byte 0xD3, 0x77    /* mov.l @(0x0602F3A4), r3 */
     mov.l @(16, r15), r6
     add r3, r6
     mov.l @(4, r15), r4
@@ -55,31 +55,35 @@ FUN_0602F178:
     .reloc ., R_SH_IND12W, FUN_0602E610 - 4
     .2byte 0xA000    /* bra FUN_0602E610 (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0xD2, 0x74
-    .byte 0x74, 0x10
-    .byte 0xE5, 0x00
-    .byte 0xE0, 0x05
-    .byte 0x24, 0x50
-    .byte 0x80, 0x41
-    .byte 0x60, 0x53
-    .byte 0x80, 0x42
-    .byte 0x63, 0x20
-    .byte 0x23, 0x38
-    .byte 0x8B, 0x04
-    .byte 0xE0, 0x0F
-    .byte 0x81, 0x42
-    .byte 0xE0, 0x0D
-    .byte 0xA0, 0x0A
-    .byte 0x81, 0x43
-    .byte 0xD3, 0x6D
-    .byte 0xE0, 0x1A
-    .byte 0x81, 0x42
-    .byte 0x61, 0x30
-    .byte 0x21, 0x18
-    .byte 0x89, 0x01
-    .byte 0xA0, 0x01
-    .byte 0xE0, 0x14
-    .byte 0xE0, 0x06
-    .byte 0x81, 0x43
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    .byte 0xD2, 0x74    /* mov.l @(0x0602F3A8), r2 */
+    add #0x10, r4
+    mov #0x0, r5
+    mov #0x5, r0
+    mov.b r5, @r4
+    mov.b r0, @(1, r4)
+    mov r5, r0
+    mov.b r0, @(2, r4)
+    mov.b @r2, r3
+    tst r3, r3
+    bf .L_0602F1F4
+    mov #0xF, r0
+    mov.w r0, @(4, r4)
+    mov #0xD, r0
+    bra .L_0602F208
+    mov.w r0, @(6, r4)
+.L_0602F1F4:
+    .byte 0xD3, 0x6D    /* mov.l @(0x0602F3AC), r3 */
+    mov #0x1A, r0
+    mov.w r0, @(4, r4)
+    mov.b @r3, r1
+    tst r1, r1
+    bt .L_0602F204
+    bra .L_0602F206
+    mov #0x14, r0
+.L_0602F204:
+    mov #0x6, r0
+.L_0602F206:
+    mov.w r0, @(6, r4)
+.L_0602F208:
+    rts
+    nop

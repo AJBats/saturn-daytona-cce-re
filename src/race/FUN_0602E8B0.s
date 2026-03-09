@@ -6,5 +6,5 @@
 FUN_0602E8B0:
     mov.l r14, @-r15
     mov r4, r14
-    .byte 0xD3, 0x2A
+    .byte 0xD3, 0x2A    /* mov.l @(0x0602E960), r3 */
     extu.b r14, r4

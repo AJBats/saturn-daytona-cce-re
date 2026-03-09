@@ -104,18 +104,18 @@ FUN_0604D380:
     .4byte DAT_0603631C  /* 0603631C = FUN_0603631C */
 .L_0604D438:
     .4byte 0xDD184D0B  /* 06025438 = 0xDD184D0B */
-    .byte 0x00, 0x09
+    nop
 .L_0604D43E:
-    .byte 0xDD, 0x18
+    .byte 0xDD, 0x18    /* mov.l @(0x0604D4A0), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x17
+    .byte 0xDD, 0x17    /* mov.l @(0x0604D4A4), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x17
+    .byte 0xDD, 0x17    /* mov.l @(0x0604D4A8), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x16
+    .byte 0xDD, 0x16    /* mov.l @(0x0604D4AC), r13 */
     jsr @r13
     nop
     lds.l @r15+, pr
@@ -126,5 +126,5 @@ FUN_0604D380:
     mov.l @r15+, r10
     mov.l @r15+, r9
     .4byte 0x68F64F17  /* 06025464 = 0x68F64F17 */
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop

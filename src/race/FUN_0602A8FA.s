@@ -20,13 +20,13 @@ FUN_0602A8FA:
     mov.l r1, @-r15
     mov.l r0, @-r15
     mov.l r6, @-r15
-    .byte 0xD0, 0x0D
+    .byte 0xD0, 0x0D    /* mov.l @(disp,PC), r0 -> .L_pool_0602A950 */
     jsr @r0
     nop
     mov.l @r15+, r6
     mov r6, r4
     mov r0, r5
-    .byte 0xD0, 0x0B
+    .byte 0xD0, 0x0B    /* mov.l @(disp,PC), r0 -> .L_pool_0602A954 */
     jsr @r0
     nop
     mov.l @r15+, r0

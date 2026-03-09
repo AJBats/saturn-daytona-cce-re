@@ -4,7 +4,7 @@
     .global FUN_06045E44
     .type FUN_06045E44, @function
 FUN_06045E44:
-    .byte 0xD7, 0x36
+    .byte 0xD7, 0x36    /* mov.l @(0x06045F20), r7 */
     shll2 r0
     shll r0
     add r0, r7
@@ -35,23 +35,23 @@ FUN_06045E44:
     .byte 0x00, 0x22
     .byte 0x00, 0x6A
     .byte 0x00, 0x22
-    .byte 0xC5, 0x41
-    .byte 0x81, 0x73
-    .byte 0xC5, 0x49
-    .byte 0x81, 0x70
-    .byte 0xC5, 0x4A
-    .byte 0x91, 0x44
-    .byte 0x20, 0x1B
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x72
+    mov.w @(130, gbr), r0
+    mov.w r0, @(6, r7)
+    mov.w @(146, gbr), r0
+    mov.w r0, @(0, r7)
+    mov.w @(148, gbr), r0
+    .byte 0x91, 0x44    /* mov.w @(0x06045F16), r1 */
+    or r1, r0
+    rts
+    mov.w r0, @(4, r7)
     .byte 0x00, 0x09
-    .byte 0xC5, 0x41
-    .byte 0x81, 0x73
-    .byte 0xC5, 0x49
-    .byte 0x81, 0x70
-    .byte 0xC5, 0x4A
-    .byte 0x91, 0x3B
-    .byte 0x20, 0x1B
-    .byte 0x00, 0x0B
-    .byte 0x81, 0x72
+    mov.w @(130, gbr), r0
+    mov.w r0, @(6, r7)
+    mov.w @(146, gbr), r0
+    mov.w r0, @(0, r7)
+    mov.w @(148, gbr), r0
+    .byte 0x91, 0x3B    /* mov.w @(0x06045F18), r1 */
+    or r1, r0
+    rts
+    mov.w r0, @(4, r7)
     .byte 0x00, 0x09

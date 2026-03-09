@@ -6,7 +6,7 @@
 FUN_0602EE64:
     mov.l r14, @-r15
     sts.l pr, @-r15
-    .byte 0xD2, 0x95
+    .byte 0xD2, 0x95    /* mov.l @(0x0602F0C0), r2 */
     add #-0x4, r15
     mov.b @r2, r3
     tst r3, r3
@@ -18,9 +18,9 @@ FUN_0602EE64:
     mov #0xC, r14
 .L_0602EE7A:
     mov #0x5, r5
-    .byte 0xD3, 0x91
+    .byte 0xD3, 0x91    /* mov.l @(0x0602F0C4), r3 */
     exts.w r14, r4
-    .byte 0xD2, 0x91
+    .byte 0xD2, 0x91    /* mov.l @(0x0602F0C8), r2 */
     shll2 r4
     shll2 r4
     shll2 r4
@@ -28,11 +28,11 @@ FUN_0602EE64:
     mov.l r4, @r15
     jsr @r2
     add r3, r4
-    .byte 0xD3, 0x8E
+    .byte 0xD3, 0x8E    /* mov.l @(0x0602F0CC), r3 */
     mov #0x4, r6
     mov.l @r15, r4
     mov #0x28, r5
-    .byte 0xD2, 0x8B
+    .byte 0xD2, 0x8B    /* mov.l @(0x0602F0C8), r2 */
     .global FUN_0602EE9A
 FUN_0602EE9A:
     add r3, r4

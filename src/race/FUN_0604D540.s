@@ -5,16 +5,16 @@
     .type FUN_0604D540, @function
 FUN_0604D540:
     sts.l pr, @-r15
-    .byte 0xDD, 0x29
+    .byte 0xDD, 0x29    /* mov.l @(0x0604D5E8), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x28
+    .byte 0xDD, 0x28    /* mov.l @(0x0604D5EC), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x28
+    .byte 0xDD, 0x28    /* mov.l @(0x0604D5F0), r13 */
     jsr @r13
     nop
-    .byte 0xDD, 0x27
+    .byte 0xDD, 0x27    /* mov.l @(0x0604D5F4), r13 */
     jsr @r13
     nop
     lds.l @r15+, pr

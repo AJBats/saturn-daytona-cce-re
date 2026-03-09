@@ -5,7 +5,7 @@
     .type FUN_0603F8AC, @function
 FUN_0603F8AC:
     sts.l pr, @-r15
-    .byte 0xD0, 0x4C
+    .byte 0xD0, 0x4C    /* mov.l @(0x0603F9E0), r0 */
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
@@ -106,7 +106,7 @@ FUN_0603F8AC:
     bt .L_0603F992
     mov r1, r5
     mov r2, r4
-    .byte 0x9B, 0x2D
+    .byte 0x9B, 0x2D    /* mov.w @(0x0603F9D6), r11 */
     tst r4, r4
     bf .L_0603F986
     tst r5, r5
@@ -114,7 +114,7 @@ FUN_0603F8AC:
     neg r11, r11
     bt .L_0603F98E
 .L_0603F986:
-    .byte 0xD0, 0x17
+    .byte 0xD0, 0x17    /* mov.l @(0x0603F9E4), r0 */
     jsr @r0
     nop
     neg r0, r11
@@ -127,4 +127,4 @@ FUN_0603F8AC:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x60, 0xF2
+    mov.l @r15, r0

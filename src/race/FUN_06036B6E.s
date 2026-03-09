@@ -5,15 +5,15 @@
     .type FUN_06036B6E, @function
 FUN_06036B6E:
     mov.l r14, @-r15
-    .byte 0xD1, 0x05
+    .byte 0xD1, 0x05    /* mov.l @(disp,PC), r1 -> .L_pool_06036B88 */
     mov.b @r1, r1
     shll2 r1
-    .byte 0xD2, 0x05
+    .byte 0xD2, 0x05    /* mov.l @(disp,PC), r2 -> .L_pool_06036B8C */
     add r1, r2
     mov.l @r2, r2
     cmp/ge r2, r5
     bt .L_06036B94
-    .byte 0xD1, 0x03
+    .byte 0xD1, 0x03    /* mov.l @(disp,PC), r1 -> .L_pool_06036B90 */
     bra .L_06036B96
     nop
     .byte 0x00, 0x00
@@ -24,7 +24,7 @@ FUN_06036B6E:
 .L_pool_06036B90:
     .4byte sym_00224000  /* 06036B90 = 0x00224000 */
 .L_06036B94:
-    .byte 0xD1, 0x07
+    .byte 0xD1, 0x07    /* mov.l @(disp,PC), r1 -> .L_pool_06036BB4 */
 .L_06036B96:
     mov r6, r5
     mov r7, r6

@@ -8,7 +8,7 @@ FUN_0603F03C:
     or r4, r0
     mov.b r0, @(156, gbr)
     tst r4, r4
-    .byte 0x94, 0x14
+    .byte 0x94, 0x14    /* mov.w @(0x0603F070), r4 */
     bt .L_0603F04A
     neg r4, r4
 .L_0603F04A:

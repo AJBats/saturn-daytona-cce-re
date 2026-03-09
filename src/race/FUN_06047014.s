@@ -5,9 +5,9 @@
     .type FUN_06047014, @function
 FUN_06047014:
     sts.l pr, @-r15
-    .byte 0x9A, 0xB2
+    .byte 0x9A, 0xB2    /* mov.w @(0x0604717E), r10 */
     add r14, r10
-    .byte 0x9B, 0xB1
+    .byte 0x9B, 0xB1    /* mov.w @(0x06047180), r11 */
     add r14, r11
     mov #0x0, r0
     mov.b r0, @(153, gbr)
@@ -29,7 +29,7 @@ FUN_06047014:
     dt r0
     bf/s .L_06047022
     mov.b r0, @(152, gbr)
-    .byte 0x9A, 0x9C
+    .byte 0x9A, 0x9C    /* mov.w @(0x06047180), r10 */
     add r14, r10
     mov.l @(0, r10), r0
     mov.l r0, @(0, r11)

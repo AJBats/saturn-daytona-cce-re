@@ -5,7 +5,7 @@
     .type FUN_0603EAAA, @function
 FUN_0603EAAA:
     sts.l pr, @-r15
-    .byte 0xD0, 0x5A
+    .byte 0xD0, 0x5A    /* mov.l @(0x0603EC18), r0 */
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
@@ -72,7 +72,7 @@ FUN_0603EAAA:
     mov.l r4, @(0, r14)
     mov.l r6, @(8, r14)
     mov.l @(72, gbr), r0
-    .byte 0xDB, 0x3B
+    .byte 0xDB, 0x3B    /* mov.l @(0x0603EC1C), r11 */
     tst r0, r0
     bt .L_0603EB38
     mov r3, r4
@@ -80,7 +80,7 @@ FUN_0603EAAA:
     .2byte 0xB000    /* bsr FUN_060176F8 (linker-resolved) */
     mov r1, r5
 .L_0603EB38:
-    .byte 0xD0, 0x39
+    .byte 0xD0, 0x39    /* mov.l @(0x0603EC20), r0 */
     jsr @r0
     mov.l @r15+, r4
     mov r4, r13
@@ -90,7 +90,7 @@ FUN_0603EAAA:
     mov.l @r15+, r4
     mov.l @(168, gbr), r0
     mov.l r6, @-r15
-    .byte 0xD1, 0x35
+    .byte 0xD1, 0x35    /* mov.l @(0x0603EC24), r1 */
     jsr @r1
     mov r0, r7
     .reloc ., R_SH_IND12W, FUN_0603F10E - 4
@@ -103,7 +103,7 @@ FUN_0603EAAA:
     shlr16 r5
     mov #0x2, r1
     cmp/eq r5, r1
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     mov.b r0, @(19, gbr)
     mov.w @(14, gbr), r0
     tst r5, r5
@@ -127,29 +127,29 @@ FUN_0603EAAA:
     mov.l r6, @-r15
     mov.l r6, @(4, r14)
     mov r13, r4
-    .byte 0xD1, 0x26
+    .byte 0xD1, 0x26    /* mov.l @(0x0603EC28), r1 */
     jsr @r1
     extu.w r0, r0
-    .byte 0xD0, 0x25
+    .byte 0xD0, 0x25    /* mov.l @(0x0603EC2C), r0 */
     jsr @r0
     mov r12, r5
     mov r2, r4
     mov r1, r10
     mov r2, r11
     mov r3, r12
-    .byte 0xD0, 0x23
+    .byte 0xD0, 0x23    /* mov.l @(0x0603EC30), r0 */
     jsr @r0
     mov r1, r5
     mov r11, r4
     mov.w r0, @(16, gbr)
-    .byte 0xD0, 0x20
+    .byte 0xD0, 0x20    /* mov.l @(0x0603EC30), r0 */
     jsr @r0
     mov r12, r5
     neg r0, r0
     mov.w r0, @(12, gbr)
     mov r0, r2
-    .byte 0xD5, 0x1E
-    .byte 0xD1, 0x1F
+    .byte 0xD5, 0x1E    /* mov.l @(0x0603EC34), r5 */
+    .byte 0xD1, 0x1F    /* mov.l @(0x0603EC38), r1 */
     jsr @r1
     mov r0, r4
     dmuls.l r0, r5

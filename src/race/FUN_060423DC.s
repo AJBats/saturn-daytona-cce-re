@@ -63,7 +63,7 @@ FUN_060423DC:
     bra .L_0604244A
     mov r7, r0
 .L_06042440:
-    .byte 0x92, 0x35
+    mov.w .L_wpool_060424AE, r2
     dt r11
     bf/s .L_060423F6
     add r2, r7

@@ -10,9 +10,9 @@ FUN_06034F3C:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x0, r13
-    .byte 0x96, 0x77
+    mov.w .L_wpool_06035036, r6
     mov r4, r12
-    .byte 0x93, 0x75
+    mov.w .L_wpool_06035036, r3
     mov r13, r5
     mov.l r11, @-r15
     extu.b r12, r14
@@ -136,6 +136,7 @@ FUN_06034F54:
     bra .L_060350A6
     nop
     .byte 0x01, 0x5C
+.L_wpool_06035036:
     .byte 0x01, 0xD8
 .L_wpool_06035038:
     .byte 0x01, 0x60

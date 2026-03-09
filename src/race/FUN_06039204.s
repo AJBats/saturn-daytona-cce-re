@@ -98,7 +98,7 @@ FUN_06039204:
     .4byte DAT_0603DB9C  /* 0603DB9C = FUN_0603DB9C */
 .L_060392B8:
     mov.w @(4, r4), r0
-    .byte 0x93, 0x7D
+    .byte 0x93, 0x7D    /* mov.w @(0x060393B8), r3 */
     add r14, r3
     mov.w @r3, r3
     extu.w r3, r3
@@ -117,7 +117,7 @@ FUN_06039204:
     bra .L_060392F6
     nop
 .L_060392DE:
-    .byte 0x90, 0x6B
+    .byte 0x90, 0x6B    /* mov.w @(0x060393B8), r0 */
     mov.b @r5, r2
     mov.w @(r0, r14), r3
     extu.w r3, r3
@@ -154,7 +154,7 @@ FUN_06039204:
     bf .L_06039260
 .L_0603931E:
     mov #0x20, r4
-    .byte 0xD2, 0x27
+    .byte 0xD2, 0x27    /* mov.l @(0x060393C0), r2 */
     mov #0x12, r0
     mov.b @(r0, r14), r1
     mov r1, r3
@@ -169,8 +169,8 @@ FUN_06039204:
     sub r3, r1
     jsr @r2
     mov r4, r0
-    .byte 0x91, 0x3C
-    .byte 0xD2, 0x1F
+    .byte 0x91, 0x3C    /* mov.w @(0x060393BA), r1 */
+    .byte 0xD2, 0x1F    /* mov.l @(0x060393C0), r2 */
     add r14, r1
     mov.l r0, @r1
     mov #0x12, r0
@@ -187,10 +187,10 @@ FUN_06039204:
     sub r3, r1
     jsr @r2
     mov r4, r0
-    .byte 0x91, 0x2B
+    .byte 0x91, 0x2B    /* mov.w @(0x060393BC), r1 */
     add r14, r1
     mov.l r0, @r1
-    .byte 0x90, 0x29
+    .byte 0x90, 0x29    /* mov.w @(0x060393BE), r0 */
     mov.w @(r0, r14), r3
     mov.l @(60, r14), r2
     add #0x12, r0

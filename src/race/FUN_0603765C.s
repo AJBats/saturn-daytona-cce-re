@@ -764,14 +764,14 @@ FUN_060379F6:
 .L_pool_06037B70:
     .4byte 0x0000FAE1  /* 06037B70 = 0x0000FAE1 */
 .L_06037B74:
-    .byte 0xD4, 0x4F
+    .byte 0xD4, 0x4F    /* mov.l @(0x06037CB4), r4 */
 .L_06037B76:
     dmuls.l r3, r4
     sts mach, r3
     sts macl, r4
     xtrct r3, r4
     mov.l r4, @(36, r14)
-    .byte 0xDC, 0x4D
+    .byte 0xDC, 0x4D    /* mov.l @(0x06037CB8), r12 */
     jsr @r12
     nop
     mov.l @r15+, r10

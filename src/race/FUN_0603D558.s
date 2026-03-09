@@ -8,9 +8,9 @@
 FUN_0603D558:
     mov.l r14, @-r15
     mov #0x7C, r0
-    .byte 0xD2, 0x24
+    .byte 0xD2, 0x24    /* mov.l @(0x0603D5F0), r2 */
     exts.w r6, r1
-    .byte 0xD3, 0x22
+    .byte 0xD3, 0x22    /* mov.l @(0x0603D5EC), r3 */
     mov #0x27, r14
     mov.l r13, @-r15
     sub r4, r14
@@ -222,15 +222,15 @@ FUN_0603D56C:
 FUN_0603D6E4:
     mov.l r14, @-r15
     mov #0x7C, r0
-    .byte 0xD3, 0x4F
+    .byte 0xD3, 0x4F    /* mov.l @(0x0603D828), r3 */
     mov #0x27, r14
-    .byte 0x92, 0x98
+    mov.w .L_wpool_0603D820, r2
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov r4, r11
-    .byte 0xD1, 0x4C
+    .byte 0xD1, 0x4C    /* mov.l @(0x0603D82C), r1 */
     sub r11, r14
     mov.l r9, @-r15
     shll8 r14
@@ -383,6 +383,7 @@ FUN_0603D704:
     mov r12, r4
     bra .L_0603D864
     mov.b r4, @(r0, r11)
+.L_wpool_0603D820:
     .byte 0x01, 0xD8
 .L_wpool_0603D822:
     .byte 0x00, 0x88

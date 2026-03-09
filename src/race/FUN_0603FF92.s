@@ -5,7 +5,7 @@
     .type FUN_0603FF92, @function
 FUN_0603FF92:
     sts.l pr, @-r15
-    .byte 0xD0, 0xAA
+    .byte 0xD0, 0xAA    /* mov.l @(0x06040240), r0 */
     jsr @r0
     sub r1, r4
     lds.l @r15+, pr
@@ -21,11 +21,11 @@ FUN_0603FF92:
     mov.l r2, @(20, r0)
     mov #0x1, r4
     shll16 r4
-    .byte 0xD1, 0xA3
+    .byte 0xD1, 0xA3    /* mov.l @(0x06040244), r1 */
     jmp @r1
     mov.l @(20, r0), r5
     .byte 0x00, 0x09
-    .byte 0x7F, 0xF4
-    .byte 0x65, 0xF3
-    .byte 0x15, 0x10
-    .byte 0x15, 0x21
+    add #-0xC, r15
+    mov r15, r5
+    mov.l r1, @(0, r5)
+    mov.l r2, @(4, r5)

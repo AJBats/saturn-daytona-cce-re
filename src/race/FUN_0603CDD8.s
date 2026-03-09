@@ -14,7 +14,7 @@ FUN_0603CDD8:
     .type FUN_0603CDDE, @function
 FUN_0603CDDE:
     sts.l pr, @-r15
-    .byte 0xD2, 0x23
+    mov.l .L_pool_0603CE70, r2
     add #-0x18, r15
     mov.w .L_wpool_0603CE66, r0
     mov.b @r3, r4
@@ -31,7 +31,7 @@ FUN_0603CDDE:
     extu.w r1, r1
     cmp/eq r1, r3
     bf .L_0603CE0A
-    .byte 0xD1, 0x1C
+    mov.l .L_pool_0603CE74, r1
     mov.w .L_wpool_0603CE68, r0
     bra .L_0603CE26
     mov.l r1, @(r0, r14)
@@ -47,16 +47,16 @@ FUN_0603CDDE:
     extu.w r0, r0
     cmp/eq r0, r3
     bf .L_0603CE26
-    .byte 0xD1, 0x15
+    mov.l .L_pool_0603CE78, r1
     mov.w .L_wpool_0603CE68, r0
     mov.l r1, @(r0, r14)
 .L_0603CE26:
-    .byte 0xD3, 0x15
+    mov.l .L_pool_0603CE7C, r3
     jsr @r3
     mov r14, r4
     mov.w .L_wpool_0603CE68, r0
     mov r15, r6
-    .byte 0xD3, 0x13
+    mov.l .L_pool_0603CE80, r3
     mov r14, r5
     mov.l @(r0, r14), r7
     add #0x4, r6
@@ -78,7 +78,7 @@ FUN_0603CDDE:
     mov #0x13, r0
     mov.b r1, @(r0, r14)
 .L_0603CE58:
-    .byte 0xD3, 0x0A
+    mov.l .L_pool_0603CE84, r3
     jsr @r3
     nop
     add #0x18, r15

@@ -20,7 +20,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -39,7 +39,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x10, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -115,7 +115,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -312,7 +312,7 @@ FUN_06039ED8:
     add #0x33, r0
     mov.b @r0, r0
     tst #0x10, r0
-    .byte 0x00, 0x29
+    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -376,13 +376,13 @@ FUN_06039ED8:
     mov.l @(r0, r14), r3
     mov #0x42, r0
     mov.w @(r0, r14), r2
-    .byte 0x43, 0x09
-    .byte 0x43, 0x09
-    .byte 0x63, 0x3B
-    .byte 0x33, 0x28
-    .byte 0xE0, 0x20
-    .byte 0xA0, 0x02
-    .byte 0x0E, 0x35
+    shlr2 r3
+    shlr2 r3
+    neg r3, r3
+    sub r2, r3
+    mov #0x20, r0
+    bra .L_0603A194
+    mov.w r3, @(r0, r14)
 .L_0603A190:
     mov #0x20, r0
     mov.w r5, @(r0, r14)

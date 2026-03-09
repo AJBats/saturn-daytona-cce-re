@@ -28,17 +28,17 @@ FUN_060356F8:
     .4byte 0x00000101  /* 06035724 = 0x00000101 */
 .L_pool_06035728:
     .4byte DAT_06048160  /* 06048160 = FUN_060480D6 + 0x8A */
-    .byte 0x32, 0x85
-    .byte 0x04, 0x1A
-    .byte 0x00, 0x0B
-    .byte 0x6A, 0xF6
-    .byte 0x48, 0x01
-    .byte 0x32, 0x85
-    .byte 0x04, 0x1A
-    .byte 0x00, 0x0B
-    .byte 0x6A, 0xF6
-    .byte 0x48, 0x09
-    .byte 0x32, 0x85
-    .byte 0x04, 0x1A
-    .byte 0x00, 0x0B
-    .byte 0x6A, 0xF6
+    dmulu.l r8, r2
+    sts macl, r4
+    rts
+    mov.l @r15+, r10
+    shlr r8
+    dmulu.l r8, r2
+    sts macl, r4
+    rts
+    mov.l @r15+, r10
+    shlr2 r8
+    dmulu.l r8, r2
+    sts macl, r4
+    rts
+    mov.l @r15+, r10

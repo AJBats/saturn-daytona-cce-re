@@ -21,12 +21,12 @@ FUN_0603679A:
     mov r3, r9
     mov.l @(0, r0), r5
     mov.l @(8, r0), r6
-    .byte 0xD0, 0x10
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06036800 */
     jsr @r0
     nop
     mov r0, r8
     mov r7, r4
-    .byte 0xD0, 0x0F
+    .byte 0xD0, 0x0F    /* mov.l @(disp,PC), r0 -> .L_pool_06036804 */
     jsr @r0
     nop
     dmuls.l r0, r3

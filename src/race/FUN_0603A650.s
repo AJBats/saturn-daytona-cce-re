@@ -8,37 +8,37 @@
 FUN_0603A650:
     sts.l pr, @-r15
     mov #0x0, r5
-    .byte 0x90, 0x7C
+    mov.w .L_wpool_0603A750, r0
     mov r4, r2
-    .byte 0x91, 0x7C
+    mov.w .L_wpool_0603A754, r1
     mov.l r5, @(r0, r4)
-    .byte 0xD3, 0x40
+    .byte 0xD3, 0x40    /* mov.l @(0x0603A760), r3 */
     add #-0x4, r0
     mov.l r5, @(r0, r4)
-    .byte 0x90, 0x76
+    mov.w .L_wpool_0603A752, r0
     mov.b r5, @(r0, r4)
     mov r5, r0
     jsr @r3
     add #0x30, r2
-    .byte 0x91, 0x73
+    mov.w .L_wpool_0603A756, r1
     mov r5, r0
-    .byte 0xD3, 0x3B
+    .byte 0xD3, 0x3B    /* mov.l @(0x0603A760), r3 */
     mov r4, r2
     jsr @r3
     add #0x30, r2
-    .byte 0x91, 0x6E
+    mov.w .L_wpool_0603A758, r1
     mov r5, r0
-    .byte 0xD3, 0x38
+    .byte 0xD3, 0x38    /* mov.l @(0x0603A760), r3 */
     mov r4, r2
     jsr @r3
     add #0x30, r2
-    .byte 0x91, 0x69
+    mov.w .L_wpool_0603A75A, r1
     mov r5, r0
-    .byte 0xD3, 0x35
+    .byte 0xD3, 0x35    /* mov.l @(0x0603A760), r3 */
     mov r4, r2
     jsr @r3
     add #0x30, r2
-    .byte 0x90, 0x64
+    mov.w .L_wpool_0603A75C, r0
     mov.w r5, @(r0, r4)
     add #0x2, r0
     mov.w r5, @(r0, r4)
@@ -52,9 +52,9 @@ FUN_0603A650:
 FUN_0603A6A0:
     sts.l pr, @-r15
     add #-0x4, r15
-    .byte 0xD3, 0x30
+    .byte 0xD3, 0x30    /* mov.l @(0x0603A768), r3 */
     mov.l r4, @r15
-    .byte 0xD4, 0x2E
+    .byte 0xD4, 0x2E    /* mov.l @(0x0603A764), r4 */
     jsr @r3
     nop
     mov r0, r4
@@ -143,12 +143,19 @@ FUN_0603A6BC:
     .byte 0x01, 0x90
     .byte 0x01, 0x70
     .byte 0x01, 0xAE
+.L_wpool_0603A750:
     .byte 0x01, 0x28
+.L_wpool_0603A752:
     .byte 0x01, 0xC2
+.L_wpool_0603A754:
     .byte 0x19, 0x01
+.L_wpool_0603A756:
     .byte 0x18, 0x01
+.L_wpool_0603A758:
     .byte 0x17, 0x01
+.L_wpool_0603A75A:
     .byte 0x16, 0x01
+.L_wpool_0603A75C:
     .byte 0x01, 0x7A
 .L_wpool_0603A75E:
     .byte 0x01, 0x34
@@ -169,9 +176,9 @@ FUN_0603A6BC:
     .byte 0xFF, 0xFF
 .L_pool_0603A780:
     .4byte sym_06013BB4  /* 06012780 = 0x06013BB4 (init cross-ref, fixed) */
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15

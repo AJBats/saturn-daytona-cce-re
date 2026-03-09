@@ -359,17 +359,18 @@ FUN_06033DC8:
     mov.b @r8, r3
     or r5, r3
     mov.b r3, @r8
-    .byte 0x60, 0x80
-    .byte 0x60, 0x0C
-    .byte 0x88, 0x03
-    .byte 0x89, 0x01
-    .byte 0xA0, 0xF5
-    .byte 0x00, 0x09
-    .byte 0xD2, 0x5C
-    .byte 0x42, 0x0B
-    .byte 0x64, 0xEC
-    .byte 0xA0, 0xF0
-    .byte 0x00, 0x09
+    mov.b @r8, r0
+    extu.b r0, r0
+    cmp/eq #0x3, r0
+    bt .L_0603405A
+    bra .L_06034244
+    nop
+.L_0603405A:
+    mov.l .L_pool_060341CC, r2
+    jsr @r2
+    extu.b r14, r4
+    bra .L_06034244
+    nop
 .L_06034064:
     extu.b r4, r0
     cmp/eq #0x3, r0
@@ -892,11 +893,11 @@ FUN_06033DC8:
     mov.l @r15+, r8
     mov.l @r15+, r9
     mov.l @r15+, r10
-    .byte 0x6B, 0xF6
-    .byte 0x6C, 0xF6
-    .byte 0x6D, 0xF6
-    .byte 0x00, 0x0B
-    .byte 0x6E, 0xF6
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    mov.l @r15+, r14
 .L_wpool_06034434:
     .byte 0x01, 0xD8
     .byte 0xFF, 0xFF
@@ -1143,42 +1144,45 @@ FUN_06034480:
     .4byte sym_0605492B  /* 060345F8 = 0x0605492B */
 .L_pool_060345FC:
     .4byte sym_060133C4  /* 060345FC = 0x060133C4 (init cross-ref, fixed) */
-    .byte 0xD0, 0x29
-    .byte 0x63, 0x00
-    .byte 0xD0, 0x2A
-    .byte 0x62, 0x33
-    .byte 0x43, 0x08
-    .byte 0x33, 0x2C
-    .byte 0xD2, 0x27
-    .byte 0x43, 0x08
-    .byte 0x63, 0x3E
-    .byte 0x01, 0x3E
-    .byte 0x31, 0x20
-    .byte 0x8B, 0x02
-    .byte 0xD1, 0x26
-    .byte 0xE3, 0x00
-    .byte 0x21, 0x30
-    .byte 0xE2, 0x1E
-    .byte 0xD5, 0x25
-    .byte 0x63, 0x51
-    .byte 0x73, 0x01
-    .byte 0x25, 0x31
-    .byte 0x64, 0x51
-    .byte 0x64, 0x4D
-    .byte 0x34, 0x23
-    .byte 0x8B, 0x09
-    .byte 0xD1, 0x22
-    .byte 0x85, 0x11
-    .byte 0x20, 0x08
-    .byte 0x8B, 0x02
-    .byte 0x93, 0x35
-    .byte 0x34, 0x33
-    .byte 0x8B, 0x02
-    .byte 0xD1, 0x20
-    .byte 0x41, 0x2B
-    .byte 0x00, 0x09
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    .byte 0xD0, 0x29    /* mov.l @(0x060346A8), r0 */
+    mov.b @r0, r3
+    .byte 0xD0, 0x2A    /* mov.l @(0x060346B0), r0 */
+    mov r3, r2
+    shll2 r3
+    add r2, r3
+    .byte 0xD2, 0x27    /* mov.l @(0x060346AC), r2 */
+    shll2 r3
+    exts.b r3, r3
+    mov.l @(r0, r3), r1
+    cmp/eq r2, r1
+    bf .L_0603461E
+    .byte 0xD1, 0x26    /* mov.l @(0x060346B4), r1 */
+    mov #0x0, r3
+    mov.b r3, @r1
+.L_0603461E:
+    mov #0x1E, r2
+    .byte 0xD5, 0x25    /* mov.l @(0x060346B8), r5 */
+    mov.w @r5, r3
+    add #0x1, r3
+    mov.w r3, @r5
+    mov.w @r5, r4
+    extu.w r4, r4
+    cmp/ge r2, r4
+    bf .L_06034644
+    .byte 0xD1, 0x22    /* mov.l @(0x060346BC), r1 */
+    mov.w @(2, r1), r0
+    tst r0, r0
+    bf .L_0603463E
+    mov.w .L_wpool_060346A6, r3
+    cmp/ge r3, r4
+    bf .L_06034644
+.L_0603463E:
+    .byte 0xD1, 0x20    /* mov.l @(0x060346C0), r1 */
+    jmp @r1
+    nop
+.L_06034644:
+    rts
+    nop
 
     .global FUN_06034648
     .type FUN_06034648, @function
@@ -1220,18 +1224,21 @@ FUN_06034648:
     lds.l @r15+, pr
     rts
     mov.b r4, @r3
-    .byte 0xD0, 0x14
-    .byte 0x60, 0x00
-    .byte 0x88, 0x02
-    .byte 0x8D, 0x02
-    .byte 0xE5, 0x01
-    .byte 0xA0, 0x01
-    .byte 0xE4, 0x00
-    .byte 0x64, 0x53
-    .byte 0xD3, 0x11
-    .byte 0x23, 0x51
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x43
+    .byte 0xD0, 0x14    /* mov.l @(0x060346E0), r0 */
+    mov.b @r0, r0
+    cmp/eq #0x2, r0
+    bt/s .L_0603469C
+    mov #0x1, r5
+    bra .L_0603469E
+    mov #0x0, r4
+.L_0603469C:
+    mov r5, r4
+.L_0603469E:
+    .byte 0xD3, 0x11    /* mov.l @(0x060346E4), r3 */
+    mov.w r5, @r3
+    rts
+    mov r4, r0
+.L_wpool_060346A6:
     .byte 0x01, 0xC2
     .4byte sym_002FC21C  /* 060346A8 = 0x002FC21C */
     .4byte 0x0000FFFF  /* 060346AC = 0x0000FFFF */

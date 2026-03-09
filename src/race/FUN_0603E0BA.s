@@ -11,12 +11,12 @@ FUN_0603E0BA:
     mov.w @(128, gbr), r0
     mov.b @(r0, r5), r5
     extu.b r5, r5
-    .byte 0xD1, 0x1D
+    .byte 0xD1, 0x1D    /* mov.l @(disp,PC), r1 -> .L_pool_0603E140 */
     jsr @r1
     mov r5, r10
     mov.l @(4, r13), r4
     mov.l r0, @-r15
-    .byte 0xD0, 0x1C
+    .byte 0xD0, 0x1C    /* mov.l @(disp,PC), r0 -> .L_pool_0603E144 */
     jsr @r0
     mov.l @(8, r13), r5
     mov r6, r5
@@ -24,7 +24,7 @@ FUN_0603E0BA:
     mov r10, r6
     mov.l @(12, r13), r8
     lds.l @r15+, pr
-    .byte 0xD0, 0x19
+    .byte 0xD0, 0x19    /* mov.l @(disp,PC), r0 -> .L_pool_0603E148 */
     jmp @r0
     mov.l @(0, r13), r7
     .byte 0x01, 0xA4

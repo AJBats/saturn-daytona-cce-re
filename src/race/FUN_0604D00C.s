@@ -24,25 +24,25 @@ FUN_0604D00C:
     and r0, r4
     and r0, r6
     cmp/eq r3, r8
-    .byte 0x89, 0x86
+    .byte 0x89, 0x86    /* bt 0x0604CF44 */
     cmp/eq r3, r9
-    .byte 0x89, 0x98
+    .byte 0x89, 0x98    /* bt 0x0604CF6C */
     tst r8, r8
-    .byte 0x89, 0xA2
+    .byte 0x89, 0xA2    /* bt 0x0604CF84 */
     .global FUN_0604D03E
 FUN_0604D03E:
     tst r9, r9
-    .byte 0x89, 0xB2
+    .byte 0x89, 0xB2    /* bt 0x0604CFA8 */
     .global FUN_0604D042
 FUN_0604D042:
     mov.l .L_pool_0604D150, r2
     add r9, r8
     sub r2, r8
     cmp/ge r3, r8
-    .byte 0x89, 0xC4
+    .byte 0x89, 0xC4    /* bt 0x0604CFD6 */
     mov #-0x35, r3
     cmp/gt r8, r3
-    .byte 0x89, 0xBC
+    .byte 0x89, 0xBC    /* bt 0x0604CFCC */
     mov.l .L_pool_0604D148, r0
     or r0, r4
     or r0, r6
@@ -100,7 +100,7 @@ FUN_0604D042:
 .L_0604D0B6:
     shlr r1
     rotcr r0
-    .byte 0x03, 0x29
+    .byte 0x03, 0x29 /* UNKNOWN 0x0329 */
     dt r8
     bf/s .L_0604D0B6
     or r3, r0

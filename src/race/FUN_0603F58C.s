@@ -5,7 +5,7 @@
     .type FUN_0603F58C, @function
 FUN_0603F58C:
     mov.l @(72, gbr), r0
-    .byte 0xD7, 0x66
+    .byte 0xD7, 0x66    /* mov.l @(0x0603F728), r7 */
     dmuls.l r0, r7
     sts mach, r7
     sts macl, r5
@@ -19,7 +19,7 @@ FUN_0603F58C:
     sub r0, r4
     cmp/pz r4
     bt/s .L_0603F5B4
-    .byte 0x07, 0x29
+    .byte 0x07, 0x29 /* UNKNOWN 0x0729 */
     neg r4, r4
     tst r1, r1
     mov.l @(188, gbr), r0
@@ -41,14 +41,14 @@ FUN_0603F58C:
     mov r0, r4
     mov r6, r0
     tst r7, r7
-    .byte 0xD5, 0x56
-    .byte 0xD6, 0x52
+    .byte 0xD5, 0x56    /* mov.l @(0x0603F72C), r5 */
+    .byte 0xD6, 0x52    /* mov.l @(0x0603F720), r6 */
     bf .L_0603F5DE
     neg r0, r0
     neg r5, r5
     neg r6, r6
 .L_0603F5DE:
-    .byte 0x97, 0x9A
+    .byte 0x97, 0x9A    /* mov.w @(0x0603F716), r7 */
     mov.l r0, @(172, gbr)
     add r14, r7
     mov.l r5, @(8, r7)

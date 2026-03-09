@@ -5,8 +5,8 @@
     .type FUN_0603BFE8, @function
 FUN_0603BFE8:
     sts.l pr, @-r15
-    .byte 0xD4, 0x3A
-    .byte 0xD3, 0x3A
+    .byte 0xD4, 0x3A    /* mov.l @(0x0603C0D4), r4 */
+    .byte 0xD3, 0x3A    /* mov.l @(0x0603C0D8), r3 */
     jsr @r3
     nop
     mov r0, r4

@@ -10,7 +10,7 @@ FUN_060449B6:
     mov.l @(8, r4), r5
     mov.l @(0, r4), r6
     mov.w @(12, r13), r0
-    .byte 0xD3, 0x2B
+    .byte 0xD3, 0x2B    /* mov.l @(disp,PC), r3 -> .L_pool_06044A70 */
     jsr @r3
     mov r0, r4
     .reloc ., R_SH_IND12W, FUN_06044834 - 4
@@ -28,7 +28,7 @@ FUN_060449B6:
     dmuls.l r6, r0
     sts mach, r6
     neg r5, r5
-    .byte 0xD0, 0x23
+    .byte 0xD0, 0x23    /* mov.l @(disp,PC), r0 -> .L_pool_06044A74 */
     mov.b @r0, r0
     tst r0, r0
     bt/s .L_060449FC
@@ -61,7 +61,7 @@ FUN_060449B6:
     add r12, r2
     mov.w .L_wpool_06044A6C, r0
     mov.w r0, @(0, r9)
-    .byte 0xD0, 0x14
+    .byte 0xD0, 0x14    /* mov.l @(disp,PC), r0 -> .L_pool_06044A78 */
     mov.l r0, @(4, r9)
     mov.l r2, @(8, r9)
     add r11, r1

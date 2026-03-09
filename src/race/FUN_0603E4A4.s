@@ -160,15 +160,15 @@ FUN_0603E4A4:
     mov.l r1, @(28, r13)
     mov.l r2, @(32, r13)
     mov.l r3, @(40, r13)
-    .byte 0xD1, 0x1D
-    .byte 0xD2, 0x1D
+    .byte 0xD1, 0x1D    /* mov.l @(0x0603E64C), r1 */
+    .byte 0xD2, 0x1D    /* mov.l @(0x0603E650), r2 */
     mov.b @r1, r1
     mov.b @r2, r2
     tst r1, r1
     bf .L_0603E5EC
     tst r2, r2
     bf .L_0603E5EC
-    .byte 0xD0, 0x1B
+    .byte 0xD0, 0x1B    /* mov.l @(0x0603E654), r0 */
     jsr @r0
     nop
 .L_0603E5EC:
@@ -181,7 +181,7 @@ FUN_0603E4A4:
     mov.l @r15+, r4
     mov.l r5, @-r15
     mov.l r7, @-r15
-    .byte 0xD0, 0x16
+    .byte 0xD0, 0x16    /* mov.l @(0x0603E658), r0 */
     jsr @r0
     mov r13, r5
     mov.l @r15+, r7

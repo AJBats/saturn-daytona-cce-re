@@ -67,7 +67,7 @@ FUN_06047E0C:
     .byte 0x60, 0x23
     mov.l .L_pool_06047ED8, r0
     .byte 0x00, 0x0B
-    .byte 0x30, 0x28
+    sub r2, r0
     mov.l .L_pool_06047ED0, r0
     .byte 0x32, 0x08
     .byte 0x00, 0x0B

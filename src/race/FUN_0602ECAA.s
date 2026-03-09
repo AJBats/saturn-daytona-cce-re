@@ -5,13 +5,13 @@
     .type FUN_0602ECAA, @function
 FUN_0602ECAA:
     mov.l r14, @-r15
-    .byte 0xDE, 0x0F
-    .byte 0xD3, 0x10
+    .byte 0xDE, 0x0F    /* mov.l @(disp,PC), r14 -> .L_pool_0602ECEC */
+    .byte 0xD3, 0x10    /* mov.l @(disp,PC), r3 -> .L_pool_0602ECF0 */
     mov.b @r3, r0
     extu.b r0, r0
     cmp/eq #0x1, r0
     bf .L_0602ECF8
-    .byte 0xD2, 0x0E
+    .byte 0xD2, 0x0E    /* mov.l @(disp,PC), r2 -> .L_pool_0602ECF4 */
     mov.b @r2, r0
     mov.b @r2, r4
     extu.b r0, r0
@@ -36,8 +36,8 @@ FUN_0602ECAA:
 .L_pool_0602ECF4:
     .4byte sym_0605161C  /* 0602ECF4 = 0x0605161C */
 .L_0602ECF8:
-    .byte 0xD4, 0x47
-    .byte 0xD2, 0x48
+    .byte 0xD4, 0x47    /* mov.l @(0x0602EE18), r4 */
+    .byte 0xD2, 0x48    /* mov.l @(0x0602EE1C), r2 */
     mov.b @r2, r0
     extu.b r0, r0
     mov.b @(r0, r14), r1
@@ -46,19 +46,19 @@ FUN_0602ECAA:
     bt/s .L_0602ED44
     mov r4, r7
     mov #0x0, r0
-    .byte 0x96, 0x81
+    .byte 0x96, 0x81    /* mov.w @(0x0602EE12), r6 */
     mov #0x0, r3
-    .byte 0xD5, 0x43
+    .byte 0xD5, 0x43    /* mov.l @(0x0602EE20), r5 */
     mov.w @r7, r1
     add r6, r1
     cmp/gt r1, r0
     addc r0, r1
     shar r1
-    .byte 0xD0, 0x41
+    .byte 0xD0, 0x41    /* mov.l @(0x0602EE24), r0 */
     add r5, r1
     mov.w r1, @r0
     mov.w @(2, r4), r0
-    .byte 0xD1, 0x40
+    .byte 0xD1, 0x40    /* mov.l @(0x0602EE28), r1 */
     add r6, r0
     cmp/gt r0, r3
     addc r3, r0
@@ -70,22 +70,22 @@ FUN_0602ECAA:
     cmp/gt r0, r3
     addc r3, r0
     shar r0
-    .byte 0xD3, 0x3B
+    .byte 0xD3, 0x3B    /* mov.l @(0x0602EE2C), r3 */
     add r5, r0
     bra .L_0602ED56
     mov.w r0, @r3
 .L_0602ED44:
     mov.w @r7, r1
-    .byte 0xD0, 0x37
-    .byte 0xD3, 0x37
+    .byte 0xD0, 0x37    /* mov.l @(0x0602EE24), r0 */
+    .byte 0xD3, 0x37    /* mov.l @(0x0602EE28), r3 */
     mov.w r1, @r0
     mov.w @(2, r4), r0
     mov.w r0, @r3
     mov.w @(4, r4), r0
-    .byte 0xD1, 0x36
+    .byte 0xD1, 0x36    /* mov.l @(0x0602EE2C), r1 */
     mov.w r0, @r1
 .L_0602ED56:
     rts
     mov.l @r15+, r14
-    .byte 0xE7, 0x03
-    .byte 0xD5, 0x34
+    mov #0x3, r7
+    .byte 0xD5, 0x34    /* mov.l @(0x0602EE30), r5 */

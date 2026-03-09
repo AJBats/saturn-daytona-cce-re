@@ -15,7 +15,7 @@ FUN_06045E06:
     bt/s .L_06045E32
     extu.w r0, r3
     mov.w @(2, r2), r0
-    .byte 0xD1, 0x08
+    .byte 0xD1, 0x08    /* mov.l @(disp,PC), r1 -> .L_pool_06045E40 */
     shll2 r0
     shll r0
     add r0, r1

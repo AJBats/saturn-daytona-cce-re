@@ -10,7 +10,7 @@ FUN_0604E040:
     lds.l @r15+, pr
     mov.l @r15+, r2
     dmuls.l r0, r1
-    .byte 0xD5, 0x36
+    .byte 0xD5, 0x36    /* mov.l @(0x0604E128), r5 */
     sts mach, r3
     sts macl, r4
     xtrct r3, r4
@@ -27,11 +27,11 @@ FUN_0604E040:
     sub r5, r3
     and r2, r1
     and r2, r3
-    .byte 0xD2, 0x2F
+    .byte 0xD2, 0x2F    /* mov.l @(0x0604E12C), r2 */
     mov.l @r2, r5
     mov.l @(8, r5), r2
     add r5, r2
-    .byte 0x95, 0x4D
+    .byte 0x95, 0x4D    /* mov.w @(0x0604E114), r5 */
     .global FUN_0604E078
 FUN_0604E078:
     mulu.w r5, r1
@@ -40,8 +40,8 @@ FUN_0604E078:
     sts macl, r3
     add r2, r1
     add r2, r3
-    .byte 0x92, 0x47
-    .byte 0x96, 0x47
+    .byte 0x92, 0x47    /* mov.w @(0x0604E116), r2 */
+    .byte 0x96, 0x47    /* mov.w @(0x0604E118), r6 */
     add r1, r2
     add r1, r6
     mov.l @r2, r2
@@ -50,4 +50,4 @@ FUN_0604E078:
     mov.l r3, @-r15
     mov.l r4, @-r15
     mov r2, r5
-    .byte 0xDC, 0x25
+    .byte 0xDC, 0x25    /* mov.l @(0x0604E130), r12 */

@@ -5,9 +5,9 @@
     .type FUN_06047184, @function
 FUN_06047184:
     sts.l pr, @-r15
-    .byte 0x9A, 0x9E
+    .byte 0x9A, 0x9E    /* mov.w @(0x060472C6), r10 */
     add r14, r10
-    .byte 0x9B, 0x9D
+    .byte 0x9B, 0x9D    /* mov.w @(0x060472C8), r11 */
     add r14, r11
     mov #0x0, r0
     mov.b r0, @(154, gbr)

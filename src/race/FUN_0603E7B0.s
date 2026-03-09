@@ -5,11 +5,11 @@
     .type FUN_0603E7B0, @function
 FUN_0603E7B0:
     sts.l pr, @-r15
-    .byte 0xD0, 0x78
+    .byte 0xD0, 0x78    /* mov.l @(0x0603E994), r0 */
     add r0, r15
     mov r15, r13
     mov.l r0, @-r15
-    .byte 0x90, 0xE7
+    .byte 0x90, 0xE7    /* mov.w @(0x0603E98C), r0 */
     mov.l @(r0, r14), r12
     mov.w @(128, gbr), r0
     mov r12, r11
@@ -121,17 +121,17 @@ FUN_0603E7B0:
     dt r3
     bf/s .L_0603E874
     add #0x4, r1
-    .byte 0xD0, 0x41
+    .byte 0xD0, 0x41    /* mov.l @(0x0603E998), r0 */
     jsr @r0
     mov r13, r4
     mov r0, r4
-    .byte 0x90, 0x79
+    .byte 0x90, 0x79    /* mov.w @(0x0603E98E), r0 */
     add r14, r0
     mov.l r4, @(0, r0)
     mov.l r1, @(4, r0)
     mov.l r2, @(8, r0)
     mov.l @(72, gbr), r0
-    .byte 0xD7, 0x3D
+    .byte 0xD7, 0x3D    /* mov.l @(0x0603E99C), r7 */
     dmuls.l r0, r7
     sts mach, r7
     sts macl, r0
@@ -162,12 +162,12 @@ FUN_0603E7B0:
     mov.l r5, @(4, r14)
     add r3, r6
     mov.l r6, @(8, r14)
-    .byte 0xD0, 0x2F
+    .byte 0xD0, 0x2F    /* mov.l @(0x0603E9A0), r0 */
     jsr @r0
     nop
     mov.l @r15+, r0
     sub r0, r15
-    .byte 0x90, 0x50
+    .byte 0x90, 0x50    /* mov.w @(0x0603E990), r0 */
     and.b #0x7F, @(r0, gbr)
     mov #0x0, r0
     mov.b r0, @(19, gbr)

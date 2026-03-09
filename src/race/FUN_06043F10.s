@@ -5,7 +5,7 @@
     .type FUN_06043F10, @function
 FUN_06043F10:
     mov r0, r1
-    .byte 0xC7, 0x17
+    .byte 0xC7, 0x17    /* mova @(0x06043F70), r0 */
     shll2 r1
     mov.l @(r0, r1), r0
     mov.l .L_pool_06043F20, r3

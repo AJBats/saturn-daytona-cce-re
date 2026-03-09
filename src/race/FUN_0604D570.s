@@ -5,10 +5,10 @@
     .type FUN_0604D570, @function
 FUN_0604D570:
     sts.l pr, @-r15
-    .byte 0xDD, 0x21
+    .byte 0xDD, 0x21    /* mov.l @(0x0604D5F8), r13 */
     jsr @r13
     nop
-    .byte 0xD1, 0x20
+    .byte 0xD1, 0x20    /* mov.l @(0x0604D5FC), r1 */
     jmp @r1
     nop
     .byte 0xFF, 0xFF

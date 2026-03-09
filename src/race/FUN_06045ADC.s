@@ -12,7 +12,7 @@ FUN_06045ADC:
     add r1, r11
     add r1, r12
     tst #0x20, r0
-    .byte 0x8F, 0x02
+    .byte 0x8F, 0x02    /* bf/s 0x06045AF4 */
     mov r12, r13
     rts
     nop

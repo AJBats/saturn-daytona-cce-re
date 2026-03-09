@@ -276,21 +276,21 @@ FUN_0603CE88:
 .L_0603D094:
     mov.b r14, @r6
 .L_0603D096:
-    .byte 0xD2, 0x44
-    .byte 0xD3, 0x44
+    .byte 0xD2, 0x44    /* mov.l @(0x0603D1A8), r2 */
+    .byte 0xD3, 0x44    /* mov.l @(0x0603D1AC), r3 */
     mov.b r14, @r2
     mov.b r14, @r3
-    .byte 0xD0, 0x44
-    .byte 0xD2, 0x44
+    .byte 0xD0, 0x44    /* mov.l @(0x0603D1B0), r0 */
+    .byte 0xD2, 0x44    /* mov.l @(0x0603D1B4), r2 */
     mov.b @r0, r1
-    .byte 0xD0, 0x45
+    .byte 0xD0, 0x45    /* mov.l @(0x0603D1BC), r0 */
     mov.b r1, @r2
-    .byte 0xD1, 0x43
+    .byte 0xD1, 0x43    /* mov.l @(0x0603D1B8), r1 */
     mov.b @r1, r3
-    .byte 0x92, 0x79
+    .byte 0x92, 0x79    /* mov.w @(0x0603D1A2), r2 */
     extu.b r3, r3
     muls.w r2, r3
-    .byte 0xD2, 0x43
+    .byte 0xD2, 0x43    /* mov.l @(0x0603D1C0), r2 */
     sts macl, r3
     exts.w r3, r3
     add r0, r3

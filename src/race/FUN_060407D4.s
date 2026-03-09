@@ -10,7 +10,7 @@ FUN_060407D4:
     mov.l .L_pool_06040844, r0
     jsr @r0
     mov r4, r5
-    .byte 0xC7, 0x97
+    .byte 0xC7, 0x97    /* mova @(0x06040A40), r0 */
     mov.l .L_pool_06040848, r3
     jsr @r3
     mov r0, r5
@@ -27,7 +27,7 @@ FUN_060407D4:
     mov.l .L_pool_06040844, r0
     jsr @r0
     mov r4, r5
-    .byte 0xC7, 0x92
+    .byte 0xC7, 0x92    /* mova @(0x06040A4C), r0 */
     mov.l .L_pool_06040848, r3
     jsr @r3
     mov r0, r5
@@ -44,7 +44,7 @@ FUN_060407D4:
     mov.l .L_pool_06040844, r0
     jsr @r0
     mov r4, r5
-    .byte 0xC7, 0x8C
+    .byte 0xC7, 0x8C    /* mova @(0x06040A58), r0 */
     mov.l .L_pool_06040848, r3
     jsr @r3
     mov r0, r5

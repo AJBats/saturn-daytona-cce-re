@@ -6,39 +6,39 @@
 FUN_0602F332:
     sts.l pr, @-r15
     mov.w r3, @r2
-    .byte 0xD3, 0x16
+    .byte 0xD3, 0x16    /* mov.l @(disp,PC), r3 -> .L_pool_0602F390 */
     jsr @r3
     mov #0x2C, r5
-    .byte 0xD5, 0x26
+    .byte 0xD5, 0x26    /* mov.l @(disp,PC), r5 -> .L_pool_0602F3D8 */
     mov #0x5, r7
-    .byte 0xD4, 0x26
+    .byte 0xD4, 0x26    /* mov.l @(disp,PC), r4 -> .L_pool_0602F3DC */
     mov #0x2A, r6
-    .byte 0xD2, 0x10
+    .byte 0xD2, 0x10    /* mov.l @(disp,PC), r2 -> .L_pool_0602F388 */
     jmp @r2
     lds.l @r15+, pr
     .global FUN_0602F34A
 FUN_0602F34A:
-    .byte 0xE2, 0x7F
-    .byte 0xD1, 0x25
-    .byte 0xE0, 0x00
-    .byte 0xD3, 0x23
-    .byte 0x23, 0x41
-    .byte 0x21, 0x21
-    .byte 0x71, 0x06
-    .byte 0xD2, 0x23
-    .byte 0x22, 0x01
-    .byte 0xD3, 0x23
-    .byte 0x72, 0x06
-    .byte 0x23, 0x41
-    .byte 0x73, 0x06
-    .byte 0x21, 0x41
-    .byte 0x71, 0x06
-    .byte 0x22, 0x41
-    .byte 0x72, 0x06
-    .byte 0x23, 0x41
-    .byte 0x21, 0x41
-    .byte 0x00, 0x0B
-    .byte 0x22, 0x41
+    mov #0x7F, r2
+    .byte 0xD1, 0x25    /* mov.l @(0x0602F3E4), r1 */
+    mov #0x0, r0
+    .byte 0xD3, 0x23    /* mov.l @(0x0602F3E0), r3 */
+    mov.w r4, @r3
+    mov.w r2, @r1
+    add #0x6, r1
+    .byte 0xD2, 0x23    /* mov.l @(0x0602F3E8), r2 */
+    mov.w r0, @r2
+    .byte 0xD3, 0x23    /* mov.l @(0x0602F3EC), r3 */
+    add #0x6, r2
+    mov.w r4, @r3
+    add #0x6, r3
+    mov.w r4, @r1
+    add #0x6, r1
+    mov.w r4, @r2
+    add #0x6, r2
+    mov.w r4, @r3
+    mov.w r4, @r1
+    rts
+    mov.w r4, @r2
     .4byte sym_06054920  /* 0602F374 = 0x06054920 */
     .4byte DAT_0604F000  /* 0604F000 = FUN_0604E0F6 + 0xF0A */
     .4byte sym_25E6A000  /* 0602F37C = 0x25E6A000 */

@@ -32,31 +32,31 @@ FUN_06044DB8:
     rts
     mov.l r3, @(44, r4)
     .byte 0x00, 0x09
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x60, 0x46
-    .byte 0x61, 0x46
-    .byte 0x62, 0x46
-    .byte 0x63, 0x46
-    .byte 0x15, 0x00
-    .byte 0x15, 0x11
-    .byte 0x15, 0x22
-    .byte 0x15, 0x33
-    .byte 0x60, 0x46
-    .byte 0x61, 0x46
-    .byte 0x62, 0x46
-    .byte 0x63, 0x46
-    .byte 0x15, 0x04
-    .byte 0x15, 0x15
-    .byte 0x15, 0x26
-    .byte 0x15, 0x37
-    .byte 0x60, 0x46
-    .byte 0x61, 0x46
-    .byte 0x62, 0x46
-    .byte 0x63, 0x46
-    .byte 0x15, 0x08
-    .byte 0x15, 0x19
-    .byte 0x15, 0x2A
-    .byte 0x15, 0x3B
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
+    rts
+    add #-0x30, r4
+    mov.l @r4+, r0
+    mov.l @r4+, r1
+    mov.l @r4+, r2
+    mov.l @r4+, r3
+    mov.l r0, @(0, r5)
+    mov.l r1, @(4, r5)
+    mov.l r2, @(8, r5)
+    mov.l r3, @(12, r5)
+    mov.l @r4+, r0
+    mov.l @r4+, r1
+    mov.l @r4+, r2
+    mov.l @r4+, r3
+    mov.l r0, @(16, r5)
+    mov.l r1, @(20, r5)
+    mov.l r2, @(24, r5)
+    mov.l r3, @(28, r5)
+    mov.l @r4+, r0
+    mov.l @r4+, r1
+    mov.l @r4+, r2
+    mov.l @r4+, r3
+    mov.l r0, @(32, r5)
+    mov.l r1, @(36, r5)
+    mov.l r2, @(40, r5)
+    mov.l r3, @(44, r5)
+    rts
+    add #-0x30, r4

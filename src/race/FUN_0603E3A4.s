@@ -7,7 +7,7 @@ FUN_0603E3A4:
     sts.l pr, @-r15
 .L_0603E3A6:
     ldc r14, gbr
-    .byte 0xD1, 0x29
+    .byte 0xD1, 0x29    /* mov.l @(0x0603E450), r1 */
     mov #0x11, r0
     mov.b r0, @r1
     mov.b @(193, gbr), r0

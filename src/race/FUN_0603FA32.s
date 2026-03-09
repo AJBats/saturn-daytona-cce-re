@@ -5,7 +5,7 @@
     .type FUN_0603FA32, @function
 FUN_0603FA32:
     mov.l r14, @-r15
-    .byte 0xD0, 0x81
+    .byte 0xD0, 0x81    /* mov.l @(0x0603FC3C), r0 */
     jsr @r0
     nop
     mov.l @r15+, r14

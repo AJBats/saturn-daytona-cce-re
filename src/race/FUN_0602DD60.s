@@ -47,13 +47,13 @@ FUN_0602DD60:
 .L_0602DDC6:
     mov #0x20, r14
 .L_0602DDC8:
-    .byte 0xD3, 0x3E
+    .byte 0xD3, 0x3E    /* mov.l @(0x0602DEC4), r3 */
     extu.b r4, r1
     mov.l r1, @r15
     jsr @r3
     mov #0xA, r0
     mov r0, r11
-    .byte 0xD2, 0x3C
+    .byte 0xD2, 0x3C    /* mov.l @(0x0602DEC8), r2 */
     extu.w r13, r12
     shll2 r12
     shll2 r12
@@ -67,7 +67,7 @@ FUN_0602DD60:
     bt/s .L_0602DE0A
     add r2, r12
     mov #0x3, r7
-    .byte 0xD1, 0x36
+    .byte 0xD1, 0x36    /* mov.l @(0x0602DECC), r1 */
     mov #0x2, r6
     mov r12, r5
     extu.b r11, r4
@@ -94,11 +94,11 @@ FUN_0602DD60:
     .2byte 0xB000    /* bsr FUN_0602D102 (linker-resolved) */
     mov r12, r4
 .L_0602DE1C:
-    .byte 0xD3, 0x2A
+    .byte 0xD3, 0x2A    /* mov.l @(0x0602DEC8), r3 */
     add #0x2, r14
     mov.l @r15, r1
     mov #0x3, r7
-    .byte 0xD2, 0x2A
+    .byte 0xD2, 0x2A    /* mov.l @(0x0602DED0), r2 */
     mov #0x2, r6
     extu.w r13, r5
     shll2 r5
@@ -112,7 +112,7 @@ FUN_0602DD60:
     jsr @r2
     mov #0xA, r0
     mov r0, r4
-    .byte 0xD1, 0x22
+    .byte 0xD1, 0x22    /* mov.l @(0x0602DECC), r1 */
     add #0x4, r15
     lds.l @r15+, pr
     mov r0, r2

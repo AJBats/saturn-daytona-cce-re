@@ -5,9 +5,9 @@
     .type FUN_0603EEBC, @function
 FUN_0603EEBC:
     mov.b @(148, gbr), r0
-    .byte 0x94, 0xD5
+    .byte 0x94, 0xD5    /* mov.w @(0x0603F06C), r4 */
     tst r0, r0
-    .byte 0x8B, 0x64
+    .byte 0x8B, 0x64    /* bf 0x0603EF8E */
     add r14, r4
     mov.w @(128, gbr), r0
     mov.l @r4, r4
@@ -18,7 +18,7 @@ FUN_0603EEBC:
     add r5, r0
     add r4, r0
     mov.l @(16, r0), r4
-    .byte 0x90, 0xC9
+    .byte 0x90, 0xC9    /* mov.w @(0x0603F06E), r0 */
     mov.l r4, @-r15
     shlr16 r4
     shll16 r4
@@ -43,7 +43,7 @@ FUN_0603EEBC:
     shlr16 r4
     mov r0, r5
     mov.l r0, @(160, gbr)
-    .byte 0xD0, 0x66
+    .byte 0xD0, 0x66    /* mov.l @(0x0603F0A4), r0 */
     mov.l @r0, r0
     mov.w @(r0, r4), r4
     shll16 r4
@@ -58,7 +58,7 @@ FUN_0603EEBC:
     mov.b @(152, gbr), r0
     mov.l @r15+, r4
     cmp/eq #0x4, r0
-    .byte 0x89, 0x34
+    .byte 0x89, 0x34    /* bt 0x0603EF8E */
     extu.w r4, r4
     mov.l @(76, gbr), r0
     shll8 r4
@@ -67,22 +67,22 @@ FUN_0603EEBC:
     bt .L_0603EF32
     neg r0, r0
 .L_0603EF32:
-    .byte 0x05, 0x29
+    .byte 0x05, 0x29 /* UNKNOWN 0x0529 */
     cmp/gt r4, r0
-    .byte 0xD2, 0x5C
+    .byte 0xD2, 0x5C    /* mov.l @(0x0603F0A8), r2 */
     bt .L_0603EF6A
     mov.w @(128, gbr), r0
     tst #0xF, r0
-    .byte 0x8B, 0x26
+    .byte 0x8B, 0x26    /* bf 0x0603EF8E */
     mov.w @(26, gbr), r0
     tst r0, r0
-    .byte 0x8B, 0x23
+    .byte 0x8B, 0x23    /* bf 0x0603EF8E */
     mov r9, r0
     add r4, r0
     mov r0, r2
     mov.l @(96, gbr), r0
     tst #0x3, r0
-    .byte 0x8B, 0x1D
+    .byte 0x8B, 0x1D    /* bf 0x0603EF8E */
     shll r0
     extu.w r0, r0
     shll r4
@@ -109,5 +109,5 @@ FUN_0603EEBC:
     xtrct r6, r4
     mov #0x1, r1
     tst r5, r5
-    .byte 0x89, 0x00
+    .byte 0x89, 0x00    /* bt 0x0603EF86 */
     neg r4, r4

@@ -7,12 +7,12 @@ FUN_06045006:
     mov r0, r5
     .global FUN_06045008
 FUN_06045008:
-    .byte 0xD0, 0x19
+    .byte 0xD0, 0x19    /* mov.l @(disp,PC), r0 -> .L_pool_06045070 */
     add #0x8, r5
     and r0, r5
     tst r5, r5
     bt .L_0604505C
-    .byte 0xD0, 0x18
+    .byte 0xD0, 0x18    /* mov.l @(disp,PC), r0 -> .L_pool_06045074 */
     shlr2 r5
     add r5, r0
     mov.w @r0+, r5

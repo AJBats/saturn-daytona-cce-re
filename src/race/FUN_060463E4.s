@@ -16,7 +16,7 @@ FUN_060463E4:
     mov r0, r7
     add #-0x8, r15
     mov r15, r5
-    .byte 0x96, 0x8E
+    mov.w .L_wpool_06046518, r6
     mov.l .L_pool_0604651C, r4
     add r14, r4
     nop

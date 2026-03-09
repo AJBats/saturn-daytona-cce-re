@@ -11,8 +11,8 @@ FUN_0604E09A:
     mov.l @r15+, r4
     mov.l @r15+, r3
     exts.w r0, r2
-    .byte 0x95, 0x35
-    .byte 0x96, 0x35
+    .byte 0x95, 0x35    /* mov.w @(0x0604E116), r5 */
+    .byte 0x96, 0x35    /* mov.w @(0x0604E118), r6 */
     add r3, r5
     add r3, r6
     mov.l @r5, r5
@@ -20,4 +20,4 @@ FUN_0604E09A:
     neg r5, r5
     mov.l r2, @-r15
     mov.l r4, @-r15
-    .byte 0xDC, 0x1D
+    .byte 0xDC, 0x1D    /* mov.l @(0x0604E130), r12 */
