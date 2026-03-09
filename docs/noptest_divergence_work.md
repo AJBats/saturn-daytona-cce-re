@@ -14,9 +14,9 @@ Noptest binary confirmed correct (169,484 bytes = 169,480 + 4):
 
 | Zone | Range (retail addr) | Shift | Bytes | Reloc diffs |
 |------|---------------------|-------|-------|-------------|
-| 0 | 0x06028000–0x06035747 | none | 55,112 | 305 |
-| 1 | 0x06035748–0x0604708B | +2 | 72,004 | 664 |
-| 2 | 0x0604708C–end | +4 | 42,362 | 208 |
+| 0 | 0x06028000-0x06035747 | none | 55,112 | 305 |
+| 1 | 0x06035748-0x0604708B | +2 | 72,004 | 664 |
+| 2 | 0x0604708C-end | +4 | 42,362 | 208 |
 
 Both NOPs verified at correct positions. Relocation fixups reasonable (1,177 total).
 
@@ -78,27 +78,6 @@ A +4 shift is always safe: `(PC+4 & ~3)` always equals `(PC & ~3) + 4`.
 The value `0x77B80604` is a misaligned 32-bit read straddling two pool constants:
 upper 2 bytes of `0x060477B8` + lower 2 bytes of the next entry. JSR to `0x77B80604` = crash.
 
-## Scope of the Problem
-
-### Pool load instructions in race.bin
-
-| Category | Count |
-|----------|-------|
-| Total `mov.l @(disp,PC)` in binary | 6,526 |
-| Still encoded as `.byte 0xDx, 0xYY` in source | 3,448 (across 400 files) |
-| Already converted to real mnemonics (safe) | 3,078 |
-| Loading race-range addresses (need relocation) | 1,713 |
-
-### Broken instructions by zone (noptest)
-
-| Zone | Shift | Total pool loads | Load race addrs | Broken |
-|------|-------|------------------|-----------------|--------|
-| 0 (before NOP1) | none | 2,916 | 776 | 0 |
-| 1 (NOP1 to NOP2) | +2 | **2,364** | **858** | **2,364** |
-| 2 (after NOP2) | +4 | 1,246 | 79 | 0 |
-
-Cross-zone references: only 2 (negligible). The problem is entirely the +2 alignment effect.
-
 ### Why +4 shift works but noptest doesn't
 
 - **+4 shift**: `(PC+4 & ~3) = (PC & ~3) + 4` always. Pool data also shifts +4.
@@ -124,27 +103,83 @@ so the assembler computes correct displacements.
 ## Previous Rabbit Hole (BUP_Init)
 
 An earlier investigation of this same trace divergence led to the 0x060A0000
-region and was misidentified as a BKUP.BIN/BUP_Init issue. That was a red herring —
+region and was misidentified as a BKUP.BIN/BUP_Init issue. That was a red herring --
 the BUP_Init decompression is a standard BIOS API call unrelated to the noptest bug.
 See boot_story_facts.md sections 18-19 for the corrected writeup.
 
-## Fix Strategy
+---
 
-Convert all 3,448 `.byte 0xDx, 0xYY` instructions in race source files to proper
-`mov.l @(disp,PC), Rn` mnemonics with label references to their pool constants.
-The pool constants themselves (`.4byte DAT_XXXX`) are already correct.
+## Fix Progress
 
-This requires:
-1. For each `.byte 0xDx, 0xYY`, compute the pool address it references
-2. Find the corresponding `.4byte` / `.long` entry in the source
-3. Replace `.byte 0xDx, 0xYY` with `mov.l .L_pool_XXXX, Rn`
+### Problem decomposition
 
-Scale: 3,448 instructions across 400 files. Automatable.
+Two independent sub-problems prevent the nop test from passing:
 
-## Open Questions
+1. **Cross-section pool refs (TU problem)**: Functions split across TU boundaries
+   reference each other's pool constants via separate linker sections. When one
+   shifts and the other doesn't, relative displacements break.
+   **STATUS: SOLVED** — see `docs/DONE_tu_reconstruction_work.md`
 
-1. Do other modules (init, select, etc.) have the same `.byte 0xDx` pattern?
-2. Are there `mov.w @(disp,PC)` instructions (`.byte 0x9x, 0xYY`) with the
-   same problem? (mov.w does NOT align PC, so behavior differs)
-3. Can we write a validation tool that detects unsymbolized pool loads and
-   verifies all displacements are label-based?
+2. **Hardcoded pool displacements**: `.byte 0xDn, 0xYY` instructions with baked-in
+   PC-relative displacements. Under +2 shift, `(PC & ~3)` alignment changes
+   non-uniformly, breaking every hardcoded pool load.
+   **STATUS: IN PROGRESS** — 1,142 remain in Zone B
+
+### Completed work
+
+#### Byte fog clearing (2026-03-08)
+- Used Ghidra recursive descent disassembly as ground truth
+- `tools/apply_ghidra_disasm.py` decoded 8,835 `.byte` pairs into real SH-2 mnemonics
+- Remaining `.byte` entries (18,922) confirmed as legitimate data by Ghidra
+- Bug fixes in apply_ghidra_disasm: `.4byte` label collision, pool/branch target
+  range checks, `mova` absolute address handling
+
+#### TU consolidation (2026-03-08)
+- `tools/detect_tu_groups.py` identified 96 TU groups from cross-section pool sharing
+- `tools/merge_tu.py` merged all 96 groups (7 batches, smallest-first)
+- Race module: **613 -> 306 .s files** (94 merged TU files + 212 standalone)
+- Cross-section pool refs resolved by placing TU partners in same section
+- Stale `.reloc R_SH_IND12W` directives inlined to direct `bsr`/`bra`
+- Pool alignment issue in 2 files (non-4-byte-aligned section bases) — reverted
+  those pool refs to `.byte` pairs
+
+### Current state (2026-03-08)
+
+| Metric | Count |
+|--------|-------|
+| Race .s files | 306 (was 613) |
+| TU-merged files | 94 |
+| Standalone files | 212 |
+| Zone B files with hardcoded pool loads | 63 |
+| Hardcoded `.byte 0xDn` (mov.l) in Zone B | 959 |
+| Hardcoded `.byte 0x9n` (mov.w) in Zone B | 183 |
+| **Total hardcoded pool loads in Zone B** | **1,142** |
+| Safe symbolized pool loads in Zone B | 2,376 (67.5%) |
+
+### Remaining work
+
+Convert 1,142 hardcoded pool load instructions in 63 Zone B files to symbolic
+`mov.l .L_pool_XXX, Rn` / `mov.w .L_pool_XXX, Rn` with proper labels. The pool
+constant values (`.4byte DAT_XXX`) are already symbolized — only the instruction
+displacements need conversion.
+
+The `mov.w @(disp,PC)` case (183 instances) does NOT use `(PC & ~3)` alignment,
+so technically it survives +2 shifts. But symbolizing it anyway is good hygiene
+and eliminates a class of future bugs.
+
+### Validation plan
+
+1. Convert all 1,142 pool loads -> `make validate` (byte-identical)
+2. `make noptest` builds
+3. Noptest disc boots and runs attract mode race without crash
+4. Unified trace comparison: retail vs noptest match (modulo expected +2/+4 shifts)
+
+## Open Questions (updated)
+
+1. ~~Do other modules have the same `.byte 0xDx` pattern?~~ Yes, but only race
+   is the transplant target. Other modules are untouched.
+2. ~~Are there `mov.w @(disp,PC)` instructions with the same problem?~~ Yes, 183
+   in Zone B. `mov.w` does NOT align PC, so +2 shift is actually safe for mov.w.
+   Symbolizing anyway for consistency.
+3. ~~Validation tool for unsymbolized pool loads?~~ `tools/validate_pool_refs.py`
+   exists (static checker). Will re-run after symbolization.

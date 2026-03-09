@@ -25,13 +25,12 @@ preserving CCE's higher-quality graphics engine while restoring '95-authentic ga
 | `init/`      | `DAYTONA/0`           | 0x06005200 ✓ | **Permanent dispatcher** (HWR) | Stays resident, orchestrates sub-modules |
 | `race/`      | `DAYTONA/RACE.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | **Race logic — transplant target** |
 | `select/`    | `DAYTONA/SLCT.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Car/track selection |
-| `result/`    | `DAYTONA/RESULT.BIN`  | 0x06028000 ? | Sub-module or data bundle | 1P results |
+| `result/`    | `DAYTONA/RESULT.BIN`  | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
 | `result2p/`  | `DAYTONA/RESULT2P.BIN`| 0x06028000 ? | Sub-module (hot-swapped) | 2P results |
 | `name/`      | `DAYTONA/NAME.BIN`    | 0x06028000 ? | Sub-module (hot-swapped) | Name entry |
-| `demo/`      | `DAYTONA/DEMOTTL.BIN` | 0x06028000 ? | Data bundle | Demo/title (VDP2 data, not code) |
-| `backup/`    | `DAYTONA/BKUP.BIN`    | 0x06028000 ? | Sub-module (hot-swapped) | Save/backup |
+| `demo/`      | `DAYTONA/DEMOTTL.BIN` | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
+| `backup/`    | `DAYTONA/BKUP.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Save/backup |
 | `ending/`    | `DAYTONA/ENDING.BIN`  | 0x06028000 ? | Sub-module (hot-swapped) | Ending sequence |
-| `common/`    | (shared code)         | —           | — | Discover as we go |
 
 - **Init is permanent** — loaded once at 0x06005200 (84KB), never replaced. It is the
   game's main loop and dispatcher.
@@ -75,10 +74,19 @@ Uses `sh-elf-as / sh-elf-ld / sh-elf-objcopy` from `D:/Projects/SaturnReverseTes
 
 ## Active workstreams
 
-1. **Compiler investigation** — identify CCE's original compiler (Cygnus GCC 2.7 candidate)
-2. **HWR load address confirmation** — verify actual load addresses for swappable modules
-   (currently all at provisional 0x06000000)
-3. **Race module analysis** — identify physics/AI functions in `race/` for transplant
+1. **Nop test fix** — symbolize remaining 1,142 hardcoded pool load displacements
+   in Zone B (63 files) so non-uniform +2 byte shifts work correctly.
+   See `docs/noptest_divergence_work.md`.
+2. **Race module analysis** — identify physics/AI functions in `race/` for transplant
+
+## Completed workstreams
+
+- **TU reconstruction** — merged 96 translation unit groups (613→306 .s files).
+  See `docs/DONE_tu_reconstruction_work.md`.
+- **Byte fog clearing** — decoded 8,835 `.byte` pairs to real SH-2 mnemonics using
+  Ghidra recursive descent. Remaining `.byte` entries confirmed as data.
+- **HWR load address confirmation** — all sub-modules confirmed at 0x06028000.
+- **+4 uniform shift** — WORKING, boot-tested with full attract mode races.
 
 ## Commit discipline
 See `.claude/rules/commit-discipline.md`. Code must run at commit time. Propose before committing.
