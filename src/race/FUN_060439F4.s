@@ -54,7 +54,7 @@ FUN_060439F4:
     .4byte DAT_0604507E  /* 0604507E = FUN_0604507E */
 .L_pool_06043A50:
     .4byte DAT_060457DC  /* 060457DC = FUN_060457AC + 0x30 */
-    .byte 0xD6, 0x02    /* mov.l @(0x06043A60), r6 */
+    mov.l .L_pool_06043A60, r6
     mov.w .L_wpool_06043A5C, r7
     .reloc ., R_SH_IND12W, FUN_06043B04 - 4
     .2byte 0xA000    /* bra FUN_0601BB04 (linker-resolved) */
@@ -62,6 +62,7 @@ FUN_060439F4:
 .L_wpool_06043A5C:
     .byte 0x02, 0xFE
     .byte 0x00, 0x00
+.L_pool_06043A60:
     .4byte sym_06056998  /* 0601BA60 = 0x06056998 */
     .byte 0xD6, 0x02
     .byte 0x97, 0x01

@@ -99,11 +99,11 @@ FUN_06040CF0:
     .byte 0x59, 0x9A
     .byte 0x00, 0x01
     .byte 0x66, 0x66
-    .byte 0xD0, 0x05    /* mov.l @(0x06040DC0), r0 */
+    mov.l .L_pool_06040DC0, r0
     tst r4, r4
     bt/s .L_06040DB2
     mov #0x8, r7
-    .byte 0xD0, 0x04    /* mov.l @(0x06040DC4), r0 */
+    mov.l .L_pool_06040DC4, r0
 .L_06040DB2:
     .byte 0x40, 0x1B /* UNKNOWN 0x401B */
     bt/s .L_06040DC8
@@ -112,7 +112,9 @@ FUN_06040CF0:
     add #0x44, r0
     rts
     mov #0x0, r0
+.L_pool_06040DC0:
     .4byte sym_06052A18  /* 06018DC0 = 0x06052A18 */
+.L_pool_06040DC4:
     .4byte sym_06052C38  /* 06018DC4 = 0x06052C38 */
 .L_06040DC8:
     rts

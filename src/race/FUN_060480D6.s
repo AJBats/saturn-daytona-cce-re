@@ -81,7 +81,7 @@ FUN_060480D6:
     stc.l sr, @-r15
     extu.b r3, r3
     ldc r3, sr
-    .byte 0xD3, 0x0E    /* mov.l @(0x060481A4), r3 */
+    .byte 0xD3, 0x0E    /* mov.l @(disp,PC), r3 -> .L_pool_060481A4 */
     mov.l r0, @r3
     nop
     mov.l r1, @(4, r3)
@@ -111,11 +111,12 @@ FUN_060480D6:
 .L_wpool_060481A0:
     .byte 0xFF, 0x00
     .byte 0x00, 0x09
+.L_pool_060481A4:
     .4byte sym_FFFFFF00  /* 060201A4 = 0xFFFFFF00 */
-    .byte 0xD0, 0x12    /* mov.l @(0x060481F4), r0 */
+    .byte 0xD0, 0x12    /* mov.l @(disp,PC), r0 -> .L_pool_060481F4 */
     add #0x8, r4
     and r0, r4
-    .byte 0xD0, 0x12    /* mov.l @(0x060481F8), r0 */
+    .byte 0xD0, 0x12    /* mov.l @(disp,PC), r0 -> .L_pool_060481F8 */
     shlr2 r4
     add r4, r0
     mov.w @r0+, r1
@@ -150,12 +151,14 @@ FUN_060480D6:
     mov.l r1, @r6
     rts
     add #0x10, r15
+.L_pool_060481F4:
     .4byte 0x0000FFF0  /* 060201F4 = 0x0000FFF0 */
+.L_pool_060481F8:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD0, 0x10    /* mov.l @(0x06048240), r0 */
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06048240 */
     add #0x8, r4
     and r0, r4
-    .byte 0xD0, 0x10    /* mov.l @(0x06048244), r0 */
+    .byte 0xD0, 0x10    /* mov.l @(disp,PC), r0 -> .L_pool_06048244 */
     shlr2 r4
     add r4, r0
     mov.w @r0+, r1
@@ -186,17 +189,21 @@ FUN_060480D6:
     xtrct r0, r6
     rts
     add #0x10, r15
+.L_pool_06048240:
     .4byte 0x0000FFF0  /* 06020240 = 0x0000FFF0 */
+.L_pool_06048244:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD0, 0x01    /* mov.l @(0x06048250), r0 */
+    .byte 0xD0, 0x01    /* mov.l @(disp,PC), r0 -> .L_pool_06048250 */
     rts
     mov.l r4, @r0
     .byte 0x00, 0x00
+.L_pool_06048250:
     .4byte sym_06054918  /* 06020250 = 0x06054918 */
-    .byte 0xD0, 0x01    /* mov.l @(0x0604825C), r0 */
+    .byte 0xD0, 0x01    /* mov.l @(disp,PC), r0 -> .L_pool_0604825C */
     rts
     mov.l r4, @r0
     .byte 0x00, 0x00
+.L_pool_0604825C:
     .4byte sym_0605491C  /* 0602025C = 0x0605491C */
     .byte 0xD0, 0x01
     .byte 0x00, 0x0B

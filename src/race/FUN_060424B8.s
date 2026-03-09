@@ -71,8 +71,8 @@ FUN_060424B8:
     mov.l @r15+, r12
     rts
     mov.l @r15+, r13
-    .byte 0xD6, 0x0E    /* mov.l @(0x06042564), r6 */
-    .byte 0xD3, 0x0E    /* mov.l @(0x06042568), r3 */
+    mov.l .L_pool_06042564, r6
+    mov.l .L_pool_06042568, r3
     mov.b @r3, r7
     extu.b r7, r7
     tst r7, r7
@@ -105,5 +105,7 @@ FUN_060424B8:
     .4byte sym_06051FAC  /* 0601A55C = 0x06051FAC */
 .L_pool_06042560:
     .4byte sym_002FC233  /* 0601A560 = 0x002FC233 */
+.L_pool_06042564:
     .4byte sym_0605224C  /* 0601A564 = 0x0605224C */
+.L_pool_06042568:
     .4byte sym_06054922  /* 0601A568 = 0x06054922 */

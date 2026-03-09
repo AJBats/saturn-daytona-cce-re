@@ -49,7 +49,7 @@ FUN_06030A48:
 FUN_06030A5C:
     mov.l @(8, r4), r4
     sub r3, r4
-    .byte 0xD3, 0x1B    /* mov.l @(0x06030AD0), r3 */
+    mov.l .L_pool_06030AD0, r3
     jsr @r3
     mov r2, r5
     mov r0, r5
@@ -75,7 +75,7 @@ FUN_06030A80:
     mov.l r12, @-r15
     mov.l r11, @-r15
     mov #0x2, r11
-    .byte 0xDC, 0x11    /* mov.l @(0x06030AD4), r12 */
+    mov.l .L_pool_06030AD4, r12
 
     .global FUN_06030A8E
     .type FUN_06030A8E, @function
@@ -116,5 +116,7 @@ FUN_06030A8E:
     mov.l @r15+, r14
 .L_pool_06030ACC:
     .4byte sym_06052094  /* 06030ACC = 0x06052094 */
+.L_pool_06030AD0:
     .4byte DAT_06047E0C  /* 06047E0C = FUN_06047E0C */
+.L_pool_06030AD4:
     .4byte sym_06051FAC  /* 06030AD4 = 0x06051FAC */

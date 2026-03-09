@@ -51,10 +51,11 @@ FUN_0602B1C0:
     .4byte DAT_06045958  /* 06045958 = FUN_060458DE + 0x7A */
 .L_pool_0602B218:
     .4byte DAT_06044DF0  /* 06044DF0 = FUN_06044DB8 + 0x38 */
-    .byte 0xD1, 0x02    /* mov.l @(0x0602B228), r1 */
+    mov.l .L_pool_0602B228, r1
     mov #0x11, r0
     mov.b r0, @r1
     rts
     nop
     .byte 0x00, 0x00
+.L_pool_0602B228:
     .4byte sym_FFFFFE92  /* 0602B228 = 0xFFFFFE92 */

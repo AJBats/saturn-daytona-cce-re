@@ -141,11 +141,11 @@ FUN_06037E28:
     mov.b r11, @r3
 .L_06037F2A:
     mov.w .L_wpool_0603800A, r0
-    .byte 0xD3, 0x39    /* mov.l @(0x06038014), r3 */
+    mov.l .L_pool_06038014, r3
     mov.b r11, @(r0, r14)
     jsr @r3
     mov r14, r4
-    .byte 0xD2, 0x38    /* mov.l @(0x06038018), r2 */
+    mov.l .L_pool_06038018, r2
     jsr @r2
     mov r14, r4
     jsr @r9
@@ -229,23 +229,23 @@ FUN_06037E28:
 .L_06037FCA:
     .2byte 0xB000    /* bsr FUN_060106D8 (linker-resolved) */
     mov r14, r4
-    .byte 0xD2, 0x13    /* mov.l @(0x0603801C), r2 */
+    mov.l .L_pool_0603801C, r2
     jsr @r2
     mov r14, r4
     jsr @r8
     .global FUN_06037FD6
 FUN_06037FD6:
     mov r14, r4
-    .byte 0xD3, 0x11    /* mov.l @(0x06038020), r3 */
+    mov.l .L_pool_06038020, r3
     jsr @r3
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
     mov r14, r4
-    .byte 0xD3, 0x10    /* mov.l @(0x06038024), r3 */
+    mov.l .L_pool_06038024, r3
     jsr @r3
     mov r14, r4
-    .byte 0xD2, 0x0F    /* mov.l @(0x06038028), r2 */
+    mov.l .L_pool_06038028, r2
     jsr @r2
     mov r14, r4
     mov #0x20, r3
@@ -275,11 +275,17 @@ FUN_06037FD6:
     .byte 0xFF, 0x7F
 .L_wpool_06038012:
     .byte 0x01, 0x76
+.L_pool_06038014:
     .4byte DAT_06037D58  /* 06037D58 = FUN_06037BF8 + 0x160 */
+.L_pool_06038018:
     .4byte DAT_06037D74  /* 06037D74 = FUN_06037BF8 + 0x17C */
+.L_pool_0603801C:
     .4byte DAT_06039DCC  /* 06039DCC = FUN_06039DCC */
+.L_pool_06038020:
     .4byte DAT_0603A614  /* 0603A614 = FUN_0603A550 + 0xC4 */
+.L_pool_06038024:
     .4byte DAT_06039014  /* 06039014 = FUN_06039014 */
+.L_pool_06038028:
     .4byte DAT_06039110  /* 06039110 = FUN_06039110 */
     .reloc ., R_SH_IND12W, FUN_06038BC4 - 4
     .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
@@ -311,11 +317,11 @@ FUN_06037FD6:
     bra .L_06038304
     nop
     mov.w .L_wpool_06038144, r0
-    .byte 0xD3, 0x3A    /* mov.l @(0x0603814C), r3 */
+    mov.l .L_pool_0603814C, r3
     mov.b r11, @(r0, r14)
     jsr @r3
     mov r14, r4
-    .byte 0xD2, 0x39    /* mov.l @(0x06038150), r2 */
+    mov.l .L_pool_06038150, r2
     jsr @r2
     mov r14, r4
     jsr @r9
@@ -401,24 +407,24 @@ FUN_06037FD6:
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
     mov r14, r4
-    .byte 0xD3, 0x13    /* mov.l @(0x06038154), r3 */
+    mov.l .L_pool_06038154, r3
     jsr @r3
     mov r14, r4
     jsr @r8
     mov r14, r4
-    .byte 0xD2, 0x11    /* mov.l @(0x06038158), r2 */
+    mov.l .L_pool_06038158, r2
     jsr @r2
     mov r14, r4
-    .byte 0xD3, 0x11    /* mov.l @(0x0603815C), r3 */
+    mov.l .L_pool_0603815C, r3
     jsr @r3
     mov r14, r4
     bra .L_0603844C
     nop
-    .byte 0xD3, 0x0F    /* mov.l @(0x06038160), r3 */
+    mov.l .L_pool_06038160, r3
     jsr @r3
     mov r14, r4
     mov #0x5, r3
-    .byte 0xD2, 0x0E    /* mov.l @(0x06038164), r2 */
+    mov.l .L_pool_06038164, r2
     mov.w .L_wpool_06038146, r0
     mov.w r11, @(r0, r14)
     mov #0x5C, r0
@@ -442,25 +448,32 @@ FUN_06037FD6:
 .L_wpool_06038148:
     .byte 0x00, 0x80
     .byte 0xFF, 0xFF
+.L_pool_0603814C:
     .4byte DAT_06037D58  /* 06037D58 = FUN_06037BF8 + 0x160 */
+.L_pool_06038150:
     .4byte DAT_06037D74  /* 06037D74 = FUN_06037BF8 + 0x17C */
+.L_pool_06038154:
     .4byte DAT_06039DCC  /* 06039DCC = FUN_06039DCC */
+.L_pool_06038158:
     .4byte DAT_0603A614  /* 0603A614 = FUN_0603A550 + 0xC4 */
+.L_pool_0603815C:
     .4byte DAT_06039110  /* 06039110 = FUN_06039110 */
+.L_pool_06038160:
     .4byte DAT_0603A546  /* 0603A546 = FUN_0603A1A4 + 0x3A2 */
+.L_pool_06038164:
     .4byte sym_002FC233  /* 06010164 = 0x002FC233 */
 .L_06038168:
     mov.w .L_wpool_06038252, r4
 .L_0603816A:
-    .byte 0xD1, 0x3D    /* mov.l @(0x06038260), r1 */
+    mov.l .L_pool_06038260, r1
     jsr @r1
     nop
     mov.w .L_wpool_06038254, r0
     mov.b r11, @(r0, r14)
-    .byte 0xD3, 0x3B    /* mov.l @(0x06038264), r3 */
+    mov.l .L_pool_06038264, r3
     jsr @r3
     mov r14, r4
-    .byte 0xD2, 0x3B    /* mov.l @(0x06038268), r2 */
+    mov.l .L_pool_06038268, r2
     jsr @r2
     mov r14, r4
     jsr @r9
@@ -555,21 +568,21 @@ FUN_06038202:
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
     mov r14, r4
-    .byte 0xD3, 0x11    /* mov.l @(0x0603826C), r3 */
+    mov.l .L_pool_0603826C, r3
     jsr @r3
     mov r14, r4
     jsr @r8
     mov r14, r4
-    .byte 0xD2, 0x10    /* mov.l @(0x06038270), r2 */
+    mov.l .L_pool_06038270, r2
     jsr @r2
     mov r14, r4
     bra .L_0603844C
     nop
-    .byte 0xD2, 0x0E    /* mov.l @(0x06038274), r2 */
+    mov.l .L_pool_06038274, r2
     jsr @r2
     mov r14, r4
     mov #0x7, r3
-    .byte 0xD2, 0x0D    /* mov.l @(0x06038278), r2 */
+    mov.l .L_pool_06038278, r2
     mov #0x5C, r0
     mov.l r3, @(r0, r14)
     mov.b @r2, r0
@@ -592,26 +605,33 @@ FUN_06038202:
     .byte 0x01, 0xA8
 .L_wpool_0603825E:
     .byte 0x00, 0x80
+.L_pool_06038260:
     .4byte DAT_060456A8  /* 060456A8 = FUN_06045698 + 0x10 */
+.L_pool_06038264:
     .4byte DAT_06037D58  /* 06037D58 = FUN_06037BF8 + 0x160 */
+.L_pool_06038268:
     .4byte DAT_06037D74  /* 06037D74 = FUN_06037BF8 + 0x17C */
+.L_pool_0603826C:
     .4byte DAT_06039DCC  /* 06039DCC = FUN_06039DCC */
+.L_pool_06038270:
     .4byte DAT_0603A1A4  /* 0603A1A4 = FUN_0603A1A4 */
+.L_pool_06038274:
     .4byte DAT_0603A546  /* 0603A546 = FUN_0603A1A4 + 0x3A2 */
+.L_pool_06038278:
     .4byte sym_002FC233  /* 06010278 = 0x002FC233 */
 .L_0603827C:
     mov.w .L_wpool_06038378, r4
 .L_0603827E:
-    .byte 0xD1, 0x41    /* mov.l @(0x06038384), r1 */
+    mov.l .L_pool_06038384, r1
     jsr @r1
     nop
     .reloc ., R_SH_IND12W, FUN_06038BC4 - 4
     .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
     mov r14, r4
-    .byte 0xD2, 0x3F    /* mov.l @(0x06038388), r2 */
+    mov.l .L_pool_06038388, r2
     jsr @r2
     mov r14, r4
-    .byte 0xD3, 0x3F    /* mov.l @(0x0603838C), r3 */
+    mov.l .L_pool_0603838C, r3
     jsr @r3
     mov r14, r4
     jsr @r9
@@ -641,12 +661,12 @@ FUN_06038202:
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
     mov r14, r4
-    .byte 0xD2, 0x33    /* mov.l @(0x06038390), r2 */
+    mov.l .L_pool_06038390, r2
     jsr @r2
     mov r14, r4
     jsr @r8
     mov r14, r4
-    .byte 0xD3, 0x31    /* mov.l @(0x06038394), r3 */
+    mov.l .L_pool_06038394, r3
     jsr @r3
     mov r14, r4
     bra .L_0603844C
@@ -679,7 +699,7 @@ FUN_06038202:
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
     mov r14, r4
 .L_06038304:
-    .byte 0xD2, 0x22    /* mov.l @(0x06038390), r2 */
+    mov.l .L_pool_06038390, r2
     jsr @r2
     mov r14, r4
     jsr @r8
@@ -701,7 +721,7 @@ FUN_06038202:
     mov r1, r3
     and r2, r3
     mov r3, r1
-    .byte 0xD3, 0x19    /* mov.l @(0x06038398), r3 */
+    mov.l .L_pool_06038398, r3
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
@@ -709,9 +729,9 @@ FUN_06038202:
     mov r14, r4
     .global FUN_0603833C
 FUN_0603833C:
-    .byte 0xD5, 0x17    /* mov.l @(0x0603839C), r5 */
+    mov.l .L_pool_0603839C, r5
     mov #0x12, r0
-    .byte 0xD6, 0x17    /* mov.l @(0x060383A0), r6 */
+    mov.l .L_pool_060383A0, r6
     mov.b @r5, r4
     mov.b @(r0, r14), r0
     mov r4, r3
@@ -721,7 +741,7 @@ FUN_0603833C:
     cmp/eq #0x1, r0
     bf/s .L_060383A8
     exts.b r4, r4
-    .byte 0xD3, 0x13    /* mov.l @(0x060383A4), r3 */
+    mov.l .L_pool_060383A4, r3
     mov.b @r3, r0
     cmp/eq #0x1, r0
     bf .L_060383A8
@@ -750,14 +770,23 @@ FUN_0603833C:
 .L_wpool_06038380:
     .byte 0x01, 0xC0
     .byte 0xFF, 0xFF
+.L_pool_06038384:
     .4byte DAT_060456A8  /* 060456A8 = FUN_06045698 + 0x10 */
+.L_pool_06038388:
     .4byte DAT_06037D58  /* 06037D58 = FUN_06037BF8 + 0x160 */
+.L_pool_0603838C:
     .4byte DAT_06037D74  /* 06037D74 = FUN_06037BF8 + 0x17C */
+.L_pool_06038390:
     .4byte DAT_06039DCC  /* 06039DCC = FUN_06039DCC */
+.L_pool_06038394:
     .4byte DAT_0603A614  /* 0603A614 = FUN_0603A550 + 0xC4 */
+.L_pool_06038398:
     .4byte DAT_06039952  /* 06039952 = FUN_0603976C + 0x1E6 */
+.L_pool_0603839C:
     .4byte sym_06054920  /* 0601039C = 0x06054920 */
+.L_pool_060383A0:
     .4byte DAT_0604F7E4  /* 0604F7E4 = FUN_0604E0F6 + 0x16EE */
+.L_pool_060383A4:
     .4byte sym_060540B4  /* 060103A4 = 0x060540B4 */
 .L_060383A8:
     mov #0x3C, r7
@@ -776,7 +805,7 @@ FUN_0603833C:
     sts macl, r2
     shll r3
     add r1, r3
-    .byte 0xD1, 0x39    /* mov.l @(0x060384B0), r1 */
+    mov.l .L_pool_060384B0, r1
     shll2 r3
     exts.b r3, r3
     add r1, r2
@@ -904,6 +933,7 @@ FUN_0603833C:
 .L_wpool_060384AC:
     .byte 0x01, 0xC0
     .byte 0xFF, 0xFF
+.L_pool_060384B0:
     .4byte DAT_0604F7E4  /* 0604F7E4 = FUN_0604E0F6 + 0x16EE */
 .L_pool_060384B4:
     .4byte DAT_06039BE4  /* 06039BE4 = FUN_06039BE4 */

@@ -140,9 +140,9 @@ FUN_06047588:
     cmp/pl r0
     bf/s .L_060476CC
     shll8 r3
-    .byte 0xD1, 0x2E    /* mov.l @(0x06047734), r1 */
+    mov.l .L_pool_06047734, r1
     mov.l r0, @(0, r3)
-    .byte 0xD7, 0x2E    /* mov.l @(0x06047738), r7 */
+    mov.l .L_pool_06047738, r7
     cmp/gt r0, r1
     bf .L_060476CC
     mov.w @(12, r7), r0
@@ -152,7 +152,7 @@ FUN_06047588:
     mov.l @(12, r4), r1
     mov.l @(28, r4), r2
     shlr r5
-    .byte 0xD7, 0x2A    /* mov.l @(0x0604773C), r7 */
+    mov.l .L_pool_0604773C, r7
     mov.l @(24, r7), r6
     exts.w r6, r7
     swap.w r6, r6
@@ -234,8 +234,11 @@ FUN_06047588:
     .byte 0x00, 0x09
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+.L_pool_06047734:
     .4byte 0x01000000  /* 0601F734 = 0x01000000 */
+.L_pool_06047738:
     .4byte sym_06057880  /* 0601F738 = 0x06057880 */
+.L_pool_0604773C:
     .4byte sym_06057800  /* 0601F73C = 0x06057800 */
     .4byte 0x012C0000  /* 0601F740 = 0x012C0000 */
     .4byte sym_0605788C  /* 0601F744 = 0x0605788C */

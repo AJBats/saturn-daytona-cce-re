@@ -20,7 +20,7 @@ FUN_060479D6:
     .2byte 0xB000    /* bsr FUN_0601FAE0 (linker-resolved) */
     mov.w r0, @(2, r4)
     .byte 0xD4, 0x1A    /* mov.l @(disp,PC), r4 -> .L_pool_06047A58 */
-    .byte 0xD5, 0x1B    /* mov.l @(0x06047A5C), r5 */
+    .byte 0xD5, 0x1B    /* mov.l @(disp,PC), r5 -> .L_pool_06047A5C */
     .reloc ., R_SH_IND12W, FUN_06047B00 - 4
     .2byte 0xB000    /* bsr FUN_0601FB00 (linker-resolved) */
     nop
@@ -88,6 +88,7 @@ FUN_06047A08:
     .4byte sym_0601B000  /* 0601FA54 = 0x0601B000 (init cross-ref, fixed) */
 .L_pool_06047A58:
     .4byte sym_0601BD00  /* 0601FA58 = 0x0601BD00 (init cross-ref, fixed) */
+.L_pool_06047A5C:
     .4byte DAT_060479FC  /* 060479FC = FUN_060479D6 + 0x26 */
 .L_pool_06047A60:
     .4byte DAT_06047A6C  /* 06047A6C = FUN_06047A08 + 0x64 */

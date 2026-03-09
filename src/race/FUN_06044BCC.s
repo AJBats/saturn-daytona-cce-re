@@ -232,16 +232,17 @@ FUN_06044D64:
     .global FUN_06044D74
     .type FUN_06044D74, @function
 FUN_06044D74:
-    .byte 0xD4, 0x0A    /* mov.l @(0x06044DA0), r4 */
+    mov.l .L_pool_06044DA0, r4
     mov #-0x20, r1
     mov.w @(2, r1), r0
     cmp/pz r0
-    .byte 0x89, 0x00    /* bt 0x06044D80 */
-    .byte 0xD4, 0x09    /* mov.l @(0x06044DA4), r4 */
+    bt FUN_06044D80
+    mov.l .L_pool_06044DA4, r4
 
     .global FUN_06044D80
     .type FUN_06044D80, @function
 FUN_06044D80:
+.L_06044D80:
     mov #0x1, r1
     shll16 r1
     mov.l r1, @(0, r4)
@@ -258,7 +259,9 @@ FUN_06044D80:
     mov.l r1, @(40, r4)
     rts
     mov.l r0, @(44, r4)
+.L_pool_06044DA0:
     .4byte sym_0605410C  /* 0601CDA0 = 0x0605410C */
+.L_pool_06044DA4:
     .4byte sym_0605450C  /* 0601CDA4 = 0x0605450C */
 
     .global FUN_06044DA8
@@ -590,12 +593,12 @@ FUN_06045006:
     mov r0, r5
     .global FUN_06045008
 FUN_06045008:
-    .byte 0xD0, 0x19    /* mov.l @(disp,PC), r0 -> .L_pool_06045070 */
+    mov.l .L_pool_06045070, r0
     add #0x8, r5
     and r0, r5
     tst r5, r5
     bt .L_0604505C
-    .byte 0xD0, 0x18    /* mov.l @(disp,PC), r0 -> .L_pool_06045074 */
+    mov.l .L_pool_06045074, r0
     shlr2 r5
     add r5, r0
     mov.w @r0+, r5
@@ -659,12 +662,12 @@ FUN_0604507E:
     mov r0, r5
     .global FUN_06045080
 FUN_06045080:
-    .byte 0xD0, 0x18    /* mov.l @(disp,PC), r0 -> .L_pool_060450E4 */
+    mov.l .L_pool_060450E4, r0
     add #0x8, r5
     and r0, r5
     tst r5, r5
-    .byte 0x89, 0xE8    /* bt 0x0604505C */
-    .byte 0xD0, 0x17    /* mov.l @(disp,PC), r0 -> .L_pool_060450E8 */
+    bt .L_0604505C
+    mov.l .L_pool_060450E8, r0
     shlr2 r5
     add r5, r0
     mov.w @r0+, r5
@@ -725,12 +728,12 @@ FUN_060450F2:
     mov r0, r5
     .global FUN_060450F4
 FUN_060450F4:
-    .byte 0xD0, 0x15    /* mov.l @(disp,PC), r0 -> .L_pool_0604514C */
+    mov.l .L_pool_0604514C, r0
     add #0x8, r5
     and r0, r5
     tst r5, r5
-    .byte 0x89, 0xAE    /* bt 0x0604505C */
-    .byte 0xD0, 0x14    /* mov.l @(disp,PC), r0 -> .L_pool_06045150 */
+    bt .L_0604505C
+    mov.l .L_pool_06045150, r0
     shlr2 r5
     add r5, r0
     mov.w @r0+, r5

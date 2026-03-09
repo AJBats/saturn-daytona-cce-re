@@ -10,11 +10,11 @@ FUN_06032DC8:
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x4, r12
-    .byte 0x9D, 0x34    /* mov.w @(0x06032E3C), r13 */
+    mov.w .L_wpool_06032E3C, r13
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov #0x0, r11
-    .byte 0xDE, 0x19    /* mov.l @(0x06032E40), r14 */
+    mov.l .L_pool_06032E40, r14
     mov #0x8, r10
 
     .global FUN_06032DDC
@@ -73,6 +73,8 @@ FUN_06032E14:
     mov r7, r0
     rts
     mov.w r0, @(14, r4)
+.L_wpool_06032E3C:
     .byte 0x00, 0x89
     .byte 0xFF, 0xFF
+.L_pool_06032E40:
     .4byte sym_06052146  /* 06032E40 = 0x06052146 */

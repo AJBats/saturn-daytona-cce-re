@@ -6,8 +6,8 @@
     .global FUN_060453C8
     .type FUN_060453C8, @function
 FUN_060453C8:
-    .byte 0xD4, 0x72    /* mov.l @(0x06045594), r4 */
-    .byte 0xDE, 0x73    /* mov.l @(0x06045598), r14 */
+    mov.l .L_pool_06045594, r4
+    mov.l .L_pool_06045598, r14
 
     .global FUN_060453CC
     .type FUN_060453CC, @function
@@ -248,5 +248,7 @@ FUN_0604556C:
     mov.l @r15+, r14
     rts
     nop
+.L_pool_06045594:
     .4byte DAT_060453EC  /* 060453EC = FUN_060453CC + 0x20 */
+.L_pool_06045598:
     .4byte sym_06057800  /* 0601D598 = 0x06057800 */

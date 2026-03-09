@@ -115,8 +115,8 @@ FUN_0604523A:
     .byte 0x64, 0x12
     .4byte sym_0605782C  /* 0601D2C8 = 0x0605782C */
     .4byte sym_06057C2C  /* 0601D2CC = 0x06057C2C */
-    .byte 0xD4, 0x05    /* mov.l @(0x060452E8), r4 */
-    .byte 0xD1, 0x06    /* mov.l @(0x060452EC), r1 */
+    .byte 0xD4, 0x05    /* mov.l @(disp,PC), r4 -> .L_pool_060452E8 */
+    .byte 0xD1, 0x06    /* mov.l @(disp,PC), r1 -> .L_pool_060452EC */
     mov #0x0, r0
     mov #0x20, r2
 .L_060452D8:
@@ -128,5 +128,7 @@ FUN_0604523A:
     add #0x8, r4
     rts
     nop
+.L_pool_060452E8:
     .4byte sym_0601BF00  /* 0601D2E8 = 0x0601BF00 (init cross-ref, fixed) */
+.L_pool_060452EC:
     .4byte sym_04210421  /* 0601D2EC = 0x04210421 */

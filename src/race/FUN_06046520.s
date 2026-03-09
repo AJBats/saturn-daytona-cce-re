@@ -17,8 +17,8 @@ FUN_06046520:
     mov r0, r7
     add #-0x8, r15
     mov r15, r5
-    .byte 0x96, 0x7B    /* mov.w @(0x06046630), r6 */
-    .byte 0xD4, 0x3E    /* mov.l @(0x06046634), r4 */
+    mov.w .L_wpool_06046630, r6
+    mov.l .L_pool_06046634, r4
     add r14, r4
 .L_0604653C:
     mov.w @r13+, r12
@@ -131,7 +131,7 @@ FUN_06046520:
 FUN_06046602:
     mov.l @(16, r1), r8
     tst r8, r8
-    .byte 0x89, 0x11    /* bt 0x0604662C */
+    bt .L_0604662C
     add r1, r8
 
     .global FUN_0604660A
@@ -157,10 +157,13 @@ FUN_0604660A:
     bf/s .L_06046614
     add #0x10, r10
     lds.l @r15+, pr
+.L_0604662C:
     rts
     nop
+.L_wpool_06046630:
     .byte 0xFF, 0x00
     .byte 0x00, 0x00
+.L_pool_06046634:
     .4byte 0x00000220  /* 0601E634 = 0x00000220 */
     .byte 0x00, 0x00
     .byte 0x04, 0x21

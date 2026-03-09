@@ -9,9 +9,9 @@ FUN_06045698:
     mov #-0x20, r1
     mov.w @(2, r1), r0
     cmp/pz r0
-    .byte 0xDE, 0x11    /* mov.l @(0x060456E4), r14 */
+    mov.l .L_pool_060456E4, r14
     bt .L_060456A4
-    .byte 0xDE, 0x11    /* mov.l @(0x060456E8), r14 */
+    mov.l .L_pool_060456E8, r14
 .L_060456A4:
     rts
     ldc r14, gbr
@@ -26,10 +26,10 @@ FUN_060456AA:
     .type FUN_060456AC, @function
 FUN_060456AC:
     mov.l r14, @-r15
-    .byte 0xDE, 0x0D    /* mov.l @(0x060456E4), r14 */
+    mov.l .L_pool_060456E4, r14
     bsr FUN_060456C2
     ldc r14, gbr
-    .byte 0xDE, 0x0C    /* mov.l @(0x060456E8), r14 */
+    mov.l .L_pool_060456E8, r14
     bsr FUN_060456C2
     ldc r14, gbr
     mov.l @r15+, r14
@@ -61,7 +61,9 @@ FUN_060456CC:
     rts
     mov.l r0, @(12, gbr)
     .byte 0x00, 0x00
+.L_pool_060456E4:
     .4byte sym_06057800  /* 0601D6E4 = 0x06057800 */
+.L_pool_060456E8:
     .4byte sym_06057C00  /* 0601D6E8 = 0x06057C00 */
     .byte 0x90, 0x04
     .byte 0x00, 0x0B

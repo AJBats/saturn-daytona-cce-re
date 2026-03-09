@@ -6,7 +6,7 @@
     .global FUN_06042DC4
     .type FUN_06042DC4, @function
 FUN_06042DC4:
-    .byte 0xD0, 0x52    /* mov.l @(0x06042F10), r0 */
+    mov.l .L_pool_06042F10, r0
     mov r5, r6
     shll2 r6
     mov.l @(r0, r6), r6
@@ -40,11 +40,11 @@ FUN_06042DC4:
 FUN_06042DF8:
     mov.l r14, @-r15
     mov #0x12, r0
-    .byte 0xD2, 0x45    /* mov.l @(0x06042F14), r2 */
+    mov.l .L_pool_06042F14, r2
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov r4, r12
-    .byte 0xDD, 0x44    /* mov.l @(0x06042F18), r13 */
+    mov.l .L_pool_06042F18, r13
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov r6, r11
@@ -188,8 +188,11 @@ FUN_06042E14:
     .byte 0x01, 0x2C
 .L_wpool_06042F0E:
     .byte 0x01, 0xCC
+.L_pool_06042F10:
     .4byte sym_002E3AD0  /* 0601AF10 = 0x002E3AD0 */
+.L_pool_06042F14:
     .4byte sym_06053D2C  /* 0601AF14 = 0x06053D2C */
+.L_pool_06042F18:
     .4byte DAT_060515AC  /* 060515AC = FUN_0604E0F6 + 0x34B6 */
 .L_pool_06042F1C:
     .4byte DAT_060481A8  /* 060481A8 = FUN_060480D6 + 0xD2 */

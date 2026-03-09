@@ -6,7 +6,7 @@
     .global FUN_06045E44
     .type FUN_06045E44, @function
 FUN_06045E44:
-    .byte 0xD7, 0x36    /* mov.l @(0x06045F20), r7 */
+    mov.l .L_pool_06045F20, r7
     shll2 r0
     shll r0
     add r0, r7
@@ -42,7 +42,7 @@ FUN_06045E44:
     mov.w @(146, gbr), r0
     mov.w r0, @(0, r7)
     mov.w @(148, gbr), r0
-    .byte 0x91, 0x44    /* mov.w @(0x06045F16), r1 */
+    mov.w .L_wpool_06045F16, r1
     or r1, r0
     rts
     mov.w r0, @(4, r7)
@@ -52,7 +52,7 @@ FUN_06045E44:
     mov.w @(146, gbr), r0
     mov.w r0, @(0, r7)
     mov.w @(148, gbr), r0
-    .byte 0x91, 0x3B    /* mov.w @(0x06045F18), r1 */
+    mov.w .L_wpool_06045F18, r1
     or r1, r0
     rts
     mov.w r0, @(4, r7)
@@ -66,7 +66,7 @@ FUN_06045EA8:
     .2byte 0xB000    /* bsr FUN_0601DFC0 (linker-resolved) */
     mov.l @(44, r14), r4
     lds.l @r15+, pr
-    .byte 0x90, 0x33    /* mov.w @(0x06045F1A), r0 */
+    mov.w .L_wpool_06045F1A, r0
     add r1, r0
     mov.w r0, @(28, r7)
     mov.w @(130, gbr), r0
@@ -74,7 +74,7 @@ FUN_06045EA8:
     mov.w @(146, gbr), r0
     mov.w r0, @(0, r7)
     mov.w @(148, gbr), r0
-    .byte 0x91, 0x2C    /* mov.w @(0x06045F1C), r1 */
+    mov.w .L_wpool_06045F1C, r1
     or r1, r0
     rts
     mov.w r0, @(4, r7)
@@ -94,7 +94,7 @@ FUN_06045EC8:
     mov.b @(128, gbr), r0
     mov #0x30, r2
     and r0, r2
-    .byte 0x90, 0x21    /* mov.w @(0x06045F26), r0 */
+    mov.w .L_wpool_06045F26, r0
     or r2, r0
     rts
     mov.w r0, @(0, r7)
@@ -107,7 +107,7 @@ FUN_06045EE8:
     .2byte 0xB000    /* bsr FUN_0601DFC0 (linker-resolved) */
     mov.l @(44, r14), r4
     lds.l @r15+, pr
-    .byte 0x90, 0x13    /* mov.w @(0x06045F1A), r0 */
+    mov.w .L_wpool_06045F1A, r0
     add r1, r0
     bra FUN_06045EC8
     mov.w r0, @(28, r7)
@@ -116,7 +116,7 @@ FUN_06045EE8:
     mov.w @(146, gbr), r0
     mov.w r0, @(0, r7)
     mov.w @(148, gbr), r0
-    .byte 0x91, 0x0B    /* mov.w @(0x06045F1C), r1 */
+    mov.w .L_wpool_06045F1C, r1
     or r1, r0
     bra FUN_06045F46
     mov.w r0, @(4, r7)
@@ -130,13 +130,19 @@ FUN_06045F0C:
     nop
     bra FUN_06045EC8
     lds.l @r15+, pr
+.L_wpool_06045F16:
     .byte 0x04, 0xC0
+.L_wpool_06045F18:
     .byte 0x05, 0xC0
+.L_wpool_06045F1A:
     .byte 0x01, 0xF0
+.L_wpool_06045F1C:
     .byte 0x04, 0xC4
     .byte 0x00, 0x00
+.L_pool_06045F20:
     .4byte sym_0601B000  /* 0601DF20 = 0x0601B000 (init cross-ref, fixed) */
     .byte 0x10, 0x04
+.L_wpool_06045F26:
     .byte 0x10, 0x02
     .byte 0xC5, 0x40
     .byte 0xC9, 0x0E

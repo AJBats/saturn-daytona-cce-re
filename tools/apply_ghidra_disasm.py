@@ -196,6 +196,8 @@ def apply_ghidra_to_file(filepath, ghidra_code, dry_run=False):
         'branches_raw': 0,
         'pool_symbolized': 0,
         'pool_raw': 0,
+        'pool_raw_nonaligned': 0,
+        'pool_raw_cross': 0,
     }
 
     base_addr, line_addrs, fourbyte_addrs = compute_addr_map(filepath)
@@ -254,8 +256,8 @@ def apply_ghidra_to_file(filepath, ghidra_code, dry_run=False):
                         needed_branch_labels[target] = label
 
         # Pool targets — must land on an address that exists in this file
-        if pool_target is not None and pool_target in file_addrs \
-                and pool_target not in fourbyte_addrs:
+        # (pool targets CAN point to .4byte entries — that's what mov.l reads)
+        if pool_target is not None and pool_target in file_addrs:
             h = (opcode >> 12) & 0xF
             if h == 0xD:
                 label = f".L_pool_{pool_target:08X}"
@@ -336,6 +338,7 @@ def apply_ghidra_to_file(filepath, ghidra_code, dry_run=False):
                     new_lines.append(
                         f"{indent}.byte 0x{hi:02X}, 0x{lo:02X}    {comment}\n")
                     stats['pool_raw'] += 1
+                    stats['pool_raw_nonaligned'] += 1
                     stats['bytes_cleared'] += 1
                     continue
             else:
@@ -344,6 +347,7 @@ def apply_ghidra_to_file(filepath, ghidra_code, dry_run=False):
                 new_lines.append(
                     f"{indent}.byte 0x{hi:02X}, 0x{lo:02X}    {comment}\n")
                 stats['pool_raw'] += 1
+                stats['pool_raw_cross'] += 1
                 stats['bytes_cleared'] += 1
                 continue
 
@@ -472,6 +476,8 @@ def apply_module(module_name, dry_run=False, verbose=False, single_file=None):
     print(f"    Branches raw:         {totals.get('branches_raw', 0)}")
     print(f"    Pools symbolized:     {totals.get('pool_symbolized', 0)}")
     print(f"    Pools raw:            {totals.get('pool_raw', 0)}")
+    print(f"      (non-aligned sect):   {totals.get('pool_raw_nonaligned', 0)}")
+    print(f"      (cross-section):      {totals.get('pool_raw_cross', 0)}")
     print(f"  Bytes not in Ghidra:  {totals.get('bytes_not_in_ghidra', 0)} (data)")
     print(f"  Bytes undecoded:      {totals.get('bytes_kept', 0)}")
 
