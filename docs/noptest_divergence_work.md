@@ -143,36 +143,44 @@ Two independent sub-problems prevent the nop test from passing:
 - Pool alignment issue in 2 files (non-4-byte-aligned section bases) — reverted
   those pool refs to `.byte` pairs
 
+#### Pool load symbolization (2026-03-08)
+- Fixed `fourbyte_addrs` bug in `apply_ghidra_disasm.py` — was rejecting pool
+  targets at `.4byte` entries (the exact thing `mov.l` reads). Unlocked 2,294 pools.
+- Identified non-aligned sections via alignment analysis: any function at a
+  non-4-byte-aligned address must be an inner TU member (original GCC produced
+  4-byte-aligned `.text` sections). Merged 38 alignment-inferred TU groups
+  (306 → 257 files), symbolized 318 more pools.
+- Merged 5 cross-section `mov.l` TU partners into FUN_06036CF8's TU (identified
+  by split prologues spanning 3 files). Symbolized final 13 mov.l pools.
+- Discovered 9 more TU groups via cross-section `mov.w` pool refs, merged 24
+  files (252 → 228), symbolized 42 more pools.
+- **All `mov.l @(disp,PC)` hardcoded pools eliminated.** Only 3 same-file
+  `mov.w` raw pools remain (edge cases, not cross-section).
+- `tools/merge_alignment_tus.py` created for alignment-based TU merging.
+
 ### Current state (2026-03-08)
 
 | Metric | Count |
 |--------|-------|
-| Race .s files | 306 (was 613) |
-| TU-merged files | 94 |
-| Standalone files | 212 |
-| Zone B files with hardcoded pool loads | 63 |
-| Hardcoded `.byte 0xDn` (mov.l) in Zone B | 959 |
-| Hardcoded `.byte 0x9n` (mov.w) in Zone B | 183 |
-| **Total hardcoded pool loads in Zone B** | **1,142** |
-| Safe symbolized pool loads in Zone B | 2,376 (67.5%) |
+| Race .s files | **228** (was 613) |
+| TU-merged files | ~115 |
+| Cross-section pool refs (mov.l) | **0** |
+| Cross-section pool refs (mov.w) | **0** |
+| Remaining raw pool loads | 3 (same-file mov.w edge cases) |
+| Total pool loads symbolized | ~2,700 |
 
 ### Remaining work
 
-Convert 1,142 hardcoded pool load instructions in 63 Zone B files to symbolic
-`mov.l .L_pool_XXX, Rn` / `mov.w .L_pool_XXX, Rn` with proper labels. The pool
-constant values (`.4byte DAT_XXX`) are already symbolized — only the instruction
-displacements need conversion.
+**STATUS: DONE** — both sub-problems solved. All cross-section pool references
+eliminated. All `mov.l @(disp,PC)` symbolized. Code is now safe for arbitrary
+movement including non-uniform shifts.
 
-The `mov.w @(disp,PC)` case (183 instances) does NOT use `(PC & ~3)` alignment,
-so technically it survives +2 shifts. But symbolizing it anyway is good hygiene
-and eliminates a class of future bugs.
+### Validation status
 
-### Validation plan
-
-1. Convert all 1,142 pool loads -> `make validate` (byte-identical)
-2. `make noptest` builds
-3. Noptest disc boots and runs attract mode race without crash
-4. Unified trace comparison: retail vs noptest match (modulo expected +2/+4 shifts)
+1. `make validate` — PASS (byte-identical, all 8 modules)
+2. `make validate-retail` — PASS
+3. Race +4 shift disc — PASS (boot test, attract mode race at frame 1990)
+4. Noptest build — pending (needs `make noptest` implementation)
 
 ## Open Questions (updated)
 

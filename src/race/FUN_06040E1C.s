@@ -1,4 +1,4 @@
-/* TU: FUN_06040E1C + FUN_06040E4C */
+/* TU: FUN_06040E1C + FUN_06040E4C + FUN_06040E90 */
 
 /* FUN_06040E1C  0x06040E1C */
 
@@ -66,8 +66,21 @@ FUN_06040E4C:
     mov.w @(r0, r4), r0
     mov #0x9, r1
     cmp/hs r1, r0
-    .byte 0x89, 0x02    /* bt 0x06040E90 */
+    bt FUN_06040E90
     rts
     nop
 .L_wpool_06040E8E:
     .byte 0x01, 0x68
+
+    .global FUN_06040E90
+    .type FUN_06040E90, @function
+FUN_06040E90:
+.L_06040E90:
+    mov.l r14, @-r15
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    mov.l r10, @-r15
+    mov.l r9, @-r15
+    mov.l r8, @-r15
+    stc.l gbr, @-r15

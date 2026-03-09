@@ -3701,7 +3701,9 @@ FUN_0602F9E8:
     mov.b r7, @r2
 .L_0602F9FA:
     mov r6, r12
-    .4byte 0x6A736D73  /* 0602F9FC = 0x6A736D73 */
+    mov r7, r10
+.L_0602F9FE:
+    mov r7, r13
     mov r7, r6
     mov r10, r14
     mov r10, r3
@@ -3763,7 +3765,7 @@ FUN_0602FA08:
     add #0x1, r10
     extu.w r10, r3
     cmp/ge r8, r3
-    .byte 0x8B, 0xC5    /* bf 0x0602F9FE */
+    bf .L_0602F9FE
     mov.l .L_pool_0602FAC4, r3
 
     .global FUN_0602FA74

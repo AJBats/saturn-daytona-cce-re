@@ -624,7 +624,7 @@ FUN_0604D658:
     mov.w .L_wpool_0604D7E0, r3
     mov.l @(r0, r3), r4
     shll8 r4
-    .byte 0x93, 0x12    /* mov.w @(0x0604D7E2), r3 */
+    mov.w .L_wpool_0604D7E2, r3
     mov.l r4, @(r0, r3)
 .L_0604D7BE:
     mov.w .L_wpool_0604D7E4, r1
@@ -644,7 +644,9 @@ FUN_0604D658:
     mov.w .L_wpool_0604D7EC, r3
     .4byte 0x000B0326  /* 060257DC = 0x000B0326 */
 .L_wpool_0604D7E0:
-    .4byte 0x007800AC  /* 060257E0 = 0x007800AC */
+    .byte 0x00, 0x78
+.L_wpool_0604D7E2:
+    .byte 0x00, 0xAC
 .L_wpool_0604D7E4:
     .byte 0x00, 0xB0
 .L_wpool_0604D7E6:
@@ -668,7 +670,7 @@ FUN_0604D658:
     mov.w .L_wpool_0604D820, r1
     mov.l r5, @(r0, r1)
     mov #0x0, r5
-    .byte 0x91, 0x0C    /* mov.w @(0x0604D822), r1 */
+    mov.w .L_wpool_0604D822, r1
     mov.l @(r0, r1), r4
     mov.l .L_pool_0604D824, r2
     cmp/pz r4
@@ -685,7 +687,9 @@ FUN_0604D658:
 .L_wpool_0604D81E:
     .byte 0x00, 0x98
 .L_wpool_0604D820:
-    .4byte 0x008800AC  /* 06025820 = 0x008800AC */
+    .byte 0x00, 0x88
+.L_wpool_0604D822:
+    .byte 0x00, 0xAC
 .L_pool_0604D824:
     .4byte 0x0000071C  /* 06025824 = 0x0000071C */
 .L_0604D828:

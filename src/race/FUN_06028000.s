@@ -675,9 +675,11 @@ FUN_06028000:
     mov.b r12, @r13
 .L_060284D6:
     tst r4, r4
-    .byte 0x8B, 0x01    /* bf 0x060284DE */
+    bf .L_060284DE
     bra .L_06028620
-    .4byte 0x0009D335  /* 060284DC = 0x0009D335 */
+    nop
+.L_060284DE:
+    mov.l .L_pool_060285B4, r3
     jsr @r3
     nop
     mov.l .L_pool_060285B8, r3
@@ -788,6 +790,7 @@ FUN_06028000:
     .4byte DAT_06031DFA  /* 06031DFA = FUN_06031DFA */
 .L_pool_060285B0:
     .4byte sym_0605161A  /* 060285B0 = 0x0605161A */
+.L_pool_060285B4:
     .4byte DAT_0602FACC  /* 0602FACC = FUN_0602FA98 + 0x34 */
 .L_pool_060285B8:
     .4byte sym_06054929  /* 060285B8 = 0x06054929 */

@@ -663,7 +663,7 @@ FUN_06035624:
     not r6, r7
     bt/s .L_0603566E
     and r7, r4
-    .byte 0x96, 0x55    /* mov.w @(0x06035716), r6 */
+    mov.w .L_wpool_06035716, r6
     add r6, r8
     add #0x1, r9
 .L_0603566E:
@@ -767,7 +767,9 @@ FUN_060356F8:
 .L_wpool_06035712:
     .byte 0x00, 0x80
 .L_wpool_06035714:
-    .4byte 0x000300D2  /* 06035714 = 0x000300D2 */
+    .byte 0x00, 0x03
+.L_wpool_06035716:
+    .byte 0x00, 0xD2
 .L_wpool_06035718:
     .byte 0x00, 0x11
 .L_wpool_0603571A:
