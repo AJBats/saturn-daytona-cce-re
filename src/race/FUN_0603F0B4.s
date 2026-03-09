@@ -1,4 +1,4 @@
-/* TU: FUN_0603F0B4 + FUN_0603F0C2 + FUN_0603F0D0 + FUN_0603F10E + FUN_0603F116 + FUN_0603F134 + FUN_0603F146 + FUN_0603F166 + FUN_0603F4B0 + FUN_0603F4C0 */
+/* TU: FUN_0603F0B4 + FUN_0603F0C2 + FUN_0603F0D0 + FUN_0603F10E + FUN_0603F116 + FUN_0603F134 + FUN_0603F146 + FUN_0603F166 + FUN_0603F4B0 + FUN_0603F4C0 + FUN_0603F762 */
 
 /* FUN_0603F0B4  0x0603F0B4 */
 
@@ -996,3 +996,15 @@ FUN_0603F6F8:
     add #-0xC, r15
     mov r15, r5
     mov.l r1, @(0, r5)
+
+    .global FUN_0603F762
+    .type FUN_0603F762, @function
+FUN_0603F762:
+    sts.l pr, @-r15
+    .reloc ., R_SH_IND12W, FUN_0603F770 - 4
+    .2byte 0xB000    /* bsr FUN_06017770 (linker-resolved) */
+    mov.l r3, @(8, r5)
+    lds.l @r15+, pr
+    rts
+    add #0xC, r15
+    .byte 0x00, 0x09

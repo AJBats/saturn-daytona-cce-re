@@ -1,4 +1,4 @@
-/* TU: FUN_06045698 + FUN_060456AA + FUN_060456AC + FUN_060456C2 + FUN_060456CC */
+/* TU: FUN_06045698 + FUN_060456AA + FUN_060456AC + FUN_060456C2 + FUN_060456CC + FUN_060457AA */
 
 /* FUN_06045698  0x06045698 */
 
@@ -154,3 +154,8 @@ FUN_060456CC:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     stc.l gbr, @-r15
+
+    .global FUN_060457AA
+    .type FUN_060457AA, @function
+FUN_060457AA:
+    sts.l pr, @-r15

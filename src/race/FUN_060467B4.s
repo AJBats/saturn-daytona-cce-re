@@ -1,4 +1,4 @@
-/* TU: FUN_060467B4 + FUN_0604680C */
+/* TU: FUN_060467B4 + FUN_0604680C + FUN_060468AE */
 
 /* FUN_060467B4  0x060467B4 */
 
@@ -141,3 +141,8 @@ FUN_0604680C:
 .L_pool_060468A8:
     .4byte sym_06057C00  /* 0601E8A8 = 0x06057C00 */
     .byte 0x4F, 0x13
+
+    .global FUN_060468AE
+    .type FUN_060468AE, @function
+FUN_060468AE:
+    sts.l pr, @-r15

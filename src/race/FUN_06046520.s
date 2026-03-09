@@ -1,4 +1,4 @@
-/* TU: FUN_06046520 + FUN_06046602 + FUN_0604660A */
+/* TU: FUN_06046520 + FUN_06046602 + FUN_0604660A + FUN_0604669E */
 
 /* FUN_06046520  0x06046520 */
 
@@ -217,3 +217,8 @@ FUN_0604660A:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x4F, 0x13
+
+    .global FUN_0604669E
+    .type FUN_0604669E, @function
+FUN_0604669E:
+    sts.l pr, @-r15
