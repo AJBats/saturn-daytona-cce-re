@@ -105,7 +105,7 @@ FUN_0602CD98:
 .L_wpool_0602CE4A:
     .byte 0x06, 0x06
 .L_wpool_0602CE4C:
-    .4byte DAT_0604FFFF  /* 0x0604FFFF = FUN_0604E0F6 + 0x1F09 */
+    .4byte 0x0604FFFF  /* packed 16-bit constants, NOT an address */
 .L_pool_0602CE50:
     .4byte DAT_0602F81E  /* 0602F81E = FUN_0602F7C0 + 0x5E */
 .L_pool_0602CE54:
