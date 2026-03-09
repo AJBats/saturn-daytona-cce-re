@@ -289,7 +289,8 @@ def main():
         print("Usage: python tools/merge_tu.py <tu_groups.json> [options]")
         print("Options:")
         print("  --group NAME     Merge specific group")
-        print("  --max-size N     Merge all gap-free groups up to size N")
+        print("  --max-size N     Merge all groups up to size N (gap-free only by default)")
+        print("  --allow-gaps     Include groups with gap functions in --max-size batch")
         print("  --dry-run        Preview without modifying files")
         sys.exit(1)
 
@@ -298,6 +299,7 @@ def main():
         data = json.load(f)
 
     dry_run = "--dry-run" in sys.argv
+    allow_gaps = "--allow-gaps" in sys.argv
     target_group = None
     max_size = None
 
@@ -317,7 +319,7 @@ def main():
     elif max_size:
         for gk, g in sorted(data["groups"].items(),
                              key=lambda x: (x[1]["size"], x[0])):
-            if g["size"] <= max_size and not g["gap_functions"]:
+            if g["size"] <= max_size and (allow_gaps or not g["gap_functions"]):
                 groups_to_merge.append((gk, g))
     else:
         print("ERROR: Specify --group or --max-size")
