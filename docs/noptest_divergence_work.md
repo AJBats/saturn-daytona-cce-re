@@ -169,25 +169,118 @@ Two independent sub-problems prevent the nop test from passing:
 | Remaining raw pool loads | 3 (same-file mov.w edge cases) |
 | Total pool loads symbolized | ~2,700 |
 
-### Remaining work
+### Phase 1 status
 
 **STATUS: DONE** — both sub-problems solved. All cross-section pool references
-eliminated. All `mov.l @(disp,PC)` symbolized. Code is now safe for arbitrary
-movement including non-uniform shifts.
+eliminated. All `mov.l @(disp,PC)` symbolized.
 
-### Validation status
+### Phase 1 validation
 
 1. `make validate` — PASS (byte-identical, all 8 modules)
 2. `make validate-retail` — PASS
 3. Race +4 shift disc — PASS (boot test, attract mode race at frame 1990)
-4. Noptest build — pending (needs `make noptest` implementation)
+4. Noptest build — PASS (boot test, attract mode race)
 
-## Open Questions (updated)
+---
 
-1. ~~Do other modules have the same `.byte 0xDx` pattern?~~ Yes, but only race
-   is the transplant target. Other modules are untouched.
-2. ~~Are there `mov.w @(disp,PC)` instructions with the same problem?~~ Yes, 183
-   in Zone B. `mov.w` does NOT align PC, so +2 shift is actually safe for mov.w.
-   Symbolizing anyway for consistency.
-3. ~~Validation tool for unsymbolized pool loads?~~ `tools/validate_pool_refs.py`
-   exists (static checker). Will re-run after symbolization.
+## Phase 2: Cross-Section Jump Table Symbolization
+
+### The bug class
+
+`braf`/`bsrf` dispatch tables use 16-bit PC-relative offsets to reach branch
+targets. When the table and its targets are in different linker sections
+(different .s files), non-uniform NOP shifts change the distance between them
+but the hardcoded `.byte` offsets don't update.
+
+Pattern:
+```asm
+    mova TABLE, r0
+    mov.w @(r0, rN), r0
+    braf r0                 /* dispatch: PC += table[N] */
+    nop
+.L_braf_return:
+TABLE:
+    .byte 0xHH, 0xLL       /* HARDCODED offset — breaks if target shifts */
+```
+
+### Root cause
+
+The assembler can compute `.short TARGET - RETURN` when both labels are in the
+same section. But when they're in different sections, `sh-elf-as` generates a
+corrupt `R_SH_DIR16` relocation (can't represent cross-section 16-bit
+PC-relative). The original code worked because the compiler placed these
+functions in the same translation unit (same section), but our per-function
+split put them in separate sections.
+
+### Fix: TU merge
+
+Merge the dispatch function and its cross-section targets back into a single
+.s file (single section). Then replace hardcoded `.byte` pairs with symbolic
+`.short TARGET - .L_braf_return` expressions. The assembler resolves these
+at assembly time since both labels are now in the same section.
+
+### Assembler bug workaround
+
+`sh-elf-as` 2.42 has an `R_SH_IND12W` RELA addend bug: for intra-section
+`.reloc ., R_SH_IND12W, SYMBOL - 4` directives, it double-counts the symbol's
+section offset in the addend, producing wrong `bsr`/`bra` displacements. The
+fix is to replace `.reloc + .2byte 0xB000` pairs with direct `bsr SYMBOL`
+instructions for same-section targets. Cross-section `.reloc` is unaffected.
+
+### Merge groups
+
+| Group | Dispatch file | Targets merged in | Table type | Entries |
+|-------|--------------|-------------------|------------|---------|
+| 1 | FUN_060472CC.s | FUN_06047460, FUN_060474D4 + 5 more | braf | 9 |
+| 2 | FUN_0603DF28.s | FUN_0603E9E2, FUN_0603EAAA + 6 more | bsrf | 12 (2 tables) |
+| 3 | FUN_06045B74.s | FUN_06045FC0 + 19 more | braf | 24 (2 tables) |
+
+Prior fixes (before this phase):
+- FUN_06046FD4.s — bsrf table, 16 entries (symbolized in c5ff3c3)
+- FUN_06047184.s — bsrf table, 16 entries (symbolized in be12672)
+
+### Phase 2 validation
+
+Noptest with 7 simultaneous non-uniform NOP sites, cumulating to +24 bytes:
+
+| # | Function NOPped | Shift | What it tests |
+|---|----------------|-------|---------------|
+| 1 | FUN_06035748 | +0 | bsrf table in FUN_06046FD4 |
+| 2 | FUN_0603E9E2 | +4 | bsrf tables in FUN_0603DF28 (Group 2) |
+| 3 | FUN_06045FC0 | +8 | braf tables in FUN_06045B74 (Group 3) |
+| 4 | FUN_0604708C | +12 | bsrf table in FUN_06046FD4 |
+| 5 | FUN_060471F0 | +16 | bsrf table in FUN_06047184 |
+| 6 | FUN_06047460 | +20 | braf table in FUN_060472CC (Group 1) |
+| 7 | FUN_06047EA8 | +24 | braf table in FUN_06047E0C |
+
+Result: attract mode race runs cleanly. All NOP bytes verified in disc image.
+
+### Remaining hardcoded intra-function tables
+
+12 braf dispatch tables still use hardcoded `.byte` offsets. All targets are
+within the same function body (same section), so they survive any uniform
+shift. They would only break if bytes were inserted *inside* the function
+between the table and a target — not a realistic scenario for our use case.
+
+| File | Line | Function | Risk |
+|------|------|----------|------|
+| FUN_06028000.s | 464 | entry function | Low — only breaks if edited internally |
+| FUN_06037E28.s | 97 | | Low |
+| FUN_0603F9FC.s | 180 | | Low |
+| FUN_06040280.s | 463 | | Low |
+| FUN_06042F2C.s | 52 | | Low |
+| FUN_06045B74.s | 149 | FUN_06045C3C | Low — inside merged TU |
+| FUN_06045B74.s | 267 | FUN_06045D04 | Low — inside merged TU |
+| FUN_06045B74.s | 347 | FUN_06045D80 | Low — inside merged TU |
+| FUN_06045B74.s | 472 | FUN_06045E44 | Low — inside merged TU |
+| FUN_06045B74.s | 629 | FUN_06045F46 | Low — inside merged TU |
+| FUN_060472CC.s | 387 | FUN_06047548 | Low — inside merged TU |
+| FUN_06047E0C.s | 48 | | Low |
+
+These can be symbolized opportunistically if we ever need to edit those
+functions internally. No urgency.
+
+### Phase 2 status
+
+**STATUS: DONE** — all cross-section jump tables symbolized and noptest-proven.
+12 intra-function tables remain hardcoded (safe, low priority).
