@@ -15,23 +15,26 @@ FUN_060472CC:
     mov.w @(r0, r1), r0
     braf r0
     nop
+.L_braf_return:
     .byte 0x00, 0x09
 .L_pool_060472E0:
-    .byte 0x00, 0x16
-    .byte 0x00, 0x16
-    .byte 0x00, 0x16
-    .byte 0x00, 0x1E
-    .byte 0x00, 0x36
-    .byte 0x00, 0x4E
-    .byte 0x00, 0xE6
-    .byte 0x01, 0x82
-    .byte 0x01, 0xF6
+    .short .L_null_060472F4 - .L_braf_return
+    .short .L_null_060472F4 - .L_braf_return
+    .short .L_null_060472F4 - .L_braf_return
+    .short .L_inline_060472FC - .L_braf_return
+    .short .L_inline_06047314 - .L_braf_return
+    .short .L_inline_0604732C - .L_braf_return
+    .short .L_inline_060473C4 - .L_braf_return
+    .byte 0x01, 0x82                              /* cross-section: FUN_06047460 */
+    .byte 0x01, 0xF6                              /* cross-section: FUN_060474D4 */
     .byte 0x00, 0x09
+.L_null_060472F4:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
 .L_wpool_060472F8:
     .byte 0x01, 0x80
     .byte 0x00, 0x09
+.L_inline_060472FC:
     .byte 0x51, 0xA0
     .byte 0x52, 0xA2
     .byte 0x53, 0xA4
@@ -44,6 +47,7 @@ FUN_060472CC:
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
     .byte 0x00, 0x09
+.L_inline_06047314:
     .byte 0x51, 0xA0
     .byte 0x52, 0xA2
     .byte 0x53, 0xA4
@@ -56,6 +60,7 @@ FUN_060472CC:
     .byte 0xC0, 0x9B
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+.L_inline_0604732C:
     .byte 0xC4, 0xA5
     .byte 0x20, 0x08
     .byte 0x8B, 0x23
@@ -144,6 +149,7 @@ FUN_0604737A:
     rts
     nop
     .byte 0x00, 0x09
+.L_inline_060473C4:
     .byte 0xC4, 0xA5
     .byte 0x20, 0x08
     .byte 0x8B, 0x24

@@ -628,6 +628,7 @@ FUN_0603E350:
     mov #0x0, r8
     bsrf r0
     mov.l r13, @-r15
+.L_bsrf_return_1:
     mov.l @(132, gbr), r0
     mov.l @r15+, r13
 .L_0603E37C:
@@ -638,12 +639,12 @@ FUN_0603E350:
     rts
     nop
 .L_pool_0603E388:
-    .byte 0x04, 0x38
-    .byte 0x04, 0x38
-    .byte 0x06, 0x6A
-    .byte 0x07, 0x32
-    .byte 0x05, 0xDA
-    .byte 0x05, 0xDA
+    .short FUN_0603E7B0 - .L_bsrf_return_1
+    .short FUN_0603E7B0 - .L_bsrf_return_1
+    .byte 0x06, 0x6A                              /* cross-section: FUN_0603E9E2 */
+    .byte 0x07, 0x32                              /* cross-section: FUN_0603EAAA */
+    .short FUN_0603E952 - .L_bsrf_return_1
+    .short FUN_0603E952 - .L_bsrf_return_1
     mov.l .L_pool_0603E448, r4
     mov.l .L_pool_0603E44C, r5
     mov.l @r4, r14
@@ -678,6 +679,7 @@ FUN_0603E3A4:
     mov #0x0, r8
     bsrf r0
     mov.l r13, @-r15
+.L_bsrf_return_2:
     mov.l @(132, gbr), r0
     mov.l @r15+, r13
 .L_0603E3D0:
@@ -688,12 +690,12 @@ FUN_0603E3A4:
     rts
     nop
 .L_pool_0603E3DC:
-    .byte 0x03, 0xE4
-    .byte 0x03, 0xE4
-    .byte 0x06, 0x16
-    .byte 0x06, 0xDE
-    .byte 0x05, 0x86
-    .byte 0x05, 0x86
+    .short FUN_0603E7B0 - .L_bsrf_return_2
+    .short FUN_0603E7B0 - .L_bsrf_return_2
+    .byte 0x06, 0x16                              /* cross-section: FUN_0603E9E2 */
+    .byte 0x06, 0xDE                              /* cross-section: FUN_0603EAAA */
+    .short FUN_0603E952 - .L_bsrf_return_2
+    .short FUN_0603E952 - .L_bsrf_return_2
 
     .global FUN_0603E3E8
     .type FUN_0603E3E8, @function

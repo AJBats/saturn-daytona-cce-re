@@ -12,23 +12,24 @@ FUN_06045B74:
     mov.w @(r0, r1), r1
     braf r1
     sts.l pr, @-r15
+.L_braf_return_1:
 .L_pool_06045B80:
-    .byte 0x00, 0x44
-    .byte 0x04, 0xA4
-    .byte 0x04, 0xF4
-    .byte 0x05, 0x40
-    .byte 0x05, 0x60
-    .byte 0x00, 0x3C
-    .byte 0x05, 0xB4
-    .byte 0x05, 0xD4
-    .byte 0x05, 0xFC
-    .byte 0x06, 0x4C
-    .byte 0x00, 0x3C
-    .byte 0x06, 0x6C
-    .byte 0x06, 0x94
-    .byte 0x06, 0xB4
-    .byte 0x06, 0xDC
-    .byte 0x00, 0x3C
+    .short FUN_06045BC4 - .L_braf_return_1
+    .byte 0x04, 0xA4                              /* cross-section */
+    .byte 0x04, 0xF4                              /* cross-section */
+    .byte 0x05, 0x40                              /* cross-section */
+    .byte 0x05, 0x60                              /* cross-section */
+    .short .L_inline_06045BBC - .L_braf_return_1
+    .byte 0x05, 0xB4                              /* cross-section */
+    .byte 0x05, 0xD4                              /* cross-section */
+    .byte 0x05, 0xFC                              /* cross-section */
+    .byte 0x06, 0x4C                              /* cross-section */
+    .short .L_inline_06045BBC - .L_braf_return_1
+    .byte 0x06, 0x6C                              /* cross-section */
+    .byte 0x06, 0x94                              /* cross-section */
+    .byte 0x06, 0xB4                              /* cross-section */
+    .byte 0x06, 0xDC                              /* cross-section */
+    .short .L_inline_06045BBC - .L_braf_return_1
 
     .global FUN_06045BA0
     .type FUN_06045BA0, @function
@@ -39,15 +40,17 @@ FUN_06045BA0:
     mov.w @(r0, r1), r1
     braf r1
     sts.l pr, @-r15
+.L_braf_return_2:
 .L_pool_06045BAC:
-    .byte 0x00, 0x54
-    .byte 0x06, 0xD8
-    .byte 0x06, 0xFC
-    .byte 0x07, 0x24
-    .byte 0x07, 0x4C
-    .byte 0x07, 0x70
-    .byte 0x07, 0x98
-    .byte 0x00, 0x10
+    .short FUN_06045C00 - .L_braf_return_2
+    .byte 0x06, 0xD8                              /* cross-section */
+    .byte 0x06, 0xFC                              /* cross-section */
+    .byte 0x07, 0x24                              /* cross-section */
+    .byte 0x07, 0x4C                              /* cross-section */
+    .byte 0x07, 0x70                              /* cross-section */
+    .byte 0x07, 0x98                              /* cross-section */
+    .short .L_inline_06045BBC - .L_braf_return_2
+.L_inline_06045BBC:
     .byte 0x4F, 0x26
     .byte 0x00, 0x0B
     .byte 0x00, 0x09

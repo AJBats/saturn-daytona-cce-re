@@ -68,6 +68,8 @@ FUN_06047184:
     .global FUN_060471F0
     .type FUN_060471F0, @function
 FUN_060471F0:
+    nop                  /* +4 bytes: mega-noptest */
+    nop
     sts.l pr, @-r15
     mov.l @(0, r10), r0
     mov.l r0, @(0, r11)
