@@ -148,6 +148,8 @@ FUN_06045C3C:
     mov.w @(r0, r1), r0
     braf r0
     mov.l @(0, r10), r0
+.L_braf_ret_06045C44:
+.L_jt_06045C48:
     mov.l @(0, r11), r1
     mov.l @(0, r12), r2
     mov.l @(0, r13), r3
@@ -156,6 +158,7 @@ FUN_06045C3C:
     mov.l r2, @(20, r7)
     rts
     mov.l r3, @(24, r7)
+.L_jt_06045C58:
     mov.l @(0, r11), r1
     mov.l @(0, r12), r2
     mov.l r0, @(12, r7)
@@ -163,6 +166,7 @@ FUN_06045C3C:
     mov.l r1, @(20, r7)
     rts
     mov.l r2, @(24, r7)
+.L_jt_06045C66:
     mov.l @(0, r11), r1
     mov.l @(0, r12), r2
     mov.l r0, @(12, r7)
@@ -170,6 +174,7 @@ FUN_06045C3C:
     mov.l r1, @(20, r7)
     rts
     mov.l r2, @(24, r7)
+.L_jt_06045C74:
     mov.l @(0, r11), r1
     mov.l @(0, r12), r2
     mov.l r0, @(12, r7)
@@ -177,6 +182,7 @@ FUN_06045C3C:
     mov.l r2, @(20, r7)
     rts
     mov.l r2, @(24, r7)
+.L_jt_06045C82:
     mov.l @(0, r11), r1
     mov.l @(0, r12), r2
     mov.l r0, @(12, r7)
@@ -184,11 +190,11 @@ FUN_06045C3C:
     mov.l r2, @(20, r7)
     rts
     mov.l r0, @(24, r7)
-    .byte 0x00, 0x00
-    .byte 0x00, 0x10
-    .byte 0x00, 0x1E
-    .byte 0x00, 0x2C
-    .byte 0x00, 0x3A
+    .short .L_jt_06045C48 - .L_braf_ret_06045C44
+    .short .L_jt_06045C58 - .L_braf_ret_06045C44
+    .short .L_jt_06045C66 - .L_braf_ret_06045C44
+    .short .L_jt_06045C74 - .L_braf_ret_06045C44
+    .short .L_jt_06045C82 - .L_braf_ret_06045C44
     .byte 0x00, 0x09
 
     .global FUN_06045C9C
@@ -266,13 +272,16 @@ FUN_06045D04:
     mov.w @(r0, r1), r1
     braf r1
     mov.l @(4, r10), r4
+.L_braf_ret_06045D12:
     nop
+.L_jt_06045D18:
     add r5, r4
     add r6, r4
     add r7, r4
     rts
     shlr2 r4
     nop
+.L_jt_06045D24:
     cmp/ge r7, r4
     bf .L_06045D2A
     mov r7, r4
@@ -304,6 +313,7 @@ FUN_06045D3C:
     bt .L_06045D38
     rts
     mov r5, r4
+.L_jt_06045D50:
     cmp/ge r7, r4
     bt .L_06045D56
     mov r7, r4
@@ -346,12 +356,15 @@ FUN_06045D80:
     mov.w @(r0, r1), r1
     braf r1
     mov.l @(4, r10), r4
+.L_braf_ret_06045D8C:
+.L_jt_06045D90:
     mov.l .L_pool_06045DEC, r0
     add r5, r4
     add r6, r4
     dmuls.l r0, r4
     rts
     sts mach, r4
+.L_jt_06045D9C:
     cmp/ge r6, r4
     bf .L_06045DA2
     mov r6, r4
@@ -372,6 +385,7 @@ FUN_06045DAA:
     bt .L_06045D38
     rts
     mov r5, r4
+.L_jt_06045DB8:
     cmp/ge r6, r4
     bt .L_06045DBE
     mov r6, r4
@@ -407,17 +421,17 @@ FUN_06045DCC:
     .4byte 0x013FE000  /* 0601DDE8 = 0x013FE000 */
 .L_pool_06045DEC:
     .4byte 0x55555555  /* 0601DDEC = 0x55555555 */
-    .byte 0x00, 0x02
-    .byte 0x00, 0x0E
-    .byte 0x00, 0x26
-    .byte 0x00, 0x3A
-    .byte 0x00, 0x54
+    .short .L_jt_06045D18 - .L_braf_ret_06045D12
+    .short .L_jt_06045D24 - .L_braf_ret_06045D12
+    .short FUN_06045D3C - .L_braf_ret_06045D12
+    .short .L_jt_06045D50 - .L_braf_ret_06045D12
+    .short FUN_06045D6A - .L_braf_ret_06045D12
     .byte 0x00, 0x09
-    .byte 0x00, 0x00
-    .byte 0x00, 0x0C
-    .byte 0x00, 0x1A
-    .byte 0x00, 0x28
-    .byte 0x00, 0x3C
+    .short .L_jt_06045D90 - .L_braf_ret_06045D8C
+    .short .L_jt_06045D9C - .L_braf_ret_06045D8C
+    .short FUN_06045DAA - .L_braf_ret_06045D8C
+    .short .L_jt_06045DB8 - .L_braf_ret_06045D8C
+    .short FUN_06045DCC - .L_braf_ret_06045D8C
 
     .global FUN_06045E06
     .type FUN_06045E06, @function
@@ -471,24 +485,26 @@ FUN_06045E44:
     mov.w @(r0, r1), r0
     braf r0
     nop
+.L_braf_ret_06045E5A:
     .byte 0x00, 0x09
 .L_pool_06045E60:
-    .byte 0x00, 0x22
-    .byte 0x00, 0x4A
-    .byte 0x00, 0x6A
-    .byte 0x00, 0x8A
-    .byte 0x00, 0x9A
-    .byte 0x00, 0x22
-    .byte 0x00, 0xAE
-    .byte 0x00, 0x22
-    .byte 0x00, 0x36
-    .byte 0x00, 0x36
-    .byte 0x00, 0x6A
-    .byte 0x00, 0x6A
-    .byte 0x00, 0x36
-    .byte 0x00, 0x22
-    .byte 0x00, 0x6A
-    .byte 0x00, 0x22
+    .short .L_jt_06045E80 - .L_braf_ret_06045E5A
+    .short FUN_06045EA8 - .L_braf_ret_06045E5A
+    .short FUN_06045EC8 - .L_braf_ret_06045E5A
+    .short FUN_06045EE8 - .L_braf_ret_06045E5A
+    .short .L_jt_06045EF8 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E80 - .L_braf_ret_06045E5A
+    .short FUN_06045F0C - .L_braf_ret_06045E5A
+    .short .L_jt_06045E80 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E94 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E94 - .L_braf_ret_06045E5A
+    .short FUN_06045EC8 - .L_braf_ret_06045E5A
+    .short FUN_06045EC8 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E94 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E80 - .L_braf_ret_06045E5A
+    .short FUN_06045EC8 - .L_braf_ret_06045E5A
+    .short .L_jt_06045E80 - .L_braf_ret_06045E5A
+.L_jt_06045E80:
     mov.w @(130, gbr), r0
     mov.w r0, @(6, r7)
     mov.w @(146, gbr), r0
@@ -499,6 +515,7 @@ FUN_06045E44:
     rts
     mov.w r0, @(4, r7)
     .byte 0x00, 0x09
+.L_jt_06045E94:
     mov.w @(130, gbr), r0
     mov.w r0, @(6, r7)
     mov.w @(146, gbr), r0
@@ -561,6 +578,7 @@ FUN_06045EE8:
     add r1, r0
     bra FUN_06045EC8
     mov.w r0, @(28, r7)
+.L_jt_06045EF8:
     mov.w @(130, gbr), r0
     mov.w r0, @(6, r7)
     mov.w @(146, gbr), r0
@@ -628,6 +646,8 @@ FUN_06045F46:
     mov.w @(r0, r2), r0
     braf r0
     mov.w @(8, r10), r0
+.L_braf_ret_06045F62:
+.L_jt_06045F66:
     mov.w r0, @r1
     mov.w @(8, r11), r0
     mov.w r0, @(2, r1)
@@ -636,6 +656,7 @@ FUN_06045F46:
     mov.w @(8, r13), r0
     rts
     mov.w r0, @(6, r1)
+.L_jt_06045F76:
     mov.w r0, @r1
     mov.w r0, @(2, r1)
     mov.w @(8, r11), r0
@@ -643,6 +664,7 @@ FUN_06045F46:
     mov.w @(8, r12), r0
     rts
     mov.w r0, @(6, r1)
+.L_jt_06045F84:
     mov.w r0, @r1
     mov.w @(8, r11), r0
     mov.w r0, @(2, r1)
@@ -650,6 +672,7 @@ FUN_06045F46:
     mov.w @(8, r12), r0
     rts
     mov.w r0, @(6, r1)
+.L_jt_06045F92:
     mov.w r0, @r1
     mov.w @(8, r11), r0
     mov.w r0, @(2, r1)
@@ -657,6 +680,7 @@ FUN_06045F46:
     mov.w r0, @(4, r1)
     rts
     mov.w r0, @(6, r1)
+.L_jt_06045FA0:
     mov.w r0, @r1
     mov.w r0, @(6, r1)
     mov.w @(8, r11), r0
@@ -668,11 +692,11 @@ FUN_06045F46:
 .L_pool_06045FB0:
     .4byte sym_0601B000  /* 0601DFB0 = 0x0601B000 (init cross-ref, fixed) */
 .L_pool_06045FB4:
-    .byte 0x00, 0x00
-    .byte 0x00, 0x10
-    .byte 0x00, 0x1E
-    .byte 0x00, 0x2C
-    .byte 0x00, 0x3A
+    .short .L_jt_06045F66 - .L_braf_ret_06045F62
+    .short .L_jt_06045F76 - .L_braf_ret_06045F62
+    .short .L_jt_06045F84 - .L_braf_ret_06045F62
+    .short .L_jt_06045F92 - .L_braf_ret_06045F62
+    .short .L_jt_06045FA0 - .L_braf_ret_06045F62
     .byte 0x00, 0x09
 
     .global FUN_06045FC0

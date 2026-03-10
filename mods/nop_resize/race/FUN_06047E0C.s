@@ -50,39 +50,47 @@ FUN_06047E0C:
 .L_06047E58:
     rts
     mov #0x0, r0
+.L_jt_06047E5C:
     .byte 0x00, 0x0B
     .byte 0x60, 0x23
+.L_jt_06047E60:
     mov.l .L_pool_06047ED0, r0
     .byte 0x00, 0x0B
     .byte 0x30, 0x28
+.L_jt_06047E66:
     mov.l .L_pool_06047ED0, r0
     .byte 0x00, 0x0B
     .byte 0x30, 0x2C
+.L_jt_06047E6C:
     mov.l .L_pool_06047ED4, r0
     .byte 0x00, 0x0B
     .byte 0x30, 0x28
+.L_jt_06047E72:
     mov.l .L_pool_06047ED4, r0
     .byte 0x32, 0x08
     .byte 0x00, 0x0B
     .byte 0x60, 0x23
+.L_jt_06047E7A:
     mov.l .L_pool_06047ED8, r0
     rts
     sub r2, r0
+.L_jt_06047E80:
     mov.l .L_pool_06047ED0, r0
     .byte 0x32, 0x08
     .byte 0x00, 0x0B
     .byte 0x60, 0x23
+.L_jt_06047E88:
     .byte 0x00, 0x0B
     .byte 0x60, 0x2B
 .L_pool_06047E8C:
-    .byte 0x00, 0x04
-    .byte 0x00, 0x08
-    .byte 0x00, 0x30
-    .byte 0x00, 0x28
-    .byte 0x00, 0x14
-    .byte 0x00, 0x0E
-    .byte 0x00, 0x1A
-    .byte 0x00, 0x22
+    .short .L_jt_06047E5C - .L_06047E58
+    .short .L_jt_06047E60 - .L_06047E58
+    .short .L_jt_06047E88 - .L_06047E58
+    .short .L_jt_06047E80 - .L_06047E58
+    .short .L_jt_06047E6C - .L_06047E58
+    .short .L_jt_06047E66 - .L_06047E58
+    .short .L_jt_06047E72 - .L_06047E58
+    .short .L_jt_06047E7A - .L_06047E58
     .byte 0x34, 0x68
     .byte 0x35, 0x78
     .byte 0x24, 0x48
@@ -93,7 +101,7 @@ FUN_06047E0C:
     .global FUN_06047EA8
     .type FUN_06047EA8, @function
 FUN_06047EA8:
-    nop                  /* +4 bytes: mega-noptest */
+    nop                  /* +4 bytes: mega-noptest cross-section */
     nop
     sts.l pr, @-r15
     .reloc ., R_SH_IND12W, FUN_06047E0C - 4

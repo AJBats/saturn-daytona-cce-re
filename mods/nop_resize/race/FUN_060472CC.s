@@ -250,7 +250,7 @@ FUN_06047414:
     .global FUN_06047460
     .type FUN_06047460, @function
 FUN_06047460:
-    nop                  /* +4 bytes: nop test for Group 1 cross-section braf */
+    nop                  /* +4 bytes: mega-noptest cross-section Group 1 */
     nop
     sts.l pr, @-r15
     mov.l @(0, r10), r1
@@ -388,29 +388,35 @@ FUN_06047548:
     mov.w @(r0, r1), r0
     braf r0
     mov.l @(0, r10), r1
+.L_braf_ret_06047550:
+.L_jt_06047554:
     mov.l @(0, r11), r2
     mov.l @(0, r12), r3
     rts
     mov.l @(0, r13), r4
+.L_jt_0604755C:
     mov r1, r2
     mov.l @(0, r11), r3
     rts
     mov.l @(0, r12), r4
+.L_jt_06047564:
     mov.l @(0, r11), r2
     mov r2, r3
     rts
     mov.l @(0, r12), r4
+.L_jt_0604756C:
     mov.l @(0, r11), r2
     mov.l @(0, r12), r3
     rts
     mov r3, r4
+.L_jt_06047574:
     mov.l @(0, r11), r2
     mov.l @(0, r12), r3
     rts
     mov r1, r4
-    .byte 0x00, 0x00
-    .byte 0x00, 0x08
-    .byte 0x00, 0x10
-    .byte 0x00, 0x18
-    .byte 0x00, 0x20
+    .short .L_jt_06047554 - .L_braf_ret_06047550
+    .short .L_jt_0604755C - .L_braf_ret_06047550
+    .short .L_jt_06047564 - .L_braf_ret_06047550
+    .short .L_jt_0604756C - .L_braf_ret_06047550
+    .short .L_jt_06047574 - .L_braf_ret_06047550
     .byte 0x00, 0x09
