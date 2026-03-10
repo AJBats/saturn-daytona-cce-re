@@ -55,7 +55,7 @@ FUN_06029FE8:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_0602A048
     .type FUN_0602A048, @function

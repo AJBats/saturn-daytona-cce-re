@@ -149,7 +149,7 @@ FUN_06029D8C:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06029E90
     .type FUN_06029E90, @function

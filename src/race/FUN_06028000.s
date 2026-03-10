@@ -3014,8 +3014,8 @@ FUN_06029588:
     mov.l .L_pool_06029648, r3
     jmp @r3
     mov.l @r15+, r14
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 
     .global FUN_060295DE
     .type FUN_060295DE, @function
