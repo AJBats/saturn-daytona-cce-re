@@ -169,9 +169,7 @@ noptest:
 	@python3 $(PROJDIR)/tools/inject_disc.py \
 		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
 	@echo ""
-	@echo "  Disc ready: race with NOP-resized functions."
-	@echo "  Modified: FUN_0604708C (+2), FUN_06035748 (+2)"
-	@echo "  Output: build/disc/rebuilt_disc/"
+	@echo "  noptest disc ready: build/disc/rebuilt_disc/"
 
 clean:
 	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
