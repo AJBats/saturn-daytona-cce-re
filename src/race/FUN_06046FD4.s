@@ -77,7 +77,7 @@ FUN_06047014:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_pool_06047058:
     .short .L_inline_06047078 - .L_bsrf_return
     .short FUN_0604708C - .L_bsrf_return
@@ -96,16 +96,16 @@ FUN_06047014:
     .short .L_null_06047114 - .L_bsrf_return
     .short .L_null_06047114 - .L_bsrf_return
 .L_inline_06047078:
-    .byte 0x50, 0xA0
-    .byte 0x1B, 0x00
-    .byte 0x50, 0xA1
-    .byte 0x1B, 0x01
-    .byte 0x7B, 0x08
-    .byte 0xC4, 0x99
-    .byte 0x70, 0x01
-    .byte 0xC0, 0x99
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l @(0, r10), r0
+    mov.l r0, @(0, r11)
+    mov.l @(4, r10), r0
+    mov.l r0, @(4, r11)
+    add #0x8, r11
+    mov.b @(153, gbr), r0
+    add #0x1, r0
+    mov.b r0, @(153, gbr)
+    rts
+    nop
 
     .global FUN_0604708C
     .type FUN_0604708C, @function
@@ -199,8 +199,8 @@ FUN_060470FE:
     rts
     nop
 .L_null_06047114:
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 
     .global FUN_06047118
     .type FUN_06047118, @function
