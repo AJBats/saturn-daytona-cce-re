@@ -127,3 +127,51 @@ decoded — see batch 6 commit.
 - wpool_06042992..94: 0x071C (1820), 0xF8E4 (-1820) + 0x0000 padding.
   **All data, no code.**
 
+## FUN_060351CC.s — 71 .byte pairs (all labeled wpool + padding)
+
+All MEDIUM `.byte` pairs sit under `.L_wpool_*` labels. Values are structure
+field offsets (0x0068, 0x006C, 0x0070, 0x0158, 0x004C, 0x0168, 0x01C5..01CB,
+0x01BE, 0x0174, 0x00E8, 0x00EC, etc.) loaded via `mov.w`. Some values decode
+as valid SH-2 (0x01C5=`mov.w r12, @(r0, r1)`, etc.) but are offset constants.
+Unlabeled `.byte 0xFF, 0xFF` and `0x00, 0x00` pairs are alignment padding.
+**All data, no code.**
+
+## FUN_0602E03C.s — 55 .byte pairs (all labeled wpool + padding)
+
+All MEDIUM `.byte` pairs are under `.L_wpool_*` labels. Values include
+VDP2/display constants (0x3850=14416, 0x1000=4096, 0x0134=308) and
+register offsets (0x1F00=7936, 0x3534=13620, 0x3002=12290). Coincidental
+valid SH-2 encodings: 0x3850=`cmp/eq r5, r8`, 0x3534=`div1 r3, r5`.
+Remaining `.byte` pairs are alignment padding (0xFFFF) and other wpool
+constants. **All data, no code.**
+
+## FUN_060407D4.s — 52 .byte pairs (data tables + wpool + 3 decoded)
+
+- `.L_pool_06040A24` through `.L_data_06040A58`: unlabeled data block +
+  pointer table (0x06056650/58/5C/54 — HWR addresses) + fixed-point
+  constants (0x8CCC, 0x599A, 0xFFFE999A, etc.). All DATA labels already present.
+- wpool_0604088C/08F0/09E8: 0x6666 (fixed-point 0.4) + padding.
+- wpool_06040B20: 0x8000 + padding. wpool_06040BC8: 0x055B + padding.
+- wpool_06040C5E: 0x8000. Other scattered padding.
+- Lines 489-492 (0x06040B60): dispatch thunk decoded — `mov.l pool, r0` →
+  `jmp @r0` → `mov #2, r6` (tail call with r6=2 arg). See batch 7 commit.
+
+## FUN_0603A790.s — 82 .byte pairs (wpool + 3 IEEE float entries decoded)
+
+All labeled `.L_wpool_*` pairs are offset constants (0x8000, 0x000E, 0x4000,
+0x0030, 0x0128, 0x03C0, 0x0190, 0x0012, etc.) + alignment padding.
+Three unlabeled 6-instruction blocks after `.4byte 0x0000D999` pools decoded
+as **IEEE float alternate entry points** (known good pattern):
+- 0x0603AA78: Entry A (r3=r4, r4=0, bra AA84) / Entry B (r3=0, fall through)
+- 0x0603AE5C: Entry B' (r3=0, bra AE68) / Entry A' (r3=r4, r4=0, fall through)
+- 0x0603B1C4: Entry A'' (r3=r4, r4=0, bra B1D0) / Entry B'' (r3=0, fall through)
+See batch 7 commit.
+
+## FUN_06039DCC.s — 70 .byte pairs (wpool + 4 movt decoded)
+
+All labeled `.L_wpool_*` pairs are structure field offsets (0x00B0, 0x00B2,
+0x01C1, 0x025E, 0x4000, 0x0258, 0x01BC, 0x00B4, etc.) + alignment padding.
+Four `movt r0` (0x0029) instructions decoded — inverted bit-test idiom:
+`tst #imm, r0` → `movt r0` → `add #-1` → `neg` → `cmp/eq #1`.
+See batch 7 commit.
+

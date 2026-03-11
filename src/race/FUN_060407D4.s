@@ -486,10 +486,11 @@ FUN_06040A7E:
     .4byte DAT_06040B60  /* 0x06040B60 = FUN_06040A7E + 0xE2 */
     .4byte DAT_06040B6C  /* 0x06040B6C = FUN_06040A7E + 0xEE */
     .4byte DAT_06040B7C  /* 0x06040B7C = FUN_06040A7E + 0xFE */
-    .byte 0xD0, 0x01
-    .byte 0x40, 0x2B
-    .byte 0xE6, 0x02
+    mov.l .L_pool_06040B68, r0
+    jmp @r0
+    mov #0x2, r6
     .byte 0x00, 0x00
+.L_pool_06040B68:
     .4byte DAT_060457A8  /* 060457A8 = FUN_060456CC + 0xDC */
     mov.w .L_wpool_06040B74, r6
     mov.l .L_pool_06040B78, r0

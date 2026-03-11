@@ -175,7 +175,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -194,7 +194,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x10, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -270,7 +270,7 @@ FUN_06039ED8:
     add #0x32, r0
     mov.b @r0, r0
     tst #0x8, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0
@@ -467,7 +467,7 @@ FUN_06039ED8:
     add #0x33, r0
     mov.b @r0, r0
     tst #0x10, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     add #-0x1, r0
     neg r0, r0
     cmp/eq #0x1, r0

@@ -418,12 +418,12 @@ FUN_0603A7C0:
     .4byte 0x08000100  /* 06012A70 = 0x08000100 */
 .L_pool_0603AA74:
     .4byte 0x0000D999  /* 06012A74 = 0x0000D999 */
-    .byte 0x63, 0x43
-    .byte 0xE4, 0x00
-    .byte 0xA0, 0x02
-    .byte 0x2F, 0x46
-    .byte 0xE3, 0x00
-    .byte 0x2F, 0x46
+    mov r4, r3
+    mov #0x0, r4
+    bra .L_0603AA84
+    mov.l r4, @-r15
+    mov #0x0, r3
+    mov.l r4, @-r15
 .L_0603AA84:
     neg r10, r4
     mov r3, r9
@@ -970,12 +970,12 @@ FUN_0603AB72:
     .4byte 0x08000040  /* 06012E54 = 0x08000040 */
 .L_pool_0603AE58:
     .4byte 0x0000D999  /* 06012E58 = 0x0000D999 */
-    .byte 0xE3, 0x00
-    .byte 0xA0, 0x03
-    .byte 0x2F, 0x46
-    .byte 0x63, 0x43
-    .byte 0xE4, 0x00
-    .byte 0x2F, 0x46
+    mov #0x0, r3
+    bra .L_0603AE68
+    mov.l r4, @-r15
+    mov r4, r3
+    mov #0x0, r4
+    mov.l r4, @-r15
 .L_0603AE68:
     neg r10, r4
     mov r3, r9
@@ -1451,11 +1451,12 @@ FUN_0603AF38:
     .4byte 0x08000100  /* 060131BC = 0x08000100 */
 .L_pool_0603B1C0:
     .4byte 0x0000D999  /* 060131C0 = 0x0000D999 */
-    .4byte 0x6343E400  /* 060131C4 = 0x6343E400 */
-    .byte 0xA0, 0x02
-    .byte 0x2F, 0x46
-    .byte 0xE3, 0x00
-    .byte 0x2F, 0x46
+    mov r4, r3
+    mov #0x0, r4
+    bra .L_0603B1D0
+    mov.l r4, @-r15
+    mov #0x0, r3
+    mov.l r4, @-r15
 .L_0603B1D0:
     neg r10, r4
     mov r3, r9
