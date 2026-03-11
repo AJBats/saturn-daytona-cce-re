@@ -74,21 +74,22 @@ Uses `sh-elf-as / sh-elf-ld / sh-elf-objcopy` from `D:/Projects/SaturnReverseTes
 
 ## Active workstreams
 
-1. **Byte fog clearing** — decode remaining 18,905 `.byte` pairs in race src to
-   real SH-2 mnemonics. Start with FUN_06045B74.s, then sweep all 174 files.
-   See `docs/byte_fog_clearing_work.md`.
-2. **Race module analysis** — identify physics/AI functions in `race/` for transplant
+1. **Race module analysis** — identify physics/AI functions in `race/` for transplant
 
 ## Completed workstreams
 
+- **Byte fog clearing** — two phases. Phase 1 (Ghidra recursive descent) decoded
+  8,835 `.byte` pairs. Phase 2 (medium fog hand review, 12 batches) decoded ~52
+  more instructions (movt, tas.b, IEEE float entries, dispatch thunks) and classified
+  all remaining ~16,900 `.byte` pairs as data or deferred. Zero UNKNOWN instruction
+  types remain. See `docs/DONE_byte_fog_clearing_work.md`, `docs/medium_fog_data.md`,
+  `docs/medium_fog_skips.md`.
 - **Non-uniform shift hardening** — pool loads symbolized (Phase 1) + cross-section
   jump tables merged and symbolized (Phase 2). Noptest passes with 7 simultaneous
   NOP shifts (+24 bytes cumulative). 12 intra-function tables remain hardcoded
   (safe — targets in same function body). See `docs/noptest_divergence_work.md`.
 - **TU reconstruction** — merged 96 translation unit groups (613→222 .s files).
   See `docs/DONE_tu_reconstruction_work.md`.
-- **Byte fog clearing** — decoded 8,835 `.byte` pairs to real SH-2 mnemonics using
-  Ghidra recursive descent. ~18,900 `.byte` pairs remain (undecoded code + data).
 - **HWR load address confirmation** — all sub-modules confirmed at 0x06028000.
 - **+4 uniform shift** — WORKING, boot-tested with full attract mode races.
 
