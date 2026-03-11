@@ -95,7 +95,7 @@ FUN_06047588:
     mov.l r3, @(20, r7)
     rts
     mov.l r4, @(24, r7)
-    .byte 0x00, 0x09
+    nop
 .L_06047628:
     mov.b @(1, r7), r0
     mov #0x10, r6
@@ -180,65 +180,68 @@ FUN_06047588:
     add r5, r2
     rts
     cmp/ge r7, r2
-    .byte 0x00, 0x09
+    nop
 .L_060476CC:
     rts
     nop
-    .byte 0x50, 0x4B
-    .byte 0xE3, 0xFF
-    .byte 0x40, 0x15
-    .byte 0x8F, 0x2B
-    .byte 0x43, 0x18
-    .byte 0xD1, 0x19
-    .byte 0x13, 0x00
-    .byte 0x31, 0x07
-    .byte 0x8B, 0x26
-    .byte 0xD1, 0x18
-    .byte 0x61, 0x11
-    .byte 0xE0, 0x00
-    .byte 0x13, 0x14
-    .byte 0x13, 0x05
-    .byte 0x51, 0x43
-    .byte 0x45, 0x01
-    .byte 0x52, 0x47
-    .byte 0x31, 0x6C
-    .byte 0x32, 0x7C
-    .byte 0xD7, 0x11
-    .byte 0x56, 0x76
-    .byte 0x67, 0x6F
-    .byte 0x66, 0x69
-    .byte 0x66, 0x6F
-    .byte 0x53, 0x37
-    .byte 0x31, 0x3D
-    .byte 0x01, 0x0A
-    .byte 0x32, 0x3D
-    .byte 0x02, 0x0A
-    .byte 0x35, 0x3D
-    .byte 0x05, 0x0A
-    .byte 0x31, 0x58
-    .byte 0x36, 0x13
-    .byte 0x8B, 0x0D
-    .byte 0x66, 0x6B
-    .byte 0x31, 0x5C
-    .byte 0x31, 0x5C
-    .byte 0x31, 0x63
-    .byte 0x8B, 0x08
-    .byte 0x32, 0x58
-    .byte 0x37, 0x23
-    .byte 0x8B, 0x05
-    .byte 0x67, 0x7B
-    .byte 0x32, 0x5C
-    .byte 0x32, 0x5C
-    .byte 0x00, 0x0B
-    .byte 0x32, 0x73
+    mov.l @(44, r4), r0
+    mov #-0x1, r3
+    cmp/pl r0
+    bf/s .L_06047730
+    shll8 r3
+    mov.l .L_pool_06047740, r1
+    mov.l r0, @(0, r3)
+    cmp/gt r0, r1
+    bf .L_06047730
+    mov.l .L_pool_06047744, r1
+    mov.w @r1, r1
+    mov #0x0, r0
+    mov.l r1, @(16, r3)
+    mov.l r0, @(20, r3)
+    mov.l @(12, r4), r1
+    shlr r5
+    mov.l @(28, r4), r2
+    add r6, r1
+    add r7, r2
+    mov.l .L_pool_0604773C, r7
+    mov.l @(24, r7), r6
+    exts.w r6, r7
+    swap.w r6, r6
+    exts.w r6, r6
+    mov.l @(28, r3), r3
+    dmuls.l r3, r1
+    sts mach, r1
+    dmuls.l r3, r2
+    sts mach, r2
+    dmuls.l r3, r5
+    sts mach, r5
+    sub r5, r1
+    cmp/ge r1, r6
+    bf .L_06047730
+    neg r6, r6
+    add r5, r1
+    add r5, r1
+    cmp/ge r6, r1
+    bf .L_06047730
+    sub r5, r2
+    cmp/ge r2, r7
+    bf .L_06047730
+    neg r7, r7
+    add r5, r2
+    add r5, r2
+    rts
+    cmp/ge r7, r2
     .byte 0x00, 0x09
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+.L_06047730:
+    rts
+    nop
 .L_pool_06047734:
     .4byte 0x01000000  /* 0601F734 = 0x01000000 */
 .L_pool_06047738:
     .4byte sym_06057880  /* 0601F738 = 0x06057880 */
 .L_pool_0604773C:
     .4byte sym_06057800  /* 0601F73C = 0x06057800 */
+.L_pool_06047740:
     .4byte 0x012C0000  /* 0601F740 = 0x012C0000 */
+.L_pool_06047744:
     .4byte sym_0605788C  /* 0601F744 = 0x0605788C */

@@ -90,24 +90,25 @@ FUN_0604674E:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x2F, 0xD6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0x86
-    .byte 0x4F, 0x22
-    .byte 0xB0, 0x09
-    .byte 0x00, 0x09
-    .byte 0x4F, 0x26
-    .byte 0x68, 0xF6
-    .byte 0x69, 0xF6
-    .byte 0x6A, 0xF6
-    .byte 0x6B, 0xF6
-    .byte 0x6C, 0xF6
-    .byte 0x6D, 0xF6
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    mov.l r10, @-r15
+    mov.l r9, @-r15
+    mov.l r8, @-r15
+    sts.l pr, @-r15
+    bsr .L_060467B0
+    nop
+    lds.l @r15+, pr
+    mov.l @r15+, r8
+    mov.l @r15+, r9
+    mov.l @r15+, r10
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    nop
+.L_060467B0:
     stc.l gbr, @-r15
 
     .global FUN_060467B2
