@@ -12,57 +12,45 @@ genuine data (string literals, lookup tables, padding) should remain as `.byte`.
 branch targets or pool loads, and can't safely insert or remove instructions.
 Full decoding is prerequisite for any serious modification of race functions.
 
-## Current state
+## Current state (2026-03-11)
 
-| Metric | Count |
+| Metric | Value |
 |--------|-------|
-| Files with `.byte` fog | **174** / 222 |
-| Total `.byte` lines | **18,905** |
-| Already decoded (Ghidra pass) | 8,835 (2026-03-08) |
+| BFS CERTAIN decoded | ~1,064 (clear-fog-work branch, 22 commits) |
+| Remaining `.byte` fog | ~17,800 |
+| Files fully cleared | 15 / 60 modified |
+| Skipped files | 3 (see `docs/fog_clearing_skips.md`) |
 
-### Top files by `.byte` count
+## Phase 2: RTS-sibling hand review
 
-| File | `.byte` lines | Notes |
-|------|--------------|-------|
-| FUN_060482A8.s | 7,490 | ~67% code-like |
-| FUN_0604D380.s | 6,530 | ~23% code-like, contains ASCII strings |
-| FUN_06045B74.s | 536 | Merged TU, jump table targets |
-| FUN_0604C76C.s | 493 | |
-| FUN_0602A370.s | 208 | |
-| FUN_060453C8.s | 193 | |
-| FUN_06044BCC.s | 158 | |
-| FUN_0603F9FC.s | 130 | |
-| (164 more files) | 3,167 | Most have < 100 each |
+BFS stops at `rts` boundaries, but dispatch table cases sit back-to-back
+with identical structure. The next case after `rts` is real code but BFS
+can't prove it. These show up as MEDIUM confidence — we review by hand.
 
-The top 3 files account for 77% of all remaining byte fog.
+**Target: 10 files modified on `clear-fog-work` with significant MEDIUM fog.**
 
-## Approach
+| # | File | Remaining | MEDIUM | Status |
+|---|------|-----------|--------|--------|
+| 1 | FUN_06044BCC | 36 | 17 | TODO |
+| 2 | FUN_0604C76C | 472 | 230 | TODO |
+| 3 | FUN_0603F9FC | 73 | 68 | TODO |
+| 4 | FUN_06046520 | 53 | 43 | TODO |
+| 5 | FUN_060451BC | 39 | 38 | TODO |
+| 6 | FUN_06045B74 | 33 | 15 | TODO |
+| 7 | FUN_06047E0C | 16 | 15 | TODO |
+| 8 | FUN_060480C4 | 13 | 6 | TODO |
+| 9 | FUN_0602FCD4 | 9 | 4 | TODO |
+| 10 | FUN_060472CC | 4 | 2 HIGH | TODO |
 
-1. **Start with FUN_06045B74.s** (536 lines of fog) — already heavily worked on
-   for the jump table merge, context is fresh. Good proving ground.
+## Method
 
-2. **Work through mid-size files** — the 164 files with < 100 `.byte` lines
-   each. Many will be trivial (alignment padding, 1-2 undecoded instructions).
-
-3. **Tackle the giants last** — FUN_060482A8 and FUN_0604D380 together are
-   14,020 lines of fog. These likely need Ghidra analysis to distinguish
-   code blocks from embedded data tables.
-
-### Method
-
-- Use Ghidra disassembly export as ground truth (recursive descent catches
-  code that linear sweep misses)
-- `tools/apply_ghidra_disasm.py` for bulk decoding
-- Manual review for edge cases: `mova` with absolute addresses, inline data
-  between branch targets, jump table dispatch blocks
-- Verify with `make validate` after each batch
+- `tools/decode_byte_fog.py --flow` for classification (CERTAIN/MEDIUM/DATA)
+- `--apply-certain` for provably reachable code
+- **Hand decode** for MEDIUM blocks adjacent to decoded CERTAIN code
+- Cross-reference with `ghidra_reference/race/` for context
+- Gate on `python tools/validate_build.py` before every commit
 
 ## Validation
 
-- `make validate` — byte-identical after every change
-- `make noptest` — boot test to confirm nothing broke
-
-## Status
-
-**NOT STARTED** — this is a follow-up workstream after non-uniform shift
-hardening (see `docs/noptest_divergence_work.md`).
+- `python tools/validate_build.py` — byte-identical + boot test
+- See `docs/fog_clearing_skips.md` for documented false positives

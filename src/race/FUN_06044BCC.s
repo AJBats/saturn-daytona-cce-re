@@ -562,36 +562,37 @@ FUN_06044E3C:
     mov.l r1, @(16, r4)
     rts
     mov.l r2, @(32, r4)
-    .byte 0x50, 0x41
-    .byte 0x51, 0x45
-    .byte 0x52, 0x49
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x01
-    .byte 0x14, 0x15
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x29
-    .byte 0x50, 0x42
-    .byte 0x51, 0x46
-    .byte 0x52, 0x4A
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x02
-    .byte 0x14, 0x16
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x2B
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov.l @(4, r4), r0
+    mov.l @(20, r4), r1
+    mov.l @(36, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(4, r4)
+    mov.l r1, @(20, r4)
+    rts
+    mov.l r2, @(36, r4)
+    mov.l @(8, r4), r0
+    mov.l @(24, r4), r1
+    mov.l @(40, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(8, r4)
+    mov.l r1, @(24, r4)
+    rts
+    mov.l r2, @(44, r4)
+    mov.l .L_pool_0604CFFC, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_06045008
     nop
     .byte 0x00, 0x00
+.L_pool_0604CFFC:
     .4byte 0x28BE60DC  /* 0601CFFC = 0x28BE60DC */
-    .byte 0xD1, 0x1A
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_0604506C, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_06045006
     .type FUN_06045006, @function
@@ -652,16 +653,16 @@ FUN_06045020:
     sts mach, r5
     bra FUN_06045080
     nop
-    .byte 0x00, 0x00
+    .byte 0x00, 0x00    /* alignment padding */
 .L_pool_0604506C:
     .4byte 0x28BE60DC  /* 0601D06C = 0x28BE60DC */
 .L_pool_06045070:
     .4byte 0x0000FFF0  /* 0601D070 = 0x0000FFF0 */
 .L_pool_06045074:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD1, 0x19
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_060450E0, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_0604507E
     .type FUN_0604507E, @function
@@ -726,9 +727,9 @@ FUN_06045098:
     .4byte 0x0000FFF0  /* 0601D0E4 = 0x0000FFF0 */
 .L_pool_060450E8:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD1, 0x16
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_06045148, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_060450F2
     .type FUN_060450F2, @function
@@ -780,7 +781,8 @@ FUN_0604510C:
     add #0x10, r15
     rts
     add #-0x30, r4
-    .byte 0x00, 0x00
+    .byte 0x00, 0x00    /* alignment padding */
+.L_pool_06045148:
     .4byte 0x28BE60DC  /* 0601D148 = 0x28BE60DC */
 .L_pool_0604514C:
     .4byte 0x0000FFF0  /* 0601D14C = 0x0000FFF0 */
