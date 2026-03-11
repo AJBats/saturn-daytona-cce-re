@@ -26,11 +26,13 @@ cross-reference is required.
      (address = runtime - 0x06028000 + 0x06000000)
    - Does the block follow known patterns? (see Known Good Patterns)
 
-3. **Revert bad changes** — if a decode doesn't make sense, revert it and
-   document in `docs/medium_fog_skips.md` with:
-   - File name and address range
-   - What was decoded
-   - Why it was skipped (false positive type, suspicious pattern, etc.)
+3. **Document findings** — record every reviewed block's outcome:
+   - **Confirmed data**: document in `docs/medium_fog_data.md` with file name,
+     address range, and why it's data (pool constant, jump table offset,
+     packed values, padding, etc.). Leave the `.byte` pairs as-is.
+   - **Bad decode / skip**: if a decode doesn't make sense, revert it and
+     document in `docs/medium_fog_skips.md` with file name, address range,
+     what was decoded, and why it was skipped.
 
 4. **Validate** — run `python tools/validate_build.py` (all 3 classes must pass).
 
