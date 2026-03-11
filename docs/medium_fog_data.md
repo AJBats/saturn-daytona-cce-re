@@ -276,3 +276,19 @@ All labeled `.L_wpool_*` pairs: 0x0800, 0x01D8, 0x0800, 0x5080, 0xFF01,
 One `movt r0` (line 1926) decoded: `tst r0, r0` → `movt r0` → `mov.b r0, @r8`
 (store boolean flag). See batch 9 commit.
 
+## FUN_06038DD8.s — 74 .byte pairs (wpool + padding + 4 movt decoded)
+
+All labeled `.L_wpool_*` pairs are structure field offsets + alignment
+padding. Four `movt r0` (0x0029) decoded — inverted bit-test idiom:
+`tst #0x8, r0` → `movt r0` → `add #-1` → `neg` → `cmp/eq #1`.
+Same pattern as FUN_06039DCC.s. See batch 10 commit.
+
+## FUN_0603F0B4.s — 9 .byte pairs (wpool + padding + 4 movt decoded)
+
+- 3× `movt r4` (0x0429): two after `tst r0, r0` (capture zero-test),
+  one after `shlr r0` (capture shifted-out bit).
+- 1× `movt r7` (0x0729): in bt/s delay slot after `cmp/pz r4` (capture
+  sign test result while branching).
+- Remaining wpool: 0x007C, 0x009C + alignment padding.
+See batch 10 commit.
+

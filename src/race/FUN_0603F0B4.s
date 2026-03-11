@@ -189,7 +189,7 @@ FUN_0603F166:
 .L_0603F1DE:
     mov.w @(16, r6), r0
     tst r0, r0
-    .byte 0x04, 0x29 /* UNKNOWN 0x0429 */
+    movt r4
     mov.l r0, @(16, r12)
     rotcl r8
     tst r4, r4
@@ -252,7 +252,7 @@ FUN_0603F166:
     bt .L_0603F1D2
     mov.w @(16, r6), r0
     tst r0, r0
-    .byte 0x04, 0x29 /* UNKNOWN 0x0429 */
+    movt r4
     mov.l r0, @(16, r12)
     rotcl r8
     tst r4, r4
@@ -625,7 +625,7 @@ FUN_0603F4C0:
 .L_pool_0603F4F0:
     exts.w r0, r5
     shlr r0
-    .byte 0x04, 0x29 /* UNKNOWN 0x0429 */
+    movt r4
     cmp/pz r5
     bt .L_0603F4FE
     .reloc ., R_SH_IND12W, FUN_0603F03C - 4
@@ -749,7 +749,7 @@ FUN_0603F58C:
     sub r0, r4
     cmp/pz r4
     bt/s .L_0603F5B4
-    .byte 0x07, 0x29 /* UNKNOWN 0x0729 */
+    movt r7
     neg r4, r4
     tst r1, r1
     mov.l @(188, gbr), r0
