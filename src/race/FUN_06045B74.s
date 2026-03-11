@@ -196,7 +196,7 @@ FUN_06045C3C:
     .short .L_jt_06045C66 - .L_braf_ret_06045C44
     .short .L_jt_06045C74 - .L_braf_ret_06045C44
     .short .L_jt_06045C82 - .L_braf_ret_06045C44
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 
     .global FUN_06045C9C
     .type FUN_06045C9C, @function
@@ -217,7 +217,7 @@ FUN_06045C9C:
     mov.w r4, @-r7
     sub r6, r0
     mov.w r0, @-r7
-    .byte 0x47, 0x7F /* UNKNOWN 0x477F */
+    mac.w @r7+, @r7+
     add #0x4, r15
     sts macl, r0
     cmp/pz r0
@@ -428,7 +428,7 @@ FUN_06045DCC:
     .short FUN_06045D3C - .L_braf_ret_06045D12
     .short .L_jt_06045D50 - .L_braf_ret_06045D12
     .short FUN_06045D6A - .L_braf_ret_06045D12
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 .L_pool_06045DFC:
     .short .L_jt_06045D90 - .L_braf_ret_06045D8C
     .short .L_jt_06045D9C - .L_braf_ret_06045D8C
@@ -700,7 +700,7 @@ FUN_06045F46:
     .short .L_jt_06045F84 - .L_braf_ret_06045F62
     .short .L_jt_06045F92 - .L_braf_ret_06045F62
     .short .L_jt_06045FA0 - .L_braf_ret_06045F62
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 
     .global FUN_06045FC0
     .type FUN_06045FC0, @function

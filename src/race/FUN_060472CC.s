@@ -29,7 +29,7 @@ FUN_060472CC:
     .short .L_inline_060473C4 - .L_braf_return
     .short FUN_06047460 - .L_braf_return
     .short FUN_060474D4 - .L_braf_return
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 .L_null_060472F4:
     rts
     nop
@@ -418,4 +418,4 @@ FUN_06047548:
     .short .L_jt_06047564 - .L_braf_ret_06047550
     .short .L_jt_0604756C - .L_braf_ret_06047550
     .short .L_jt_06047574 - .L_braf_ret_06047550
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */

@@ -31,7 +31,7 @@ can't prove it. These show up as MEDIUM confidence — we review by hand.
 
 | # | File | Remaining | MEDIUM | Status |
 |---|------|-----------|--------|--------|
-| 1 | FUN_06044BCC | 36 | 17 | TODO |
+| 1 | FUN_06044BCC | 36 | 17 | DONE (ea975c4) |
 | 2 | FUN_0604C76C | 472 | 230 | TODO |
 | 3 | FUN_0603F9FC | 73 | 68 | TODO |
 | 4 | FUN_06046520 | 53 | 43 | TODO |
