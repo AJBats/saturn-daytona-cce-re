@@ -74,7 +74,7 @@ FUN_06046990:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_060469F4:
     mov.b @(4, r7), r0
     and #0xF9, r0

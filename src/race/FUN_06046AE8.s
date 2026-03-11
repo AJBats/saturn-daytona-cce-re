@@ -50,7 +50,7 @@ FUN_06046AE8:
     .reloc ., R_SH_IND12W, FUN_06045C3C - 4
     .2byte 0xA000    /* bra FUN_0601DC3C (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x00, 0x09
+    nop
 .L_06046B34:
     add #0x4, r15
     lds.l @r15+, pr
