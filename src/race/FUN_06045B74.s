@@ -59,7 +59,7 @@ FUN_06045BA0:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06045BC4
     .type FUN_06045BC4, @function
@@ -785,7 +785,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     mov r13, r12
-    .byte 0x00, 0x09
+    nop
 .L_0604605C:
     mov #0x70, r10
     bsr FUN_06045BC4
@@ -855,7 +855,7 @@ FUN_06045FC0:
     mov #0x70, r10
     bra FUN_06045BC6
     add r14, r10
-    .byte 0x00, 0x09
+    nop
 .L_jt_0120:
     mov r12, r1
     mov r13, r2
@@ -884,7 +884,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_06046118:
     mov #0x70, r12
     bsr FUN_06045BC4
@@ -899,7 +899,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_0174:
     mov r12, r1
     mov r13, r2
@@ -916,7 +916,7 @@ FUN_06045FC0:
     mov #0x60, r12
     bra FUN_06045BC6
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_0194:
     mov r12, r1
     mov r13, r2
@@ -966,7 +966,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_060461B4:
     mov #0x70, r13
     bsr FUN_06045BC4
@@ -996,7 +996,7 @@ FUN_06045FC0:
     mov #0x70, r13
     bra FUN_06045BC6
     add r14, r13
-    .byte 0x00, 0x09
+    nop
 .L_jt_022C:
     mov r11, r1
     mov r12, r2
@@ -1034,7 +1034,7 @@ FUN_06045FC0:
     mov #0x60, r13
     bra FUN_06045BC6
     add r14, r13
-    .byte 0x00, 0x09
+    nop
 .L_jt_0274:
     mov r10, r1
     mov r11, r2
@@ -1055,7 +1055,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_029C:
     mov r13, r1
     mov r10, r2
@@ -1076,7 +1076,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_02C4:
     mov r10, r1
     mov r11, r2
@@ -1116,7 +1116,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045BC6
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_0310:
     mov r11, r1
     mov r12, r2
@@ -1137,7 +1137,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r11
-    .byte 0x00, 0x09
+    nop
 .L_jt_0338:
     mov r12, r1
     mov r10, r2
@@ -1177,7 +1177,7 @@ FUN_06045FC0:
     mov.b r0, @(128, gbr)
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_jt_0384:
     mov r12, r1
     mov r10, r2
@@ -1194,69 +1194,71 @@ FUN_06045FC0:
     mov #0x60, r12
     bra FUN_06045C02
     add r14, r12
-    .byte 0x00, 0x09
+    nop
 .L_06046364:
-    .byte 0x50, 0x21
-    .byte 0xE7, 0xFF
-    .byte 0x54, 0x11
-    .byte 0x47, 0x18
-    .byte 0x30, 0x48
-    .byte 0x20, 0x79
-    .byte 0x17, 0x00
-    .byte 0x50, 0xE0
-    .byte 0x54, 0x21
-    .byte 0x13, 0x01
-    .byte 0x30, 0x48
-    .byte 0x20, 0x79
-    .byte 0x64, 0x09
-    .byte 0x64, 0x4F
-    .byte 0x17, 0x44
-    .byte 0x40, 0x28
-    .byte 0x17, 0x05
-    .byte 0x54, 0x22
-    .byte 0x55, 0x12
-    .byte 0x56, 0x23
-    .byte 0x34, 0x58
-    .byte 0x50, 0x13
-    .byte 0x36, 0x08
-    .byte 0x50, 0x77
-    .byte 0x34, 0x0D
-    .byte 0x04, 0x0A
-    .byte 0x05, 0x1A
-    .byte 0x25, 0x4D
-    .byte 0x36, 0x0D
-    .byte 0x54, 0x22
-    .byte 0x35, 0x4C
-    .byte 0x50, 0x23
-    .byte 0x04, 0x0A
-    .byte 0x06, 0x1A
-    .byte 0x26, 0x4D
-    .byte 0x54, 0xE3
-    .byte 0x35, 0x4D
-    .byte 0x36, 0x0C
-    .byte 0x66, 0x6B
-    .byte 0x00, 0x0A
-    .byte 0x81, 0x30
-    .byte 0x65, 0x03
-    .byte 0x36, 0x4D
-    .byte 0x00, 0x0A
-    .byte 0x81, 0x31
-    .byte 0x66, 0x03
-    .byte 0xC5, 0x0C
-    .byte 0x35, 0x07
-    .byte 0x89, 0x0A
-    .byte 0x60, 0x0B
-    .byte 0x30, 0x57
-    .byte 0x89, 0x07
-    .byte 0xC5, 0x0D
-    .byte 0x36, 0x07
-    .byte 0x89, 0x04
-    .byte 0x60, 0x0B
-    .byte 0x30, 0x67
-    .byte 0x89, 0x01
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
-    .byte 0x84, 0x37
-    .byte 0xCB, 0x04
-    .byte 0xAF, 0xFA
-    .byte 0x80, 0x37
+    mov.l @(4, r2), r0
+    mov #-0x1, r7
+    mov.l @(4, r1), r4
+    shll8 r7
+    sub r4, r0
+    and r7, r0
+    mov.l r0, @(0, r7)
+    mov.l @(0, r14), r0
+    mov.l @(4, r2), r4
+    mov.l r0, @(4, r3)
+    sub r4, r0
+    and r7, r0
+    swap.w r0, r4
+    exts.w r4, r4
+    mov.l r4, @(16, r7)
+    shll16 r0
+    mov.l r0, @(20, r7)
+    mov.l @(8, r2), r4
+    mov.l @(8, r1), r5
+    mov.l @(12, r2), r6
+    sub r5, r4
+    mov.l @(12, r1), r0
+    sub r0, r6
+    mov.l @(28, r7), r0
+    dmuls.l r0, r4
+    sts mach, r4
+    sts macl, r5
+    xtrct r4, r5
+    dmuls.l r0, r6
+    mov.l @(8, r2), r4
+    add r4, r5
+    mov.l @(12, r2), r0
+    sts mach, r4
+    sts macl, r6
+    xtrct r4, r6
+    mov.l @(12, r14), r4
+    dmuls.l r4, r5
+    add r0, r6
+    neg r6, r6
+    sts mach, r0
+    mov.w r0, @(0, r3)
+    mov r0, r5
+    dmuls.l r4, r6
+    sts mach, r0
+    mov.w r0, @(2, r3)
+    mov r0, r6
+    mov.w @(24, gbr), r0
+    cmp/gt r0, r5
+    bt .L_060463DC
+    neg r0, r0
+    cmp/gt r5, r0
+    bt .L_060463DC
+    mov.w @(26, gbr), r0
+    cmp/gt r0, r6
+    bt .L_060463DC
+    neg r0, r0
+    cmp/gt r6, r0
+    bt .L_060463DC
+.L_060463D8:
+    rts
+    nop
+.L_060463DC:
+    mov.b @(7, r3), r0
+    or #0x4, r0
+    bra .L_060463D8
+    mov.b r0, @(7, r3)

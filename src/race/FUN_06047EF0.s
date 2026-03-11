@@ -152,7 +152,7 @@ FUN_06047EF0:
     mov.l r3, @(8, r6)
     rts
     add #-0x30, r4
-    .byte 0x00, 0x09
+    nop
     clrmac
     mac.l @r4+, @r5+
     mac.l @r4+, @r5+
