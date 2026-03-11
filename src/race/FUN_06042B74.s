@@ -41,7 +41,7 @@ FUN_06042B7E:
     nop
     mov.l .L_pool_06042C50, r3
     tst r0, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     xor #0x1, r0
     mov.b r0, @r3
     exts.b r0, r0
@@ -63,7 +63,7 @@ FUN_06042B7E:
     mov #0x19, r5
     tst r0, r0
     mov.l .L_pool_06042C58, r3
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     xor #0x1, r0
     mov.b r0, @r3
     exts.b r0, r0

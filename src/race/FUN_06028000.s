@@ -1923,7 +1923,7 @@ FUN_06028DCA:
     jsr @r1
     nop
     tst r0, r0
-    .byte 0x00, 0x29 /* UNKNOWN 0x0029 */
+    movt r0
     mov.b r0, @r8
 .L_06028DF2:
     mov #0x0, r11

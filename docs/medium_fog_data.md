@@ -241,3 +241,38 @@ same structure type. Unlabeled bytes are alignment padding.
   `docs/medium_fog_skips.md`.
 - Remaining: alignment padding (0x0000, 0xFFFF).
 
+## FUN_060434D0.s — 87 .byte pairs (wpool + structured data table)
+
+- wpool_0604355E..62: 0x1816, 0xC000, 0x1555 (display constants).
+- `.L_pool_06043588`: large structured data table — repeating 6-field
+  records with coordinate pairs (0x0052/0x87AE, 0x00A0, 0x0000, 0xFED1,
+  0x851F) + similar patterns. Values like 0x851F and 0x87AE happen to
+  decode as `mov.w @(30,r1),r0` and `mov.w @(110,r0),r0` but are
+  fixed-point coordinate data. **All data, no code.**
+
+## FUN_06042B74.s — 11 .byte pairs (wpool + 2 movt decoded)
+
+All labeled `.L_wpool_*` pairs are offset/flag constants (0xC000, 0x5000,
+0x00F0, 0x01D1, 0x01C2, 0x0384, 0x0546, 0x1518) + alignment padding.
+Two `movt r0` (0x0029) instructions decoded — boolean inversion idiom:
+`tst r0, r0` → `movt r0` → `xor #1, r0`. See batch 9 commit.
+
+## FUN_0603B940.s — 15 .byte pairs (wpool + padding)
+
+All labeled `.L_wpool_*` pairs: 0x031D, 0x2000, 0x01C9, 0x01D3, 0x01DD,
+0x0087, 0x3000, 0x01F1, 0x0205, 0x0219, 0x1770, 0x03E8, 0x022D, 0x0241.
+Structure field offsets for car/physics data access. **All data, no code.**
+
+## FUN_06034904.s — 29 .byte pairs (wpool + padding)
+
+All labeled `.L_wpool_*` pairs: 0x0700, 0x012C, 0x00B4, 0x1000, 0x00F0,
+0x01BD, 0x0404, 0x2000, 0x0080, 0x00E0 + alignment padding (0x0000,
+0xFFFF). **All data, no code.**
+
+## FUN_06028000.s — 18 .byte pairs (wpool + padding + 1 movt decoded)
+
+All labeled `.L_wpool_*` pairs: 0x0800, 0x01D8, 0x0800, 0x5080, 0xFF01,
+0x1000, 0x2000, 0x3000, 0x0800, 0xFF01 + alignment padding (0xFFFF).
+One `movt r0` (line 1926) decoded: `tst r0, r0` → `movt r0` → `mov.b r0, @r8`
+(store boolean flag). See batch 9 commit.
+
