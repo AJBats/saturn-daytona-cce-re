@@ -455,7 +455,7 @@ FUN_0603EEBC:
     bt .L_0603EF32
     neg r0, r0
 .L_0603EF32:
-    .byte 0x05, 0x29 /* UNKNOWN 0x0529 */
+    movt r5
     cmp/gt r4, r0
     mov.l .L_pool_0603F0A8, r2
     bt .L_0603EF6A

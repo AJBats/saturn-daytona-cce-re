@@ -83,3 +83,47 @@ All under `.L_wpool_*` labels: 0x0009 (integer 9, NOT nop), 0x000A (10),
   + 0x0000 alignment padding.
   **All wpool offset constants — not code.**
 
+## FUN_060384C4.s — 45 .byte pairs (all labeled wpool/pool)
+
+Every `.byte` pair sits under an explicit `.L_wpool_*` label. Values are
+signed offsets (0x0160, 0x2CBF, 0x0120, etc.) for structure field access,
+plus alignment padding. **All data, no unlabeled fog.**
+
+## FUN_06045B74.s — 29 .byte pairs (word tables + wpool + padding)
+
+- `.L_pool_06045CEC/CF8`: mova-referenced word-data tables (copied by
+  `mov.w @r0+`, not executed). Values happen to encode as valid SH-2
+  (0x4011=cmp/pz, 0x8B00=bf) but are data words being copied.
+- Lines 615-632: unlabeled block after pool contains invalid opcode 0x817E
+  — confirms DATA (no branch target reaches this region).
+- 0x06045E3A, 0x06045FAE: alignment padding (0x0000).
+- wpool_06045F16..1C: labeled offset constants.
+  **All data, no code.**
+
+## FUN_06044788.s — 10 .byte pairs (wpool + byte lookup tables)
+
+All under `.L_wpool_*` or `.L_pool_*` labels: wpool constants (0x0000,
+0x0130, 0x0050) + padding + byte lookup tables at .L_pool_06044828
+(8 entries: 0,4,8,12,16,12,8,4) and .L_pool_06044830 (4 entries).
+**All data, no code.**
+
+## FUN_0603DF28.s — 19 .byte pairs (wpool + 1 movt decoded)
+
+All `.byte` except one are labeled `.L_wpool_*` offset constants + alignment
+padding. The one CODE byte at line 1792 (`0x00, 0x29` = `movt r0`) was
+decoded — see batch 6 commit.
+
+## FUN_0603EC54.s — 5 .byte pairs (wpool + 1 movt decoded)
+
+- wpool_0603F06C/6E: offset constants 0x007C, 0x009C.
+- FUN_0603F070 / wpool_0603F070: aliased address (0xE000 = wpool data,
+  not real function entry) + 0x0000 padding.
+- Line 458 (`0x05, 0x29` = `movt r5`) was decoded — see batch 6 commit.
+
+## FUN_0604264C.s — 7 .byte pairs (all labeled wpool)
+
+- wpool_06042772: 0x1999 (signed constant 6553).
+- wpool_060428EA..EE: 0xC000, 0x4000, 0x8000 (offset constants).
+- wpool_06042992..94: 0x071C (1820), 0xF8E4 (-1820) + 0x0000 padding.
+  **All data, no code.**
+
