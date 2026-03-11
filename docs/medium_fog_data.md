@@ -23,3 +23,36 @@ MEDIUM-classified `.byte` blocks confirmed as data (not code) during hand review
   Referenced by `mova` + `shll r1` + `mov.w @(r0, r1), r0` at lines 152-154.
   **VDP2 color palette lookup table — not code.**
 
+## FUN_0603BBCC.s — 22 .byte pairs (all wpool + padding)
+
+All `.byte` pairs sit under explicit `.L_wpool_*` labels, loaded via `mov.w`.
+Values are column/row offsets for score table rendering (597, 617, 637, 657,
+677, 697, 717, 747, 767 — stride-20 pattern) plus sizes (6000, 196, 28672).
+Two 0xFFFF alignment pads. **All data, no code.**
+
+## FUN_06044B20.s — 8 .byte pairs (wpool + byte lookup tables)
+
+- **wpool_06044BA8**: 0x0000 (word constant zero, NOT nop — 0x0009 is nop).
+- **wpool_06044BAA**: 0x0140 = 320 (screen half-width for centering).
+- **.L_pool_06044BC0**: 8-byte lookup table (0,4,8,12,16,12,8,4 — triangle wave),
+  indexed via `mova` + `mov.b @(r0, r2)`.
+- **.L_pool_06044BC8**: 4-byte lookup table (0,32,48,16).
+  **All data, no code.**
+
+## FUN_06043630.s — 3 .byte pairs (all wpool)
+
+All under `.L_wpool_*` labels: 0x6683 (26243), 0x38E3 (14563), 0x8000 (-32768).
+MEDIUM classification because 0x6683 decodes as `mov r8,r6` and 0x38E3 as
+`cmp/ge r14,r8` — coincidental valid encodings. Instruction stream doesn't
+reach them. **All data, no code.**
+
+## FUN_0602CD98.s — 12 .byte pairs (VDP2 regs + wpool + padding)
+
+- 5 wpool values at 0x0602CE42-0x0602CE4A: VDP2 register init values
+  (0x7FFF mask, 0x0400, 0x0406, 0x0503, 0x0606).
+- wpool_0602CF82: 0x01D8 = 472 (row stride for display buffer).
+- wpool_0602D0A6-0602D0AA: 0x7FFF mask, 0x0080 stride, 0xFFFF pad.
+- wpool_0602D1C4-0602D1C6: 0x0080 stride, 0x01CA index offset.
+- wpool_0602D29E: 0x01D8 = 472 (same stride as CF82).
+  **All data, no code.**
+
