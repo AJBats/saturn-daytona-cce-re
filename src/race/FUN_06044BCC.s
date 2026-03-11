@@ -448,8 +448,8 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x66, 0x53
-    .byte 0x00, 0x09
+    mov r5, r6
+    nop
     mov #0x3, r3
 .L_06044EF6:
     mov.l @(4, r4), r0
@@ -552,16 +552,16 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x50, 0x40
-    .byte 0x51, 0x44
-    .byte 0x52, 0x48
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x00
-    .byte 0x14, 0x14
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x28
+    mov.l @(0, r4), r0
+    mov.l @(16, r4), r1
+    mov.l @(32, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(0, r4)
+    mov.l r1, @(16, r4)
+    rts
+    mov.l r2, @(32, r4)
     .byte 0x50, 0x41
     .byte 0x51, 0x45
     .byte 0x52, 0x49
