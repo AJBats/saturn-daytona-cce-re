@@ -141,7 +141,7 @@ FUN_0604680C:
 .L_pool_060468A8:
     .4byte sym_06057C00  /* 0601E8A8 = 0x06057C00 */
 .L_060468AC:
-    .byte 0x4F, 0x13
+    stc.l gbr, @-r15
 
     .global FUN_060468AE
     .type FUN_060468AE, @function

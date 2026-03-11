@@ -26,4 +26,4 @@ FUN_06045B48:
 .L_06045B6E:
     rts
     nop
-    .byte 0x00, 0x09
+    nop

@@ -52,7 +52,7 @@ FUN_060468B0:
     lds.l @r15+, pr
     rts
     ldc.l @r15+, gbr
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06046908
     .type FUN_06046908, @function

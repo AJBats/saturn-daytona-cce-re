@@ -32,4 +32,4 @@ FUN_06045B10:
 .L_06045B42:
     rts
     nop
-    .byte 0x00, 0x09
+    nop
