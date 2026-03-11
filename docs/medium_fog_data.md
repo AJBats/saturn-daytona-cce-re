@@ -56,3 +56,30 @@ reach them. **All data, no code.**
 - wpool_0602D29E: 0x01D8 = 472 (same stride as CF82).
   **All data, no code.**
 
+## FUN_06029810.s — lines 155-213 (pointer table)
+
+`.byte` pairs after `.L_pool_06029954` form a table of 32-bit HWR pointers
+(repeating `0x0605xxxx` pattern: 0x06054940, 0x06054C44, etc.). Interspersed
+with `.4byte sym_06055374`. No code entry point reaches them.
+**Pointer table data — not code.**
+
+## FUN_06047A84.s — 7 .byte pairs (wpool + padding)
+
+All under `.L_wpool_*` labels: 0x0009 (integer 9, NOT nop), 0x000A (10),
+0x0004, 0x00B6, 0x015F, 0x00DF + 0x0000 alignment padding.
+**HW register constants — not code.**
+
+## FUN_0602FCD4.s — 9 .byte pairs (wpool + padding)
+
+- wpool_0602FDEC..FDF4: 0x00B4, 0x016C, 0x4000, 0x2000, 0x1000 + 0xFFFF pad.
+- wpool_0602FF08..FF0A: 0x3333 (fixed-point), 0x0600.
+- Line 522: 0xFFFF alignment padding after `bra` delay slot.
+  **All wpool constants + alignment padding.**
+
+## FUN_060477FC.s — 11 .byte pairs (wpool + padding)
+
+- wpool_06047884..788A: 0x8000, 0x01A8, 0x01BC, 0x01AC.
+- wpool_0604793A..7944: 0x01A8, 0x01C8, 0x01BC, 0x01DC, 0x01AC, 0x01CC
+  + 0x0000 alignment padding.
+  **All wpool offset constants — not code.**
+
