@@ -105,7 +105,7 @@ FUN_06040CF0:
     mov #0x8, r7
     mov.l .L_pool_06040DC4, r0
 .L_06040DB2:
-    .byte 0x40, 0x1B /* UNKNOWN 0x401B */
+    tas.b @r0
     bt/s .L_06040DC8
     dt r7
     bf/s .L_06040DB2

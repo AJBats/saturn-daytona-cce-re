@@ -306,3 +306,14 @@ movt, matrix-vector multiply). Remaining 126 MEDIUM are data:
   T-flag-setting instructions between them is impossible for real code).
 **All data, no remaining code to decode.**
 
+## FUN_06040CF0.s — lines 82-101 (data) + line 108 (decoded `tas.b`)
+
+- **Lines 82-101** (`.L_pool_06040D84`, `.L_pool_06040D90`, `.L_pool_06040D9C`):
+  Three 12-byte fixed-point coordinate triplets referenced by `mova` at lines 13,
+  31, 49. Values like 0x00008CCC, 0x0000599A, 0xFFFE999A are 16.16 fixed-point
+  numbers (e.g. 0.549, 0.350, -1.400). **Data — 3D coordinate constants.**
+- **Line 108**: decoded `tas.b @r0` (0x401B, was `UNKNOWN`). Atomic test-and-set
+  in a slot-search loop: `tas.b @r0` → `bt/s found` → `dt r7` → `bf/s loop` →
+  `add #0x44, r0`. Searches 8 × 0x44-byte slots starting at sym_06052A18 or
+  sym_06052C38 depending on r4. See batch 12 commit.
+

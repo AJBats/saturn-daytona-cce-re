@@ -27,3 +27,16 @@ repeating `0x00, 0xDC` bytes — a byte lookup table, not code.
 92 MEDIUM bytes are mostly wpool offsets + more dispatch table data.
 **Entire file needs Ghidra cross-reference analysis for the dispatch
 table structure; skipped for now.**
+
+## FUN_060482A8.s — 7,490 .byte pairs (4,964 MEDIUM)
+
+Massive data-heavy file. Overwhelmingly data tables (VDP display lists,
+3D model/vertex data, initialization constants). Scale precludes single-
+session hand review. **Deferred to dedicated session with Ghidra support.**
+
+## FUN_0604D380.s — 6,530 .byte pairs (1,662 MEDIUM, 14 CERTAIN)
+
+Large data-heavy file. BFS reports 14 CERTAIN but these include `stc vbr, r0`
+(unusual in game code) and sequential data values (0x000D, 0x000E, 0x000F)
+confirming BFS false positives. Bulk of MEDIUM are structured data tables.
+**Deferred to dedicated session with Ghidra support.**
