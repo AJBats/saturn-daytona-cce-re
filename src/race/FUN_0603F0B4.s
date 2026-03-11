@@ -372,10 +372,10 @@ FUN_0603F166:
 .L_0603F336:
     bra .L_0603F344
     mov.b r0, @(19, gbr)
-    .byte 0x00, 0x09
-    .byte 0x2C, 0xBF
-    .byte 0x53, 0x41
-    .byte 0xD1, 0x6B
+    nop
+    muls.w r11, r12
+    mov.l @(4, r4), r3
+    mov.l .L_pool_0603F4F0, r1
     .reloc ., R_SH_IND12W, FUN_0603F070 - 4
     .2byte 0xA000    /* bra FUN_06017070 (linker-resolved) */
 .L_0603F344:
@@ -533,8 +533,9 @@ FUN_0603F166:
     extu.w r5, r5
     bra .L_0603F428
     nop
-    .byte 0xAF, 0xFE
-    .byte 0x00, 0x09
+.L_0603F458:
+    bra .L_0603F458
+    nop
 .L_wpool_0603F45C:
     .byte 0x40, 0x00
     .byte 0x00, 0x00
@@ -621,6 +622,7 @@ FUN_0603F4C0:
     nop
 .L_0603F4EE:
     shlr r0
+.L_pool_0603F4F0:
     exts.w r0, r5
     shlr r0
     .byte 0x04, 0x29 /* UNKNOWN 0x0429 */
@@ -1007,4 +1009,4 @@ FUN_0603F762:
     lds.l @r15+, pr
     rts
     add #0xC, r15
-    .byte 0x00, 0x09
+    nop

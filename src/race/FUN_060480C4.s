@@ -112,7 +112,7 @@ FUN_060480D6:
     sts macl, r0
     rts
     xtrct r4, r0
-    .byte 0x00, 0x09
+    nop
     mov.w .L_wpool_060481A0, r2
     mov r4, r3
     mov.l r5, @(0, r2)
@@ -220,13 +220,15 @@ FUN_060480D6:
     .byte 0x00, 0x00
 .L_pool_0604825C:
     .4byte sym_0605491C  /* 0602025C = 0x0605491C */
-    .byte 0xD0, 0x01
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x02
-    .byte 0x00, 0x00
+    mov.l .L_pool_06048268, r0
+    rts
+    mov.l @r0, r0
+    .byte 0x00, 0x00                /* alignment padding */
+.L_pool_06048268:
     .4byte sym_06054918  /* 06020268 = 0x06054918 */
-    .byte 0xD0, 0x01
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x02
-    .byte 0x00, 0x00
+    mov.l .L_pool_06048274, r0
+    rts
+    mov.l @r0, r0
+    .byte 0x00, 0x00                /* alignment padding */
+.L_pool_06048274:
     .4byte sym_0605491C  /* 06020274 = 0x0605491C */

@@ -30,7 +30,7 @@ FUN_060453CC:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
     .byte 0x00, 0x00
     .byte 0x80, 0x00
     .byte 0x01, 0x3F

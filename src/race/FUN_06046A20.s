@@ -76,7 +76,7 @@ FUN_06046A24:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_06046A88:
     add #0x4, r15
     lds.l @r15+, pr

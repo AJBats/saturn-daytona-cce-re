@@ -39,7 +39,7 @@ FUN_06046A90:
     .reloc ., R_SH_IND12W, FUN_06046E64 - 4
     .2byte 0xA000    /* bra FUN_0601EE64 (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x00, 0x09
+    nop
 .L_06046AC8:
     mov.b @(4, r7), r0
     and #0xF9, r0
@@ -53,7 +53,7 @@ FUN_06046A90:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_06046AE0:
     add #0x4, r15
     lds.l @r15+, pr

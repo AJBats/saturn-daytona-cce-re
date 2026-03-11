@@ -110,7 +110,7 @@ FUN_06046C14:
 .L_06046CCA:
     rts
     nop
-    .byte 0x00, 0x09
+    nop
     .global FUN_06046CD0
 FUN_06046CD0:
     mov.b @(1, r7), r0

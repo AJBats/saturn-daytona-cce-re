@@ -138,7 +138,7 @@ FUN_06046EBC:
     or r1, r0
     rts
     mov.b r0, @(1, r7)
-    .byte 0x00, 0x09
+    nop
 .L_06046FAC:
     swap.b r9, r9
     swap.w r9, r9
@@ -159,4 +159,4 @@ FUN_06046EBC:
     or r1, r0
     rts
     mov.b r0, @(1, r7)
-    .byte 0x00, 0x09
+    nop

@@ -20,4 +20,4 @@ FUN_06046BD4:
 .L_06046BEE:
     rts
     nop
-    .byte 0x00, 0x09
+    nop

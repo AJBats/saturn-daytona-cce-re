@@ -72,7 +72,7 @@ FUN_06036948:
     shlr2 r0
     rts
     shlr2 r0
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06036990
     .type FUN_06036990, @function

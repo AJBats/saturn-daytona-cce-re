@@ -358,16 +358,18 @@ FUN_0603DEBC:
 .L_0603DEF8:
     rts
     nop
-    .byte 0xA0, 0x03
-    .byte 0x46, 0x09
-    .byte 0x63, 0x56
-    .byte 0x24, 0x32
-    .byte 0x74, 0x04
-    .byte 0x26, 0x68
-    .byte 0x8F, 0xFA
-    .byte 0x76, 0xFF
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    bra .L_0603DF06
+    shlr2 r6
+.L_0603DF00:
+    mov.l @r5+, r3
+    mov.l r3, @r4
+    add #0x4, r4
+.L_0603DF06:
+    tst r6, r6
+    bf/s .L_0603DF00
+    add #-0x1, r6
+    rts
+    nop
 .L_wpool_0603DF10:
     .byte 0x01, 0x94
 .L_wpool_0603DF12:

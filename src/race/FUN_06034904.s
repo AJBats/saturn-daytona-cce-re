@@ -491,10 +491,10 @@ FUN_06034BE0:
     lds.l @r15+, pr
     jmp @r3
     mov.l @r15+, r14
-    .byte 0x7F, 0x04
-    .byte 0x4F, 0x26
-    .byte 0x00, 0x0B
-    .byte 0x6E, 0xF6
+    add #0x4, r15
+    lds.l @r15+, pr
+    rts
+    mov.l @r15+, r14
 
     .global FUN_06034C70
     .type FUN_06034C70, @function

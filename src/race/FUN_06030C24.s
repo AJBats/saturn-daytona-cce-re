@@ -322,8 +322,8 @@ FUN_06030E32:
     mov.l .L_pool_06030E98, r3
     jmp @r3
     lds.l @r15+, pr
-    .byte 0xD2, 0x16
-    .byte 0x63, 0x21
+    mov.l .L_pool_06030EA0, r2
+    mov.w @r2, r3
 
     .global FUN_06030E48
     .type FUN_06030E48, @function

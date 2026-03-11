@@ -301,9 +301,9 @@ FUN_0603C094:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x65, 0x43
-    .byte 0xD7, 0x07
-    .byte 0xE6, 0x00
+    mov r4, r5
+    mov.l .L_pool_0603C1CC, r7
+    mov #0x0, r6
 
     .global FUN_0603C1B0
     .type FUN_0603C1B0, @function

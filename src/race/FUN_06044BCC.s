@@ -227,7 +227,7 @@ FUN_06044D64:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06044D74
     .type FUN_06044D74, @function
@@ -274,7 +274,7 @@ FUN_06044DA8:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06044DB8
     .type FUN_06044DB8, @function
@@ -306,7 +306,7 @@ FUN_06044DB8:
     mov.l r2, @(40, r4)
     rts
     mov.l r3, @(44, r4)
-    .byte 0x00, 0x09
+    nop
     rts
     add #-0x30, r4
     mov.l @r4+, r0
@@ -391,62 +391,65 @@ FUN_06044E3C:
     add #0x4, r4
     rts
     add #-0x30, r4
-    .byte 0xE3, 0x03
-    .byte 0x60, 0x53
-    .byte 0x00, 0x28
-    .byte 0x00, 0x4F
-    .byte 0x70, 0x04
-    .byte 0x74, 0x04
-    .byte 0x00, 0x4F
-    .byte 0x70, 0xF4
-    .byte 0x65, 0x42
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x32, 0x5C
-    .byte 0x24, 0x22
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF1
-    .byte 0x74, 0x04
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x60, 0x53
-    .byte 0x70, 0x04
-    .byte 0x00, 0x28
-    .byte 0x74, 0x04
-    .byte 0x00, 0x4F
-    .byte 0x00, 0x4F
-    .byte 0x70, 0xF8
-    .byte 0x65, 0x42
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x32, 0x5C
-    .byte 0x24, 0x22
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF2
-    .byte 0x74, 0x04
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x50, 0x40
-    .byte 0x35, 0x0D
-    .byte 0x50, 0x43
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x32, 0x0C
-    .byte 0x14, 0x23
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF5
-    .byte 0x74, 0x10
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x66, 0x53
-    .byte 0x00, 0x09
+    mov #0x3, r3
+    mov r5, r0
+.L_06044E88:
+    clrmac
+    mac.l @r4+, @r0+
+    add #0x4, r0
+    add #0x4, r4
+    mac.l @r4+, @r0+
+    add #-0xC, r0
+    mov.l @r4, r5
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    add r5, r2
+    mov.l r2, @r4
+    dt r3
+    bf/s .L_06044E88
+    add #0x4, r4
+    rts
+    add #-0x30, r4
+    nop
+    mov #0x3, r3
+    mov r5, r0
+    add #0x4, r0
+.L_06044EB2:
+    clrmac
+    add #0x4, r4
+    mac.l @r4+, @r0+
+    mac.l @r4+, @r0+
+    add #-0x8, r0
+    mov.l @r4, r5
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    add r5, r2
+    mov.l r2, @r4
+    dt r3
+    bf/s .L_06044EB2
+    add #0x4, r4
+    rts
+    add #-0x30, r4
+    nop
+    mov #0x3, r3
+.L_06044ED6:
+    mov.l @(0, r4), r0
+    dmuls.l r0, r5
+    mov.l @(12, r4), r0
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    add r0, r2
+    mov.l r2, @(12, r4)
+    dt r3
+    bf/s .L_06044ED6
+    add #0x10, r4
+    rts
+    add #-0x30, r4
+    mov r5, r6
+    nop
     mov #0x3, r3
 .L_06044EF6:
     mov.l @(4, r4), r0
@@ -462,8 +465,8 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x67, 0x53
-    .byte 0x00, 0x09
+    mov r5, r7
+    nop
     mov #0x3, r3
 .L_06044F16:
     mov.l @(8, r4), r0
@@ -504,88 +507,92 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x60, 0x53
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x51, 0x40
-    .byte 0x31, 0x0D
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x14, 0x20
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF7
-    .byte 0x74, 0x10
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x60, 0x53
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x51, 0x41
-    .byte 0x31, 0x0D
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x14, 0x21
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF7
-    .byte 0x74, 0x10
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x60, 0x53
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x51, 0x42
-    .byte 0x31, 0x0D
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x14, 0x22
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF7
-    .byte 0x74, 0x10
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
-    .byte 0x50, 0x40
-    .byte 0x51, 0x44
-    .byte 0x52, 0x48
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x00
-    .byte 0x14, 0x14
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x28
-    .byte 0x50, 0x41
-    .byte 0x51, 0x45
-    .byte 0x52, 0x49
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x01
-    .byte 0x14, 0x15
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x29
-    .byte 0x50, 0x42
-    .byte 0x51, 0x46
-    .byte 0x52, 0x4A
-    .byte 0x60, 0x0B
-    .byte 0x61, 0x1B
-    .byte 0x62, 0x2B
-    .byte 0x14, 0x02
-    .byte 0x14, 0x16
-    .byte 0x00, 0x0B
-    .byte 0x14, 0x2B
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov r5, r0
+    nop
+    mov #0x3, r3
+.L_06044F66:
+    mov.l @(0, r4), r1
+    dmuls.l r0, r1
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    mov.l r2, @(0, r4)
+    dt r3
+    bf/s .L_06044F66
+    add #0x10, r4
+    rts
+    add #-0x30, r4
+    mov r5, r0
+    nop
+    mov #0x3, r3
+.L_06044F82:
+    mov.l @(4, r4), r1
+    dmuls.l r0, r1
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    mov.l r2, @(4, r4)
+    dt r3
+    bf/s .L_06044F82
+    add #0x10, r4
+    rts
+    add #-0x30, r4
+    mov r5, r0
+    nop
+    mov #0x3, r3
+.L_06044F9E:
+    mov.l @(8, r4), r1
+    dmuls.l r0, r1
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    mov.l r2, @(8, r4)
+    dt r3
+    bf/s .L_06044F9E
+    add #0x10, r4
+    rts
+    add #-0x30, r4
+    mov.l @(0, r4), r0
+    mov.l @(16, r4), r1
+    mov.l @(32, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(0, r4)
+    mov.l r1, @(16, r4)
+    rts
+    mov.l r2, @(32, r4)
+    mov.l @(4, r4), r0
+    mov.l @(20, r4), r1
+    mov.l @(36, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(4, r4)
+    mov.l r1, @(20, r4)
+    rts
+    mov.l r2, @(36, r4)
+    mov.l @(8, r4), r0
+    mov.l @(24, r4), r1
+    mov.l @(40, r4), r2
+    neg r0, r0
+    neg r1, r1
+    neg r2, r2
+    mov.l r0, @(8, r4)
+    mov.l r1, @(24, r4)
+    rts
+    mov.l r2, @(44, r4)
+    mov.l .L_pool_0604CFFC, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_06045008
-    .byte 0x00, 0x09
+    nop
     .byte 0x00, 0x00
+.L_pool_0604CFFC:
     .4byte 0x28BE60DC  /* 0601CFFC = 0x28BE60DC */
-    .byte 0xD1, 0x1A
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_0604506C, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_06045006
     .type FUN_06045006, @function
@@ -641,20 +648,21 @@ FUN_06045020:
 .L_0604505C:
     rts
     nop
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov.l .L_pool_0604506C, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_06045080
-    .byte 0x00, 0x09
-    .byte 0x00, 0x00
+    nop
+    .byte 0x00, 0x00    /* alignment padding */
+.L_pool_0604506C:
     .4byte 0x28BE60DC  /* 0601D06C = 0x28BE60DC */
 .L_pool_06045070:
     .4byte 0x0000FFF0  /* 0601D070 = 0x0000FFF0 */
 .L_pool_06045074:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD1, 0x19
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_060450E0, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_0604507E
     .type FUN_0604507E, @function
@@ -708,19 +716,20 @@ FUN_06045098:
     add #0x10, r15
     rts
     add #-0x30, r4
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov.l .L_pool_060450E0, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_060450F4
-    .byte 0x00, 0x09
+    nop
+.L_pool_060450E0:
     .4byte 0x28BE60DC  /* 0601D0E0 = 0x28BE60DC */
 .L_pool_060450E4:
     .4byte 0x0000FFF0  /* 0601D0E4 = 0x0000FFF0 */
 .L_pool_060450E8:
     .4byte DAT_0604833C  /* 0604833C = FUN_060482A8 + 0x94 */
-    .byte 0xD1, 0x16
-    .byte 0x31, 0x0D
-    .byte 0x00, 0x0A
+    mov.l .L_pool_06045148, r1
+    dmuls.l r0, r1
+    sts mach, r0
 
     .global FUN_060450F2
     .type FUN_060450F2, @function
@@ -772,7 +781,8 @@ FUN_0604510C:
     add #0x10, r15
     rts
     add #-0x30, r4
-    .byte 0x00, 0x00
+    .byte 0x00, 0x00    /* alignment padding */
+.L_pool_06045148:
     .4byte 0x28BE60DC  /* 0601D148 = 0x28BE60DC */
 .L_pool_0604514C:
     .4byte 0x0000FFF0  /* 0601D14C = 0x0000FFF0 */

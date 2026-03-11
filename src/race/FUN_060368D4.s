@@ -37,4 +37,4 @@ FUN_060368D4:
     mov #0x0, r0
     rts
     nop
-    .byte 0x00, 0x09
+    nop

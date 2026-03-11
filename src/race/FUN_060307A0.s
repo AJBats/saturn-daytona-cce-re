@@ -160,8 +160,8 @@ FUN_06030824:
 .L_060308A8:
     .2byte 0xA000    /* bra FUN_060308C0 (linker-resolved) */
     nop
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 .L_pool_060308B0:
     .4byte sym_0605161C  /* 060308B0 = 0x0605161C */
 .L_pool_060308B4:

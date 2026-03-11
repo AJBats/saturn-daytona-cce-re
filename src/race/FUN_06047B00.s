@@ -257,7 +257,7 @@ FUN_06047B34:
     xtrct r0, r2
     mov.l r2, @-r3
     clrmac
-    .byte 0xC7, 0x0D    /* mova @(0x06047D04), r0 */
+    mova .L_pool_06047D04, r0    /* mova @(0x06047D04), r0 */
     mac.l @r0+, @r3+
     mac.l @r0+, @r3+
     mac.l @r0+, @r3+
@@ -286,6 +286,7 @@ FUN_06047B34:
     .4byte 0x0006487F  /* 0601FCFC = 0x0006487F */
 .L_pool_06047D00:
     .4byte 0x0003243F  /* 0601FD00 = 0x0003243F */
+.L_pool_06047D04:
     .byte 0x00, 0x00
     .byte 0x00, 0x09
     .byte 0xFF, 0xFF
@@ -310,11 +311,11 @@ FUN_06047B34:
     mov.w @r0+, r0
     rts
     shll2 r0
-    .byte 0x00, 0x09
-    .byte 0xD0, 0x1D
-    .byte 0x30, 0x4D
-    .byte 0x04, 0x0A
-    .byte 0x00, 0x09
+    nop
+    mov.l .L_pool_06047DAC, r0
+    dmuls.l r4, r0
+    sts mach, r4
+    nop
 
     .global FUN_06047D3C
     .type FUN_06047D3C, @function
@@ -330,7 +331,7 @@ FUN_06047D46:
     mov.w @r0+, r0
     rts
     shll2 r0
-    .byte 0x00, 0x09
+    nop
     mov.l .L_pool_06047DB0, r0
     add #0x8, r5
     and r0, r5
@@ -356,27 +357,28 @@ FUN_06047D46:
     mov.l r1, @r5
     rts
     mov.l r2, @r6
-    .byte 0x00, 0x09
-    .byte 0xD0, 0x0A
-    .byte 0x75, 0x08
-    .byte 0x25, 0x09
-    .byte 0xD0, 0x0A
-    .byte 0x45, 0x09
-    .byte 0x30, 0x5C
-    .byte 0x61, 0x05
-    .byte 0x62, 0x05
-    .byte 0x41, 0x08
-    .byte 0x31, 0x6D
-    .byte 0x42, 0x08
-    .byte 0x00, 0x0A
-    .byte 0x05, 0x1A
-    .byte 0x32, 0x6D
-    .byte 0x25, 0x0D
-    .byte 0x00, 0x0A
-    .byte 0x06, 0x1A
-    .byte 0x26, 0x0D
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x5B
+    nop
+    mov.l .L_pool_06047DB0, r0
+    add #0x8, r5
+    and r0, r5
+    mov.l .L_pool_06047DB4, r0
+    shlr2 r5
+    add r5, r0
+    mov.w @r0+, r1
+    mov.w @r0+, r2
+    shll2 r1
+    dmuls.l r6, r1
+    shll2 r2
+    sts mach, r0
+    sts macl, r5
+    dmuls.l r6, r2
+    xtrct r0, r5
+    sts mach, r0
+    sts macl, r6
+    xtrct r0, r6
+    rts
+    neg r5, r0
+.L_pool_06047DAC:
     .4byte 0x28BE60DC  /* 0601FDAC = 0x28BE60DC */
 .L_pool_06047DB0:
     .4byte 0x0000FFF0  /* 0601FDB0 = 0x0000FFF0 */

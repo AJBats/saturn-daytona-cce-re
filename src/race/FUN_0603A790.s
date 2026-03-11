@@ -499,7 +499,7 @@ FUN_0603AAFE:
     mov.l @r15+, r8
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_0603AB14
     .type FUN_0603AB14, @function

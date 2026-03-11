@@ -440,8 +440,9 @@ FUN_0603C5CC:
     add #0x1, r0
     bra .L_0603C67C
     mov.b r0, @(2, r14)
-    .byte 0xAF, 0xFE
-    .byte 0x00, 0x09
+.L_0603C618:
+    bra .L_0603C618
+    nop
 .L_0603C61C:
     mov #0x5C, r0
     mov.l @(r0, r4), r0
@@ -1340,8 +1341,8 @@ FUN_0603C994:
     mov.l @r15+, r13
     bra FUN_0603CC68
     mov.l @r15+, r14
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 
     .global FUN_0603CC68
     .type FUN_0603CC68, @function

@@ -337,7 +337,7 @@ FUN_06035C98:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06035EE8
     .type FUN_06035EE8, @function

@@ -9,7 +9,7 @@ FUN_060449AC:
     mov.l r14, @-r15
     mov.l r12, @-r15
     mov.l r11, @-r15
-    .byte 0xC7, 0x32    /* mova @(0x06044A7C), r0 */
+    mova .L_pool_06044A7C, r0    /* mova @(0x06044A7C), r0 */
     mov r0, r11
 
     .global FUN_060449B6
@@ -119,6 +119,7 @@ FUN_060449B6:
     .4byte sym_06054925  /* 0601CA74 = 0x06054925 */
 .L_pool_06044A78:
     .4byte 0x08804710  /* 0601CA78 = 0x08804710 */
+.L_pool_06044A7C:
     .byte 0xF8, 0xF8
     .byte 0x07, 0xF8
     .byte 0x07, 0x07
