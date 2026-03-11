@@ -20,6 +20,9 @@ external_resources/*
 # Toolchain binaries
 tools/sh-elf/
 
+# Archived one-off tools (kept locally for reference)
+tools/archive/
+
 # Claude session memory (auto-generated, not tracked)
 .claude/memory/
 
