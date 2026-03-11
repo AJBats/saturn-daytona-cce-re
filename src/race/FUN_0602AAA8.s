@@ -1,4 +1,4 @@
-/* TU: FUN_0602AAA8 + FUN_0602AAB6 */
+/* TU: FUN_0602AAA8 + FUN_0602AAB6 + FUN_0602AB90 */
 
 /* FUN_0602AAA8  0x0602AAA8 */
 
@@ -131,84 +131,90 @@ FUN_0602AAB6:
     nop
 .L_pool_0602AB8C:
     .4byte sym_06054934  /* 0602AB8C = 0x06054934 */
-    .byte 0x2F, 0x76
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x34, 0x4D
-    .byte 0xE3, 0x01
-    .byte 0x00, 0x0A
-    .byte 0x01, 0x1A
-    .byte 0x21, 0x0D
-    .byte 0x31, 0x4D
-    .byte 0x43, 0x28
-    .byte 0x33, 0x48
-    .byte 0x00, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x0D
-    .byte 0x33, 0x3D
-    .byte 0xD7, 0x1F
-    .byte 0x00, 0x0A
-    .byte 0x08, 0x1A
-    .byte 0x28, 0x0D
-    .byte 0x33, 0x8D
-    .byte 0xD8, 0x1D
-    .byte 0x00, 0x0A
-    .byte 0x03, 0x1A
-    .byte 0x23, 0x0D
-    .byte 0x33, 0x8D
-    .byte 0x68, 0x23
-    .byte 0x48, 0x21
-    .byte 0x69, 0x83
-    .byte 0x38, 0x18
-    .byte 0x38, 0x7C
-    .byte 0x03, 0x0A
-    .byte 0x41, 0x21
-    .byte 0x31, 0x98
-    .byte 0x44, 0x21
-    .byte 0x31, 0x4C
-    .byte 0xD4, 0x16
-    .byte 0xD7, 0x16
-    .byte 0x32, 0x4D
-    .byte 0x31, 0x7C
-    .byte 0x02, 0x0A
-    .byte 0x2F, 0x26
-    .byte 0x2F, 0x16
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x36
-    .byte 0x64, 0xF3
-    .byte 0x00, 0x28
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x01, 0x0A
-    .byte 0x00, 0x1A
-    .byte 0x20, 0x1D
-    .byte 0x26, 0x02
-    .byte 0x74, 0xF0
-    .byte 0x00, 0x28
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x01, 0x0A
-    .byte 0x00, 0x1A
-    .byte 0x20, 0x1D
-    .byte 0x16, 0x01
-    .byte 0x00, 0x28
-    .byte 0x05, 0xFF
-    .byte 0x05, 0xFF
-    .byte 0x05, 0xFF
-    .byte 0x05, 0xFF
-    .byte 0x01, 0x0A
-    .byte 0x00, 0x1A
-    .byte 0x20, 0x1D
-    .byte 0x69, 0xF6
-    .byte 0x68, 0xF6
-    .byte 0x67, 0xF6
-    .byte 0x00, 0x0B
-    .byte 0x16, 0x02
+    .global FUN_0602AB90
+    .type FUN_0602AB90, @function
+FUN_0602AB90:
+    mov.l r7, @-r15
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    dmuls.l r4, r4
+    mov #1, r3
+    sts mach, r0
+    sts macl, r1
+    xtrct r0, r1
+    dmuls.l r4, r1
+    shll16 r3
+    sub r4, r3
+    sts mach, r0
+    sts macl, r2
+    xtrct r0, r2
+    dmuls.l r3, r3
+    mov.l .L_pool_0602AC2C, r7
+    sts mach, r0
+    sts macl, r8
+    xtrct r0, r8
+    dmuls.l r8, r3
+    mov.l .L_pool_0602AC30, r8
+    sts mach, r0
+    sts macl, r3
+    xtrct r0, r3
+    dmuls.l r8, r3
+    mov r2, r8
+    shar r8
+    mov r8, r9
+    sub r1, r8
+    add r7, r8
+    sts mach, r3
+    shar r1
+    sub r9, r1
+    shar r4
+    add r4, r1
+    mov.l .L_pool_0602AC30, r4
+    mov.l .L_pool_0602AC34, r7
+    dmuls.l r4, r2
+    add r7, r1
+    sts mach, r2
+    mov.l r2, @-r15
+    mov.l r1, @-r15
+    mov.l r8, @-r15
+    mov.l r3, @-r15
+    mov r15, r4
+    clrmac
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    sts mach, r1
+    sts macl, r0
+    xtrct r1, r0
+    mov.l r0, @r6
+    add #-16, r4
+    clrmac
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    sts mach, r1
+    sts macl, r0
+    xtrct r1, r0
+    mov.l r0, @(4, r6)
+    clrmac
+    mac.l @r15+, @r5+
+    mac.l @r15+, @r5+
+    mac.l @r15+, @r5+
+    mac.l @r15+, @r5+
+    sts mach, r1
+    sts macl, r0
+    xtrct r1, r0
+    mov.l @r15+, r9
+    mov.l @r15+, r8
+    mov.l @r15+, r7
+    rts
+    mov.l r0, @(8, r6)
     .byte 0x00, 0x00
+.L_pool_0602AC2C:
     .4byte 0x0000AAAB  /* 0602AC2C = 0x0000AAAB */
+.L_pool_0602AC30:
     .4byte 0x2AAAAAAB  /* 0602AC30 = 0x2AAAAAAB */
+.L_pool_0602AC34:
     .4byte 0x00002AAB  /* 0602AC34 = 0x00002AAB */
