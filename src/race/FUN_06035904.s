@@ -500,7 +500,7 @@ FUN_06035B30:
     lds.l @r15+, pr
     rts
     mov.l r7, @(r0, r2)
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06035C58
     .type FUN_06035C58, @function

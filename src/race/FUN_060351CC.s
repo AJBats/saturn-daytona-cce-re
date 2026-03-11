@@ -617,7 +617,7 @@ FUN_060354A0:
     lds.l @r15+, pr
     rts
     mov.l r4, @(r0, r3)
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06035624
     .type FUN_06035624, @function
