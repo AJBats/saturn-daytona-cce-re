@@ -1107,15 +1107,15 @@ FUN_06034480:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0xE4, 0x00
-    .byte 0xD3, 0x0A
-    .byte 0x23, 0x40
-    .byte 0xD2, 0x02
-    .byte 0x22, 0x40
-    .byte 0xD1, 0x03
-    .byte 0xD3, 0x05
-    .byte 0x43, 0x2B
-    .byte 0x21, 0x41
+    mov #0x0, r4
+    mov.l .L_pool_060345E4, r3
+    mov.b r4, @r3
+    mov.l .L_pool_060345C8, r2
+    mov.b r4, @r2
+    mov.l .L_pool_060345D0, r1
+    mov.l .L_pool_060345D8, r3
+    jmp @r3
+    mov.w r4, @r1
 .L_pool_060345C8:
     .4byte sym_060133F6  /* 060345C8 = 0x060133F6 (init cross-ref, fixed) */
 .L_pool_060345CC:
