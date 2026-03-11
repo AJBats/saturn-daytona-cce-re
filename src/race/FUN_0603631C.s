@@ -631,12 +631,12 @@ FUN_06036608:
     mov.l r6, @(r0, r1)
     rts
     nop
-    .byte 0x2F, 0x86
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xD6
+    mov.l r8, @-r15
+    mov.l r9, @-r15
+    mov.l r10, @-r15
+    mov.l r11, @-r15
+    mov.l r12, @-r15
+    mov.l r13, @-r15
 
     .global FUN_06036770
     .type FUN_06036770, @function
