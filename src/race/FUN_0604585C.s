@@ -76,7 +76,7 @@ FUN_0604585C:
     rts
     nop
 .L_060458D8:
-    .byte 0x4F, 0x13
+    stc.l gbr, @-r15
 
     .global FUN_060458DA
     .type FUN_060458DA, @function

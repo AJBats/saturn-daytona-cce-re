@@ -114,4 +114,4 @@ FUN_060457E4:
     rts
     nop
 .L_06045856:
-    .byte 0x4F, 0x13
+    stc.l gbr, @-r15

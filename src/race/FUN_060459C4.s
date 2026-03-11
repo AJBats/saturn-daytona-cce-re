@@ -172,7 +172,7 @@ FUN_06045AC0:
     add r1, r13
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06045ADC
     .type FUN_06045ADC, @function
