@@ -175,3 +175,69 @@ Four `movt r0` (0x0029) instructions decoded — inverted bit-test idiom:
 `tst #imm, r0` → `movt r0` → `add #-1` → `neg` → `cmp/eq #1`.
 See batch 7 commit.
 
+## FUN_060453C8.s — 192 .byte pairs (VDP register init data)
+
+Two structured VDP register initialization blocks: header values (0x8000,
+0x013F, 0x0020, 0x0200, etc.) + HWR address fragments (0x0605XXXX),
+then large zero-filled regions. No code paths reach this area — it sits
+between `rts` (line 32) and `FUN_0604556C` (line 229).
+**VDP init tables — not code.**
+
+## FUN_06042F2C.s — 23 .byte pairs (wpool + braf table + padding)
+
+All MEDIUM `.byte` under `.L_wpool_*` labels: fixed-point constants
+(0x1000, 0x00A5, 0x0CCC=3276, 0x2AAA=10922, 0x0096=150, 0x170A=5898,
+0x2666=9830, 0x3333) and structure offsets (0x012C, 0x01D1, 0x01D0, etc.).
+Remaining `.byte` are braf jump table padding and alignment (0xFFFF).
+**All data, no code.**
+
+## FUN_0604177C.s — 25 .byte pairs (wpool + padding)
+
+All MEDIUM `.byte` under `.L_wpool_*` labels: power-of-2 constants
+(0x8000, 0x1000, 0x2000, 0x4000, 0x6000) + structure field offsets
+(0x0168, 0x0192, 0x01D8, 0x00E0, 0x01CA, 0x02D0, 0x3000, 0x0300,
+0x03FF). Remaining are alignment padding (0xFFFF).
+**All data, no code.**
+
+## FUN_06035C98.s — 61 .byte pairs (wpool + padding)
+
+All MEDIUM `.byte` under `.L_wpool_*` labels. Dense cluster of structure
+field offsets (0x0014, 0x0064, 0x018E, 0x0176, 0x00F4, 0x006C, 0x016C,
+etc.) used via `mov.w @(disp, PC)` for member access. Values coincidentally
+decode as valid SH-2 (0x018E=`mov.l @(r0,r8),r1`, 0x0176=`mov.l r7,
+@(r0,r1)`) but are offset constants. **All data, no code.**
+
+## FUN_06044848.s — 46 .byte pairs (pool data tables + wpool)
+
+- `.L_pool_06044948`: 4-entry coordinate table (0xFD94, 0x0210, 0xFDD4,
+  0x0210 — signed x/y offsets).
+- `.L_pool_06044950`: multi-field structured records with fixed-point
+  values (0x013D, 0x00A0, 0x199A, 0x013C, 0x0BC5, 0x0D79, 0x4000,
+  0x0130, etc.). Three identical 0x1555 entries = data, not code.
+**Structured data tables — not code.**
+
+## FUN_06035904.s — 42 .byte pairs (wpool + padding)
+
+All MEDIUM `.byte` under `.L_wpool_*` labels: structure field offsets
+(0x00E4, 0x00E0, 0x00E8, 0x00EC, 0x00FC, 0x00C8, 0x00DC, 0x00F4,
+0x006C, 0x00BC, 0x01C7, 0x0144, 0x0184, 0x1999, etc.). Values match
+FUN_06035C98.s — same structure accessed. **All data, no code.**
+
+## FUN_0603631C.s — 54 .byte pairs (wpool + padding)
+
+All MEDIUM `.byte` under `.L_wpool_*` labels: structure field offsets
+(0x0044, 0x018E, 0x0176, 0x01B0, 0x0064, 0x0014, 0x00F8, 0x0068,
+0x00C4, etc.). Shares offset values with FUN_06035C98.s/06035904.s —
+same structure type. Unlabeled bytes are alignment padding.
+**All data, no code.**
+
+## FUN_06047B00.s — 35 .byte pairs (wpool + data tables + 1 skipped)
+
+- wpool_06047B6C..72: 0x0008, 0x000A, 0x5000, 0x7000 (constants).
+- `.L_pool_06047B78`: 12-entry register init table (VDP constants).
+- wpool_06047BDC/DE: 0x0101, 0x0C00. wpool_06047C46/48: 0x5E01, 0x0C00.
+- Lines 290-304 (0x06047D04-0x06047D1F): mixed area — 8 bytes mac.l data
+  + complex interleaved decoded/undecoded block. **Skipped** — see
+  `docs/medium_fog_skips.md`.
+- Remaining: alignment padding (0x0000, 0xFFFF).
+
