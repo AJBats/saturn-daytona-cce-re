@@ -116,42 +116,42 @@ FUN_06047EF0:
     add #0x4, r15
     rts
     nop
-    .byte 0x00, 0x09
-    .byte 0x00, 0x28
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x75, 0xF4
-    .byte 0x67, 0x46
-    .byte 0x00, 0x0A
-    .byte 0x01, 0x1A
-    .byte 0x21, 0x0D
-    .byte 0x31, 0x7C
-    .byte 0x16, 0x10
-    .byte 0x00, 0x28
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x75, 0xF4
-    .byte 0x67, 0x46
-    .byte 0x00, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x0D
-    .byte 0x32, 0x7C
-    .byte 0x16, 0x21
-    .byte 0x00, 0x28
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x05, 0x4F
-    .byte 0x75, 0xF4
-    .byte 0x67, 0x46
-    .byte 0x00, 0x0A
-    .byte 0x03, 0x1A
-    .byte 0x23, 0x0D
-    .byte 0x33, 0x7C
-    .byte 0x16, 0x32
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
+    nop
+    clrmac
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r1
+    xtrct r0, r1
+    add r7, r1
+    mov.l r1, @(0, r6)
+    clrmac
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r2
+    xtrct r0, r2
+    add r7, r2
+    mov.l r2, @(4, r6)
+    clrmac
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    mac.l @r4+, @r5+
+    add #-0xC, r5
+    mov.l @r4+, r7
+    sts mach, r0
+    sts macl, r3
+    xtrct r0, r3
+    add r7, r3
+    mov.l r3, @(8, r6)
+    rts
+    add #-0x30, r4
     .byte 0x00, 0x09
     clrmac
     mac.l @r4+, @r5+
