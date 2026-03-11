@@ -20,7 +20,7 @@ Full decoding is prerequisite for any serious modification of race functions.
 | Phase 2 hand-decoded | ~281 (10 files, all DONE) |
 | Remaining `.byte` fog | ~17,500 (mostly confirmed DATA) |
 | Files fully cleared | 17 / 60 modified |
-| Skipped files | 3 (see `docs/fog_clearing_skips.md`) |
+| Skipped files | 3 (see `docs/DONE_fog_clearing_skips.md`) |
 
 ## Phase 2: RTS-sibling hand review
 
@@ -54,4 +54,4 @@ can't prove it. These show up as MEDIUM confidence — we review by hand.
 ## Validation
 
 - `python tools/validate_build.py` — byte-identical + boot test
-- See `docs/fog_clearing_skips.md` for documented false positives
+- See `docs/DONE_fog_clearing_skips.md` for documented false positives

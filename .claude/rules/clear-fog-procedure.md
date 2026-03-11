@@ -13,7 +13,7 @@ Branch: `clear-fog-work`
    - Could this be a false positive? (see Known False Positives below)
    - Cross-reference with Ghidra C: `ghidra_reference/race/FUN_XXXXXXXX.c` (address = runtime - 0x06028000 + 0x06000000)
 
-3. **Revert bad changes** — if a change doesn't make sense, revert that file with `git checkout -- <file>` and document in `docs/fog_clearing_skips.md` with:
+3. **Revert bad changes** — if a change doesn't make sense, revert that file with `git checkout -- <file>` and document in `docs/DONE_fog_clearing_skips.md` with:
    - File name and address
    - What was decoded
    - Why it was skipped (false positive type, suspicious pattern, etc.)
@@ -47,7 +47,7 @@ When running autonomously (nightshift):
 - **Be conservative** — when in doubt, skip the file and document it. A false positive is worse than a missed decode.
 - **Save work frequently** — commit after each validated batch.
 - **Don't stop working** — after each commit, immediately start the next batch.
-- **Document skips** — every reverted file goes in `docs/fog_clearing_skips.md` with reasoning.
+- **Document skips** — every reverted file goes in `docs/DONE_fog_clearing_skips.md` with reasoning.
 - **No shortcuts on validation** — always run `validate_build.py`, never just `make validate`.
 
 ## Prior Art (reference commits)

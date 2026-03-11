@@ -10,14 +10,14 @@ the mova cross-references prove these files were originally the same
 translation unit. Once merged into one section, `mova .L_label, r0` resolves
 normally.
 
-### FUN_060407D4.s → merge into FUN_06040860.s
+### FUN_060407D4.s → merge into FUN_06040860.s — DONE (65c4b65)
 - **3 mova instructions** at 0x060407E0, 0x06040802, 0x06040824
 - **Targets**: 0x06040A40, 0x06040A4C, 0x06040A58 — data tables in FUN_06040860.s
   (between `.L_pool_06040A30` and `FUN_06040A64`, lines 263/269/275)
 - **Evidence**: FUN_060407D4 ends at 0x06040860, FUN_06040860 starts at 0x06040860
   (perfectly adjacent). PC-relative data ref = same TU.
 
-### FUN_06043CDC.s → merge with FUN_06043F10.s + FUN_06043F24.s
+### FUN_06043CDC.s → merge with FUN_06043F10.s + FUN_06043F24.s — DONE (65c4b65)
 - **12 mova instructions** targeting 0x06043FD0–0x06044054
 - **Targets**: data tables in the tail of FUN_06043F24.s
 - **Evidence**: FUN_06043CDC → FUN_06043F10 → FUN_06043F24 are contiguous.
