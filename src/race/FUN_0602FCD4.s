@@ -44,7 +44,7 @@ FUN_0602FCFE:
     .2byte 0xA000    /* bra FUN_06030520 (linker-resolved) */
     mov.l @r15+, r14
 .L_0602FD14:
-    .byte 0xD1, 0x3A
+    mov.l .L_pool_0602FE00, r1
     mov r4, r14
     mov r4, r5
     mov r4, r3
@@ -55,7 +55,7 @@ FUN_0602FCFE:
     .reloc ., R_SH_IND12W, FUN_06030090 - 4
     .2byte 0xB000    /* bsr FUN_06030090 (linker-resolved) */
     add r1, r5
-    .byte 0xD3, 0x33
+    mov.l .L_pool_0602FDF8, r3
     mov #0x0, r1
     mov.l @r3, r2
     mov #0x42, r0

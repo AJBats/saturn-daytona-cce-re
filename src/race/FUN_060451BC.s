@@ -66,7 +66,7 @@ FUN_060451FA:
     .reloc ., R_SH_IND12W, FUN_06045020 - 4
     .2byte 0xA000    /* bra FUN_0601D020 (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x60, 0x53
+    mov r5, r0
 
     .global FUN_0604521A
     .type FUN_0604521A, @function
@@ -87,7 +87,7 @@ FUN_0604521A:
     .reloc ., R_SH_IND12W, FUN_06045098 - 4
     .2byte 0xA000    /* bra FUN_0601D098 (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x60, 0x53
+    mov r5, r0
 
     .global FUN_0604523A
     .type FUN_0604523A, @function
