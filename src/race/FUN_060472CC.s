@@ -18,7 +18,7 @@ FUN_060472CC:
     braf r0
     nop
 .L_braf_return:
-    .byte 0x00, 0x09
+    nop
 .L_pool_060472E0:
     .short .L_null_060472F4 - .L_braf_return
     .short .L_null_060472F4 - .L_braf_return
@@ -31,41 +31,41 @@ FUN_060472CC:
     .short FUN_060474D4 - .L_braf_return
     .byte 0x00, 0x09
 .L_null_060472F4:
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    rts
+    nop
 .L_wpool_060472F8:
     .byte 0x01, 0x80
     .byte 0x00, 0x09
 .L_inline_060472FC:
-    .byte 0x51, 0xA0
-    .byte 0x52, 0xA2
-    .byte 0x53, 0xA4
-    .byte 0x17, 0x13
-    .byte 0x17, 0x24
-    .byte 0x17, 0x35
-    .byte 0x17, 0x36
-    .byte 0xE0, 0x04
-    .byte 0xC0, 0x9B
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l @(0, r10), r1
+    mov.l @(8, r10), r2
+    mov.l @(16, r10), r3
+    mov.l r1, @(12, r7)
+    mov.l r2, @(16, r7)
+    mov.l r3, @(20, r7)
+    mov.l r3, @(24, r7)
+    mov #0x4, r0
+    mov.b r0, @(155, gbr)
+    rts
+    nop
     .byte 0x00, 0x09
 .L_inline_06047314:
-    .byte 0x51, 0xA0
-    .byte 0x52, 0xA2
-    .byte 0x53, 0xA4
-    .byte 0x54, 0xA6
-    .byte 0x17, 0x13
-    .byte 0x17, 0x24
-    .byte 0x17, 0x35
-    .byte 0x17, 0x46
-    .byte 0xE0, 0x04
-    .byte 0xC0, 0x9B
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l @(0, r10), r1
+    mov.l @(8, r10), r2
+    mov.l @(16, r10), r3
+    mov.l @(24, r10), r4
+    mov.l r1, @(12, r7)
+    mov.l r2, @(16, r7)
+    mov.l r3, @(20, r7)
+    mov.l r4, @(24, r7)
+    mov #0x4, r0
+    mov.b r0, @(155, gbr)
+    rts
+    nop
 .L_inline_0604732C:
-    .byte 0xC4, 0xA5
-    .byte 0x20, 0x08
-    .byte 0x8B, 0x23
+    mov.b @(165, gbr), r0
+    tst r0, r0
+    bf FUN_0604737A
 
     .global FUN_06047332
     .type FUN_06047332, @function
@@ -150,11 +150,11 @@ FUN_0604737A:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_inline_060473C4:
-    .byte 0xC4, 0xA5
-    .byte 0x20, 0x08
-    .byte 0x8B, 0x24
+    mov.b @(165, gbr), r0
+    tst r0, r0
+    bf FUN_06047414
 
     .global FUN_060473CA
     .type FUN_060473CA, @function
@@ -243,7 +243,7 @@ FUN_06047414:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
 /* FUN_06047460  0x06047460 */
 
@@ -310,7 +310,7 @@ FUN_06047460:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
 /* FUN_060474D4  0x060474D4 */
 
@@ -382,7 +382,7 @@ FUN_060474D4:
 FUN_06047548:
     and #0xE, r0
     mov r0, r1
-    .byte 0xC7, 0x0B    /* mova @(0x0604757C), r0 */
+    mova .L_pool_0604757C, r0    /* mova @(0x0604757C), r0 */
     mov.w @(r0, r1), r0
     braf r0
     mov.l @(0, r10), r1
@@ -412,6 +412,7 @@ FUN_06047548:
     mov.l @(0, r12), r3
     rts
     mov r1, r4
+.L_pool_0604757C:
     .short .L_jt_06047554 - .L_braf_ret_06047550
     .short .L_jt_0604755C - .L_braf_ret_06047550
     .short .L_jt_06047564 - .L_braf_ret_06047550

@@ -52,7 +52,7 @@ FUN_060467B4:
     lds.l @r15+, pr
     rts
     ldc.l @r15+, gbr
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_0604680C
     .type FUN_0604680C, @function
@@ -116,30 +116,31 @@ FUN_0604680C:
     mov.l r3, @(36, r10)
     rts
     mov.l r3, @(52, r10)
-    .byte 0x2F, 0xD6
-    .byte 0x2F, 0xC6
-    .byte 0x2F, 0xB6
-    .byte 0x2F, 0xA6
-    .byte 0x2F, 0x96
-    .byte 0x2F, 0x86
-    .byte 0x4F, 0x22
-    .byte 0xB0, 0x0E
-    .byte 0x00, 0x09
-    .byte 0x4F, 0x26
-    .byte 0x68, 0xF6
-    .byte 0x69, 0xF6
-    .byte 0x6A, 0xF6
-    .byte 0x6B, 0xF6
-    .byte 0x6C, 0xF6
-    .byte 0x6D, 0xF6
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    mov.l r13, @-r15
+    mov.l r12, @-r15
+    mov.l r11, @-r15
+    mov.l r10, @-r15
+    mov.l r9, @-r15
+    mov.l r8, @-r15
+    sts.l pr, @-r15
+    bsr .L_060468AC
+    nop
+    lds.l @r15+, pr
+    mov.l @r15+, r8
+    mov.l @r15+, r9
+    mov.l @r15+, r10
+    mov.l @r15+, r11
+    mov.l @r15+, r12
+    mov.l @r15+, r13
+    rts
+    nop
 .L_wpool_060468A2:
     .byte 0xFF, 0x00
 .L_pool_060468A4:
     .4byte sym_06057800  /* 0601E8A4 = 0x06057800 */
 .L_pool_060468A8:
     .4byte sym_06057C00  /* 0601E8A8 = 0x06057C00 */
+.L_060468AC:
     .byte 0x4F, 0x13
 
     .global FUN_060468AE

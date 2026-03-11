@@ -50,17 +50,17 @@ FUN_06046990:
     .reloc ., R_SH_IND12W, FUN_06046E0E - 4
     .2byte 0xA000    /* bra FUN_0601EE0E (linker-resolved) */
     mov #0x4, r4
-    .byte 0x00, 0x09
+    nop
     .reloc ., R_SH_IND12W, FUN_06046A90 - 4
 .L_060469CC:
     .2byte 0xA000    /* bra FUN_0601EA90 (linker-resolved) */
     nop
-    .byte 0xE0, 0xFF
-    .byte 0x81, 0x73
-    .byte 0x90, 0x22
-    .byte 0x81, 0x70
-    .byte 0x90, 0x21
-    .byte 0x81, 0x72
+    mov #-0x1, r0
+    mov.w r0, @(6, r7)
+    mov.w .L_wpool_06046A1C, r0
+    mov.w r0, @(0, r7)
+    mov.w .L_wpool_06046A1E, r0
+    mov.w r0, @(4, r7)
 .L_060469DC:
     mov #0x4, r0
     mov.b r0, @(155, gbr)
@@ -71,9 +71,9 @@ FUN_06046990:
     .reloc ., R_SH_IND12W, FUN_06047588 - 4
     .2byte 0xA000    /* bra FUN_0601F588 (linker-resolved) */
     lds.l @r15+, pr
-    .byte 0x4F, 0x26
-    .byte 0x00, 0x0B
-    .byte 0x00, 0x09
+    lds.l @r15+, pr
+    rts
+    nop
     .byte 0x00, 0x09
 .L_060469F4:
     mov.b @(4, r7), r0
@@ -97,5 +97,7 @@ FUN_06046990:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x10, 0x05
+.L_wpool_06046A1C:
+    mov.l r0, @(20, r0)
+.L_wpool_06046A1E:
     .byte 0x04, 0xC0
