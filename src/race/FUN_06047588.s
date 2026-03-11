@@ -231,7 +231,7 @@ FUN_06047588:
     add r5, r2
     rts
     cmp/ge r7, r2
-    .byte 0x00, 0x09
+    nop
 .L_06047730:
     rts
     nop

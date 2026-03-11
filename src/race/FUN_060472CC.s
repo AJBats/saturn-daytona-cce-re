@@ -48,7 +48,7 @@ FUN_060472CC:
     mov.b r0, @(155, gbr)
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 .L_inline_06047314:
     mov.l @(0, r10), r1
     mov.l @(8, r10), r2

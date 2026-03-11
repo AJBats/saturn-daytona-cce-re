@@ -112,7 +112,7 @@ FUN_060480D6:
     sts macl, r0
     rts
     xtrct r4, r0
-    .byte 0x00, 0x09
+    nop
     mov.w .L_wpool_060481A0, r2
     mov r4, r3
     mov.l r5, @(0, r2)
