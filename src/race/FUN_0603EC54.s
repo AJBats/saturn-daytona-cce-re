@@ -602,7 +602,7 @@ FUN_0603EF86:
     rts
     nop
     bra FUN_0603F054
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_0603F03C
     .type FUN_0603F03C, @function

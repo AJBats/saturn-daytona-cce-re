@@ -1929,4 +1929,4 @@ FUN_0603EC46:
     lds.l @r15+, pr
     rts
     add #0xC, r15
-    .byte 0x00, 0x09
+    nop
