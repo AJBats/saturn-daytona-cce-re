@@ -2,17 +2,27 @@
 
 Files skipped during byte fog clearing, with reasoning.
 
-## Cross-section PC-REL (can't symbolize — target in another .s file)
+## Cross-section mova (fix: TU merge, not .reloc)
 
-### FUN_060407D4.s
-- **Addresses**: 0x060407E0, 0x06040802, 0x06040824
-- **Decoded as**: `mova @(0x06040A40), r0`, `mova @(0x06040A4C), r0`, `mova @(0x06040A58), r0`
-- **Why skipped**: All 3 are `mova` instructions whose targets (0x06040A40-58) are in another .s file's address range. The assembler can't resolve cross-section PC-relative references. These would need `.reloc` directives to fix, which is a different workflow.
+`.reloc R_SH_DIR8WPL` was prototyped and rejected by the linker ("unaligned
+branch target for relax-support relocation"). The real fix is **TU merge** —
+the mova cross-references prove these files were originally the same
+translation unit. Once merged into one section, `mova .L_label, r0` resolves
+normally.
 
-### FUN_06043CDC.s
-- **Addresses**: 0x06043D3C, 0x06043D60, 0x06043D7E, 0x06043D90, 0x06043DA4, 0x06043DC2, 0x06043DD4, 0x06043DE8, 0x06043E0C, 0x06043E2A, 0x06043E3E, 0x06043E5C
-- **Decoded as**: 12 `mova` instructions targeting 0x06043FD0-0x06044054
-- **Why skipped**: All 12 are cross-section `mova` targets in another .s file. Same issue as FUN_060407D4.
+### FUN_060407D4.s → merge into FUN_06040860.s
+- **3 mova instructions** at 0x060407E0, 0x06040802, 0x06040824
+- **Targets**: 0x06040A40, 0x06040A4C, 0x06040A58 — data tables in FUN_06040860.s
+  (between `.L_pool_06040A30` and `FUN_06040A64`, lines 263/269/275)
+- **Evidence**: FUN_060407D4 ends at 0x06040860, FUN_06040860 starts at 0x06040860
+  (perfectly adjacent). PC-relative data ref = same TU.
+
+### FUN_06043CDC.s → merge with FUN_06043F10.s + FUN_06043F24.s
+- **12 mova instructions** targeting 0x06043FD0–0x06044054
+- **Targets**: data tables in the tail of FUN_06043F24.s
+- **Evidence**: FUN_06043CDC → FUN_06043F10 → FUN_06043F24 are contiguous.
+  PC-relative data ref from CDC to F24 = same TU. FUN_06043F10 sits between
+  them and would need to be included in the merge.
 
 ## Data tables falsely decoded as code (BFS leak through return paths)
 
@@ -27,4 +37,5 @@ Files skipped during byte fog clearing, with reasoning.
 - **Decoded as**: `mov.b @(r0,r13), r0` × 2, `mov.l r9, @(r0, r0)` — nonsensical function entry
 - **Why skipped**: Data constants that happen to decode as valid SH-2 instructions.
 
-- **Note**: File also contains ~6 valid padding nops that were reverted along with the false positives. These can be re-applied manually in a future targeted cycle.
+- **Note**: ~6 valid padding nops were reverted along with the false positives.
+  Re-applied in commit 44fd58e.
