@@ -51,37 +51,37 @@ FUN_06047E0C:
     rts
     mov #0x0, r0
 .L_jt_06047E5C:
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x23
+    rts
+    mov r2, r0
 .L_jt_06047E60:
     mov.l .L_pool_06047ED0, r0
-    .byte 0x00, 0x0B
-    .byte 0x30, 0x28
+    rts
+    sub r2, r0
 .L_jt_06047E66:
     mov.l .L_pool_06047ED0, r0
-    .byte 0x00, 0x0B
-    .byte 0x30, 0x2C
+    rts
+    add r2, r0
 .L_jt_06047E6C:
     mov.l .L_pool_06047ED4, r0
-    .byte 0x00, 0x0B
-    .byte 0x30, 0x28
+    rts
+    sub r2, r0
 .L_jt_06047E72:
     mov.l .L_pool_06047ED4, r0
-    .byte 0x32, 0x08
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x23
+    sub r0, r2
+    rts
+    mov r2, r0
 .L_jt_06047E7A:
     mov.l .L_pool_06047ED8, r0
     rts
     sub r2, r0
 .L_jt_06047E80:
     mov.l .L_pool_06047ED0, r0
-    .byte 0x32, 0x08
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x23
+    sub r0, r2
+    rts
+    mov r2, r0
 .L_jt_06047E88:
-    .byte 0x00, 0x0B
-    .byte 0x60, 0x2B
+    rts
+    neg r2, r0
 .L_pool_06047E8C:
     .short .L_jt_06047E5C - .L_06047E58
     .short .L_jt_06047E60 - .L_06047E58

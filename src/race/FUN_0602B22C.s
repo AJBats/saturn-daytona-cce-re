@@ -2894,25 +2894,25 @@ FUN_0602C59A:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
-    .byte 0x4F, 0x12
-    .byte 0xE2, 0x64
-    .byte 0x93, 0x2B
-    .byte 0x60, 0x40
-    .byte 0x60, 0x0C
-    .byte 0x00, 0x37
-    .byte 0x00, 0x1A
-    .byte 0x61, 0x03
-    .byte 0x84, 0x41
-    .byte 0x60, 0x0C
-    .byte 0x00, 0x27
-    .byte 0x00, 0x1A
-    .byte 0x30, 0x1C
-    .byte 0x61, 0x03
-    .byte 0x84, 0x43
-    .byte 0x60, 0x0C
-    .byte 0x30, 0x1C
-    .byte 0x00, 0x0B
-    .byte 0x4F, 0x16
+    sts.l macl, @-r15
+    mov #0x64, r2
+    mov.w .L_wpool_0602C726, r3
+    mov.b @r4, r0
+    extu.b r0, r0
+    mul.l r3, r0
+    sts macl, r0
+    mov r0, r1
+    mov.b @(1, r4), r0
+    extu.b r0, r0
+    mul.l r2, r0
+    sts macl, r0
+    add r1, r0
+    mov r0, r1
+    mov.b @(3, r4), r0
+    extu.b r0, r0
+    add r1, r0
+    rts
+    lds.l @r15+, macl
     .byte 0x61, 0x43
     .byte 0xD3, 0x1A
 
