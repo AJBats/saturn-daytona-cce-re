@@ -2913,8 +2913,8 @@ FUN_0602C59A:
     add r1, r0
     rts
     lds.l @r15+, macl
-    .byte 0x61, 0x43
-    .byte 0xD3, 0x1A
+    mov r4, r1
+    mov.l .L_pool_0602C75C, r3
 
     .global FUN_0602C6F2
     .type FUN_0602C6F2, @function

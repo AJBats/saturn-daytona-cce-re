@@ -227,7 +227,7 @@ FUN_06044D64:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06044D74
     .type FUN_06044D74, @function
@@ -274,7 +274,7 @@ FUN_06044DA8:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop
 
     .global FUN_06044DB8
     .type FUN_06044DB8, @function
@@ -306,7 +306,7 @@ FUN_06044DB8:
     mov.l r2, @(40, r4)
     rts
     mov.l r3, @(44, r4)
-    .byte 0x00, 0x09
+    nop
     rts
     add #-0x30, r4
     mov.l @r4+, r0
@@ -391,25 +391,26 @@ FUN_06044E3C:
     add #0x4, r4
     rts
     add #-0x30, r4
-    .byte 0xE3, 0x03
-    .byte 0x60, 0x53
-    .byte 0x00, 0x28
-    .byte 0x00, 0x4F
-    .byte 0x70, 0x04
-    .byte 0x74, 0x04
-    .byte 0x00, 0x4F
-    .byte 0x70, 0xF4
-    .byte 0x65, 0x42
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x32, 0x5C
-    .byte 0x24, 0x22
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF1
-    .byte 0x74, 0x04
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
+    mov #0x3, r3
+    mov r5, r0
+.L_06044E88:
+    clrmac
+    mac.l @r4+, @r0+
+    add #0x4, r0
+    add #0x4, r4
+    mac.l @r4+, @r0+
+    add #-0xC, r0
+    mov.l @r4, r5
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    add r5, r2
+    mov.l r2, @r4
+    dt r3
+    bf/s .L_06044E88
+    add #0x4, r4
+    rts
+    add #-0x30, r4
     .byte 0x00, 0x09
     .byte 0xE3, 0x03
     .byte 0x60, 0x53
@@ -462,8 +463,8 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x67, 0x53
-    .byte 0x00, 0x09
+    mov r5, r7
+    nop
     mov #0x3, r3
 .L_06044F16:
     mov.l @(8, r4), r0
@@ -504,20 +505,21 @@ FUN_06044E3C:
     add #0x10, r4
     rts
     add #-0x30, r4
-    .byte 0x60, 0x53
-    .byte 0x00, 0x09
-    .byte 0xE3, 0x03
-    .byte 0x51, 0x40
-    .byte 0x31, 0x0D
-    .byte 0x01, 0x0A
-    .byte 0x02, 0x1A
-    .byte 0x22, 0x1D
-    .byte 0x14, 0x20
-    .byte 0x43, 0x10
-    .byte 0x8F, 0xF7
-    .byte 0x74, 0x10
-    .byte 0x00, 0x0B
-    .byte 0x74, 0xD0
+    mov r5, r0
+    nop
+    mov #0x3, r3
+.L_06044F66:
+    mov.l @(0, r4), r1
+    dmuls.l r0, r1
+    sts mach, r1
+    sts macl, r2
+    xtrct r1, r2
+    mov.l r2, @(0, r4)
+    dt r3
+    bf/s .L_06044F66
+    add #0x10, r4
+    rts
+    add #-0x30, r4
     .byte 0x60, 0x53
     .byte 0x00, 0x09
     .byte 0xE3, 0x03
@@ -580,7 +582,7 @@ FUN_06044E3C:
     .byte 0x31, 0x5D
     .byte 0x05, 0x0A
     bra FUN_06045008
-    .byte 0x00, 0x09
+    nop
     .byte 0x00, 0x00
     .4byte 0x28BE60DC  /* 0601CFFC = 0x28BE60DC */
     .byte 0xD1, 0x1A
@@ -641,12 +643,13 @@ FUN_06045020:
 .L_0604505C:
     rts
     nop
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov.l .L_pool_0604506C, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_06045080
-    .byte 0x00, 0x09
+    nop
     .byte 0x00, 0x00
+.L_pool_0604506C:
     .4byte 0x28BE60DC  /* 0601D06C = 0x28BE60DC */
 .L_pool_06045070:
     .4byte 0x0000FFF0  /* 0601D070 = 0x0000FFF0 */
@@ -708,11 +711,12 @@ FUN_06045098:
     add #0x10, r15
     rts
     add #-0x30, r4
-    .byte 0xD1, 0x02
-    .byte 0x31, 0x5D
-    .byte 0x05, 0x0A
+    mov.l .L_pool_060450E0, r1
+    dmuls.l r5, r1
+    sts mach, r5
     bra FUN_060450F4
-    .byte 0x00, 0x09
+    nop
+.L_pool_060450E0:
     .4byte 0x28BE60DC  /* 0601D0E0 = 0x28BE60DC */
 .L_pool_060450E4:
     .4byte 0x0000FFF0  /* 0601D0E4 = 0x0000FFF0 */
