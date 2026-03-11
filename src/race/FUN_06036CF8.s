@@ -1120,7 +1120,7 @@ FUN_060371FC:
     mov.l r2, @(r0, r4)
     rts
     nop
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
     mov.l r8, @-r15
     mov.l r9, @-r15
     mov.l r10, @-r15
@@ -1534,7 +1534,7 @@ FUN_0603765C:
     mov #0x2, r4
     bra .L_0603782C
     mov.l @(12, r7), r5
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 .L_06037758:
     mov #0x1, r5
     mov.l @(60, r14), r2
@@ -1569,7 +1569,7 @@ FUN_0603765C:
     mov #0x0, r4
     bra .L_0603782C
     mov.l @(12, r7), r5
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 .L_06037798:
     mov #0x2, r4
     tst r4, r12
@@ -1885,7 +1885,7 @@ FUN_060377CC:
     mov.l @r15+, r12
     rts
     nop
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 .L_060379B4:
     mov.l r8, @-r15
     mov.l r9, @-r15
@@ -2219,7 +2219,7 @@ FUN_06037B98:
     lds.l @r15+, pr
     rts
     nop
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
 
     .global FUN_06037BF8
     .type FUN_06037BF8, @function
@@ -2435,7 +2435,7 @@ FUN_06037BF8:
 .L_06037D6E:
     rts
     nop
-    .byte 0x00, 0x09
+    nop                             /* alignment padding */
     mov.w .L_wpool_06037D88, r0
     mov r4, r3
     mov.w @(r0, r3), r2
