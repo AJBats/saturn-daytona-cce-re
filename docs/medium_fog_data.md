@@ -292,3 +292,17 @@ Same pattern as FUN_06039DCC.s. See batch 10 commit.
 - Remaining wpool: 0x007C, 0x009C + alignment padding.
 See batch 10 commit.
 
+## FUN_0604C76C.s — 349 .byte pairs (data tables + wpool + prior decoded)
+
+Prior commit 4e36344 decoded 125 instructions (shift cascades, IEEE float,
+movt, matrix-vector multiply). Remaining 126 MEDIUM are data:
+- 0x0604CA1C: 12-entry byte-pair index table (values decrement by 0x0404).
+- 0x0604D16C: 30-entry table of (0x002E, offset) pairs — structured records
+  where field 0 is always 46 (0x2E). Values like 0x173A, 0x17A6, 0x1872
+  decode as `mov.l` instructions but are field offsets.
+- 0x0604D204: 14 identical 0x0705 entries (constant fill).
+- 0x0604D310: 14 × 4-word records repeating `0x8D4F 0x68F5 0x51EB 0x5A7A`
+  — a structured init table, not code (14 identical opcodes with no
+  T-flag-setting instructions between them is impossible for real code).
+**All data, no remaining code to decode.**
+
