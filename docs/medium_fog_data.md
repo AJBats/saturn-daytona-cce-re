@@ -15,3 +15,11 @@ MEDIUM-classified `.byte` blocks confirmed as data (not code) during hand review
   `mova` + `and #0xE` + `add r0, r0` + `mov.l @(r0, r1)` at lines 37-43.
   All entries are 0x060569B8/BC/C0 addresses. **Dispatch table data**.
 
+## FUN_06046520.s — lines 164-200 (wpool + color palette)
+
+- **Lines 164-165** (`.L_wpool_06046630`): wpool value 0xFF00 + 2-byte padding.
+- **Lines 168-200**: 32-entry RGB555 grayscale palette ramp (0x0000→0x7FFF
+  in ~0x0421 steps). Split across unnamed region and `.L_pool_06046658`.
+  Referenced by `mova` + `shll r1` + `mov.w @(r0, r1), r0` at lines 152-154.
+  **VDP2 color palette lookup table — not code.**
+

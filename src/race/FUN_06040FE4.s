@@ -1,4 +1,4 @@
-/* TU: FUN_06040FE4 + FUN_0604101A + FUN_060410B2 + FUN_0604148C + FUN_060416F2 */
+/* TU: FUN_06040FE4 + FUN_06041004 + FUN_0604101A + FUN_060410B2 + FUN_0604148C + FUN_060416F2 */
 
 /* FUN_06040FE4  0x06040FE4 */
 
@@ -23,17 +23,20 @@ FUN_06040FE4:
     .4byte DAT_06047670  /* 06047670 = FUN_06047588 + 0xE8 */
 .L_pool_06041000:
     .4byte DAT_060457DC  /* 060457DC = FUN_060457AC + 0x30 */
-    .byte 0xD4, 0x44
-    .byte 0x60, 0x42
-    .byte 0xD1, 0x44
-    .byte 0x63, 0x03
-    .byte 0x62, 0x12
-    .byte 0x40, 0x08
-    .byte 0x30, 0x3C
-    .byte 0x30, 0x2C
-    .byte 0x24, 0x02
-    .byte 0x00, 0x0B
-    .byte 0x40, 0x29
+    .global FUN_06041004
+    .type FUN_06041004, @function
+FUN_06041004:
+    mov.l .L_pool_06041118, r4
+    mov.l @r4, r0
+    mov.l .L_pool_0604111C, r1
+    mov r0, r3
+    mov.l @r1, r2
+    shll2 r0
+    add r3, r0
+    add r2, r0
+    mov.l r0, @r4
+    rts
+    shlr16 r0
 
     .global FUN_0604101A
     .type FUN_0604101A, @function
@@ -173,7 +176,9 @@ FUN_060410B2:
 .L_06041114:
     bra .L_06041484
     nop
+.L_pool_06041118:
     .4byte sym_060530C0  /* 06019118 = 0x060530C0 */
+.L_pool_0604111C:
     .4byte sym_06052E58  /* 0601911C = 0x06052E58 */
 .L_pool_06041120:
     .4byte sym_0605696A  /* 06019120 = 0x0605696A */
