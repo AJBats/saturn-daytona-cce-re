@@ -74,7 +74,9 @@ Uses `sh-elf-as / sh-elf-ld / sh-elf-objcopy` from `D:/Projects/SaturnReverseTes
 
 ## Active workstreams
 
-1. **Race module analysis** — identify physics/AI functions in `race/` for transplant
+1. **Driving model mapping** — identify physics/AI/dynamics functions in `race/`
+   for transplanting the '95 driving model. Empirical-first approach using CDL,
+   mem_profile, and watchpoints. See `workstreams/driving_model/`.
 
 ## Completed workstreams
 
