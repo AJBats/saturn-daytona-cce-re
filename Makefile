@@ -4,7 +4,6 @@
 #   src/<name>/FUN_*.s  -[as]-> .o  -[ld]-> .elf  -[objcopy]-> .bin
 #
 # This Makefile is designed to run from WSL. From Windows: wsl make
-# The sh-elf toolchain is shared with the '95 project.
 #
 #   make              — build all 8 modules with free.ld (zero shift)
 #   make validate     — build free (zero shift) + byte-compare against retail
@@ -14,7 +13,7 @@
 #   make info         — print configuration
 
 PROJDIR := /mnt/d/Projects/DaytonaCCEReverse
-TOOLDIR := /mnt/d/Projects/SaturnReverseTest/tools/sh-elf/bin
+TOOLDIR ?= $(PROJDIR)/tools/sh-elf/bin
 
 AS      := $(TOOLDIR)/sh-elf-as
 LD      := $(TOOLDIR)/sh-elf-ld

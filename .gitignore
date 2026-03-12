@@ -17,8 +17,9 @@ external_resources/*
 *.mds
 *.mdf
 
-# Toolchain binaries
+# Toolchain binaries and build temp
 tools/sh-elf/
+.setup-tmp/
 
 # Archived one-off tools (kept locally for reference)
 tools/archive/

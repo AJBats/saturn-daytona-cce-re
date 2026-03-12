@@ -4,14 +4,15 @@
 # Single entrypoint for bootstrapping this project from a fresh clone.
 #
 # Usage:
-#   ./setup.sh                  Full setup (build Mednafen)
+#   ./setup.sh                  Full setup (toolchain + Mednafen + disassembly)
 #   ./setup.sh clean            Wipe all derived artifacts back to ground zero
 #   ./setup.sh status           Show what's present and what's missing
 #
 # What this does:
-#   1. Checks prerequisites (Python 3, gcc, make, SDL2)
+#   1. Checks prerequisites (Python 3, gcc, make, wget, SDL2)
 #   2. Extracts game files from disc image
-#   3. Builds debug Mednafen emulator (from mednafen/ submodule)
+#   3. Builds sh-elf cross-toolchain (binutils 2.42 + GCC 13.3.0)
+#   4. Builds debug Mednafen emulator (from mednafen/ submodule)
 #
 # Disc image location (place yours here — extraction TBD):
 #   external_resources/Daytona USA - Circuit Edition (Japan)/
@@ -23,6 +24,10 @@ set -e
 
 PROJ_ROOT="$(cd "$(dirname "$0")" && pwd)"
 DISC_DIR="$PROJ_ROOT/external_resources/Daytona USA - Circuit Edition (Japan)"
+SH_ELF_PREFIX="$PROJ_ROOT/tools/sh-elf"
+BINUTILS_VER="2.42"
+BINUTILS_URL="https://sourceware.org/pub/binutils/releases/binutils-${BINUTILS_VER}.tar.xz"
+BUILD_TMP="$PROJ_ROOT/.setup-tmp"
 
 # ── helpers ────────────────────────────────────────────────────────
 
@@ -60,19 +65,33 @@ do_status() {
         miss "Game files not extracted (run ./setup.sh)"
     fi
 
+    # Toolchain
+    if [ -x "$SH_ELF_PREFIX/bin/sh-elf-as" ]; then
+        ok "sh-elf-binutils (as, ld, objcopy)"
+    else
+        miss "sh-elf-binutils not built"
+    fi
+
+    if [ -x "$SH_ELF_PREFIX/bin/sh-elf-gcc" ]; then
+        VER=$("$SH_ELF_PREFIX/bin/sh-elf-gcc" --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' || echo "?")
+        ok "sh-elf-gcc $VER"
+    else
+        miss "sh-elf-gcc not built"
+    fi
+
     # Mednafen
-    if [ -f "$PROJ_ROOT/mednafen/src/mednafen" ]; then
-        ok "Mednafen debug emulator"
+    if [ -f "$PROJ_ROOT/mednafen/mednafen_gcc494.exe" ]; then
+        ok "Mednafen debug emulator (mednafen_gcc494.exe)"
     else
         miss "Mednafen not built (run ./setup.sh)"
     fi
 
-    # Module disassembly
-    if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
+    # Source modules
+    if [ -d "$PROJ_ROOT/src/race" ]; then
         COUNT=$(ls "$PROJ_ROOT/src" | wc -l | tr -d ' ')
-        ok "Modules disassembled ($COUNT modules in src/)"
+        ok "Source modules ($COUNT modules in src/)"
     else
-        miss "Modules not disassembled (run ./setup.sh)"
+        miss "Source modules not found"
     fi
 
     echo ""
@@ -85,7 +104,7 @@ do_clean() {
     echo -e "${CYAN}Cleaning all derived artifacts...${NC}"
     echo ""
 
-    for dir in build .setup-tmp; do
+    for dir in build tools/sh-elf .setup-tmp; do
         if [ -d "$PROJ_ROOT/$dir" ]; then
             echo "  rm -rf $dir/"
             rm -rf "$PROJ_ROOT/$dir"
@@ -124,6 +143,13 @@ do_setup() {
         ok "Build tools (gcc, make)"
     else
         miss "gcc/make not found (sudo apt install build-essential)"
+        READY=false
+    fi
+
+    if command -v wget &>/dev/null; then
+        ok "wget"
+    else
+        miss "wget not found (sudo apt install wget)"
         READY=false
     fi
 
@@ -168,14 +194,92 @@ do_setup() {
         fi
     fi
 
+    # ── sh-elf-binutils ────────────────────────────────────────────
+
+    step "3. Cross-assembler (sh-elf-binutils ${BINUTILS_VER})"
+
+    if [ -x "$SH_ELF_PREFIX/bin/sh-elf-as" ] && \
+       [ -x "$SH_ELF_PREFIX/bin/sh-elf-ld" ] && \
+       [ -x "$SH_ELF_PREFIX/bin/sh-elf-objcopy" ]; then
+        ok "Already installed at tools/sh-elf/"
+    else
+        echo "  Downloading binutils ${BINUTILS_VER}..."
+        mkdir -p "$BUILD_TMP"
+
+        if [ ! -f "$BUILD_TMP/binutils-${BINUTILS_VER}.tar.xz" ]; then
+            wget -q --show-progress "$BINUTILS_URL" \
+                -O "$BUILD_TMP/binutils-${BINUTILS_VER}.tar.xz"
+        fi
+
+        if [ ! -d "$BUILD_TMP/binutils-${BINUTILS_VER}" ]; then
+            echo "  Extracting..."
+            tar xf "$BUILD_TMP/binutils-${BINUTILS_VER}.tar.xz" -C "$BUILD_TMP"
+        fi
+
+        echo "  Configuring..."
+        mkdir -p "$BUILD_TMP/binutils-build"
+        cd "$BUILD_TMP/binutils-build"
+
+        "$BUILD_TMP/binutils-${BINUTILS_VER}/configure" \
+            --target=sh-elf \
+            --prefix="$SH_ELF_PREFIX" \
+            --disable-nls \
+            --disable-werror \
+            --disable-gdb \
+            --disable-sim \
+            --quiet
+
+        echo "  Building (this takes a couple minutes)..."
+        make -j"$(nproc)" --quiet
+        make install --quiet
+
+        cd "$PROJ_ROOT"
+        rm -rf "$BUILD_TMP/binutils-build" "$BUILD_TMP/binutils-${BINUTILS_VER}"
+
+        if [ -x "$SH_ELF_PREFIX/bin/sh-elf-as" ]; then
+            ok "sh-elf-binutils installed"
+        else
+            miss "Build failed"
+            exit 1
+        fi
+    fi
+
+    # ── sh-elf-gcc ─────────────────────────────────────────────────
+
+    step "4. Cross-compiler (sh-elf-gcc 13.3.0)"
+
+    if [ -x "$SH_ELF_PREFIX/bin/sh-elf-gcc" ]; then
+        VER=$("$SH_ELF_PREFIX/bin/sh-elf-gcc" --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' || echo "?")
+        ok "Already installed (GCC $VER)"
+    else
+        # Check GCC build prerequisites
+        for lib in gmp mpfr mpc; do
+            if ! dpkg -l "lib${lib}-dev" 2>/dev/null | grep -q '^ii'; then
+                miss "lib${lib}-dev not installed"
+                echo "  Run: sudo apt install libgmp-dev libmpfr-dev libmpc-dev"
+                exit 1
+            fi
+        done
+
+        echo "  Building GCC 13.3.0 for sh-elf (this takes 10-20 minutes)..."
+        bash "$PROJ_ROOT/tools/build_sh_elf_gcc.sh"
+
+        if [ -x "$SH_ELF_PREFIX/bin/sh-elf-gcc" ]; then
+            ok "sh-elf-gcc installed"
+        else
+            miss "GCC build failed"
+            exit 1
+        fi
+    fi
+
     # ── Mednafen (debug emulator) ──────────────────────────────────
 
-    step "3. Debug emulator (Mednafen)"
+    step "5. Debug emulator (Mednafen)"
 
-    MEDNAFEN_BIN="$PROJ_ROOT/mednafen/src/mednafen"
+    MEDNAFEN_BIN="$PROJ_ROOT/mednafen/mednafen_gcc494.exe"
 
     if [ -f "$MEDNAFEN_BIN" ]; then
-        ok "Already built at mednafen/src/mednafen"
+        ok "Already built at mednafen/mednafen_gcc494.exe"
     else
         if [ ! -d "$PROJ_ROOT/mednafen/src" ]; then
             miss "mednafen submodule not checked out"
@@ -183,41 +287,13 @@ do_setup() {
             exit 1
         fi
 
-        # Mednafen's #include <mednafen/...> needs include/mednafen -> ../src
-        if [ ! -e "$PROJ_ROOT/mednafen/include/mednafen" ]; then
-            ln -sf ../src "$PROJ_ROOT/mednafen/include/mednafen"
-        fi
-
-        echo "  Configuring Mednafen..."
-        cd "$PROJ_ROOT/mednafen"
-        ./configure --disable-jack --quiet
-
-        echo "  Building Mednafen (this takes a few minutes)..."
-        make -j"$(nproc)" --quiet
-
-        cd "$PROJ_ROOT"
+        echo "  Building Mednafen (Windows cross-compile with GCC 4.9.4)..."
+        bash "$PROJ_ROOT/mednafen/build_with_gcc494.sh"
 
         if [ -f "$MEDNAFEN_BIN" ]; then
             ok "Mednafen built"
         else
             miss "Mednafen build failed"
-            exit 1
-        fi
-    fi
-
-    # ── Module disassembly (L2 byte-pair .s files) ────────────────
-
-    step "4. Module disassembly"
-
-    if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
-        ok "Modules already disassembled (src/)"
-    else
-        echo "  Running split_modules.py..."
-        $PYTHON "$PROJ_ROOT/tools/split_modules.py"
-        if [ -f "$PROJ_ROOT/src/main/main.s" ]; then
-            ok "Modules disassembled (src/)"
-        else
-            miss "Module disassembly failed"
             exit 1
         fi
     fi
@@ -241,7 +317,7 @@ case "$CMD" in
         echo "Usage: ./setup.sh [command]"
         echo ""
         echo "Commands:"
-        echo "  (none)    Full setup — build Mednafen"
+        echo "  (none)    Full setup — disc extraction, toolchain, Mednafen"
         echo "  clean     Remove all derived artifacts (ground zero)"
         echo "  status    Show what's present and what's missing"
         echo "  help      This message"
