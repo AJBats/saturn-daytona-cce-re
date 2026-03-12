@@ -10,14 +10,19 @@ define what's real; Ghidra static analysis generates hypotheses to test.
 
 ## Resolved Questions
 
-(None yet — workstream just started.)
+1. **Phase A** -- save state created at `build/save_states/cce_race_start.mc0`
+2. **Phase B** -- CDL captures complete (4 captures in `build/cdl/`), merge script written
+3. **CDL classification** -- 331 RACING_ONLY functions, 441 NOT_EXECUTED (race module);
+   25 RACING_ONLY init, 44 SHARED init
 
 ## Open Questions
 
-1. **Car struct base/stride/count** — where is the car array in CCE's RAM?
+1. **Car struct base/stride/count** — hypotheses in journal, none empirically verified.
 2. **Player vs AI split** — does CCE separate car[0] from the AI loop like '95?
 3. **Per-frame orchestrator** — which function is CCE's racing frame entry point?
 4. **Player physics pipeline** — the code path we'd actually transplant.
+
+See `investigation_journal.md` for detailed working hypotheses on all of the above.
 
 ## Workstream Files
 
@@ -25,6 +30,11 @@ define what's real; Ghidra static analysis generates hypotheses to test.
 |------|---------|
 | `driving_model.md` | Workstream status, resolved/open questions |
 | `plan.md` | Phase A-F plan for systematic boundary mapping |
+| `cdl_captures.md` | CDL capture procedures and status (all DONE) |
+| `merge_cdl.py` | CDL merge/classification script |
+| `function_set.md` | CDL-validated function set (generated) |
+| `evidence_tiers.md` | Tier 0-3 evidence classification system |
+| `investigation_journal.md` | Detailed per-function analysis log |
 
 ## Prior Art
 
