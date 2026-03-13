@@ -27,7 +27,9 @@ Each entry documents the game state, temporal boundaries, and known constraints.
 - **Location**: Long straightaway, mid-course
 - **Total time at save**: 18"98
 - **Known constraints**:
-   TO BE DETERMINED ALONG WITH HUMAN USER.
+  - Full throttle (hold B) from standing start hits far corner wall at ~**frame 650** (~11s)
+  - ~650 frames of clean straight-line physics available
+  - Frame counter is 60fps VBlank (NTSC), confirmed by game timer correlation
 - **Best for**: Clean throttle/brake/coast speed tests, single-car physics observation,
   speed field identification, input response verification
 - **Avoid for**: Multi-car or collision observations (no AI cars present)
