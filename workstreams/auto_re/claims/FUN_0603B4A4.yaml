@@ -1,0 +1,43 @@
+# FUN_0603B4A4 — AI collision response mirror variant (very late activation)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603B4A4_obs.md
+# File: src/race/FUN_0603A790.s
+# Address range: 0x0603B4A4 - 0x0603B6F8
+#
+# From observation data:
+# - 0 calls during idle and throttle (up to 15000 frames)
+# - First call at frame ~20919 with throttle+steer_left (entries 31 vs 32)
+# - Mirror variant of B284 (output struct pools swapped)
+# - Dispatched from B254 when r14[36] <= r13[36]
+# - Only hit took early exit (proximity check failed, R12 too large)
+
+function: FUN_0603B4A4
+address: 0x0603B4A4
+address_end: 0x0603B6F8
+source_file: src/race/FUN_0603A790.s
+
+claims:
+  - id: call_count_idle
+    description: "Never called during idle (cars too far apart)"
+    type: call_count_per_frame
+    function: FUN_0603B4A4
+    address: 0x0603B4A4
+    scenario: race_idle
+    expected_count: 0
+    tolerance: 0
+
+  - id: call_count_throttle
+    description: "Never called with throttle in 1 frame (requires ~20919 frames to activate)"
+    type: call_count_per_frame
+    function: FUN_0603B4A4
+    address: 0x0603B4A4
+    scenario: race_throttle
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_byte_stable
+    description: "Gate byte sym_002FC233 stable at 0x00 during idle"
+    type: value_stable
+    address: "0x002FC233"
+    scenario: race_idle
+    frames: 120

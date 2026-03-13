@@ -1,55 +1,43 @@
-# FUN_0603E7B0 — Suspected per-frame track position integration
+# FUN_0603E7B0 — Monolithic tier 0-1 physics (inline spline + speed + integration)
 #
-# Source: workstreams/driving_model/investigation_journal.md, Entry 6
+# Observation: workstreams/auto_re/observations/FUN_0603E7B0_obs.md
 # File: src/race/FUN_0603DF28.s
 # Address range: 0x0603E7B0 - 0x0603E914
 #
-# Hypothesis: Per-car per-frame position integration. Projects car onto
-# track spline via GBR[128] segment index, interpolates between segments,
-# scales direction by GBR[72], adds to position at r14[0,4,8].
-# Writes heading to GBR[14], advances segment index GBR[128], increments
-# GBR[149] on lap wrap. Calls FUN_0603EE64 near end.
-# 96% B1 CDL coverage — runs almost every frame.
+# From observation data:
+# - ~14 calls/frame (tier 0-1 cars only, not all 39)
+# - Old test measured 15 calls via breakpoint
+# - Writes GBR+14 (heading) — confirmed writer PC 0x0603E80C in range
+# - Also writes GBR+128, GBR+72, r14+0/8, r14+0x54/0x5C/0x64/0x6C
+# - GBR+112 and GBR+116 are equal and stable during idle
 
 function: FUN_0603E7B0
 address: 0x0603E7B0
 address_end: 0x0603E914
 source_file: src/race/FUN_0603DF28.s
-journal_entry: 6
 
 claims:
-  - id: writes_position_x
-    description: "FUN_0603E7B0 writes to GBR+0 (suspected position X via r14[0])"
-    type: writes_to
-    function: FUN_0603E7B0
-    function_end: 0x0603E914
-    address: "GBR+0"
-    scenario: race_idle
-    frames: 10
-
   - id: writes_heading
-    description: "FUN_0603E7B0 writes to GBR+14 (suspected heading angle)"
+    description: "Writes heading to GBR+14 (writer PC 0x0603E80C confirmed in range)"
     type: writes_to
     function: FUN_0603E7B0
     function_end: 0x0603E914
     address: "GBR+14"
     scenario: race_idle
-    frames: 10
+    frames: 60
 
-  - id: writes_segment_index
-    description: "FUN_0603E7B0 writes to GBR+128 (suspected track segment index)"
-    type: writes_to
-    function: FUN_0603E7B0
-    function_end: 0x0603E914
-    address: "GBR+128"
-    scenario: race_idle
-    frames: 10
-
-  - id: called_per_car_per_frame
-    description: "Called once per car per frame (~29 based on EE64 count)"
+  - id: call_count_idle
+    description: "Called ~15 times per frame (tier 0-1 cars only)"
     type: call_count_per_frame
     function: FUN_0603E7B0
     address: 0x0603E7B0
     scenario: race_idle
-    expected_count: 29
-    tolerance: 5
+    expected_count: 15
+    tolerance: 3
+
+  - id: target_speed_stable
+    description: "GBR+112 (target speed) stable during idle"
+    type: value_stable
+    address: "GBR+112"
+    scenario: race_idle
+    frames: 120

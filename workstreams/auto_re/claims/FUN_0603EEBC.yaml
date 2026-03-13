@@ -1,0 +1,50 @@
+# FUN_0603EEBC — Track effects / spin-crash handler (tier 2+)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603EEBC_obs.md
+# File: src/race/FUN_0603EC54.s
+# Address range: 0x0603EEBC - 0x0603F036
+#
+# From observation data:
+# - 5 calls/frame (tail call from every tier 2+ pipeline)
+# - Handles: speed limits (segment-gated), lateral drift setup, spin/crash
+# - During idle, nearly a no-op: spin/crash counters = 0, most segments
+#   have no speed limit flags, drift path only at every 16th segment
+# - GBR+112 (speed limit) stable during idle (segment 86 is only trigger)
+# - GBR+150/151 (spin/crash counters) = 0 during idle
+# - GBR+76 read but not written by EEBC
+
+function: FUN_0603EEBC
+address: 0x0603EEBC
+address_end: 0x0603F036
+source_file: src/race/FUN_0603EC54.s
+
+claims:
+  - id: call_count_idle
+    description: "Called ~25 times per frame (all tiers including E7B0 inline BSR)"
+    type: call_count_per_frame
+    function: FUN_0603EEBC
+    address: 0x0603EEBC
+    scenario: race_idle
+    expected_count: 25
+    tolerance: 5
+
+  - id: speed_limit_stable
+    description: "GBR+112 (speed limit) unchanged during idle — no segments with speed limit flag"
+    type: value_stable
+    address: "GBR+112"
+    scenario: race_idle
+    frames: 120
+
+  - id: saved_limit_stable
+    description: "GBR+160 (saved speed limit) unchanged during idle — speed limit never activated"
+    type: value_stable
+    address: "GBR+160"
+    scenario: race_idle
+    frames: 120
+
+  - id: lateral_stable
+    description: "GBR+76 (lateral offset) read but not written by EEBC — stable during idle"
+    type: value_stable
+    address: "GBR+76"
+    scenario: race_idle
+    frames: 120

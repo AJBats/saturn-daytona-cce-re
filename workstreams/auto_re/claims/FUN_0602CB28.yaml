@@ -1,0 +1,42 @@
+# FUN_0602CB28 — Distance-based value reduction (unreachable in tested scenarios)
+#
+# Observation: workstreams/auto_re/observations/FUN_0602CB28_obs.md
+# File: src/race/FUN_0602C764.s
+# Address range: 0x0602CB28 - 0x0602CC54
+#
+# From observation data:
+# - 0 calls in ALL scenarios (idle, throttle, up to 5000 frames)
+# - Gated by sym_002FC233 (same gate as FUN_0603AB72)
+# - Call site at .L_0602BEEE never reached
+# - Pure input→output function (takes r4, returns modified r0), no persistent writes
+
+function: FUN_0602CB28
+address: 0x0602CB28
+address_end: 0x0602CC54
+source_file: src/race/FUN_0602C764.s
+
+claims:
+  - id: call_count_idle
+    description: "Never called during idle (upstream gate never reached)"
+    type: call_count_per_frame
+    function: FUN_0602CB28
+    address: 0x0602CB28
+    scenario: race_idle
+    expected_count: 0
+    tolerance: 0
+
+  - id: call_count_throttle
+    description: "Never called with throttle (upstream gate never reached in 5000 frames)"
+    type: call_count_per_frame
+    function: FUN_0602CB28
+    address: 0x0602CB28
+    scenario: race_throttle
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_byte_stable
+    description: "Gate byte sym_002FC233 stable at 0x00 during idle (1P mode)"
+    type: value_stable
+    address: "0x002FC233"
+    scenario: race_idle
+    frames: 120

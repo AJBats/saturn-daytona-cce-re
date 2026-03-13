@@ -1,54 +1,41 @@
-# FUN_0603F534 — Suspected per-frame lateral drift applicator
+# FUN_0603F534 — Lateral drift applicator (no-op when GBR+194==0)
 #
-# Source: workstreams/driving_model/investigation_journal.md, Entry 11
+# Observation: workstreams/auto_re/observations/FUN_0603F534_obs.md
 # File: src/race/FUN_0603F0B4.s
 # Address range: 0x0603F534 - 0x0603F58C
 #
-# Hypothesis: Two-phase lateral displacement system. Reads GBR[194] countdown
-# timer; if non-zero, decrements it and applies GBR[180] to GBR[26] (phase-
-# dependent add or subtract). Always (when active) adds GBR[172] to GBR[76].
-# Tail-calls FUN_0603ECF0 with GBR[146].
-# Called per-car per-frame in the physics pipeline.
+# From observation data:
+# - 5 calls/frame (tier 2+ cars only, not all 39)
+# - GBR[194]=0 for all cars during idle → always takes no-op path (rts)
+# - Active path only runs during brief countdown window triggered by F58C
+# - GBR+194 and GBR+26 stable at 0 during early idle frames (0-120)
+# Previous result: 0/4 Tier 0 (wrong call_count=29, writes_to all fail due to no-op)
 
 function: FUN_0603F534
 address: 0x0603F534
 address_end: 0x0603F58C
 source_file: src/race/FUN_0603F0B4.s
-journal_entry: 11
 
 claims:
-  - id: writes_gbr76
-    description: "FUN_0603F534 writes to GBR+76 (adds GBR[172] to lateral offset)"
-    type: writes_to
-    function: FUN_0603F534
-    function_end: 0x0603F58C
-    address: "GBR+76"
-    scenario: race_idle
-    frames: 10
-
-  - id: writes_gbr26
-    description: "FUN_0603F534 writes to GBR+26 (two-phase displacement via GBR[180])"
-    type: writes_to
-    function: FUN_0603F534
-    function_end: 0x0603F58C
-    address: "GBR+26"
-    scenario: race_idle
-    frames: 10
-
-  - id: writes_gbr194
-    description: "FUN_0603F534 writes to GBR+194 (decrements countdown timer)"
-    type: writes_to
-    function: FUN_0603F534
-    function_end: 0x0603F58C
-    address: "GBR+194"
-    scenario: race_idle
-    frames: 10
-
-  - id: called_per_car
-    description: "Called once per car per frame in the physics pipeline"
+  - id: call_count_idle
+    description: "Called 5 times per frame (tier 2+ cars, all take no-op path)"
     type: call_count_per_frame
     function: FUN_0603F534
     address: 0x0603F534
     scenario: race_idle
-    expected_count: 29
-    tolerance: 10
+    expected_count: 5
+    tolerance: 2
+
+  - id: countdown_stable
+    description: "GBR+194 (countdown timer) stays at 0 during idle (no activation)"
+    type: value_stable
+    address: "GBR+194"
+    scenario: race_idle
+    frames: 120
+
+  - id: lateral_corr_stable
+    description: "GBR+26 (lateral correction) stays at 0 during idle (no-op path)"
+    type: value_stable
+    address: "GBR+26"
+    scenario: race_idle
+    frames: 120

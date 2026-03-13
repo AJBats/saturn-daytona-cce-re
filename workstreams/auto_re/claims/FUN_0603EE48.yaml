@@ -1,51 +1,44 @@
-# FUN_0603EE48 — Suspected distance accumulator
+# FUN_0603EE48 — Distance accumulator (speed >> 10 → GBR+22/24)
 #
-# Source: workstreams/driving_model/investigation_journal.md, Entry 10
+# Observation: workstreams/auto_re/observations/FUN_0603EE48_obs.md
 # File: src/race/FUN_0603EC54.s
 # Address range: 0x0603EE48 - 0x0603EE64
 #
-# Hypothesis: Adds (GBR[72] >> 10) to GBR[22] and GBR[24].
-# If GBR[72] is speed, these are distance accumulators that monotonically
-# increase proportional to speed. Very small function (28 bytes).
+# From observation data:
+# - 9 calls/frame from PC trace (tier 2+ cars, entries 2-5 + entries 0-1)
+# - Writes GBR+22 and GBR+24 (both 16-bit, always equal)
+# - GBR+24 write at 0x0603EE5C reports writer PC 0x0603EE60 (within range) ✓
+# - GBR+22 write at 0x0603EE62 (rts delay slot) reports PC 0x0603E24A (outside) ✗
+# - GBR+72 (speed) is read but not written
+# - No branches — always executes same linear path
 
 function: FUN_0603EE48
 address: 0x0603EE48
 address_end: 0x0603EE64
 source_file: src/race/FUN_0603EC54.s
-journal_entry: 10
 
 claims:
-  - id: writes_gbr22
-    description: "FUN_0603EE48 writes to GBR+22 (suspected distance accumulator)"
-    type: writes_to
-    function: FUN_0603EE48
-    function_end: 0x0603EE64
-    address: "GBR+22"
-    scenario: race_idle
-    frames: 10
-
   - id: writes_gbr24
-    description: "FUN_0603EE48 writes to GBR+24 (suspected distance accumulator)"
+    description: "Writes accumulated distance to GBR+24 (non-delay-slot write)"
     type: writes_to
     function: FUN_0603EE48
     function_end: 0x0603EE64
     address: "GBR+24"
     scenario: race_idle
-    frames: 10
+    frames: 60
 
-  - id: gbr24_increases_idle
-    description: "GBR+24 increases when idle (car has momentum from race start)"
-    type: value_changes_with_input
-    address: "GBR+24"
-    input: none
-    direction: increases
-    frames: 30
-
-  - id: called_per_car
-    description: "Called once per car per frame (~29 cars)"
+  - id: call_count_idle
+    description: "Called 9 times per frame (PC trace confirmed, tier 2+ cars)"
     type: call_count_per_frame
     function: FUN_0603EE48
     address: 0x0603EE48
     scenario: race_idle
-    expected_count: 29
-    tolerance: 10
+    expected_count: 9
+    tolerance: 5
+
+  - id: target_speed_stable
+    description: "GBR+112 (target speed) does not change during idle"
+    type: value_stable
+    address: "GBR+112"
+    scenario: race_idle
+    frames: 120

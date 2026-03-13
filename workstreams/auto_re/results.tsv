@@ -1,8 +1,15 @@
 function	passed	total	tier	notes
-FUN_0603EE64	1	4	1	writes_gbr72 FAIL (1 hit wrong PC), call_count FAIL (29 calls, needed 30+), throttle FAIL (decreased not increased), idle PASS (decreased)
-FUN_0603E7B0	1	4	1	pos_x ERROR (file lock), heading PASS (PC 0603E80C in range), seg_idx FAIL (PC 0603F852 wrong fn), call_count FAIL (15 calls, expected 29)
-FUN_0603EE48	1	4	1	gbr22 FAIL (writer PC 0603E24A), gbr24 PASS (PC 0603EE60), gbr24_incr FAIL (16-bit wrap), call_count FAIL (9 calls)
-FUN_0603F534	0	4	0	ALL FAIL — GBR[194]=0 for all cars in race_idle (fn is no-op), only 5 calls/frame (gated sub-pipeline)
-FUN_0603F7B8	2	4	1	gbr96 PASS (PC 0603F856), gbr52 FAIL (0 hits, value unchanged?), gbr146 PASS (PC 0603F994), call_count FAIL (5 calls)
-FUN_0603F166	1	3	1	gbr140 FAIL (0 hits, conditional writes), gbr19 FAIL (0 hits), call_count PASS (1 call, only 1 car in states 4-5)
-FUN_0603FA54	2	3	1	idle ERROR (file lock), throttle PASS (1 call/frame), steer PASS (1 call/frame) — all call_count, only 1 type
+FUN_0603EE64	3	4	2	call_count FAIL (29 calls, EE64 called from E7B0 too), speed_decr PASS, lateral_stable PASS, target_stable PASS
+FUN_0603E7B0	3	3	2	writes_heading PASS (7 hits, PC 0603E80C), call_count PASS (15 calls), target_speed_stable PASS
+FUN_0603EE48	3	3	2	writes_gbr24 PASS (38 hits), call_count PASS (9 calls), target_speed_stable PASS
+FUN_0603F534	3	3	2	call_count PASS (5 calls), countdown_stable PASS (GBR+194=0), lateral_corr_stable PASS (GBR+26=0)
+FUN_0603F7B8	4	4	2	writes_gbr96 PASS (55 hits), writes_gbr146 PASS (47 hits), call_count PASS (5 calls), lateral_stable PASS
+FUN_0603F166	3	3	2	call_count PASS (1 call, 0-2 range), bitmask_stable PASS (0x060FD48C=0), drift_velocity_stable PASS (0x060FD4AC=0)
+FUN_0603FA54	3	3	2	call_count_throttle PASS (1 call), call_count_steer PASS (1 call), sort_array_stable PASS (0x25262324)
+FUN_0603EC86	3	4	2	call_count PASS (1 call), writes_gbr146 FAIL (writer PC 0603F994 in F7B8/F8AC), writes_gbr48 PASS, lateral_stable PASS
+FUN_0603F61C	3	4	2	call_count PASS (5 calls), writes_gbr100 PASS (55 hits), writes_gbr108 PASS (54 hits), y_delta_stable FAIL (0→0x283)
+FUN_0603EEBC	4	4	2	call_count PASS (25 calls, all tiers), speed_limit_stable PASS, saved_limit_stable PASS, lateral_stable PASS
+FUN_0603AB72	3	3	2	call_count_idle PASS (2 hits, pipeline artifact), call_count_throttle PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0)
+FUN_0602CB28	3	3	2	call_count_idle PASS (0 calls), call_count_throttle PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0)
+FUN_0603B284	3	3	2	call_count_idle PASS (0 calls), call_count_steer PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0)
+FUN_0603B4A4	3	3	2	call_count_idle PASS (0 calls), call_count_throttle PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0)

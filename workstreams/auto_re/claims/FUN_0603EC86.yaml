@@ -1,0 +1,56 @@
+# FUN_0603EC86 — Trig pipeline position update (tier 3/4-5)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603EC86_obs.md
+# File: src/race/FUN_0603EC54.s
+# Address range: 0x0603EC86 - 0x0603ECF0
+# Falls through to shared body FUN_0603ECB6 (0x0603ECB6)
+#
+# From observation data:
+# - 1 call/frame (only tier 3+ cars, entries 0-1 at frame 391)
+# - Writes GBR+146 (angle), GBR+48 (position X), GBR+56 (position Z)
+# - Linear execution path, no branches
+# - GBR+76 read but NOT written by EC86
+# - Writer PC for GBR+146 is at 0x0603ECB8 (inside ECB6 shared body)
+# - Writer PCs for GBR+48/56 are inside ECB6 range
+# - Position X delta: +0x25E34 per physics frame (entry 0)
+# - Position Z delta: -0x15807 per physics frame (entry 0)
+
+function: FUN_0603EC86
+address: 0x0603EC86
+address_end: 0x0603ECF0
+source_file: src/race/FUN_0603EC54.s
+
+claims:
+  - id: call_count_idle
+    description: "Called ~1 time per frame (tier 3+ cars only)"
+    type: call_count_per_frame
+    function: FUN_0603EC86
+    address: 0x0603EC86
+    scenario: race_idle
+    expected_count: 1
+    tolerance: 1
+
+  - id: writes_gbr146
+    description: "Writes angle to GBR+146 (via shared body ECB6)"
+    type: writes_to
+    function: FUN_0603EC86
+    function_end: 0x0603ECF0
+    address: "GBR+146"
+    scenario: race_idle
+    frames: 60
+
+  - id: writes_gbr48
+    description: "Writes new position X to GBR+48"
+    type: writes_to
+    function: FUN_0603EC86
+    function_end: 0x0603ECF0
+    address: "GBR+48"
+    scenario: race_idle
+    frames: 60
+
+  - id: lateral_stable
+    description: "GBR+76 is read but not written — stable during idle"
+    type: value_stable
+    address: "GBR+76"
+    scenario: race_idle
+    frames: 120

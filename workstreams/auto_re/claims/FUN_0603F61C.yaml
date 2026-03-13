@@ -1,0 +1,53 @@
+# FUN_0603F61C — Velocity decomposition (tier 2+)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603F61C_obs.md
+# File: src/race/FUN_0603F0B4.s
+# Address range: 0x0603F61C - 0x0603F6BC
+#
+# From observation data:
+# - 5 calls/frame (tier 2+ cars: tiers 2,3,4-5)
+# - Decomposes speed (GBR+72) into X/Z velocity components via direction vector
+# - Writes GBR+84 (direction X), GBR+88 (Y delta=0), GBR+92 (direction Z)
+# - Writes GBR+100 (velocity X), GBR+108 (velocity Z)
+# - No branches — always executes same linear path
+# - Tier 0-1 (E7B0) does NOT call F61C
+
+function: FUN_0603F61C
+address: 0x0603F61C
+address_end: 0x0603F6BC
+source_file: src/race/FUN_0603F0B4.s
+
+claims:
+  - id: call_count_idle
+    description: "Called 5 times per frame (tier 2+ cars only)"
+    type: call_count_per_frame
+    function: FUN_0603F61C
+    address: 0x0603F61C
+    scenario: race_idle
+    expected_count: 5
+    tolerance: 2
+
+  - id: writes_gbr100
+    description: "Writes velocity X component to GBR+100"
+    type: writes_to
+    function: FUN_0603F61C
+    function_end: 0x0603F6BC
+    address: "GBR+100"
+    scenario: race_idle
+    frames: 60
+
+  - id: writes_gbr108
+    description: "Writes velocity Z component to GBR+108"
+    type: writes_to
+    function: FUN_0603F61C
+    function_end: 0x0603F6BC
+    address: "GBR+108"
+    scenario: race_idle
+    frames: 60
+
+  - id: y_delta_stable
+    description: "GBR+88 (Y delta) always cleared to 0 — stable during idle"
+    type: value_stable
+    address: "GBR+88"
+    scenario: race_idle
+    frames: 120

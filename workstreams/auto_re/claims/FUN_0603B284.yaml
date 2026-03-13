@@ -1,0 +1,43 @@
+# FUN_0603B284 — AI collision response (proximity-gated, late activation)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603B284_obs.md
+# File: src/race/FUN_0603A790.s
+# Address range: 0x0603B284 - 0x0603B484
+#
+# From observation data:
+# - 0 calls during idle (cars too far apart)
+# - First call at frame ~2334 with throttle (entries 0 vs 2)
+# - Called from FUN_0603976C (collision pair processor), NOT physics pipeline
+# - Writes to sym_06052850 and sym_0605286C (output structs, 28 bytes each)
+# - GBR at entry is 0x06057800 (collision system context, not per-car chain)
+
+function: FUN_0603B284
+address: 0x0603B284
+address_end: 0x0603B484
+source_file: src/race/FUN_0603A790.s
+
+claims:
+  - id: call_count_idle
+    description: "Never called during idle (cars too far apart for collision)"
+    type: call_count_per_frame
+    function: FUN_0603B284
+    address: 0x0603B284
+    scenario: race_idle
+    expected_count: 0
+    tolerance: 0
+
+  - id: call_count_steer
+    description: "Never called with left steering (no throttle = no convergence)"
+    type: call_count_per_frame
+    function: FUN_0603B284
+    address: 0x0603B284
+    scenario: race_steer_left
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_byte_stable
+    description: "Gate byte sym_002FC233 stable at 0x00 during idle (confirms 2P gate inactive)"
+    type: value_stable
+    address: "0x002FC233"
+    scenario: race_idle
+    frames: 120

@@ -1,54 +1,53 @@
-# FUN_0603F7B8 — Suspected track spline projection and segment advancement
+# FUN_0603F7B8 — Track spline projection + B-spline evaluator (tier 2+)
 #
-# Source: workstreams/driving_model/investigation_journal.md, Entry 13
+# Observation: workstreams/auto_re/observations/FUN_0603F7B8_obs.md
 # File: src/race/FUN_0603F7B8.s
-# Address range: 0x0603F7B8 - 0x0603F99E (includes fall-through to FUN_0603F8AC)
+# Address range: 0x0603F7B8 - 0x0603F99E (includes F8AC fall-through)
 #
-# Hypothesis: Projects car position onto piecewise-linear track path. Computes
-# parametric t = dot(d,p)/|d|^2, stores in GBR[96]. Interpolates field[4]
-# between consecutive entries → GBR[52]. Falls through to FUN_0603F8AC which
-# evaluates quadratic B-spline basis, computes tangent angle → GBR[146].
-# Advances GBR[128] (segment index) when t > 1.0.
+# From observation data:
+# - 6 calls/frame (tier 2+ cars only)
+# - Writes GBR+96 (parametric t), GBR+52 (interpolated field)
+# - GBR+128 (segment index) advances, GBR+149 (lap counter) incremented
+# - F8AC fall-through writes GBR+146 (heading from tangent angle)
+# - Writer PC for GBR+96 confirmed at 0x0603F856 (in range)
+# - Writer PC for GBR+146 at 0x0603F994 (in F8AC, within extended range)
 
 function: FUN_0603F7B8
 address: 0x0603F7B8
 address_end: 0x0603F99E
 source_file: src/race/FUN_0603F7B8.s
-journal_entry: 13
 
 claims:
   - id: writes_gbr96
-    description: "FUN_0603F7B8 writes to GBR+96 (parametric t along track segment)"
+    description: "Writes parametric t to GBR+96"
     type: writes_to
     function: FUN_0603F7B8
     function_end: 0x0603F99E
     address: "GBR+96"
     scenario: race_idle
-    frames: 10
-
-  - id: writes_gbr52
-    description: "FUN_0603F7B8 writes to GBR+52 (interpolated track field)"
-    type: writes_to
-    function: FUN_0603F7B8
-    function_end: 0x0603F99E
-    address: "GBR+52"
-    scenario: race_idle
-    frames: 10
+    frames: 60
 
   - id: writes_gbr146
-    description: "FUN_0603F7B8+F8AC writes to GBR+146 (heading angle from tangent)"
+    description: "Writes heading angle to GBR+146 (via F8AC fall-through)"
     type: writes_to
     function: FUN_0603F7B8
     function_end: 0x0603F99E
     address: "GBR+146"
     scenario: race_idle
-    frames: 10
+    frames: 60
 
-  - id: called_per_car
-    description: "Called once per car per frame in the physics pipeline"
+  - id: call_count_idle
+    description: "Called 6 times per frame (tier 2+ cars)"
     type: call_count_per_frame
     function: FUN_0603F7B8
     address: 0x0603F7B8
     scenario: race_idle
-    expected_count: 29
-    tolerance: 10
+    expected_count: 6
+    tolerance: 2
+
+  - id: lateral_stable
+    description: "GBR+76 (lateral offset) stable during idle"
+    type: value_stable
+    address: "GBR+76"
+    scenario: race_idle
+    frames: 120

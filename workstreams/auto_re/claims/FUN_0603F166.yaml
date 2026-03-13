@@ -1,44 +1,41 @@
-# FUN_0603F166 — Suspected forward projection / steering lookahead
+# FUN_0603F166 — Forward projection / steering lookahead (tier 4-5 only)
 #
-# Source: workstreams/driving_model/investigation_journal.md, Entry 11
+# Observation: workstreams/auto_re/observations/FUN_0603F166_obs.md
 # File: src/race/FUN_0603F0B4.s
 # Address range: 0x0603F166 - 0x0603F4B0
 #
-# Hypothesis: Projects forward at 4 angle offsets, calls FUN_06036AA8 at each
-# projected point. Accumulates bitmask in r8, writes to GBR[140]. Sets GBR[19]
-# if all 4 points have type==2. Only active in physics tiers 4-5.
-# WARNING: may not be called during race_idle if cars aren't in right state.
+# From observation data:
+# - 0-1 calls/frame (nondeterministic, only 1 car at states 4-5)
+# - Always takes early return at line 290 (no writes to GBR+140 or GBR+19)
+# - Output fields GBR+140 and GBR+172 stable during idle
+# Previous result: 1/3 Tier 1 (writes_to both FAIL, call_count PASS)
+# Using absolute addresses for value_stable (GBR resolution unreliable at 0-1 calls)
 
 function: FUN_0603F166
 address: 0x0603F166
 address_end: 0x0603F4B0
 source_file: src/race/FUN_0603F0B4.s
-journal_entry: 11
 
 claims:
-  - id: writes_gbr140
-    description: "FUN_0603F166 writes to GBR+140 (accumulated bitmask from projections)"
-    type: writes_to
-    function: FUN_0603F166
-    function_end: 0x0603F4B0
-    address: "GBR+140"
-    scenario: race_idle
-    frames: 10
-
-  - id: writes_gbr19
-    description: "FUN_0603F166 writes to GBR+19 (flag: all 4 points type==2)"
-    type: writes_to
-    function: FUN_0603F166
-    function_end: 0x0603F4B0
-    address: "GBR+19"
-    scenario: race_idle
-    frames: 10
-
-  - id: called_per_car
-    description: "Called per car per frame (states 4-5 physics tier only)"
+  - id: call_count_idle
+    description: "Called 0-1 times per frame (nondeterministic tier 4-5 transitions)"
     type: call_count_per_frame
     function: FUN_0603F166
     address: 0x0603F166
     scenario: race_idle
-    expected_count: 5
-    tolerance: 5
+    expected_count: 1
+    tolerance: 1
+
+  - id: bitmask_stable
+    description: "GBR+140 for entry 0 (0x060FD48C) unchanged during idle (F166 takes early return)"
+    type: value_stable
+    address: "0x060FD48C"
+    scenario: race_idle
+    frames: 120
+
+  - id: drift_velocity_stable
+    description: "GBR+172 for entry 0 (0x060FD4AC) unchanged during idle (drift not activated)"
+    type: value_stable
+    address: "0x060FD4AC"
+    scenario: race_idle
+    frames: 120

@@ -1,0 +1,42 @@
+# FUN_0603AB72 — Collision response (called during idle, not during throttle)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603AB72_obs.md
+# File: src/race/FUN_0603A790.s
+# Address range: 0x0603AB72 - 0x0603AF00
+#
+# Oracle feedback (test run 1):
+# - call_count_idle: 2 hits (1 call + SH-2 pipeline prefetch artifact at AB74)
+# - call_count_throttle: 0 hits (10s timeout, no hit)
+# - output struct sym_06052834 changes during idle (0→0x060FD500, chain entry ptr)
+# - Observation reported 0 calls but oracle breakpoint found calls at frame 181
+
+function: FUN_0603AB72
+address: 0x0603AB72
+address_end: 0x0603AF00
+source_file: src/race/FUN_0603A790.s
+
+claims:
+  - id: call_count_idle
+    description: "Called during idle (~2 breakpoint hits per frame, includes pipeline artifact)"
+    type: call_count_per_frame
+    function: FUN_0603AB72
+    address: 0x0603AB72
+    scenario: race_idle
+    expected_count: 2
+    tolerance: 1
+
+  - id: call_count_throttle
+    description: "Not called with throttle (cars diverging, no collision pairs)"
+    type: call_count_per_frame
+    function: FUN_0603AB72
+    address: 0x0603AB72
+    scenario: race_throttle
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_byte_stable
+    description: "Gate byte sym_002FC233 stable during idle"
+    type: value_stable
+    address: "0x002FC233"
+    scenario: race_idle
+    frames: 120
