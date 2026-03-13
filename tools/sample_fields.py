@@ -40,8 +40,8 @@ import subprocess
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(PROJECT, "tools"))
 
-# Reuse MednafenBot from test_claim.py
-from test_claim import MednafenBot, _win_path, CUE_PATH, SAVE_STATES, SCENARIO_INPUTS
+from mednafen_bot import MednafenBot, _win_path
+from test_claim import CUE_PATH, SAVE_STATES, SCENARIO_INPUTS
 
 IPC_DIR = os.path.join(PROJECT, "build", "sample_ipc")
 
@@ -60,7 +60,7 @@ def resolve_player_gbr(bot, verbose=False):
     bp_addr = "0603EE64"
     bot.send_and_wait(f"breakpoint {bp_addr}", "ok breakpoint", timeout=10)
     bot.send("run")
-    ack = bot.wait_ack_change("break ", timeout=30)
+    ack = bot.wait_ack("break ", timeout=30)
 
     if not ack or "break " not in ack:
         print("FAIL: breakpoint at FUN_0603EE64 never hit")

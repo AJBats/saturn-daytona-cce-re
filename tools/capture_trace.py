@@ -16,135 +16,20 @@ Examples:
     python tools/capture_trace.py build/disc/rebuilt_disc/daytona_cce_rebuilt.cue 1500 build/traces/shifted_1500.txt
 """
 
-import subprocess
 import time
 import sys
 import os
-import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MEDNAFEN_DIR = os.path.join(PROJECT, "mednafen")
-MEDNAFEN = os.path.join(MEDNAFEN_DIR, "src", "mednafen.exe")
-MED_HOME = os.path.join(MEDNAFEN_DIR, "home")
+sys.path.insert(0, os.path.join(PROJECT, "tools"))
+
+from mednafen_bot import MednafenBot
 
 # Frame-precise input trace (skip BIOS intro)
 BIOS_SKIP = [
     (146, "input START"),
     (152, "input_release START"),
 ]
-
-
-class MednafenBot:
-    """Minimal Mednafen automation driver (Windows native)."""
-
-    def __init__(self, ipc_dir, cue_path):
-        self.ipc_dir = ipc_dir
-        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
-        self.seq = 0
-        self.last_ack = ""
-        self.proc = None
-        self.stderr_file = None
-        self.cue_path = cue_path
-
-    def start(self, timeout=30):
-        os.makedirs(self.ipc_dir, exist_ok=True)
-        os.makedirs(MED_HOME, exist_ok=True)
-        for f in [self.action_file, self.ack_file]:
-            if os.path.exists(f):
-                os.remove(f)
-
-        lockfile = os.path.join(MED_HOME, "mednafen.lck")
-        if os.path.exists(lockfile):
-            os.remove(lockfile)
-
-        env = os.environ.copy()
-        env["MEDNAFEN_HOME"] = MED_HOME
-
-        self.stderr_file = tempfile.NamedTemporaryFile(
-            mode="w", suffix="_mednafen_stderr.txt", delete=False,
-        )
-        self.proc = subprocess.Popen(
-            [MEDNAFEN, "--sound", "0",
-             "--automation", self.ipc_dir, self.cue_path],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=self.stderr_file,
-            env=env,
-        )
-
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc.poll() is not None:
-                print(f"  [!] Mednafen exited (rc={self.proc.returncode})")
-                return False
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                    if "ready" in content:
-                        self.last_ack = content
-                        return True
-                except (IOError, PermissionError):
-                    pass
-            time.sleep(0.2)
-
-        self.proc.kill()
-        return False
-
-    def send(self, cmd):
-        self.seq += 1
-        padding = "." * (self.seq % 16)
-        tmp = self.action_file + ".tmp"
-        with open(tmp, "w", newline="\n") as f:
-            f.write(f"# {self.seq}{padding}\n")
-            f.write(cmd + "\n")
-        for attempt in range(20):
-            try:
-                if os.path.exists(self.action_file):
-                    os.remove(self.action_file)
-                os.rename(tmp, self.action_file)
-                return
-            except PermissionError:
-                time.sleep(0.05)
-        raise PermissionError(f"Cannot write action file after 20 retries")
-
-    def wait_ack(self, keyword, timeout=30):
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc and self.proc.poll() is not None:
-                print(f"  [!] Mednafen exited (rc={self.proc.returncode})")
-                return None
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                except (IOError, PermissionError):
-                    time.sleep(0.05)
-                    continue
-                if content != self.last_ack and keyword in content:
-                    self.last_ack = content
-                    return content
-            time.sleep(0.05)
-        print(f"  [timeout] keyword='{keyword}' last_ack='{self.last_ack[:60]}'")
-        return None
-
-    def send_and_wait(self, cmd, keyword, timeout=30):
-        self.send(cmd)
-        return self.wait_ack(keyword, timeout)
-
-    def frame_advance(self, n, timeout=600):
-        return self.send_and_wait(
-            f"frame_advance {n}", "done frame_advance", timeout=timeout
-        )
-
-    def quit(self):
-        if self.proc and self.proc.poll() is None:
-            self.send("quit")
-            try:
-                self.proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.proc.kill()
 
 
 def main():

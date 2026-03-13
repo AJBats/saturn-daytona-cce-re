@@ -18,10 +18,11 @@ import time
 import yaml
 import argparse
 import struct
-import subprocess
-import tempfile
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(PROJECT, "tools"))
+
+from mednafen_bot import MednafenBot, _win_path
 
 # --- Configuration ---
 
@@ -58,141 +59,6 @@ CUE_PATH = os.path.join(
 IPC_DIR = os.path.join(PROJECT, "build", "claim_test_ipc")
 
 
-def _win_path(p):
-    """Normalize path for Windows Mednafen (forward slashes)."""
-    return p.replace("\\", "/")
-
-
-# --- Windows Mednafen Bot ---
-
-class MednafenBot:
-    """Drives Windows Mednafen via file-based automation IPC.
-
-    Matches the MCP server's launch path (mednafen.exe, not WSL).
-    """
-
-    def __init__(self, ipc_dir, cue_path, verbose=False):
-        self.ipc_dir = ipc_dir
-        self.action_file = os.path.join(ipc_dir, "mednafen_action.txt")
-        self.ack_file = os.path.join(ipc_dir, "mednafen_ack.txt")
-        self.seq = 0
-        self.last_ack = ""
-        self.proc = None
-        self.stderr_file = None
-        self.cue_path = cue_path
-        self.verbose = verbose
-
-    def start(self, timeout=45):
-        """Launch Windows mednafen.exe and wait for ready."""
-        med_bin = os.path.join(PROJECT, "mednafen", "src", "mednafen.exe")
-        med_home = os.path.join(PROJECT, "mednafen", "home")
-        os.makedirs(med_home, exist_ok=True)
-
-        # Remove stale lockfile
-        lockfile = os.path.join(med_home, "mednafen.lck")
-        try:
-            if os.path.exists(lockfile):
-                os.remove(lockfile)
-        except PermissionError:
-            pass  # still held — Mednafen handles this gracefully
-
-        # Clean IPC files
-        for f in [self.action_file, self.ack_file]:
-            if os.path.exists(f):
-                os.remove(f)
-
-        env = os.environ.copy()
-        env["MEDNAFEN_HOME"] = med_home
-
-        self.stderr_file = tempfile.NamedTemporaryFile(
-            mode="w", suffix="_mednafen_stderr.txt", delete=False,
-        )
-        self.proc = subprocess.Popen(
-            [med_bin, "--sound", "0",
-             "--automation", self.ipc_dir, self.cue_path],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=self.stderr_file,
-            env=env,
-        )
-
-        # Wait for ready
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc.poll() is not None:
-                print(f"  Mednafen exited with code {self.proc.returncode}")
-                return False
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                    if "ready" in content:
-                        self.last_ack = content
-                        return True
-                except (IOError, PermissionError):
-                    pass
-            time.sleep(0.2)
-        return False
-
-    def send(self, cmd):
-        """Send a command via action file."""
-        self.seq += 1
-        padding = "." * (self.seq % 16)
-        tmp = self.action_file + ".tmp"
-        with open(tmp, "w", newline="\n") as f:
-            f.write(f"# {self.seq}{padding}\n")
-            f.write(cmd + "\n")
-        if os.path.exists(self.action_file):
-            os.remove(self.action_file)
-        os.rename(tmp, self.action_file)
-
-    def wait_ack_change(self, keyword, timeout=30):
-        """Wait for ack to change and contain keyword.
-        keyword can be a string or list of strings (matches any)."""
-        keywords = [keyword] if isinstance(keyword, str) else keyword
-        deadline = time.time() + timeout
-        while time.time() < deadline:
-            if self.proc and self.proc.poll() is not None:
-                print(f"  [!] Mednafen process exited (rc={self.proc.returncode})")
-                return None
-            if os.path.exists(self.ack_file):
-                try:
-                    with open(self.ack_file) as f:
-                        content = f.read().strip()
-                except (IOError, PermissionError):
-                    time.sleep(0.05)
-                    continue
-                if content != self.last_ack and any(k in content for k in keywords):
-                    self.last_ack = content
-                    if self.verbose:
-                        print(f"  [ack] {content[:120]}")
-                    return content
-            time.sleep(0.05)
-        return None
-
-    def send_and_wait(self, cmd, keyword, timeout=30):
-        """Send command and wait for ack change."""
-        if self.verbose:
-            print(f"  [send] {cmd} (wait for '{keyword}')")
-        self.send(cmd)
-        return self.wait_ack_change(keyword, timeout)
-
-    def quit(self):
-        """Shutdown Mednafen."""
-        if self.proc and self.proc.poll() is None:
-            self.send("quit")
-            try:
-                self.proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.proc.kill()
-        if self.stderr_file:
-            self.stderr_file.close()
-            try:
-                os.unlink(self.stderr_file.name)
-            except OSError:
-                pass
-
-
 # --- Address Resolution ---
 
 def _fmt_addr(addr):
@@ -220,7 +86,7 @@ def resolve_address(addr_spec, bot, function_addr, verbose=False):
         # Set breakpoint at function entry, run until hit
         bot.send_and_wait(f"breakpoint {_fmt_addr(function_addr)}", "ok breakpoint", timeout=10)
         bot.send("run")
-        ack = bot.wait_ack_change("break ", timeout=30)
+        ack = bot.wait_ack("break ", timeout=30)
         if not ack or "break " not in ack:
             print(f"  WARN: breakpoint at {_fmt_addr(function_addr)} not hit within timeout")
             bot.send_and_wait("breakpoint_clear", "breakpoint_clear", timeout=5)
@@ -298,7 +164,7 @@ def test_writes_to(claim, bot, verbose=False):
         if remaining <= 0:
             break
         bot.send(f"frame_advance {remaining}")
-        ack = bot.wait_ack_change(["done frame_advance", "hit watchpoint"],
+        ack = bot.wait_ack(["done frame_advance", "hit watchpoint"],
                                    timeout=max(remaining, 30))
         if not ack:
             break
@@ -363,7 +229,7 @@ def test_call_count_per_frame(claim, bot, verbose=False):
 
     for _ in range(200):  # safety limit
         bot.send("run")
-        ack = bot.wait_ack_change("break ", timeout=10)
+        ack = bot.wait_ack("break ", timeout=10)
         if not ack or "break " not in ack:
             break
         current_frame = _parse_frame_from_ack(ack)
