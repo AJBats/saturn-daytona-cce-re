@@ -26,19 +26,28 @@ PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # --- Configuration ---
 
 SAVE_STATES = {
+    # Race scenarios — 40 cars, rolling start at 300 km/h
+    # Not yet characterized in save_states.md, but needed by existing claims
     "race_idle": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_throttle": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_brake": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_steer_left": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_steer_right": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
+    # Time trial scenarios — from save_states.md
+    "straight_throttle": os.path.join(PROJECT, "build", "save_states", "cce_tt_straight.mc0"),
+    "right_wall_strike": os.path.join(PROJECT, "build", "save_states", "cce_tt_straight.mc0"),
 }
 
 SCENARIO_INPUTS = {
-    "race_idle": [],                    # no buttons
-    "race_throttle": ["B"],             # hold throttle (B = gas)
-    "race_brake": ["A"],               # hold brake (A = brake)
-    "race_steer_left": ["LEFT"],        # hold left (d-pad)
-    "race_steer_right": ["RIGHT"],      # hold right (d-pad)
+    # Race scenarios
+    "race_idle": [],
+    "race_throttle": ["B"],
+    "race_brake": ["A"],
+    "race_steer_left": ["LEFT"],
+    "race_steer_right": ["RIGHT"],
+    # Time trial scenarios — from save_states.md
+    "straight_throttle": ["B"],
+    "right_wall_strike": ["RIGHT", "B"],
 }
 
 CUE_PATH = os.path.join(

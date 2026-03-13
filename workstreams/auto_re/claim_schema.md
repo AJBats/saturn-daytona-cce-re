@@ -95,18 +95,14 @@ frames: 60
 
 ## Scenarios
 
-Each scenario defines a save state and default input state.
+A scenario is a save state + input + frame count. The `scenario` field in
+a claim must match a key in `test_claim.py`'s `SAVE_STATES` and
+`SCENARIO_INPUTS` dicts.
 
-| Name | Save state | Input | Notes |
-|------|-----------|-------|-------|
-| `race_idle` | `cce_race_start.mc0` | none | Coasting, no buttons held |
-| `race_throttle` | `cce_race_start.mc0` | B held | Full throttle |
-| `race_brake` | `cce_race_start.mc0` | A held | Braking |
-| `race_steer_left` | `cce_race_start.mc0` | LEFT held | Steering left |
-| `race_steer_right` | `cce_race_start.mc0` | RIGHT held | Steering right |
-
-All scenarios start from the same race save state. The difference is
-what input is applied during the test.
+The canonical list of available scenarios, their save states, game context,
+and temporal boundaries lives in `workstreams/auto_re/save_states.md`.
+When new save states are created, scenarios are added to both `save_states.md`
+and `test_claim.py`.
 
 ---
 

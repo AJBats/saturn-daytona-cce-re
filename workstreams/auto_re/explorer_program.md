@@ -8,8 +8,9 @@ interpret what you see — you record raw facts for the Verifier to analyze.
 
 1. **Read these files**:
    - `workstreams/auto_re/explorer_program.md` — this file
+   - `workstreams/auto_re/save_states.md` — save state catalog with game context and temporal boundaries
    - `workstreams/driving_model/investigation_journal.md` — Tier 0 hypotheses (for picking targets)
-2. **Check**: Save state at `build/save_states/cce_race_start.mc0` exists.
+2. **Check**: Save states exist at `build/save_states/` (see `save_states.md` for the list).
 3. **Check**: `workstreams/auto_re/observations/` directory exists (create if not).
 4. **Scan**: Check which functions already have observation files. Don't redo them.
 
@@ -238,6 +239,27 @@ as simultaneous disruptions across many fields.
 
 Save the dashboard PNGs alongside the observation report. They're useful
 for the Verifier and for human review.
+
+## Save States and Scenarios
+
+**Always consult `workstreams/auto_re/save_states.md`** before running experiments.
+It documents the game state, temporal boundaries, and known constraints for each
+save state.
+
+Key save states:
+- **cce_race_start.mc0** — 40-car race, rolling start at 300 km/h. Best for
+  multi-car observations and per-car iteration. Avoid for clean speed tests
+  (cars already moving, corner comes quickly).
+- **cce_tt_straight.mc0** — Time trial, solo, dead stop on a long straight.
+  ~650 frames of clean straight-line physics before wall strike. Best for
+  throttle/brake/coast speed tests and single-car physics.
+
+Choose the right save state for what you're investigating. Multi-car functions
+need the race state. Speed/physics functions need the clean straight.
+
+When you create a new save state for a specific experiment, **add it to
+save_states.md** with the same format: mode, course, speed, location,
+known constraints, best-for/avoid-for.
 
 ## Game Controls (Daytona CCE)
 

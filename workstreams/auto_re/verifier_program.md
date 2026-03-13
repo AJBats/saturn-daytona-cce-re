@@ -10,6 +10,7 @@ interface to the emulator is `tools/test_claim.py`.
 1. **Read these files**:
    - `workstreams/auto_re/verifier_program.md` — this file
    - `workstreams/auto_re/claim_schema.md` — the 4 test types and their fields
+   - `workstreams/auto_re/save_states.md` — save state catalog with game context
    - `workstreams/driving_model/investigation_journal.md` — for additional context
 2. **Check**: `workstreams/auto_re/observations/` has files to process.
 3. **Check**: `workstreams/auto_re/results.tsv` exists (create with header if not).
@@ -96,7 +97,7 @@ LOOP FOREVER:
      (see Feedback Channel below). Record the current result and move on.
    - **Test runner error**: STOP and escalate to human.
 
-9. **Move to next observation.** Repeat from step 1.
+9. **Commit results and Move to next observation.** Repeat from step 1.
 
 ## Feedback Channel
 
@@ -208,12 +209,10 @@ because 16.16 preserves ordering.
 **Game controls**: Throttle = B, Brake = A, Steer = D-pad LEFT/RIGHT.
 C is gear shift, NOT throttle.
 
-**Scenarios**: All use the same save state. The difference is input held:
-- `race_idle`: no buttons
-- `race_throttle`: B button held (gas)
-- `race_brake`: A button held
-- `race_steer_left`: LEFT held
-- `race_steer_right`: RIGHT held
+**Scenarios**: Claims must use a scenario that matches the observation's save
+state. Check which save state the observation used (in its frontmatter), then
+use the corresponding scenario prefix (`race_*` or `tt_*`). Full list of
+scenarios and their save states is in `claim_schema.md`.
 
 ## NEVER STOP
 
