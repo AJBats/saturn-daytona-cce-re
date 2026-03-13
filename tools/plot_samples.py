@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Plot sampled memory fields as small-multiples dashboard.
 
-Reads the output of sample_fields.py and produces a dashboard PNG showing
-every field as a time series. Fields that don't change are dimmed. Events
-(like crash counter going nonzero) are marked with vertical lines.
+Reads a capture directory (gbr_samples.bin + metadata.json) produced by
+the MCP sample_memory tool and produces a dashboard PNG showing every field
+as a time series. Fields that don't change are dimmed. Events (like crash
+counter going nonzero) are marked with vertical lines.
 
 Usage:
     # Plot all GBR fields from a capture:

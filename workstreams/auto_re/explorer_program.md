@@ -220,25 +220,80 @@ the observation report) so future runs don't repeat the investigation.
 After completing an observation, capture full per-frame data for the player car
 and plot it. This produces a "logic analyzer" view of all physics state.
 
+Memory sampling is an **emulator-native feature**. Use the MCP `sample_memory`
+tool — it runs at full emulator speed with zero IPC overhead per frame.
+
+### Sampling procedure (MCP tools)
+
+1. Load save state and advance to game-ready state:
+   ```
+   load_state <path>
+   frame_advance 2
+   ```
+
+2. Resolve the player car's GBR address (break at per-car entry, read GBR):
+   ```
+   breakpoint_set 0x0603EE64
+   frame_advance 1          → hits breakpoint
+   dump_regs                → read GBR value
+   breakpoint_clear
+   ```
+
+3. Reload state and apply input:
+   ```
+   load_state <path>
+   frame_advance 2
+   input_press B            → throttle (or whatever scenario needs)
+   ```
+
+4. Sample memory at full speed:
+   ```
+   sample_memory <GBR_addr> 256 300 <output_path>
+   ```
+   This dumps 256 bytes at the GBR address every frame for 300 frames into a
+   single binary file. Runs at native emulator speed — no per-frame round trips.
+
+5. Create a `metadata.json` alongside the blob for the plotter:
+   ```json
+   {
+     "frames": 300,
+     "input": ["B"],
+     "gbr_address": "0x0605XXXX",
+     "gbr_size": 256,
+     "scenario": "straight_throttle"
+   }
+   ```
+   Rename the blob to `gbr_samples.bin` in the same directory.
+
+6. Convert to CSV and/or plot:
+   ```bash
+   python tools/blob_to_csv.py gbr_samples.bin --size 256 --base 0x0605XXXX
+   python tools/plot_samples.py <capture_dir>/ --moving-only
+   ```
+
+### Comparison captures
+
+For idle-vs-input comparison, run two captures (one idle, one with input) into
+separate directories, then:
 ```bash
-# Capture 300 frames idle and with throttle, including R14 (Array B) fields:
-python tools/sample_fields.py --frames 300 --include-r14
-python tools/sample_fields.py --frames 300 --input B --include-r14
-
-# Plot dashboards (one chart per field, events auto-detected):
-python tools/plot_samples.py build/samples/<idle_dir>/ --moving-only
-python tools/plot_samples.py build/samples/<throttle_dir>/ --moving-only
-
-# Compare idle vs throttle side by side (blue=idle, red=throttle):
-python tools/plot_samples.py build/samples/<idle_dir>/ build/samples/<throttle_dir>/ --compare
+python tools/plot_samples.py <idle_dir>/ <throttle_dir>/ --compare
 ```
 
-The sampler dumps every byte of the per-car struct every frame. The plotter
-shows which fields move and which are static. Events (like crashes) show up
-as simultaneous disruptions across many fields.
+### What the plots show
+
+The plotter renders every 32-bit field as a time series (small multiples).
+Fields that don't change are dimmed. Events (like crashes) show up as
+simultaneous disruptions across many fields.
 
 Save the dashboard PNGs alongside the observation report. They're useful
 for the Verifier and for human review.
+
+### R14 (Array B) sampling
+
+To also capture the R14 block, resolve R14 from the same breakpoint hit in
+step 2, then run a second `sample_memory` call with the R14 address and size
+472. Name the output `r14_samples.bin` and add `r14_address`, `r14_size` to
+the metadata.
 
 ## Save States and Scenarios
 
