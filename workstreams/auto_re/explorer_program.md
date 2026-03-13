@@ -143,6 +143,7 @@ For each function:
    Record GBR and key fields for the first 5 cars.
 8. **Write the observation report**. Fill in all sections. If a section doesn't
    apply (e.g., function isn't called per-car), write "N/A" with a brief reason.
+9. **Commit the results**. Commit your observation report to the current branch.
 
 ## Picking Functions
 
