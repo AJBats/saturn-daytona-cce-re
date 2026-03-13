@@ -1,5 +1,7 @@
 # Build artifacts
-build/
+build/*
+!build/save_states/
+!build/save_states/*.mc0
 reimpl/build/
 *.o
 *.elf
