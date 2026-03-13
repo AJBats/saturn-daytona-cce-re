@@ -1,0 +1,55 @@
+# FUN_0603E7B0 — Suspected per-frame track position integration
+#
+# Source: workstreams/driving_model/investigation_journal.md, Entry 6
+# File: src/race/FUN_0603DF28.s
+# Address range: 0x0603E7B0 - 0x0603E914
+#
+# Hypothesis: Per-car per-frame position integration. Projects car onto
+# track spline via GBR[128] segment index, interpolates between segments,
+# scales direction by GBR[72], adds to position at r14[0,4,8].
+# Writes heading to GBR[14], advances segment index GBR[128], increments
+# GBR[149] on lap wrap. Calls FUN_0603EE64 near end.
+# 96% B1 CDL coverage — runs almost every frame.
+
+function: FUN_0603E7B0
+address: 0x0603E7B0
+address_end: 0x0603E914
+source_file: src/race/FUN_0603DF28.s
+journal_entry: 6
+
+claims:
+  - id: writes_position_x
+    description: "FUN_0603E7B0 writes to GBR+0 (suspected position X via r14[0])"
+    type: writes_to
+    function: FUN_0603E7B0
+    function_end: 0x0603E914
+    address: "GBR+0"
+    scenario: race_idle
+    frames: 10
+
+  - id: writes_heading
+    description: "FUN_0603E7B0 writes to GBR+14 (suspected heading angle)"
+    type: writes_to
+    function: FUN_0603E7B0
+    function_end: 0x0603E914
+    address: "GBR+14"
+    scenario: race_idle
+    frames: 10
+
+  - id: writes_segment_index
+    description: "FUN_0603E7B0 writes to GBR+128 (suspected track segment index)"
+    type: writes_to
+    function: FUN_0603E7B0
+    function_end: 0x0603E914
+    address: "GBR+128"
+    scenario: race_idle
+    frames: 10
+
+  - id: called_per_car_per_frame
+    description: "Called once per car per frame (~29 based on EE64 count)"
+    type: call_count_per_frame
+    function: FUN_0603E7B0
+    address: 0x0603E7B0
+    scenario: race_idle
+    expected_count: 29
+    tolerance: 5

@@ -1,0 +1,44 @@
+# FUN_0603F166 — Suspected forward projection / steering lookahead
+#
+# Source: workstreams/driving_model/investigation_journal.md, Entry 11
+# File: src/race/FUN_0603F0B4.s
+# Address range: 0x0603F166 - 0x0603F4B0
+#
+# Hypothesis: Projects forward at 4 angle offsets, calls FUN_06036AA8 at each
+# projected point. Accumulates bitmask in r8, writes to GBR[140]. Sets GBR[19]
+# if all 4 points have type==2. Only active in physics tiers 4-5.
+# WARNING: may not be called during race_idle if cars aren't in right state.
+
+function: FUN_0603F166
+address: 0x0603F166
+address_end: 0x0603F4B0
+source_file: src/race/FUN_0603F0B4.s
+journal_entry: 11
+
+claims:
+  - id: writes_gbr140
+    description: "FUN_0603F166 writes to GBR+140 (accumulated bitmask from projections)"
+    type: writes_to
+    function: FUN_0603F166
+    function_end: 0x0603F4B0
+    address: "GBR+140"
+    scenario: race_idle
+    frames: 10
+
+  - id: writes_gbr19
+    description: "FUN_0603F166 writes to GBR+19 (flag: all 4 points type==2)"
+    type: writes_to
+    function: FUN_0603F166
+    function_end: 0x0603F4B0
+    address: "GBR+19"
+    scenario: race_idle
+    frames: 10
+
+  - id: called_per_car
+    description: "Called per car per frame (states 4-5 physics tier only)"
+    type: call_count_per_frame
+    function: FUN_0603F166
+    address: 0x0603F166
+    scenario: race_idle
+    expected_count: 5
+    tolerance: 5

@@ -1,0 +1,43 @@
+# FUN_0603FA54 — Suspected race position sort (bubble sort)
+#
+# Source: workstreams/driving_model/investigation_journal.md, Entry 8
+# File: src/race/FUN_0603F9FC.s
+# Address range: 0x0603FA54 - 0x0603FAA8
+#
+# Hypothesis: Bubble-sorts a byte array by composite key from GBR[149] (lap)
+# and GBR[128] (segment index). Called once per frame to update race positions.
+# Sort key = (GBR[149]+1)<<16 | GBR[128] — higher = further ahead.
+
+function: FUN_0603FA54
+address: 0x0603FA54
+address_end: 0x0603FAA8
+source_file: src/race/FUN_0603F9FC.s
+journal_entry: 8
+
+claims:
+  - id: called_once_per_frame
+    description: "Called once per frame to sort race positions"
+    type: call_count_per_frame
+    function: FUN_0603FA54
+    address: 0x0603FA54
+    scenario: race_idle
+    expected_count: 1
+    tolerance: 1
+
+  - id: called_once_per_frame_throttle
+    description: "Also called once per frame during throttle"
+    type: call_count_per_frame
+    function: FUN_0603FA54
+    address: 0x0603FA54
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 1
+
+  - id: called_once_per_frame_steer
+    description: "Also called once per frame during steering"
+    type: call_count_per_frame
+    function: FUN_0603FA54
+    address: 0x0603FA54
+    scenario: race_steer_left
+    expected_count: 1
+    tolerance: 1

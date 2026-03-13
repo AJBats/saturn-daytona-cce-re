@@ -1,0 +1,54 @@
+# FUN_0603EE64 — Suspected speed update function
+#
+# Source: workstreams/driving_model/investigation_journal.md, Entry 10
+# File: src/race/FUN_0603EC54.s
+# Address range: 0x0603EE64 - 0x0603EEBC
+#
+# Hypothesis: Core speed update. Reads target from r14[0x70], indexes
+# acceleration table at DAT_06050644, scales by GBR[120], computes
+# delta, writes result to GBR[72]. GBR[72] is suspected to be the
+# per-car speed field (see Entry 6).
+#
+# This function is called within the per-car physics loop. The caller
+# checks chain[0x98] dispatch value; this runs in tiers 2-5.
+
+function: FUN_0603EE64
+address: 0x0603EE64
+address_end: 0x0603EEBC
+source_file: src/race/FUN_0603EC54.s
+journal_entry: 10
+
+claims:
+  - id: writes_gbr72
+    description: "FUN_0603EE64 writes to the suspected speed field (GBR+72)"
+    type: writes_to
+    function: FUN_0603EE64
+    function_end: 0x0603EEBC
+    address: "GBR+72"
+    scenario: race_idle
+    frames: 60
+
+  - id: called_per_car_per_frame
+    description: "Called once per car per frame during racing (~40 cars)"
+    type: call_count_per_frame
+    function: FUN_0603EE64
+    address: 0x0603EE64
+    scenario: race_idle
+    expected_count: 40
+    tolerance: 10
+
+  - id: speed_increases_throttle
+    description: "GBR+72 increases when throttle (C button) is held"
+    type: value_changes_with_input
+    address: "GBR+72"
+    input: C
+    direction: increases
+    frames: 60
+
+  - id: speed_decreases_idle
+    description: "GBR+72 decreases when coasting (no input)"
+    type: value_changes_with_input
+    address: "GBR+72"
+    input: none
+    direction: decreases
+    frames: 60
