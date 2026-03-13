@@ -643,16 +643,82 @@ FUN_0603FA54 -- sorts byte array by composite key from GBR[149]/GBR[128]
   FUN_06047E0C: called with (dX, dZ), returns angle (20+ call sites)
 ```
 
-## Next Steps (when user returns)
+## Emulator-Verified Observations
 
-1. **Set watchpoints on sym_06051FAC and sym_0605224C** to confirm array
-   strides (0x74, 0x1D8) and entry counts empirically
-2. **Confirm player = index 0** by reading sym_06052094 after FUN_0602FB94(0)
-   and checking if the position matches the player car on screen
-3. **Set watchpoints on SMPC/input buttons** to find button buffer address,
+### OBS-001: Dual Data Structure Architecture (player vs AI)
+
+**Date**: 2026-03-13
+**Save states**: cce_race_start.mc0 (race, 40 cars), cce_tt_straight.mc0 (TT, solo)
+**Method**: Watchpoints, memory profiling, memory search, screenshot correlation
+
+**Findings:**
+
+1. **Player struct at 0x0605224C** (fixed address, not in chain array)
+   - Active in BOTH race mode and time trial mode
+   - Displayed speed at offset +0x36 (16-bit integer km/h)
+   - Written by function at pc=0x0604D70A, called from 0x0604D39C
+   - GBR = 0x0605224C when player physics runs
+   - 44 hardcoded pool references to this address throughout the race module
+   - In race mode at 300 km/h rolling start: +0x36 = 0x012C (300)
+   - In TT mode at 0 km/h standstill: +0x36 = 0x0000 (0), increases with throttle
+
+2. **Chain array at 0x060FD400** (40 entries, stride 0x100)
+   - Player is chain[39] (confirmed by speed correlation in race mode)
+   - AI cars at chain[0] through chain[38]
+   - **Only active in race mode** — completely dormant in TT mode
+   - Chain[39]+0x48 = 0x012D0000 in BOTH modes (static, NOT current speed)
+   - In race mode, chain[0]+0x48 is dynamically updated by pc=0x0603EBD8
+   - Player struct address (0x0605224C) appears on stack during AI car processing
+
+3. **FUN_0603EE64 is AI-only** — never fires in TT mode (0 breakpoint hits
+   in 30+ seconds of gameplay). Only processes AI cars through the chain array.
+
+4. **Chain[0x98] tier values** (race mode, 40 cars):
+   - chain[39] (player): **0x00000000** (tier 0)
+   - chain[0-1]: 0x03010301 (tier 3, 2 cars — front-runners)
+   - chain[2-9]: 0x02010201 (tier 2, 8 cars — mid-pack AI)
+   - chain[10-38]: 0x01010101 (tier 1, 29 cars — back of pack AI)
+   - Packed as 4 bytes: [tier, 0x01, tier, 0x01] for AI; [0,0,0,0] for player
+
+**Hypothesis:**
+The game uses a **dual data structure architecture**:
+- The **player struct** (0x0605224C) is the primary physics state for the
+  player car, used in all game modes. It has its own dedicated code path
+  separate from the AI car loop.
+- The **chain array** (0x060FD400) handles the multi-car system: AI physics
+  dispatch (via tier values at +0x98), rendering positions, and inter-car
+  interactions (collision, position tracking).
+- In race mode, both structures are active simultaneously. The player struct
+  is even referenced from the AI car loop stack, suggesting the two systems
+  interact (e.g., AI cars reading player position for their own behavior).
+- In TT mode, the AI car loop is skipped entirely — FUN_0603EE64 never runs,
+  and the chain array is not updated. Only the player struct is active.
+
+**Transplant implications:**
+Both code paths need transplanting from '95 → CCE:
+- Player physics: functions around 0x0604D39C/0x0604D70A, data at 0x0605224C
+- AI physics: FUN_0603EE64 and related, data in chain array at 0x060FD400
+- The tier dispatch at chain[0x98] determines which AI physics functions run
+  per car — tier values 1/2/3 likely select different fidelity levels
+
+**Resolves Next Steps #5**: Player car's chain[0x98] = 0x00000000 (tier 0),
+meaning the player does NOT use the tier dispatch system at all.
+
+**Partially resolves Next Steps #1**: sym_0605224C confirmed as player struct
+base (active, written every frame). Stride and entry count for the array
+at sym_06051FAC still need empirical confirmation.
+
+## Next Steps
+
+1. **Map the player struct layout at 0x0605224C** — dump before/after with
+   throttle, brake, steering to identify which offsets are speed, position,
+   angle, acceleration, etc.
+2. **Find the player physics entry point** — trace callers of 0x0604D39C to
+   find the top-level per-frame player physics function
+3. **Confirm chain array stride empirically** — set watchpoints on chain[0]+0x00
+   and chain[1]+0x00 to verify 0x100 stride
+4. **Set watchpoints on SMPC/input buttons** to find button buffer address,
    then trace from FUN_060295DE's @(2, r4) to identify the exact button mapping
-4. **Examine GBR setup** to find where GBR is loaded with per-car state pointer
-   (partially answered — FUN_0603DF84 does `ldc r14, gbr` in the loop)
-5. **Determine which chain[0x98] value the player car holds** during active racing
-   — this identifies the transplant-target physics tier
-6. **Set breakpoint on FUN_0603C994** (0x0603C994) to find its caller
+5. **Set breakpoint on FUN_0603C994** (0x0603C994) to find its caller
+6. **Run sample_fields.py** on the player struct (--address 0605224C) with
+   straight_throttle scenario to get a per-frame dashboard of all fields

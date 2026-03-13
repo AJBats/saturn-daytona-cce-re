@@ -9,20 +9,23 @@ This captures the "logic analyzer" view of game state — dump everything,
 look at what moves later.
 
 Usage:
-    # Dump 256 bytes at GBR base (player car chain struct) for 300 frames, idle:
-    python tools/sample_fields.py --frames 300
+    # Full-throttle run on time trial straight (default scenario):
+    python tools/sample_fields.py --frames 650
 
-    # With throttle held:
-    python tools/sample_fields.py --frames 300 --input B
+    # Right wall strike scenario:
+    python tools/sample_fields.py --scenario right_wall_strike --frames 150
+
+    # Race idle (40 cars, no input):
+    python tools/sample_fields.py --scenario race_idle --frames 300
+
+    # Override scenario inputs (idle on throttle scenario):
+    python tools/sample_fields.py --scenario straight_throttle --frames 300 --input
 
     # Custom address (absolute, not GBR-relative):
     python tools/sample_fields.py --frames 300 --address 060FD400 --size 256
 
     # Dump both chain (256 bytes at GBR) and Array B (472 bytes at R14):
     python tools/sample_fields.py --frames 300 --include-r14
-
-    # Custom output directory:
-    python tools/sample_fields.py --frames 300 --output build/samples/my_test
 """
 
 import os
@@ -109,6 +112,22 @@ def dump_mem_to_file(bot, addr, size, out_path):
 
 def run_sampling(args):
     """Main sampling loop."""
+    # Resolve scenario
+    scenario = args.scenario
+    state_path = SAVE_STATES.get(scenario)
+    if state_path is None:
+        print(f"FAIL: unknown scenario '{scenario}'. Known: {', '.join(SAVE_STATES)}")
+        return False
+    if not os.path.exists(state_path):
+        print(f"FAIL: save state not found: {state_path}")
+        return False
+
+    # Determine inputs: explicit --input overrides scenario defaults
+    if args.input is not None:
+        scenario_buttons = args.input
+    else:
+        scenario_buttons = SCENARIO_INPUTS.get(scenario, [])
+
     os.makedirs(IPC_DIR, exist_ok=True)
     os.makedirs(args.output, exist_ok=True)
 
@@ -121,13 +140,12 @@ def run_sampling(args):
     print("Mednafen ready.")
 
     # Load save state
-    state_path = SAVE_STATES.get("race_idle")
     bot.send_and_wait("frame_advance 1", "done frame_advance", timeout=10)
     bot.send_and_wait(
         f"load_state {_win_path(state_path)}", "load_state", timeout=15
     )
     bot.send_and_wait("frame_advance 2", "done frame_advance", timeout=10)
-    print("Save state loaded.")
+    print(f"Scenario '{scenario}' loaded from {os.path.basename(state_path)}.")
 
     # Resolve addresses
     if args.address:
@@ -153,8 +171,8 @@ def run_sampling(args):
 
     # Apply input
     input_buttons = []
-    if args.input:
-        for btn in args.input:
+    if scenario_buttons:
+        for btn in scenario_buttons:
             bot.send_and_wait(f"input {btn}", "ok input", timeout=5)
             input_buttons.append(btn)
         print(f"Input: {', '.join(input_buttons)}")
@@ -227,7 +245,8 @@ def run_sampling(args):
         "gbr_address": f"0x{gbr_addr:08X}",
         "gbr_size": gbr_size,
         "gbr_labels": {str(k): v for k, v in GBR_LABELS.items()},
-        "save_state": "cce_race_start.mc0",
+        "scenario": scenario,
+        "save_state": os.path.basename(state_path),
     }
     if r14_size:
         meta["r14_address"] = f"0x{r14_addr:08X}"
@@ -254,12 +273,18 @@ def main():
         description="Per-frame memory sampler for auto_re physics analysis"
     )
     parser.add_argument(
+        "--scenario", default="straight_throttle",
+        help="Scenario name from save_states.md (default: straight_throttle). "
+             "Known: " + ", ".join(SAVE_STATES.keys()),
+    )
+    parser.add_argument(
         "--frames", type=int, default=300,
         help="Number of frames to sample (default: 300)"
     )
     parser.add_argument(
-        "--input", nargs="*",
-        help="Buttons to hold: B (throttle), A (brake), LEFT, RIGHT, etc."
+        "--input", nargs="*", default=None,
+        help="Override scenario inputs. Buttons: B (throttle), A (brake), LEFT, RIGHT, etc. "
+             "If omitted, uses the scenario's default inputs."
     )
     parser.add_argument(
         "--address",
@@ -290,9 +315,8 @@ def main():
 
     if args.output is None:
         tag = time.strftime("%Y%m%d_%H%M%S")
-        input_tag = "_".join(args.input) if args.input else "idle"
         args.output = os.path.join(
-            PROJECT, "build", "samples", f"{tag}_{input_tag}"
+            PROJECT, "build", "samples", f"{tag}_{args.scenario}"
         )
 
     success = run_sampling(args)
