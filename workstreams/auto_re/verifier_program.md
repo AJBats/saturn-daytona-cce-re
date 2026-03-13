@@ -91,9 +91,38 @@ LOOP FOREVER:
      format, wrong scenario, wrong direction). Re-run.
    - **Observation doesn't support it**: You over-interpreted the data. Remove
      the bad claim, keep the ones that pass. Record the reduced result.
+   - **Oracle contradicts observation**: The observation says X, the oracle says
+     Y. You cannot investigate this yourself — leave a question for the Explorer
+     (see Feedback Channel below). Record the current result and move on.
    - **Test runner error**: STOP and escalate to human.
 
 9. **Move to next observation.** Repeat from step 1.
+
+## Feedback Channel
+
+When the oracle contradicts an observation (e.g., the observation says 0 calls
+but the oracle measures 2), you cannot resolve this yourself — you don't have
+debugger access.
+
+Write a question file: `observations/FUN_XXXXXXXX_questions.md`
+
+```markdown
+## Question from Verifier
+
+**Claim**: call_count_idle, expected 0, oracle measured 2
+**Observation says**: 0 calls in 20,000 frames (FUN_0603AB72_obs.md)
+**Oracle says**: 2 breakpoint hits at 0x0603AB72 in 60 frames, race_idle
+
+Can you recheck with a breakpoint at 0x0603AB72 for 200 frames in race_idle?
+The oracle uses breakpoint-based counting — if the observation used PC trace
+counting, that might explain the discrepancy.
+```
+
+The Explorer will pick up questions on its next run (questions take priority
+over new functions). The Explorer appends findings to the original observation
+under a `## Follow-Up` section.
+
+After the follow-up, re-evaluate the claim and update results if needed.
 
 ## How to Write Good Claims From Observations
 
@@ -136,7 +165,7 @@ idle and input scenarios:
 - id: field72_increases_throttle
   type: value_changes_with_input
   address: "GBR+72"
-  input: C
+  input: B
   direction: increases        # idle value < throttle value → increases
   frames: 60
 ```
@@ -176,10 +205,15 @@ if the function has 0 calls in a scenario, don't write claims for that scenario.
 comparing directions (increases/decreases), the raw hex comparison is valid
 because 16.16 preserves ordering.
 
+**Game controls**: Throttle = B, Brake = A, Steer = D-pad LEFT/RIGHT.
+C is gear shift, NOT throttle.
+
 **Scenarios**: All use the same save state. The difference is input held:
 - `race_idle`: no buttons
-- `race_throttle`: C button held
+- `race_throttle`: B button held (gas)
+- `race_brake`: A button held
 - `race_steer_left`: LEFT held
+- `race_steer_right`: RIGHT held
 
 ## NEVER STOP
 

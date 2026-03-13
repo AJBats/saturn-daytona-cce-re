@@ -48,6 +48,7 @@ address_end: 0xXXXXXXXX
 source_file: src/race/FUN_XXXXXXXX.s
 explored: YYYY-MM-DD
 scenarios_tested: [race_idle, race_throttle, race_steer_left]
+reachable: true | false
 ---
 
 ## Call Frequency
@@ -124,12 +125,36 @@ Raw facts only — no "we suspect" or "this means."
 
 ## Investigation Procedure Per Function
 
-For each function:
+### Step 0: Reachability Pre-Screen
+
+Before investing time in a function, check if it actually fires:
+
+1. Set breakpoint at the function entry.
+2. Run 1000 frames across all 3 scenarios (idle, throttle, steer).
+3. **If no hit in any scenario**: check the caller statically. Is there a
+   gate condition (like `sym_002FC233 >= 2`)? If the gate requires 2P or
+   a game state we can't reach from our save state, write a **partial
+   observation** with `reachable: false` and move on immediately.
+4. **If it fires**: proceed to step 1.
+
+**Time budget**: If a function hasn't fired in 3000 frames total across all
+3 scenarios, write a partial report and move on. Don't chase unreachable
+functions.
+
+### Step 1–8: Full Investigation
+
+For each reachable function:
 
 1. **Read the assembly** in `src/race/`. Note what addresses it reads/writes,
    what registers it uses, what it calls.
 2. **Set a breakpoint** at the function entry. Run each scenario for 1 frame.
-   Count hits. Record register state at first hit.
+   Count breakpoint hits. Record register state at first hit.
+   **Important**: use breakpoint-based counting, not PC trace counting. The
+   oracle (test_claim.py) uses breakpoints to measure call counts. If you
+   report PC-trace counts instead, the Verifier will write claims with wrong
+   expected values. Breakpoints catch ALL callers of a function (including
+   inline BSR from other pipeline stages), while PC traces scoped to a
+   specific tier will undercount. Match the oracle's methodology.
 3. **Resolve GBR**. If the function uses GBR-relative access, record the GBR
    value from step 2. Compute absolute addresses for the fields it touches.
 4. **Set watchpoints** on the addresses the function writes to (from static
@@ -148,12 +173,81 @@ For each function:
 ## Picking Functions
 
 Prioritize in this order:
-1. Functions that have journal entries but NO observation file yet
-2. Functions with high CDL coverage (active during racing)
-3. Functions called by already-observed functions (fill in the call tree)
+
+1. **Call-chain exploration** (best ROI). After observing a function, its callees
+   and siblings are your best next targets — you already have context, and you
+   know the code path is reachable. Follow the call graph down from confirmed-live
+   functions.
+2. **Journal entries with no observation** yet. These have existing hypotheses
+   to guide investigation, but pre-screen for reachability first.
+3. **High CDL coverage** (last resort for cold picks). CDL rank alone doesn't
+   guarantee reachability in 1P — some high-CDL functions are gated behind
+   2P-only conditions.
 
 Check `workstreams/auto_re/observations/` to see what's been done.
 Check `workstreams/driving_model/investigation_journal.md` for the target list.
+
+## Feedback Channel
+
+The Verifier may leave questions in `observations/FUN_XXXXXXXX_questions.md`
+when the oracle contradicts an observation. For example:
+
+> AB72: Your report says 0 calls in 20,000 frames. Oracle found 2 hits at
+> frame 181. Can you recheck with a breakpoint at 0x0603AB72 for 200 frames
+> in race_idle?
+
+**Check for questions before picking new functions.** Answering Verifier
+questions is higher priority than exploring new functions — the Verifier is
+blocked until the discrepancy is resolved. Append your findings to the
+original observation report under a new `## Follow-Up` section, then
+commit.
+
+## Known Reachability Gates
+
+Some functions are gated by conditions that can't be met in our 1P save state:
+
+- **`sym_002FC233 >= 2`**: gates several collision/interaction functions
+  (e.g., FUN_0603AB72, FUN_0602CB28). This value appears to encode player
+  count — it's 1 in 1P mode. These functions are unreachable in our current
+  test environment.
+
+When you discover a new gate like this, add it to this section (or note it in
+the observation report) so future runs don't repeat the investigation.
+
+## Field Sampling and Plotting
+
+After completing an observation, capture full per-frame data for the player car
+and plot it. This produces a "logic analyzer" view of all physics state.
+
+```bash
+# Capture 300 frames idle and with throttle, including R14 (Array B) fields:
+python tools/sample_fields.py --frames 300 --include-r14
+python tools/sample_fields.py --frames 300 --input B --include-r14
+
+# Plot dashboards (one chart per field, events auto-detected):
+python tools/plot_samples.py build/samples/<idle_dir>/ --moving-only
+python tools/plot_samples.py build/samples/<throttle_dir>/ --moving-only
+
+# Compare idle vs throttle side by side (blue=idle, red=throttle):
+python tools/plot_samples.py build/samples/<idle_dir>/ build/samples/<throttle_dir>/ --compare
+```
+
+The sampler dumps every byte of the per-car struct every frame. The plotter
+shows which fields move and which are static. Events (like crashes) show up
+as simultaneous disruptions across many fields.
+
+Save the dashboard PNGs alongside the observation report. They're useful
+for the Verifier and for human review.
+
+## Game Controls (Daytona CCE)
+
+- **Throttle (gas)**: B button
+- **Brake**: A button
+- **Steer**: D-pad LEFT / RIGHT
+- C button is NOT throttle — it's gear shift in this game
+
+When testing scenarios: idle = no input, throttle = hold B, brake = hold A,
+steer = hold LEFT or RIGHT.
 
 ## Practical Tips
 
@@ -169,6 +263,9 @@ Check `workstreams/driving_model/investigation_journal.md` for the target list.
 - **The save state is at race start.** Cars are lined up on the grid. Speed is
   likely zero for all cars. Some systems (like collision response) may be
   inactive at race start.
+- **Rare functions need patience, but not infinite patience.** If a function
+  fires once every 5000 frames, the data you get from one hit is thin. Note
+  the frequency and move on — don't burn an hour for one register dump.
 
 ## NEVER STOP
 

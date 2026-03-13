@@ -63,7 +63,7 @@ Test procedure:
 ```yaml
 type: value_changes_with_input
 address: 0xXXXXXXXX         # absolute address to read
-input: C                     # button: A B C X Y Z START L R UP DOWN LEFT RIGHT
+input: B                     # button: A B C X Y Z START L R UP DOWN LEFT RIGHT
 direction: increases         # increases | decreases
 frames: 60
 ```
@@ -100,8 +100,10 @@ Each scenario defines a save state and default input state.
 | Name | Save state | Input | Notes |
 |------|-----------|-------|-------|
 | `race_idle` | `cce_race_start.mc0` | none | Coasting, no buttons held |
-| `race_throttle` | `cce_race_start.mc0` | C held | Full throttle |
+| `race_throttle` | `cce_race_start.mc0` | B held | Full throttle |
+| `race_brake` | `cce_race_start.mc0` | A held | Braking |
 | `race_steer_left` | `cce_race_start.mc0` | LEFT held | Steering left |
+| `race_steer_right` | `cce_race_start.mc0` | RIGHT held | Steering right |
 
 All scenarios start from the same race save state. The difference is
 what input is applied during the test.

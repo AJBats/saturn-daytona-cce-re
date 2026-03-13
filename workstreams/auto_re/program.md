@@ -179,10 +179,15 @@ After the journal entries are exhausted, move to untested RACING_ONLY functions 
 - GBR[146]: suspected heading angle
 - GBR[149]: suspected lap counter
 
+**Game controls**: Throttle = B, Brake = A, Steer = D-pad LEFT/RIGHT.
+C is gear shift, NOT throttle.
+
 **Scenarios**: All scenarios use the same save state (`cce_race_start.mc0`). The difference is input:
 - `race_idle`: no buttons (coasting)
-- `race_throttle`: C button held (accelerating)
+- `race_throttle`: B button held (gas)
+- `race_brake`: A button held (braking)
 - `race_steer_left`: LEFT held (turning)
+- `race_steer_right`: RIGHT held (turning)
 
 **Fixed-point math**: Most values are 16.16 fixed-point. A raw value of 0x00010000 = 1.0. The SH-2 uses `dmuls.l` + `xtrct` for multiplication and the hardware divider at 0xFFFFFF00 for division.
 

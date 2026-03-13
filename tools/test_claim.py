@@ -28,13 +28,17 @@ PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SAVE_STATES = {
     "race_idle": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_throttle": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
+    "race_brake": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
     "race_steer_left": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
+    "race_steer_right": os.path.join(PROJECT, "build", "save_states", "cce_race_start.mc0"),
 }
 
 SCENARIO_INPUTS = {
     "race_idle": [],                    # no buttons
-    "race_throttle": ["C"],             # hold throttle
-    "race_steer_left": ["LEFT"],        # hold left
+    "race_throttle": ["B"],             # hold throttle (B = gas)
+    "race_brake": ["A"],               # hold brake (A = brake)
+    "race_steer_left": ["LEFT"],        # hold left (d-pad)
+    "race_steer_right": ["RIGHT"],      # hold right (d-pad)
 }
 
 CUE_PATH = os.path.join(
