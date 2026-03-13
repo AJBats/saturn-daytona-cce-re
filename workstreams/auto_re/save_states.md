@@ -33,3 +33,13 @@ Each entry documents the game state, temporal boundaries, and known constraints.
 - **Best for**: Clean throttle/brake/coast speed tests, single-car physics observation,
   speed field identification, input response verification
 - **Avoid for**: Multi-car or collision observations (no AI cars present)
+
+### Scenarios (deterministic replay from cce_tt_straight.mc0)
+
+All scenarios: load state → advance 2 frames → hold inputs → advance N frames.
+Frame 0 = save state load. Inputs applied at frame 2.
+
+| Scenario | Inputs | Frames | Expected outcome |
+|----------|--------|--------|------------------|
+| **straight_throttle** | B | 650 | Full-speed run down straight, wall strike at far corner |
+| **right_wall_strike** | RIGHT + B | 150 | Angled collision with right guardrail, ~26 km/h at impact, REVERSE indicator |
