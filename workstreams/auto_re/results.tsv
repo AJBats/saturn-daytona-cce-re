@@ -20,8 +20,8 @@ FUN_06035C98	3	3	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+1
 FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 299 hits, right_wall_strike), heading_A_stable PASS (GBR+56=0x4000, non-globally-static)
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
 FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), writes_24 PASS (GBR+36, 58 hits, PC 0x060366FA), writes_D0 PASS (GBR+208, 59 hits, PC 0x06036756)
-FUN_06036790	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag54_stable PASS (GBR+84=0x01); DOWNGRADED: E4 and 54 are globally static — Explorer question filed
-FUN_06036CEC	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag68_stable PASS (GBR+104=0x01); DOWNGRADED: E4 and 68 are globally static — Explorer question filed
+FUN_06036790	3	3	2	call_count_throttle PASS (1 call), writes_108 PASS (GBR+264, 59 hits, PC 0x060367DC, right_wall_strike), writes_10C PASS (GBR+268, 59 hits, PC 0x060367EC)
+FUN_06036CEC	1	1	1	call_count_throttle PASS (1 call); structurally Tier 1 — register-save preamble, all writes to stack, no GBR writes from this PC range
 FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
 FUN_0604D580	3	3	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic

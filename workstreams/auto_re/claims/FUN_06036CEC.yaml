@@ -1,13 +1,14 @@
-# FUN_06036CEC — First dispatcher sub-function (analysis deferred)
+# FUN_06036CEC — Register-save preamble (6 stack pushes, no GBR writes)
 #
 # Observation: workstreams/auto_re/observations/FUN_06036CEC_obs.md
 # File: src/race/FUN_06036BC6.s
 # Address range: 0x06036CEC - 0x06036D80
 #
-# From observation data:
-# - 1 call/frame (first function in dispatcher chain, unconditional)
-# - GBR = 0x0605224C
-# - Field analysis deferred — using known-static GBR fields
+# From follow-up:
+# - Function is 6 instructions: push r8-r13 to stack, then fallthrough
+# - All writes go to stack (r15), NOT to GBR-relative memory
+# - GBR writes from FUN_06036BC6 body have PCs outside this function's range
+# - Structurally Tier 1 only — no writes_to claims possible
 
 function: FUN_06036CEC
 address: 0x06036CEC
@@ -16,24 +17,10 @@ source_file: src/race/FUN_06036BC6.s
 
 claims:
   - id: call_count_throttle
-    description: "Called 1 time per game frame with throttle"
+    description: "Called 1 time per game frame with throttle (first dispatcher sub-function)"
     type: call_count_per_frame
     function: FUN_06036CEC
     address: 0x06036CEC
     scenario: straight_throttle
     expected_count: 1
     tolerance: 0
-
-  - id: E4_stable
-    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
-    type: value_stable
-    address: "GBR+228"
-    scenario: straight_throttle
-    frames: 120
-
-  - id: flag68_stable
-    description: "GBR+0x68 (=0x01) stable during throttle (known-static field)"
-    type: value_stable
-    address: "GBR+104"
-    scenario: straight_throttle
-    frames: 120

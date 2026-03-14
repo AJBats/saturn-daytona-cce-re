@@ -1,13 +1,13 @@
-# FUN_06036790 — Last dispatcher sub-function (analysis deferred)
+# FUN_06036790 — Last dispatcher sub: trig computation on +0x158 → +0x108/+0x10C
 #
 # Observation: workstreams/auto_re/observations/FUN_06036790_obs.md
 # File: src/race/FUN_06036790.s
 # Address range: 0x06036790 - 0x06036BC6
 #
-# From observation data:
-# - 1 call/frame (last function in dispatcher chain, unconditional)
-# - GBR = 0x0605224C
-# - Field analysis deferred — using known-static GBR fields
+# From follow-up:
+# - Watchpoint confirmed writes to +0x108 (PC 0x060367DC) and +0x10C (PC 0x060367EC)
+# - Both PCs in function range [0x06036790, 0x06036BC6)
+# - Writes only occur with steering input (+0x170 gate skips main computation at idle)
 
 function: FUN_06036790
 address: 0x06036790
@@ -24,16 +24,20 @@ claims:
     expected_count: 1
     tolerance: 0
 
-  - id: E4_stable
-    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
-    type: value_stable
-    address: "GBR+228"
-    scenario: straight_throttle
-    frames: 120
+  - id: writes_108
+    description: "Writes trig output to GBR+0x108 (PC 0x060367DC, output of FUN_06047D3C call)"
+    type: writes_to
+    function: FUN_06036790
+    function_end: 0x06036BC6
+    address: "GBR+264"
+    scenario: right_wall_strike
+    frames: 60
 
-  - id: flag54_stable
-    description: "GBR+0x54 (=0x01) stable during throttle (known-static field)"
-    type: value_stable
-    address: "GBR+84"
-    scenario: straight_throttle
-    frames: 120
+  - id: writes_10C
+    description: "Writes trig output to GBR+0x10C (PC 0x060367EC, output of FUN_06047D20 call)"
+    type: writes_to
+    function: FUN_06036790
+    function_end: 0x06036BC6
+    address: "GBR+268"
+    scenario: right_wall_strike
+    frames: 60
