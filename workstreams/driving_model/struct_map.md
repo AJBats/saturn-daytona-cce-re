@@ -31,7 +31,8 @@ The dispatcher FUN_0604D380 calls sub-functions sequentially:
 #12 FUN_06035904  +0xE0-EC,+0xAC,+0xBC,+0xC4,+0xDC,+0xF4,+0xF8 -> +0xFC,+0x6C,+0x70,
                   +0x14,+0x64,+0x68,+0xE8,+0xEC,+0xF0,+0xA0 (cross-product, sqrt, flags)
 #13 FUN_0603631C  UNREACHABLE (gated by +0x16A != 0, never observed)
-#14 0x06035F48    (sub-function)
+#14 FUN_06035F48  +0x44,+0x14,+0x34,+0x6C,+0xC4,+0xF4,+0xF8 -> +0x64,+0x68,+0x104,+0x30
+                  (steering computation, 2 calls/frame, gated by +0x44 != 0)
 #15 FUN_06035C98  +0x14,+0x64,+0x68 -> trig computations (sin/cos/sqrt pipeline)
 #16 FUN_06035EE8  +0x38,+0x3C,+0xAC -> +0x134 (outside capture range)
 #17 FUN_060366EC  +0x24,+0xF0,+0x34,+0x68 -> +0x24,+0xD0,+0xC0,+0x30 (integration step)
@@ -230,27 +231,27 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Changes every frame regardless of input. High correlation with Cluster A due to shared timing (J=0.96)
 - **Oracle status**: Watchpoint-confirmed writer FUN_06035C98 at PC 0x06035EB6
 
-### +0x64
-- **Writers**: FUN_06035904 (conditionally zeroed or updated based on +0x190 flag)
+### +0x64 — steering accumulator (leads +0x68)
+- **Writers**: FUN_06035F48 at PC 0x060362A6 (oracle-confirmed, writes_64 PASS); also FUN_06035904 (conditionally zeroed based on +0x190 flag)
 - **Readers**: FUN_06035C98 (added to +0x14 before threshold comparison), FUN_060366EC (clamped to [-0xCA00, 0xCA00])
 - **Behavior**: input-responsive
   - Idle: static at 0x00000001
   - Throttle: static at 0x00000001
-  - Steer+B: changing (132 uniq)
+  - Steer+B: changing (132 uniq), resets to 0 at wall strike (~frame 140)
   - Accel->brake: static
-- **Correlations**: Steer-only field, co-changes with +0x68 and +0x40
-- **Oracle status**: field64_stable PASS (FUN_06035C98 claim, value 0x01, confirmed non-globally-static)
+- **Correlations**: Steer-only field, co-changes with +0x68 and +0x40. Leads +0x68 temporally (changes by frame 10, +0x68 stays at 1 until frame 30)
+- **Oracle status**: writes_64 PASS (FUN_06035F48, PC 0x060362A6, right_wall_strike)
 
-### +0x68
-- **Writers**: FUN_06035904 (conditionally zeroed or updated based on +0x190 flag)
+### +0x68 — steering accumulator (lags +0x64)
+- **Writers**: FUN_06035F48 at PC 0x060361A6 (oracle-confirmed, writes_68 PASS, 56 hits); also FUN_06035904 (conditionally zeroed based on +0x190 flag)
 - **Readers**: FUN_06035750 (XORed with +0x14), FUN_060366EC (clamped, gates +0x17E write)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000001
   - Throttle: static at 0x00000001
-  - Steer+B: changing (120 uniq)
+  - Steer+B: changing (120 uniq), resets to 0 at wall strike, recovers slower than +0x64
   - Accel->brake: static
-- **Correlations**: Steer-only field, co-changes with +0x64
-- **Oracle status**: field68_stable PASS (FUN_06036CEC claim, value 0x01, confirmed non-globally-static)
+- **Correlations**: Steer-only field, co-changes with +0x64. Lags +0x64 temporally (stays at 1 until frame 30, while +0x64 is already at 0x1FE by frame 10)
+- **Oracle status**: writes_68 PASS (FUN_06035F48, PC 0x060361A6, 56 hits, right_wall_strike)
 
 ### +0x6C
 - **Writers**: FUN_06035904 (rewritten with sqrt result)
@@ -600,6 +601,15 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 
 ## Extended Fields (beyond +0xFF)
 
+### +0x104 — steering accumulator (extended)
+- **Writers**: FUN_06035F48 at PC 0x06036164 (oracle-confirmed, writes_104 PASS, 26 hits)
+- **Readers**: Not yet identified
+- **Behavior**: input-responsive
+  - Idle: static at 0xFFFFFFFF
+  - Throttle: static at 0xFFFFFFFF
+  - Steer+B: changes from frame 22 (0xFFFFFFFF -> 0x00000000 -> 0x00000002 -> accumulating)
+- **Oracle status**: writes_104 PASS (FUN_06035F48, PC 0x06036164, 26 hits, right_wall_strike)
+
 ### +0x108 — per-frame X velocity delta
 - **Writers**: FUN_06036790 at PC 0x060367DC (watchpoint-confirmed; `sin(-0x38) * (+0x24 * +0x158) >> 32`)
 - **Readers**: Not yet identified (computed then immediately added to +0x00)
@@ -679,6 +689,9 @@ Note: +0xC0, +0xD8, +0xE0, +0xE4 are actively written every frame but their valu
 | FUN_0604D6B8 | writes_18 | WP-CONF | +0x18 | PC 0x0604D39E (delay slot, watchpoint-confirmed) |
 | FUN_06035C98 | writes_60 | WP-CONF | +0x60 | PC 0x06035EB6 (frame counter, watchpoint-confirmed) |
 | FUN_06035B30 | writes_70 | WP-CONF | +0x70 | PC 0x06035C50 (sqrt, watchpoint-confirmed) |
+| FUN_06035F48 | writes_64 | PASS | +0x64 | PC 0x060362A6, right_wall_strike |
+| FUN_06035F48 | writes_68 | PASS | +0x68 | PC 0x060361A6, 56 hits, right_wall_strike |
+| FUN_06035F48 | writes_104 | PASS | +0x104 | PC 0x06036164, 26 hits, right_wall_strike |
 
 ## Unreachable Functions
 

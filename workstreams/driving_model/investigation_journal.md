@@ -889,14 +889,50 @@ collision response function directly modifies +0x24. This means:
 no change), +0x38 (heading, no change at impact), +0xB8 (stays 0, NOT collision-related),
 +0xF0 (force, barely changes).
 
+### Entry 18: FUN_06035F48 Explorer/Verifier Integration (Mapper Cycle 6, 2026-03-14)
+
+**Source**: FUN_06035F48_obs.md + results.tsv (Explorer/Verifier cycle)
+
+FUN_06035F48 is dispatcher #14 — a **steering computation function** in FUN_06035C98.s.
+Called 2x per frame from two dispatcher call sites (PR=0x0604D43E, PR=0x0604D44A).
+
+**Oracle-confirmed writers (all PASS)**:
+- +0x64: PC 0x060362A6, steer-only (132 uniq), leads +0x68 temporally
+- +0x68: PC 0x060361A6, 56 hits, steer-only (120 uniq), lags +0x64
+- +0x104: PC 0x06036164, 26 hits, steer-only extended field
+
+**Key structural finding**: The function has a heavily gated setup section requiring
+ALL of: +0x176 <= 0, +0x34 >= 100, +0x14 != 0, +0xF8 <= +0x148, +0x68 in [-0x300, +0x300],
++0x44 in [-0x1B0, +0x1B0]. When the setup fires, it sets +0x18E (countdown timer) and
+OR's +0x30 with 0x02. This gated path was NEVER triggered in our scenarios (+0x34
+reaches max 0x40 with steer, below the 100 threshold). A longer run or higher initial
+speed is needed to observe this path.
+
+**Collision response**: +0x64, +0x68, and +0x44 all simultaneously reset to 0 at the
+wall strike (~frame 140). +0x68 recovers more slowly than +0x64 after the strike.
+
+**Extended struct discovery**: The player struct extends to at least +0x1CB (460 bytes
+past base). New extended fields identified:
+- +0x148 (R): constant 0x08000000, compared against +0xF8
+- +0x176 (R): gate (16-bit, must be <= 0)
+- +0x17E (W): clamping exit (16-bit)
+- +0x18E (R/W): countdown timer (16-bit)
+- +0x1CB (R): branch selector (8-bit, value 0x02)
+
+**Naming proposals**: +0x64 and +0x68 are proposed as "steering accumulators" — they
+only change with steer input, accumulate progressively, and reset at collision. +0x64
+leads +0x68 (changes earlier), suggesting +0x64 is a first-order steering metric and
++0x68 is a derived second-order metric.
+
 ## Next Steps
 
 1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
 2. **Find +0x2C player struct writer** — Explorer Priority #2, Cluster B gap
 3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
-4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA (static analysis)
-5. ~~Find +0x38 writer~~ — RESOLVED: FUN_06035C98 primary, 18 sites total
+4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA
+5. ~~Find +0x38 writer~~ — RESOLVED: FUN_06035C98 primary
 6. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
 7. **Find +0x78 writer** — steer input injection point into driving model
 8. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C
 9. **Deep '95 cross-reference** — compare writer_map_comprehensive.md
+10. **Test FUN_06035F48 gated path** — need scenario with +0x34 >= 100 AND steer input
