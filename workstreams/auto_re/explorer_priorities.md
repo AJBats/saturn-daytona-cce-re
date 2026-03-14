@@ -1,68 +1,33 @@
-# Explorer Priorities — Updated 2026-03-14 (Cycle 11)
+# Explorer Priorities — Updated 2026-03-14 (Cycle 15)
 
-## Resolved Priorities (from prior cycles)
+## Resolved Priorities (all prior cycles)
 
-Priorities 1-8 from the initial list are all resolved:
-- #1 +0xF0: FUN_06035904 (watchpoint), #2 +0x2C: FUN_0603833C (PASS, via R14)
-- #3 +0xD4: FUN_0604D8EA (static), #4 +0x78: FUN_060371FC (PASS)
-- #5 +0xB8: sub #6b (watchpoint), #6 +0xAC: sub #5 (watchpoint)
-- #7 +0x08: FUN_06036790 (confirmed), #8 +0x84: NOT CAUGHT (byte write)
+Initial list #1-8: all resolved.
+Cycle 11 list #1-8: 7 of 8 resolved (#5 +0x1CB inconclusive, likely constant 0x02).
 
 ## High Priority (new targets)
 
-### 1. Collision gate fields: +0x176 writer — who triggers collision response?
+### 1. ~~+0x176 collision gate~~ RESOLVED (survey #2)
 
-- **Why**: FUN_060366EC's collision response path is gated by +0x176 > 0.
-  This 16-bit field at offset 0x176 (374 decimal) controls whether the
-  29% velocity drop occurs on wall strike. Finding who sets +0x176 maps
-  the collision DETECTION → collision RESPONSE connection. Without this,
-  we can't understand what triggers the velocity reduction.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
-  (RIGHT + B, 150 frames). Set watchpoint on absolute address
-  0x0605224C + 0x176 = 0x060523C2. The field should transition from 0 to
-  nonzero at the collision point (~frame 140). Record writer PCs.
-- **What this unblocks**: Maps the collision detection pipeline. Identifies
-  the function that DETECTS wall collisions and signals the physics pipeline.
+- **RESOLVED**: TWO writers: FUN_06035C58 SETS to 15 (trigger), sub #4 DECREMENTS
+  (countdown). Full collision lifecycle mapped. See journal Entry 22.
 
-### 2. Decay cluster writers: +0xE8 and +0xEC — who computes the decay?
+### 2. ~~Decay cluster +0xE8/+0xEC~~ RESOLVED (survey #2)
 
-- **Why**: +0xE8 and +0xEC are in Cluster E (J>=0.98 with +0xFC). They
-  decay toward zero even without input (112 unique values in idle!).
-  FUN_06035904 conditionally zeroes them, but who PRODUCES the nonzero
-  values? They're read by FUN_060354A0, FUN_06035750, and FUN_06035904.
-  Finding their writer maps the decay pipeline that feeds the rotation
-  transform.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
-  (RIGHT + B, 60 frames). Set watchpoints on GBR+0xE8 (0x06052334) and
-  GBR+0xEC (0x06052338). Record writer PCs, values, and whether both
-  are written by the same function.
-- **What this unblocks**: Completes Cluster E mapping. May reveal a
-  "momentum decay" or "angular velocity" subsystem.
+- **RESOLVED**: Both written by FUN_06035C98 (#15) at consecutive PCs
+  (0x06035E4E, 0x06035E50). Decay rate 0.9374/frame (15/16).
 
-### 3. +0x90 writer confirmation — brake mirror of +0x80
+### 3. ~~+0x90 brake mirror~~ RESOLVED (survey #2)
 
-- **Why**: +0x90 is the brake-input ramp (proposed name). It mirrors +0x80
-  (throttle ramp) but for brake input. +0x80 is written by the dispatcher
-  delay slot at PC 0x0604D3AA. +0x90 likely has a symmetric writer in the
-  brake processing path. Confirming this completes the input ramp pair.
-- **What to do**: Load `cce_tt_straight.mc0`, scenario `tt_throttle_then_brake_300f`
-  (B 200f, A 100f). Set watchpoint on GBR+0x90 (0x060522DC). The field
-  first changes at ~frame 202 (when brake input begins). Record writer PC.
-- **What this unblocks**: Confirms the brake input pipeline entry point.
+- **RESOLVED**: Sub #5 (0x0604D780) at PC 0x0604D7D8. Same writer as +0xAC.
+  Brake mirror hypothesis CONFIRMED.
 
 ## Medium Priority (deepens understanding)
 
-### 4. +0x84 writer — retry with byte-level investigation
+### 4. ~~+0x84 byte write~~ RESOLVED (survey #4)
 
-- **Why**: The 4-byte watchpoint didn't catch the +0x84 write. The field
-  transitions 0x00→0x01 (binary flag), suggesting a `mov.b` instruction.
-  The byte-level write is invisible to the word watchpoint.
-- **What to do**: Use a breakpoint-based approach: set a breakpoint at the
-  start of FUN_0604D580 (the suspected writer per static analysis). Step
-  through the function and check +0x84 before/after each instruction.
-  Alternatively, use `insn_trace` to capture all instructions in FUN_0604D580
-  and search for `mov.b` writes to the +0x84 area.
-- **What this unblocks**: Confirms the "physics active" flag writer.
+- **RESOLVED**: Sub #3 (0x0604D6B8) found via breakpoint bracketing.
+  Byte write (`mov.b`), "physics active" flag.
 
 ### 5. +0x1CB collision active byte — who sets it?
 
