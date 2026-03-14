@@ -693,8 +693,8 @@ Note: +0xC0, +0xD8, +0xE0, +0xE4 are actively written every frame but their valu
 | FUN_06035F48 | writes_68 | PASS | +0x68 | PC 0x060361A6, 56 hits, right_wall_strike |
 | FUN_06035F48 | writes_104 | PASS | +0x104 | PC 0x06036164, 26 hits, right_wall_strike |
 | FUN_06035904 | writes_F0 | WP-CONF | +0xF0 | rts delay slot (PC artifact 0x0604D404) |
-| FUN_0603833C | writes_2C | WP-CONF | +0x2C | PC 0x06038468, via R14 (not GBR) |
-| FUN_060371FC | writes_78 | WP-CONF | +0x78 | PC 0x060371FE, steer input entry |
+| FUN_0603833C | writes_2C | PASS | +0x2C | PC 0x06038468, 58 hits, via R14 (not GBR) |
+| FUN_060371FC | writes_78 | PASS | +0x78 | PC 0x060371FE, 42 hits, right_wall_strike |
 | Sub #6b | writes_B8 | WP-CONF | +0xB8 | PC 0x0604D88E, speed-gated (frame 200+) |
 | Sub #5 | writes_AC | WP-CONF | +0xAC | PC 0x0604D79A |
 
