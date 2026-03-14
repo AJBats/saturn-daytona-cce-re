@@ -540,7 +540,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Throttle: monotonic_down (112 uniq), same decay
   - Steer+B: changing (150 uniq)
   - Accel->brake: monotonic_down (112 uniq)
-- **Correlations**: Cluster E with +0xEC and +0xFC (J>=0.98). Decays toward zero even without input
+- **Correlations**: Cluster E with +0xEC and +0xFC (J>=0.98). Decays toward zero even without input. Decay factor = 0.9374 per physics frame (15/16, half-life ~10.7 frames = 0.36s)
 - **Oracle status**: Untested
 
 ### +0xEC
