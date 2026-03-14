@@ -61,11 +61,13 @@ for (( i=1; i<=MAX_CHECKS; i++ )); do
             ;;
     esac
 
+    # Always pull when there are changes — keep local branch current
+    if ! git pull --rebase origin "$BRANCH" 2>&1; then
+        echo "[$AGENT] WARNING: pull failed — you may need to pull manually."
+    fi
+    LAST_HASH=$(git rev-parse HEAD)
+
     if [ -n "$FOUND" ]; then
-        # Pull the changes so the agent has them locally
-        if ! git pull --rebase origin "$BRANCH" 2>&1; then
-            echo "[$AGENT] WARNING: pull failed — you may need to pull manually."
-        fi
         echo ""
         echo "[$AGENT] NEW WORK FOUND:"
         echo "$FOUND"
@@ -74,7 +76,6 @@ for (( i=1; i<=MAX_CHECKS; i++ )); do
         exit 0
     else
         echo "[$AGENT] Check $i/$MAX_CHECKS: changes found but not relevant to $AGENT."
-        LAST_HASH="$NEW_HASH"
     fi
 done
 
