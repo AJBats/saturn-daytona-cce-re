@@ -34,6 +34,35 @@ Each entry documents the game state, temporal boundaries, and known constraints.
   speed field identification, input response verification
 - **Avoid for**: Multi-car or collision observations (no AI cars present)
 
+## cce_tt_offtrack_stop.mc0
+
+- **Mode**: Time Trial (solo, no AI cars)
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: 0 km/h (dead stop)
+- **Position**: N/A (time trial)
+- **Transmission**: AUTO
+- **Location**: Track edge, car facing grass/off-track
+- **Total time at save**: 1'03"70
+- **Lap**: 1/8
+- **Known constraints**:
+  - Full throttle (hold B) from standing stop, car visually fully on grass at ~**frame 124** (~4s at 30Hz)
+  - Grass contact in the driving model likely begins earlier (car front wheels cross
+    track edge before the whole car is visually off-track) — frame 124 is an approximate
+    upper bound from human observation
+- **Best for**: Off-track driving, grass/surface handling, terrain response,
+  car handling features beyond on-track physics
+- **Avoid for**: Clean straight-line speed tests (use cce_tt_straight instead)
+
+### Scenarios (deterministic replay from cce_tt_offtrack_stop.mc0)
+
+All scenarios: load state → advance 2 frames → hold inputs → advance N frames.
+Frame 0 = save state load. Inputs applied at frame 2.
+
+| Scenario | Inputs | Frames | Expected outcome |
+|----------|--------|--------|------------------|
+| **offtrack_throttle** | B | 324 | Accelerates off track into grass, ~66 km/h at end. Car straddles track/grass boundary at ~frame 124. Stuck in gear 1 with maxed RPM at frame 324 — suggests tire slip/traction loss on grass surface prevents speed buildup and gear shift |
+| **offtrack_donut** | B (frame 2–324), LEFT (frame 124–324) | 324 | Throttle into grass then left turn at ~frame 124. Car does donuts on grass, no collision. Tests off-track steering + surface handling |
+
 ### Scenarios (deterministic replay from cce_tt_straight.mc0)
 
 All scenarios: load state → advance 2 frames → hold inputs → advance N frames.
