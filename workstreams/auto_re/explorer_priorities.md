@@ -1,102 +1,131 @@
-# Explorer Priorities — Updated 2026-03-14
+# Explorer Priorities — Updated 2026-03-14 (Cycle 11)
 
-## High Priority (fills struct map gaps)
+## Resolved Priorities (from prior cycles)
 
-### 1. ~~+0xF0 writer confirmation~~ RESOLVED (Explorer survey, 2026-03-14)
+Priorities 1-8 from the initial list are all resolved:
+- #1 +0xF0: FUN_06035904 (watchpoint), #2 +0x2C: FUN_0603833C (PASS, via R14)
+- #3 +0xD4: FUN_0604D8EA (static), #4 +0x78: FUN_060371FC (PASS)
+- #5 +0xB8: sub #6b (watchpoint), #6 +0xAC: sub #5 (watchpoint)
+- #7 +0x08: FUN_06036790 (confirmed), #8 +0x84: NOT CAUGHT (byte write)
 
-- **RESOLVED**: FUN_06035904 rts delay slot confirmed by watchpoint. Core loop
-  COMPLETE: +0xF0 → +0x24 → +0x34 → downstream. NOP test recommendation added below.
+## High Priority (new targets)
 
-### 2. +0x2C writer identification — Cluster B member with unknown writer
+### 1. Collision gate fields: +0x176 writer — who triggers collision response?
 
-- **Why**: +0x2C is in perfect lockstep with +0x14 and +0x18 (J=1.000,
-  Cluster B). +0x14 is written by FUN_06035904, +0x18 is written by
-  FUN_0604D6B8. But +0x2C's player struct writer is UNKNOWN. A previous
-  watchpoint attempt (addendum) caught a write from PC 0x06038468 with
-  GBR=0x06057800 — that's a DIFFERENT struct, not the player. The player
-  struct writer is still missing.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `straight_throttle`
-  (B held, 60 frames). Set watchpoint on EXACT address 0x06052278
-  (= 0x0605224C + 0x2C). Filter results by GBR value — only keep hits
-  where GBR=0x0605224C (player struct). Record writer PCs and values.
-- **What this unblocks**: Completes Cluster B writer mapping. If the
-  writer is in the dispatcher chain, +0x2C may reveal a new computation
-  path. Its monotonic_up behavior in ALL scenarios (not just throttle)
-  suggests it accumulates something universal.
+- **Why**: FUN_060366EC's collision response path is gated by +0x176 > 0.
+  This 16-bit field at offset 0x176 (374 decimal) controls whether the
+  29% velocity drop occurs on wall strike. Finding who sets +0x176 maps
+  the collision DETECTION → collision RESPONSE connection. Without this,
+  we can't understand what triggers the velocity reduction.
+- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
+  (RIGHT + B, 150 frames). Set watchpoint on absolute address
+  0x0605224C + 0x176 = 0x060523C2. The field should transition from 0 to
+  nonzero at the collision point (~frame 140). Record writer PCs.
+- **What this unblocks**: Maps the collision detection pipeline. Identifies
+  the function that DETECTS wall collisions and signals the physics pipeline.
 
-### 3. ~~+0xD4 writer identification~~ RESOLVED (Mapper static analysis)
+### 2. Decay cluster writers: +0xE8 and +0xEC — who computes the decay?
 
-- **RESOLVED**: Writer is FUN_0604D8EA (dispatcher sub-function between #6b
-  and #7). The 0x1F4 (500) constant is a threshold in that function.
-  No Explorer work needed. See journal Entry 16.
-- **What this unblocks**: +0xD4's role in the computation chain becomes
-  clear. Its initial value of 500 and correlation with Cluster B suggest
-  it may be a derived acceleration/force metric.
+- **Why**: +0xE8 and +0xEC are in Cluster E (J>=0.98 with +0xFC). They
+  decay toward zero even without input (112 unique values in idle!).
+  FUN_06035904 conditionally zeroes them, but who PRODUCES the nonzero
+  values? They're read by FUN_060354A0, FUN_06035750, and FUN_06035904.
+  Finding their writer maps the decay pipeline that feeds the rotation
+  transform.
+- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
+  (RIGHT + B, 60 frames). Set watchpoints on GBR+0xE8 (0x06052334) and
+  GBR+0xEC (0x06052338). Record writer PCs, values, and whether both
+  are written by the same function.
+- **What this unblocks**: Completes Cluster E mapping. May reveal a
+  "momentum decay" or "angular velocity" subsystem.
+
+### 3. +0x90 writer confirmation — brake mirror of +0x80
+
+- **Why**: +0x90 is the brake-input ramp (proposed name). It mirrors +0x80
+  (throttle ramp) but for brake input. +0x80 is written by the dispatcher
+  delay slot at PC 0x0604D3AA. +0x90 likely has a symmetric writer in the
+  brake processing path. Confirming this completes the input ramp pair.
+- **What to do**: Load `cce_tt_straight.mc0`, scenario `tt_throttle_then_brake_300f`
+  (B 200f, A 100f). Set watchpoint on GBR+0x90 (0x060522DC). The field
+  first changes at ~frame 202 (when brake input begins). Record writer PC.
+- **What this unblocks**: Confirms the brake input pipeline entry point.
 
 ## Medium Priority (deepens understanding)
 
-### 4. +0x78 writer identification — steer input pipeline entry point
+### 4. +0x84 writer — retry with byte-level investigation
 
-- **Why**: +0x78 is the INPUT to the +0x7C/+0x88/+0x8C pipeline (#2 in
-  the dispatcher). It only changes with steering input (monotonic_up,
-  43 uniq). Finding its writer identifies WHERE steering input enters
-  the driving model. The writer is "likely from external input processing"
-  per static analysis — possibly the controller input path through
-  FUN_060295DE.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
-  (RIGHT + B held, 150 frames). Set watchpoint on GBR+0x78 (absolute
-  address 0x0605224C + 0x78 = 0x060522C4). Record writer PCs and values.
-- **What this unblocks**: Maps the steering input injection point into
-  the driving model. Critical for the transplant — the '95 donor may
-  inject steering differently.
+- **Why**: The 4-byte watchpoint didn't catch the +0x84 write. The field
+  transitions 0x00→0x01 (binary flag), suggesting a `mov.b` instruction.
+  The byte-level write is invisible to the word watchpoint.
+- **What to do**: Use a breakpoint-based approach: set a breakpoint at the
+  start of FUN_0604D580 (the suspected writer per static analysis). Step
+  through the function and check +0x84 before/after each instruction.
+  Alternatively, use `insn_trace` to capture all instructions in FUN_0604D580
+  and search for `mov.b` writes to the +0x84 area.
+- **What this unblocks**: Confirms the "physics active" flag writer.
 
-### 5. +0xB8 writer identification — unusual throttle+brake pattern
+### 5. +0x1CB collision active byte — who sets it?
 
-- **Why**: +0xB8 changes with throttle (17 uniq) and brake (33 uniq) but
-  NOT with steer. This is the only field with this pattern — it may be
-  a combined longitudinal force or traction metric. It gates a call to
-  FUN_06035B0E in FUN_06035904. Finding the writer reveals what computes
-  this unusual signal.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario
-  `tt_throttle_then_brake_300f` (B 200 frames, A 100 frames). Set
-  watchpoint on GBR+0xB8 (absolute address 0x0605224C + 0xB8 = 0x06052304).
-  Record writer PCs and values in both throttle and brake phases.
-- **What this unblocks**: Identifies the longitudinal force computation
-  path separate from lateral (steer) forces. May reveal the
-  acceleration/braking subsystem entry point.
+- **Why**: FUN_060366EC reads byte at +0x1CB to select between collision
+  clamping ([-0x100, 0x100]) and normal decay (divide by 4). This byte
+  controls the severity of collision response. Finding who sets it maps
+  the collision state machine.
+- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`.
+  Set watchpoint on absolute address 0x0605224C + 0x1CB = 0x06052417.
+  Record writer PC at collision transition.
+- **What this unblocks**: Completes the collision state machine alongside +0x176.
 
-### 6. +0xAC writer identification — feeds +0x14 computation
+### 6. Chain[0x98] writer — who assigns physics tiers?
 
-- **Why**: FUN_06035904 reads +0xAC and computes -(+0xAC) >> 3 to write
-  +0x14. But who writes +0xAC? It's steer-only (monotonic_up, 27 uniq).
-  Finding the writer maps the upstream of the +0x14 computation path.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`
-  (RIGHT + B, 150 frames). Set watchpoint on GBR+0xAC (absolute address
-  0x0605224C + 0xAC = 0x060522F8). Record writer PCs and values.
-- **What this unblocks**: Completes the +0xAC -> +0x14 -> downstream path.
-  The steer-only behavior suggests this is in the steering torque chain.
+- **Why**: The per-car physics dispatch uses chain[0x98] to select the
+  physics tier (0-5). Player is tier 0, AI cars are 1-3. Understanding
+  who writes this field reveals how the game decides physics fidelity.
+  For transplant: if '95 uses a different tier system, we need to
+  understand the assignment logic.
+- **What to do**: Load `cce_race_start.mc0`. Set watchpoint on chain[0]+0x98
+  (0x060FD400 + 0x98 = 0x060FD498). Record writer PC during the first
+  few frames of race mode.
+- **What this unblocks**: Maps the tier assignment pipeline for AI cars.
 
 ## Low Priority (nice-to-have)
 
-### 7. +0x08 writer identification — steer-only positional field
+### 7. +0xA0 writer — correlates with +0x70
 
-- **Why**: +0x08 changes with steer only (144 uniq in steer+B), read by
-  FUN_0604DB10 via wpool. Finding the writer completes the set of
-  steer-responsive position fields.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`.
-  Set watchpoint on GBR+0x08 (0x0605224C + 0x08 = 0x06052254).
+- **Why**: +0xA0 correlates with +0x70 (J=0.70). FUN_06035904 writes it
+  via FUN_06035B30 helper. A watchpoint would confirm this.
+- **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
+  watchpoint on GBR+0xA0 (0x0605224C + 0xA0 = 0x060522EC).
 
-### 8. +0x84 binary flag writer
+### 8. +0xA8 writer — steer-only sparse field
 
-- **Why**: +0x84 is a binary 0/1 flag that transitions once when any input
-  is detected. Finding the writer identifies the "physics active" gate.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `straight_throttle`
-  (B held, 30 frames — short, flag transitions early). Set watchpoint on
-  GBR+0x84 (0x0605224C + 0x84 = 0x060522D0).
+- **Why**: +0xA8 has only 9 unique values in steer+B. Sparse transitions
+  suggest a state or mode field related to steering.
+- **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
+  watchpoint on GBR+0xA8 (0x060522F4).
 
 ---
 
 ## NOP Test Recommendations (for human)
+
+### NOP Test: +0xF0 (net force — most upstream intervention)
+
+- **What to NOP**: Replace `mov.l r3, @(r0, r4)` in FUN_06035904's rts delay
+  slot with `nop` (0x0009). Source: `src/race/FUN_06035904.s`, line 298.
+  The rts instruction at line 297 still executes (nop in delay slot = clean return).
+- **Writer function**: FUN_06035904 (watchpoint-confirmed, rts delay slot, r4=0xF0)
+- **Expected effect**: Force is never applied to velocity. +0x24 (velocity) would
+  remain at whatever value it had when the NOP was applied. If applied from standing
+  start, the car should never accelerate at all. If applied mid-run, the car would
+  coast at constant velocity forever (no accel, no decel, no drag).
+  This is the MOST UPSTREAM intervention — it blocks the force -> velocity -> position
+  pipeline at its source.
+- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle` (hold B).
+  Car should remain completely stationary despite throttle input.
+- **Confidence**: HIGHEST — watchpoint-confirmed writer, core pipeline source,
+  sign-flip behavior confirmed (positive=accel, negative=brake). NOP blocks
+  ALL force application including braking and drag.
+- **Evidence**: FUN_06035904_obs.md, field_writer_survey_001_obs.md (Priority #1),
+  brake transition analysis (journal Entry 15), correlation with Clusters A+E
 
 ### NOP Test: +0x24 (velocity accumulator)
 
@@ -114,7 +143,6 @@
 - **Confidence**: HIGH — oracle-confirmed writer, perfect lockstep with
   +0x00 and +0xD0, NOP breaks the core feedback loop.
 - **Evidence**: FUN_060366EC_obs.md, writes_24 PASS, correlation Cluster A
-  (J=1.000 with +0x00, +0xD0)
 
 ### NOP Test: +0x34 (speed-derived gate value)
 
@@ -122,19 +150,13 @@
   with `nop` (0x0009). This prevents FUN_0604D580 from writing +0x34.
   Source: `src/race/FUN_0604D380.s`, line 521.
 - **Writer function**: FUN_0604D580 (oracle-confirmed, writes_34 PASS, 59 hits)
-- **Expected effect**: +0x34 stays at 0. This gates 5+ downstream functions:
-  FUN_0604DB10 gates on +0x34, FUN_060354A0 helper gates on >= 10,
-  FUN_06035750 has thresholds at 70/100, FUN_060366EC gates on >= 65.
-  Car may accelerate (since +0x24 still updates) but derived physics
-  computations would be suppressed — expect abnormal handling, possibly
-  no position update or wrong force computation.
+- **Expected effect**: +0x34 stays at 0. This gates 5+ downstream functions.
+  Car may accelerate but with degraded physics. Also disables the collision
+  response path (which requires +0x34 < 0x46, but with +0x34 = 0 the
+  collision response's other gates may still fire).
 - **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
-  Watch for car moving but with degraded physics (no force feedback,
-  no position correction).
-- **Confidence**: HIGH — oracle-confirmed writer, +0x34 is the primary
-  gate value in the pipeline, NOP effect should be clearly visible.
-- **Evidence**: FUN_0604D580_obs.md, writes_34 PASS, Cluster C (J=1.000
-  with +0xDC), 0x006C0000 multiply chain confirmed
+- **Confidence**: HIGH
+- **Evidence**: FUN_0604D580_obs.md, writes_34 PASS
 
 ### NOP Test: +0xD0 (clamped speed copy)
 
@@ -142,50 +164,33 @@
   with `nop` (0x0009). This prevents FUN_060366EC from writing +0xD0.
   Source: `src/race/FUN_0603631C.s`, line ~624.
 - **Writer function**: FUN_060366EC (oracle-confirmed, writes_D0 PASS, 59 hits)
-- **Expected effect**: +0xD0 stays at 0. FUN_0604DB10 reads +0xD0 via
-  wpool — it feeds the heavy multiply chain (#8) that produces +0xC4,
-  +0xC8, +0xCC, +0xD8, +0xDC. Without +0xD0, the multiply chain input
-  is zero, so those outputs would be zero or constant. Position updates
-  via the multiply chain would stop.
+- **Expected effect**: +0xD0 stays at 0. Breaks the heavy multiply chain
+  input in FUN_0604DB10.
 - **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
-  Car may show speed on HUD but not move correctly (position computation
-  broken due to zero multiply input).
-- **Confidence**: MEDIUM — oracle-confirmed writer, but the exact behavioral
-  effect of zeroing the multiply chain input is less predictable. The car
-  might still move (via other paths) but with degraded position tracking.
-- **Evidence**: FUN_060366EC_obs.md, writes_D0 PASS, perfect lockstep with
-  +0x00 and +0x24 (J=1.000)
-
-### NOP Test: +0xF0 (net force — most upstream intervention)
-
-- **What to NOP**: Replace `mov.l r3, @(r0, r4)` in FUN_06035904's rts delay
-  slot with `nop` (0x0009). Source: `src/race/FUN_06035904.s`, line 298.
-  The rts instruction at line 297 still executes (nop in delay slot = clean return).
-- **Writer function**: FUN_06035904 (watchpoint-confirmed, rts delay slot, r4=0xF0)
-- **Expected effect**: Force is never applied to velocity. +0x24 (velocity) would
-  remain at whatever value it had when the NOP was applied. If applied from standing
-  start, the car should never accelerate at all. If applied mid-run, the car would
-  coast at constant velocity forever (no accel, no decel, no drag).
-  This is the MOST UPSTREAM intervention — it blocks the force → velocity → position
-  pipeline at its source.
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle` (hold B).
-  Car should remain completely stationary despite throttle input.
-- **Confidence**: HIGHEST — watchpoint-confirmed writer, core pipeline source,
-  sign-flip behavior confirmed (positive=accel, negative=brake). NOP blocks
-  ALL force application including braking and drag.
-- **Evidence**: FUN_06035904_obs.md, field_writer_survey_001_obs.md (Priority #1),
-  brake transition analysis (journal Entry 15), correlation with Clusters A+E
+- **Confidence**: MEDIUM
+- **Evidence**: FUN_060366EC_obs.md, writes_D0 PASS
 
 ---
 
 ## Scenario Requests
 
-No new scenarios needed at this time. Existing scenarios cover:
-- Clean throttle/brake: `straight_throttle`, `tt_throttle_then_brake_300f`
-- Steer + collision: `right_wall_strike`
-- Off-track: `offtrack_throttle`, `offtrack_donut`
+### High-speed braking scenario
 
-**Potential future need**: A sustained braking scenario from high speed
-(accelerate to 200+ km/h then hold brake). Current `tt_throttle_then_brake_300f`
-brakes from ~100 km/h. A higher-speed brake test would better exercise the
-+0x90/+0x98/+0x9C brake mirror fields and reveal the full deceleration curve.
+- **Why needed**: Fields +0x90, +0x98, +0x9C only activate with brake input,
+  and +0xB8 only activates after frame 200 (speed threshold). Current
+  `tt_throttle_then_brake_300f` brakes from ~100 km/h. A higher-speed
+  brake test would exercise the full deceleration curve.
+- **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
+  on the straight (~350 frames of throttle), then hold A (brake) for 200 frames.
+- **What it would unlock**: Full +0x90/+0x98/+0x9C dynamics, +0xB8 interaction
+  with braking, and deceleration force profile at high speed.
+
+### High-speed steering scenario
+
+- **Why needed**: FUN_06035F48's gated setup path requires +0x34 >= 100 AND
+  steering. In steer+B from standing start, +0x34 only reaches 64. Need
+  high speed + steer to trigger the gated path.
+- **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
+  (~350 frames of throttle), then hold RIGHT while maintaining B. Or create
+  a save state at high speed on the straight.
+- **What it would unlock**: The gated +0x18E timer path in FUN_06035F48.
