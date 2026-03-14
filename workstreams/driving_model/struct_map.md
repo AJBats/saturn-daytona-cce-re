@@ -35,7 +35,7 @@ The dispatcher FUN_0604D380 calls sub-functions sequentially:
 #15 FUN_06035C98  +0x14,+0x64,+0x68 -> trig computations (sin/cos/sqrt pipeline)
 #16 FUN_06035EE8  +0x38,+0x3C,+0xAC -> +0x134 (outside capture range)
 #17 FUN_060366EC  +0x24,+0xF0,+0x34,+0x68 -> +0x24,+0xD0,+0xC0,+0x30 (integration step)
-#18 FUN_06036790  +0x158 -> +0x0E,+0x108,+0x10C (trig on extended fields)
+#18 FUN_06036790  +0x158 -> +0x00,+0x0E,+0x108,+0x10C (primary writer of +0x00; trig on extended fields)
 ```
 
 Key pipeline ordering:
@@ -76,7 +76,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 ## Field Map
 
 ### +0x00
-- **Writers**: FUN_060366EC (via integration: +0x24 accumulation feeds back; static analysis)
+- **Writers**: FUN_06036790 at PC 0x060367E0 (watchpoint-confirmed, monotonic_down); also FUN_060366EC (via +0x24 integration, static analysis)
 - **Readers**: Multiple sub-functions for position computation
 - **Behavior**: input-responsive
   - Idle: static at 0x008CF8D0
@@ -84,7 +84,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (144 uniq)
   - Accel->brake: monotonic_down (141 uniq)
 - **Correlations**: Perfect lockstep with +0x24 and +0xD0 (J=1.000). Near-perfect with +0xF4,+0xF8 (J=0.993)
-- **Oracle status**: Untested for direct writes_to on this offset
+- **Oracle status**: Watchpoint-confirmed writer FUN_06036790 at PC 0x060367E0 (same function writes +0x0E, +0x108, +0x10C)
 
 ### +0x08
 - **Writers**: Static analysis only -- likely written by a sub-function during steering
@@ -120,7 +120,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Untested for direct writes_to claim
 
 ### +0x18
-- **Writers**: Static analysis only -- tracks +0x14 pattern
+- **Writers**: FUN_0604D6B8 at PC 0x0604D39E (dispatcher delay slot, watchpoint-confirmed)
 - **Readers**: Not directly identified in observations
 - **Behavior**: input-responsive
   - Idle: static at 0xA8F00000
@@ -128,7 +128,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (139 uniq)
   - Accel->brake: changing (137 uniq)
 - **Correlations**: Perfect lockstep with +0x14 and +0x2C (J=1.000)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D39E (FUN_0604D6B8 dispatcher delay slot)
 
 ### +0x24
 - **Writers**: FUN_060366EC at PC ~0x060366FA (oracle-confirmed, writes_24 PASS, 58 hits)
@@ -219,7 +219,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Untested
 
 ### +0x60
-- **Writers**: External to dispatcher (possibly frame counter in main loop)
+- **Writers**: FUN_06035C98 at PC 0x06035EB6 (game-logic frame counter, watchpoint-confirmed; increments 1 per game frame)
 - **Readers**: Not directly identified within dispatcher chain
 - **Behavior**: changing (always active)
   - Idle: monotonic_up (150 uniq), 0x00000074 -> 0x00000109
@@ -227,7 +227,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (32 uniq) -- lower unique count may be sampling artifact
   - Accel->brake: monotonic_up (150 uniq)
 - **Correlations**: Changes every frame regardless of input. High correlation with Cluster A due to shared timing (J=0.96)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035C98 at PC 0x06035EB6
 
 ### +0x64
 - **Writers**: FUN_06035904 (conditionally zeroed or updated based on +0x190 flag)
@@ -263,7 +263,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Untested
 
 ### +0x70
-- **Writers**: FUN_06035904 (rewritten with sqrt result)
+- **Writers**: FUN_06035B30 (helper of FUN_06035904) at PC 0x06035C50 (sqrt result, clamped to [0x1999, 0x10000], watchpoint-confirmed)
 - **Readers**: FUN_06035904 (reads for computation), FUN_06035B30 (helper, clamps to [0x1999, 0x10000])
 - **Behavior**: input-responsive
   - Idle: static at 0x00010000
@@ -271,7 +271,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (110 uniq)
   - Accel->brake: changing (97 uniq)
 - **Correlations**: Correlates with +0xA0 (J=0.70 in throttle)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035B30 at PC 0x06035C50 (helper of FUN_06035904)
 
 ### +0x78
 - **Writers**: Static analysis only (likely from external input processing)
@@ -296,15 +296,15 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D62A (FUN_0604D580)
 
 ### +0x80
-- **Writers**: Static analysis only (written by a function in the ramp-up pipeline)
+- **Writers**: Dispatcher at PC 0x0604D3AA (after FUN_0604D780 returns, delay slot, watchpoint-confirmed)
 - **Readers**: FUN_0604DB10 (primary input to multiply chain)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: monotonic_up (23 uniq), 0x00 -> 0xFF (23-frame ramp)
   - Steer+B: monotonic_up (23 uniq)
   - Accel->brake: changing (36 uniq)
-- **Correlations**: Perfect lockstep with +0x88 and +0x8C (J=1.000, Cluster D)
-- **Oracle status**: Untested for writes_to
+- **Correlations**: Perfect lockstep with +0x88 and +0x8C (J=1.000, Cluster D). Note: different writer from +0x88 despite perfect correlation
+- **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D3AA (dispatcher delay slot)
 
 ### +0x84
 - **Writers**: Static analysis only
@@ -318,15 +318,15 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Untested
 
 ### +0x88
-- **Writers**: FUN_0604D580 (clamped to [0x38, 0xB8] range)
+- **Writers**: FUN_06036BC6 sub-call chain at PC 0x06037048 (watchpoint-confirmed); also FUN_0604D580 (static analysis, clamping logic to [0x38, 0xB8])
 - **Readers**: Not directly identified outside writer
 - **Behavior**: input-responsive
   - Idle: static at 0x00000038
   - Throttle: monotonic_up (23 uniq), 0x38 -> 0xB8
   - Steer+B: monotonic_up (23 uniq)
   - Accel->brake: changing (36 uniq)
-- **Correlations**: Perfect lockstep with +0x80 and +0x8C (J=1.000, Cluster D). Range [0x38, 0xB8], delta 0x80 = 128
-- **Oracle status**: Confirmed writer FUN_0604D580 (static analysis)
+- **Correlations**: Perfect lockstep with +0x80 and +0x8C (J=1.000, Cluster D). Range [0x38, 0xB8], delta 0x80 = 128. Note: different writer from +0x80 despite perfect correlation
+- **Oracle status**: Watchpoint-confirmed writer at PC 0x06037048 (FUN_06036BC6 sub-call chain)
 
 ### +0x8C
 - **Writers**: FUN_0604D580 (scaled via FUN_06048160 math helper, 0x00 -> 0xFF)
@@ -596,6 +596,30 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Cluster E with +0xE8 and +0xEC (J>=0.98). Changes every frame including idle
 - **Oracle status**: writes_FC PASS (FUN_06035904, PC 0x06035960, GBR+252)
 
+## Extended Fields (beyond +0xFF)
+
+### +0x108
+- **Writers**: FUN_06036790 at PC 0x060367DC (watchpoint-confirmed, trig output from FUN_06047D3C)
+- **Readers**: Not yet identified
+- **Behavior**: input-responsive
+  - Idle: static at 0x00000000
+  - RIGHT+B: changes (0x00 -> 0xFFFFFFDA, signed negative)
+- **Oracle status**: Watchpoint-confirmed writer FUN_06036790
+
+### +0x10C
+- **Writers**: FUN_06036790 at PC 0x060367EC (watchpoint-confirmed, trig output from FUN_06047D20)
+- **Readers**: Not yet identified
+- **Behavior**: input-responsive
+  - Idle: static at 0x00000000
+  - RIGHT+B: changes (0x00 -> 0x01)
+- **Oracle status**: Watchpoint-confirmed writer FUN_06036790
+
+### +0x134
+- **Writers**: FUN_06035EE8 (oracle-confirmed, writes_134 PASS, 299 hits)
+- **Readers**: Not yet identified
+- **Behavior**: Not captured (outside 256-byte sample window)
+- **Oracle status**: writes_134 PASS (FUN_06035EE8, 299 hits, right_wall_strike scenario)
+
 ## Static Fields Summary
 
 The following 19 fields are static (unchanged) across all 4 scenarios (idle, throttle, steer+B, accel->brake) over 300 frames each:
@@ -645,6 +669,14 @@ Note: +0xC0, +0xD8, +0xE0, +0xE4 are actively written every frame but their valu
 | FUN_0603EE64 | call_count | FAIL | -- | 29 calls observed; EE64 also called from E7B0 |
 | FUN_0604DAD8 | BC_stable | PASS | +0xBC | Value 0x00 in throttle |
 | FUN_06035EE8 | writes_134 | PASS | +0x134 | 299 hits (outside 256-byte capture) |
+| FUN_06036790 | writes_00 | WP-CONF | +0x00 | PC 0x060367E0 (watchpoint-confirmed) |
+| FUN_06036790 | writes_108 | WP-CONF | +0x108 | PC 0x060367DC (watchpoint-confirmed) |
+| FUN_06036790 | writes_10C | WP-CONF | +0x10C | PC 0x060367EC (watchpoint-confirmed) |
+| Dispatcher | writes_80 | WP-CONF | +0x80 | PC 0x0604D3AA (delay slot, watchpoint-confirmed) |
+| FUN_06036BC6 | writes_88 | WP-CONF | +0x88 | PC 0x06037048 (watchpoint-confirmed) |
+| FUN_0604D6B8 | writes_18 | WP-CONF | +0x18 | PC 0x0604D39E (delay slot, watchpoint-confirmed) |
+| FUN_06035C98 | writes_60 | WP-CONF | +0x60 | PC 0x06035EB6 (frame counter, watchpoint-confirmed) |
+| FUN_06035B30 | writes_70 | WP-CONF | +0x70 | PC 0x06035C50 (sqrt, watchpoint-confirmed) |
 
 ## Unreachable Functions
 

@@ -708,17 +708,50 @@ meaning the player does NOT use the tier dispatch system at all.
 base (active, written every frame). Stride and entry count for the array
 at sym_06051FAC still need empirical confirmation.
 
+### Entry 14: Addendum Integration + NOP Test Readiness Assessment (Mapper Cycle 1, 2026-03-14)
+
+**Source**: struct_map_addendum.md (watchpoint discoveries from nightshift Explorer run)
+
+**New writer confirmations merged into struct map**:
+- +0x00: FUN_06036790 at PC 0x060367E0 (primary writer, not FUN_060366EC as initially thought)
+- +0x18: FUN_0604D6B8 at PC 0x0604D39E (dispatcher delay slot)
+- +0x60: FUN_06035C98 at PC 0x06035EB6 (game-logic frame counter)
+- +0x70: FUN_06035B30 at PC 0x06035C50 (helper of FUN_06035904, sqrt)
+- +0x80: Dispatcher at PC 0x0604D3AA (delay slot after FUN_0604D780 returns)
+- +0x88: FUN_06036BC6 chain at PC 0x06037048 (DIFFERENT writer from +0x80!)
+- +0x108: FUN_06036790 at PC 0x060367DC (trig output, outside 256-byte capture)
+- +0x10C: FUN_06036790 at PC 0x060367EC (trig output, outside 256-byte capture)
+
+**Key insight: FUN_06036790 is a primary writer**, not a stub.
+Dispatcher function #18 (the LAST function called) writes to +0x00, +0x0E,
++0x108, +0x10C. +0x00 is the most actively changing field in throttle
+captures. This function uses trig (sin/cos) outputs and writes to positional
+fields — it is the final position update in the dispatcher chain.
+
+**Key insight: +0x80 and +0x88 have different writers despite J=1.000 correlation.**
++0x80 is written by the dispatcher itself (delay slot), +0x88 is written by
+FUN_06036BC6 (called from FUN_06036CEC). Their perfect correlation comes from
+shared input data or synchronized scheduling, not shared computation.
+
+**+0x2C watchpoint anomaly**: The addendum watchpoint caught PC 0x06038468
+writing +0x2C with GBR=0x06057800 — a DIFFERENT struct. The player struct's
++0x2C writer (at GBR=0x0605224C) remains unknown. This is a Cluster B gap.
+
+**NOP test readiness**: Three fields now meet all four prerequisites:
+1. +0x24 (velocity accumulator) — NOP at PC 0x060366FA
+2. +0x34 (speed-derived gate) — NOP at PC 0x0604D70A
+3. +0xD0 (clamped speed copy) — NOP at PC 0x06036756
+
+**Critical gap**: +0xF0 (force/acceleration) has no oracle-confirmed writer.
+Static analysis says FUN_06035904 writes it in its rts delay slot. Confirming
+this would complete the core feedback loop: +0xF0 -> +0x24 -> +0x34 -> downstream.
+This is Explorer Priority #1.
+
 ## Next Steps
 
-1. **Map the player struct layout at 0x0605224C** — dump before/after with
-   throttle, brake, steering to identify which offsets are speed, position,
-   angle, acceleration, etc.
-2. **Find the player physics entry point** — trace callers of 0x0604D39C to
-   find the top-level per-frame player physics function
-3. **Confirm chain array stride empirically** — set watchpoints on chain[0]+0x00
-   and chain[1]+0x00 to verify 0x100 stride
-4. **Set watchpoints on SMPC/input buttons** to find button buffer address,
-   then trace from FUN_060295DE's @(2, r4) to identify the exact button mapping
-5. **Set breakpoint on FUN_0603C994** (0x0603C994) to find its caller
-6. **Run sample_fields.py** on the player struct (--address 0605224C) with
-   straight_throttle scenario to get a per-frame dashboard of all fields
+1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
+2. **Find +0x2C player struct writer** — Explorer Priority #2, Cluster B gap
+3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
+4. **Find +0xD4 writer** — throttle-responsive, correlates with Cluster B
+5. **Find +0x78 writer** — steer input injection point into driving model
+6. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C brake fields
