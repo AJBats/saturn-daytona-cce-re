@@ -224,8 +224,12 @@ For each reachable function:
    Analysis section should be the richest part — it's built from your sample
    data analysis in step 6. If a section doesn't apply (e.g., function isn't
    called per-car), write "N/A" with a brief reason.
-9. **Commit the results**. Commit your observation report and sample captures
-   to the current branch.
+9. **Commit and push**. Commit your observation report and sample captures.
+   Push to origin so the Mapper and Verifier can pick them up.
+10. **Immediately loop**. Go back to "Picking Functions" below and start
+    the next target. Do NOT pause, summarize, or ask the human. If no
+    targets remain, run `bash tools/wait_for_work.sh explorer` and resume
+    when notified. There is no step after this — the loop is infinite.
 
 ## Picking Functions
 
@@ -460,19 +464,21 @@ for code changes) remain in full effect.
 Once the loop has begun, do NOT pause to ask the human if you should continue.
 Investigate functions, write reports, commit, push, move on.
 
-**When you run out of work** (no priorities, no questions, no obvious next
-target), do NOT conclude the session. Instead, wait for work:
+**"All priorities done" is NOT a stopping point.** It means: pull from origin,
+check for new priorities, and if none exist, run `wait_for_work.sh`. The
+Mapper is generating new priorities in parallel based on your output. Completing
+the current list just means you're caught up — new work is coming.
 
-```bash
-bash tools/wait_for_work.sh explorer
-```
+**After every commit+push, your next action is ALWAYS one of:**
+1. Start the next priority from `explorer_priorities.md`, OR
+2. Answer a Verifier question from `*_questions.md`, OR
+3. Fall back to call-chain exploration, OR
+4. Run `bash tools/wait_for_work.sh explorer` and wait for new work
 
-This checks origin for new work over ~8 minutes. Read the output:
-- If it says **NEW WORK FOUND** → resume your cycle
+There is no option 5. There is no "conclude." There is no "summarize and stop."
+
+The wait script checks origin for new work over ~8 minutes. Read the output:
+- If it says **NEW WORK FOUND** → pull and resume your cycle
 - If it says **NO WORK FOUND** → run the script again immediately
 
-Never stop. Never conclude the session. Just keep running the script until
-work appears, then do the work, then run the script again.
-
-The loop runs until the human interrupts you. "No work available" is not a
-stopping condition — it's a waiting condition.
+The loop runs until the human interrupts you.
