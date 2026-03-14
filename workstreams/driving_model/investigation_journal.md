@@ -924,6 +924,60 @@ only change with steer input, accumulate progressively, and reset at collision. 
 leads +0x68 (changes earlier), suggesting +0x64 is a first-order steering metric and
 +0x68 is a derived second-order metric.
 
+### Entry 19: Steering Pipeline + Refined '95 Cross-Reference (Mapper Cycle 7, 2026-03-14)
+
+**+0x44 writer found**: FUN_06035C98 (dispatcher #15) at line 168 of FUN_06035C98.s.
+The value is a scaled sin/cos result multiplied by constant 0x28C3AB35 (a steering
+sensitivity coefficient). Goes negative with RIGHT steer (-1 to -1537).
+
+**+0x40 writer found**: Same function (FUN_06035C98), line 184. Written in the same
+conditional block as +0x44. Paired steering force component.
+
+**Steering feedback loop mapped**:
+```
+Per frame, in dispatcher order:
+  #14 FUN_06035F48: reads +0x44[prev] → writes +0x64, +0x68, +0x104
+  #15 FUN_06035C98: reads +0x64, +0x68 → writes +0x44, +0x40, +0x38
+
+This is a closed feedback loop between #14 and #15:
+  +0x44 → +0x64/+0x68 → +0x44 (next frame)
+```
+
+The full steering pipeline from input to position:
+```
+Controller RIGHT → FUN_0602E03C → +0x38 (heading init)
+  ↓
+#15 FUN_06035C98: +0x14, +0x64, +0x68 → +0x44, +0x40, +0x38 (heading update)
+  ↓
+#14 FUN_06035F48: +0x44 → +0x64, +0x68, +0x104 (steering accumulators)
+  ↓
+#18 FUN_06036790: sin(-0x38) → position update (+0x00, +0x08)
+```
+
+**Refined CCE ↔ '95 cross-reference** (from writer_map_car0.md):
+
+| '95 | '95 Role | CCE | CCE Role | Match |
+|-----|----------|-----|----------|-------|
+| +0x0C | Speed magnitude (HUD=val/1467) | +0x24 | Velocity magnitude | STRONG |
+| +0x08 | Speed index (fpmul * 72) | +0x34 | Speed gate (* 0x6C0000) | STRONG |
+| +0x10 | Velocity X | +0x00 | X position | MODERATE |
+| +0x18 | Velocity Z | +0x08 | Z position | MODERATE |
+| +0x20 | Heading angle | +0x0C or +0x38 | Heading | Need to determine |
+| +0x28 | Slip angle (heading vs track) | ? | Unknown | KEY TRANSPLANT GAP |
+| +0x30 | Yaw rate / heading change | ? | Unknown | KEY TRANSPLANT GAP |
+| +0x38/+0x3C | Saved velocity X/Z | +0x3C | Heading mirror | WEAK (different purpose) |
+| +0x00 | Car flags (collision, airborne) | +0x30 | Flags | MODERATE |
+| +0x2C | Speed-related lookup | +0x2C | Cluster B (monotonic_up) | POSSIBLE |
+| +0x40 | Direction/movement state | +0x40 | Steer force component | POSSIBLE |
+| +0x60 | Frame counter | +0x60 | Frame counter | STRONG |
+
+**Key '95 fields NOT yet mapped in CCE**:
+- '95 +0x28 (slip angle): The steering/track angle difference. Could be CCE +0xAC (steer-only,
+  feeds -(+0xAC)>>3 into +0x14) or another field in the +0x3C/+0x38 cluster.
+- '95 +0x30 (yaw rate): Heading change per frame. Could correspond to the delta computed
+  in FUN_06035C98 (line 201: +0x38[new] - +0x38[old]).
+- '95 +0xFC (acceleration delta): CCE +0xF0 (net force). Both are the force input to velocity.
+
 ## Next Steps
 
 1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
@@ -931,8 +985,8 @@ leads +0x68 (changes earlier), suggesting +0x64 is a first-order steering metric
 3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
 4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA
 5. ~~Find +0x38 writer~~ — RESOLVED: FUN_06035C98 primary
-6. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
-7. **Find +0x78 writer** — steer input injection point into driving model
-8. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C
-9. **Deep '95 cross-reference** — compare writer_map_comprehensive.md
-10. **Test FUN_06035F48 gated path** — need scenario with +0x34 >= 100 AND steer input
+6. ~~Find +0x44 writer~~ — RESOLVED: FUN_06035C98 line 168
+7. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
+8. **Find +0x78 writer** — steer input injection point into driving model
+9. **Map '95 +0x28 (slip angle) to CCE** — key transplant field
+10. **Test FUN_06035F48 gated path** — need scenario with +0x34 >= 100 AND steer

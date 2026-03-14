@@ -198,27 +198,27 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect mirror of +0x0C (same value at every observation point)
 - **Oracle status**: Untested
 
-### +0x40
-- **Writers**: Static analysis only
+### +0x40 — steering force component (paired with +0x44)
+- **Writers**: FUN_06035C98 (dispatcher #15) at line 184 — written in same conditional block as +0x44
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x00000001
   - Throttle: static
   - Steer+B: changing (120 uniq)
   - Accel->brake: static
-- **Correlations**: Steer-only field
-- **Oracle status**: Untested
+- **Correlations**: Steer-only field, paired with +0x44 in the same writer function
+- **Oracle status**: Writer identified via static analysis (FUN_06035C98 line 184)
 
-### +0x44
-- **Writers**: Static analysis only
-- **Readers**: Not directly identified
+### +0x44 — scaled steering force (proposed?)
+- **Writers**: FUN_06035C98 (dispatcher #15) at line 168 of FUN_06035C98.s — scaled sin/cos result * 0x28C3AB35 (steering sensitivity coefficient)
+- **Readers**: FUN_06035F48 (#14) — steering angle input that gates all computation; loaded into r10 at entry
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: static
-  - Steer+B: changing (124 uniq)
+  - Steer+B: changing (124 uniq), goes negative with RIGHT (-1 to -1537 at frame 299), resets to 0 at wall strike
   - Accel->brake: static
-- **Correlations**: Steer-only field
-- **Oracle status**: Untested
+- **Correlations**: Steer-only field. Steering feedback loop: #14 reads +0x44 → writes +0x64/+0x68, #15 reads +0x64/+0x68 → writes +0x44
+- **Oracle status**: Writer identified via static analysis (FUN_06035C98 line 168)
 
 ### +0x60
 - **Writers**: FUN_06035C98 at PC 0x06035EB6 (game-logic frame counter, watchpoint-confirmed; increments 1 per game frame)
