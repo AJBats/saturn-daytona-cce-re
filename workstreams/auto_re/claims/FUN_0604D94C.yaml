@@ -1,0 +1,41 @@
+# FUN_0604D94C — Conditional dispatcher sub #6a (unreachable)
+#
+# Observation: workstreams/auto_re/observations/FUN_0604D94C_obs.md
+# File: src/race/FUN_0604D380.s
+# Address range: 0x0604D94C - 0x0604DAD8
+#
+# From observation data:
+# - 0 calls across all tested scenarios
+# - Gated by GBR+0x174 != 0 (always 0 in tested save states)
+# - Unreachable in all tested scenarios
+
+function: FUN_0604D94C
+address: 0x0604D94C
+address_end: 0x0604DAD8
+source_file: src/race/FUN_0604D380.s
+
+claims:
+  - id: call_count_throttle
+    description: "Never called during TT straight throttle (gate +0x174 = 0)"
+    type: call_count_per_frame
+    function: FUN_0604D94C
+    address: 0x0604D94C
+    scenario: straight_throttle
+    expected_count: 0
+    tolerance: 0
+
+  - id: call_count_race
+    description: "Never called during race idle (gate +0x174 = 0)"
+    type: call_count_per_frame
+    function: FUN_0604D94C
+    address: 0x0604D94C
+    scenario: race_idle
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_field_stable
+    description: "GBR+0x4C (absolute 0x06052298, =0x01) stable during TT (known-static)"
+    type: value_stable
+    address: "0x06052298"
+    scenario: straight_throttle
+    frames: 120

@@ -1,0 +1,42 @@
+# FUN_0604DB10 — Heavy math / position integration (dispatcher sub #8)
+#
+# Observation: workstreams/auto_re/observations/FUN_0604DB10_obs.md
+# File: src/race/FUN_0604D380.s
+# Address range: 0x0604DB10 - 0x0604DC3E
+#
+# From observation data:
+# - 1 call/frame
+# - Writes +0xC4 at PC 0x0604DBB2 (confirmed in range)
+# - Multi-stage fixed-point pipeline: +0x80 scaled/clamped, trig rotation via +0x0C
+# - Also writes +0xC8, +0xCC, +0xD8, +0xDC
+
+function: FUN_0604DB10
+address: 0x0604DB10
+address_end: 0x0604DC3E
+source_file: src/race/FUN_0604D380.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_0604DB10
+    address: 0x0604DB10
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: writes_C4
+    description: "Writes position delta to GBR+0xC4 (PC 0x0604DBB2 in range)"
+    type: writes_to
+    function: FUN_0604DB10
+    function_end: 0x0604DC3E
+    address: "GBR+196"
+    scenario: straight_throttle
+    frames: 60
+
+  - id: field74_stable
+    description: "GBR+0x74 (=0x002DD774) stable during throttle (read-only constant)"
+    type: value_stable
+    address: "GBR+116"
+    scenario: straight_throttle
+    frames: 120

@@ -1,0 +1,40 @@
+# FUN_0604DD04 — Heading-to-trig converter (dispatcher sub #9)
+#
+# Observation: workstreams/auto_re/observations/FUN_0604DD04_obs.md
+# File: src/race/FUN_0604D380.s
+# Address range: 0x0604DD04 - 0x0604DD58
+#
+# From observation data:
+# - 1 call/frame
+# - Reads +0x10 (static 0x0000), calls 0x06047D20 and 0x06047D3C
+# - Writes +0xE0 (=0x00) and +0xE4 (=0x10000), both static across all scenarios
+# - Effectively a no-op in straight-line driving (+0x10 always 0)
+
+function: FUN_0604DD04
+address: 0x0604DD04
+address_end: 0x0604DD58
+source_file: src/race/FUN_0604D380.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_0604DD04
+    address: 0x0604DD04
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: E0_stable
+    description: "GBR+0xE0 (=0x00) stable during throttle (output of trig call with +0x10=0)"
+    type: value_stable
+    address: "GBR+224"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (output of trig call with +0x10=0)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120

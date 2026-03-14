@@ -1,0 +1,40 @@
+# FUN_0604D380 — Player physics dispatcher (top-level)
+#
+# Observation: workstreams/auto_re/observations/FUN_0604D380_obs.md
+# File: src/race/FUN_0604D380.s
+# Address range: 0x0604D380 - 0x0604D46A
+#
+# From observation data:
+# - 1 call/frame in ALL scenarios (TT and race), processes only player car
+# - GBR = 0x0605224C (player struct)
+# - Does not directly read/write GBR fields (sub-functions do)
+# - Dispatcher: calls ~19 sub-functions via jsr @r13
+
+function: FUN_0604D380
+address: 0x0604D380
+address_end: 0x0604D46A
+source_file: src/race/FUN_0604D380.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_0604D380
+    address: 0x0604D380
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: field50_stable
+    description: "GBR+0x50 (=0x01) stable during throttle (static across all scenarios)"
+    type: value_stable
+    address: "GBR+80"
+    scenario: straight_throttle
+    frames: 120
