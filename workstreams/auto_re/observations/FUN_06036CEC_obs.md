@@ -60,3 +60,30 @@ N/A — function does not access the 256-byte GBR struct captured in the standar
   GBR+0x48 (write), GBR+0x10 (write, 16-bit), and GBR+0x4C (write). These are
   within capture range but accessed through the FUN_06036BC6 body, not the
   0x06036CEC entry point itself.
+
+## Follow-Up (Verifier Question Response)
+
+**No writes_to claims are possible for FUN_06036CEC.**
+
+The code at 0x06036CEC consists of exactly 6 instructions:
+```
+0x06036CEC: mov.l r8, @-r15    ; push r8 to stack
+0x06036CEE: mov.l r9, @-r15    ; push r9 to stack
+0x06036CF0: mov.l r10, @-r15   ; push r10 to stack
+0x06036CF2: mov.l r11, @-r15   ; push r11 to stack
+0x06036CF4: mov.l r12, @-r15   ; push r12 to stack
+0x06036CF6: mov.l r13, @-r15   ; push r13 to stack
+```
+
+All 6 writes go to the stack (r15), not to GBR-relative memory. The function
+then falls through into FUN_06036BC6's body, but those writes would report PCs
+in FUN_06036BC6's range (0x06036BC6-0x06036CCA), not in FUN_06036CEC's range
+(0x06036CEC-0x06036CF6).
+
+The GBR writes from the FUN_06036BC6 body (to +0x48, +0x10, +0x4C) have writer
+PCs in the 0x06036C66-0x06036CCA range, which falls OUTSIDE [0x06036CEC, end).
+
+**For the Verifier**: This function can only support call_count claims (Tier 1).
+It is structurally incapable of producing writes_to claims because it only writes
+to the stack. Consider keeping it at Tier 1 or merging its analysis with
+FUN_06036BC6 (the body it falls through into).
