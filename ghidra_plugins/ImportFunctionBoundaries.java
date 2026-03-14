@@ -1,6 +1,6 @@
 // Import Function Boundaries from src/ tree
 //
-// Reads FUN_XXXXXXXX.s filenames from the DaytonaCCEReverse src/ directory
+// Reads FUN_XXXXXXXX.s filenames from the project's src/ directory
 // and creates functions in Ghidra at any addresses that weren't auto-detected.
 //
 // Usage:
@@ -24,12 +24,12 @@ import java.util.regex.*;
 
 public class ImportFunctionBoundaries extends GhidraScript {
 
-    // Path to the project src/ directory
-    private static final String PROJECT_ROOT = "D:/Projects/DaytonaCCEReverse";
-    private static final String SRC_DIR = PROJECT_ROOT + "/src";
-
     @Override
     public void run() throws Exception {
+
+        // Derive project root from script location (ghidra_plugins/ -> project root)
+        String projectRoot = getSourceFile().getParentFile().getParent();
+        String srcDir = projectRoot + "/src";
 
         // Detect module from program name
         String progName = currentProgram.getName();
@@ -176,7 +176,7 @@ public class ImportFunctionBoundaries extends GhidraScript {
 
     private List<long[]> getFunctionAddressesFromSrc(String moduleName) {
         List<long[]> addrs = new ArrayList<>();
-        File srcDir = new File(SRC_DIR, moduleName);
+        File srcDir = new File(srcDir, moduleName);
 
         if (!srcDir.isDirectory()) {
             printerr("Source directory not found: " + srcDir.getAbsolutePath());

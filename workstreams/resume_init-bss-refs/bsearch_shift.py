@@ -23,6 +23,15 @@ import argparse
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LD_FILE = os.path.join(PROJECT, "src", "init", "init_free.ld")
+
+def _wsl_path(win_path):
+    """Convert D:\\Projects\\foo to /mnt/d/Projects/foo"""
+    p = win_path.replace("\\", "/")
+    if len(p) >= 2 and p[1] == ":":
+        p = "/mnt/" + p[0].lower() + p[2:]
+    return p
+
+WSL_PROJECT = _wsl_path(PROJECT)
 DISC_CUE = os.path.join(PROJECT, "build", "disc", "rebuilt_disc", "daytona_cce_rebuilt.cue")
 
 
@@ -128,7 +137,7 @@ def build_and_test(verbose=False):
     print("  Zero-shift...", end="", flush=True)
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         "cd /mnt/d/Projects/DaytonaCCEReverse && make validate-free-init"],
+         f"cd {WSL_PROJECT} && make validate-free-init"],
         capture_output=True, text=True, timeout=120
     )
     if r.returncode != 0 or "PASS" not in r.stdout:
@@ -172,7 +181,7 @@ def build_and_test(verbose=False):
     print("  disc-allshift...", end="", flush=True)
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         "cd /mnt/d/Projects/DaytonaCCEReverse && make disc-allshift"],
+         f"cd {WSL_PROJECT} && make disc-allshift"],
         capture_output=True, text=True, timeout=180
     )
     if r.returncode != 0:

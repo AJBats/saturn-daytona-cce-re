@@ -27,11 +27,11 @@ import java.io.PrintWriter;
 
 public class ExportDecompiledAll extends GhidraScript {
 
-    private static final String PROJECT_ROOT = "D:/Projects/DaytonaCCEReverse";
-    private static final String OUT_DIR = PROJECT_ROOT + "/ghidra_reference";
-
     @Override
     public void run() throws Exception {
+
+        // Derive project root from script location (ghidra_plugins/ -> project root)
+        String projectRoot = getSourceFile().getParentFile().getParent();
 
         String progName = currentProgram.getName();
         String moduleName = detectModule(progName);
@@ -41,7 +41,7 @@ public class ExportDecompiledAll extends GhidraScript {
             return;
         }
 
-        File outDir = new File(OUT_DIR, moduleName);
+        File outDir = new File(projectRoot + "/ghidra_reference", moduleName);
         outDir.mkdirs();
 
         println("Exporting decompiled C for module: " + moduleName);

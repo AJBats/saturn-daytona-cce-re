@@ -15,6 +15,15 @@ import argparse
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LD_FILE = os.path.join(PROJECT, "src", "backup", "backup_free.ld")
+
+def _wsl_path(win_path):
+    """Convert D:\\Projects\\foo to /mnt/d/Projects/foo"""
+    p = win_path.replace("\\", "/")
+    if len(p) >= 2 and p[1] == ":":
+        p = "/mnt/" + p[0].lower() + p[2:]
+    return p
+
+WSL_PROJECT = _wsl_path(PROJECT)
 DISC_CUE = os.path.join(PROJECT, "build", "disc", "rebuilt_disc", "daytona_cce_rebuilt.cue")
 
 
@@ -78,7 +87,7 @@ def build_and_test(verbose=False):
     print("  Zero-shift...", end="", flush=True)
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         "cd /mnt/d/Projects/DaytonaCCEReverse && make validate-free-backup"],
+         f"cd {WSL_PROJECT} && make validate-free-backup"],
         capture_output=True, text=True, timeout=120
     )
     if r.returncode != 0 or "PASS" not in r.stdout:
@@ -93,7 +102,7 @@ def build_and_test(verbose=False):
     print("  Build +4...", end="", flush=True)
     r = subprocess.run(
         ["wsl", "bash", "-c",
-         "cd /mnt/d/Projects/DaytonaCCEReverse && make backup-free-bin SHIFT=4"],
+         f"cd {WSL_PROJECT} && make backup-free-bin SHIFT=4"],
         capture_output=True, text=True, timeout=120
     )
     if r.returncode != 0:

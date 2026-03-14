@@ -48,11 +48,12 @@ import java.io.PrintWriter;
 
 public class ExportDisassemblyAll extends GhidraScript {
 
-    private static final String PROJECT_ROOT = "D:/Projects/DaytonaCCEReverse";
-    private static final String OUT_DIR = PROJECT_ROOT + "/ghidra_reference";
-
     @Override
     public void run() throws Exception {
+
+        // Derive project root from script location (ghidra_plugins/ -> project root)
+        String projectRoot = getSourceFile().getParentFile().getParent();
+        String outBase = projectRoot + "/ghidra_reference";
 
         String progName = currentProgram.getName();
         String moduleName = detectModule(progName);
@@ -62,7 +63,7 @@ public class ExportDisassemblyAll extends GhidraScript {
             println("Unknown program '" + progName + "', using module name: " + moduleName);
         }
 
-        File outDir = new File(OUT_DIR, moduleName);
+        File outDir = new File(outBase, moduleName);
         outDir.mkdirs();
 
         // Sanity check: warn if HWR module appears un-rebased

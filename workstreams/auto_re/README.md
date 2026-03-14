@@ -30,11 +30,11 @@ emulator, and the agent exploring doesn't influence what gets tested.
 **Option 1: Two separate Claude sessions** (recommended for context isolation)
 ```bash
 # Terminal 1 — Explorer
-cd D:\Projects\DaytonaCCEReverse
+cd <project_root>
 # Tell Claude: "Read workstreams/auto_re/explorer_program.md and follow it."
 
 # Terminal 2 — Verifier (after Explorer has produced observation files)
-cd D:\Projects\DaytonaCCEReverse
+cd <project_root>
 # Tell Claude: "Read workstreams/auto_re/verifier_program.md and follow it."
 ```
 
@@ -92,7 +92,7 @@ Full definitions: `claim_schema.md`
 ## Quick Start
 
 ```bash
-cd D:\Projects\DaytonaCCEReverse
+cd <project_root>
 python tools/test_claim.py workstreams/auto_re/claims/FUN_0603EE64.yaml -v
 ```
 

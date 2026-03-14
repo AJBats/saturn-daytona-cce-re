@@ -12,7 +12,7 @@
 #   make clean        — remove build/ directories (never touches src/)
 #   make info         — print configuration
 
-PROJDIR := /mnt/d/Projects/DaytonaCCEReverse
+PROJDIR := $(shell pwd)
 TOOLDIR ?= $(PROJDIR)/tools/sh-elf/bin
 
 AS      := $(TOOLDIR)/sh-elf-as
