@@ -1027,7 +1027,50 @@ dispatcher chain.
 7. ~~Find +0x78 writer~~ — RESOLVED: FUN_060371FC
 8. ~~Find +0xAC writer~~ — RESOLVED: sub #5
 9. ~~Find +0xB8 writer~~ — RESOLVED: sub #6b (speed-gated)
-10. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
+10. ~~Find collision response writer of +0x24~~ — RESOLVED: embedded in FUN_060366EC
 11. **Map '95 +0x28 (slip angle) to CCE** — key transplant field
 12. **Test FUN_06035F48 gated path** — need +0x34 >= 100 + steer
 13. **Resolve +0x84 writer** — byte-level watchpoint or single-stepping needed
+
+### Entry 21: FUN_060366EC Collision Response Path (Mapper Cycle 9, 2026-03-14)
+
+**Source**: Static analysis of FUN_060366EC in FUN_0603631C.s
+
+FUN_060366EC (dispatcher #17) is NOT a simple `+0x24 += +0xF0` accumulator. It is a
+**multi-phase velocity integration with embedded collision response**:
+
+**Phase 1 (lines 10-86)**: Gate checks + collision damping setup
+- 6 early-exit conditions involving +0x176, +0xF8, +0x14, +0x68, +0x44
+- Conditional damping with factor 0x01B0
+- Velocity clamped to [0x4, 0x30] range
+
+**Phase 2 (lines 87-105)**: Decay countdown
+- Per-frame velocity decay: -1 (normal) or -2 (if +0xC4 collision flag set)
+
+**Phase 3 (lines 106-133)**: Fixed-point damping multiply
+- Damping factor 0x00300000 (~0.375 in 16.16)
+- Velocity * +0x70 multiply chain → +0xD0 (velocity residual)
+
+**Phase 5 (lines 214-282)**: COLLISION IMPACT COMPUTATION
+- Gated by: +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0
+- Complex multiply chain: factor 9 scaling, external trig call
+- Result = collision impact magnitude
+
+**Phase 6 (lines 284-289)**: VELOCITY REDUCTION
+- `velocity -= collision_impact` (line 288)
+- `velocity -= +0x104` (additional damping, line 289)
+- This is where the 29% drop occurs during wall strike
+
+**Phase 7 (lines 291-352)**: Collision clamping
+- If +0x1CB (collision active byte) != 0: clamp to [-0x100, 0x100]
+- If normal: divide by 4, then clamp
+
+**Extended fields in collision response**:
+- +0x176: collision gate (16-bit, enables entire response)
+- +0x1CB: collision active flag (byte, selects clamping mode)
+- +0x104: collision damping accumulator (subtracted from velocity)
+
+**Transplant significance**: The collision response is EMBEDDED inside the velocity
+integration function. Transplanting the '95 driving model requires transplanting
+FUN_060366EC in its entirety, including all 8 conditional paths. The collision
+response cannot be separated from the force integration.

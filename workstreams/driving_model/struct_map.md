@@ -140,7 +140,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (144 uniq)
   - Accel->brake: changing (141 uniq)
 - **Correlations**: Perfect lockstep with +0x00 and +0xD0 (J=1.000). Integration target: +0xF0 is accumulated into +0x24 every frame by FUN_060366EC
-- **Collision response**: At wall strike (~frame 142 in steer+B), +0x24 drops 29% (0x717B->0x50A0) in one physics frame while +0xF0 remains positive (+436). The velocity loss is NOT through the +0xF0 accumulation path — a separate collision response writes directly to +0x24
+- **Collision response**: At wall strike (~frame 142 in steer+B), +0x24 drops 29% (0x717B->0x50A0). The collision response is EMBEDDED inside FUN_060366EC (not a separate function): gated by +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0, it computes a collision impact via multiply chain with trig, then subtracts it from velocity. +0x104 provides additional damping. Result clamped to [-0x100, 0x100] when collision active
 - **Oracle status**: writes_24 PASS (FUN_060366EC, 58 hits, PC 0x060366FA)
 
 ### +0x2C — distance accumulator (proposed?, increments with speed)
