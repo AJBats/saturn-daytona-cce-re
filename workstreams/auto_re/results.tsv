@@ -28,3 +28,9 @@ FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 c
 FUN_0604DAD8	2	2	1	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00, non-globally-static); writes_BC cross-writer (dispatcher PC 0x0604D3E6)
 FUN_0604DB10	3	3	2	call_count_throttle PASS (1 call), writes_C4 PASS (GBR+196, PC 0x0604DBB2, 59 hits), field74_stable PASS (GBR+116=0x002DD774)
 FUN_0604DD04	3	3	1	call_count_throttle PASS (1 call), E0_stable PASS (GBR+224=0x00), E4_stable PASS (GBR+228=0x10000); DOWNGRADED: both E0 and E4 are globally static outputs (no-op with +0x10=0)
+FUN_0602A544	0	0	0	UNREACHABLE: 0 hits in 3500 frames (TT + race). CDL B2=218 shows it executes but not in available save states
+FUN_060295DE	0	0	0	UNREACHABLE: 0 hits in 300+ frames. Module entry TU — likely menu/transition code, not in-race physics
+FUN_0603F58C	0	0	0	UNREACHABLE in standard tests: first hit at frame 825 in race_idle, too late for GBR resolution. AI car physics
+FUN_06036AA8	1	1	1	call_count_race PASS (4 calls, expected 3±10). Spatial coordinate lookup, GBR=0x06057800 (track structure). No GBR writes — pure function
+FUN_0603F116	1	1	1	call_count_race PASS (~1 call). Forward projection fallback for AI cars. writes_4C FAIL (car 0 not consistent), heading_stable FAIL (+0x48 changes during race)
+FUN_06047E0C	1	1	1	call_count_throttle PASS (4 calls). Pure atan2 math utility, 20+ callers. No GBR struct writes — register I/O only

@@ -1,0 +1,15 @@
+# FUN_060295DE — Input dispatch (unreachable — likely menu/transition code)
+#
+# Observation: workstreams/auto_re/observations/FUN_060295DE_obs.md
+# File: src/race/FUN_06028000.s
+# Address range: 0x060295DE - 0x06029780
+#
+# 0 hits in 300+ frames of TT idle. Located in module entry TU, likely
+# pre-race or pause menu input handling, not in-race physics.
+
+function: FUN_060295DE
+address: 0x060295DE
+address_end: 0x06029780
+source_file: src/race/FUN_06028000.s
+
+claims: []

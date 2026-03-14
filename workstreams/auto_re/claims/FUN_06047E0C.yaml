@@ -1,0 +1,24 @@
+# FUN_06047E0C — atan2 approximation (pure math utility, 20+ callers)
+#
+# Observation: workstreams/auto_re/observations/FUN_06047E0C_obs.md
+# File: src/race/FUN_06047B34.s
+# Address range: 0x06047E0C - 0x060480D6
+#
+# Pure math function — input/output via registers only. No GBR struct reads
+# or writes. Cannot support writes_to or value_stable claims.
+# Used by FUN_0603F166, FUN_06036790, and 20+ other callers.
+
+function: FUN_06047E0C
+address: 0x06047E0C
+address_end: 0x060480D6
+source_file: src/race/FUN_06047B34.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1+ times per frame even at idle (geometry computations run always)"
+    type: call_count_per_frame
+    function: FUN_06047E0C
+    address: 0x06047E0C
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 5

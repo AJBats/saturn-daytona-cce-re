@@ -1,0 +1,17 @@
+# FUN_0603F58C — Lateral displacement parameter computation (rare, AI cars)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603F58C_obs.md
+# File: src/race/FUN_0603F0B4.s
+# Address range: 0x0603F58C - 0x0603F61C
+#
+# First hit at frame 825 in race_idle — too late for standard 60-frame tests.
+# GBR varies per AI car. Writes GBR+0xAC, +0xC2, +0xC3.
+# Cannot reliably test: GBR resolution requires breakpoint hit, function fires
+# too late for standard test windows. Would need extended-frame test support.
+
+function: FUN_0603F58C
+address: 0x0603F58C
+address_end: 0x0603F61C
+source_file: src/race/FUN_0603F0B4.s
+
+claims: []

@@ -1,0 +1,25 @@
+# FUN_06036AA8 — Spatial coordinate lookup (boundary/surface checks)
+#
+# Observation: workstreams/auto_re/observations/FUN_06036AA8_obs.md
+# File: src/race/FUN_06036BB8.s
+# Address range: 0x06036AA8 - 0x06036BB8
+#
+# Called 3+ times/frame from FUN_0603F166 region (forward projection).
+# GBR=0x06057800 (track/course geometry structure, NOT player struct).
+# Pure lookup function — takes R4/R5 coordinates, returns result in register.
+# No GBR struct writes observed → call_count only.
+
+function: FUN_06036AA8
+address: 0x06036AA8
+address_end: 0x06036BB8
+source_file: src/race/FUN_06036BB8.s
+
+claims:
+  - id: call_count_race
+    description: "Called 3+ times per frame in race mode (multiple projection points)"
+    type: call_count_per_frame
+    function: FUN_06036AA8
+    address: 0x06036AA8
+    scenario: race_idle
+    expected_count: 3
+    tolerance: 10

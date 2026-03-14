@@ -1,0 +1,26 @@
+# FUN_0603F116 — Forward projection fallback (adds ±0x8000 to GBR+0x4C)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603F116_obs.md
+# File: src/race/FUN_0603F0B4.s
+# Address range: 0x0603F116 - 0x0603F166
+#
+# Called ~1/frame from frame 3 in race_idle for AI cars when FUN_06036AA8
+# returns failure (off-track). GBR varies per AI car.
+# writes_4C FAIL: car 0 doesn't consistently trigger fallback in 60 frames.
+# heading_field_stable FAIL: AI car +0x48 changes during race progression.
+# Tier 1 — call_count only. Would need per-car watchpoint tracking to go higher.
+
+function: FUN_0603F116
+address: 0x0603F116
+address_end: 0x0603F166
+source_file: src/race/FUN_0603F0B4.s
+
+claims:
+  - id: call_count_race
+    description: "Called ~1 time per frame in race mode (AI car fallback when off-track)"
+    type: call_count_per_frame
+    function: FUN_0603F116
+    address: 0x0603F116
+    scenario: race_idle
+    expected_count: 1
+    tolerance: 3

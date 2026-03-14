@@ -1,0 +1,16 @@
+# FUN_0602A544 — Spatial grid lookup (unreachable in available save states)
+#
+# Observation: workstreams/auto_re/observations/FUN_0602A544_obs.md
+# File: src/race/FUN_0602A544.s
+# Address range: 0x0602A544 - 0x0602A654
+#
+# 0 hits in 3500 frames across TT (including wall strike) and race modes.
+# CDL B2=218 shows it executes SOMEWHERE but not in our save states.
+# May require specific course section or game state we can't reproduce.
+
+function: FUN_0602A544
+address: 0x0602A544
+address_end: 0x0602A654
+source_file: src/race/FUN_0602A544.s
+
+claims: []
