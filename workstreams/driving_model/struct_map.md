@@ -407,7 +407,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Steer-only, sparse transitions
 - **Oracle status**: Untested
 
-### +0xAC — steering offset (feeds +0x14)
+### +0xAC — clamped steering rate (feeds +0x14)
 - **Writers**: Sub #5 (0x0604D780) at PC 0x0604D79A (watchpoint-confirmed; part of FUN_0604D580 block)
 - **Readers**: FUN_06035750 (compared with +/-0x1000), FUN_06035904 (negated, shifted >> 3, written to +0x14), FUN_06035EE8 (shifted >> 5, blended into +0x134)
 - **Behavior**: input-responsive
@@ -415,7 +415,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Throttle: static
   - Steer+B: monotonic_up (27 uniq)
   - Accel->brake: static
-- **Correlations**: Steer-only; feeds into +0x14 computation (-(+0xAC) >> 3 -> +0x14)
+- **Correlations**: Steer-only; feeds into +0x14 computation (-(+0xAC) >> 3 -> +0x14). Saturates at 0x7EFF (32511) within 60 frames of steering — NOT slip angle, more like clamped steering rate input
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D79A (sub #5)
 
 ### +0xB8 — speed-gated longitudinal force (proposed?)
