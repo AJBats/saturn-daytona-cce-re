@@ -1,0 +1,30 @@
+# FUN_0603833C — Per-frame game loop function, writes +0x2C via R14
+#
+# Observation: workstreams/auto_re/observations/field_writer_survey_001_obs.md (Priority #2)
+# File: src/race/FUN_06037E28.s
+# Address range: 0x0603833C - 0x060384C4
+#
+# From survey data:
+# - Writer PC 0x06038468
+# - GBR = 0x06057800 (NOT player struct — different struct)
+# - R14 = 0x0605224C (IS player struct — write goes via R14)
+# - Values: 0x2B686→0x2B687→0x2B688 (increments, scales with speed)
+# - Called from init module (PR=0x0602831E), not player dispatcher
+# - 1 hit per game frame
+#
+# NOTE: Using absolute address because GBR != player struct base.
+
+function: FUN_0603833C
+address: 0x0603833C
+address_end: 0x060384C4
+source_file: src/race/FUN_06037E28.s
+
+claims:
+  - id: writes_2C
+    description: "Writes to player struct +0x2C (absolute 0x06052278) via R14, not GBR"
+    type: writes_to
+    function: FUN_0603833C
+    function_end: 0x060384C4
+    address: 0x06052278
+    scenario: straight_throttle
+    frames: 60

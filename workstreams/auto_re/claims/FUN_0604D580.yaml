@@ -40,3 +40,12 @@ claims:
     address: "GBR+80"
     scenario: straight_throttle
     frames: 120
+
+  - id: writes_AC
+    description: "Writes to GBR+0xAC via sub #5 entry (PC 0x0604D79A, confirmed by field_writer_survey_001)"
+    type: writes_to
+    function: FUN_0604D580
+    function_end: 0x0604D7FC
+    address: "GBR+172"
+    scenario: right_wall_strike
+    frames: 60

@@ -41,3 +41,12 @@ claims:
     address: "GBR+268"
     scenario: right_wall_strike
     frames: 60
+
+  - id: writes_08
+    description: "Writes to GBR+0x08 (PC 0x060367F0, confirmed by field_writer_survey_001)"
+    type: writes_to
+    function: FUN_06036790
+    function_end: 0x06036BC6
+    address: "GBR+8"
+    scenario: right_wall_strike
+    frames: 60

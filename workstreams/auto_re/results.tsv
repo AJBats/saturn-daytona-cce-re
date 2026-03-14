@@ -20,10 +20,10 @@ FUN_06035C98	3	3	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+1
 FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 299 hits, right_wall_strike), heading_A_stable PASS (GBR+56=0x4000, non-globally-static)
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
 FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), writes_24 PASS (GBR+36, 58 hits, PC 0x060366FA), writes_D0 PASS (GBR+208, 59 hits, PC 0x06036756)
-FUN_06036790	3	3	2	call_count_throttle PASS (1 call), writes_108 PASS (GBR+264, 59 hits, PC 0x060367DC, right_wall_strike), writes_10C PASS (GBR+268, 59 hits, PC 0x060367EC)
+FUN_06036790	4	4	2	call_count_throttle PASS (1 call), writes_108 PASS (GBR+264, 59 hits, PC 0x060367DC), writes_10C PASS (GBR+268, 59 hits, PC 0x060367EC), writes_08 PASS (GBR+8, 59 hits, PC 0x060367F0, survey_001)
 FUN_06036CEC	1	1	1	call_count_throttle PASS (1 call); structurally Tier 1 — register-save preamble, all writes to stack, no GBR writes from this PC range
 FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
-FUN_0604D580	3	3	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01)
+FUN_0604D580	4	4	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01), writes_AC PASS (GBR+172, 26 hits, PC 0x0604D79A, survey_001)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
 FUN_0604DAD8	2	2	1	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00, non-globally-static); writes_BC cross-writer (dispatcher PC 0x0604D3E6)
 FUN_0604DB10	3	3	2	call_count_throttle PASS (1 call), writes_C4 PASS (GBR+196, PC 0x0604DBB2, 59 hits), field74_stable PASS (GBR+116=0x002DD774)
@@ -35,3 +35,5 @@ FUN_06036AA8	1	1	1	call_count_race PASS (4 calls, expected 3±10). Spatial coord
 FUN_0603F116	1	1	1	call_count_race PASS (~1 call). Forward projection fallback for AI cars. writes_4C FAIL (car 0 not consistent), heading_stable FAIL (+0x48 changes during race)
 FUN_06047E0C	1	1	1	call_count_throttle PASS (4 calls). Pure atan2 math utility, 20+ callers. No GBR struct writes — register I/O only
 FUN_06035F48	4	4	2	call_count_throttle PASS (2 calls), writes_64 PASS (GBR+100, PC 0x060362A6, right_wall_strike), writes_68 PASS (GBR+104, 56 hits, PC 0x060361A6), writes_104 PASS (GBR+260, 26 hits, PC 0x06036164)
+FUN_060371FC	1	1	1	writes_78 PASS (0x060522C4, 42 hits, PC 0x060371FE, right_wall_strike); survey_001 — steer pipeline entry, GBR resolution timeout required absolute addr
+FUN_0603833C	1	1	1	writes_2C PASS (0x06052278, 58 hits, PC 0x06038468, straight_throttle); survey_001 — writes via R14 not GBR (GBR=0x06057800)
