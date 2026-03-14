@@ -978,15 +978,56 @@ Controller RIGHT → FUN_0602E03C → +0x38 (heading init)
   in FUN_06035C98 (line 201: +0x38[new] - +0x38[old]).
 - '95 +0xFC (acceleration delta): CCE +0xF0 (net force). Both are the force input to velocity.
 
+### Entry 20: Explorer Field Writer Survey Integration (Mapper Cycle 8, 2026-03-14)
+
+**Source**: field_writer_survey_001_obs.md — Explorer targeted 7 of 8 Mapper priorities.
+
+**6 of 8 priorities RESOLVED**:
+
+| # | Field | Writer | Status |
+|---|-------|--------|--------|
+| 1 | +0xF0 | FUN_06035904 rts delay slot | **CONFIRMED** — core loop COMPLETE |
+| 2 | +0x2C | FUN_0603833C via R14 (not GBR!) | **CORRECTED** — Mapper was wrong about GBR |
+| 4 | +0x78 | FUN_060371FC (sub #1 chain) | **CONFIRMED** — steer input entry point |
+| 5 | +0xB8 | Sub #6b at PC 0x0604D88E | **CONFIRMED** — speed-gated (frame 200+) |
+| 6 | +0xAC | Sub #5 at PC 0x0604D79A | **CONFIRMED** — part of FUN_0604D580 block |
+| 7 | +0x08 | FUN_06036790 at PC 0x060367F0 | **CONFIRMED** — already known |
+| 8 | +0x84 | Unknown | **NOT CAUGHT** — likely byte write |
+
+**MAJOR MILESTONE: Core feedback loop is COMPLETELY MAPPED**:
+```
++0xF0 (net force, FUN_06035904) → +0x24 (velocity, FUN_060366EC)
+    → +0x34 (speed gate, FUN_0604D580) → downstream gates
+```
+All three stages have oracle/watchpoint-confirmed writers. +0xF0 is now NOP-test ready,
+bringing the total to FOUR NOP-test-ready fields: +0x24, +0x34, +0xD0, +0xF0.
+
+**+0x2C correction**: The Mapper incorrectly flagged the +0x2C writer as "different struct"
+because GBR=0x06057800. The Explorer confirmed that FUN_0603833C uses R14=0x0605224C
+(player struct) for the write, while GBR holds a different struct being processed
+simultaneously. Lesson: writes via R14 are player struct writes regardless of GBR value.
+
+**+0xB8 insight**: First activates at frame 200 (speed threshold). This explains the
+"late" 17 unique values in the throttle capture — the field doesn't change until the car
+reaches sufficient speed. Its throttle+brake (not steer) pattern is confirmed as speed-gated
+longitudinal force.
+
+**+0x78 maps the steer input pipeline entry**: FUN_060371FC is called through
+FUN_06036CEC → FUN_06036D76. This is the point where raw steering input enters the
+dispatcher chain.
+
 ## Next Steps
 
-1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
-2. **Find +0x2C player struct writer** — Explorer Priority #2, Cluster B gap
-3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
-4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA
-5. ~~Find +0x38 writer~~ — RESOLVED: FUN_06035C98 primary
-6. ~~Find +0x44 writer~~ — RESOLVED: FUN_06035C98 line 168
-7. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
-8. **Find +0x78 writer** — steer input injection point into driving model
-9. **Map '95 +0x28 (slip angle) to CCE** — key transplant field
-10. **Test FUN_06035F48 gated path** — need scenario with +0x34 >= 100 AND steer
+1. ~~Confirm +0xF0 writer~~ — RESOLVED: FUN_06035904 (watchpoint)
+2. ~~Find +0x2C writer~~ — RESOLVED: FUN_0603833C via R14
+3. **Execute NOP tests on +0x24, +0x34, +0xD0, +0xF0** — FOUR fields ready for human
+4. ~~Find +0xD4 writer~~ — RESOLVED
+5. ~~Find +0x38 writer~~ — RESOLVED
+6. ~~Find +0x44 writer~~ — RESOLVED
+7. ~~Find +0x78 writer~~ — RESOLVED: FUN_060371FC
+8. ~~Find +0xAC writer~~ — RESOLVED: sub #5
+9. ~~Find +0xB8 writer~~ — RESOLVED: sub #6b (speed-gated)
+10. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
+11. **Map '95 +0x28 (slip angle) to CCE** — key transplant field
+12. **Test FUN_06035F48 gated path** — need +0x34 >= 100 + steer
+13. **Resolve +0x84 writer** — byte-level watchpoint or single-stepping needed

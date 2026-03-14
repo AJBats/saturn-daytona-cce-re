@@ -143,8 +143,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Collision response**: At wall strike (~frame 142 in steer+B), +0x24 drops 29% (0x717B->0x50A0) in one physics frame while +0xF0 remains positive (+436). The velocity loss is NOT through the +0xF0 accumulation path — a separate collision response writes directly to +0x24
 - **Oracle status**: writes_24 PASS (FUN_060366EC, 58 hits, PC 0x060366FA)
 
-### +0x2C
-- **Writers**: Static analysis only
+### +0x2C — distance accumulator (proposed?, increments with speed)
+- **Writers**: FUN_0603833C at PC 0x06038468 (watchpoint-confirmed; writes via R14=0x0605224C, NOT via GBR; called from init module 0x0602831E, outside player dispatcher)
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x0002B686
@@ -152,7 +152,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: monotonic_up (139 uniq)
   - Accel->brake: monotonic_up (137 uniq)
 - **Correlations**: Perfect lockstep with +0x14 and +0x18 (J=1.000)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_0603833C at PC 0x06038468 (via R14, not GBR; GBR=0x06057800 is a DIFFERENT struct operated simultaneously)
 
 ### +0x30
 - **Writers**: FUN_060366EC (conditional flag OR), FUN_06035C58 (helper in FUN_06035904 chain, sets bit 0x2000)
@@ -275,8 +275,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Correlates with +0xA0 (J=0.70 in throttle)
 - **Oracle status**: Watchpoint-confirmed writer FUN_06035B30 at PC 0x06035C50 (helper of FUN_06035904)
 
-### +0x78
-- **Writers**: Static analysis only (likely from external input processing)
+### +0x78 — steer input entry point
+- **Writers**: FUN_060371FC at PC 0x060371FE (watchpoint-confirmed; called from FUN_06036CEC → FUN_06036D76 → FUN_060371FC, dispatcher sub #1 call chain)
 - **Readers**: FUN_0604D580 (primary input for +0x7C/+0x88/+0x8C pipeline)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -284,7 +284,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: monotonic_up (43 uniq)
   - Accel->brake: static
 - **Correlations**: Steer-only input; feeds the +0x7C/+0x88/+0x8C computation chain
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_060371FC at PC 0x060371FE
 
 ### +0x7C
 - **Writers**: FUN_0604D580 at PC 0x0604D62A (oracle-confirmed via watchpoint, 1 hit in steer scenario)
@@ -407,8 +407,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Steer-only, sparse transitions
 - **Oracle status**: Untested
 
-### +0xAC
-- **Writers**: Static analysis only
+### +0xAC — steering offset (feeds +0x14)
+- **Writers**: Sub #5 (0x0604D780) at PC 0x0604D79A (watchpoint-confirmed; part of FUN_0604D580 block)
 - **Readers**: FUN_06035750 (compared with +/-0x1000), FUN_06035904 (negated, shifted >> 3, written to +0x14), FUN_06035EE8 (shifted >> 5, blended into +0x134)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -416,18 +416,18 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: monotonic_up (27 uniq)
   - Accel->brake: static
 - **Correlations**: Steer-only; feeds into +0x14 computation (-(+0xAC) >> 3 -> +0x14)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D79A (sub #5)
 
-### +0xB8
-- **Writers**: Static analysis only
+### +0xB8 — speed-gated longitudinal force (proposed?)
+- **Writers**: Sub #6b (0x0604D83C) at PC 0x0604D88E (watchpoint-confirmed; normal path when +0x174 == 0)
 - **Readers**: FUN_06035904 (gates call to FUN_06035B0E helper)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
-  - Throttle: changing (17 uniq), transiently nonzero
+  - Throttle: changing (17 uniq), first activation at **frame 200** (speed threshold)
   - Steer+B: static
   - Accel->brake: changing (33 uniq)
-- **Correlations**: Changes with throttle and brake but NOT steer -- unusual pattern
-- **Oracle status**: Untested
+- **Correlations**: Changes with throttle and brake but NOT steer. Late activation (frame 200) confirms a speed threshold — not active until car reaches sufficient velocity
+- **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D88E (sub #6b)
 
 ### +0xBC
 - **Writers**: FUN_0604DAD8 (state-to-constant mapper, oracle confirmed stable at 0x00)
@@ -554,8 +554,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Cluster E with +0xE8 and +0xFC (J>=0.98)
 - **Oracle status**: Untested
 
-### +0xF0 — net force (proposed?)
-- **Writers**: FUN_06035904 (final output, computed_value >> 8, rts delay slot) — NOT YET ORACLE CONFIRMED
+### +0xF0 — net force
+- **Writers**: FUN_06035904 (rts delay slot, computed_value >> 8, watchpoint-confirmed at PC 0x0604D404/rts-artifact)
 - **Readers**: FUN_060366EC (accumulated into +0x24 each frame)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -564,7 +564,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Accel->brake: changing (125 uniq)
 - **Correlations**: Feeds into +0x24 integration. Broad correlation with Clusters A and E (J=0.75-0.80)
 - **Brake transition**: Sign flips from positive (acceleration) to negative (deceleration) at frame 204 when brake reaches 127/255 (50%). Magnitude: ~+900 at full throttle, ~-1400 at full brake. Confirms this is the NET force applied to velocity each frame
-- **Oracle status**: Untested for writes_to. HIGHEST PRIORITY for Explorer confirmation. Note: FUN_0603F61C writes_gbr100 PASS (55 hits) is for the AI chain struct, not the player struct
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035904 (rts delay slot). Core loop complete: +0xF0 → +0x24 → +0x34 → downstream. NOP-TEST READY
 
 ### +0xF4
 - **Writers**: FUN_060354A0 at PC 0x0603561A (oracle-confirmed, writes_F4 PASS)
@@ -692,6 +692,11 @@ Note: +0xC0, +0xD8, +0xE0, +0xE4 are actively written every frame but their valu
 | FUN_06035F48 | writes_64 | PASS | +0x64 | PC 0x060362A6, right_wall_strike |
 | FUN_06035F48 | writes_68 | PASS | +0x68 | PC 0x060361A6, 56 hits, right_wall_strike |
 | FUN_06035F48 | writes_104 | PASS | +0x104 | PC 0x06036164, 26 hits, right_wall_strike |
+| FUN_06035904 | writes_F0 | WP-CONF | +0xF0 | rts delay slot (PC artifact 0x0604D404) |
+| FUN_0603833C | writes_2C | WP-CONF | +0x2C | PC 0x06038468, via R14 (not GBR) |
+| FUN_060371FC | writes_78 | WP-CONF | +0x78 | PC 0x060371FE, steer input entry |
+| Sub #6b | writes_B8 | WP-CONF | +0xB8 | PC 0x0604D88E, speed-gated (frame 200+) |
+| Sub #5 | writes_AC | WP-CONF | +0xAC | PC 0x0604D79A |
 
 ## Unreachable Functions
 

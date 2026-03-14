@@ -2,22 +2,10 @@
 
 ## High Priority (fills struct map gaps)
 
-### 1. +0xF0 writer confirmation — completes the core feedback loop
+### 1. ~~+0xF0 writer confirmation~~ RESOLVED (Explorer survey, 2026-03-14)
 
-- **Why**: The core pipeline is +0xF0 -> +0x24 -> +0x34 -> downstream.
-  +0x24 and +0x34 have oracle-confirmed writers. +0xF0 does NOT.
-  Static analysis says FUN_06035904 writes +0xF0 in its rts delay slot
-  (line 298 of FUN_06035904.s: `mov.l r3, @(r0, r4)` where r4=0xF0).
-  Confirming this makes +0xF0 NOP-test ready and completes the entire
-  force->velocity->speed pipeline mapping.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `straight_throttle`
-  (B held, 60 frames). Set watchpoint on GBR+0xF0 (absolute address
-  0x0605224C + 0xF0 = 0x0605233C). Record writer PCs, hit count, and
-  values written.
-- **What this unblocks**: +0xF0 becomes NOP-test ready. The full pipeline
-  +0xF0 -> +0x24 -> +0x34 -> downstream is completely mapped. NOP of
-  +0xF0 would block force injection into velocity — the most upstream
-  intervention point in the driving model.
+- **RESOLVED**: FUN_06035904 rts delay slot confirmed by watchpoint. Core loop
+  COMPLETE: +0xF0 → +0x24 → +0x34 → downstream. NOP test recommendation added below.
 
 ### 2. +0x2C writer identification — Cluster B member with unknown writer
 
@@ -167,6 +155,26 @@
   might still move (via other paths) but with degraded position tracking.
 - **Evidence**: FUN_060366EC_obs.md, writes_D0 PASS, perfect lockstep with
   +0x00 and +0x24 (J=1.000)
+
+### NOP Test: +0xF0 (net force — most upstream intervention)
+
+- **What to NOP**: Replace `mov.l r3, @(r0, r4)` in FUN_06035904's rts delay
+  slot with `nop` (0x0009). Source: `src/race/FUN_06035904.s`, line 298.
+  The rts instruction at line 297 still executes (nop in delay slot = clean return).
+- **Writer function**: FUN_06035904 (watchpoint-confirmed, rts delay slot, r4=0xF0)
+- **Expected effect**: Force is never applied to velocity. +0x24 (velocity) would
+  remain at whatever value it had when the NOP was applied. If applied from standing
+  start, the car should never accelerate at all. If applied mid-run, the car would
+  coast at constant velocity forever (no accel, no decel, no drag).
+  This is the MOST UPSTREAM intervention — it blocks the force → velocity → position
+  pipeline at its source.
+- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle` (hold B).
+  Car should remain completely stationary despite throttle input.
+- **Confidence**: HIGHEST — watchpoint-confirmed writer, core pipeline source,
+  sign-flip behavior confirmed (positive=accel, negative=brake). NOP blocks
+  ALL force application including braking and drag.
+- **Evidence**: FUN_06035904_obs.md, field_writer_survey_001_obs.md (Priority #1),
+  brake transition analysis (journal Entry 15), correlation with Clusters A+E
 
 ---
 
