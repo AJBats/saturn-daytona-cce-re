@@ -49,3 +49,12 @@ claims:
     address: "GBR+172"
     scenario: right_wall_strike
     frames: 60
+
+  - id: writes_176_dec
+    description: "Decrements collision timer +0x176 via sub #4 (PC 0x0604D766, survey_002)"
+    type: writes_to
+    function: FUN_0604D580
+    function_end: 0x0604D7FC
+    address: 0x060523C2
+    scenario: right_wall_strike
+    frames: 60

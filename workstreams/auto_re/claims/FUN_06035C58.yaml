@@ -1,0 +1,30 @@
+# FUN_06035C58 — Collision trigger, sets +0x176 timer
+#
+# Observation: workstreams/auto_re/observations/field_writer_survey_002_obs.md (Priority #1)
+# File: src/race/FUN_06035904.s
+# Address range: 0x06035C58 - 0x06035C98
+#
+# From survey data:
+# - Writer PC 0x06035C7A
+# - GBR = 0x0605224C (player struct)
+# - Sets +0x176 = 0x0F (15 frames) when collision detected
+# - Call chain: dispatcher → FUN_06035904 → FUN_06035B30 → FUN_06035C58
+# - Only fires during collision events
+#
+# NOTE: Using absolute address (0x060523C2) because function only fires
+# during collision, too late for GBR resolution at function entry.
+
+function: FUN_06035C58
+address: 0x06035C58
+address_end: 0x06035C98
+source_file: src/race/FUN_06035904.s
+
+claims:
+  - id: writes_176_set
+    description: "Sets collision timer +0x176 during wall collision (PC 0x06035C7A)"
+    type: writes_to
+    function: FUN_06035C58
+    function_end: 0x06035C98
+    address: 0x060523C2
+    scenario: right_wall_strike
+    frames: 60

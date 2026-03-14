@@ -38,3 +38,21 @@ claims:
     address: "GBR+104"
     scenario: straight_throttle
     frames: 120
+
+  - id: writes_E8
+    description: "Writes decay value to GBR+0xE8 every frame (PC 0x06035E4E, survey_002)"
+    type: writes_to
+    function: FUN_06035C98
+    function_end: 0x06035EE8
+    address: "GBR+232"
+    scenario: right_wall_strike
+    frames: 60
+
+  - id: writes_EC
+    description: "Writes decay value to GBR+0xEC every frame (PC 0x06035E50, survey_002)"
+    type: writes_to
+    function: FUN_06035C98
+    function_end: 0x06035EE8
+    address: "GBR+236"
+    scenario: right_wall_strike
+    frames: 60
