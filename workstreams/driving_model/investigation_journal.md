@@ -1114,16 +1114,19 @@ FUN_06035F48 (#14)     → +0x64 (steer accum, leads)  [gated by +0x44 != 0]
 Dispatcher delay slot  → +0x80 (throttle ramp)  [0→255 over 23 frames]
 FUN_06036BC6 chain     → +0x88 (input scaled)   [different writer from +0x80!]
 Sub #6b (0x0604D83C)   → +0xB8 (longitudinal force) [speed-gated, frame 200+]
-(brake mirror)         → +0x90 (brake ramp)     [mirrors +0x80 for brake]
+Sub #5 (0x0604D780)    → +0x90 (brake ramp)     [confirmed mirror of +0x80, same writer as +0xAC]
 
-=== COLLISION RESPONSE (embedded in FUN_060366EC) ===
+=== COLLISION LIFECYCLE (fully mapped, Cycle 15) ===
 
-Collision detection    → +0x176 (gate, 16-bit)  [unknown writer — Explorer Priority #1]
-                       → +0x1CB (active flag, byte)
-    ↓ if +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0
-FUN_060366EC           → velocity -= impact     [complex multiply + trig]
+FUN_06035C58 (helper)  → +0x176 = 15            [collision TRIGGER, sets 0.5s timer]
+    ↓ called from FUN_06035904 → FUN_06035B30 → FUN_06035C58
+Sub #4 (0x0604D758)    → +0x176 -= 1            [per-frame COUNTDOWN]
+    ↓ when +0x176 > 0
+FUN_060366EC (#17)     → velocity -= impact     [collision RESPONSE, embedded]
                        → velocity -= +0x104     [additional damping]
-                       → clamp [-0x100, 0x100]  [if +0x1CB active]
+                       → clamp [-0x100, 0x100]  [if +0x1CB = 0x02]
+    ↓ when +0x176 reaches 0
+                       → collision deactivates   [normal physics resumes]
 
 === POSITION-DERIVED ===
 

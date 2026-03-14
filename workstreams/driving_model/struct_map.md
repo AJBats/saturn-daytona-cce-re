@@ -308,8 +308,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0x88 and +0x8C (J=1.000, Cluster D). Note: different writer from +0x88 despite perfect correlation
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D3AA (dispatcher delay slot)
 
-### +0x84 — input-active flag
-- **Writers**: FUN_0604D580 at ~PC 0x0604D658 (observation-confirmed)
+### +0x84 — physics-active flag (byte write)
+- **Writers**: Sub #3 (0x0604D6B8) — byte write (`mov.b`), confirmed via breakpoint bracketing. Same function writes +0x34. Sets to 1 on first frame with input, never resets.
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -341,8 +341,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0x80 and +0x88 (J=1.000, Cluster D)
 - **Oracle status**: Confirmed writer FUN_0604D580 (static analysis)
 
-### +0x90 — brake input ramp (proposed?)
-- **Writers**: Static analysis only (mirrors +0x80 ramp pattern for brake input)
+### +0x90 — brake input ramp
+- **Writers**: Sub #5 (0x0604D780) at PC 0x0604D7D8 (watchpoint-confirmed). Same function writes +0xAC, +0x7C, +0x9C. Brake mirror of +0x80 CONFIRMED.
 - **Readers**: FUN_0604DB10 (read via wpool)
 - **Behavior**: static* (brake-only)
   - Idle: static at 0x00000000
@@ -386,7 +386,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Confirmed writer FUN_0604D580 (static analysis)
 
 ### +0xA0
-- **Writers**: FUN_06035904 (secondary output via FUN_06035B30 helper)
+- **Writers**: FUN_06035904 at PC 0x06035AC0 (watchpoint-confirmed, near end of main body)
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -394,18 +394,18 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (134 uniq)
   - Accel->brake: changing (58 uniq)
 - **Correlations**: Correlates with +0x70 (J=0.70 in throttle)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035904 at PC 0x06035AC0
 
-### +0xA8
-- **Writers**: Static analysis only
+### +0xA8 — collision proximity (proposed?)
+- **Writers**: FUN_060375F0 at PC 0x060376FE (watchpoint-confirmed, via R14 not GBR; per-frame game loop, not player dispatcher)
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: static
-  - Steer+B: changing (9 uniq)
+  - Steer+B: changing (9 uniq), late activation at frame 130 near wall strike (~frame 140)
   - Accel->brake: static
-- **Correlations**: Steer-only, sparse transitions
-- **Oracle status**: Untested
+- **Correlations**: Steer-only, sparse transitions. Late activation near collision suggests collision proximity
+- **Oracle status**: writes_A8 PASS (FUN_060375F0, PC 0x060376FE, 1 hit, right_wall_strike)
 
 ### +0xAC — clamped steering rate (feeds +0x14)
 - **Writers**: Sub #5 (0x0604D780) at PC 0x0604D79A (watchpoint-confirmed; part of FUN_0604D580 block)
@@ -541,7 +541,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (150 uniq)
   - Accel->brake: monotonic_down (112 uniq)
 - **Correlations**: Cluster E with +0xEC and +0xFC (J>=0.98). Decays toward zero even without input. Decay factor = 0.9374 per physics frame (15/16, half-life ~10.7 frames = 0.36s)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035C98 at PC 0x06035E4E (consecutive with +0xEC at 0x06035E50)
 
 ### +0xEC
 - **Writers**: FUN_06035904 (conditionally zeroed based on +0x190/+0x170 flags)
@@ -552,7 +552,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (150 uniq)
   - Accel->brake: monotonic_down (110 uniq)
 - **Correlations**: Cluster E with +0xE8 and +0xFC (J>=0.98)
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer FUN_06035C98 at PC 0x06035E50 (consecutive with +0xE8 at 0x06035E4E)
 
 ### +0xF0 — net force
 - **Writers**: FUN_06035904 (rts delay slot, computed_value >> 8, watchpoint-confirmed at PC 0x0604D404/rts-artifact)
@@ -632,6 +632,13 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Behavior**: Not captured (outside 256-byte sample window)
 - **Oracle status**: writes_134 PASS (FUN_06035EE8, 299 hits, right_wall_strike scenario)
 
+### +0x176 — collision timer
+- **Writers**: FUN_06035C58 SETS to 15 at PC 0x06035C7A (collision trigger); Sub #4 (0x0604D758) DECREMENTS by 1 at PC 0x0604D766 (each frame)
+- **Readers**: FUN_060366EC (gate: +0x176 > 0 enables collision response path)
+- **Behavior**: 0 normally. Set to 15 on collision detection, counts down to 0 (0.5 seconds at 30 Hz)
+- **Collision lifecycle**: detect → set 15 → response active → countdown → 0 = deactivate
+- **Oracle status**: writes_176_set PASS (FUN_06035C58, PC 0x06035C7A, 13 hits, right_wall_strike)
+
 ## Static Fields Summary
 
 The following 19 fields are static (unchanged) across all 4 scenarios (idle, throttle, steer+B, accel->brake) over 300 frames each:
@@ -697,6 +704,14 @@ Note: +0xC0, +0xD8, +0xE0, +0xE4 are actively written every frame but their valu
 | FUN_060371FC | writes_78 | PASS | +0x78 | PC 0x060371FE, 42 hits, right_wall_strike |
 | Sub #6b | writes_B8 | WP-CONF | +0xB8 | PC 0x0604D88E, speed-gated (frame 200+) |
 | Sub #5 | writes_AC | WP-CONF | +0xAC | PC 0x0604D79A |
+| FUN_06035C58 | writes_176_set | PASS | +0x176 | PC 0x06035C7A, 13 hits, sets timer=15 |
+| Sub #4 | writes_176_dec | WP-CONF | +0x176 | PC 0x0604D766, decrements each frame |
+| FUN_06035C98 | writes_E8 | WP-CONF | +0xE8 | PC 0x06035E4E, every frame |
+| FUN_06035C98 | writes_EC | WP-CONF | +0xEC | PC 0x06035E50, every frame |
+| Sub #5 | writes_90 | WP-CONF | +0x90 | PC 0x0604D7D8, brake input |
+| FUN_06035904 | writes_A0 | WP-CONF | +0xA0 | PC 0x06035AC0 |
+| FUN_060375F0 | writes_A8 | PASS | +0xA8 | PC 0x060376FE, via R14 |
+| Sub #3 | writes_84 | BRACKET | +0x84 | 0x0604D6B8, byte write, breakpoint bracket |
 
 ## Unreachable Functions
 
