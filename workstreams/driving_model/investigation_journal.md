@@ -1074,3 +1074,117 @@ FUN_060366EC (dispatcher #17) is NOT a simple `+0x24 += +0xF0` accumulator. It i
 integration function. Transplanting the '95 driving model requires transplanting
 FUN_060366EC in its entirety, including all 8 conditional paths. The collision
 response cannot be separated from the force integration.
+
+---
+
+## Driving Model Architecture Summary (as of Mapper Cycle 12)
+
+### Confirmed Pipeline (all writers oracle/watchpoint-confirmed)
+
+```
+=== CORE FORCE→VELOCITY→POSITION PIPELINE ===
+
+FUN_06035904 (#12)     → +0xF0 (net force)     [rts delay slot]
+    ↓ accumulated per frame
+FUN_060366EC (#17)     → +0x24 (velocity)      [+0x24 += +0xF0, with collision damping]
+    ↓ fixed-point multiply * 0x006C0000
+FUN_0604D580 (#3)      → +0x34 (speed gate)    [clamp [0, 0x14E], gates 5+ functions]
+    ↓ integrated with heading angle
+FUN_06036790 (#18)     → +0x00 (X position)    [+= sin(-0x38) * vel * +0x158]
+                       → +0x08 (Z position)    [+= cos(-0x38) * vel * +0x158]
+                       → +0x108, +0x10C        [per-frame XZ deltas]
+
+=== STEERING PIPELINE ===
+
+Controller RIGHT       → FUN_060371FC (sub #1 chain) → +0x78 (steer input)
+    ↓ clamped/scaled
+FUN_0604D580 (#2)      → +0x7C, +0x88, +0x8C  [input scaling]
+    ↓
+FUN_06035C98 (#15)     → +0x44 (steering force) [sin/cos * 0x28C3AB35]
+                       → +0x40 (paired component)
+                       → +0x38 (heading angle update)
+    ↓ feedback loop
+FUN_06035F48 (#14)     → +0x64 (steer accum, leads)  [gated by +0x44 != 0]
+                       → +0x68 (steer accum, lags)
+                       → +0x104 (extended steer)
+    ↓ feeds back to #15 next frame
+
+=== THROTTLE/BRAKE INPUT ===
+
+Dispatcher delay slot  → +0x80 (throttle ramp)  [0→255 over 23 frames]
+FUN_06036BC6 chain     → +0x88 (input scaled)   [different writer from +0x80!]
+Sub #6b (0x0604D83C)   → +0xB8 (longitudinal force) [speed-gated, frame 200+]
+(brake mirror)         → +0x90 (brake ramp)     [mirrors +0x80 for brake]
+
+=== COLLISION RESPONSE (embedded in FUN_060366EC) ===
+
+Collision detection    → +0x176 (gate, 16-bit)  [unknown writer — Explorer Priority #1]
+                       → +0x1CB (active flag, byte)
+    ↓ if +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0
+FUN_060366EC           → velocity -= impact     [complex multiply + trig]
+                       → velocity -= +0x104     [additional damping]
+                       → clamp [-0x100, 0x100]  [if +0x1CB active]
+
+=== POSITION-DERIVED ===
+
+FUN_060366EC (#17)     → +0xD0 (clamped velocity copy, [0, 0x2134])
+FUN_0604DB10 (#8)      → +0xC4 (heavy multiply chain output)
+                       → +0xDC (parallel output, lockstep with +0x34)
+FUN_060354A0 (#10)     → +0xF4, +0xF8 (rotation transform outputs)
+FUN_06035904 (#12)     → +0xFC (cross-product intermediate)
+                       → +0x70 (sqrt clamped [0x1999, 0x10000])
+
+=== GAME STATE ===
+
+FUN_06035C98 (#15)     → +0x60 (frame counter, 1/game frame)
+FUN_0603833C (init)    → +0x2C (distance accumulator, via R14)
+```
+
+### Field Naming Status
+
+| Field | Confirmed Name | Status |
+|-------|---------------|--------|
+| +0x00 | X position | CONFIRMED (integration formula proven) |
+| +0x08 | Z position | CONFIRMED (same pattern, cos) |
+| +0x24 | velocity magnitude | CONFIRMED (oracle + integration role) |
+| +0x34 | speed gate | CONFIRMED (oracle + gating behavior) |
+| +0x38 | heading angle | PROPOSED (trig input, no NOP test) |
+| +0x44 | steering force | PROPOSED (steer-only, trig-scaled) |
+| +0x60 | frame counter | CONFIRMED (increments 1/frame) |
+| +0x64 | steering accumulator (lead) | PROPOSED (steer-only, leads +0x68) |
+| +0x68 | steering accumulator (lag) | PROPOSED (steer-only, lags +0x64) |
+| +0x80 | throttle input ramp | PROPOSED (23-frame ramp) |
+| +0x90 | brake input ramp | PROPOSED (mirrors +0x80) |
+| +0xF0 | net force | PROPOSED (sign-flip confirmed, no NOP yet) |
+
+### NOP Test Readiness
+
+| Field | Writer | Role | Instruction | Ready? |
+|-------|--------|------|-------------|--------|
+| +0xF0 | FUN_06035904 | Net force | `mov.l r3, @(r0, r4)` line 298 | YES |
+| +0x24 | FUN_060366EC | Velocity | `mov.l r4, @(36, r0)` line 572 | YES |
+| +0x34 | FUN_0604D580 | Speed gate | `mov.l r2, @(52, r0)` line 521 | YES |
+| +0xD0 | FUN_060366EC | Clamped vel | `mov.l r5, @(r0, r1)` line ~624 | YES |
+
+### Player Struct Size
+
+The player struct extends to at least +0x1CB (460 bytes past base 0x0605224C),
+much larger than the initial 256-byte (0x100) assumption. Extended fields accessed
+by the dispatcher chain: +0x104, +0x108, +0x10C, +0x134, +0x148, +0x158, +0x170,
++0x174, +0x176, +0x17E, +0x18E, +0x190, +0x1CB.
+
+### CCE ↔ '95 Cross-Reference (transplant mapping)
+
+| CCE | CCE Role | '95 | '95 Role | Confidence |
+|-----|----------|-----|----------|------------|
+| +0x00 | X position | +0x10 | Velocity X / position | MODERATE |
+| +0x08 | Z position | +0x18 | Velocity Z / position | MODERATE |
+| +0x0C | Heading (16-bit) | +0x20 | Heading | STRONG |
+| +0x24 | Velocity magnitude | +0x0C | Speed (internal) | STRONG |
+| +0x34 | Speed gate | +0x08 | Speed index | STRONG |
+| +0x60 | Frame counter | +0x60 | Frame counter | STRONG |
+| +0xF0 | Net force | +0xFC | Acceleration delta | STRONG |
+| +0x2C | Distance accum | +0x2C | Speed-related lookup | POSSIBLE |
+| +0x30 | Flags | +0x00 | Car flags | MODERATE |
+
+Key unmapped '95 fields: +0x28 (slip angle), +0x30 (yaw rate), +0x1E4 (segment index)
