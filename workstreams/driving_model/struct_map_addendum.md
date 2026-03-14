@@ -9,6 +9,15 @@
 | +0x2C | 0x06038468 | Unknown function at ~0x06038400 | 0x2B686→0x2B687 | B held | Increments by 1 per game frame; GBR=0x06057800 |
 | +0x108 | 0x060367DC | FUN_06036790 | 0x00→0xFFFFFFDA | RIGHT+B | Trig output (FUN_06047D3C) |
 | +0x10C | 0x060367EC | FUN_06036790 | 0x00→0x01 | RIGHT+B | Trig output (FUN_06047D20) |
+| +0x00 | 0x060367E0 | FUN_06036790 | 0x8CF8D0→0x8CF8AA | B held | monotonic_down; same function writes +0x108/+0x10C |
+| +0x18 | 0x0604D39E | FUN_0604D6B8 return (dispatcher delay slot) | 0xA8F00000→0xA9300000 | B held | Correlated with +0x14 (Cluster B) |
+
+## Key Finding: FUN_06036790 Is a Primary Writer
+
+FUN_06036790 (the LAST dispatcher function) writes to +0x00, +0x0E, +0x108,
+and +0x10C. +0x00 is the most actively changing field in the throttle capture
+(144 unique values, monotonic decrease). This function is far more significant
+than the initial stub observation suggested.
 
 ## Key Finding: +0x80 and +0x88 Have Different Writers
 
