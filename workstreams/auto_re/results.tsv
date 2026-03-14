@@ -34,3 +34,4 @@ FUN_0603F58C	0	0	0	UNREACHABLE in standard tests: first hit at frame 825 in race
 FUN_06036AA8	1	1	1	call_count_race PASS (4 calls, expected 3±10). Spatial coordinate lookup, GBR=0x06057800 (track structure). No GBR writes — pure function
 FUN_0603F116	1	1	1	call_count_race PASS (~1 call). Forward projection fallback for AI cars. writes_4C FAIL (car 0 not consistent), heading_stable FAIL (+0x48 changes during race)
 FUN_06047E0C	1	1	1	call_count_throttle PASS (4 calls). Pure atan2 math utility, 20+ callers. No GBR struct writes — register I/O only
+FUN_06035F48	4	4	2	call_count_throttle PASS (2 calls), writes_64 PASS (GBR+100, PC 0x060362A6, right_wall_strike), writes_68 PASS (GBR+104, 56 hits, PC 0x060361A6), writes_104 PASS (GBR+260, 26 hits, PC 0x06036164)

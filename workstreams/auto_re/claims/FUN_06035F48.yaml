@@ -1,0 +1,55 @@
+# FUN_06035F48 — Steering computation, writes +0x64, +0x68, +0x104
+#
+# Observation: workstreams/auto_re/observations/FUN_06035F48_obs.md
+# File: src/race/FUN_06035C98.s
+# Address range: 0x06035F48 - 0x0603631A
+#
+# From observation data:
+# - 2 calls/frame from two dispatcher call sites (PR=0x0604D43E, PR=0x0604D44A)
+# - GBR = 0x0605224C (player car struct)
+# - Writes +0x64 (PC 0x060362A6), +0x68 (PC 0x060361A6), +0x104 (PC 0x06036164)
+#   only with steer input (+0x44 != 0). All writer PCs inside function range.
+# - No writes in idle or pure throttle (+0x44 = 0 gates all computation)
+# - Heavy trig computation: calls sin/cos, atan2, math helpers
+
+function: FUN_06035F48
+address: 0x06035F48
+address_end: 0x0603631A
+source_file: src/race/FUN_06035C98.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 2 times per game frame (two dispatcher call sites)"
+    type: call_count_per_frame
+    function: FUN_06035F48
+    address: 0x06035F48
+    scenario: straight_throttle
+    expected_count: 2
+    tolerance: 1
+
+  - id: writes_64
+    description: "Writes to GBR+0x64 with steer input (PC 0x060362A6)"
+    type: writes_to
+    function: FUN_06035F48
+    function_end: 0x0603631A
+    address: "GBR+100"
+    scenario: right_wall_strike
+    frames: 60
+
+  - id: writes_68
+    description: "Writes to GBR+0x68 with steer input (PC 0x060361A6)"
+    type: writes_to
+    function: FUN_06035F48
+    function_end: 0x0603631A
+    address: "GBR+104"
+    scenario: right_wall_strike
+    frames: 60
+
+  - id: writes_104
+    description: "Writes to GBR+0x104 with steer input (PC 0x06036164)"
+    type: writes_to
+    function: FUN_06035F48
+    function_end: 0x0603631A
+    address: "GBR+260"
+    scenario: right_wall_strike
+    frames: 60
