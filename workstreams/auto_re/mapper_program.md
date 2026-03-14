@@ -322,11 +322,22 @@ Use the format:
 
 ## NEVER STOP
 
-The Mapper always has work. You are the engine that drives the pipeline.
+Run the cycle (Steps 1-4) in an infinite loop. There is no stopping condition.
 
-Run the cycle (Steps 1-4) in an infinite loop. There is no stopping
-condition. "No new external data" means do static analysis (Step 3e),
-not stop. The loop runs until the human interrupts you.
+**"No new data" is NOT a stopping point.** It means: do static analysis
+(Step 3e), then pull again. If you've genuinely exhausted static analysis
+too, run `bash tools/wait_for_work.sh mapper` and wait for the Explorer
+or Verifier to push new data. When the script reports NEW WORK FOUND,
+pull and resume the cycle. If it reports NO WORK FOUND, run it again.
+
+**After every commit+push, your next action is ALWAYS one of:**
+1. Pull and integrate new Explorer/Verifier data (Step 2), OR
+2. Do the next unit of static analysis (Step 3e), OR
+3. Run `bash tools/wait_for_work.sh mapper` and wait for new data
+
+There is no option 4. There is no "conclude." Completing 14 cycles of
+productive analysis and running out of static analysis means you wait
+for new data — the Explorer is working your priority list right now.
 
 **CRITICAL: Always pull (Step 1) after each unit of work.** Do not chain
 multiple tasks without pulling. The Explorer and Verifier may have pushed
