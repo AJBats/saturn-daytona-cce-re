@@ -10,9 +10,10 @@ how data behaves — the Verifier decides what it means.
    - `workstreams/auto_re/explorer_program.md` — this file
    - `workstreams/auto_re/save_states.md` — save state catalog with game context and temporal boundaries
    - `workstreams/driving_model/investigation_journal.md` — Tier 0 hypotheses (for picking targets)
-2. **Check**: Save states exist at `build/save_states/` (see `save_states.md` for the list).
-3. **Check**: `workstreams/auto_re/observations/` directory exists (create if not).
-4. **Scan**: Check which functions already have observation files. Don't redo them.
+2. **Read**: `build/samples/samples.md` — existing capture catalog (reuse captures, don't recreate)
+3. **Check**: Save states exist at `build/save_states/` (see `save_states.md` for the list).
+4. **Check**: `workstreams/auto_re/observations/` directory exists (create if not).
+5. **Scan**: Check which functions already have observation files. Don't redo them.
 
 ## What You CAN Do
 
@@ -350,6 +351,10 @@ input sequence, and frame count for deterministic replay.
 Add new captures when you need a scenario not yet covered (e.g., coast after
 throttle release, steering without throttle, race-mode for multi-car, offtrack
 driving).
+
+**When you create a new capture, add an entry to `build/samples/samples.md`**
+documenting the frames, input, save state, and purpose. This catalog is how
+the Mapper and Verifier know what captures exist and what they contain.
 
 ### What to look for in the data
 

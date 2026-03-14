@@ -101,6 +101,7 @@ tools/
   test_claim.py              ← mechanical test runner (the oracle)
 
 build/samples/
+  samples.md                 ← capture catalog (format + available captures)
   tt_*.csv                   ← per-frame capture CSVs (Explorer produces, all read)
 ```
 

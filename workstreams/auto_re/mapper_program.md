@@ -25,13 +25,14 @@ know how to implement waste human time and must be avoided.
    - `workstreams/auto_re/save_states.md` — available test scenarios
 2. **Scan**: `workstreams/auto_re/observations/` — all observation reports
 3. **Scan**: `workstreams/auto_re/claims/` — all claim YAML files
-4. **Scan**: `build/samples/` — available per-frame capture CSVs
+4. **Read**: `build/samples/samples.md` — capture catalog (what each CSV contains)
+5. **Scan**: `build/samples/` — available per-frame capture CSVs
 
 ## What You CAN Do
 
 - Read all observation reports, claims, results, and the struct map.
 - Read assembly files in `src/race/` for static call-graph analysis.
-- Read per-frame capture CSVs in `build/samples/`.
+- Read per-frame capture CSVs in `build/samples/` (see `samples.md` for catalog).
 - Update `workstreams/driving_model/struct_map.md` with new synthesis.
 - Update `workstreams/driving_model/investigation_journal.md` with new entries.
 - Write the priority list: `workstreams/auto_re/explorer_priorities.md`.

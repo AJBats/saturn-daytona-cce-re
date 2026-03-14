@@ -12,6 +12,7 @@ interface to the emulator is `tools/test_claim.py`.
    - `workstreams/auto_re/claim_schema.md` — the 4 test types and their fields
    - `workstreams/auto_re/save_states.md` — save state catalog with game context
    - `workstreams/driving_model/investigation_journal.md` — for additional context
+   - `build/samples/samples.md` — capture catalog (for cross-referencing observation data)
 2. **Check**: `workstreams/auto_re/observations/` has files to process.
 3. **Check**: `workstreams/auto_re/results.tsv` exists (create with header if not).
 4. **Scan**: Check which observation files already have corresponding claim files

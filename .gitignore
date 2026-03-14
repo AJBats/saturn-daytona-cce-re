@@ -2,6 +2,8 @@
 build/*
 !build/save_states/
 !build/save_states/*.mc0
+!build/samples/
+!build/samples/*
 reimpl/build/
 *.o
 *.elf
