@@ -747,6 +747,60 @@ Static analysis says FUN_06035904 writes it in its rts delay slot. Confirming
 this would complete the core feedback loop: +0xF0 -> +0x24 -> +0x34 -> downstream.
 This is Explorer Priority #1.
 
+### Entry 15: Position Integration Formula + Brake Transition Dynamics (Mapper Cycle 2-3, 2026-03-14)
+
+**Source**: Static analysis of FUN_06036790 assembly + CSV analysis of tt_throttle_then_brake_300f.csv
+
+**Position integration formula confirmed** (FUN_06036790 = dispatcher #18):
+```
++0x00 (X pos) += sin(-0x38) * (+0x24 * +0x158) >> 32
++0x08 (Z pos) += cos(-0x38) * (+0x24 * +0x158) >> 32
++0x108 = sin(-0x38) * (+0x24 * +0x158) >> 32   (X delta, stored separately)
++0x10C = cos(-0x38) * (+0x24 * +0x158) >> 32   (Z delta, stored separately)
+```
+
+This is standard physics integration: `d_position = direction * velocity * scale`.
+- +0x24 is the velocity magnitude (accumulated from +0xF0 force each frame)
+- +0x38 is the heading angle (negated for trig, static = straight line)
+- +0x158 is an extended-field scaling constant
+- The alternative path (FUN_06036808, when +0x170 != 0) has different computation
+  including table lookups — possibly for special states
+
+**Why +0x08 is static during throttle**: cos(-0x38) doesn't change because +0x38
+(heading) is static when driving straight. Position updates are purely in the X
+direction for straight-line driving. Only steering changes +0x38, which activates
+the Z component.
+
+**Field naming confirmed/proposed** (Mapper Cycle 2):
+- +0x00 = "X position" (CONFIRMED — integration formula proven)
+- +0x08 = "Z position" (CONFIRMED — same computation, cos component)
+- +0x24 = "velocity magnitude" (CONFIRMED — oracle writer + integration role)
+- +0x38 = "heading angle?" (PROPOSED — used as trig input, no NOP test)
+- +0x108 = "per-frame X delta" (CONFIRMED — stored as intermediate)
+- +0x10C = "per-frame Z delta" (CONFIRMED — stored as intermediate)
+
+**Brake transition dynamics** (from tt_throttle_then_brake_300f.csv analysis):
+
+Sampling: 60 Hz, physics: 30 Hz (values repeat in frame pairs).
+Transition: B (throttle) for 200 frames → A (brake) for 100 frames.
+
+Key observations:
+1. +0xF0 (force) flips sign at frame 204 (brake=127, ~50%). Magnitude: ~+900 at
+   full throttle → ~-1400 at full brake. This is the NET force on the car.
+2. +0x24 (velocity) peaks at frame 202 (0x0000F8D3 ≈ 3.87 in 16.16), then
+   declines monotonically to 0 at frame ~298.
+3. +0x90 (brake ramp) appears at frame 202 (value 0x3F = 63), reaches 0xFF
+   by frame 208. Same 23-frame ramp pattern as +0x80 (throttle) but for brake.
+4. +0x80 (throttle ramp) decays at 2/physics-frame during braking: 255→0 over
+   ~127 physics frames.
+5. +0x34 (speed gate) tracks +0x24's decline with the 0x006C0000 multiply.
+
+**Confirmed behavioral roles** (Mapper Cycle 3):
+- +0xF0 = "net force?" (PROPOSED — sign flip at brake confirmed, magnitude scales
+  with input, but no oracle-confirmed writer yet)
+- +0x80 = "throttle input ramp?" (PROPOSED — 23-frame up, 2/frame down)
+- +0x90 = "brake input ramp?" (PROPOSED — mirrors +0x80 for brake)
+
 ## Next Steps
 
 1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop

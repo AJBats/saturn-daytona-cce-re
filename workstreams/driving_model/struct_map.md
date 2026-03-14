@@ -295,7 +295,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Derived from +0x78 via clamping/scaling
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D62A (FUN_0604D580)
 
-### +0x80
+### +0x80 — throttle input ramp (proposed?)
 - **Writers**: Dispatcher at PC 0x0604D3AA (after FUN_0604D780 returns, delay slot, watchpoint-confirmed)
 - **Readers**: FUN_0604DB10 (primary input to multiply chain)
 - **Behavior**: input-responsive
@@ -306,16 +306,16 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0x88 and +0x8C (J=1.000, Cluster D). Note: different writer from +0x88 despite perfect correlation
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D3AA (dispatcher delay slot)
 
-### +0x84
-- **Writers**: Static analysis only
+### +0x84 — input-active flag
+- **Writers**: FUN_0604D580 at ~PC 0x0604D658 (observation-confirmed)
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: monotonic_up (2 uniq), binary: 0x00 -> 0x01
   - Steer+B: monotonic_up (2 uniq)
   - Accel->brake: changing (2 uniq)
-- **Correlations**: Binary flag, transitions once when any input is detected
-- **Oracle status**: Untested
+- **Correlations**: Binary flag, transitions once when any input is detected. Same writer function as +0x7C/+0x88/+0x8C (input scaling pipeline)
+- **Oracle status**: Writer identified via observation report (FUN_0604D580)
 
 ### +0x88
 - **Writers**: FUN_06036BC6 sub-call chain at PC 0x06037048 (watchpoint-confirmed); also FUN_0604D580 (static analysis, clamping logic to [0x38, 0xB8])
@@ -339,8 +339,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0x80 and +0x88 (J=1.000, Cluster D)
 - **Oracle status**: Confirmed writer FUN_0604D580 (static analysis)
 
-### +0x90
-- **Writers**: Static analysis only
+### +0x90 — brake input ramp (proposed?)
+- **Writers**: Static analysis only (mirrors +0x80 ramp pattern for brake input)
 - **Readers**: FUN_0604DB10 (read via wpool)
 - **Behavior**: static* (brake-only)
   - Idle: static at 0x00000000
@@ -552,8 +552,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Cluster E with +0xE8 and +0xFC (J>=0.98)
 - **Oracle status**: Untested
 
-### +0xF0
-- **Writers**: FUN_06035904 (final output, computed_value >> 8, rts delay slot)
+### +0xF0 — net force (proposed?)
+- **Writers**: FUN_06035904 (final output, computed_value >> 8, rts delay slot) — NOT YET ORACLE CONFIRMED
 - **Readers**: FUN_060366EC (accumulated into +0x24 each frame)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -561,7 +561,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (113 uniq)
   - Accel->brake: changing (125 uniq)
 - **Correlations**: Feeds into +0x24 integration. Broad correlation with Clusters A and E (J=0.75-0.80)
-- **Oracle status**: Untested for writes_to. Note: FUN_0603F61C writes_gbr100 PASS (55 hits) is for the AI chain struct, not the player struct
+- **Brake transition**: Sign flips from positive (acceleration) to negative (deceleration) at frame 204 when brake reaches 127/255 (50%). Magnitude: ~+900 at full throttle, ~-1400 at full brake. Confirms this is the NET force applied to velocity each frame
+- **Oracle status**: Untested for writes_to. HIGHEST PRIORITY for Explorer confirmation. Note: FUN_0603F61C writes_gbr100 PASS (55 hits) is for the AI chain struct, not the player struct
 
 ### +0xF4
 - **Writers**: FUN_060354A0 at PC 0x0603561A (oracle-confirmed, writes_F4 PASS)
