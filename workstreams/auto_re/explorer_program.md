@@ -228,7 +228,12 @@ For each reachable function:
 
 ## Picking Functions
 
-Prioritize in this order:
+**First, check `workstreams/auto_re/explorer_priorities.md`** — the Mapper
+maintains a prioritized list of functions to investigate, with specific
+investigation plans and reasoning. If a priority list exists, work it top
+to bottom. Each entry explains what struct map gap it fills and what to do.
+
+If no priority list exists, or you've completed all entries, fall back to:
 
 1. **Call-chain exploration** (best ROI). After observing a function, its callees
    and siblings are your best next targets — you already have context, and you
@@ -331,15 +336,20 @@ tool — it runs at full emulator speed with zero IPC overhead per frame.
 Build up a library of scenario captures in `build/samples/`. A good starting
 set covers the main input dimensions and key events:
 
-| Capture | Scenario | Frames | What it reveals |
+| Capture file | Save state scenario | Frames | What it reveals |
 |---------|----------|--------|-----------------|
-| `tt_idle_300f.csv` | No input | 300 | What drifts vs what's truly static |
-| `tt_throttle_300f.csv` | Hold B | 300 | Pure acceleration response |
-| `tt_steer_right_throttle_300f.csv` | B + RIGHT | 300 | Steering physics + wall strike event |
-| `tt_throttle_then_brake_300f.csv` | B 200f, A 100f | 300 | Accel→decel transition |
+| `tt_idle_300f.csv` | (no input) | 300 | What drifts vs what's truly static |
+| `tt_throttle_300f.csv` | `straight_throttle` | 300 | Pure acceleration response |
+| `tt_steer_right_throttle_300f.csv` | `right_wall_strike` | 300 | Steering physics + wall strike event |
+| `tt_throttle_then_brake_300f.csv` | (custom) | 300 | Accel→decel transition |
+
+CSV file names describe the capture content. The "Save state scenario" column
+maps to named scenarios in `save_states.md`, which define the exact save state,
+input sequence, and frame count for deterministic replay.
 
 Add new captures when you need a scenario not yet covered (e.g., coast after
-throttle release, steering without throttle, race-mode for multi-car).
+throttle release, steering without throttle, race-mode for multi-car, offtrack
+driving).
 
 ### What to look for in the data
 
@@ -369,19 +379,14 @@ the R14 address and size 472.
 ## Save States and Scenarios
 
 **Always consult `workstreams/auto_re/save_states.md`** before running experiments.
-It documents the game state, temporal boundaries, and known constraints for each
-save state.
+It is the single source of truth for available save states. Each entry documents
+the game state, temporal boundaries, known constraints, and named scenarios with
+specific input sequences. The human creates new save states — if you need a
+scenario that doesn't exist, note it in your observation report.
 
-Key save states:
-- **cce_race_start.mc0** — 40-car race, rolling start at 300 km/h. Best for
-  multi-car observations and per-car iteration. Avoid for clean speed tests
-  (cars already moving, corner comes quickly).
-- **cce_tt_straight.mc0** — Time trial, solo, dead stop on a long straight.
-  ~650 frames of clean straight-line physics before wall strike. Best for
-  throttle/brake/coast speed tests and single-car physics.
-
-Choose the right save state for what you're investigating. Multi-car functions
-need the race state. Speed/physics functions need the clean straight.
+Choose the right save state and scenario for what you're investigating. Each
+scenario encodes human-interpreted gameplay context (e.g., which driving model
+features are active). If the Mapper's priority list specifies a scenario, use it.
 
 When you create a new save state for a specific experiment, **add it to
 save_states.md** with the same format: mode, course, speed, location,
@@ -415,8 +420,45 @@ steer = hold LEFT or RIGHT.
   fires once every 5000 frames, the data you get from one hit is thin. Note
   the frequency and move on — don't burn an hour for one register dump.
 
+## Sync Protocol (multi-agent mode)
+
+When running in a separate repo clone alongside the Mapper and Verifier:
+
+**Before each cycle iteration:**
+```bash
+git pull --rebase origin $(git branch --show-current)
+```
+Then re-read `explorer_priorities.md` and check for new `*_questions.md` files.
+
+**After completing work:**
+```bash
+git add <your new/changed files>
+git commit -m "Add observations for FUN_XXXXXXXX, FUN_YYYYYYYY"
+git push origin $(git branch --show-current)
+```
+If push is rejected (another agent pushed first), pull --rebase and retry:
+```bash
+git pull --rebase origin $(git branch --show-current) && git push origin $(git branch --show-current)
+```
+
 ## NEVER STOP
 
 Once the loop has begun, do NOT pause to ask the human if you should continue.
-Investigate functions, write reports, move on. The loop runs until the human
-interrupts you.
+Investigate functions, write reports, commit, push, move on.
+
+**When you run out of work** (no priorities, no questions, no obvious next
+target), do NOT conclude the session. Instead, wait for work:
+
+```bash
+bash tools/wait_for_work.sh explorer
+```
+
+This checks origin for new work over ~8 minutes. Read the output:
+- If it says **NEW WORK FOUND** → resume your cycle
+- If it says **NO WORK FOUND** → run the script again immediately
+
+Never stop. Never conclude the session. Just keep running the script until
+work appears, then do the work, then run the script again.
+
+The loop runs until the human interrupts you. "No work available" is not a
+stopping condition — it's a waiting condition.

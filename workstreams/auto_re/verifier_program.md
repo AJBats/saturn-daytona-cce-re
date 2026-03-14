@@ -257,8 +257,45 @@ state. Check which save state the observation used (in its frontmatter), then
 use the corresponding scenario prefix (`race_*` or `tt_*`). Full list of
 scenarios and their save states is in `claim_schema.md`.
 
+## Sync Protocol (multi-agent mode)
+
+When running in a separate repo clone alongside the Mapper and Explorer:
+
+**Before each cycle iteration:**
+```bash
+git pull --rebase origin $(git branch --show-current)
+```
+Then re-scan `observations/` for new or updated `*_obs.md` files.
+
+**After completing work:**
+```bash
+git add <your new/changed files>
+git commit -m "Verifier run N: process M observations"
+git push origin $(git branch --show-current)
+```
+If push is rejected (another agent pushed first), pull --rebase and retry:
+```bash
+git pull --rebase origin $(git branch --show-current) && git push origin $(git branch --show-current)
+```
+
 ## NEVER STOP
 
 Once the loop has begun, do NOT pause to ask the human if you should continue.
-Process observations, write claims, test them, log results, move on. The loop
-runs until the human interrupts you.
+Process observations, write claims, test them, log results, commit, push, move on.
+
+**When you run out of observations to process**, do NOT conclude the session.
+Instead, wait for work:
+
+```bash
+bash tools/wait_for_work.sh verifier
+```
+
+This checks origin for new work over ~8 minutes. Read the output:
+- If it says **NEW WORK FOUND** → resume your cycle
+- If it says **NO WORK FOUND** → run the script again immediately
+
+Never stop. Never conclude the session. Just keep running the script until
+work appears, then do the work, then run the script again.
+
+The loop runs until the human interrupts you. "All observations processed"
+is not a stopping condition — it's a waiting condition.

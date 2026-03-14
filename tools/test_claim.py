@@ -37,6 +37,9 @@ SAVE_STATES = {
     # Time trial scenarios — from save_states.md
     "straight_throttle": os.path.join(PROJECT, "build", "save_states", "cce_tt_straight.mc0"),
     "right_wall_strike": os.path.join(PROJECT, "build", "save_states", "cce_tt_straight.mc0"),
+    # Offtrack scenarios — from save_states.md
+    "offtrack_throttle": os.path.join(PROJECT, "build", "save_states", "cce_tt_offtrack_stop.mc0"),
+    "offtrack_donut": os.path.join(PROJECT, "build", "save_states", "cce_tt_offtrack_stop.mc0"),
 }
 
 SCENARIO_INPUTS = {
@@ -49,6 +52,10 @@ SCENARIO_INPUTS = {
     # Time trial scenarios — from save_states.md
     "straight_throttle": ["B"],
     "right_wall_strike": ["RIGHT", "B"],
+    # Offtrack scenarios — from save_states.md
+    "offtrack_throttle": ["B"],
+    # offtrack_donut omitted: requires LEFT added at frame 124, which the
+    # current input system can't express (all inputs applied at frame 2)
 }
 
 CUE_PATH = os.path.join(
