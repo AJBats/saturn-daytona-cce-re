@@ -847,14 +847,56 @@ files in that project:
 has 95 offsets with writer PCs. Comparing writer function behavior between '95
 and CCE could accelerate identification of remaining CCE fields.
 
+### Entry 17: +0x38 Writer Traced + Collision Response Analysis (Mapper Cycle 5, 2026-03-14)
+
+**+0x38 (heading angle) writer traced via static analysis**:
+18 write sites found across 11 assembly files. The primary writers are:
+1. **FUN_06035C98** (dispatcher #15, line 200 in FUN_06035C98.s) — primary during
+   normal steering. Reads current +0x38, applies correction from +0x60/+0x3C, writes back.
+2. **FUN_06036808** (alternative path in FUN_06036790, line 778 in FUN_0603631C.s) —
+   copies from +0x110, active when +0x170 != 0 (not observed in current scenarios).
+3. **FUN_0602E03C** (line 1375 in FUN_0602E03C.s) — steering initialization from
+   raw input: reads @(12, r2), shifts left 9 bits, negates. This is the entry point
+   where raw controller input becomes heading angle.
+
+FUN_06035EE8 does NOT write +0x38 (confirmed). It only reads +0x38 and +0x3C to
+compute a delta written to +0x134.
+
+**Collision response analysis** (from tt_steer_right_throttle_300f.csv):
+
+At wall strike (~frame 142 in steer+B), 10 fields show dramatic changes:
+
+| Field | Behavior at collision | Interpretation |
+|-------|----------------------|----------------|
+| +0x24 (velocity) | Drops 29% (0x717B→0x50A0) in 1 frame | Direct velocity reduction |
+| +0x08 (Z position) | Direction reversal (up→down) | Bounce off wall |
+| +0xF4, +0xF8 | Direction reversal | Follow position change |
+| +0xE8, +0xEC | Direction reversal | Decay cluster responds |
+| +0xFC | Large jump | Cross-product intermediate |
+| +0xC4 | Large jump | Multiply chain output |
+| +0xDC | Large jump | Speed-derived follows |
+| +0x18 | Large jump | Cluster B follows velocity |
+
+**Critical finding**: +0xF0 (force) stays positive (~436) during the collision.
+The 29% velocity drop is NOT through the +0xF0 accumulation path — a separate
+collision response function directly modifies +0x24. This means:
+1. There is a collision response code path separate from the normal force→velocity pipeline
+2. The collision response writes to +0x24 directly (possibly via FUN_060366EC's conditional
+   paths, or via an external collision handler)
+3. For transplant, both the force pipeline AND the collision response path need mapping
+
+**Non-responsive to collision**: +0x00 (X pos, continues same trend), +0x30 (flags,
+no change), +0x38 (heading, no change at impact), +0xB8 (stays 0, NOT collision-related),
++0xF0 (force, barely changes).
+
 ## Next Steps
 
 1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
 2. **Find +0x2C player struct writer** — Explorer Priority #2, Cluster B gap
 3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
 4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA (static analysis)
-5. **Find +0x78 writer** — steer input injection point into driving model
-6. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C brake fields
-7. **Deep '95 cross-reference** — read '95 writer_map_comprehensive.md to find
-   more CCE field correspondences, especially for slip angle, segment index,
-   and surface friction fields
+5. ~~Find +0x38 writer~~ — RESOLVED: FUN_06035C98 primary, 18 sites total
+6. **Find collision response writer of +0x24** — who directly reduces velocity on wall strike?
+7. **Find +0x78 writer** — steer input injection point into driving model
+8. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C
+9. **Deep '95 cross-reference** — compare writer_map_comprehensive.md

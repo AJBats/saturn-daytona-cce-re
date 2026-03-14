@@ -139,6 +139,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: changing (144 uniq)
   - Accel->brake: changing (141 uniq)
 - **Correlations**: Perfect lockstep with +0x00 and +0xD0 (J=1.000). Integration target: +0xF0 is accumulated into +0x24 every frame by FUN_060366EC
+- **Collision response**: At wall strike (~frame 142 in steer+B), +0x24 drops 29% (0x717B->0x50A0) in one physics frame while +0xF0 remains positive (+436). The velocity loss is NOT through the +0xF0 accumulation path — a separate collision response writes directly to +0x24
 - **Oracle status**: writes_24 PASS (FUN_060366EC, 58 hits, PC 0x060366FA)
 
 ### +0x2C
@@ -175,7 +176,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: writes_34 PASS (FUN_0604D580, PC 0x0604D70A)
 
 ### +0x38 — heading angle (negated for trig)
-- **Writers**: Static analysis only (upstream writer unknown)
+- **Writers**: FUN_06035C98 (dispatcher #15, line 200) — primary during normal steering; FUN_06036808 (copies from +0x110, active when +0x170 != 0); FUN_0602E03C (steering init from raw input); 18 total write sites across 11 files
 - **Readers**: FUN_06036790 (negated, passed to sin/cos for position integration); FUN_06035EE8 (delta with +0x3C computed)
 - **Behavior**: input-responsive
   - Idle: static at 0x00004000
