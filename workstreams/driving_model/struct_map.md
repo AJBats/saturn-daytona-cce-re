@@ -489,15 +489,15 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: writes_D0 PASS (FUN_060366EC, PC 0x06036756, 59 hits)
 
 ### +0xD4
-- **Writers**: Static analysis only
+- **Writers**: FUN_0604D8EA (dispatcher sub-function between #6b and #7, static analysis confirmed; uses 0x1F4 threshold constant)
 - **Readers**: Not directly identified
 - **Behavior**: input-responsive
   - Idle: static at 0x000001F4 (500 decimal)
   - Throttle: changing (122 uniq), 0x1F4 -> 0x00001871
   - Steer+B: changing (50 uniq)
   - Accel->brake: changing (110 uniq)
-- **Correlations**: Correlates with Cluster B (J=0.877). Initial value 500 matches R4/R8 constant at FUN_0604DB10 entry
-- **Oracle status**: Untested
+- **Correlations**: Correlates with Cluster B (J=0.877). Initial value 500 is the threshold constant in the writer function
+- **Oracle status**: Writer identified via static analysis (FUN_0604D8EA). Not yet watchpoint/oracle confirmed
 
 ### +0xD8
 - **Writers**: FUN_0604DB10 (written as 0 in all scenarios); FUN_06035750 (conditionally set to negated +0xC4)

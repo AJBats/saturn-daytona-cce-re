@@ -36,16 +36,11 @@
   path. Its monotonic_up behavior in ALL scenarios (not just throttle)
   suggests it accumulates something universal.
 
-### 3. +0xD4 writer identification — throttle-responsive with Cluster B correlation
+### 3. ~~+0xD4 writer identification~~ RESOLVED (Mapper static analysis)
 
-- **Why**: +0xD4 has 122 unique values in throttle, initial value 500
-  (matches R4/R8 constant at FUN_0604DB10 entry), correlates with
-  Cluster B (J=0.877). Static analysis suggests FUN_0604DB10 may
-  write it but no field in the Data Flow Summary lists +0xD4 as output.
-  Finding the writer connects this to the known pipeline.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `straight_throttle`
-  (B held, 60 frames). Set watchpoint on GBR+0xD4 (absolute address
-  0x0605224C + 0xD4 = 0x06052320). Record writer PCs and values.
+- **RESOLVED**: Writer is FUN_0604D8EA (dispatcher sub-function between #6b
+  and #7). The 0x1F4 (500) constant is a threshold in that function.
+  No Explorer work needed. See journal Entry 16.
 - **What this unblocks**: +0xD4's role in the computation chain becomes
   clear. Its initial value of 500 and correlation with Cluster B suggest
   it may be a derived acceleration/force metric.

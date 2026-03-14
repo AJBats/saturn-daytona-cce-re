@@ -801,11 +801,60 @@ Key observations:
 - +0x80 = "throttle input ramp?" (PROPOSED — 23-frame up, 2/frame down)
 - +0x90 = "brake input ramp?" (PROPOSED — mirrors +0x80 for brake)
 
+### Entry 16: +0xD4 Writer Found + '95 Donor Cross-Reference (Mapper Cycle 4, 2026-03-14)
+
+**+0xD4 writer resolved via static analysis**: FUN_0604D8EA (dispatcher sub-function
+between #6b and #7, in FUN_0604D380.s). The 0x1F4 (500) constant is a threshold
+in this function, not just an initial value. Resolves Explorer Priority #3
+without needing runtime confirmation.
+
+**'95 Donor Struct Cross-Reference** (D:/Projects/SaturnReverseTest):
+
+The '95 project has extensive empirical documentation of its car struct (base
+0x06078900, stride 0x268 = 616 bytes, 40 entries, car[0] = player). Key reference
+files in that project:
+- `workstreams/driving_model/struct_map.md` — empirically confirmed fields
+- `workstreams/driving_model/writer_map_car0.md` — 81 offsets with writer PCs
+- `workstreams/driving_model/writer_map_comprehensive.md` — 95 offsets, 62K writes
+
+**Proposed CCE ↔ '95 field correspondences** (behavioral matching, NOT confirmed):
+
+| CCE | CCE role | '95 | '95 role | Matching evidence |
+|-----|----------|-----|----------|-------------------|
+| +0x00 | X position | +0x10 | Velocity X / position | Both monotonic with throttle, 455/'144 uniq |
+| +0x08 | Z position | +0x18 | Velocity Z / position | Both steer-responsive |
+| +0x0C | Heading angle (16-bit) | +0x20 | Heading | Both direction angles |
+| +0x24 | Velocity magnitude | +0x0C | Speed (internal) | Both primary speed; '95: HUD mph = value/1467 |
+| +0x34 | Speed-derived gate | +0x08 | Speed index | Both derived via fpmul from speed |
+| +0xF0 | Net force | +0xFC | Acceleration delta | Both force/accel: '95 = +70/frame throttle |
+
+**Structural differences**:
+- CCE: 472 bytes (0x1D8), '95: 616 bytes (0x268) — CCE is 144 bytes smaller
+- CCE uses 3 separate arrays (A stride 0x74, B stride 0x1D8, chain stride 0x100)
+- '95 uses 1 monolithic array (stride 0x268)
+- '95 car[0] = player, CCE player struct is separate from chain array
+
+**'95 fields NOT YET MAPPED in CCE** (transplant targets to find):
+- '95 +0x28: Slip angle (heading vs track direction)
+- '95 +0x30: Heading change rate / yaw delta
+- '95 +0x1E4: Track segment index
+- '95 +0x1E8: Segment table pointer
+- '95 +0x1F8: Surface index (friction lookup)
+- '95 +0x1FC: Previous surface index
+- '95 +0x00: Flags (collision, airborne state)
+
+**Reference for future cycles**: The '95 project's `writer_map_comprehensive.md`
+has 95 offsets with writer PCs. Comparing writer function behavior between '95
+and CCE could accelerate identification of remaining CCE fields.
+
 ## Next Steps
 
 1. **Confirm +0xF0 writer** — Explorer Priority #1, completes core loop
 2. **Find +0x2C player struct writer** — Explorer Priority #2, Cluster B gap
 3. **Execute NOP tests on +0x24, +0x34, +0xD0** — three fields ready for human testing
-4. **Find +0xD4 writer** — throttle-responsive, correlates with Cluster B
+4. ~~Find +0xD4 writer~~ — RESOLVED: FUN_0604D8EA (static analysis)
 5. **Find +0x78 writer** — steer input injection point into driving model
 6. **Sustained high-speed braking scenario** — needed for +0x90/+0x98/+0x9C brake fields
+7. **Deep '95 cross-reference** — read '95 writer_map_comprehensive.md to find
+   more CCE field correspondences, especially for slip angle, segment index,
+   and surface friction fields
