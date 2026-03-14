@@ -75,27 +75,27 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 
 ## Field Map
 
-### +0x00
-- **Writers**: FUN_06036790 at PC 0x060367E0 (watchpoint-confirmed, monotonic_down); also FUN_060366EC (via +0x24 integration, static analysis)
-- **Readers**: Multiple sub-functions for position computation
+### +0x00 — X position
+- **Writers**: FUN_06036790 at PC 0x060367E0 (watchpoint-confirmed; position integration: `+0x00 += sin(-0x38) * (+0x24 * +0x158) >> 32`)
+- **Readers**: FUN_06036790 (reads current value for accumulation), FUN_0604DB10 (wpool access), multiple sub-functions
 - **Behavior**: input-responsive
   - Idle: static at 0x008CF8D0
   - Throttle: monotonic_down (144 uniq), rate accelerates over time
   - Steer+B: changing (144 uniq)
   - Accel->brake: monotonic_down (141 uniq)
-- **Correlations**: Perfect lockstep with +0x24 and +0xD0 (J=1.000). Near-perfect with +0xF4,+0xF8 (J=0.993)
+- **Correlations**: Perfect lockstep with +0x24 and +0xD0 (J=1.000). Near-perfect with +0xF4,+0xF8 (J=0.993). Lockstep explained: position delta is proportional to velocity (+0x24)
 - **Oracle status**: Watchpoint-confirmed writer FUN_06036790 at PC 0x060367E0 (same function writes +0x0E, +0x108, +0x10C)
 
-### +0x08
-- **Writers**: Static analysis only -- likely written by a sub-function during steering
-- **Readers**: FUN_0604DB10 (wpool access), others
+### +0x08 — Z position
+- **Writers**: FUN_06036790 (position integration: `+0x08 += cos(-0x38) * (+0x24 * +0x158) >> 32`; same computation pattern as +0x00)
+- **Readers**: FUN_06036790 (reads current value for accumulation), FUN_0604DB10 (wpool access), others
 - **Behavior**: input-responsive
   - Idle: static at 0x0091960B
-  - Throttle: static
+  - Throttle: static (heading angle +0x38 is static in straight-line throttle, so cos component doesn't change position)
   - Steer+B: changing (144 uniq)
   - Accel->brake: static
-- **Correlations**: Only changes with directional input; no throttle-scenario correlation
-- **Oracle status**: Untested
+- **Correlations**: Only changes with directional input. Static during straight throttle because cos(-0x38) is constant when heading doesn't change
+- **Oracle status**: Writer identified via static analysis of FUN_06036790 (same function confirmed for +0x00)
 
 ### +0x0C
 - **Writers**: FUN_06036790 writes upper 16 bits (+0x0E); also read by multiple functions as heading angle
@@ -130,9 +130,9 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0x14 and +0x2C (J=1.000)
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D39E (FUN_0604D6B8 dispatcher delay slot)
 
-### +0x24
-- **Writers**: FUN_060366EC at PC ~0x060366FA (oracle-confirmed, writes_24 PASS, 58 hits)
-- **Readers**: FUN_0604D580 entry at 0x0604D6B8 (reads for +0x34 conversion)
+### +0x24 — velocity magnitude
+- **Writers**: FUN_060366EC at PC ~0x060366FA (oracle-confirmed, writes_24 PASS, 58 hits; accumulates +0xF0 each frame)
+- **Readers**: FUN_0604D580 entry at 0x0604D6B8 (reads for +0x34 conversion); FUN_06036790 (multiplied by +0x158 to compute position delta)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: monotonic_up (144 uniq), 0x00000000 -> 0x00015D4C
@@ -174,15 +174,15 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Perfect lockstep with +0xDC (J=1.000). Derived from +0x24 via: +0x24 * 0x006C0000 -> DMULS -> XTRCT -> SHLR16 -> clamp [0, 0x14E]
 - **Oracle status**: writes_34 PASS (FUN_0604D580, PC 0x0604D70A)
 
-### +0x38
-- **Writers**: Static analysis only
-- **Readers**: FUN_06035EE8 (delta with +0x3C computed)
+### +0x38 — heading angle (negated for trig)
+- **Writers**: Static analysis only (upstream writer unknown)
+- **Readers**: FUN_06036790 (negated, passed to sin/cos for position integration); FUN_06035EE8 (delta with +0x3C computed)
 - **Behavior**: input-responsive
   - Idle: static at 0x00004000
   - Throttle: static
   - Steer+B: changing (136 uniq)
   - Accel->brake: static
-- **Correlations**: Only changes with directional input
+- **Correlations**: Only changes with directional input. Controls the direction of position updates — static heading means straight-line motion
 - **Oracle status**: Untested
 
 ### +0x3C
@@ -598,17 +598,17 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 
 ## Extended Fields (beyond +0xFF)
 
-### +0x108
-- **Writers**: FUN_06036790 at PC 0x060367DC (watchpoint-confirmed, trig output from FUN_06047D3C)
-- **Readers**: Not yet identified
+### +0x108 — per-frame X velocity delta
+- **Writers**: FUN_06036790 at PC 0x060367DC (watchpoint-confirmed; `sin(-0x38) * (+0x24 * +0x158) >> 32`)
+- **Readers**: Not yet identified (computed then immediately added to +0x00)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - RIGHT+B: changes (0x00 -> 0xFFFFFFDA, signed negative)
 - **Oracle status**: Watchpoint-confirmed writer FUN_06036790
 
-### +0x10C
-- **Writers**: FUN_06036790 at PC 0x060367EC (watchpoint-confirmed, trig output from FUN_06047D20)
-- **Readers**: Not yet identified
+### +0x10C — per-frame Z velocity delta
+- **Writers**: FUN_06036790 at PC 0x060367EC (watchpoint-confirmed; `cos(-0x38) * (+0x24 * +0x158) >> 32`)
+- **Readers**: Not yet identified (computed then immediately added to +0x08)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - RIGHT+B: changes (0x00 -> 0x01)
