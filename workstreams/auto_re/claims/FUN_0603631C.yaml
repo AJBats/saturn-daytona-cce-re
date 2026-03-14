@@ -1,0 +1,41 @@
+# FUN_0603631C — Conditional dispatcher sub-function #13 (unreachable)
+#
+# Observation: workstreams/auto_re/observations/FUN_0603631C_obs.md
+# File: src/race/FUN_0603631C.s
+# Address range: 0x0603631C - 0x060366EC
+#
+# From observation data:
+# - 0 calls in 3000 frames across TT and race scenarios
+# - Gated by GBR+0x16A != 0 (always 0 in all tested save states)
+# - Unreachable in all tested scenarios
+
+function: FUN_0603631C
+address: 0x0603631C
+address_end: 0x060366EC
+source_file: src/race/FUN_0603631C.s
+
+claims:
+  - id: call_count_throttle
+    description: "Never called during TT straight throttle (gate +0x16A = 0)"
+    type: call_count_per_frame
+    function: FUN_0603631C
+    address: 0x0603631C
+    scenario: straight_throttle
+    expected_count: 0
+    tolerance: 0
+
+  - id: call_count_race
+    description: "Never called during race idle (gate +0x16A = 0)"
+    type: call_count_per_frame
+    function: FUN_0603631C
+    address: 0x0603631C
+    scenario: race_idle
+    expected_count: 0
+    tolerance: 0
+
+  - id: gate_field_stable
+    description: "GBR+0x4C (absolute 0x06052298, =0x01) stable during TT (known-static)"
+    type: value_stable
+    address: "0x06052298"
+    scenario: straight_throttle
+    frames: 120

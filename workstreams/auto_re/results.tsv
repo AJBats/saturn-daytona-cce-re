@@ -18,3 +18,7 @@ FUN_06035750	3	3	2	call_count_throttle PASS (3 calls, 1 dispatcher + 2 helper fa
 FUN_06035904	3	3	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000)
 FUN_06035C98	3	3	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+100=0x01), field68_stable PASS (GBR+104=0x01)
 FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag4C_stable PASS (GBR+76=0x01)
+FUN_0603631C	3	3	2	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01)
+FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag4C_stable PASS (GBR+76=0x01)
+FUN_06036790	3	3	2	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag54_stable PASS (GBR+84=0x01)
+FUN_06036CEC	3	3	2	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag68_stable PASS (GBR+104=0x01)

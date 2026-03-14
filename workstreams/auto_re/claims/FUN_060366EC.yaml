@@ -1,0 +1,39 @@
+# FUN_060366EC — Unconditional dispatcher sub (second-to-last, analysis deferred)
+#
+# Observation: workstreams/auto_re/observations/FUN_060366EC_obs.md
+# File: src/race/FUN_0603631C.s
+# Address range: 0x060366EC - 0x06036790
+#
+# From observation data:
+# - 1 call/frame (unconditional, NOT gated by +0x16A)
+# - GBR = 0x0605224C
+# - Field analysis deferred — using known-static GBR fields
+
+function: FUN_060366EC
+address: 0x060366EC
+address_end: 0x06036790
+source_file: src/race/FUN_0603631C.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_060366EC
+    address: 0x060366EC
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: flag4C_stable
+    description: "GBR+0x4C (=0x01) stable during throttle (known-static field)"
+    type: value_stable
+    address: "GBR+76"
+    scenario: straight_throttle
+    frames: 120
