@@ -1,0 +1,37 @@
+# FUN_0604D6B8 — Sub #3 of FUN_0604D580 block, writes +0x84 flag
+#
+# Observation: workstreams/auto_re/observations/field_writer_survey_004_obs.md
+# File: src/race/FUN_0604D380.s
+# Address range: 0x0604D6B8 - 0x0604D758 (sub #3 within FUN_0604D580 block)
+#
+# From survey data:
+# - Identified by breakpoint bracketing (mov.b write invisible to 4-byte watchpoint)
+# - +0x84 transitions 0x00000000 → 0x00000001 on first frame with B (throttle)
+# - Once set to 1, never resets within tested scenario
+# - Sub #3 also reads +0x24 and writes +0x34 (documented in FUN_0604D580_obs)
+#
+# NOTE: writes_to NOT possible (byte write invisible to watchpoint).
+# Using value_changes_with_input to confirm behavioral effect.
+
+function: FUN_0604D6B8
+address: 0x0604D6B8
+address_end: 0x0604D758
+source_file: src/race/FUN_0604D380.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame as dispatcher sub #3"
+    type: call_count_per_frame
+    function: FUN_0604D6B8
+    address: 0x0604D6B8
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: flag84_activates_throttle
+    description: "+0x84 flag changes from 0 to 1 when throttle (B) is applied"
+    type: value_changes_with_input
+    address: "GBR+132"
+    input: B
+    direction: increases
+    frames: 10

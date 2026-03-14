@@ -39,3 +39,4 @@ FUN_060371FC	1	1	1	writes_78 PASS (0x060522C4, 42 hits, PC 0x060371FE, right_wal
 FUN_0603833C	1	1	1	writes_2C PASS (0x06052278, 58 hits, PC 0x06038468, straight_throttle); survey_001 — writes via R14 not GBR (GBR=0x06057800)
 FUN_06035C58	1	1	1	writes_176_set PASS (0x060523C2, 13 hits, PC 0x06035C7A, right_wall_strike); survey_002 — collision trigger, sets timer +0x176=15
 FUN_060375F0	1	1	1	writes_A8 PASS (0x060522F4, 1 hit, PC 0x060376FE, right_wall_strike); survey_003 — writes via R14 not GBR, late activation near wall strike
+FUN_0604D6B8	2	2	1	call_count_throttle PASS (1 call), flag84_activates PASS (0→1 with B); survey_004 — sub #3 of D580, byte write invisible to watchpoint
