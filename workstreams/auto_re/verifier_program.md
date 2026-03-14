@@ -95,21 +95,27 @@ LOOP FOREVER:
    - **Oracle contradicts observation**: The observation says X, the oracle says
      Y. You cannot investigate this yourself — leave a question for the Explorer
      (see Feedback Channel below). Record the current result and move on.
+   - **Observation too thin for Tier 2**: The observation lacks field analysis
+     (no Per-Frame Field Analysis, no watchpoint data) so you can't write
+     function-specific claims beyond call_count. Record Tier 1 and request
+     deeper investigation from the Explorer (see Feedback Channel below).
    - **Test runner error**: STOP and escalate to human.
 
 9. **Commit results and Move to next observation.** Repeat from step 1.
 
 ## Feedback Channel
 
-When the oracle contradicts an observation (e.g., the observation says 0 calls
-but the oracle measures 2), you cannot resolve this yourself — you don't have
-debugger access.
+Use the feedback channel when you're blocked — either the oracle contradicts
+the observation, or the observation is too thin to write meaningful claims.
 
 Write a question file: `observations/FUN_XXXXXXXX_questions.md`
+
+### Oracle contradiction
 
 ```markdown
 ## Question from Verifier
 
+**Type**: Oracle contradiction
 **Claim**: call_count_idle, expected 0, oracle measured 2
 **Observation says**: 0 calls in 20,000 frames (FUN_0603AB72_obs.md)
 **Oracle says**: 2 breakpoint hits at 0x0603AB72 in 60 frames, race_idle
@@ -117,6 +123,28 @@ Write a question file: `observations/FUN_XXXXXXXX_questions.md`
 Can you recheck with a breakpoint at 0x0603AB72 for 200 frames in race_idle?
 The oracle uses breakpoint-based counting — if the observation used PC trace
 counting, that might explain the discrepancy.
+```
+
+### Observation too thin
+
+When the observation lacks Per-Frame Field Analysis or watchpoint data, you
+can't write function-specific claims and can only reach Tier 1. Request the
+missing data:
+
+```markdown
+## Question from Verifier
+
+**Type**: Need deeper field analysis
+**Function**: FUN_XXXXXXXX
+**Current tier**: 1 (call_count only — no function-specific writes_to or
+value_changes_with_input possible)
+**What's missing**: No Per-Frame Field Analysis section. No watchpoint data
+showing which GBR fields this function writes to.
+
+Can you run sample captures (idle + throttle) and analyze which fields this
+function's address range writes to? I need at least one field with observed
+writes from a PC in [0xXXXXXXXX, 0xXXXXXXXX) to write a writes_to claim,
+or an input-responsive field to write a value_changes_with_input claim.
 ```
 
 The Explorer will pick up questions on its next run (questions take priority
@@ -159,8 +187,8 @@ Look at the "Call Frequency" section. Use the observed count directly:
 
 ### value_changes_with_input claims
 
-Look at "Value Dynamics" or "GBR Field Survey" for fields that differ between
-idle and input scenarios:
+Look at the "Per-Frame Field Analysis" table for fields classified as
+"input-responsive" that this function writes to:
 
 ```yaml
 - id: field72_increases_throttle
@@ -177,7 +205,8 @@ supports `direction: increases`. If they're the same, don't write this claim.
 
 ### value_stable claims
 
-Look for fields in the GBR survey that don't change across 60 idle frames:
+Look for fields in the Per-Frame Field Analysis that the observation classifies
+as "static" AND that the function actually reads or writes (from the assembly):
 
 ```yaml
 - id: field128_stable_idle
@@ -187,13 +216,27 @@ Look for fields in the GBR survey that don't change across 60 idle frames:
   frames: 60
 ```
 
+**Do NOT use value_stable as padding.** A value_stable claim on a globally
+static field (like GBR+0xE4) that the function doesn't touch tells you nothing
+about the function. It will pass for every function. These don't count toward
+Tier 2. Only write value_stable claims on fields the function is known to
+interact with — it's meaningful to show "this function reads field X but
+doesn't change it under this scenario."
+
 ## Tier Assignment
 
 - **0 claims passed**: Tier 0 (hypothesis unconfirmed)
 - **1 claim passed**: Tier 1 (one empirical data point)
-- **3+ claims passed, at least 2 different test types**: Tier 2 (converging evidence)
+- **3+ claims passed, at least 2 different test types, at least 1 function-specific**: Tier 2 (converging evidence)
 
-Aim for Tier 2. If you can only get Tier 1, that's still a promotion from Tier 0.
+A claim is **function-specific** if it tests something unique to this function
+(see `claim_schema.md` for the full definition). Generic `value_stable` claims
+on fields the function doesn't touch are not function-specific and don't count
+toward Tier 2.
+
+Aim for Tier 2. If the observation lacks writes_to data or field analysis,
+you may not be able to reach Tier 2 — record Tier 1 and note what's missing.
+Don't pad with generic claims to fake Tier 2.
 
 ## Key Context
 

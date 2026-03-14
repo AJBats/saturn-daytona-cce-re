@@ -132,4 +132,19 @@ The test runner resolves `GBR+offset` by:
 
 - **0 claims passed**: Tier 0 (hypothesis unconfirmed)
 - **1 claim passed**: Tier 1 (one empirical data point)
-- **3+ claims passed, at least 2 different test types**: Tier 2 (converging evidence)
+- **3+ claims passed, at least 2 different test types, at least 1 function-specific**: Tier 2 (converging evidence)
+
+### Function-specific claim requirement
+
+A claim is **function-specific** if it tests something unique to this function:
+- `writes_to` where the expected writer PC is within the function's address range
+- `value_changes_with_input` on a field the observation shows this function writes to
+- `call_count_per_frame` counts as function-specific (it's inherently about this function)
+
+A claim is **NOT function-specific** if it would pass identically for any function:
+- `value_stable` on a field that is globally static (e.g., GBR+0xE4 = 0x10000 always)
+- `value_stable` on a field the function doesn't read or write
+
+Generic `value_stable` claims can still be included but don't count toward the
+Tier 2 minimum. They pass the oracle but don't tell you anything about the
+function under test.

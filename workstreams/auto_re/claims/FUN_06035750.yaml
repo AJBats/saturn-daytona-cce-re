@@ -10,8 +10,9 @@
 #   Total breakpoint hits: 3 per frame (2 from helper + 1 from dispatcher).
 # - GBR = 0x0605224C
 # - +0xC4 written by ANOTHER function (0x0604DBB2, not in range) — cross-writer
-# - +0x54 and +0x58 static 0x01 across all scenarios
-# Oracle feedback: call_count=3 (not 1), writes_C4 FAIL (cross-writer at 0x0604DBB2)
+# - +0xF8 written by dispatcher (0x0604D3F8, not in range) — cross-writer
+# - Timer writes (+0x182-+0x18E) gated by +0x54/+0x58 bit 2 (always 0) — unreachable
+# - Reads +0x0C (steer angle) and +0xAC (lateral offset), both non-globally-static
 
 function: FUN_06035750
 address: 0x06035750
@@ -28,16 +29,16 @@ claims:
     expected_count: 3
     tolerance: 1
 
-  - id: flag54_stable
-    description: "GBR+0x54 (flag byte, =0x01) stable during throttle"
+  - id: steer_angle_stable
+    description: "GBR+0x0C (steer angle, =0x3FFF) stable during idle — function reads this, not globally static (changes with steer)"
     type: value_stable
-    address: "GBR+84"
+    address: "GBR+12"
     scenario: straight_throttle
     frames: 120
 
-  - id: flag58_stable
-    description: "GBR+0x58 (flag byte, =0x01) stable during throttle"
+  - id: lateral_offset_stable
+    description: "GBR+0xAC (lateral offset, =0x00) stable during idle — function reads this, not globally static (changes with steer)"
     type: value_stable
-    address: "GBR+88"
+    address: "GBR+172"
     scenario: straight_throttle
     frames: 120

@@ -1,8 +1,8 @@
 # Explorer Program — Free-Form Function Investigation
 
 You are the Explorer. Your job is to observe what functions do at runtime using
-the emulator debugger, and produce structured observation reports. You do NOT
-interpret what you see — you record raw facts for the Verifier to analyze.
+the emulator debugger, and produce structured observation reports. You describe
+how data behaves — the Verifier decides what it means.
 
 ## Setup
 
@@ -35,9 +35,12 @@ interpret what you see — you record raw facts for the Verifier to analyze.
 One observation report per function, saved as:
 `workstreams/auto_re/observations/FUN_XXXXXXXX_obs.md`
 
-**Critical rule: report RAW DATA, not interpretations.** Do not say "this is the
-speed field." Say "GBR+72 was 0x00000000 at frame 0 and 0x0003F000 at frame 60
-with C held." The Verifier forms the interpretations. You record the facts.
+**Critical rule: describe BEHAVIOR, not PURPOSE.** You may characterize how a
+field moves — "GBR+72 increases monotonically from 0x0 to 0x3F000 over 300
+frames with B held, stays at 0x0 when idle." You may note correlations — "GBR+76
+tracks GBR+72 with a 1-frame lag." What you must NOT do is assign game-level
+meaning — don't say "this is the speed field" or "this controls steering." The
+Verifier forms those interpretations. You describe the data.
 
 ## Observation Report Format
 
@@ -84,27 +87,49 @@ you expect.
 | GBR+72 | N | 0x0603EExx, ... | 0x0000→0x1234 |
 | ... | ... | ... | ... |
 
-## GBR Field Survey
+## Per-Frame Field Analysis
 
-Dump GBR-relative memory at function entry for the first car hit.
-Read 256 bytes starting at GBR base. Report all nonzero fields.
+Capture the full GBR struct (256 bytes) every frame using `sample_memory`.
+Run at least two captures: idle (no input) and with input (B for throttle,
+or whatever is relevant to the function). Convert to CSV with `blob_to_csv.py`,
+generate plots with `plot_samples.py --moving-only`.
 
-| Offset | Size | Value (idle, frame 0) | Value (idle, frame 60) | Value (throttle, frame 60) |
-|--------|------|-----------------------|------------------------|---------------------------|
-| +72 | 4 | 0xXXXXXXXX | 0xXXXXXXXX | 0xXXXXXXXX |
-| ... | | | | |
+Classify every 32-bit field (64 fields at offsets +0x00 to +0xFC) into one
+of these behavioral categories:
 
-## Value Dynamics
+| Category | Description | Example pattern |
+|----------|-------------|-----------------|
+| static | Never changes across all frames and scenarios | Constant 0x00000000 or 0xFFFF0001 |
+| monotonic | Increases or decreases steadily | 0x0000 → 0x3F000 over 300 frames |
+| oscillating | Fluctuates around a center or cycles | Sine-like wave, or toggling values |
+| step | Holds steady then jumps to a new value | 0x0000 for 200 frames, then 0x10000 |
+| input-responsive | Behaves differently with input vs idle | Increases with B held, flat when idle |
+| correlated | Moves in lockstep with another field | +76 tracks +72 with 1-frame lag |
+| noisy | Changes every frame but no clear trend | Small random-looking fluctuations |
 
-For fields that the assembly reads or writes (from static analysis),
-sample values across multiple frames and scenarios.
+Report a summary table of all non-static fields:
+
+| Offset | Idle behavior | Input behavior | Category | Notes |
+|--------|---------------|----------------|----------|-------|
+| +0x48 | stable at 0x0 | monotonic increase | input-responsive | starts moving frame 3 with B |
+| +0x4C | stable at 0x0 | monotonic increase | correlated | tracks +0x48, 1-frame lag |
+| +0x80 | oscillating ±0x100 | oscillating ±0x500 | input-responsive | amplitude grows with B |
+
+For the most interesting fields (input-responsive, correlated, or fields the
+assembly reads/writes), include value snapshots:
 
 ### Field: GBR+NN
 - Frame 0: 0xXXXXXXXX
-- Frame 30 (idle): 0xXXXXXXXX
-- Frame 60 (idle): 0xXXXXXXXX
-- Frame 30 (C held): 0xXXXXXXXX
-- Frame 60 (C held): 0xXXXXXXXX
+- Frame 100 (idle): 0xXXXXXXXX
+- Frame 300 (idle): 0xXXXXXXXX
+- Frame 100 (B held): 0xXXXXXXXX
+- Frame 300 (B held): 0xXXXXXXXX
+
+### Sample captures
+Reference which captures from `build/samples/` were used in this analysis:
+- `tt_idle_300f.csv` — baseline
+- `tt_throttle_300f.csv` — input comparison
+- (list whichever captures are relevant to this function)
 
 ## Multi-Car Comparison
 
@@ -120,8 +145,11 @@ multiple cars (different GBR values on successive hits).
 ## Other Observations
 
 Anything else you noticed. Call chains, timing patterns,
-correlations between fields, unexpected behavior.
-Raw facts only — no "we suspect" or "this means."
+unexpected behavior. Describe what happened, not what it means.
+Good examples:
+- "+0x48 and +0x4C both jump to nonzero at the same frame (frame 47)"
+- "This function is called before FUN_0604DB10 every frame (PR shows return to 0x0604D3A0)"
+- "+0x90 goes negative (0xFFFFxxxx) when LEFT is held, positive when RIGHT is held"
 ```
 
 ## Investigation Procedure Per Function
@@ -142,7 +170,7 @@ Before investing time in a function, check if it actually fires:
 3 scenarios, write a partial report and move on. Don't chase unreachable
 functions.
 
-### Step 1–8: Full Investigation
+### Step 1–9: Full Investigation
 
 For each reachable function:
 
@@ -160,16 +188,43 @@ For each reachable function:
    value from step 2. Compute absolute addresses for the fields it touches.
 4. **Set watchpoints** on the addresses the function writes to (from static
    analysis). Run 60 frames in each scenario. Record all hits.
-5. **Survey GBR fields**. Dump 256 bytes at the GBR base address. Do this at
-   frame 0, frame 60 idle, and frame 60 with each input. Record all nonzero fields.
-6. **Sample value dynamics**. For the most interesting fields (the ones the
-   assembly reads/writes most), record values at frames 0, 30, 60 across
-   scenarios.
+5. **Capture per-frame samples** (if not already done for this struct). Use
+   `sample_memory` to dump the full 256-byte GBR struct every frame. Captures
+   are **scenario-scoped** — one capture serves all function observations that
+   touch the same struct. Save CSVs to `build/samples/` with descriptive names:
+   - `tt_idle_300f.csv` — no input baseline
+   - `tt_throttle_300f.csv` — hold B, pure acceleration
+   - `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike event
+   - `tt_throttle_then_brake_300f.csv` — B for 200 frames, A for 100, accel→decel
+   If these captures already exist, reuse them. Only create new captures when
+   you need a scenario that doesn't exist yet (e.g., steering without throttle,
+   or a race-mode capture for multi-car functions).
+   See "Field Sampling and Plotting" below for the MCP procedure.
+6. **Analyze the sample data** (MANDATORY — do not skip or defer). Read the
+   CSVs and cross-reference against the fields this function reads/writes
+   (from the assembly in step 1). For every field the assembly touches,
+   look it up in the capture data and classify its behavior. This step
+   produces the Per-Frame Field Analysis table in the observation report —
+   **an observation without this table is incomplete and will be sent back.**
+
+   Minimum deliverable: a table of all non-static fields this function
+   interacts with, showing idle behavior, input behavior, and category.
+
+   What to look for:
+   - Fields that only move with input (input-responsive)
+   - Fields that move in lockstep (correlated — likely computed from each other)
+   - Fields that change at the same frame (event markers)
+   - Fields the assembly writes to that *don't* change (dead writes or gates)
+   - Transitions: what happens at the throttle→brake boundary (frame 200 in
+     the accel→decel capture)? What happens at the wall strike (~frame 140)?
 7. **Multi-car comparison**. Let the breakpoint fire multiple times in one frame.
    Record GBR and key fields for the first 5 cars.
-8. **Write the observation report**. Fill in all sections. If a section doesn't
-   apply (e.g., function isn't called per-car), write "N/A" with a brief reason.
-9. **Commit the results**. Commit your observation report to the current branch.
+8. **Write the observation report**. Fill in all sections. The Per-Frame Field
+   Analysis section should be the richest part — it's built from your sample
+   data analysis in step 6. If a section doesn't apply (e.g., function isn't
+   called per-car), write "N/A" with a brief reason.
+9. **Commit the results**. Commit your observation report and sample captures
+   to the current branch.
 
 ## Picking Functions
 
@@ -271,29 +326,45 @@ tool — it runs at full emulator speed with zero IPC overhead per frame.
    python tools/plot_samples.py <capture_dir>/ --moving-only
    ```
 
-### Comparison captures
+### Standard capture set
 
-For idle-vs-input comparison, run two captures (one idle, one with input) into
-separate directories, then:
-```bash
-python tools/plot_samples.py <idle_dir>/ <throttle_dir>/ --compare
-```
+Build up a library of scenario captures in `build/samples/`. A good starting
+set covers the main input dimensions and key events:
 
-### What the plots show
+| Capture | Scenario | Frames | What it reveals |
+|---------|----------|--------|-----------------|
+| `tt_idle_300f.csv` | No input | 300 | What drifts vs what's truly static |
+| `tt_throttle_300f.csv` | Hold B | 300 | Pure acceleration response |
+| `tt_steer_right_throttle_300f.csv` | B + RIGHT | 300 | Steering physics + wall strike event |
+| `tt_throttle_then_brake_300f.csv` | B 200f, A 100f | 300 | Accel→decel transition |
 
-The plotter renders every 32-bit field as a time series (small multiples).
-Fields that don't change are dimmed. Events (like crashes) show up as
-simultaneous disruptions across many fields.
+Add new captures when you need a scenario not yet covered (e.g., coast after
+throttle release, steering without throttle, race-mode for multi-car).
 
-Save the dashboard PNGs alongside the observation report. They're useful
-for the Verifier and for human review.
+### What to look for in the data
+
+The CSVs have one row per frame, one column per 32-bit field (offsets +0x00
+to +0xFC). Cross-reference against the assembly to focus on fields this
+function touches, but also scan neighboring fields — functions often read
+inputs from fields written by other functions in the same pipeline.
+
+Key analytical patterns:
+- **Idle vs throttle diff**: fields that are flat in idle but move with B
+  are input-responsive — strong candidates for `value_changes_with_input` claims
+- **Correlated fields**: two fields that change at the same rate or with a
+  fixed lag suggest a computation chain (e.g., acceleration → velocity)
+- **Event signatures**: wall strike (~frame 140 in steer+throttle capture)
+  shows up as simultaneous disruptions across many fields — the fields that
+  react are part of the collision response system
+- **Transition behavior**: the throttle→brake capture shows what happens when
+  input changes — fields that reverse direction are accumulator-like (velocity),
+  fields that snap to new values are state/mode fields
 
 ### R14 (Array B) sampling
 
 To also capture the R14 block, resolve R14 from the same breakpoint hit in
-step 2, then run a second `sample_memory` call with the R14 address and size
-472. Name the output `r14_samples.bin` and add `r14_address`, `r14_size` to
-the metadata.
+step 2 of the sampling procedure, then run a second `sample_memory` call with
+the R14 address and size 472.
 
 ## Save States and Scenarios
 
