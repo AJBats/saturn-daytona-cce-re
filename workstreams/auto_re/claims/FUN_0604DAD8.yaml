@@ -1,13 +1,16 @@
-# FUN_0604DAD8 — Dispatcher sub #7 (small, analysis deferred)
+# FUN_0604DAD8 — State-to-constant mapper via +0x17E table lookup
 #
 # Observation: workstreams/auto_re/observations/FUN_0604DAD8_obs.md
 # File: src/race/FUN_0604D380.s
 # Address range: 0x0604DAD8 - 0x0604DB10
 #
 # From observation data:
-# - 1 call/frame (unconditional, called after conditional block)
+# - 1 call/frame (unconditional, dispatcher sub #7)
 # - GBR = 0x0605224C
-# - Small function (~56 bytes), analysis deferred
+# - Computes table lookup from +0x17E, result stored by DISPATCHER at +0xBC
+#   (writer PC 0x0604D3E6, not in function range — cross-writer)
+# - +0xBC = 0x00 during idle/throttle, nonzero with steer (input-responsive)
+# - Tier 1: cross-writer blocks writes_to, function too simple for 3+ claims
 
 function: FUN_0604DAD8
 address: 0x0604DAD8
@@ -24,16 +27,9 @@ claims:
     expected_count: 1
     tolerance: 0
 
-  - id: E4_stable
-    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
+  - id: BC_stable_throttle
+    description: "GBR+0xBC (=0x00) stable during throttle — function output field, non-globally-static (changes with steer)"
     type: value_stable
-    address: "GBR+228"
-    scenario: straight_throttle
-    frames: 120
-
-  - id: field74_stable
-    description: "GBR+0x74 (=0x002DD774) stable during throttle (static constant)"
-    type: value_stable
-    address: "GBR+116"
+    address: "GBR+188"
     scenario: straight_throttle
     frames: 120

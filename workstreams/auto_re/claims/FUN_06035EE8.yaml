@@ -1,4 +1,4 @@
-# FUN_06035EE8 — Penultimate dispatcher sub-function (analysis deferred)
+# FUN_06035EE8 — Steering delta blender, writes +0x134
 #
 # Observation: workstreams/auto_re/observations/FUN_06035EE8_obs.md
 # File: src/race/FUN_06035C98.s
@@ -7,8 +7,8 @@
 # From observation data:
 # - 1 call/frame (dispatcher sub-function from FUN_0604D380)
 # - GBR = 0x0605224C
-# - Per-frame field analysis deferred — using known-static fields from
-#   same GBR struct confirmed by other functions in the dispatcher chain
+# - Reads +0x38, +0x3C, +0xAC; writes +0x134 (outside 256-byte capture range)
+# - +0x38/+0x3C change with steer (non-globally-static), function reads them
 
 function: FUN_06035EE8
 address: 0x06035EE8
@@ -25,16 +25,18 @@ claims:
     expected_count: 1
     tolerance: 0
 
-  - id: E4_stable
-    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
-    type: value_stable
-    address: "GBR+228"
-    scenario: straight_throttle
-    frames: 120
+  - id: writes_134
+    description: "Writes blended steering delta to GBR+0x134 (fires with steer input, delta=0 skipped)"
+    type: writes_to
+    function: FUN_06035EE8
+    function_end: 0x06035F48
+    address: "GBR+308"
+    scenario: right_wall_strike
+    frames: 300
 
-  - id: flag4C_stable
-    description: "GBR+0x4C (=0x01) stable during throttle (known-static field)"
+  - id: heading_A_stable
+    description: "GBR+0x38 (=0x4000) stable during throttle — function reads this, non-globally-static (changes with steer)"
     type: value_stable
-    address: "GBR+76"
+    address: "GBR+56"
     scenario: straight_throttle
     frames: 120

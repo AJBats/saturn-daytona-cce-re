@@ -17,14 +17,14 @@ FUN_060354A0	3	3	2	call_count_throttle PASS (1 call), writes_F4 PASS (GBR+244), 
 FUN_06035750	3	3	2	call_count_throttle PASS (3 calls), steer_angle_stable PASS (GBR+12=0x3FFF, non-globally-static), lateral_offset_stable PASS (GBR+172=0x00, non-globally-static)
 FUN_06035904	3	3	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000)
 FUN_06035C98	3	3	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+100=0x01, non-globally-static), field68_stable PASS (GBR+104=0x01, non-globally-static)
-FUN_06035EE8	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag4C_stable PASS (GBR+76=0x01); DOWNGRADED: E4 and 4C are globally static — Explorer question filed
+FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 299 hits, right_wall_strike), heading_A_stable PASS (GBR+56=0x4000, non-globally-static)
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
-FUN_060366EC	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag4C_stable PASS (GBR+76=0x01); DOWNGRADED: E4 and 4C are globally static — Explorer question filed
+FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), writes_24 PASS (GBR+36, 58 hits, PC 0x060366FA), writes_D0 PASS (GBR+208, 59 hits, PC 0x06036756)
 FUN_06036790	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag54_stable PASS (GBR+84=0x01); DOWNGRADED: E4 and 54 are globally static — Explorer question filed
 FUN_06036CEC	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), flag68_stable PASS (GBR+104=0x01); DOWNGRADED: E4 and 68 are globally static — Explorer question filed
 FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
 FUN_0604D580	3	3	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
-FUN_0604DAD8	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field74_stable PASS (GBR+116=0x002DD774); DOWNGRADED: E4 globally static, field74 unclear — Explorer question filed
+FUN_0604DAD8	2	2	1	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00, non-globally-static); writes_BC cross-writer (dispatcher PC 0x0604D3E6)
 FUN_0604DB10	3	3	2	call_count_throttle PASS (1 call), writes_C4 PASS (GBR+196, PC 0x0604DBB2, 59 hits), field74_stable PASS (GBR+116=0x002DD774)
 FUN_0604DD04	3	3	1	call_count_throttle PASS (1 call), E0_stable PASS (GBR+224=0x00), E4_stable PASS (GBR+228=0x10000); DOWNGRADED: both E0 and E4 are globally static outputs (no-op with +0x10=0)
