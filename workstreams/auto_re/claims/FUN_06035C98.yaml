@@ -1,0 +1,40 @@
+# FUN_06035C98 — Trig/sqrt computation with angle summation
+#
+# Observation: workstreams/auto_re/observations/FUN_06035C98_obs.md
+# File: src/race/FUN_06035C98.s
+# Address range: 0x06035C98 - 0x06035EE8
+#
+# From observation data:
+# - 1 call/frame (dispatcher sub-function from FUN_0604D380)
+# - GBR = 0x0605224C
+# - Reads +0x64 (static 0x01 during throttle), +0x68 (static 0x01 during throttle)
+# - Write list not fully documented (deferred static analysis)
+
+function: FUN_06035C98
+address: 0x06035C98
+address_end: 0x06035EE8
+source_file: src/race/FUN_06035C98.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_06035C98
+    address: 0x06035C98
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: field64_stable
+    description: "GBR+0x64 (=0x01) stable during straight throttle (no steering)"
+    type: value_stable
+    address: "GBR+100"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: field68_stable
+    description: "GBR+0x68 (=0x01) stable during straight throttle (no steering)"
+    type: value_stable
+    address: "GBR+104"
+    scenario: straight_throttle
+    frames: 120

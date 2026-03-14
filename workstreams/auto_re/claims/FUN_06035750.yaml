@@ -1,0 +1,43 @@
+# FUN_06035750 — Timer chain manager with sqrt magnitude computation
+#
+# Observation: workstreams/auto_re/observations/FUN_06035750_obs.md
+# File: src/race/FUN_060351CC.s
+# Address range: 0x06035750 - 0x060358F0
+#
+# From observation data:
+# - 1 direct call/frame from dispatcher, BUT FUN_06035624 helper (called 2x
+#   by FUN_060354A0) returns to FUN_06035748 which falls through to 0x06035750.
+#   Total breakpoint hits: 3 per frame (2 from helper + 1 from dispatcher).
+# - GBR = 0x0605224C
+# - +0xC4 written by ANOTHER function (0x0604DBB2, not in range) — cross-writer
+# - +0x54 and +0x58 static 0x01 across all scenarios
+# Oracle feedback: call_count=3 (not 1), writes_C4 FAIL (cross-writer at 0x0604DBB2)
+
+function: FUN_06035750
+address: 0x06035750
+address_end: 0x060358F0
+source_file: src/race/FUN_060351CC.s
+
+claims:
+  - id: call_count_throttle
+    description: "3 breakpoint hits/frame (1 dispatcher + 2 from FUN_06035624 helper fallthrough)"
+    type: call_count_per_frame
+    function: FUN_06035750
+    address: 0x06035750
+    scenario: straight_throttle
+    expected_count: 3
+    tolerance: 1
+
+  - id: flag54_stable
+    description: "GBR+0x54 (flag byte, =0x01) stable during throttle"
+    type: value_stable
+    address: "GBR+84"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: flag58_stable
+    description: "GBR+0x58 (flag byte, =0x01) stable during throttle"
+    type: value_stable
+    address: "GBR+88"
+    scenario: straight_throttle
+    frames: 120

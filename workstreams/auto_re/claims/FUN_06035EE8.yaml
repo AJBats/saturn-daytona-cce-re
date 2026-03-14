@@ -1,0 +1,40 @@
+# FUN_06035EE8 — Penultimate dispatcher sub-function (analysis deferred)
+#
+# Observation: workstreams/auto_re/observations/FUN_06035EE8_obs.md
+# File: src/race/FUN_06035C98.s
+# Address range: 0x06035EE8 - 0x06035F48
+#
+# From observation data:
+# - 1 call/frame (dispatcher sub-function from FUN_0604D380)
+# - GBR = 0x0605224C
+# - Per-frame field analysis deferred — using known-static fields from
+#   same GBR struct confirmed by other functions in the dispatcher chain
+
+function: FUN_06035EE8
+address: 0x06035EE8
+address_end: 0x06035F48
+source_file: src/race/FUN_06035C98.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_06035EE8
+    address: 0x06035EE8
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (known-static field)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120
+
+  - id: flag4C_stable
+    description: "GBR+0x4C (=0x01) stable during throttle (known-static field)"
+    type: value_stable
+    address: "GBR+76"
+    scenario: straight_throttle
+    frames: 120

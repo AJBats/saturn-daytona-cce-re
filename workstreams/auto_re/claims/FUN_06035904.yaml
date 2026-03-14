@@ -1,0 +1,42 @@
+# FUN_06035904 — Cross-product computation with sqrt and conditional zeroing
+#
+# Observation: workstreams/auto_re/observations/FUN_06035904_obs.md
+# File: src/race/FUN_06035904.s
+# Address range: 0x06035904 - 0x06035B0E
+#
+# From observation data:
+# - 1 call/frame (dispatcher sub-function #12 from FUN_0604D380)
+# - GBR = 0x0605224C
+# - Writes +0x6C at ~PC 0x060359B6 (sqrt result, in range)
+# - +0xE4 static 0x10000 across all scenarios
+
+function: FUN_06035904
+address: 0x06035904
+address_end: 0x06035B0E
+source_file: src/race/FUN_06035904.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_06035904
+    address: 0x06035904
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: writes_FC
+    description: "Writes cross-product intermediate to GBR+0xFC (PC ~0x06035958, in range)"
+    type: writes_to
+    function: FUN_06035904
+    function_end: 0x06035B0E
+    address: "GBR+252"
+    scenario: straight_throttle
+    frames: 60
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (read-only input)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120

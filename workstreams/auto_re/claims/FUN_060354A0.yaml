@@ -1,0 +1,42 @@
+# FUN_060354A0 — Fixed-point rotation transform with clamped delta output
+#
+# Observation: workstreams/auto_re/observations/FUN_060354A0_obs.md
+# File: src/race/FUN_060351CC.s
+# Address range: 0x060354A0 - 0x06035620
+#
+# From observation data:
+# - 1 call/frame (dispatcher sub-function #10 from FUN_0604D380)
+# - GBR = 0x0605224C (player car struct)
+# - Writes +0xF4 at PC 0x0603561A (in range), +0xF8 at PC 0x06035620 (rts delay)
+# - +0xE4 static 0x10000 across all scenarios
+
+function: FUN_060354A0
+address: 0x060354A0
+address_end: 0x06035620
+source_file: src/race/FUN_060351CC.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame with throttle"
+    type: call_count_per_frame
+    function: FUN_060354A0
+    address: 0x060354A0
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: writes_F4
+    description: "Writes rotation result to GBR+0xF4 (PC 0x0603561A in range)"
+    type: writes_to
+    function: FUN_060354A0
+    function_end: 0x06035620
+    address: "GBR+244"
+    scenario: straight_throttle
+    frames: 60
+
+  - id: E4_stable
+    description: "GBR+0xE4 (=0x10000) stable during throttle (read-only input)"
+    type: value_stable
+    address: "GBR+228"
+    scenario: straight_throttle
+    frames: 120
