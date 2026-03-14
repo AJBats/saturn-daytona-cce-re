@@ -39,20 +39,24 @@ FUN_06036CEC is the FIRST sub-function called by the player physics dispatcher
 
 ## Per-Frame Field Analysis
 
-Deferred — this function's GBR field access has not been statically analyzed yet.
-When analyzed, cross-reference against the standard capture set below.
+This function does NOT access any GBR fields within the +0x00 to +0xFF range.
+Static analysis of the assembly at 0x06036CEC shows it only performs register
+saves (`mov.l r8, @-r15` through `mov.l r13, @-r15` — 6 pushes) before falling
+through to FUN_06036BC6's body, which operates on an external data structure
+accessed via an indirect pointer at GBR+0x12C, not the player struct directly.
+
+No fields from the standard captures are relevant to this function.
 
 ### Sample captures
 
-- `tt_idle_300f.csv` — baseline (no input)
-- `tt_throttle_300f.csv` — hold B, pure acceleration
-- `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
-- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
+N/A — function does not access the 256-byte GBR struct captured in the standard set.
 
 ## Other Observations
 
-- As the first dispatcher call, this function may initialize per-frame
-  physics state or load registers for the rest of the pipeline.
-- Multiple function pointers in registers (R8, R9, R10, R12) suggest this
-  function sets up a dispatch table or initializes callback pointers.
-- Deeper static analysis deferred.
+- This is a register-save preamble: pushes r8-r13 and falls through into
+  FUN_06036BC6's body. The dispatcher calls it first to set up the stack frame
+  for the rest of the pipeline.
+- FUN_06036BC6 accesses GBR+0x12C (an indirect pointer to an external structure),
+  GBR+0x48 (write), GBR+0x10 (write, 16-bit), and GBR+0x4C (write). These are
+  within capture range but accessed through the FUN_06036BC6 body, not the
+  0x06036CEC entry point itself.

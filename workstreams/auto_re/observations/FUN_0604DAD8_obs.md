@@ -41,19 +41,35 @@ position integration function (FUN_0604DB10, #8).
 
 ## Per-Frame Field Analysis
 
-Deferred — this function's GBR field access has not been statically analyzed yet.
-When analyzed, cross-reference against the standard capture set below.
+Fields this function reads and writes, cross-referenced against 300-frame captures.
+
+| Offset | Idle behavior | Throttle behavior | Steer+B behavior | Category | Access | Notes |
+|--------|---------------|-------------------|-------------------|----------|--------|-------|
+| +0xBC | static 0x00 | static 0x00 | monotonic_up (2 unique) | input-responsive | W | write via wpool 0xBC; value from table lookup (rts delay slot) |
+
+This function also reads +0x17E (16-bit, offset 382 — outside 256-byte capture).
+
+The computation: reads +0x17E as a selector (0-4 range via cascade of `cmp/eq`
+checks). Uses the selector as an index into a 4-entry table at 0x002DD65C
+(pool constant). Loads a 32-bit value from the table and writes it to +0xBC.
+
+When +0x17E is 0 (the common case at idle), the selector is 0, and the first
+table entry is used. The table entries appear to be constant values that map
+different states of +0x17E to different +0xBC values.
+
++0xBC is static at 0x00 in both idle and throttle captures, but changes to
+a nonzero value with steering input (2 unique values in the steer+B capture).
+This is consistent with +0x17E becoming nonzero during steering/collision events.
 
 ### Sample captures
 
 - `tt_idle_300f.csv` — baseline (no input)
 - `tt_throttle_300f.csv` — hold B, pure acceleration
-- `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
-- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
+- `tt_steer_right_throttle_300f.csv` — B + RIGHT, needed to see +0xBC change
 
 ## Other Observations
 
-- R4=R8=0x1F4 (500) and R1=0xD4 suggest this function works with
-  GBR+0xD4 field (which from mem_sample data is one of the changing
-  fields during throttle acceleration).
-- Deeper static analysis deferred.
+- R4=R8=0x1F4 (500) and R1=0xD4 are register values from the prior function
+  in the dispatcher chain, not used by this function.
+- This function is a simple state-to-constant mapper: +0x17E selects which
+  constant from a lookup table gets written to +0xBC.

@@ -38,19 +38,43 @@ FUN_0603631C itself). It is the second-to-last call in the dispatcher chain.
 
 ## Per-Frame Field Analysis
 
-Deferred — this function's GBR field access has not been statically analyzed yet.
-When analyzed, cross-reference against the standard capture set below.
+Fields this function reads and writes, cross-referenced against 300-frame captures.
+
+| Offset | Idle behavior | Throttle behavior | Steer+B behavior | Category | Access | Notes |
+|--------|---------------|-------------------|-------------------|----------|--------|-------|
+| +0x24 | static 0x00 | monotonic_up (144 unique) | changing (144 unique) | input-responsive | R/W | read via `@(36, r0)`; +0xF0 added, written back; clamped to >= 0 |
+| +0xC0 | static 0x00 | static 0x00 | static 0x00 | static | W | write via wpool 0xC0; computed residual after clamping |
+| +0xD0 | static 0x00 | changing (144 unique) | changing (143 unique) | input-responsive | W | write via wpool 0xD0; clamped to [0, 0x2134] |
+| +0xF0 | static 0x00 | changing (97 unique) | changing (113 unique) | input-responsive | R | read via wpool 0xF0; added to +0x24 |
+
+This function also reads +0x17A (16-bit, offset 378 — outside 256-byte capture)
+for a table lookup, and reads +0x34 (`@(52, r0)`) as a gate: if +0x34 >= 0x41 (65),
+it enters a conditional block that reads +0x68 and conditionally sets flag bits
+in +0x30 (`@(48, r0)`).
+
+Additional fields accessed in the conditional block:
+| +0x30 | static 0x00 | static 0x00 | changing (5 unique) | input-responsive | R/W | OR'd with flag constants 0x20000000/0x40000000 or 0x10000000/0x40000000 |
+| +0x34 | static 0x00 | monotonic_up (130 unique) | changing (63 unique) | input-responsive | R | gate: compared with 0x41 (65 decimal) |
+| +0x68 | static 0x01 | static 0x01 | changing (120 unique) | input-responsive | R | read via wpool 0x68; clamped to [-0xCA00, 0xCA00] range |
+
+The computation: reads +0x24 (current value), adds +0xF0, writes back to +0x24.
+If result is negative, zeros both +0x24 and +0xF0. Then does a table lookup
+via +0x17A, multiplies, clamps to [0, 0x2134], writes to +0xD0. Residual
+written to +0xC0. Also writes 1 to +0x17E if +0x68 exceeds clamp range.
 
 ### Sample captures
 
 - `tt_idle_300f.csv` — baseline (no input)
 - `tt_throttle_300f.csv` — hold B, pure acceleration
 - `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
-- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
 
 ## Other Observations
 
 - Despite being in the FUN_0603631C TU, this entry point is NOT gated by
   +0x16A — it's called unconditionally.
-- Deeper static analysis deferred — runtime verification confirms
-  reachability and 1 call/frame.
+- +0x24 is the most actively changing field in the throttle capture (144 unique
+  values), and this function is a primary writer: it accumulates +0xF0 into +0x24
+  every frame. This is the core integration step for that field.
+- +0xC0 is static across all standard captures despite being written every frame —
+  the residual computation always produces 0 in the tested scenarios. It may
+  become nonzero at higher values of +0xD0 (near the 0x2134 clamp).
