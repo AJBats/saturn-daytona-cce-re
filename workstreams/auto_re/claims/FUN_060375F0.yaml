@@ -1,0 +1,30 @@
+# FUN_060375F0 — Writes +0xA8 (collision proximity / track boundary)
+#
+# Observation: workstreams/auto_re/observations/field_writer_survey_003_obs.md (Priority #8)
+# File: src/race/FUN_06036CF8.s
+# Address range: 0x060375F0 - 0x060377CC (includes sub-functions 06037658, 0603765C)
+#
+# From survey data:
+# - Writer PC 0x060376FE (in sub-function FUN_0603765C within this block)
+# - GBR = 0x06057800 (NOT player struct — different struct)
+# - R14 = 0x0605224C (IS player struct — write goes via R7=0x060522F4)
+# - Values: 0x00→0x08 at frame 130 (near wall strike)
+# - Called from FUN_06037E28.s TU (per-frame game loop, not player dispatcher)
+#
+# NOTE: Using absolute address because GBR != player struct base.
+# Extended function_end to 0x060377CC to cover sub-function where write occurs.
+
+function: FUN_060375F0
+address: 0x060375F0
+address_end: 0x060377CC
+source_file: src/race/FUN_06036CF8.s
+
+claims:
+  - id: writes_A8
+    description: "Writes to player struct +0xA8 (absolute 0x060522F4) near wall strike"
+    type: writes_to
+    function: FUN_060375F0
+    function_end: 0x060377CC
+    address: 0x060522F4
+    scenario: right_wall_strike
+    frames: 150

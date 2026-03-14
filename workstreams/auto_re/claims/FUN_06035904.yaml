@@ -40,3 +40,12 @@ claims:
     address: "GBR+228"
     scenario: straight_throttle
     frames: 120
+
+  - id: writes_A0
+    description: "Writes to GBR+0xA0 (PC 0x06035AC0, near wall strike, survey_003)"
+    type: writes_to
+    function: FUN_06035904
+    function_end: 0x06035B0E
+    address: "GBR+160"
+    scenario: right_wall_strike
+    frames: 150

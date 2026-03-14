@@ -15,7 +15,7 @@ FUN_0603B284	3	3	1	call_count_idle PASS (0 calls), call_count_steer PASS (0 call
 FUN_0603B4A4	3	3	1	call_count_idle PASS (0 calls), call_count_throttle PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0); DOWNGRADED: gate_byte is generic, 0 calls — unreachable in race
 FUN_060354A0	3	3	2	call_count_throttle PASS (1 call), writes_F4 PASS (GBR+244), E4_stable PASS (GBR+228=0x10000)
 FUN_06035750	3	3	2	call_count_throttle PASS (3 calls), steer_angle_stable PASS (GBR+12=0x3FFF, non-globally-static), lateral_offset_stable PASS (GBR+172=0x00, non-globally-static)
-FUN_06035904	3	3	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000)
+FUN_06035904	4	4	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000), writes_A0 PASS (GBR+160, 149 hits, PC 0x06035AC0, survey_003)
 FUN_06035C98	5	5	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+100=0x01), field68_stable PASS (GBR+104=0x01), writes_E8 PASS (GBR+232, 59 hits, PC 0x06035E4E, survey_002), writes_EC PASS (GBR+236, 59 hits, PC 0x06035E50, survey_002)
 FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 299 hits, right_wall_strike), heading_A_stable PASS (GBR+56=0x4000, non-globally-static)
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
@@ -38,3 +38,4 @@ FUN_06035F48	4	4	2	call_count_throttle PASS (2 calls), writes_64 PASS (GBR+100, 
 FUN_060371FC	1	1	1	writes_78 PASS (0x060522C4, 42 hits, PC 0x060371FE, right_wall_strike); survey_001 — steer pipeline entry, GBR resolution timeout required absolute addr
 FUN_0603833C	1	1	1	writes_2C PASS (0x06052278, 58 hits, PC 0x06038468, straight_throttle); survey_001 — writes via R14 not GBR (GBR=0x06057800)
 FUN_06035C58	1	1	1	writes_176_set PASS (0x060523C2, 13 hits, PC 0x06035C7A, right_wall_strike); survey_002 — collision trigger, sets timer +0x176=15
+FUN_060375F0	1	1	1	writes_A8 PASS (0x060522F4, 1 hit, PC 0x060376FE, right_wall_strike); survey_003 — writes via R14 not GBR, late activation near wall strike
