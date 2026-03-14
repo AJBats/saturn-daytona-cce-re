@@ -5,6 +5,7 @@ address_end: 0x0603F8AC
 source_file: src/race/FUN_0603F7B8.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle, race_steer_left]
+reachable: true
 ---
 
 ## Call Frequency
@@ -38,7 +39,7 @@ Captured via watchpoint on GBR+96 (which fires inside F7B8):
 | GBR | 0x060FD800 | Chain entry 4 |
 | R14 | 0x060FD800 | Same as GBR |
 | PR | 0x0603E9EC | Caller: inside FUN_0603E9E2 (tier 2 pipeline) |
-| R4 | 0x00000048 | Passed as argument — likely base pointer offset |
+| R4 | 0x00000048 | Passed as argument (= GBR+124 value from caller) |
 | R13 | 0x00000023 | Loop counter (35) |
 
 Call stack:
@@ -63,7 +64,7 @@ Watchpoint on 0x060FD760 (entry 3's GBR+96):
 
 Note: GBR at time of report was 0x060FD800, not 0x060FD700. The watchpoint
 address (0x060FD760) is entry 3's memory, but the reported GBR belongs to
-entry 4. This is likely another pipeline artifact — the register dump shows
+entry 4. This is a pipeline artifact — the register dump shows
 the state AFTER the write completes, by which time the pipeline has advanced.
 
 **Confirmed assembly writes:**
@@ -72,13 +73,13 @@ the state AFTER the write completes, by which time the pipeline has advanced.
 |--------|-------------|------|-------|
 | GBR+96 | `mov.l r0, @(96, gbr)` | line 89 | Parametric t value, clamped [0, 0x10000] |
 | GBR+52 | `mov.l r0, @(52, gbr)` | line 105 | Interpolated field[4] between spline entries |
-| GBR+128 | `mov.w r0, @(128, gbr)` | line 86 | Segment index advancement |
+| GBR+128 | `mov.w r0, @(128, gbr)` | line 86 | GBR+128 advancement |
 | GBR+149 | `mov.b r0, @(149, gbr)` | line 83 | Lap counter increment on wrap |
 
 FUN_0603F8AC (falls through from F7B8) additionally writes:
 - r7[0], r7[8]: interpolated position (r7 = r14 + 0x30)
 - r7[12], r7[20]: tangent vector
-- GBR+146: heading angle (when r8=1, via FUN_06047E0C)
+- GBR+146: written when r8=1 (via FUN_06047E0C output)
 
 ## GBR Field Survey
 
@@ -105,13 +106,13 @@ the spline). Values are in [0, 0x10000] range (0 to 1.0 in 16.16).
 
 Value changes from 0 to 0x75F over 60 idle frames. The Verifier's claim
 "gbr52 FAIL (0 hits, value unchanged?)" was incorrect — the value DOES
-change. The failure was likely due to:
+change. The failure was due to one of:
 1. The watchpoint address being resolved from a GBR value for a car that
    wasn't processed by F7B8 in that frame, OR
 2. The watchpoint pipeline artifact causing the hit to be attributed to
    a different PC outside F7B8's range.
 
-### GBR+146 (heading)
+### GBR+146
 
 | Entry | Frame 0 | Frame 60 idle |
 |-------|---------|---------------|
@@ -119,8 +120,8 @@ change. The failure was likely due to:
 | 1 | 0xAB3F | 0xAAA5 |
 | 3 | 0xAAF2 | 0xAB01 |
 
-Heading values change slightly each frame. Consistent with the tangent
-angle being recomputed from the track spline each frame.
+GBR+146 values change slightly each frame. Consistent with the tangent
+value being recomputed from the track spline each frame.
 
 ## Value Dynamics
 
@@ -131,7 +132,7 @@ Decreased. The parametric t resets when advancing segments and increases
 within a segment. Over 60 frames the car advanced ~6 segments (GBR+128:
 1→7), so t fluctuates rather than monotonically changing.
 
-### Field: GBR+128 (segment index)
+### Field: GBR+128
 
 Entry 0: 1 → 7 (advanced 6 segments in 60 idle frames)
 Entry 3: 6 → 12 (advanced 6 segments)
@@ -143,6 +144,19 @@ See FUN_0603EE64_obs.md Multi-Car Comparison section. F7B8 processes
 the same chain entries. At frame 59, only ~6 cars go through the
 separated pipeline (tier 2+) that calls F7B8. The remaining ~33 cars
 use FUN_0603E7B0 (tier 0-1) which has equivalent inline code.
+
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). Called from tier 2-5 pipelines (6 calls
+per frame at frame 59). Writes to GBR+96, GBR+52, GBR+128, GBR+149. Falls
+through into FUN_0603F8AC (B-spline evaluator). Field data documented in
+the GBR Field Survey section above.
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture, not covered
+by the standard tt_* capture set.
 
 ## Other Observations
 

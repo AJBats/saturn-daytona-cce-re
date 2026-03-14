@@ -5,6 +5,7 @@ address_end: 0x0602CC54
 source_file: src/race/FUN_0602C764.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle]
+reachable: false
 ---
 
 ## Call Frequency
@@ -64,11 +65,11 @@ CB28 allocates a 0x28-byte stack frame and:
 
 1. Reads from `*sym_06052098` (chain array current pointer) via triple indirection:
    - r13 = sym_06052098, r4 = @r13, then reads field offsets from r4
-   - Reads fields at r4+4, r4+8, r4+28, r4+32 (position pairs)
-2. Computes differences between two position pairs
+   - Reads fields at r4+4, r4+8, r4+28, r4+32 (two pairs of 32-bit values)
+2. Computes differences between the two pairs
 3. Calls sym_06008A5C (= sym_06030A5C at runtime) 4 times — math function
 4. Computes sum of squares: mul.l r14,r14 + mul.l r12,r12
-5. Calls DAT_06047F18 (likely sqrt) on the sum
+5. Calls DAT_06047F18 on the sum (same address as sqrt used elsewhere)
 6. Reads field[52] from `*sym_06052098`, scales with shll8
 7. Calls sym_06008B10 (= sym_06030B10 at runtime) with r0=0x6C
 8. Final scaling: `mul.l r3, r4` where r3 = 0x0354, r4 = intermediate result
@@ -89,6 +90,16 @@ CB28 allocates a 0x28-byte stack frame and:
 | .L_wpool_0602CC56 | 0x0100 | Another offset (256, matches chain stride) |
 | .L_wpool_0602CC58 | 0x0354 | Final scaling factor |
 
+## Per-Frame Field Analysis
+
+N/A -- function never called in any tested scenario (up to 5000 frames).
+Gated by sym_002FC233 (= 0x00 in 1P mode) and an upstream call site
+at .L_0602BEEE that was also never reached.
+
+### Sample captures
+
+N/A -- no runtime data available for this function.
+
 ## Other Observations
 
 - FUN_0602CB28 was never called in any tested scenario (idle or throttle, up to
@@ -102,9 +113,9 @@ CB28 allocates a 0x28-byte stack frame and:
 - The 8× shar pattern (lines 628-637, 654-661) is equivalent to arithmetic
   right shift by 8, extracting the integer part of a fixed-point value.
 
-- The triple indirection pattern (sym_06052098 → base → field[0x154] → position
-  data) suggests this operates on a sub-structure within the chain entry, not
-  the main position fields.
+- The triple indirection pattern (sym_06052098 → base → field[0x154] → data)
+  suggests this operates on a sub-structure within the chain entry, not
+  the main +0/+8 fields.
 
 - CDL shows B3=282 (throttle-only activation) but the function was never hit
   with throttle in 5000 frames. The CDL data may reflect longer races where

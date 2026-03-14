@@ -110,6 +110,18 @@ relative ordering for all 39 entries through at least 1200 render frames.
 N/A — FUN_0603FA54 is called once per frame (not per car). It operates on
 the global sort array, not on per-car GBR fields.
 
+## Per-Frame Field Analysis
+
+N/A -- this function operates on a global sort array (0x060529AE, 39 bytes),
+not on the per-car GBR struct. Called once per physics frame (not per car).
+The sort array was completely stable across all tested scenarios and timeframes
+(0-1200 render frames). No swaps were observed.
+
+### Sample captures
+
+N/A -- this function does not access the player car GBR struct. The standard
+tt_* captures are not relevant.
+
 ## Other Observations
 
 - FUN_0603FA54 falls through into FUN_0603FA5C (the actual sort loop).
@@ -123,8 +135,7 @@ the global sort array, not on per-car GBR fields.
 
 - FUN_0603FAA8 is the comparison key function. It takes a chain index
   (in r4), shifts it left by 8, adds r14 (chain base pointer), and
-  computes a key value. The key likely involves reading position or
-  distance data from the chain entry.
+  computes a key value from the chain entry's fields.
 
 - The sort array order at frame 0 already has pairs swapped compared to
   a simple descending sequence (25,26 before 23,24 before 21,22). This

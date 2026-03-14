@@ -36,6 +36,18 @@ FUN_0603631C itself). It is the second-to-last call in the dispatcher chain.
 | R8 | 0x00004000 | Half-circle angle |
 | R12 | 0x06048160 | sqrt function pointer |
 
+## Per-Frame Field Analysis
+
+Deferred — this function's GBR field access has not been statically analyzed yet.
+When analyzed, cross-reference against the standard capture set below.
+
+### Sample captures
+
+- `tt_idle_300f.csv` — baseline (no input)
+- `tt_throttle_300f.csv` — hold B, pure acceleration
+- `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
+- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
+
 ## Other Observations
 
 - Despite being in the FUN_0603631C TU, this entry point is NOT gated by

@@ -5,6 +5,7 @@ address_end: 0x0603AF00
 source_file: src/race/FUN_0603A790.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle]
+reachable: false
 ---
 
 ## Call Frequency
@@ -68,22 +69,22 @@ FUN_0603AB72 is the second half of a paired entry with FUN_0603AB66. AB66 sets
 up coordinate differences (r5=dX, r4=dZ) and loads the atan2 function pointer
 before falling through to AB72.
 
-### Section 1: Angle computation (lines 565-571)
+### Section 1: Computes a value from two struct positions via FUN_06047E0C (lines 565-571)
 1. Calls FUN_06047E0C (atan2) via r0 set by AB66
 2. Negates result → r10 (angle between two input structs)
 
-### Section 2: Proximity check (lines 573-683)
-1. Reads field[0x0E] from r13 (heading of struct B)
+### Section 2: Compares field[0x0E] values against thresholds (lines 573-683)
+1. Reads field[0x0E] from r13
 2. Computes angle difference, wraps via extu.w
 3. Compares against 0x8000 threshold
 4. Reads field[0x0E] from r13 again for second check
 5. Calls FUN_0603AB14 (type discriminator via field[0x12] and table DAT_0603B6F8)
-6. Combines results into r7 (proximity flag A), r8 (proximity flag B), r9 (asymmetry flag)
+6. Combines results into r7, r8, r9 (three condition flags from table lookups)
 7. If r9==0 (symmetric): looks up table at sym_002DD670, subtracts r12, checks if positive
    - If result <= 0: early exit via FUN_0603AAFE (register restore + rts)
 
 ### Section 3: Angle range checks (lines 686-811)
-1. Reads field[56] from r14 (heading analog), subtracts r13's field[0x0E]
+1. Reads field[56] from r14, subtracts r13's field[0x0E]
 2. Checks if within 0x4000 range (quarter rotation)
 3. Multiple conditional paths comparing field[36] values against thresholds:
    - 0x0003B425: writes flag 0x80000000 to sym_06052834+24
@@ -96,7 +97,7 @@ before falling through to AB72.
 3. Computes field[36] delta between structs, scales by trig result
 4. Writes weighted delta × 0x006C0000 to sym_06052834+20
 
-### Section 5: Collision flags and response vectors (lines 856-1044)
+### Section 5: Writes flag constants to field[48] and scaled displacements to +0/+8 (lines 856-1044)
 1. Writes constant 8 to r14+0x190 (field at offset 400)
 2. Reads r14's field[0x12] (byte), indexes into table at DAT_0603B6F8
 3. Based on r11 (angle check result) and r8 (proximity flag B):
@@ -105,7 +106,7 @@ before falling through to AB72.
 4. Scales angle by trig functions (FUN_06047D3C, FUN_06047D20)
 5. Applies scaled displacement to r14[0] and r14[8] (position update)
 6. Applies opposite displacement to r13[0] and r13[8] (position update)
-7. Writes response vector components to sym_06052834+8 and sym_06052834+12
+7. Writes scaled displacement components to sym_06052834+8 and sym_06052834+12
 8. Calls DAT_0603F4BE (= FUN_0603F4B0 + 0xE) on sym_06052834 output struct
 
 ### Section 6: Epilogue via FUN_0603AAFE
@@ -117,8 +118,8 @@ AB72 writes to a single 28-byte output struct at sym_06052834:
 
 | Offset | Size | Written At | Notes |
 |--------|------|-----------|-------|
-| +8 | 4 | Line 1029 | Sin-scaled displacement (response vector X) |
-| +12 | 4 | Line 1038 | Cos-scaled displacement (response vector Z) |
+| +8 | 4 | Line 1029 | Output of FUN_06047D3C call, scaled displacement |
+| +12 | 4 | Line 1038 | Output of FUN_06047D20 call, scaled displacement |
 | +20 | 4 | Line 852 | Weighted field[36] delta × 0x006C0000 |
 | +24 | 4 | Lines 724-725, 747, 789, 788 | Flag bits (OR'd with 0x80000000, 0x00000001, 0x00008000) |
 
@@ -142,7 +143,7 @@ to TWO output structs (sym_06052850 and sym_0605286C).
 | Pool | Address | Called From | Notes |
 |------|---------|-------------|-------|
 | .L_pool_0603AC20 | FUN_06047E0C | Line 567 (via r0 from AB66) | Atan2 |
-| .L_pool_0603AC24 | FUN_06047D20 | Line 629 | Sin/cos computation |
+| .L_pool_0603AC24 | FUN_06047D20 | Line 629 | Output of FUN_06047D20 call |
 | (inline BSR) | FUN_0603AB14 | Line 615 | Type check via field[0x12] and table |
 | .L_pool_0603ADB4 | FUN_06047D3C | Line 830 | Sin computation |
 | .L_pool_0603AEEC | FUN_06047D3C | Lines 985, 1015 | Sin for displacement |
@@ -166,9 +167,18 @@ to TWO output structs (sym_06052850 and sym_0605286C).
 | sym_002DD670 | — | Proximity lookup table (shared with B284) |
 | DAT_0603B6F8 | — | Type discriminator table (indexed by field[0x12]) |
 
+## Per-Frame Field Analysis
+
+N/A -- function entirely gated by sym_002FC233 (= 0x00 in 1P mode).
+Unreachable in single-player racing. 20,000 frames tested with zero hits.
+
+### Sample captures
+
+N/A -- no runtime data available for this function.
+
 ## Other Observations
 
-- FUN_0603AB72 is **entirely gated by sym_002FC233**, which is 0x00 in
+- FUN_0603AB72 is entirely gated by sym_002FC233, which is 0x00 in
   single-player mode. The function is unreachable in 1P racing. It processes
   the player-vs-player collision response for Array B entries 0 and 1.
 

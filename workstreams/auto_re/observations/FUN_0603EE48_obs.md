@@ -5,6 +5,7 @@ address_end: 0x0603EE64
 source_file: src/race/FUN_0603EC54.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle, race_steer_left]
+reachable: true
 ---
 
 ## Call Frequency
@@ -96,7 +97,7 @@ verify by single-stepping):
 
 **Confirmed by single-stepping (entry 2, frame 122):**
 - Pre-function: GBR+72=0x01260F63, GBR+22=0xB8C0, GBR+24=0xB8C0
-- Increment: speed >> 10 = 0x01260F63 >> 10 = 0x00004983
+- Increment: GBR+72 >> 10 = 0x01260F63 >> 10 = 0x00004983
 - Post-function: GBR+22=0x0243, GBR+24=0x0243
 - Verification: 0xB8C0 + 0x4983 = 0x10243, truncated to 16-bit = 0x0243
 
@@ -149,8 +150,8 @@ Tier assignments at frame 122 (same as frame 0):
 | 1 | 0x012A0F63 | 0x00DAAED4 |
 | 2 | 0x01260F63 | 0x00D6AED4 |
 
-Two alternating speed groups: 0x01260F63 (entries 0,2,4) and 0x012A0F63
-(entries 1,3,5). Speed decreases over time (deceleration).
+Two alternating groups: 0x01260F63 (entries 0,2,4) and 0x012A0F63
+(entries 1,3,5). GBR+72 decreases over time.
 
 ### GBR+22 and GBR+24 (written by EE48)
 
@@ -172,30 +173,30 @@ identical across scenarios (AI cars are unaffected by controller input).
 
 ### Field: GBR+22 / GBR+24
 
-Both fields accumulate speed>>10 each frame (16-bit, wrapping):
+Both fields accumulate GBR+72>>10 each frame (16-bit, wrapping):
 
 Entry 0 progression (idle):
 - Frame 0: 0xB8C0
 - Frame 125 (~3 active frames): 0x0243
 - Frame 180 (~58 active frames): 0x77A1
 
-Entry 0 increment at frame 122: 0x4983 (from speed 0x01260F63 >> 10)
+Entry 0 increment at frame 122: 0x4983 (from GBR+72 = 0x01260F63 >> 10)
 
 The fields increase monotonically within each frame but wrap at 16-bit
 boundaries. Over 58 active frames, the total accumulation is approximately
 58 × 0x4983 = 0x19D27A (multiple 16-bit wraps).
 
-### Field: GBR+72 (speed, read-only by EE48)
+### Field: GBR+72 (read-only by EE48)
 
 Entry 0: 0x01260F63 (frame 0) → 0x00D6AED4 (frame 180 idle)
-Speed decreases over time. EE48 only reads this field — the speed change
+GBR+72 decreases over time. EE48 only reads this field — the value change
 comes from FUN_0603EE64 and FUN_0603E7B0.
 
 ## Multi-Car Comparison
 
 Pre-function values at first breakpoint hit in frame 122:
 
-| Hit | Entry | GBR Base | +72 (speed) | +22 (pre) | +24 (pre) | Increment |
+| Hit | Entry | GBR Base | +72 | +22 (pre) | +24 (pre) | Increment |
 |-----|-------|----------|-------------|-----------|-----------|-----------|
 | 1 | 2 | 0x060FD600 | 0x01260F63 | 0xB8C0 | 0xB8C0 | 0x4983 |
 | 2 | 3 | 0x060FD700 | 0x012A0F63 | 0xE3C0 | 0xE3C0 | 0x4A83 |
@@ -203,11 +204,23 @@ Pre-function values at first breakpoint hit in frame 122:
 | 4 | 5 | 0x060FD900 | 0x012A0F63 | 0xE3C0 | 0xE3C0 | 0x4A83 |
 
 Patterns:
-- Two alternating groups: even entries (2,4) have speed=0x01260F63, +22/+24=0xB8C0
-  and odd entries (3,5) have speed=0x012A0F63, +22/+24=0xE3C0
+- Two alternating groups: even entries (2,4) have +72=0x01260F63, +22/+24=0xB8C0
+  and odd entries (3,5) have +72=0x012A0F63, +22/+24=0xE3C0
 - Same staggered grid pattern as seen in FUN_0603EE64 observations
 - All 4 hits were from the dispatch loop caller (PR=0x0603E248), meaning
   all were tier 2 entries
+
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). Reads GBR+72 and writes to
+GBR+22 and GBR+24 (both 16-bit accumulators). Multi-car field data is
+documented in the GBR Field Survey and Multi-Car Comparison sections above.
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture, not covered
+by the standard tt_* capture set.
 
 ## Other Observations
 

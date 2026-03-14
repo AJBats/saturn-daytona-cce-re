@@ -5,6 +5,7 @@ address_end: 0x0603EEBC
 source_file: src/race/FUN_0603EC54.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle, race_steer_left]
+reachable: true
 ---
 
 ## Call Frequency
@@ -88,9 +89,9 @@ Address layout at the call site (FUN_0603EAAA, src/race/FUN_0603DF28.s line 1848
 ```
 0x0603EBCE: bsr FUN_0603EE48       ; distance accumulator
 0x0603EBD0: nop                     ; delay slot
-0x0603EBD2: bsr FUN_0603EE64       ; speed update ← THE CALL
+0x0603EBD2: bsr FUN_0603EE64       ; GBR+72 update ← THE CALL
 0x0603EBD4: nop                     ; delay slot (PR set to 0x0603EBD6)
-0x0603EBD6: bsr FUN_0603F534       ; lateral drift
+0x0603EBD6: bsr FUN_0603F534       ; GBR+76 drift timer
 0x0603EBD8: nop                     ; delay slot ← REPORTED BY WATCHPOINT
 ```
 
@@ -142,7 +143,7 @@ entries (0-4). These are all AI cars — controller input does not affect them.
 
 ## Value Dynamics
 
-### Field: GBR+72 (suspected speed)
+### Field: GBR+72
 
 | Timepoint | Entry 0 | Entry 1 | Entry 3 |
 |-----------|---------|---------|---------|
@@ -151,21 +152,21 @@ entries (0-4). These are all AI cars — controller input does not affect them.
 | Frame 60 throttle | 0x00CDDCFD | 0x00D1DCFD | 0x00D3997E |
 | Frame 60 steer_left | 0x00CDDCFD | 0x00D1DCFD | 0x00D3997E |
 
-Speed DECREASES by ~88 units (in 16.16 fixed-point) over 60 frames for
-all three scenarios. Cars are decelerating. The target speed at GBR+112
-(0x00C5CCB3 ≈ 197.8 for entry 0) is LOWER than current speed, causing
-deceleration. GBR+112 is unchanged across all scenarios and timepoints.
+GBR+72 DECREASES by ~88 units (in 16.16 fixed-point) over 60 frames for
+all three scenarios. The value at GBR+112
+(0x00C5CCB3 ≈ 197.8 for entry 0) is LOWER than current GBR+72, causing
+the decrease. GBR+112 is unchanged across all scenarios and timepoints.
 
-### Field: GBR+128 (suspected segment index)
+### Field: GBR+128
 
 | Timepoint | Entry 0 | Entry 1 | Entry 2 | Entry 3 | Entry 4 |
 |-----------|---------|---------|---------|---------|---------|
 | Frame 0 | 1 | 2 | 5 | 6 | 9 |
 | Frame 60 | 7 | 8 | (not read) | 12 | (not read) |
 
-Segment index advances ~6 segments per 60 frames (all scenarios identical).
+GBR+128 advances ~6 per 60 frames (all scenarios identical).
 
-### Field: GBR+76 (suspected lateral offset)
+### Field: GBR+76
 
 Stable across all scenarios and timepoints for each entry:
 - Entries 0, 2, 4: 0xFFFB6667 (negative, ~-4.6 in 16.16)
@@ -177,14 +178,14 @@ Staggered grid formation: alternating left/right offset.
 Stable across all scenarios. Two groups:
 - Entries 0, 2, 4: 0x00000133 (307)
 - Entries 1, 3: 0x000000C0 (192)
-This is the acceleration scaling factor used by EE64 (`dmuls.l r6, r0`
+This is the +120 scaling factor used by EE64 (`dmuls.l r6, r0`
 where r0 = GBR+120).
 
 ## Multi-Car Comparison
 
 All data from frame 0 (save state load). Chain base = 0x060FD400, stride = 0x100.
 
-| Car # | GBR Base | +72 (speed) | +76 (lateral) | +96 (param t) | +112 (target) | +120 (accel) | +128 (seg) | +146 (heading) | +152 (tier) |
+| Car # | GBR Base | +72 | +76 | +96 | +112 | +120 | +128 | +146 | +152 (tier) |
 |-------|----------|-------------|---------------|---------------|---------------|--------------|------------|----------------|-------------|
 | 0 | 0x060FD400 | 0x01260F63 | 0xFFFB6667 | 0x0000FC08 | 0x00C5CCB3 | 0x00000133 | 1 | 0xAAC4 | 3 |
 | 1 | 0x060FD500 | 0x012A0F63 | 0x0004CCCC | 0x0000E361 | 0x00CA664C | 0x000000C0 | 2 | 0xAB3F | 3 |
@@ -193,13 +194,25 @@ All data from frame 0 (save state load). Chain base = 0x060FD400, stride = 0x100
 | 4 | 0x060FD800 | 0x01260F63 | 0xFFFB6667 | 0x0000DBA6 | 0x00D3997E | 0x00000133 | 9 | 0xAA59 | 2 |
 
 Patterns:
-- Two speed groups alternate: 0x01260F63 (entries 0,2,4) and 0x012A0F63 (entries 1,3)
-- Two lateral offset groups alternate: negative (0,2,4) and positive (1,3) — staggered grid
-- Two acceleration groups: 0x133=307 (0,2,4) and 0xC0=192 (1,3)
+- Two +72 groups alternate: 0x01260F63 (entries 0,2,4) and 0x012A0F63 (entries 1,3)
+- Two +76 groups alternate: negative (0,2,4) and positive (1,3) — staggered grid
+- Two +120 groups: 0x133=307 (0,2,4) and 0xC0=192 (1,3)
 - Segment indices increase by ~3 per entry: 1, 2, 5, 6, 9 (cars spaced along track)
 - Entries 0-1 are tier 3, entries 2-4 are tier 2
 - No tier 4-5 entries observed in first 5 cars
 - chain[193] alternates 0/1: entry 0=0, entry 1=1, entry 2=0, entry 3=1, entry 4=0
+
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). Reads GBR+72, +112, +116, +120, +148
+and writes GBR+72. The full 256-byte chain entry dump for entries 0-4 at
+frames 0 and 60 is documented in the GBR Field Survey section above.
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture, not covered
+by the standard tt_* capture set.
 
 ## Other Observations
 
@@ -222,10 +235,10 @@ Patterns:
   frame 60. The gate check in FUN_0603EE64 (early return if any nonzero) always passes
   for these entries in the tested scenarios.
 
-- GBR+112 (r14[0x70]) appears to be a per-car target speed. It is LOWER than current
-  speed at frame 0 for all entries, causing deceleration. It does not change across
-  60 frames or across scenarios. Different cars have different target speeds: 197.8,
-  202.4, 207.0, 211.6, 211.6 (in 16.16 fixed-point).
+- GBR+112 (r14[0x70]) is LOWER than GBR+72 at frame 0 for all entries, and the
+  reduction loop in EE64 drives GBR+72 toward GBR+112. It does not change
+  across 60 frames or across scenarios. Different entries have different values:
+  0x00C5CCB3, 0x00CA664C, 0x00CEFFE5, 0x00D3997E, 0x00D3997E.
 
 - GBR+116 (r14[0x74]) equals GBR+112 for all entries, all scenarios. Possibly a copy
   or alternate representation.

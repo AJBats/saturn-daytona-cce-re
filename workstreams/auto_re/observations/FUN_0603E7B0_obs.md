@@ -5,6 +5,7 @@ address_end: 0x0603E914
 source_file: src/race/FUN_0603DF28.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle, race_steer_left]
+reachable: true
 ---
 
 ## Call Frequency
@@ -34,8 +35,8 @@ FUN_0603E350 (the actual dispatch loop) calls E7B0 via `bsrf r0` (indirect
 relative branch) with this setup:
 - `ldc r14, gbr` — GBR = current chain entry pointer
 - r14 = same as GBR (chain entry)
-- r5 = @(0, r14) — position X from chain entry
-- r6 = @(8, r14) — position Z from chain entry
+- r5 = @(0, r14) — +0 from chain entry
+- r6 = @(8, r14) — +8 from chain entry
 - r8 = 0x00000000
 
 The dispatch at FUN_0603E350 uses a BSRF jump table indexed by chain[0x98]
@@ -72,19 +73,19 @@ E7B0 writes to:
 
 | Target | Description | Notes |
 |--------|-------------|-------|
-| GBR+14 | 16-bit heading | `mov.w r0, @(14, gbr)` at ~0x0603E80C |
-| GBR+128 | 16-bit segment index | `mov.w r0, @(128, gbr)` at ~0x0603E832 |
+| GBR+14 | 16-bit field | `mov.w r0, @(14, gbr)` at ~0x0603E80C |
+| GBR+128 | 16-bit field | `mov.w r0, @(128, gbr)` at ~0x0603E832 |
 | GBR+149 | 8-bit lap counter | `mov.b r0, @(149, gbr)` when segment wraps |
 | GBR+19 | 8-bit flag | Cleared to 0 at end of function |
-| GBR+112 | 32-bit target speed | Copied from GBR+116 before calling EE64 |
-| GBR+72 | 32-bit speed | Via internal call to FUN_0603EE64 + inline cap check |
+| GBR+112 | 32-bit field | Copied from GBR+116 before calling EE64 |
+| GBR+72 | 32-bit field | Via internal call to FUN_0603EE64 + inline cap check |
 | r14[0,4,8] | Position XYZ | Adds displacement vector each frame |
 | r14[0x54,0x58,0x5C] | Computed direction | From interpolation |
-| r14[0x64,0x68,0x6C] | Displacement vector | speed × direction × 0x25E |
+| r14[0x64,0x68,0x6C] | Displacement vector | GBR+72 × direction × 0x25E |
 | HW divider (0xFFFFFF00) | Division operand | For parametric projection |
 
 E7B0 also writes to GBR+72 via two mechanisms:
-1. Internal BSR to FUN_0603EE64 (speed update)
+1. Internal BSR to FUN_0603EE64 (GBR+72 update)
 2. Inline cap check (lines 1423-1432): `if GBR[148]==0 && GBR[72]>=GBR[164]: GBR[72]=GBR[164]`
 
 The Verifier's result for "seg_idx FAIL (PC 0603F852 wrong fn)" makes
@@ -127,10 +128,10 @@ Position changes across 60 idle frames (from entry 0):
 - r14[8]: 0xFFA39E5B → 0xFF80DDE9 (decreased by 0x0022C072)
 
 Position advances along the track each frame by adding the displacement
-vector (r14[0x64], r14[0x6C]) which is computed from GBR+72 (speed) ×
+vector (r14[0x64], r14[0x6C]) which is computed from GBR+72 ×
 direction × 0x25E.
 
-### Field: GBR+128 (segment index)
+### Field: GBR+128
 
 Entry 0: 1 → 7 (advanced 6 segments in 60 frames)
 Entry 3: 6 → 12 (advanced 6 segments in 60 frames)
@@ -146,12 +147,24 @@ EE64 call sequence (line 1419-1422).
 
 See FUN_0603EE64_obs.md Multi-Car Comparison section — same data.
 
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). The standard tt_* captures cover the
+player car only. AI car chain fields are documented in the GBR Field Survey
+section above. ~14 calls per frame at frame 59 (tier 0-1 cars only).
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture. See GBR Field
+Survey and FUN_0603EE64_obs.md for chain entry data at frames 0 and 60.
+
 ## Other Observations
 
 - FUN_0603E7B0 is a MONOLITHIC physics function for tier 0-1 cars. It
   performs ALL of: parametric projection (same math as F7B8), interpolation,
-  direction computation, displacement integration, speed update (via EE64),
-  and speed cap. Higher tiers (2-5) split these into separate function calls.
+  direction computation, displacement integration, GBR+72 update (via EE64),
+  and GBR+72 cap. Higher tiers (2-5) split these into separate function calls.
 
 - The bsrf dispatch is why the call_trace tool missed E7B0 calls entirely.
   call_trace captures JSR/BSR/BSRF, but BSRF with a relative offset table
@@ -163,10 +176,10 @@ See FUN_0603EE64_obs.md Multi-Car Comparison section — same data.
   as FUN_0603F7B8 but inlined.
 
 - The function uses the 0x25E constant (same as FUN_0603F61C) to convert
-  speed to displacement. This constant appears to be a universal velocity
-  scaling factor.
+  GBR+72 to displacement. This constant is shared across FUN_0603F61C and
+  the E7B0 inline equivalent.
 
-- GBR+112 (target speed) equals GBR+116 for ALL entries at ALL times.
+- GBR+112 equals GBR+116 for ALL entries at ALL times.
   E7B0 copies +116 to +112 before calling EE64. The purpose of having two
   identical fields is unclear from runtime data alone.
 

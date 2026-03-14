@@ -5,6 +5,7 @@ address_end: 0x0603F6BC
 source_file: src/race/FUN_0603F0B4.s
 explored: 2026-03-12
 scenarios_tested: [race_idle]
+reachable: true
 ---
 
 ## Call Frequency
@@ -71,10 +72,10 @@ SP+0x084 → 0x06011F84 (init dispatcher)
 | Offset | Size | Value (entry 0) | Line | Purpose |
 |--------|------|-----------------|------|---------|
 | +12 | 4 | 0x0000AA87 | 838 | Input to angle decomposition (GBR+12) |
-| +16 | 2 | — | 851 | `mov.w @(16, r14)` — heading input for normalization |
+| +16 | 2 | — | 851 | `mov.w @(16, r14)` — passed to FUN_060450F2 |
 | +48 | 4 | 0xFFB81E1A | 858 | Previous X component (subtracted for delta) |
 | +56 | 4 | 0xFF9C2467 | 864 | Previous Z component (subtracted for delta) |
-| +72 | 4 | 0x01231EC6 | 877 | Speed — scaled by 0x25E then decomposed |
+| +72 | 4 | 0x01231EC6 | 877 | GBR+72 — scaled by 0x25E then decomposed |
 
 ### Fields Written by F61C
 
@@ -90,8 +91,8 @@ SP+0x084 → 0x06011F84 (init dispatcher)
 |--------|------|-------------|--------------|------|-------|
 | +0x54 (84) | 4 | 0x0000DD1E | 0x0000DD9E | 874 | Written via `@(0, r4)` where r4=R14+0x54 |
 | +0x5C (92) | 4 | 0xFFFF7EFE | 0xFFFF7FDB | 876 | Written via `@(8, r4)` — direction vector Y |
-| +0x64 (100) | 4 | 0x0002593E | 0x00025493 | 890 | Speed × 0x25E × direction X |
-| +0x6C (108) | 4 | 0xFFFEA136 | 0xFFFEA70B | 894 | Speed × 0x25E × direction Z |
+| +0x64 (100) | 4 | 0x0002593E | 0x00025493 | 890 | GBR+72 × 0x25E × R14+0x54 output |
+| +0x6C (108) | 4 | 0xFFFEA136 | 0xFFFEA70B | 894 | GBR+72 × 0x25E × R14+0x5C output |
 
 ## Execution Path Analysis
 
@@ -108,7 +109,7 @@ FUN_0603F61C has a single linear execution path (no branches):
    - r0 = extu.w(r8) → 0x0000AA87 (lower 16)
 5. Calls FUN_0604507E with r0 = lower 16 bits of GBR+12
 6. Calls FUN_06045006 with r0 = upper portion (from stack)
-7. Calls FUN_060450F2 with r0 = `mov.w @(16, r14)` (GBR+16, heading)
+7. Calls FUN_060450F2 with r0 = `mov.w @(16, r14)` (GBR+16)
 8. Calls FUN_0603FFBC (normalization) with r1=0, r2=0, r3=0x0001CCCC, r6=r13
 
 ### Section 2: Delta computation (lines 858-867)
@@ -117,14 +118,14 @@ FUN_0603F61C has a single linear execution path (no branches):
 2. Stores 0 to GBR+88
 3. Reads GBR+56, subtracts r13[8] (new Z from trig pipeline), stores to GBR+92
 
-### Section 3: Speed decomposition and write-back (lines 868-901)
+### Section 3: GBR+72 decomposition and write-back (lines 868-901)
 
 1. Calls FUN_060400F8 with r4 = R14+0x54 — normalizes direction vector
 2. Stores return values: r0 → R14+0x54[0], r2 → R14+0x54[8]
    (R14+0x54 = direction X, R14+0x5C = direction Z after normalization)
-3. Reads GBR+72 (speed), multiplies by 0x25E:
+3. Reads GBR+72, multiplies by 0x25E:
    - `dmuls.l r1, r0` where r1=0x25E, r0=GBR+72
-   - `xtrct mach, macl` → r9 = (speed × 0x25E) >> 16
+   - `xtrct mach, macl` → r9 = (GBR+72 × 0x25E) >> 16
 4. Decomposes r9 into two components using direction vector:
    - R14+0x64 = r9 × r0 (direction X from FUN_060400F8) >> 16
    - R14+0x6C = r9 × r2 (direction Z from FUN_060400F8) >> 16
@@ -132,14 +133,14 @@ FUN_0603F61C has a single linear execution path (no branches):
 
 ## Value Dynamics
 
-### GBR+72 (speed, read only by F61C)
+### GBR+72 (read only by F61C)
 
 | Entry | Value at F61C entry |
 |-------|-------------------|
 | 0 | 0x01231EC6 |
 
-F61C reads GBR+72 but does not write it. The speed is used as a magnitude
-that gets decomposed into X/Z velocity components via the direction vector.
+F61C reads GBR+72 but does not write it. The value is used as a magnitude
+that gets decomposed into two components via the direction vector at R14+0x54.
 
 ### R14+0x64 and R14+0x6C (velocity components, written by F61C)
 
@@ -151,7 +152,7 @@ that gets decomposed into X/Z velocity components via the direction vector.
 | R14+0x6C | 0xFFFEA136 | 0xFFFEA70B | +0x05D5 (+1493) |
 
 These are the decomposed X and Z velocity components:
-speed × 0x25E × direction_component >> 16.
+GBR+72 × 0x25E × direction_component >> 16.
 
 ### R14+0x54 and R14+0x5C (direction vector, written by F61C)
 
@@ -208,7 +209,7 @@ function. Tier 0-1 (E7B0) does not call F61C.
 | .L_pool_0603F738 | FUN_06044E3C | Line 836 | Trig pipeline (uses R14+0) |
 | .L_pool_0603F73C | FUN_0604507E | Line 844 | Trig computation (lower 16 of GBR+12) |
 | .L_pool_0603F740 | FUN_06045006 | Line 847 | Trig computation (upper portion) |
-| .L_pool_0603F744 | FUN_060450F2 | Line 850 | Trig computation (GBR+16 heading) |
+| .L_pool_0603F744 | FUN_060450F2 | Line 850 | Trig computation (GBR+16) |
 | .L_pool_0603F74C | FUN_0603FFBC | Line 856 | Normalization (r3=0x0001CCCC) |
 | .L_pool_0603F750 | FUN_060400F8 | Line 870 | Direction vector normalization |
 
@@ -222,9 +223,22 @@ the resulting direction vector.
 | Pool | Value | Notes |
 |------|-------|-------|
 | .L_pool_0603F730 | 0xFFFFFFB8 (-72) | Stack frame size |
-| .L_pool_0603F728 | 0x0000025E (606) | Speed scaling factor (606/65536 ≈ 0.00925) |
+| .L_pool_0603F728 | 0x0000025E (606) | GBR+72 scaling factor (606/65536 ≈ 0.00925) |
 | .L_pool_0603F748 | 0x0001CCCC (118,988) | Normalization constant (~1.8 in 16.16 fixed) |
 | .L_wpool_0603F718 | 0x0054 (84) | Offset for R14+0x54 direction vector base |
+
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). Called once per tier 2+ car (5 calls
+per frame at frame 391). Pure computation with no branches. Fields read
+(+12, +16, +48, +56, +72) and written (+84, +88, +92, R14+0x54/0x5C/0x64/0x6C)
+are documented in the GBR Fields Accessed section above.
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture, not covered
+by the standard tt_* capture set.
 
 ## Other Observations
 
@@ -236,9 +250,9 @@ the resulting direction vector.
   R14+0x54, R14+0x5C (direction vector), R14+0x64, R14+0x6C (velocity
   components). All via R14 which equals GBR in the observed context.
 
-- The 0x25E scaling factor converts from the speed unit (GBR+72) to a velocity
-  magnitude that gets decomposed by the direction vector. The dmuls.l + xtrct
-  pattern gives (speed × 0x25E) >> 16, then two more dmuls.l + xtrct operations
+- The 0x25E scaling factor converts GBR+72 to a magnitude
+  that gets decomposed by the direction vector at R14+0x54. The dmuls.l + xtrct
+  pattern gives (GBR+72 × 0x25E) >> 16, then two more dmuls.l + xtrct operations
   project onto X and Z axes.
 
 - The delta computation (GBR+84/88/92) subtracts the NEW trig pipeline output
@@ -253,7 +267,7 @@ the resulting direction vector.
 - The pre/post values for entry 0 show small changes per frame:
   R14+0x64 changed by -1195 (0.018 in 16.16), R14+0x6C by +1493 (0.023 in
   16.16). These are incremental velocity adjustments from the updated direction
-  vector and speed.
+  vector and GBR+72.
 
 - The trig pipeline (5 JSR calls in sequence: 06044D80, 06044E3C, 0604507E,
   06045006, 060450F2) is a significant function call chain. These functions are

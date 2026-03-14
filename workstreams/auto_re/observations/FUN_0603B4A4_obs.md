@@ -5,6 +5,7 @@ address_end: 0x0603B6F8
 source_file: src/race/FUN_0603A790.s
 explored: 2026-03-12
 scenarios_tested: [race_idle, race_throttle, race_throttle_steer_left]
+reachable: true
 ---
 
 ## Call Frequency
@@ -60,10 +61,10 @@ The caller pre-populates both output structs before calling B254 → B4A4.
 | Offset | Value | Notes |
 |--------|-------|-------|
 | +0 | 0x060FF300 | Pointer to entry 31 (R14) |
-| +4 | 0xFFFF99B4 | Heading from R14's field[0x0E] |
+| +4 | 0xFFFF99B4 | Value from R14's field[0x0E] (sign-extended) |
 | +8 | 0xFFFEA530 | Sin-scaled (pre-set by caller) |
 | +12 | 0xFFFE24C7 | Cos-scaled (pre-set by caller) |
-| +16 | 0xFFFF99B4 | Heading (same as +4) |
+| +16 | 0xFFFF99B4 | Same value as +4 |
 | +20 | 0x00F889DD | field[0x48] value (pre-set by caller) |
 | +24 | 0x00000000 | Flags (cleared by caller) |
 
@@ -72,17 +73,17 @@ The caller pre-populates both output structs before calling B254 → B4A4.
 | Offset | Value | Notes |
 |--------|-------|-------|
 | +0 | 0x060FF400 | Pointer to entry 32 (R13) |
-| +4 | 0xFFFFB6B3 | Heading from R13's field[0x0E] |
+| +4 | 0xFFFFB6B3 | Value from R13's field[0x0E] (sign-extended) |
 | +8 | 0xFFFDBF58 | Sin-scaled (pre-set by caller) |
 | +12 | 0xFFFF79DB | Cos-scaled (pre-set by caller) |
-| +16 | 0xFFFFB6B3 | Heading (same as +4) |
+| +16 | 0xFFFFB6B3 | Same value as +4 |
 | +20 | 0x00FA1F4D | field[0x48] value (pre-set by caller) |
 | +24 | 0x00000000 | Flags (cleared by caller) |
 
 ## Output Structs (Post-B4A4)
 
 Both output structs were UNCHANGED after B4A4 returned, indicating B4A4 took
-the early exit path at the proximity check (line 1897-1899: `cmp/pl r4` failed,
+the early exit path at the threshold comparison (line 1897-1899: `cmp/pl r4` failed,
 branched to FUN_0603B484 epilogue).
 
 ## Execution Path Analysis
@@ -91,7 +92,7 @@ B4A4 is structurally identical to B284 with two key differences:
 1. Output struct pools are SWAPPED (B4A4 writes to 0605286C first, 06052850 second)
 2. Entered when field[36] ordering is reversed (R14[36] <= R13[36])
 
-### Section 1: Proximity Check (lines 1854-1900)
+### Section 1: Table lookup and threshold comparison (lines 1854-1900)
 1. Calls atan2 via `jsr @r0` (R0 loaded by caller)
 2. Negates result → r10 (angle between cars)
 3. Reads field[0x0E] from R14, subtracts r10, wraps via extu.w
@@ -100,7 +101,7 @@ B4A4 is structurally identical to B284 with two key differences:
 6. Reads proximity values, subtracts R12, adds other table value
 7. If result <= 0: early exit via FUN_0603B484
 
-In the observed call, this proximity check FAILED (result <= 0), causing
+In the observed call, this threshold comparison FAILED (result <= 0), causing
 early exit. R12=0x0003C9BF was large enough that the table values
 couldn't overcome it.
 
@@ -122,7 +123,7 @@ Same structure as B284:
 - Writes to sym_06052850 (pool .L_pool_0603B6E8) at offset +20
 - Uses same 0x006C0000 scaling factor
 
-### Section 5: Collision Response Vectors (lines 2073-2151)
+### Section 5: Scaled displacement computation (lines 2073-2151)
 Common path after all checks:
 - Computes displacement from R14 positions → writes to sym_0605286C +8, +12
 - Computes displacement from R13 positions → writes to sym_06052850 +8, +12
@@ -177,6 +178,18 @@ based on which car in the pair has larger field[36].
 | .L_wpool_0603B558 | 0x000E | Offset for field[0x0E] access |
 | .L_wpool_0603B55A | 0x4000 | Quarter rotation threshold |
 
+## Per-Frame Field Analysis
+
+N/A -- this function operates on the AI car chain (GBR=0x06057800, collision
+system context), not on the player car struct. Mirror variant of FUN_0603B284.
+First call observed at frame ~20919; all observed calls took the early exit
+(threshold comparison failed).
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode multi-car capture, not covered
+by the standard tt_* capture set.
+
 ## Other Observations
 
 - FUN_0603B4A4 is the mirror variant of FUN_0603B284. The structural logic
@@ -186,12 +199,12 @@ based on which car in the pair has larger field[36].
 
 - The observed hit was between entries 31 and 32 (AI cars deep in the pack),
   not involving the player car (entry 0). B4A4 took the early exit because
-  R12=0x0003C9BF was too large for the proximity table values to overcome.
+  R12=0x0003C9BF was too large for the sym_002DD670 table values to overcome.
 
 - The caller (FUN_0603976C) pre-populates ALL 28 bytes of both output structs
   (lines 1583-1643) before calling B254. Fields populated by the caller:
-  +0 (chain pointer), +4 (heading), +8 (sin-scaled), +12 (cos-scaled),
-  +16 (heading copy), +20 (field[0x48] value), +24 (flags = 0). If B284/B4A4
+  +0 (chain pointer), +4 (field[0x0E] value), +8 (FUN_06047D3C output), +12 (FUN_06047D20 output),
+  +16 (field[0x0E] copy), +20 (field[0x48] value), +24 (flags = 0). If B284/B4A4
   exits early, the caller's pre-populated values remain in the output structs.
 
 - B4A4 writes 0x80000000 to BOTH output structs' +24 in the angle range check

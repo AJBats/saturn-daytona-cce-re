@@ -34,6 +34,18 @@ Small function (~96 bytes).
 | R8 | 0xFFFFFC72 | Signed value from prior function |
 | R12 | 0x06048160 | sqrt function pointer |
 
+## Per-Frame Field Analysis
+
+Deferred — this function's GBR field access has not been statically analyzed yet.
+When analyzed, cross-reference against the standard capture set below.
+
+### Sample captures
+
+- `tt_idle_300f.csv` — baseline (no input)
+- `tt_throttle_300f.csv` — hold B, pure acceleration
+- `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
+- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
+
 ## Other Observations
 
 - This is the penultimate function in the dispatcher chain before the

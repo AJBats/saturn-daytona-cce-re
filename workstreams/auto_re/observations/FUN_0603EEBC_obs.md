@@ -5,6 +5,7 @@ address_end: 0x0603F036
 source_file: src/race/FUN_0603EC54.s
 explored: 2026-03-12
 scenarios_tested: [race_idle]
+reachable: true
 ---
 
 ## Call Frequency
@@ -57,28 +58,28 @@ SP+0x084 → 0x06011F84 (init dispatcher)
 | Offset | Size | Value (entry 0) | Line | Purpose |
 |--------|------|-----------------|------|---------|
 | +148 | 1 | 0x00 | 395 | Gate check — if nonzero, skip to spin/crash |
-| +128 | 2 | 0x0002 | 400, 462 | Segment index (×24 → table offset) |
+| +128 | 2 | 0x0002 | 400, 462 | GBR+128 (×24 → table offset) |
 | +152 | 1 | 0x03 | 446 | Tier — if tier==4, skip drift section |
-| +76 | 4 | 0xFFFB6667 | 451, 493 | Lateral offset (magnitude comparison) |
-| +26 | 2 | 0x0000 | 465 | Lateral correction (if nonzero, skip drift) |
-| +96 | 4 | 0x00006567 | 471 | Parametric t (bits 0-1 checked) |
-| +156 | 1 | 0x00 | 415, 426, 523 | Direction flags (bit 7 = speed limit active) |
-| +72 | 4 | 0x01260F63 | 530, 587 | Speed (modified by adding decel constant) |
+| +76 | 4 | 0xFFFB6667 | 451, 493 | GBR+76 (magnitude comparison) |
+| +26 | 2 | 0x0000 | 465 | GBR+26 (if nonzero, skip drift path) |
+| +96 | 4 | 0x00006567 | 471 | GBR+96 (bits 0-1 checked) |
+| +156 | 1 | 0x00 | 415, 426, 523 | GBR+156 flags (bit 7 = GBR+112 clamp active) |
+| +72 | 4 | 0x01260F63 | 530, 587 | GBR+72 (modified by adding decel constant) |
 | +150 | 1 | 0x00 | 512 | Spin countdown |
 | +151 | 1 | 0x00 | 543 | Crash countdown |
-| +160 | 4 | 0x00000000 | 418, 433 | Saved speed limit |
-| +112 | 4 | 0x00C5CCB3 | 419, 429, 441 | Current speed limit |
-| +157 | 1 | 0x00 | 561 | Crash direction flags |
+| +160 | 4 | 0x00000000 | 418, 433 | Saved GBR+112 value |
+| +112 | 4 | 0x00C5CCB3 | 419, 429, 441 | GBR+112 (clamp threshold for GBR+72) |
+| +157 | 1 | 0x00 | 561 | GBR+157 (bits control sign/negate in crash path) |
 
 ### Fields Written by EEBC
 
 | Offset | Size | Line | Condition | Notes |
 |--------|------|------|-----------|-------|
-| +156 bit 7 | 1 | 422 | Speed limit deactivate (bit 30 cleared) | `and.b #0x7F` |
-| +156 bit 7 | 1 | 428 | Speed limit activate (bit 30 set) | `or.b #0x80` |
-| +112 | 4 | 419 | Speed limit off → save to +160 | Copy to +160 |
-| +160 | 4 | 433 | Speed limit on → save +112 | Copy from +112 |
-| +112 | 4 | 441 | Speed limit on, table < current | New limit from table |
+| +156 bit 7 | 1 | 422 | GBR+112 clamp deactivate (bit 30 cleared) | `and.b #0x7F` |
+| +156 bit 7 | 1 | 428 | GBR+112 clamp activate (bit 30 set) | `or.b #0x80` |
+| +112 | 4 | 419 | Clamp off → save to +160 | Copy to +160 |
+| +160 | 4 | 433 | Clamp on → save +112 | Copy from +112 |
+| +112 | 4 | 441 | Clamp on, table < current | New value from table |
 | +150 | 1 | 518 | Spin active | Decremented |
 | +26 | 2 | 529 | Spin active | Written from table at sym_002E02B4 |
 | +72 | 4 | 537, 594 | Spin/crash active | GBR+72 + 0xFFFD0F63, clamped >=0 |
@@ -98,16 +99,16 @@ GBR+194, GBR+195 (see FUN_0603F534 observation).
 
 ## Execution Path Analysis
 
-### Section 1: Track Table Speed Limit (lines 394-444)
+### Section 1: Track table GBR+112 clamp (lines 394-444)
 
 1. If GBR+148 != 0: skip entirely to spin/crash section
-2. Reads R14+124 (table base pointer) and GBR+128 (segment index)
+2. Reads R14+124 (table base pointer) and GBR+128
 3. Computes table entry address: base + segment * 24
 4. Reads field[16] of table entry, checks bits 31 and 30:
    - Bit 31 set: if GBR+156 bit 7 is set, copies GBR+160→GBR+112 and
-     clears GBR+156 bit 7 (deactivates speed limit)
+     clears GBR+156 bit 7 (deactivates GBR+112 clamp)
    - Bit 30 set: if GBR+156 bit 7 is NOT set, sets GBR+156 bit 7 and
-     looks up new speed limit from table at `*sym_06052A00`, writes to
+     looks up new GBR+112 clamp value from table at `*sym_06052A00`, writes to
      GBR+112 if less than current value. Infinite loop (`bt .L_0603EF1A`)
      as error trap if computed value is zero.
 
@@ -121,10 +122,10 @@ GBR+194, GBR+195 (see FUN_0603F534 observation).
 | 86 | 0x40000800 | Bit 30 SET |
 | 87+ | 0x00000800 | Neither |
 
-Only segment 86 (out of 128) has a speed limit flag on this track. Cars
-entering segment 86 get GBR+112 set to a track-specific speed limit.
+Only segment 86 (out of 128) has the clamp flag on this track. Cars
+entering segment 86 get GBR+112 set to a track-specific clamp value.
 
-### Section 2: Lateral Drift Setup (lines 446-501)
+### Section 2: GBR+76 drift path setup (lines 446-501)
 
 1. If GBR+152 == 4 (tier 4): skip to spin/crash section
 2. Computes field[16] >> 8 (from pushed value) as magnitude threshold
@@ -152,8 +153,8 @@ If GBR+150 != 0:
 2. Computes index: (0x48 - original_count) * 2
 3. Reads table at sym_002E02B4 indexed by remaining frames
 4. Applies direction (negates if GBR+156 bit 0 set)
-5. Writes result to GBR+26 (lateral correction)
-6. Adds 0xFFFD0F63 (-192,669) to GBR+72, clamped >=0 (speed decay)
+5. Writes result to GBR+26
+6. Adds 0xFFFD0F63 (-192,669) to GBR+72, clamped >=0 (GBR+72 decay)
 7. When counter reaches 0: clears GBR+20
 
 All cars had GBR+150=0 at observed frames — spin never active in idle.
@@ -174,7 +175,7 @@ All cars had GBR+151=0 — crash never active in idle.
 
 ## Value Dynamics
 
-### GBR+72 (speed, modified during spin/crash only)
+### GBR+72 (modified during spin/crash only)
 
 EEBC only modifies GBR+72 during active spin (GBR+150>0) or crash
 (GBR+151>0). In both cases, it adds 0xFFFD0F63 (-192,669 ≈ -2.94 in 16.16
@@ -183,14 +184,14 @@ deceleration constant used by FUN_0603EE64.
 
 In idle scenarios, GBR+72 is never modified by EEBC (spin/crash inactive).
 
-### GBR+76 (lateral offset, used but not modified by EEBC)
+### GBR+76 (used but not modified by EEBC)
 
 EEBC reads GBR+76 for the magnitude comparison in the drift section but does
 not write it directly. GBR+76 is modified by F58C (via EF86 call) which sets
 up the drift parameters (GBR+172, GBR+194, GBR+195). The actual GBR+76
 modification happens in FUN_0603F534 (see F534 observation).
 
-### GBR+128 (segment index)
+### GBR+128
 
 | Entry | Frame 390 | Frame 6600 |
 |-------|-----------|------------|
@@ -247,17 +248,30 @@ function — it saves PR, calls FUN_0603F58C, and restores PR.
 | Constant/Table | Value | Notes |
 |---------------|-------|-------|
 | 0xFFFD0F63 | -192,669 | Max decel per frame (16.16 fixed) |
-| sym_06052A00 | pointer | Speed limit table pointer |
+| sym_06052A00 | pointer | GBR+112 clamp table pointer |
 | sym_06052E58 | pointer | Drift damping constant |
-| sym_002E02B4 | table | Spin lateral correction (144 entries, indexed by remaining frames) |
+| sym_002E02B4 | table | Spin GBR+26 values (144 entries, indexed by remaining frames) |
 | sym_002DEE84 | table | Crash animation (86 entries × 12 bytes, indexed by remaining frames) |
 | 0x48 | 72 | Spin duration (physics frames) |
 | 0x55 | 85 | Crash duration (physics frames, used as 0x56-1=85 actual iterations) |
 
+## Per-Frame Field Analysis
+
+N/A -- this function operates on AI car chain entries (GBR varies per car,
+not the player struct at 0x0605224C). Tail call from every tier 2+ pipeline.
+Mostly a no-op in idle (spin/crash counters inactive, GBR+112 clamp section
+only triggers at segment 86 on this track). Fields read/written documented
+in GBR Fields Accessed section above.
+
+### Sample captures
+
+N/A -- would require a dedicated race-mode per-car capture, not covered
+by the standard tt_* capture set.
+
 ## Other Observations
 
-- FUN_0603EEBC is effectively a no-op for most frames in idle. The speed
-  limit section is skipped (no segments with flag bits on most of the track),
+- FUN_0603EEBC is effectively a no-op for most frames in idle. The GBR+112
+  clamp section is skipped (no segments with flag bits on most of the track),
   the drift path only triggers at every 16th segment, and the spin/crash
   counters are inactive.
 
@@ -266,14 +280,14 @@ function — it saves PR, calls FUN_0603F58C, and restores PR.
   for entry 37 at segment 32. The drift path calls FUN_0603F58C which sets
   up GBR+172/194/195 for the F534 two-phase timer.
 
-- The speed limit section has an infinite loop (`bt .L_0603EF1A` at lines
-  443-444) as an error trap if the computed speed limit is zero. This would
+- The GBR+112 clamp section has an infinite loop (`bt .L_0603EF1A` at lines
+  443-444) as an error trap if the computed clamp value is zero. This would
   hang the game if triggered — suggesting it's a debug assertion that should
   never fire.
 
-- Segment 86 (of 128) is the only segment with a speed limit flag (bit 30
-  in field[16] = 0x40000800) on this track. Cars crossing segment 86 get a
-  speed limit applied via GBR+112.
+- Segment 86 (of 128) is the only segment with the clamp flag (bit 30
+  in field[16] = 0x40000800) on this track. Cars crossing segment 86 get
+  GBR+112 set to a track-specific clamp value.
 
 - The Verifier's results for EEBC would require testing at frames where
   spin/crash are active or where cars are at segment boundaries. Standard

@@ -39,6 +39,18 @@ position integration function (FUN_0604DB10, #8).
 | R9 | 0x00002134 | |
 | R12 | 0x06048160 | sqrt function pointer |
 
+## Per-Frame Field Analysis
+
+Deferred — this function's GBR field access has not been statically analyzed yet.
+When analyzed, cross-reference against the standard capture set below.
+
+### Sample captures
+
+- `tt_idle_300f.csv` — baseline (no input)
+- `tt_throttle_300f.csv` — hold B, pure acceleration
+- `tt_steer_right_throttle_300f.csv` — B + RIGHT, includes wall strike
+- `tt_throttle_then_brake_300f.csv` — B 200f then A 100f, accel-to-decel transition
+
 ## Other Observations
 
 - R4=R8=0x1F4 (500) and R1=0xD4 suggest this function works with

@@ -30,6 +30,15 @@ is never met.
 Both gates may be related — possibly enabling an extended physics mode
 for 2P, collision response, or specific game states.
 
+## Per-Frame Field Analysis
+
+N/A -- function unreachable in tested scenarios. GBR+0x174 = 0x0000 in all
+tested save states; the gate condition is never met.
+
+### Sample captures
+
+N/A -- no runtime data available for this function.
+
 ## Other Observations
 
 - The else branch (FUN_0604D83C at FUN_0604D580+0x2BC) IS called when
