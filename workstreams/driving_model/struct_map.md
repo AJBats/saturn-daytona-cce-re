@@ -350,7 +350,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - Steer+B: static
   - Accel->brake: monotonic_up (5 uniq)
 - **Correlations**: Co-changes with +0x94, +0x98, +0x9C, +0xC8, +0xCC only in accel->brake
-- **Oracle status**: Untested
+- **Oracle status**: Watchpoint-confirmed writer sub #5 at PC 0x0604D7D8 (brake mirror of +0x80)
 
 ### +0x94
 - **Writers**: Static analysis only
