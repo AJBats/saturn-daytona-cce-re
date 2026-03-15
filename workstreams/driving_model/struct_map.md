@@ -43,6 +43,43 @@ systems to function. Fields are classified by ownership:
 | +0x80 | FUN_0604DB10 (throttle input) | Dispatcher delay slot (from controller) | Throttle input ramp |
 | +0x5C | FUN_060352FA (state dispatch) | Game state machine | Controls which physics runs |
 
+## Format Contracts (for transplant)
+
+The '95 model must produce values in these exact formats for CCE systems to
+function. All values are from the player struct at GBR base 0x0605224C.
+
+| Field | Size | Format | Range | Unit | Clamping | Evidence |
+|-------|------|--------|-------|------|----------|----------|
+| +0x00 (X pos) | 32-bit | Signed fixed | Full int32 | World units | None observed | Sample: 0x008CF8D0 at race start |
+| +0x08 (Z pos) | 32-bit | Signed fixed | Full int32 | World units | None observed | Sample: 0x0091960B at race start |
+| +0x0E (heading) | 16-bit | Unsigned angle | 0x0000-0xFFFF | 65536 = full circle | None | 0x3FFF at start (NE), wraps |
+| +0x24 (velocity) | 32-bit | 16.16 fixed | >= 0 | Speed units | Clamped ≥ 0 by FUN_060366EC | Clamp-to-zero at line 576 |
+| +0x34 (speed/KPH) | 32-bit | Integer | [0, 0x14E] (334) | ~km/h | Clamped by `+0x24 * 0x6C0000 >> 16` then [0, 0x14E] | NOP exp 4: stuck at 0 broke HUD+physics |
+| +0x38 (heading angle) | 32-bit | Unsigned angle | 0x00000000-0x0000FFFF | 65536 = full circle | None observed | 0x4000 at start |
+| +0xF0 (net force) | 32-bit | Signed fixed | ±~1400 | Force units | None observed | +900 accel, -1400 brake |
+| +0x30 (flags) | 32-bit | Bitfield | Bit-packed | Flags | N/A | See individual bits below |
+
+### +0x30 Flag Bits (confirmed consumers)
+
+| Bit | Set by | Cleared by | Consumer | Meaning |
+|-----|--------|------------|----------|---------|
+| 3 (0x08) | FUN_060385CE | FUN_060385CE | FUN_060385CE | Heading changed significantly |
+| 2 (0x04) | FUN_06038A84 | FUN_06038A84 | FUN_06038A84 | Display-related flag |
+| 27 (0x08000000) | Unknown | Frame loop exit | Frame loop | Cleared every frame |
+
+### +0x24 / +0x34 Relationship
+
++0x34 is derived from +0x24 via: `+0x34 = clamp(+0x24 * 0x006C0000 >> 16, 0, 0x14E)`
+
+The conversion constant 0x006C0000 maps internal velocity to ~km/h. At max
+observed speed (0x00015D4C in +0x24), this produces +0x34 = 0x92 (146 km/h).
+The '95 model must either:
+1. Write both +0x24 and +0x34 with the correct relationship, or
+2. Write +0x24 and let CCE's FUN_0604D580 sub #3 compute +0x34
+
+Option 2 is preferred — keep the CCE conversion so the HUD stays accurate.
+The '95 model just needs to write +0x24 in CCE's internal speed units.
+
 **RENDERING PIPELINE** — fields used by the rendering coordinate system:
 | Field | Consumer | Role | Notes |
 |-------|----------|------|-------|
