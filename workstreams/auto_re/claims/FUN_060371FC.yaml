@@ -1,27 +1,45 @@
-# FUN_060371FC — Steer input pipeline entry, writes +0x78
+# FUN_060371FC — Steering sensitivity curve, writes +0x78
 #
-# Observation: workstreams/auto_re/observations/field_writer_survey_001_obs.md (Priority #4)
+# Observation: workstreams/auto_re/observations/FUN_060371FC_obs.md
 # File: src/race/FUN_06036CF8.s
-# Address range: 0x060371FC - 0x06037490
+# Address range: 0x060371FC - 0x06037268
 #
-# From survey data:
-# - Writer PC 0x060371FE (function entry + 2)
-# - GBR = 0x0605224C (player struct)
-# - Values: 0x3C→0x40 at frame 22 (right_wall_strike)
-# - Call chain: FUN_0604D380 → FUN_06036CEC → FUN_06036D76 → FUN_060371FC
-# - 1 hit per game frame with steer input
+# Dual-entry: skip path at 0x060371FC (rts/nop), active path at 0x06037200.
+# Breakpoint at 0x060371FC unreliable in test runner (rts skip too fast or
+# game frame alignment). Using 0x06037200 (active path) for call_count, and
+# absolute addresses for memory claims.
+#
+# +0x78 ramps with RIGHT, saturates at 0x69, non-linear lookup table.
+# Pipeline: controller → FUN_060371FC → +0x78 → FUN_0604D580 → +0x7C/+0x88/+0x8C
 
 function: FUN_060371FC
 address: 0x060371FC
-address_end: 0x06037490
+address_end: 0x06037268
 source_file: src/race/FUN_06036CF8.s
 
 claims:
+  - id: call_count_steer
+    description: "Called 1 time per game frame via active path (0x06037200) with steer"
+    type: call_count_per_frame
+    function: FUN_060371FC
+    address: 0x06037200
+    scenario: right_wall_strike
+    expected_count: 1
+    tolerance: 0
+
   - id: writes_78
-    description: "Writes to player struct +0x78 with steer input (PC 0x060371FE, steer pipeline entry)"
+    description: "Writes steering curve output to +0x78 (PC 0x0603725E, table lookup)"
     type: writes_to
     function: FUN_060371FC
-    function_end: 0x06037490
+    function_end: 0x06037268
     address: 0x060522C4
     scenario: right_wall_strike
+    frames: 60
+
+  - id: field78_increases_right
+    description: "+0x78 increases when RIGHT is held (0x00 → 0x69, non-linear curve)"
+    type: value_changes_with_input
+    address: 0x060522C4
+    input: RIGHT
+    direction: increases
     frames: 60
