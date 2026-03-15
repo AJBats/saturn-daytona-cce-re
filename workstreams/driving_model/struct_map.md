@@ -132,7 +132,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Watchpoint-confirmed writer at PC 0x0604D39E (FUN_0604D6B8 dispatcher delay slot)
 
 ### +0x24 — velocity magnitude
-- **Writers**: FUN_060366EC at PC ~0x060366FA (oracle-confirmed, writes_24 PASS, 58 hits; accumulates +0xF0 each frame)
+- **Writers**: FUN_060366EC at PC ~0x060366FA (oracle-confirmed, writes_24 PASS, 58 hits; accumulates +0xF0 each frame). **EXTERNAL WRITERS**: FUN_06039DCC (decrement — race timer/lap state machine) and FUN_06039ED8 (decrement — crash/damage response). Both write from OUTSIDE the physics dispatcher, meaning +0x24 is a SHARED field, not exclusively physics-owned
 - **Readers**: FUN_0604D580 entry at 0x0604D6B8 (reads for +0x34 conversion); FUN_06036790 (multiplied by +0x158 to compute position delta)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -784,12 +784,23 @@ produce +0x00 (X), +0x08 (Z), and heading.
 | FUN_06038BCC | State init — copies starting pos/vel from track table on state transitions | External tables | +0x00-+0x54 (bulk init) | **Init** |
 | FUN_06038C64 | Animation — tire screech, collision effects, visual state | +0x176, +0x190, +0x196, +0x34, +0x5C, +0xD4 | +0x196, +0x198, +0x19A | **Animation** |
 
+### External Functions — Second Batch (static analysis)
+
+| Function | What it does | Key Reads | Key Writes | Category |
+|----------|-------------|-----------|------------|----------|
+| FUN_06039BE4 | Physics accumulators — updates two accumulator pairs, writes speed output | +0x12, +0x24, +0x30 bit 3, +0x134, +0x190 | +0x134, +0x192, +0x1A6 | **Physics/output** |
+| FUN_06039DCC | Lap/race state machine — manages timers, decrements +0x24, flag management | +0x30 bits 4-6, +0x34, extended fields | **+0x24** (decrement!), +0x30 (clear bits 5,6) | **State machine** |
+| FUN_06039ED8 | Crash/damage state machine — collision response animation, state transitions | +0x30 bits 3-7, +0x34, +0x24, +0x28, +0xAC, +0xB4 | **+0x24**, +0x28, +0x30 (OR 0x10000), +0x1E, +0x20 | **Collision/anim** |
+
+**CRITICAL for transplant**: FUN_06039DCC and FUN_06039ED8 both WRITE to +0x24
+(velocity) from OUTSIDE the physics dispatcher. This means +0x24 is NOT
+exclusively owned by the driving model — external state machines can
+decrement/modify it (crash penalty, race timer effects). The '95 model cannot
+assume exclusive write access to +0x24.
+
 ### Remaining External Consumers (not yet analyzed)
 
 | Function | Source file | Call frequency | Priority |
 |----------|-----------|---------------|----------|
 | FUN_06036BB8 | FUN_06036BB8.s | 4×/frame (states 0,1,3) | HIGH — rendering updater |
-| FUN_06039BE4 | FUN_06039BE4.s | Common exit (always) | HIGH — always runs |
-| FUN_06039DCC | FUN_06039DCC.s | States 0,1,3 | MEDIUM |
-| FUN_06039ED8 | FUN_06039ED8.s | States 0,1,3 | MEDIUM |
 | FUN_06038DD8 | FUN_06038DD8.s | States 0,1,3 | LOW |
