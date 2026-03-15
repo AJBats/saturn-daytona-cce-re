@@ -89,6 +89,45 @@ the driving model and rendering/HUD/sound systems.
 
 ---
 
+## NOP Test Recommendations (for human)
+
+### ALREADY COMPLETED (do not re-run)
+- +0x24 — Experiment 1 (CONFIRMED: velocity accumulator, car frozen)
+- +0x0E — Experiment 2 (CONFIRMED: rendering heading, sprite frozen but car turns)
+- +0xF0 — Experiment 3 (CONFIRMED: sole force channel, car frozen, no RPM)
+- +0x34 — Experiment 4 (CONFIRMED: speed display + physics gate, KPH=0, gear stuck)
+- +0x80 — Experiment 5 (CONFIRMED: throttle input, dual-writer, both NOPs needed)
+
+See `workstreams/driving_model/nop_experiments.md` for full results.
+
+### NEW: NOP Test +0xD0 (clamped speed copy)
+
+- **What to NOP**: Replace `mov.l r5, @(r0, r1)` at PC ~0x06036756
+  with `nop` (0x0009). This prevents FUN_060366EC from writing +0xD0.
+  Source: `src/race/FUN_0603631C.s`, line ~624.
+- **Writer function**: FUN_060366EC (oracle-confirmed, writes_D0 PASS, 59 hits)
+- **Expected effect**: +0xD0 stays at 0. This feeds FUN_0604DB10's heavy
+  multiply chain. With +0xD0 stuck at 0, the downstream computation
+  (which produces +0xC4, +0xC8, +0xCC, +0xD8, +0xDC) would use 0 as
+  input. The car may still accelerate (+0x24 still works) but with
+  degraded/absent lateral forces.
+- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
+  Compare behavior to baseline — car should accelerate but may have
+  strange handling or missing physics effects.
+- **Confidence**: MEDIUM — oracle-confirmed writer, but behavioral effect
+  less predictable than the upstream NOP tests.
+
+### FUTURE: Phase 2 NOP Tests (when ready)
+
+These would test the transplant interface boundary:
+- +0x38 (heading angle) — would physics steering still work without heading?
+- +0x00 (X position) — NOP FUN_06036790's write, car sprite should freeze in place
+- +0x176 (collision timer) — NOP FUN_06035C58's write, collision response should break
+
+These need the actual write PCs verified first (from nop_experiments.md format).
+
+---
+
 ## Scenario Requests
 
 ### High-speed braking scenario (carried from cycle 15)
