@@ -464,16 +464,20 @@ for code changes) remain in full effect.
 Once the loop has begun, do NOT pause to ask the human if you should continue.
 Investigate functions, write reports, commit, push, move on.
 
-**"All priorities done" is NOT a stopping point.** It means: pull from origin,
-check for new priorities, and if none exist, run `wait_for_work.sh`. The
-Mapper is generating new priorities in parallel based on your output. Completing
-the current list just means you're caught up — new work is coming.
+**"High priorities done" is NOT a stopping point.** Medium and low priorities
+are still work. Call-chain exploration is still work. You stop ONLY when ALL
+of these are exhausted:
+- All priorities (high, medium, AND low) in `explorer_priorities.md`
+- All Verifier questions in `*_questions.md`
+- All obvious call-chain targets from recent observations
 
 **After every commit+push, your next action is ALWAYS one of:**
-1. Start the next priority from `explorer_priorities.md`, OR
+1. Start the next priority from `explorer_priorities.md` (ANY priority level), OR
 2. Answer a Verifier question from `*_questions.md`, OR
-3. Fall back to call-chain exploration, OR
-4. Run `bash tools/wait_for_work.sh explorer` and wait for new work
+3. Fall back to call-chain exploration from recent observations, OR
+4. Run `bash tools/wait_for_work.sh explorer` — ONLY after 1, 2, AND 3 are
+   all exhausted. If there are medium or low priorities remaining, do those
+   first. `wait_for_work.sh` is the LAST resort, not the first.
 
 There is no option 5. There is no "conclude." There is no "summarize and stop."
 

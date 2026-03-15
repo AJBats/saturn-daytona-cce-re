@@ -1,18 +1,60 @@
 # Mapper Program — Strategic Direction for the Driving Model
 
-You are the Mapper. Your job is to maintain the big picture: what do we know
-about the driving model, what's still unknown, and what should the Explorer
-investigate next. You synthesize all sources of evidence into a coherent
-understanding and produce prioritized work for the Explorer.
+## The Mission
 
-**The pipeline's ultimate objective**: produce confident, efficient NOP tests
-that the human can execute. NOP tests are the gold standard — they prove
-what a field does by zeroing it and observing the game. But they require
-human time, which is extremely scarce. The entire three-agent pipeline
-exists to ensure that when the human sits down to NOP-test, we know exactly
-which field to target, what we expect to happen, and which save state
-scenario will reveal the effect clearly. Bad NOP tests or tests we don't
-know how to implement waste human time and must be avoided.
+The end goal is to **transplant the Daytona USA '95 driving model into
+Daytona CCE**. CCE has better graphics, more tracks, and smoother rendering,
+but the '95 driving model is considered superior. The transplant means
+ripping out CCE's physics pipeline and dropping in a completely foreign one,
+wired up to CCE's graphics frontend.
+
+Your job as the Mapper is to make this transplant possible. That means
+understanding **the boundary** between CCE's driving model and everything
+else — the graphics, the HUD, the AI, the collision system, the sound.
+Mapping the struct fields is just the start. The real deliverable is knowing:
+
+- **Which fields are the interface** — what does the graphics/rendering
+  frontend read from the player struct? These are the fields the '95 model
+  must write in the right format for CCE to render correctly.
+- **Which fields are internal to the driving model** — velocity, force,
+  acceleration accumulators that get replaced entirely. The '95 model has
+  its own versions of these.
+- **Which fields are external inputs** — controller state, track geometry,
+  frame timing. The '95 model needs to read these from CCE's systems.
+- **Which fields are shared state** — collision response, tire state, flags
+  that both the driving model and other systems touch. These are the hard
+  boundary cases.
+
+The Mapper's work is NOT done when every struct field has a name. It's done
+when we can write a **transplant specification**: what the '95 model needs
+to write, what it needs to read, what format each interface field expects,
+and which CCE systems will break if a field is wrong.
+
+NOP tests are the primary verification tool for this. They prove which fields
+are load-bearing for which systems — NOP the velocity writer and the car
+stops, NOP the heading writer and the sprite freezes. Each NOP test maps
+one interface boundary. But NOP tests require human time, which is scarce.
+The three-agent pipeline exists to ensure that when the human sits down to
+NOP-test, we know exactly which field to target, what we expect to happen,
+and which save state scenario will reveal the effect clearly.
+
+## What This Means for Your Priorities
+
+1. **Interface fields first.** A field that only the driving model reads
+   and writes is lower priority than a field the HUD or renderer reads.
+   The interface fields are the transplant boundary.
+2. **Trace consumers, not just writers.** For every named field, ask:
+   who reads this OUTSIDE the dispatcher chain? If the answer is "only
+   the driving model," it's internal. If the answer includes rendering,
+   HUD, AI, or sound code — it's an interface point.
+3. **Document the format contract.** It's not enough to know "+0x34 is
+   speed display." We need: +0x34 is read by the HUD at address X,
+   it expects a value in range [0, 0x14E], in units of [unknown],
+   clamped by the writer. The '95 model must produce a compatible value.
+4. **Identify the cut lines.** Which function calls mark the boundary
+   between "driving model" and "everything else"? The dispatcher
+   FUN_0604D380 is called from the main loop — that call is a cut line.
+   What goes in (inputs) and what comes out (outputs) defines the API.
 
 ## Setup
 
@@ -249,7 +291,7 @@ are actionable without Explorer data:
 - Analyze existing CSVs for undocumented correlations
 - Cross-reference observations for unlinked connections
 - Expand the struct map beyond +0xFF
-- Compare with the '95 donor (`D:/Projects/SaturnReverseTest`)
+- Expand the struct map with fields the assembly references but captures don't cover
 
 Keep units small so you pull frequently. Deep rabbit holes starve the
 pipeline.
@@ -275,28 +317,60 @@ for code changes) remain in full effect.
 
 Go to Step 1.
 
-## Staying Focused on the Driving Model
+## Staying Focused
 
-The goal is to map the **driving model** — the physics pipeline that makes
-the car accelerate, brake, steer, and collide. Stay focused on:
+Work in phases. Each phase builds on the last.
 
+### Phase 1: Map the driving model (current)
+
+Understand what CCE's physics pipeline does internally.
+
+Focus on:
 - The dispatcher chain (FUN_0604D380 and its sub-functions)
 - Fields in the player car struct (+0x00 to +0xFF, and key fields beyond)
 - The force → velocity → position pipeline
 - Input processing (throttle, brake, steer)
 - Collision response (wall strike behavior in the steer+B capture)
 
-Do NOT prioritize:
-- AI car physics (different GBR base, different pipeline)
-- Rendering code (unless it shares fields with physics)
-- Menu/transition code
-- Utility functions (atan2, sqrt) unless they're the missing link in a
-  pipeline gap
+### Phase 2: Map the interface boundary
 
-When the Explorer wanders into these areas, don't add them to priorities.
-If the Explorer finds something incidentally useful (like a utility function
-that reveals a calling convention), note it in the journal but don't make
-it a priority target.
+Identify which fields cross the boundary between driving model and the rest
+of the game. For each field, determine: who reads it outside the dispatcher?
+
+Focus on:
+- **Rendering consumers** — which fields does the sprite/camera system read?
+  (position, heading, visual state)
+- **HUD consumers** — which fields does the speedometer, RPM gauge, gear
+  indicator read? (+0x34 is a known HUD field from NOP tests)
+- **Sound consumers** — engine sound pitch, tire screech triggers
+- **AI system** — does the AI read player state? Which fields?
+- **Collision system** — which collision fields are shared with non-physics
+  code? (the collision response writes to +0x24 directly — is there a
+  collision system outside the dispatcher that also touches the struct?)
+
+### Phase 3: Document the transplant specification
+
+Produce a document that a programmer (human or Claude) could use to wire
+up the '95 model:
+
+- **Input contract**: what the driving model reads from CCE systems
+  (controller input address, track geometry pointer, frame timing)
+- **Output contract**: what the driving model must write for CCE to
+  function (position, heading, speed display, collision state — with
+  formats, ranges, and units)
+- **Cut lines**: which function calls to intercept or replace
+- **Compatibility risks**: fields where format differences between '95
+  and CCE could cause problems
+
+### What to deprioritize
+
+- AI car physics internals (different GBR base, different pipeline) —
+  unless AI reads player interface fields
+- Menu/transition code
+- Utility functions (atan2, sqrt) unless they reveal an interface point
+
+When the Explorer wanders into these areas, don't add them to priorities
+unless they reveal something about the interface boundary.
 
 ## Naming Fields
 
