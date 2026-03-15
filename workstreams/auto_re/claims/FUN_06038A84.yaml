@@ -1,0 +1,29 @@
+# FUN_06038A84 — Writes +0x1A4 (rendering counter/state)
+#
+# Observation: workstreams/auto_re/observations/field_writer_survey_005_obs.md (Priority #4)
+# File: src/race/FUN_060384C4.s
+# Address range: 0x06038A84 - 0x06038BC4
+#
+# From survey data:
+# - Writer PC 0x06038AE4
+# - GBR = 0x06057800 (NOT player struct)
+# - Writes to +0x1A4 (upper 16 bits of 4-byte word at 0x060523F0)
+# - Values: 0x0041→0x0042 at frame 80 (incrementing counter)
+# - Scenario: straight_throttle
+#
+# NOTE: Using absolute address because GBR != player struct base.
+
+function: FUN_06038A84
+address: 0x06038A84
+address_end: 0x06038BC4
+source_file: src/race/FUN_060384C4.s
+
+claims:
+  - id: writes_1A4
+    description: "Writes incrementing counter to +0x1A4 (PC 0x06038AE4, rendering state)"
+    type: writes_to
+    function: FUN_06038A84
+    function_end: 0x06038BC4
+    address: 0x060523F0
+    scenario: straight_throttle
+    frames: 120
