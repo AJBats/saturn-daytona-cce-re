@@ -1,161 +1,106 @@
-# Explorer Priorities — Updated 2026-03-14 (Cycle 15)
+# Explorer Priorities — Updated 2026-03-14 (Cycle 28, Phase 2)
 
 ## Resolved Priorities (all prior cycles)
 
 Initial list #1-8: all resolved.
 Cycle 11 list #1-8: 7 of 8 resolved (#5 +0x1CB inconclusive, likely constant 0x02).
+Cycle 15 list: all resolved (surveys #1-#4).
 
-## High Priority (new targets)
+## Phase 2 Priorities — Transplant Boundary Verification
 
-### 1. ~~+0x176 collision gate~~ RESOLVED (survey #2)
+These targets are driven by Phase 2 analysis of external consumers. The goal
+is to verify the transplant interface — which fields cross the boundary between
+the driving model and rendering/HUD/sound systems.
 
-- **RESOLVED**: TWO writers: FUN_06035C58 SETS to 15 (trigger), sub #4 DECREMENTS
-  (countdown). Full collision lifecycle mapped. See journal Entry 22.
+### HIGH Priority
 
-### 2. ~~Decay cluster +0xE8/+0xEC~~ RESOLVED (survey #2)
+### 1. FUN_060384C4 — rendering transform field reads
 
-- **RESOLVED**: Both written by FUN_06035C98 (#15) at consecutive PCs
-  (0x06035E4E, 0x06035E50). Decay rate 0.9374/frame (15/16).
+- **Why**: This function reads +0x00 (X), +0x08 (Z), +0x0E (heading), +0x120,
+  and +0x160 from the car struct. Static analysis says it's the primary
+  rendering coordinate updater. Runtime verification would confirm which
+  fields it actually reads and what it writes to the render targets.
+- **What to do**: Load `cce_tt_straight.mc0`, use `straight_throttle`. Set
+  breakpoint at FUN_060384C4 (0x060384C4), verify it fires, dump registers.
+  Then set watchpoints on the render target addresses (resolved from +0x160
+  and +0x12C pointers) to see what gets written.
+- **What this unblocks**: Confirms the rendering interface — which physics
+  fields the renderer actually reads at runtime (not just static analysis).
 
-### 3. ~~+0x90 brake mirror~~ RESOLVED (survey #2)
+### 2. +0x04 (Y position) writer verification
 
-- **RESOLVED**: Sub #5 (0x0604D780) at PC 0x0604D7D8. Same writer as +0xAC.
-  Brake mirror hypothesis CONFIRMED.
+- **Why**: Static analysis shows FUN_060386D8 writes +0x04 from a terrain
+  height lookup using +0x00 and +0x08. If confirmed, this means the '95
+  model does NOT need to produce Y — it's derived externally. This is a
+  major simplification for the transplant.
+- **What to do**: Load `cce_tt_straight.mc0`, `straight_throttle`. Set
+  watchpoint on GBR+0x04 (0x06052250). Confirm writer PC is inside
+  FUN_060386D8 (0x060386D8-0x06038A82). Record value changes over 60 frames.
+- **What this unblocks**: Confirms Y position is external, reducing the
+  transplant output contract to just X, Z, and heading.
 
-## Medium Priority (deepens understanding)
+### 3. +0x194/+0x192 rendering heading writer
 
-### 4. ~~+0x84 byte write~~ RESOLVED (survey #4)
-
-- **RESOLVED**: Sub #3 (0x0604D6B8) found via breakpoint bracketing.
-  Byte write (`mov.b`), "physics active" flag.
-
-### 5. +0x1CB collision active byte — who sets it?
-
-- **Why**: FUN_060366EC reads byte at +0x1CB to select between collision
-  clamping ([-0x100, 0x100]) and normal decay (divide by 4). This byte
-  controls the severity of collision response. Finding who sets it maps
-  the collision state machine.
-- **What to do**: Load `cce_tt_straight.mc0`, use scenario `right_wall_strike`.
-  Set watchpoint on absolute address 0x0605224C + 0x1CB = 0x06052417.
-  Record writer PC at collision transition.
-- **What this unblocks**: Completes the collision state machine alongside +0x176.
-
-### 6. Chain[0x98] writer — who assigns physics tiers?
-
-- **Why**: The per-car physics dispatch uses chain[0x98] to select the
-  physics tier (0-5). Player is tier 0, AI cars are 1-3. Understanding
-  who writes this field reveals how the game decides physics fidelity.
-  For transplant: if '95 uses a different tier system, we need to
-  understand the assignment logic.
-- **What to do**: Load `cce_race_start.mc0`. Set watchpoint on chain[0]+0x98
-  (0x060FD400 + 0x98 = 0x060FD498). Record writer PC during the first
-  few frames of race mode.
-- **What this unblocks**: Maps the tier assignment pipeline for AI cars.
-
-## Low Priority (nice-to-have)
-
-### 7. +0xA0 writer — correlates with +0x70
-
-- **Why**: +0xA0 correlates with +0x70 (J=0.70). FUN_06035904 writes it
-  via FUN_06035B30 helper. A watchpoint would confirm this.
+- **Why**: FUN_06036BB8 reads +0x194 and copies to +0x48. FUN_060385CE
+  compares +0x194 with +0x38 for delta detection. Static analysis says
+  FUN_06038A84 writes these via atan2. Runtime confirmation would verify
+  the rendering heading pipeline: physics +0x38 → ??? → rendering +0x194.
 - **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
-  watchpoint on GBR+0xA0 (0x0605224C + 0xA0 = 0x060522EC).
+  watchpoint on GBR+0x194 (0x060523E0) and GBR+0x192 (0x060523DE). Record
+  writer PCs and values over 60 frames with steer+throttle input.
+- **What this unblocks**: Confirms the heading data flow for the transplant
+  boundary. If +0x194 is derived from +0x38, the '95 model only needs to
+  write +0x38 and external code handles the rest.
 
-### 8. +0xA8 writer — steer-only sparse field
+### MEDIUM Priority
 
-- **Why**: +0xA8 has only 9 unique values in steer+B. Sparse transitions
-  suggest a state or mode field related to steering.
+### 4. +0x1A6 speed output — who reads it?
+
+- **Why**: FUN_06039BE4 writes this field in the common exit (every frame).
+  FUN_06039DCC and FUN_06039ED8 read it. But we don't know if it feeds
+  the HUD or any other external system. If it's HUD-visible, it's an
+  interface field.
+- **What to do**: Load `cce_tt_straight.mc0`, `straight_throttle`. Set
+  watchpoint on GBR+0x1A6 (0x060523F2). Record writer PC, then trace
+  readers by checking if the HUD speedometer correlates with this value
+  (sample +0x1A6 alongside +0x34 over 60 frames with throttle).
+- **What this unblocks**: Determines if +0x1A6 is a transplant interface
+  field or internal to the external state machines.
+
+### 5. +0x12C render pointer — what does it point to?
+
+- **Why**: Three major rendering consumers read through this pointer. Knowing
+  what data structure it points to (VDP1 command table? sprite transform
+  buffer?) would complete the rendering boundary map.
+- **What to do**: Load any save state. Break at FUN_060384C4, read the
+  value at GBR+0x12C. Then dump 64 bytes at that address. Compare with
+  VDP1 command table format (if known from Ghidra).
+- **What this unblocks**: Maps the rendering data structures that receive
+  physics output.
+
+### LOW Priority
+
+### 6. +0x190 collision gate — who sets it?
+
+- **Why**: Wide-ranging gate field (4 consumers), controls collision response
+  activation. Finding the writer completes the collision state machine.
 - **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
-  watchpoint on GBR+0xA8 (0x060522F4).
-
----
-
-## NOP Test Recommendations (for human)
-
-### NOP Test: +0xF0 (net force — most upstream intervention)
-
-- **What to NOP**: Replace `mov.l r3, @(r0, r4)` in FUN_06035904's rts delay
-  slot with `nop` (0x0009). Source: `src/race/FUN_06035904.s`, line 298.
-  The rts instruction at line 297 still executes (nop in delay slot = clean return).
-- **Writer function**: FUN_06035904 (watchpoint-confirmed, rts delay slot, r4=0xF0)
-- **Expected effect**: Force is never applied to velocity. +0x24 (velocity) would
-  remain at whatever value it had when the NOP was applied. If applied from standing
-  start, the car should never accelerate at all. If applied mid-run, the car would
-  coast at constant velocity forever (no accel, no decel, no drag).
-  This is the MOST UPSTREAM intervention — it blocks the force -> velocity -> position
-  pipeline at its source.
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle` (hold B).
-  Car should remain completely stationary despite throttle input.
-- **Confidence**: HIGHEST — watchpoint-confirmed writer, core pipeline source,
-  sign-flip behavior confirmed (positive=accel, negative=brake). NOP blocks
-  ALL force application including braking and drag.
-- **Evidence**: FUN_06035904_obs.md, field_writer_survey_001_obs.md (Priority #1),
-  brake transition analysis (journal Entry 15), correlation with Clusters A+E
-
-### NOP Test: +0x24 (velocity accumulator)
-
-- **What to NOP**: Replace `mov.l r4, @(36, r0)` at PC 0x060366FA
-  with `nop` (0x0009). This prevents FUN_060366EC from writing +0x24.
-  Source: `src/race/FUN_0603631C.s`, line 572.
-- **Writer function**: FUN_060366EC (oracle-confirmed, writes_24 PASS, 58 hits)
-- **Expected effect**: Car should stop accelerating. +0x24 is the velocity
-  accumulator — +0xF0 (force) is added to it each frame. Without the write,
-  +0x24 stays at its initial value (0x00000000), so velocity never increases.
-  +0x34 (speed gate, derived from +0x24) would also stay at 0, disabling all
-  threshold-gated downstream functions.
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`
-  (hold B). Car should remain stationary despite throttle input.
-- **Confidence**: HIGH — oracle-confirmed writer, perfect lockstep with
-  +0x00 and +0xD0, NOP breaks the core feedback loop.
-- **Evidence**: FUN_060366EC_obs.md, writes_24 PASS, correlation Cluster A
-
-### NOP Test: +0x34 (speed-derived gate value)
-
-- **What to NOP**: Replace `mov.l r2, @(52, r0)` at PC 0x0604D70A
-  with `nop` (0x0009). This prevents FUN_0604D580 from writing +0x34.
-  Source: `src/race/FUN_0604D380.s`, line 521.
-- **Writer function**: FUN_0604D580 (oracle-confirmed, writes_34 PASS, 59 hits)
-- **Expected effect**: +0x34 stays at 0. This gates 5+ downstream functions.
-  Car may accelerate but with degraded physics. Also disables the collision
-  response path (which requires +0x34 < 0x46, but with +0x34 = 0 the
-  collision response's other gates may still fire).
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
-- **Confidence**: HIGH
-- **Evidence**: FUN_0604D580_obs.md, writes_34 PASS
-
-### NOP Test: +0xD0 (clamped speed copy)
-
-- **What to NOP**: Replace `mov.l r5, @(r0, r1)` at PC ~0x06036756
-  with `nop` (0x0009). This prevents FUN_060366EC from writing +0xD0.
-  Source: `src/race/FUN_0603631C.s`, line ~624.
-- **Writer function**: FUN_060366EC (oracle-confirmed, writes_D0 PASS, 59 hits)
-- **Expected effect**: +0xD0 stays at 0. Breaks the heavy multiply chain
-  input in FUN_0604DB10.
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
-- **Confidence**: MEDIUM
-- **Evidence**: FUN_060366EC_obs.md, writes_D0 PASS
+  watchpoint on GBR+0x190 (0x0605243C). Wait for wall contact (~frame 140).
 
 ---
 
 ## Scenario Requests
 
-### High-speed braking scenario
+### High-speed braking scenario (carried from cycle 15)
 
 - **Why needed**: Fields +0x90, +0x98, +0x9C only activate with brake input,
-  and +0xB8 only activates after frame 200 (speed threshold). Current
-  `tt_throttle_then_brake_300f` brakes from ~100 km/h. A higher-speed
-  brake test would exercise the full deceleration curve.
+  and +0xB8 only activates after frame 200 (speed threshold).
 - **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
   on the straight (~350 frames of throttle), then hold A (brake) for 200 frames.
-- **What it would unlock**: Full +0x90/+0x98/+0x9C dynamics, +0xB8 interaction
-  with braking, and deceleration force profile at high speed.
 
-### High-speed steering scenario
+### High-speed steering scenario (carried from cycle 15)
 
 - **Why needed**: FUN_06035F48's gated setup path requires +0x34 >= 100 AND
-  steering. In steer+B from standing start, +0x34 only reaches 64. Need
-  high speed + steer to trigger the gated path.
+  steering. Need high speed + steer to trigger the gated path.
 - **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
-  (~350 frames of throttle), then hold RIGHT while maintaining B. Or create
-  a save state at high speed on the straight.
-- **What it would unlock**: The gated +0x18E timer path in FUN_06035F48.
+  (~350 frames of throttle), then hold RIGHT while maintaining B.
