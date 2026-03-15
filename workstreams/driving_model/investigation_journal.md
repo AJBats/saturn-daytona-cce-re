@@ -1441,3 +1441,47 @@ When the '95 model receives control (via Option A):
 The '95 model is free to use r0-r13 as scratch (r8-r13 are callee-saved but
 are already on the stack from the prologue). It must preserve the stack pointer
 and end with the standard epilogue to restore the saved registers.
+
+#### Input Architecture for Transplant
+
+The CCE dispatcher processes controller input in subs #1-#5:
+- Sub #1 (FUN_06036CEC chain): steer → +0x78 (via non-linear lookup table)
+- Sub #2 (FUN_0604D580): +0x78 → +0x7C/+0x88/+0x8C (steer scaling/clamping)
+- Sub #3 (0x0604D6B8): +0x24 → +0x34 (speed conversion)
+- Sub #4 (0x0604D758): continuation
+- Sub #5 (0x0604D780): throttle/brake → +0x80/+0x90 (input ramps)
+
+For the transplant:
+
+**Option A-pure** (replace entire dispatcher): The '95 model reads raw
+controller state directly. This requires finding CCE's pad state variable
+(likely in init module memory, 0x002FC2xx range, read by sub #1 chain).
+The '95 model does its own input filtering. Clean separation but requires
+tracing the raw input source.
+
+**Option A-hybrid** (recommended): Keep CCE's subs #1-#5 running first,
+THEN run the '95 physics. Implementation: the new jump table entry points
+to a trampoline that:
+1. Calls CCE's subs #1-#5 (input processing)
+2. Reads processed input from +0x78 (steer), +0x80 (throttle), +0x90 (brake)
+3. Runs the '95 physics model with these inputs
+4. Writes results to the interface fields
+5. Calls CCE's sub #17 (FUN_060366EC — velocity integration) if needed
+6. Calls CCE's sub #18 (FUN_06036790 — position integration)
+7. Returns via standard epilogue
+
+This keeps CCE's input filtering (non-linear steer curve, throttle ramp) and
+lets the '95 model focus on what it does differently: force computation,
+tire physics, collision response. It also means +0x34 stays compatible
+because CCE's sub #3 computes it.
+
+**Input fields available after subs #1-#5**:
+| Field | Value | Unit |
+|-------|-------|------|
+| +0x78 | Steer magnitude | [0, 0x69], non-linear |
+| +0x7C | Steer clamped | [0, 0x7F] |
+| +0x80 | Throttle ramp | [0, 0xFF], 23-frame ramp-up |
+| +0x88 | Throttle scaled | [0x38, 0xB8] |
+| +0x8C | Throttle scaled | [0, 0xFF] |
+| +0x90 | Brake ramp | [0, 0xFF], mirrors +0x80 |
+| +0x34 | Speed gate | [0, 0x14E], from +0x24 |
