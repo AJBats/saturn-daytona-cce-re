@@ -1,30 +1,46 @@
-# FUN_0603833C — Per-frame game loop function, writes +0x2C via R14
+# FUN_0603833C — Per-frame game loop: position update + distance accumulation
 #
-# Observation: workstreams/auto_re/observations/field_writer_survey_001_obs.md (Priority #2)
+# Observation: workstreams/auto_re/observations/FUN_0603833C_obs.md
 # File: src/race/FUN_06037E28.s
-# Address range: 0x0603833C - 0x060384C4
+# Address range: 0x0603833C - 0x060384AA
 #
-# From survey data:
-# - Writer PC 0x06038468
-# - GBR = 0x06057800 (NOT player struct — different struct)
-# - R14 = 0x0605224C (IS player struct — write goes via R14)
-# - Values: 0x2B686→0x2B687→0x2B688 (increments, scales with speed)
-# - Called from init module (PR=0x0602831E), not player dispatcher
-# - 1 hit per game frame
+# From full observation:
+# - Called 1/frame from init module (0x0602831E), NOT player dispatcher
+# - GBR = 0x06057800 (not player struct), R14 = 0x0605224C (player struct)
+# - Writes +0x2C (accumulation: +0x2C += +0x34 each frame)
+# - Writes +0x00 and +0x08 (position from table indexed by +0x12)
+# - +0x2C increases monotonically with throttle (proportional to +0x34)
 #
-# NOTE: Using absolute address because GBR != player struct base.
+# NOTE: All addresses absolute because GBR != player struct base.
 
 function: FUN_0603833C
 address: 0x0603833C
-address_end: 0x060384C4
+address_end: 0x060384AA
 source_file: src/race/FUN_06037E28.s
 
 claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame from init module game loop"
+    type: call_count_per_frame
+    function: FUN_0603833C
+    address: 0x0603833C
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 1
+
   - id: writes_2C
-    description: "Writes to player struct +0x2C (absolute 0x06052278) via R14, not GBR"
+    description: "Accumulates +0x34 into +0x2C each frame (PC ~0x06038464)"
     type: writes_to
     function: FUN_0603833C
-    function_end: 0x060384C4
+    function_end: 0x060384AA
     address: 0x06052278
     scenario: straight_throttle
+    frames: 60
+
+  - id: distance_increases_throttle
+    description: "+0x2C (distance accumulator) increases when throttle (B) is held"
+    type: value_changes_with_input
+    address: 0x06052278
+    input: B
+    direction: increases
     frames: 60
