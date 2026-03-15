@@ -1308,3 +1308,109 @@ target is likely VDP1 sprite command data or a 3D transform matrix.
 reads position/orientation from the car struct and pushes it to the rendering
 pipeline. The fields it reads (+0x00, +0x08, +0x0E?, offset 0x86 = +0x86?)
 are rendering interface points that the '95 model must write correctly.
+
+---
+
+### Entry 24: Cut Line Specification — Transplant Insertion Point (Tier 0)
+
+**Files**: `src/race/FUN_060351CC.s` (dispatch), `src/race/FUN_0604D380.s` (dispatcher)
+
+#### Prologue/Epilogue Integration
+
+The physics dispatcher has an INTEGRATED prologue/epilogue split across two
+functions:
+
+**Prologue** (at 0x060352E8, in FUN_060351CC.s):
+```asm
+stc.l gbr, @-r15      ; save old GBR
+mov r4, r0             ; r0 = car struct
+ldc r0, gbr            ; GBR = car struct
+mov.l r8, @-r15        ; save r8
+mov.l r9, @-r15        ; save r9
+mov.l r10, @-r15       ; save r10
+mov.l r11, @-r15       ; save r11
+mov.l r12, @-r15       ; save r12
+mov.l r13, @-r15       ; save r13
+; falls through to FUN_060352FA...
+; FUN_060352FA saves r14, then jmp to state handler
+```
+
+**Epilogue** (at end of FUN_0604D380):
+```asm
+lds.l @r15+, pr        ; restore return address
+mov.l @r15+, r14       ; restore r14
+mov.l @r15+, r13       ; restore r13
+mov.l @r15+, r12       ; restore r12
+mov.l @r15+, r11       ; restore r11
+mov.l @r15+, r10       ; restore r10
+mov.l @r15+, r9        ; restore r9
+mov.l @r15+, r8        ; restore r8
+ldc.l @r15+, gbr       ; restore old GBR
+rts                     ; return to FUN_06037E28
+```
+
+The prologue saves GBR + r8-r13 at 0x060352E8, then r14 at FUN_060352FA. The
+epilogue in FUN_0604D380 restores all of them. When the dispatcher `rts`, it
+returns directly to FUN_06037E28 (the per-car frame loop), not to FUN_060352FA.
+
+**Stack frame at FUN_0604D380 entry** (top to bottom):
+```
+SP+0x00: r14 (saved by FUN_060352FA)
+SP+0x04: r13 (saved at 0x060352E8)
+SP+0x08: r12
+SP+0x0C: r11
+SP+0x10: r10
+SP+0x14: r9
+SP+0x18: r8
+SP+0x1C: old GBR
+SP+0x20: (caller's frame — FUN_06037E28)
+```
+
+FUN_0604D380 additionally pushes PR at its own entry (`sts.l pr, @-r15`).
+
+#### Cut Line Options
+
+**Option A: Replace jump table entry** (simplest)
+- Location: FUN_060351CC.s line 193, `.4byte DAT_0604D380`
+- Change to: `.4byte <transplant_entry>`
+- The '95 model code at `<transplant_entry>` receives:
+  - GBR = R0 = car struct base
+  - R14 = car struct base (saved by FUN_060352FA, on stack)
+  - Stack frame as above
+- The '95 model must end with the same epilogue (restore PR, r14-r8, GBR, rts)
+- Advantage: no changes to prologue, GBR setup, or frame loop
+- Risk: the '95 model must match the exact stack layout
+
+**Option B: Replace FUN_0604D380 body** (full control)
+- Keep FUN_0604D380 entry point and prologue (sts.l pr, @-r15)
+- Replace the body with: jmp to '95 physics code
+- '95 code does its work, then returns to FUN_0604D380's epilogue
+- Advantage: can use a trampoline with custom setup
+- Risk: need to split the epilogue into a callable label
+
+**Option C: Intercept at FUN_06037E28 level** (most invasive)
+- Replace the `jsr @r9` call in the per-car frame loop
+- Full control over what runs when, but must handle GBR setup ourselves
+- Advantage: can skip the state dispatch entirely for the player
+- Risk: changes the per-car loop structure, affects all cars
+
+**Recommended**: Option A. Minimal modification. The GBR setup at 0x060352E8 is
+transparent. The '95 model receives the car struct in GBR (same as CCE's model)
+and returns via the standard epilogue. The only requirement is that the '95 model
+writes the interface fields documented in the Transplant Interface Summary.
+
+#### Register Contract at Entry
+
+When the '95 model receives control (via Option A):
+
+| Register | Value | Notes |
+|----------|-------|-------|
+| GBR | Car struct base | Set by 0x060352E8 |
+| R0 | Car struct base | Set by FUN_060352FA |
+| R14 | Car struct base | Saved on stack by FUN_060352FA |
+| PR | Return to FUN_06037E28 | Saved on stack at entry |
+| R15 (SP) | Stack with saved regs | See stack frame above |
+
+The '95 model is free to use r0-r13 as scratch (r8-r13 are callee-saved but
+are already on the stack from the prologue). It must preserve the stack pointer
+and end with the standard epilogue to restore the saved registers.
