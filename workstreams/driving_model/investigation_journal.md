@@ -1176,19 +1176,46 @@ much larger than the initial 256-byte (0x100) assumption. Extended fields access
 by the dispatcher chain: +0x104, +0x108, +0x10C, +0x134, +0x148, +0x158, +0x170,
 +0x174, +0x176, +0x17E, +0x18E, +0x190, +0x1CB.
 
-### CCE ↔ '95 Cross-Reference (transplant mapping)
+### CCE ↔ '95 Cross-Reference (transplant mapping, updated with Phase 2 data)
 
-| CCE | CCE Role | '95 | '95 Role | Confidence |
-|-----|----------|-----|----------|------------|
-| +0x00 | X position | +0x10 | Velocity X / position | MODERATE |
-| +0x08 | Z position | +0x18 | Velocity Z / position | MODERATE |
-| +0x0C | Heading (16-bit) | +0x20 | Heading | STRONG |
-| +0x24 | Velocity magnitude | +0x0C | Speed (internal) | STRONG |
-| +0x34 | Speed gate | +0x08 | Speed index | STRONG |
-| +0x60 | Frame counter | +0x60 | Frame counter | STRONG |
-| +0xF0 | Net force | +0xFC | Acceleration delta | STRONG |
-| +0x2C | Distance accum | +0x2C | Speed-related lookup | POSSIBLE |
-| +0x30 | Flags | +0x00 | Car flags | MODERATE |
+**Struct differences**: CCE stride=0x1D8 (472 bytes), '95 stride=0x268 (616 bytes).
+CCE uses GBR for per-car access, '95 uses sym_0607E940 pointer. Both separate
+player car from AI iteration loop.
+
+| CCE | CCE Role | Format | '95 | '95 Role | Format | Conversion |
+|-----|----------|--------|-----|----------|--------|------------|
+| +0x00 | X position | 32-bit signed | +0x10 | Position X | 32-bit signed | Different world scales — need mapping |
+| +0x08 | Z position | 32-bit signed | +0x18 | Position Z | 32-bit signed | Different world scales |
+| +0x0E | Heading (render) | 16-bit angle | +0x20 low 16 | Heading | 32-bit angle | Mask to 16-bit, may need offset |
+| +0x24 | Velocity mag | 16.16 fixed | +0x0C | Speed | 32-bit int | **Scale factor ~0.666** (see below) |
+| +0x34 | Speed gate | int [0,334] | +0x08 | Speed index | fpmul(+0x0C, 72) | Let CCE compute from +0x24 |
+| +0x38 | Heading angle | 32-bit angle | +0x20 | Heading | 32-bit angle | Different circle convention |
+| +0x60 | Frame counter | 32-bit int | +0x60 | Frame counter | 32-bit int | Direct — may be same |
+| +0xF0 | Net force | signed | +0xFC | Accel delta | signed | Different units — need scale |
+| +0x2C | Distance accum | 32-bit int | +0x2C | Speed-related | unknown | May be compatible |
+| +0x30 | Flags | bitfield | +0x00 | Flags | bitfield | Different bit layouts |
+
+#### Speed Unit Conversion (critical)
+
+'95 speed (+0x0C) at 179 mph = 262,577. CCE velocity (+0x24) at 147 km/h = 0x15D4C (89,420).
+Converting: 179 mph = 288 km/h. CCE's +0x34 = 147 at that +0x24 value.
+
+Rough conversion: `CCE_+0x24 = '95_+0x0C * 0.666` (or more precisely,
+`'95_+0x0C * 288 * 65536 / (262577 * 108)`). This needs empirical calibration
+— the two games may use different drag curves, so matching HUD readings at
+one speed doesn't guarantee matching at all speeds.
+
+**Recommended approach**: Don't convert speeds mathematically. Instead, let the
+'95 physics pipeline produce its own +0xFC equivalent, and inject it into CCE's
+force channel (+0xF0). CCE's integration chain (+0xF0 → +0x24 → +0x34) handles
+the rest. This way the CCE speed display remains internally consistent. The
+transplant is at the FORCE level, not the SPEED level.
+
+#### Heading Convention
+
+'95 heading (+0x20) = 0xFFFFAAAB at race start; CCE heading (+0x38) = 0x00004000.
+Both use 16-bit angle (0-0xFFFF = full circle), but the zero direction and sign
+convention differ. Need empirical mapping (e.g., NW in both games → what value?).
 
 Key unmapped '95 fields: +0x28 (slip angle), +0x30 (yaw rate), +0x1E4 (segment index)
 
