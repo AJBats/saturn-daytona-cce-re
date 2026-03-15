@@ -77,7 +77,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 ## Field Map
 
 ### +0x00 — X position
-- **Writers**: FUN_06036790 at PC 0x060367E0 (watchpoint-confirmed; position integration: `+0x00 += sin(-0x38) * (+0x24 * +0x158) >> 32`)
+- **Writers**: FUN_06036790 at PC 0x060367E0 (watchpoint-confirmed; position integration: `+0x00 += sin(-0x38) * (+0x24 * +0x158) >> 32`). ALSO FUN_0603833C (per-car frame loop) writes +0x00 from table at DAT_0604F7E4 indexed by +0x12 — position update from track data (Explorer-confirmed)
 - **Readers**: FUN_06036790 (reads current value for accumulation), FUN_0604DB10 (wpool access), multiple sub-functions
 - **Behavior**: input-responsive
   - Idle: static at 0x008CF8D0
@@ -88,7 +88,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Watchpoint-confirmed writer FUN_06036790 at PC 0x060367E0 (same function writes +0x0E, +0x108, +0x10C)
 
 ### +0x08 — Z position
-- **Writers**: FUN_06036790 (position integration: `+0x08 += cos(-0x38) * (+0x24 * +0x158) >> 32`; same computation pattern as +0x00)
+- **Writers**: FUN_06036790 (position integration: `+0x08 += cos(-0x38) * (+0x24 * +0x158) >> 32`; same computation pattern as +0x00). ALSO FUN_0603833C (per-car frame loop) writes +0x08 from same table as +0x00 (Explorer-confirmed)
 - **Readers**: FUN_06036790 (reads current value for accumulation), FUN_0604DB10 (wpool access), others
 - **Behavior**: input-responsive
   - Idle: static at 0x0091960B
@@ -276,7 +276,7 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: Watchpoint-confirmed writer FUN_06035B30 at PC 0x06035C50 (helper of FUN_06035904)
 
 ### +0x78 — steer input entry point
-- **Writers**: FUN_060371FC at PC 0x060371FE (watchpoint-confirmed; called from FUN_06036CEC → FUN_06036D76 → FUN_060371FC, dispatcher sub #1 call chain)
+- **Writers**: FUN_060371FC at PC ~0x0603725E (watchpoint-confirmed; called from FUN_06036CEC → FUN_06036D76 → FUN_060371FC, dispatcher sub #1 call chain). Non-linear lookup table at DAT_0603726C converts raw controller input to [0, 0x69] range (247-byte S-curve mapping). Dual-entry-point: skip path (rts) when no steer, active path (0x06037200) when LEFT/RIGHT held. (Explorer-confirmed)
 - **Readers**: FUN_0604D580 (primary input for +0x7C/+0x88/+0x8C pipeline)
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
@@ -752,29 +752,44 @@ States 3-10 = simplified physics functions (AI cars, inactive states).
 
 ### Confirmed External Consumers
 
-| Field | Consumer | Location | How consumed | Interface? |
-|-------|----------|----------|-------------|------------|
-| +0x34 | Frame loop exit | PC ~0x06038462 | `+0x2C += +0x34` | YES — distance accumulator |
-| +0x30 | Frame loop exit | PC ~0x0603845C | `+0x30 &= 0xF7FFFFFF` | YES — flag bit 27 cleared |
+Fields read by code OUTSIDE the physics dispatcher. These are transplant
+interface points — the '95 driving model must write compatible values here.
 
-### Suspected External Consumers (need static analysis)
+| Field | Consumer(s) | Role | Interface? |
+|-------|------------|------|------------|
+| **+0x00** (X pos) | FUN_060384C4, FUN_060386D8, FUN_06038A84, FUN_0603833C | Rendering transform, 3D world, display copy, track update | **YES** |
+| **+0x04** (Y pos) | FUN_06038A84 reads; FUN_060386D8 WRITES (terrain height from +0x00/+0x08) | Display copy; terrain-derived Y | **YES** (output of external code) |
+| **+0x08** (Z pos) | FUN_060384C4, FUN_060386D8, FUN_06038A84, FUN_0603833C | Rendering transform, 3D world, display copy, track update | **YES** |
+| **+0x0E** (heading) | FUN_060384C4, FUN_060386D8 | Rendering transform, sprite orientation, 3D world | **YES** (NOP exp 2 confirmed) |
+| **+0x34** (speed) | Frame loop exit, FUN_06038C64 | `+0x2C += +0x34` (distance), animation/effects | **YES** |
+| **+0x38** (heading angle) | FUN_060385CE | Heading delta detection (compares to +0x194, sets +0x30 bit 3) | **YES** |
+| **+0x30** (flags) | Frame loop exit, FUN_060385CE, FUN_06038A84 | Bit 27 cleared, bit 3 set/cleared, bit 2 managed | **YES** |
+| +0x12 (car index) | FUN_060384C4, FUN_060386D8, FUN_06038A84, FUN_06038C64 | Table indexing for render/animation data | Constant (not physics output) |
+| +0x176 (collision timer) | FUN_06038C64 | Drives animation effects (tire marks, sparks) | **YES** |
+| +0x5C (game state) | FUN_06038C64 | Animation logic varies by state (state 9 special case) | Constant during racing |
 
-These functions are called from the per-car frame loop in racing states (0, 1, 3)
-and receive r4=r14 (car struct pointer). Each is a potential reader of interface fields.
+**Key finding**: FUN_060386D8 computes terrain Y height from (X, Z) position
+and writes +0x04. This means the driving model does NOT need to produce Y —
+it's derived from X/Z by an external system. The '95 model only needs to
+produce +0x00 (X), +0x08 (Z), and heading.
+
+### External Functions Analyzed (from FUN_060384C4.s TU)
+
+| Function | What it does | Reads | Writes | Category |
+|----------|-------------|-------|--------|----------|
+| FUN_060384C4 | Rendering transform — 5 sub-blocks, each reads pos + does trig, writes to render targets via +0x160 ptrs | +0x00, +0x08, +0x0E, +0x120, +0x160 | Render structs (via r9/r8 indirect) | **Rendering** |
+| FUN_060385CE | Heading delta — detects if heading changed significantly, sets flag bit | +0x38, +0x194, +0x30, +0x1A4 | +0x30 (bit 3), +0x12C | **State/flag** |
+| FUN_060386D8 | 3D world transform — trig on heading, terrain Y lookup, camera-relative coords | +0x00, +0x08, +0x0E, +0x12, +0x12C, +0x160 | **+0x04** (Y), +0x0C, +0x10 | **Rendering** |
+| FUN_06038A84 | Display copy — copies XYZ to sym_060527DC external table, atan2 on heading | +0x00, +0x04, +0x08, +0x12, +0x154, +0x33, +0x1A4 | sym_060527DC, +0x192, +0x194, +0x30 | **Display** |
+| FUN_06038BCC | State init — copies starting pos/vel from track table on state transitions | External tables | +0x00-+0x54 (bulk init) | **Init** |
+| FUN_06038C64 | Animation — tire screech, collision effects, visual state | +0x176, +0x190, +0x196, +0x34, +0x5C, +0xD4 | +0x196, +0x198, +0x19A | **Animation** |
+
+### Remaining External Consumers (not yet analyzed)
 
 | Function | Source file | Call frequency | Priority |
 |----------|-----------|---------------|----------|
 | FUN_06036BB8 | FUN_06036BB8.s | 4×/frame (states 0,1,3) | HIGH — rendering updater |
-| FUN_060384C4 | FUN_060384C4.s | Most states | HIGH — very frequent |
-| FUN_06038A82 | FUN_06038A84.s | Most states | HIGH — very frequent |
-| FUN_060385CE | ? | Most states | MEDIUM |
-| FUN_060386D8 | FUN_060386D8.s | States 0,1,3 | MEDIUM |
 | FUN_06039BE4 | FUN_06039BE4.s | Common exit (always) | HIGH — always runs |
 | FUN_06039DCC | FUN_06039DCC.s | States 0,1,3 | MEDIUM |
 | FUN_06039ED8 | FUN_06039ED8.s | States 0,1,3 | MEDIUM |
 | FUN_06038DD8 | FUN_06038DD8.s | States 0,1,3 | LOW |
-| FUN_06038C64 | FUN_06038C64.s | Most states | MEDIUM |
-
-**Next step**: Read the assembly of each suspected consumer to identify which
-struct fields it reads. Fields read by rendering/HUD/sound code are transplant
-interface points; fields read only by other physics code are internal.
