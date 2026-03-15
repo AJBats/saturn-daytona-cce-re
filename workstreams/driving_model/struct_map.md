@@ -43,6 +43,15 @@ systems to function. Fields are classified by ownership:
 | +0x80 | FUN_0604DB10 (throttle input) | Dispatcher delay slot (from controller) | Throttle input ramp |
 | +0x5C | FUN_060352FA (state dispatch) | Game state machine | Controls which physics runs |
 
+**RENDERING PIPELINE** — fields used by the rendering coordinate system:
+| Field | Consumer | Role | Notes |
+|-------|----------|------|-------|
+| +0x12C | FUN_060384C4, FUN_060386D8, FUN_06036BB8 | Render target struct pointer | Set up during init, not physics |
+| +0x160 | FUN_060384C4, FUN_060386D8 | Rendering data block base | Offset into 0x1D8 stride |
+| +0x194 | FUN_06036BB8 (→+0x48), FUN_060385CE (delta), FUN_06038A84 | Heading for rendering | Copied to +0x48, compared with +0x38 |
+| +0x48 | FUN_06036BB8 writes (from +0x194) | Rendering heading (processed) | Sign-extended, used by render pipeline |
+| +0x4C-+0x58 | FUN_06036BB8 writes | Per-component display table results | 4 values, one per coordinate call |
+
 ## Data Flow Summary
 
 The dispatcher FUN_0604D380 calls sub-functions sequentially:
@@ -833,9 +842,20 @@ exclusively owned by the driving model — external state machines can
 decrement/modify it (crash penalty, race timer effects). The '95 model cannot
 assume exclusive write access to +0x24.
 
+### External Functions — Third Batch (static analysis)
+
+| Function | What it does | Key Reads | Key Writes | Category |
+|----------|-------------|-----------|------------|----------|
+| FUN_06036BB8 | Rendering transform pipeline — 4 coordinate components via FUN_06036A70 + atan2 | +0x12C (render ptr), +0x194 (heading) | +0x48 (from +0x194), +0x4C/+0x50/+0x54/+0x58 (table results) | **Rendering** |
+
+FUN_06036BB8 processes 4 coordinate components per frame. It reads the render
+target pointer from +0x12C, applies coordinate transforms (FUN_06036A70), does
+bit-level sign processing, looks up a display table at DAT_0604E1C4, and writes
+results to both the render target and the car struct (+0x4C to +0x58 range).
+The heading value at +0x194 is copied to +0x48 (sign-extended).
+
 ### Remaining External Consumers (not yet analyzed)
 
 | Function | Source file | Call frequency | Priority |
 |----------|-----------|---------------|----------|
-| FUN_06036BB8 | FUN_06036BB8.s | 4×/frame (states 0,1,3) | HIGH — rendering updater |
 | FUN_06038DD8 | FUN_06038DD8.s | States 0,1,3 | LOW |
