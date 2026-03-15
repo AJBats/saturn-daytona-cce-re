@@ -144,8 +144,8 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Oracle status**: writes_24 PASS (FUN_060366EC, 58 hits, PC 0x060366FA)
 
 ### +0x2C — distance accumulator (proposed?, increments with speed)
-- **Writers**: FUN_0603833C at PC 0x06038468 (watchpoint-confirmed; writes via R14=0x0605224C, NOT via GBR; called from init module 0x0602831E, outside player dispatcher)
-- **Readers**: Not directly identified
+- **Writers**: FUN_0603833C at PC 0x06038468 (watchpoint-confirmed; writes via R14=0x0605224C, NOT via GBR; called from init module 0x0602831E, outside player dispatcher). ALSO written in per-car frame loop common exit at PC ~0x06038464: `+0x2C += +0x34` every frame (OUTSIDE dispatcher chain)
+- **Readers**: Per-car frame loop common exit reads +0x34 and adds it to +0x2C
 - **Behavior**: input-responsive
   - Idle: static at 0x0002B686
   - Throttle: monotonic_up (139 uniq), 0x0002B686 -> 0x0002DF10
@@ -165,9 +165,9 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Correlations**: Independent; flag register with sparse transitions
 - **Oracle status**: Untested
 
-### +0x34
+### +0x34 — speed display / KPH gate (NOP-confirmed: Experiment 4)
 - **Writers**: FUN_0604D580 at PC 0x0604D70A (oracle-confirmed, writes_34 PASS, 59 hits)
-- **Readers**: FUN_0604DB10 (gate condition), FUN_060354A0 (helper FUN_06035624 gates on >= 10), FUN_06035750 (thresholds 70/100), FUN_06035904 (gate), FUN_060366EC (gate >= 65)
+- **Readers**: FUN_0604DB10 (gate condition), FUN_060354A0 (helper FUN_06035624 gates on >= 10), FUN_06035750 (thresholds 70/100), FUN_06035904 (gate), FUN_060366EC (gate >= 65). **EXTERNAL CONSUMER**: per-car frame loop common exit at PC ~0x06038462 reads +0x34 and adds it to +0x2C (distance accumulator). This is OUTSIDE the dispatcher chain — confirmed Phase 2 transplant interface field
 - **Behavior**: input-responsive
   - Idle: static at 0x00000000
   - Throttle: monotonic_up (130 uniq), 0x00000000 -> 0x00000092, first nonzero at frame 24
@@ -655,7 +655,7 @@ The following 19 fields are static (unchanged) across all 4 scenarios (idle, thr
 | +0x50 | 0x00000001 | Read by FUN_0604D580, FUN_060354A0 |
 | +0x54 | 0x00000001 | Read by FUN_06035750, FUN_060354A0; bit 2 tested as flag |
 | +0x58 | 0x00000001 | Read by FUN_06035750, FUN_060354A0; bit 2 tested as flag |
-| +0x5C | 0x00000001 | |
+| +0x5C | 0x00000001 | **Game state / physics tier selector**: FUN_060352FA jump table index (state 2 = full physics dispatcher FUN_0604D380). Static during racing — value 1 in our TT save state likely means "active racing." See journal Entry 23 |
 | +0x74 | 0x002DD774 | Read by FUN_0604DB10 (table base pointer for velocity lookup) |
 | +0xA4 | 0x00000000 | |
 | +0xB0 | 0x00000000 | |
@@ -726,3 +726,55 @@ Both gates are 16-bit fields. Possibly enabled in 2P mode, on specific track sec
 
 Four additional functions are entirely unreachable in single-player mode, gated by sym_002FC233 (= 0x00 in 1P):
 FUN_0603AB72, FUN_0602CB28, FUN_0603B284 (AI-only collision), FUN_0603B4A4 (AI-only collision mirror).
+
+## Phase 2: External Consumers (Transplant Interface)
+
+### Architecture: Per-Car Frame Loop
+
+The per-car game loop (FUN_06037E28, 1692 bytes in `src/race/FUN_06037E28.s`)
+is the master orchestrator for each car. It calls the physics dispatcher
+**and** all other per-car subsystems (rendering, collision detection, sound, HUD).
+
+**Call chain to physics**:
+```
+FUN_06037E28(car_index)
+  computes struct base: sym_0605224C + index * 0x1D8
+  sets r14 = struct base
+  ...
+  jsr @r9 (r9 = 0x060352E8 in FUN_060351CC.s)
+    GBR setup: stc.l gbr, @-r15 / ldc car_struct, gbr
+    FUN_060352FA: jump table on +0x5C (game state)
+      State 2 → jmp FUN_0604D380 (full physics dispatcher)
+```
+
+**+0x5C** is the car game state field. State 2 = active racing (full physics).
+States 3-10 = simplified physics functions (AI cars, inactive states).
+
+### Confirmed External Consumers
+
+| Field | Consumer | Location | How consumed | Interface? |
+|-------|----------|----------|-------------|------------|
+| +0x34 | Frame loop exit | PC ~0x06038462 | `+0x2C += +0x34` | YES — distance accumulator |
+| +0x30 | Frame loop exit | PC ~0x0603845C | `+0x30 &= 0xF7FFFFFF` | YES — flag bit 27 cleared |
+
+### Suspected External Consumers (need static analysis)
+
+These functions are called from the per-car frame loop in racing states (0, 1, 3)
+and receive r4=r14 (car struct pointer). Each is a potential reader of interface fields.
+
+| Function | Source file | Call frequency | Priority |
+|----------|-----------|---------------|----------|
+| FUN_06036BB8 | FUN_06036BB8.s | 4×/frame (states 0,1,3) | HIGH — rendering updater |
+| FUN_060384C4 | FUN_060384C4.s | Most states | HIGH — very frequent |
+| FUN_06038A82 | FUN_06038A84.s | Most states | HIGH — very frequent |
+| FUN_060385CE | ? | Most states | MEDIUM |
+| FUN_060386D8 | FUN_060386D8.s | States 0,1,3 | MEDIUM |
+| FUN_06039BE4 | FUN_06039BE4.s | Common exit (always) | HIGH — always runs |
+| FUN_06039DCC | FUN_06039DCC.s | States 0,1,3 | MEDIUM |
+| FUN_06039ED8 | FUN_06039ED8.s | States 0,1,3 | MEDIUM |
+| FUN_06038DD8 | FUN_06038DD8.s | States 0,1,3 | LOW |
+| FUN_06038C64 | FUN_06038C64.s | Most states | MEDIUM |
+
+**Next step**: Read the assembly of each suspected consumer to identify which
+struct fields it reads. Fields read by rendering/HUD/sound code are transplant
+interface points; fields read only by other physics code are internal.

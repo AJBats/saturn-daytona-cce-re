@@ -1191,3 +1191,120 @@ by the dispatcher chain: +0x104, +0x108, +0x10C, +0x134, +0x148, +0x158, +0x170,
 | +0x30 | Flags | +0x00 | Car flags | MODERATE |
 
 Key unmapped '95 fields: +0x28 (slip angle), +0x30 (yaw rate), +0x1E4 (segment index)
+
+---
+
+### Entry 23: Phase 2 — Per-Car Frame Loop and Physics Dispatch Chain (Tier 0)
+
+**Files**: `src/race/FUN_06037E28.s` (per-car game loop, 1692 bytes),
+`src/race/FUN_060351CC.s` (physics dispatch orchestrator)
+
+#### Two-Level Physics Dispatch
+
+The physics dispatcher (FUN_0604D380) is NOT called directly from the per-car
+frame loop. There is a two-level dispatch system:
+
+**Level 1** — Per-car frame loop (FUN_06037E28) calls 0x060352E8 via `jsr @r9`:
+```
+FUN_06037E28 (per-car game loop)
+  → jsr @r9 (r9 = 0x060352E8, r4 = r14 = car struct base)
+    → 0x060352E8: stc.l gbr, @-r15 / mov r4, r0 / ldc r0, gbr  (GBR setup)
+      → FUN_060352FA: reads +0x5C, indexes jump table
+        → State 2: jmp FUN_0604D380  (full physics dispatcher)
+```
+
+**Level 2** — Within FUN_0604D380, chain[0x98] selects the physics complexity tier
+(player=tier 0, AI cars=tiers 1-3, confirmed from prior observations).
+
+**+0x5C state field jump table** (FUN_060352FA, at .L_pool_06035310):
+
+| State | Target | Description |
+|-------|--------|-------------|
+| 0 | 0x06035314 (inline) | Pre-race / initialization |
+| 1 | 0x0603533C (inline) | Transition state |
+| 2 | **FUN_0604D380** | Full physics dispatcher (player + AI tier 0) |
+| 3 | FUN_0604D46C | Simplified physics |
+| 4 | FUN_0604D520 | Simplified physics |
+| 5-6 | FUN_0604D540 | Simplified physics |
+| 7-9 | FUN_0604D46C | Same as state 3 |
+| 10 | FUN_0604D570 | Simplified physics |
+
+**Transplant implication**: The player car runs state 2. To transplant, replace
+state 2's target with the '95 driving model entry point. The GBR setup at
+0x060352E8 is transparent — the '95 model receives GBR = car struct pointer,
+same as the current dispatcher.
+
+#### Per-Car Frame Loop Structure (FUN_06037E28)
+
+FUN_06037E28 is the per-car game loop. It takes a car index (r4), computes
+the struct base: `sym_0605224C + index * 0x1D8` (stride confirmed at wpool
+0x06037E94 = 0x01D8). It has its own 11-state state machine on +0x5C
+(states 0-10), with each state calling a different combination of subsystems.
+
+**Pre-loaded function pointers** (set up once, used across all states):
+- r8 = FUN_06039ED8 — called in most racing states, after physics dispatch
+- r9 = 0x060352E8 — physics dispatch (GBR setup → FUN_060352FA)
+- r10 = FUN_06037654 (FUN_06037490 + 0x1C4) — called with r4=0, r5=car_struct
+- r12 = FUN_06036BB8 — rendering updater, called 4× per frame (see below)
+
+**r13 pointer**: `r14 + 0x160` (wpool 0x06037E96 = 0x0160). This is an offset
+into the car struct's 0x1D8 stride — the block at +0x160 to +0x1D8 holds
+rendering-related data (pointers to sprite/transform targets).
+
+**Subsystems called per frame** (outside the physics dispatcher):
+
+| Function | Call pattern | Reads from struct? | Notes |
+|----------|-------------|-------------------|-------|
+| FUN_06037D58 | States 0,1,3 | r4=r14 | Early setup |
+| FUN_06037D74 | States 0,1,3 | r4=r14 | Early setup |
+| FUN_060352E8→phy | ALL states | GBR=r14 | Physics dispatch |
+| FUN_06038DD8 | States 0,1,3 | r4=r14 | Post-physics |
+| FUN_060384C4 | MOST states | r4=r14 | Very frequent |
+| FUN_06038A82 | MOST states | r4=r14 | Very frequent |
+| FUN_060385CE | MOST states | r4=r14 | Very frequent |
+| FUN_06036BB8 | States 0,1,3 (4×) | r5=r14, r4=@r13 | Rendering |
+| FUN_06037654 | States 0,1,3 | r4=0, r5=r14 | |
+| FUN_060386D8 | States 0,1,3 | r4=r14 | |
+| FUN_06039DCC | States 0,1,3 | r4=r14 | |
+| FUN_06039ED8 | States 0,1,3 | r4=r14 | |
+| FUN_0603A614 | State 0 | r4=r14 | |
+| FUN_06038C64 | MOST states | r4=r14 | Very frequent |
+| FUN_06039014 | State 0 | r4=r14 | |
+| FUN_06039110 | State 0 | r4=r14 | |
+| FUN_06039BE4 | Common exit | r4=r14 | Always runs |
+
+**All of these are OUTSIDE the physics dispatcher chain.** Each one is a
+potential consumer of interface fields produced by the driving model. Tracing
+which struct fields each reads is Phase 2's primary task.
+
+#### Common Exit Path — +0x34 Consumer Confirmed
+
+The common exit path at 0x0603844C runs for EVERY car, EVERY frame, regardless
+of game state. It performs:
+
+1. `jsr FUN_06039BE4` (r4=r14) — always runs
+2. `+0x30 &= 0xF7FFFFFF` — clears bit 27 of the flags field
+3. **`+0x2C += +0x34`** — reads +0x34 (speed gate / KPH value), adds to +0x2C
+   (distance accumulator). This is at PC ~0x06038464.
+4. Timer decrements based on `+0x12` (car index byte)
+
+**This confirms +0x34 is consumed outside the dispatcher as a transplant interface
+field.** The '95 model must produce a value in +0x34 that is compatible with
+this accumulation (range [0, 0x14E], same scaling).
+
+#### FUN_06036BB8 — Rendering Coordinate Updater (Tier 0)
+
+Called 4 times per frame from the per-car game loop with:
+- r4 = position data pointer from r13 struct (4 different base pointers)
+- r5 = car struct base (r14)
+- r6 = additional data from r13
+- r7 = coordinate offset (0, 4, 8, 12) — suggests X, Y, Z, W or similar
+
+The function reads from car struct at offset 0x86 (wpool 0x06036C86), calls
+FUN_06036A70, and writes to a target struct pointed to by the r13 block. The
+target is likely VDP1 sprite command data or a 3D transform matrix.
+
+**Transplant implication**: FUN_06036BB8 is a primary rendering consumer. It
+reads position/orientation from the car struct and pushes it to the rendering
+pipeline. The fields it reads (+0x00, +0x08, +0x0E?, offset 0x86 = +0x86?)
+are rendering interface points that the '95 model must write correctly.
