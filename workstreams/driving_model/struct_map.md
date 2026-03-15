@@ -3,10 +3,45 @@
 ## Overview
 
 - GBR base: 0x0605224C (confirmed via breakpoint at FUN_0603EE64)
-- Struct size: 256 bytes (64 x 32-bit fields)
+- Struct size: at least 460 bytes (extends to +0x1CB; rendering block at +0x160)
 - Dispatcher: FUN_0604D380 (19 sub-functions, 17 reachable)
 - Called once per game frame (30 Hz) with R0 = R4 = R14 = GBR = 0x0605224C
-- Caller: 0x06037F3E (main per-frame game loop)
+- Caller: FUN_06037E28 → 0x060352E8 (GBR setup) → FUN_060352FA (state dispatch on +0x5C)
+
+## Transplant Interface Summary (Phase 2)
+
+The '95 driving model must produce these fields for CCE's rendering/HUD/state
+systems to function. Fields are classified by ownership:
+
+**PHYSICS OUTPUT** — the driving model must write these:
+| Field | Name | Format | External Consumers | Notes |
+|-------|------|--------|-------------------|-------|
+| +0x00 | X position | 32-bit fixed | FUN_060384C4 (render), FUN_060386D8 (3D), FUN_06038A84 (display) | Primary position output |
+| +0x08 | Z position | 32-bit fixed | FUN_060384C4 (render), FUN_060386D8 (3D), FUN_06038A84 (display) | Primary position output |
+| +0x0E | Heading (render) | 16-bit angle | FUN_060384C4 (render), FUN_060386D8 (3D) | Mid-pipeline; copied from +0x3C |
+| +0x24 | Velocity | 32-bit fixed | FUN_0604D580 (+0x34 conv), FUN_06036790 (pos delta) | **SHARED** — external writers too |
+| +0x34 | Speed/KPH | 16-bit [0,0x14E] | Frame loop (+0x2C accum), FUN_06038C64 (anim) | Derived: +0x24 * 0x006C0000 >> 16 |
+| +0x38 | Heading angle | 32-bit angle | FUN_060385CE (delta detect) | Physics heading source |
+| +0xF0 | Net force | 32-bit signed | FUN_060366EC (vel accum) | Core pipeline input |
+
+**EXTERNAL OUTPUT** — written by external code FROM physics outputs:
+| Field | Written by | Source | Notes |
+|-------|-----------|--------|-------|
+| +0x04 | FUN_060386D8 | Terrain Y from +0x00,+0x08 | '95 model does NOT need to produce Y |
+| +0x2C | Frame loop exit | `+0x2C += +0x34` | Distance accumulator |
+
+**SHARED WRITE** — both physics and external code write:
+| Field | Physics writer | External writer(s) | Notes |
+|-------|---------------|-------------------|-------|
+| +0x24 | FUN_060366EC | FUN_06039DCC (race state), FUN_06039ED8 (crash) | Velocity can be decremented by external systems |
+| +0x30 | FUN_060366EC, FUN_06035C58 | Frame loop, FUN_060385CE, FUN_06038A84, FUN_06039DCC, FUN_06039ED8 | Flags field with many writers |
+
+**EXTERNAL INPUT** — read by the driving model, written by external systems:
+| Field | Read by (physics) | Written by (external) | Notes |
+|-------|-------------------|----------------------|-------|
+| +0x78 | FUN_0604D580 (steer input) | FUN_060371FC (controller→table lookup) | Steer input entry point |
+| +0x80 | FUN_0604DB10 (throttle input) | Dispatcher delay slot (from controller) | Throttle input ramp |
+| +0x5C | FUN_060352FA (state dispatch) | Game state machine | Controls which physics runs |
 
 ## Data Flow Summary
 
