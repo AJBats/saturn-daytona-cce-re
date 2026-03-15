@@ -707,11 +707,39 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
   - RIGHT+B: changes (0x00 -> 0x01)
 - **Oracle status**: Watchpoint-confirmed writer FUN_06036790
 
+### +0x120
+- **Writers**: Unknown
+- **Readers**: FUN_060384C4 (rendering transform)
+- **Behavior**: Not captured (outside 256-byte sample window)
+- **Oracle status**: Untested
+- **Phase 2**: Read by rendering code. Likely a pointer or constant used in coordinate computation
+
+### +0x12C — render target struct pointer
+- **Writers**: Initialization code (FUN_06038BCC init path)
+- **Readers**: FUN_060384C4 (rendering transform), FUN_060386D8 (3D world), FUN_06036BB8 (render pipeline)
+- **Behavior**: Pointer value, likely static after init
+- **Phase 2**: **Central rendering pointer** — all major rendering consumers access the render target struct through this field. Not written by physics; set during car initialization
+
 ### +0x134
-- **Writers**: FUN_06035EE8 (oracle-confirmed, writes_134 PASS, 299 hits)
-- **Readers**: Not yet identified
+- **Writers**: FUN_06035EE8 (oracle-confirmed, writes_134 PASS, 299 hits); FUN_06039BE4 (accumulation)
+- **Readers**: FUN_06039BE4 (common exit)
 - **Behavior**: Not captured (outside 256-byte sample window)
 - **Oracle status**: writes_134 PASS (FUN_06035EE8, 299 hits, right_wall_strike scenario)
+
+### +0x154 — rendering sub-struct pointer
+- **Writers**: Initialization code
+- **Readers**: FUN_06038A84 (display copy — reads for atan2 heading computation)
+- **Phase 2**: Another rendering pointer, used for heading computation in display pipeline
+
+### +0x160 — rendering data block base
+- **Writers**: Initialization code
+- **Readers**: FUN_060384C4 (multiple sub-block accesses), FUN_060386D8 (3D world transform), per-car frame loop (R13 = R14 + 0x160)
+- **Phase 2**: **Major rendering pointer** — the per-car frame loop loads r13 from this offset. Contains sub-pointers to VDP1 sprite data, transform matrices, etc. Offset is into the 0x1D8 stride — each car's rendering block lives within the car struct
+
+### +0x170
+- **Writers**: Unknown (gate field for dispatcher sub #18 FUN_06036790)
+- **Readers**: FUN_06036790 (heading copy gate), FUN_06038DD8 (sound trigger gate)
+- **Phase 2**: Gate field — when nonzero, FUN_06036790 copies heading from +0x110 instead of +0x3C
 
 ### +0x176 — collision timer
 - **Writers**: FUN_06035C58 SETS to 15 at PC 0x06035C7A (collision trigger); Sub #4 (0x0604D758) DECREMENTS by 1 at PC 0x0604D766 (each frame)
@@ -719,6 +747,26 @@ From frame-by-frame co-change analysis of `tt_throttle_300f.csv` (Jaccard simila
 - **Behavior**: 0 normally. Set to 15 on collision detection, counts down to 0 (0.5 seconds at 30 Hz)
 - **Collision lifecycle**: detect → set 15 → response active → countdown → 0 = deactivate
 - **Oracle status**: writes_176_set PASS (FUN_06035C58, PC 0x06035C7A, 13 hits, right_wall_strike)
+
+### +0x190 — collision/physics gate (16-bit)
+- **Writers**: Unknown
+- **Readers**: FUN_06035904 (#12, gates +0xE8/+0xEC conditional zero), FUN_06038C64 (animation), FUN_06038DD8 (sound), FUN_06039DCC (race state)
+- **Phase 2**: Wide-ranging gate field — controls collision response, animation effects, and sound triggers
+
+### +0x192, +0x194 — heading for rendering
+- **Writers**: FUN_06038A84 (display copy — atan2 result, writes both)
+- **Readers**: FUN_06036BB8 (+0x194 → +0x48 copy), FUN_060385CE (+0x194 delta with +0x38)
+- **Phase 2**: +0x194 is the rendering heading, computed from display coordinates. Compared with physics heading +0x38 to detect heading changes (FUN_060385CE sets flag bit 3 in +0x30)
+
+### +0x1A4
+- **Writers**: Unknown (possibly FUN_06038A84 or FUN_06038C64)
+- **Readers**: FUN_060385CE (comparison), FUN_06038A84, FUN_06039ED8
+- **Phase 2**: Used in heading and animation state comparisons
+
+### +0x1A6 — speed/velocity output
+- **Writers**: FUN_06039BE4 (common exit — writes computed value)
+- **Readers**: FUN_06039DCC, FUN_06039ED8
+- **Phase 2**: Speed-related output used by race state and crash state machines
 
 ## Static Fields Summary
 
@@ -891,8 +939,10 @@ bit-level sign processing, looks up a display table at DAT_0604E1C4, and writes
 results to both the render target and the car struct (+0x4C to +0x58 range).
 The heading value at +0x194 is copied to +0x48 (sign-extended).
 
-### Remaining External Consumers (not yet analyzed)
+### External Functions — Fourth Batch (static analysis)
 
-| Function | Source file | Call frequency | Priority |
-|----------|-----------|---------------|----------|
-| FUN_06038DD8 | FUN_06038DD8.s | States 0,1,3 | LOW |
+| Function | What it does | Key Reads | Key Writes | Category |
+|----------|-------------|-----------|------------|----------|
+| FUN_06038DD8 | Sound effect triggers — checks flag bits, calls FUN_06039AA4 with event codes | +0x33 bits 6/7, +0xB4, +0x190, +0x170, +0x30 bit 3, +0x12 | +0x19C, +0x30 (clear bit 6) | **Sound** |
+
+**All external consumers from the per-car frame loop are now analyzed.**
