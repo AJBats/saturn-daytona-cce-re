@@ -37,9 +37,9 @@ architecture is structurally parallel.
 | Surface lookup | Segment index (car[+0x1E4]) | Spatial grid hash (X,Z) | Different method, same concept |
 | **Sequential spline** | **147 entries × 4B** at sym_0607EB84 | **44B entries** at +0x154 ptr (0x060F4xxx) | **Both have sequential track progression** |
 | Spline advancement | car[+0x1E4] increments by segment | +0x154 pointer advances proportional to speed | Different mechanism, same concept |
-| Banking output | '95 +0xF4 (terrain lateral force) | CCE +0x10 (banking angle) | **Conversion needed** — same concept, different scale |
+| Banking output | '95 +0xF4 (terrain lateral force) | CCE +0x10 (banking angle) | **Conversion needed** — CONFIRMED: FUN_060386D8 writes +0x10 at PC 0x06038A70 from polygon lookup. Same concept, different scale |
 | Surface type | '95 +0x1FC (6 values: 0x000-0x600) | CCE +0x19C (8 values: 0-7) | **Mapping table** (8→6) |
-| Height output | '95 +0x14 (Y position) | CCE +0x04 (Y position) | **Compatible** — both externally computed |
+| Height output | '95 +0x14 (Y position) | CCE +0x04 (Y position) | **Compatible** — CONFIRMED: FUN_060386D8 writes +0x04 at PC 0x060389B0 from 3-point terrain sampling |
 | Surface normals | '95 +0xEC/+0xF0 (2 components) | CCE polygon +0x24/+0x28/+0x2C (3 props) | **UNKNOWN** — need property identification |
 
 **Strategy**: Keep CCE's spatial grid + polygon lookup entirely. Build a thin
