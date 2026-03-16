@@ -1,257 +1,481 @@
-# Coordinate Data Lineage — CCE
+# Data Flow Chains — Stream to Ocean (CCE)
 
-Every arithmetic operation on car position coordinates, traced from track
-data source to final car struct field. No interpretation — just the math.
+Every value that contributes to the player car's world position and heading,
+traced from its source (track data, controller, lookup table) through every
+intermediate computation to the final output fields.
 
-**Status**: CCE side traced. DUSA side needed from the '95 Mapper.
+**Ocean** (final outputs consumed by rendering):
+- car[+0x00] — World X position
+- car[+0x04] — World Y position (terrain-derived, not physics)
+- car[+0x08] — World Z position
+- car[+0x38] — Heading angle (physics)
+- car[+0x0E] — Heading angle (rendering copy, 16-bit)
 
-## CCE Position Writer: FUN_06036790 (dispatcher sub #18)
-
-**Source**: `src/race/FUN_0603631C.s` lines 662-720
-
-This runs once per frame for each car. It reads velocity and heading from
-the car struct, computes a position delta via trig, and adds it to position.
-
-### Input registers at entry
-
-| Register | Source | Value |
-|----------|--------|-------|
-| R0 | Car struct base | = R14 = GBR |
-| R14 | Car struct base | e.g. 0x0605224C (player) |
-
-### Step-by-step arithmetic
-
-```
-STEP 1: Copy heading to rendering field
-    r4 = car[+0x3C]                     // 32-bit, "true heading" copy
-    car[+0x0E] = (u16)r4               // write lower 16 bits to rendering heading
-
-STEP 2: Negate heading for trig
-    r4 = car[+0x38]                     // 32-bit heading angle
-    r4 = -r4                            // NEGATE
-    r7 = r4                             // save negated heading
-
-STEP 3: Scale velocity by +0x158
-    r3 = car[+0x24]                     // 32-bit velocity magnitude
-    r9 = car[+0x158]                    // 32-bit scaling factor (observed: 0x00010000 = 1.0 in 16.16)
-    {mach:macl} = r3 * r9              // dmuls.l: signed 32×32 → 64-bit result
-    r3 = xtrct(mach, macl)             // take bits [47:16] of 64-bit result
-    r9 = r3                             // r9 = velocity_scaled = (velocity × scale) >> 16
-                                        // NOTE: xtrct takes middle 32 bits = effectively >> 16
-
-STEP 4: Load current position
-    r5 = car[+0x00]                     // current X position (32-bit signed)
-    r6 = car[+0x08]                     // current Z position (32-bit signed)
-
-STEP 5: Compute sin(-heading)
-    r4 = r7 = negated heading
-    r0 = jsr FUN_06047D3C(r4)          // sin(-heading) → result in r0
-    r8 = r0                             // r8 = sin(-heading)
-
-STEP 6: Compute cos(-heading)
-    r4 = r7 = negated heading
-    r0 = jsr FUN_06047D20(r4)          // cos(-heading) → result in r0
-                                        // NOTE: cos(-θ) = cos(θ)
-
-STEP 7: X delta = cos(-heading) × velocity_scaled
-    {mach:macl} = r0 * r3              // dmuls.l: cos × velocity_scaled → 64-bit
-    r3 = xtrct(mach, macl)             // bits [47:16] → 32-bit result
-                                        // r3 = X_delta = (cos(heading) × velocity_scaled) >> 16
-
-STEP 8: Store X delta and update X position
-    car[+0x108] = r3                    // store X velocity delta
-    r5 = r5 + r3                        // X_new = X_old + X_delta
-    car[+0x00] = r5                     // WRITE final X position
-
-STEP 9: Z delta = sin(-heading) × velocity_scaled
-    {mach:macl} = r8 * r9              // dmuls.l: sin(-heading) × velocity_scaled → 64-bit
-    r9 = xtrct(mach, macl)             // bits [47:16] → 32-bit result
-                                        // r9 = Z_delta = (sin(-heading) × velocity_scaled) >> 16
-                                        // NOTE: sin(-θ) = -sin(θ), so Z_delta is negated
-
-STEP 10: Store Z delta and update Z position
-    car[+0x10C] = r9                    // store Z velocity delta
-    r6 = r6 + r9                        // Z_new = Z_old + Z_delta
-    car[+0x08] = r6                     // WRITE final Z position
-```
-
-### Net formula for position update
-
-```
-velocity_scaled = (car[+0x24] × car[+0x158]) >> 16
-
-X_delta = (cos(car[+0x38]) × velocity_scaled) >> 16
-Z_delta = (-sin(car[+0x38]) × velocity_scaled) >> 16
-
-car[+0x00] += X_delta
-car[+0x08] += Z_delta
-car[+0x108] = X_delta
-car[+0x10C] = Z_delta
-car[+0x0E] = (u16)car[+0x3C]
-```
-
-All `>> 16` are from `xtrct` (extract middle 32 bits of 64-bit product).
+**Format**: `source → [function] computation → destination`
+Gaps marked with **[GAP]**. Dispatcher sub numbers in brackets.
 
 ---
 
-## CCE Terrain Lookup: FUN_06036A70 → FUN_060368D4
+## Chain 1: Throttle → Force → Speed → Position
 
-**Source**: `src/race/FUN_06036A70.s`, `src/race/FUN_060368D4.s`
-
-This is the READ path — how the car's position is used to query track data.
-Called by FUN_060386D8 (terrain processor) and FUN_060384C4 (rendering).
-
-### Coordinate scaling (FUN_06036A70)
+The main longitudinal force chain. Button press becomes forward motion.
 
 ```
-STEP 1: Scale car position to polygon space
-    R4 = car X position (from caller)   // car-space coordinates
-    R5 = car Z position (from caller)
+=== SPRINGS (inputs) ===
 
-    R4 = R4 << 2                        // shll2: ×4
-    R4 = R4 << 2                        // shll2: ×4 again → total ×16
-    R5 = R5 << 2                        // shll2: ×4
-    R5 = R5 << 2                        // shll2: ×4 again → total ×16
+B button (Daytona CCE throttle — NOT C like DUSA)
+    ↓ [sub #1] FUN_06036CEC → FUN_06036CF8 → FUN_06036D52 chain
+    ↓   reads controller state via indirect pointer from car[+0x15C]
+    ↓   [GAP: exact pad state address not traced — enters through
+    ↓    dispatcher sub #1 call chain, not directly from a global]
+    ↓
+    ↓   Writes to car struct via FUN_060371FC and related sub-calls:
+    ↓   (throttle processing happens in sub #5, not sub #1)
+    ↓
+car[+0x80] = throttle_ramp (range 0x00-0xFF, 23-frame ramp-up)
+    WRITER: dispatcher delay slot at PC 0x0604D3AA (watchpoint-confirmed)
+    TWO writers (dual-writer ramp filter):
+      Writer A at PC 0x0604D796: smoothing path (accumulate + shar)
+      Writer B at PC 0x0604D7DE: direct injection path (bf branch)
+    NOP CONFIRMED (Experiment 5): both must be blocked to kill throttle
 
-    // R4 and R5 are now in POLYGON SPACE (16× car space)
-    // Then calls FUN_060368D4 with scaled coordinates
-```
+=== RIVER: throttle → force ===
 
-**THIS IS THE COORDINATE SPACE BRIDGE.**
-Car struct positions × 16 = polygon table vertex coordinates.
+car[+0x80]
+    ↓ [sub #8] FUN_0604DB10
+    ↓   heavy fixed-point multiply chain with heading rotation
+    ↓   reads: +0x80, +0x0C, +0x34, +0x74 (table ptr), +0xD0
+    ↓   writes: +0xC4, +0xC8, +0xCC, +0xD8, +0xDC
+    ↓
+    ↓   === TRIBUTARIES feeding into force computation ===
+    ↓
+    ↓   car[+0x34]  = speed gate           ← [sub #3] from +0x24
+    ↓   car[+0x74]  = 0x002DD774 (table base ptr, static)
+    ↓   car[+0xD0]  = clamped speed copy   ← [sub #17] FUN_060366EC
+    ↓   car[+0xE0]  = heading sin          ← [sub #9] FUN_0604DD04
+    ↓   car[+0xE4]  = heading cos          ← [sub #9] FUN_0604DD04
+    ↓   car[+0xE8]  = decay field          ← [sub #15] FUN_06035C98
+    ↓   car[+0xEC]  = decay field          ← [sub #15] FUN_06035C98
+    ↓   car[+0xF4]  = rotation component   ← [sub #10] FUN_060354A0
+    ↓   car[+0xF8]  = rotation component   ← [sub #10] FUN_060354A0
+    ↓
+    ↓   [GAP: exact force formula not resolved from assembly.
+    ↓    DUSA has full 7-step Ghidra-verified formula. CCE equivalent
+    ↓    is in subs #8-#12 but not decompiled to that level.]
+    ↓
+    ↓ [sub #12] FUN_06035904 (cross-product, sqrt, flags)
+    ↓   final output in RTS delay slot at PC 0x06035B0C
+    ↓   car[+0xF0] = computed_value >> 8
+    ↓
+car[+0xF0] = net_force (CONFIRMED: +900 accel, -1400 brake)
+    NOP CONFIRMED (Experiment 3): blocks ALL downstream, including RPM
 
-### Grid hash (FUN_060368D4)
+=== RIVER: force → speed ===
 
-```
-STEP 2: Hash to grid cell
-    r1 = 0x40000000                     // world offset (centers the coordinate space)
-    r2 = R4 + 0x40000000               // offset X (now unsigned)
-    r2 = r2 >> 25                       // 7-bit X cell index (0-127)
+car[+0xF0]
+    ↓ [sub #17] FUN_060366EC
+    ↓   r4 = car[+0x24]                    (current velocity)
+    ↓   r3 = car[+0xF0]                    (force input)
+    ↓   r4 = r4 + r3                       (velocity += force)
+    ↓   car[+0x24] = r4
+    ↓   if r4 < 0: car[+0x24] = 0          (clamp ≥ 0)
+    ↓   ALSO: collision response embedded here (see Chain 6)
+    ↓
+car[+0x24] = velocity (CONFIRMED: NOP freezes car, Experiment 1)
+    Oracle: writes_24 PASS, 58 hits/frame, PC 0x060366FA
 
-    r1 = 0x40000000 - R5               // offset Z (inverted)
-    r1 = r1 >> 18                       // partial Z index
-    r1 = r1 & 0xFFFFFF80               // align to 128-byte boundary
-    r1 = r1 >> 1                        // final Z component
+    ↓ [sub #3] 0x0604D6B8 (runs BEFORE force computation each frame)
+    ↓   car[+0x34] = clamp((car[+0x24] × 0x006C0000) >> 16, 0, 0x14E)
+    ↓
+car[+0x34] = speed_gate (CONFIRMED: NOP breaks HUD+gears, Experiment 4)
+    Range [0, 334]. HUD KPH ≈ +0x34.
+    Oracle: writes_34 PASS, 59 hits/frame, PC 0x0604D70A
 
-    index = r1 + r2                     // combined cell index
-    byte_offset = index × 4            // 4-byte pointer entries
+    ↓ also [sub #17] FUN_060366EC:
+    ↓   car[+0xD0] = clamp(car[+0x24] derivative, 0, 0x2134)
+    ↓   Oracle: writes_D0 PASS, 59 hits/frame, PC 0x06036756
+    ↓
+car[+0xD0] = clamped_speed (feeds back into sub #8, traction loop)
+    Max value 0x2134 = 8500 — SAME as DUSA's car[+0xE0] clamp!
 
-    // bounds check: byte_offset < 0x4000 (4096 entries)
-    cell_ptr = grid_table[byte_offset]  // grid table at R7 (0x00220000 or 0x00224000)
-    if cell_ptr == 0: return NOT_FOUND
-    // else: jump to FUN_06036990 for point-in-polygon test
-```
+=== RIVER: speed → position ===
 
-The grid hash operates entirely in **polygon space** (×16 of car space).
-The 0x40000000 offset centers the world so all coordinates are positive
-for the unsigned shift operations.
+car[+0x24] (velocity, scalar)
+    ↓ [sub #18] FUN_06036790 (src/race/FUN_0603631C.s line 664)
+    ↓
+    ↓   STEP 1: Copy heading to rendering
+    ↓     car[+0x0E] = (u16)car[+0x3C]     (16-bit rendering heading)
+    ↓
+    ↓   STEP 2: Negate heading for trig
+    ↓     h = -car[+0x38]                   (heading angle, negated)
+    ↓
+    ↓   STEP 3: Scale velocity
+    ↓     velocity_scaled = (car[+0x24] × car[+0x158]) >> 16
+    ↓     car[+0x158] = 0x00010000 (1.0 in 16.16, observed static)
+    ↓     >> 16 via xtrct (middle 32 bits of 64-bit dmuls.l result)
+    ↓
+    ↓   STEP 4: Trig decomposition
+    ↓     sin_h = FUN_06047D3C(-heading)    (sin lookup)
+    ↓     cos_h = FUN_06047D20(-heading)    (cos lookup)
+    ↓     NOTE: cos(-θ) = cos(θ), sin(-θ) = -sin(θ)
+    ↓
+    ↓   STEP 5: X delta
+    ↓     X_delta = (cos_h × velocity_scaled) >> 16
+    ↓     >> 16 via xtrct
+    ↓     car[+0x108] = X_delta             (stored for rendering)
+    ↓     car[+0x00] = car[+0x00] + X_delta (accumulate)
+    ↓
+    ↓   STEP 6: Z delta
+    ↓     Z_delta = (sin_h × velocity_scaled) >> 16
+    ↓     >> 16 via xtrct
+    ↓     car[+0x10C] = Z_delta             (stored for rendering)
+    ↓     car[+0x08] = car[+0x08] + Z_delta (accumulate)
+    ↓
+car[+0x00] = WORLD X POSITION (ocean)
+car[+0x08] = WORLD Z POSITION (ocean)
 
-### Point-in-polygon test (FUN_06036990)
-
-```
-STEP 3: Find containing polygon
-    polygon_table_base = 0x00228000     // LWR, disc-loaded
-    stride = 52                         // bytes per polygon entry (0x34)
-
-    for each index in cell's polygon list:
-        poly_addr = polygon_table_base + index × 52
-
-        // Read vertex coordinates (POLYGON SPACE, ×16 of car)
-        v1x = poly[+0x04], v1z = poly[+0x08]
-        v2x = poly[+0x0C], v2z = poly[+0x10]
-        v3x = poly[+0x14], v3z = poly[+0x18]
-        v4x = poly[+0x1C], v4z = poly[+0x20]   // quads only
-
-        // 2D cross product test (ALL in polygon space)
-        // Query point (R4, R5) is already in polygon space from Step 1
-        cross1 = (v2x - R4) × (v1z - R5) - (v1x - R4) × (v2z - R5)
-        cross2 = ...
-        cross3 = ...
-        // If all same sign: point inside polygon → FOUND
-
-    return polygon address
-```
-
-All vertex comparisons use **polygon-space coordinates**.
-The query point was scaled ×16 in Step 1 to match.
-
-### Surface property extraction (FUN_06036914)
-
-```
-STEP 4: Extract surface properties from found polygon
-    // Read properties (these are in POLYGON SPACE)
-    surface_A = poly[+0x24]             // → scratch_buffer[+0x00]
-    surface_B = poly[+0x28]             // → scratch_buffer[+0x04]
-    surface_C = poly[+0x2C]             // → scratch_buffer[+0x08]
-    height    = poly[+0x30]             // used for height interpolation
-
-    // Height computation uses polygon-space coordinates
-    // Result written to scratch_buffer[+0x0C]
-```
-
-### Terrain height → car struct (FUN_060386D8)
-
-```
-STEP 5: Write terrain data to car struct
-    // FUN_060386D8 reads scratch buffer, processes height/banking
-    car[+0x04] = computed_Y             // terrain height (what coordinate space?)
-    car[+0x10] = computed_banking       // banking angle
-
-    // The exact computation involves 3 spatial lookups (3-point interpolation)
-    // and trig. Full trace of FUN_060386D8 internals TBD.
+    Watchpoint-confirmed: FUN_06036790 writes +0x00 at PC 0x060367E0,
+    +0x108 at PC 0x060367DC, +0x10C at PC 0x060367EC
 ```
 
 ---
 
-## Coordinate Space Summary
+## Chain 2: Steering → Heading
+
+D-pad input becomes heading angle change.
 
 ```
-CAR SPACE (car struct +0x00, +0x08)
-    │
-    │  Values: X ≈ 0x008CF8D0 (9.2M), Z ≈ 0x0091960B (9.5M) at race start
-    │
-    ├──── Position writer (FUN_06036790): velocity × trig → delta → accumulate
-    │     All computation in CAR SPACE
-    │
-    └──── Terrain lookup (FUN_06036A70): × 16 (shll2 × 2)
-              │
-              ▼
-        POLYGON SPACE (polygon table vertices)
-              │
-              │  Values: X ≈ 0xF2000000 (-234M), Z ≈ 0x08500000 (139M) typical vertex
-              │  = car values × 16
-              │
-              ├──── Grid hash (FUN_060368D4): hash to cell index
-              ├──── Point-in-polygon (FUN_06036990): cross product tests
-              └──── Surface extraction (FUN_06036914): read properties
-```
+=== SPRINGS ===
 
-**Key finding**: The ×16 conversion is ONE-WAY and READ-ONLY.
-Car positions are NEVER written in polygon space. The polygon lookup
-scales UP to query, extracts properties, and the results (height, banking)
-are written back to the car struct in car-space values.
+LEFT/RIGHT buttons (D-pad)
+    ↓ [sub #1 chain] FUN_06036CEC → FUN_06036CF8 → FUN_06036D52
+    ↓   → FUN_060371FC (dual entry point: skip when no steer)
+    ↓   reads controller via indirect pointer chain from car[+0x15C]
+    ↓   sub-call at PC 0x0603006A [GAP: CCE equivalent not traced —
+    ↓   this is the DUSA FUN_0603006A analog. Writes processed steer
+    ↓   value through non-linear lookup table at DAT_0603726C]
+    ↓
+    ↓   247-byte S-curve table: raw input → [0, 0x69] range
+    ↓   Oracle: writes_78 PASS, 42 hits, PC 0x0603725E
+    ↓
+car[+0x78] = steer_input (range 0-0x69, non-linear curve)
+
+=== RIVER: raw steering → processed ===
+
+car[+0x78]
+    ↓ [sub #2] FUN_0604D580
+    ↓   clamping and scaling to multiple output fields:
+    ↓   car[+0x7C] = clamp(+0x78, 0, 0x7F)
+    ↓   car[+0x88] = scaled to [0x38, 0xB8] range
+    ↓   car[+0x8C] = scaled to [0, 0xFF] range
+    ↓
+car[+0x7C] = steer_clamped
+car[+0x88] = steer_scaled
+car[+0x8C] = steer_full_range
+
+=== RIVER: steering → heading angle ===
+
+car[+0x7C], car[+0x88], car[+0x8C]
+    ↓ [subs #14, #15] FUN_06035F48, FUN_06035C98
+    ↓   steering computation, trig (sin/cos/sqrt pipeline)
+    ↓   reads: +0x44, +0x14, +0x34, +0x6C, +0xC4, +0xF4, +0xF8
+    ↓   writes: +0x64, +0x68, +0x104, +0x30
+    ↓   Oracle: FUN_06035F48 writes_64 PASS (PC 0x060362A6),
+    ↓          writes_68 PASS (PC 0x060361A6), writes_104 PASS
+    ↓
+    ↓   car[+0x64] = steering accumulator (leads +0x68)
+    ↓   car[+0x68] = steering accumulator (lags +0x64)
+    ↓   Both reset to 0 at wall strike (~frame 140)
+    ↓
+    ↓ [sub #15] FUN_06035C98
+    ↓   sin/cos pipeline using +0x64, +0x68, +0x14
+    ↓   writes: +0x38 (heading angle), +0x40, +0x44
+    ↓   also writes: +0xE8, +0xEC (decay cluster, every frame)
+    ↓   also writes: +0x60 (frame counter, increment each frame)
+    ↓   [GAP: exact heading computation not decompiled.
+    ↓    The assembly at FUN_06035C98 is ~592 bytes with heavy
+    ↓    trig. Full formula needs Ghidra pass.]
+    ↓
+car[+0x38] = HEADING ANGLE (ocean — physics heading)
+
+    ↓ [sub #18] FUN_06036790:
+    ↓   car[+0x0E] = (u16)car[+0x3C]    (copy to rendering heading)
+    ↓   NOTE: copies +0x3C not +0x38. Both hold heading but +0x3C
+    ↓   may be the "previous frame" or "rendering" copy.
+    ↓
+car[+0x0E] = HEADING RENDER (ocean — 16-bit copy for sprite/camera)
+```
 
 ---
 
-## DUSA Side — NEEDED FROM '95 MAPPER
+## Chain 3: Brake → Deceleration
 
-The '95 Mapper needs to trace the equivalent chain:
+```
+=== SPRING ===
 
-1. **Track waypoint → surface property chain**:
-   How does waypoint data at sym_0607EB88 flow through FUN_0600CA96
-   into car struct fields +0xEC/+0xF0/+0xF4/+0x11C?
+A button (CCE brake — NOT B like DUSA)
+    ↓ [sub #5] 0x0604D780 (part of FUN_0604D580 block)
+    ↓   car[+0x90] = brake ramp (mirrors +0x80 throttle ramp)
+    ↓   writer at PC 0x0604D7D8 (watchpoint-confirmed)
+    ↓   also writes: +0xAC, +0x7C, +0x9C
+    ↓
+car[+0x90] = brake_ramp (range 0-0xFF)
+car[+0x98] = brake scaled [0x38, 0xB8] (mirror of +0x88)
+car[+0x9C] = brake scaled [0, 0xFF] (mirror of +0x8C)
 
-2. **Position writer (sym_0602D8BC, call 19)**:
-   Exact arithmetic: speed × trig(heading) → position delta → accumulate.
-   What shifts/multiplies are applied? What fixed-point format?
+=== RIVER (symmetric with throttle) ===
 
-3. **Y height writer (FUN_06005ED0)**:
-   What data does it read? What computation produces +0x14?
-   Does it read from the waypoint table or a separate height table?
+car[+0x90]
+    ↓ [sub #8] FUN_0604DB10 reads brake fields alongside throttle
+    ↓   brake contribution computed in parallel with throttle
+    ↓   NET force = throttle effect - brake effect
+    ↓
+car[+0xF0] = negative net_force when braking
+    → same chain as Chain 1 (force → speed → position)
 
-4. **Coordinate space**:
-   Are waypoint X/Z in the same space as car[+0x10]/car[+0x18]?
-   Or is there a scale factor between them?
+Brake transition (from tt_throttle_then_brake_300f.csv):
+  +0xF0 sign flips at frame 204 when brake reaches 50%.
+  Magnitude: +900 (accel) → -1400 (brake). Confirms net force.
+```
 
-Once both chains are documented, we lay them side by side and see exactly
-where the numbers match and where they diverge.
+---
+
+## Chain 4: Surface/Track Data → Physics Properties
+
+Track geometry from the polygon mesh enters the physics pipeline.
+
+```
+=== SPRING (disc-loaded, in LWR at race init) ===
+
+Polygon table at 0x00228000 (sym_00228000)
+    1325 entries × 52 bytes each
+    Per entry: [flags, v1x, v1z, v2x, v2z, v3x, v3z, v4x, v4z,
+                surfA, surfB, surfC, height_norm]
+    Coordinates in POLYGON SPACE (= car space × 16)
+
+Spatial grid at 0x00220000 (race) / 0x00224000 (TT)
+    4096 cells × 4-byte pointers
+    ~162 populated for Three Seven
+    Each cell → list of polygon indices
+
+=== RIVER: polygon table → car struct ===
+
+Car position (car[+0x00], car[+0x08]) in CAR SPACE
+    ↓ FUN_060386D8 (per-frame game loop, NOT dispatcher)
+    ↓   called 1×/frame, from FUN_06037E28 at PR=0x06037FCE
+    ↓   calls FUN_06036AA8 THREE times (3-point interpolation)
+    ↓
+    ↓ FUN_06036AA8 → FUN_06036A70:
+    ↓
+    ↓   COORDINATE SPACE CONVERSION:
+    ↓     R4 = car[+0x00]                  (car space X)
+    ↓     R5 = car[+0x08]                  (car space Z)
+    ↓     R4 = R4 << 4                     (shll2 × 2 = ×16)
+    ↓     R5 = R5 << 4                     (shll2 × 2 = ×16)
+    ↓     // NOW in POLYGON SPACE
+    ↓
+    ↓ FUN_060368D4 (grid hash):
+    ↓     cell_x = (R4 + 0x40000000) >> 25     (7-bit, 0-127)
+    ↓     cell_z = ((0x40000000 - R5) >> 18 & ~0x7F) >> 1
+    ↓     index = cell_z + cell_x
+    ↓     cell_ptr = grid_table[index × 4]
+    ↓
+    ↓ FUN_06036990 (point-in-polygon, polygon space):
+    ↓     for each polygon index in cell:
+    ↓       poly = 0x00228000 + index × 52
+    ↓       2D cross product test (R4, R5 vs vertices)
+    ↓       if inside: return polygon address
+    ↓
+    ↓ FUN_06036914 (surface extraction):
+    ↓     scratch[+0] = poly[+0x24]          (surface A)
+    ↓     scratch[+4] = poly[+0x28]          (surface B)
+    ↓     scratch[+8] = poly[+0x2C]          (surface C)
+    ↓     height_result from poly[+0x30] × 0x400000 + dot product
+    ↓
+    ↓ Back in FUN_060386D8:
+    ↓     processes 3 scratch buffers (3-point interpolation)
+    ↓     writes:
+    ↓       car[+0x04] = Y_height            (at PC 0x060389B0)
+    ↓       car[+0x10] = banking_angle       (at PC 0x06038A70)
+    ↓
+car[+0x04] = WORLD Y POSITION (ocean — terrain-derived)
+    Oracle: writes_04_height PASS, FUN_060386D8, Tier 2
+car[+0x10] = BANKING ANGLE
+    Oracle: writes_10_banking PASS, 149 hits, Tier 2
+
+    KEY: the ×16 conversion is ONE-WAY, READ-ONLY.
+    Car positions are NEVER stored in polygon space.
+    Polygon lookup scales UP temporarily, extracts properties,
+    writes results BACK in car space.
+
+=== WHAT DOES NOT FLOW FROM POLYGONS ===
+
+Explorer survey_005 confirmed: ONLY +0x04 and +0x10 receive polygon data.
+All other curve-responsive fields (+0x0C, +0x38, +0xE0, +0xE4, +0xE8,
++0xEC, +0xB8, +0xFC) change on curves because HEADING changes — they
+are INDIRECT effects, not surface property outputs.
+
+No CCE equivalent of DUSA's:
+  +0xEC (surface field 1) — [GAP: may exist in CCE but not through polygon path]
+  +0xF0 (surface field 2) — [GAP: same]
+  +0xF4 (terrain lateral force) — CCE +0x10 (banking) is closest analog
+  +0x11C (surface energy) — NO CCE EQUIVALENT via polygon path
+```
+
+---
+
+## Chain 5: Traction Feedback Loop
+
+Speed feeds back into available force via clamped speed.
+
+```
+=== LOOP (frame N → frame N+1) ===
+
+car[+0xD0] (clamped_speed, from FUN_060366EC in Chain 1)
+    ↓ [sub #8] FUN_0604DB10
+    ↓   reads +0xD0 as input to the multiply chain
+    ↓   clamp range: [0, 0x2134]          (max 8500 — SAME as DUSA!)
+    ↓
+    ↓   [GAP: exact traction formula in FUN_0604DB10 not decompiled.
+    ↓    DUSA's equivalent (FUN_0602CCEC) has full Ghidra formula:
+    ↓    force_deficit = 0x2134 - gear_scaled_speed
+    ↓    CCE likely has the same structure given the shared 0x2134 clamp.]
+    ↓
+    ↓   output feeds into sub #12 (FUN_06035904) force computation
+    ↓   → ultimately produces car[+0xF0] (net force)
+    ↓   → which integrates into car[+0x24] (velocity)
+    ↓   → which produces car[+0xD0] (clamped speed) next frame
+    ↓
+    CLOSED LOOP: +0xD0 → force chain → +0x24 → +0xD0
+
+DUSA comparison: +0xD0 (CCE) ↔ +0xE0 (DUSA), both clamp to 0x2134.
+```
+
+---
+
+## Chain 6: Collision Response
+
+Distributed timer-gated system, embedded in velocity integrator.
+
+```
+=== TRIGGER ===
+
+Wall contact detected (mechanism: [GAP — collision detection path not traced])
+    ↓ FUN_06035C58
+    ↓   car[+0x176] = 15                   (start 0.5s countdown at 30 Hz)
+    ↓   Oracle: writes_176_set PASS, PC 0x06035C7A, 13 hits
+
+=== RESPONSE (within sub #17) ===
+
+car[+0x176] > 0
+    ↓ [sub #17] FUN_060366EC (velocity integrator)
+    ↓   GATE: +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0
+    ↓   if gate open:
+    ↓     collision_impact = trig multiply chain with +0x104 damping
+    ↓     car[+0x24] -= collision_impact   (velocity reduction)
+    ↓     result clamped to [-0x100, 0x100]
+    ↓
+    ↓   Observed: +0x24 drops 29% at wall strike (0x717B → 0x50A0)
+
+=== COUNTDOWN ===
+
+car[+0x176]
+    ↓ [sub #4] 0x0604D758 (each frame)
+    ↓   car[+0x176] -= 1
+    ↓   Watchpoint-confirmed at PC 0x0604D766
+    ↓   Lifecycle: 15 → 14 → ... → 1 → 0 (deactivate)
+```
+
+---
+
+## Summary: Complete Data Flow Map
+
+```
+                    SPRINGS
+                    ═══════
+    B button ────→ +0x80 (throttle ramp, dual-writer)
+    A button ────→ +0x90 (brake ramp)
+    LEFT/RIGHT ──→ +0x78 (steer, S-curve table)
+    Polygon tbl ─→ +0x04 (Y height), +0x10 (banking)
+    car[+0x158] ─→ velocity scale factor (1.0)
+
+                    RIVERS
+                    ══════
+    +0x80 → [sub #8 multiply chain] ───────────────────┐
+    +0x90 → [sub #8 brake path] ───────────────────────┐│
+    +0x78 → [sub #2 scale/clamp] → +0x7C/88/8C ──┐    ││
+    +0x7C → [subs #14,#15 heading] → +0x38 ──────┐│   ││
+    +0xE0/E4 → [sub #9 heading sin/cos] ─────────┤│   ││
+    +0xE8/EC → [sub #15 decay] ───────────────────┤│   ││
+    +0xF4/F8 → [sub #10 rotation] ────────────────┤│   ││
+                                                  ↓↓   ↓↓
+                                    ┌──────────────────────────┐
+                                    │  FUN_06035904 (sub #12)  │
+                                    │  FORCE COMPUTATION       │
+                                    │  cross-product, sqrt     │
+                                    │  [GAP: exact formula]    │
+                                    └──────────┬───────────────┘
+                                               ↓
+                                    car[+0xF0] = net_force
+                                    NOP Exp 3: blocks everything
+                                               ↓
+                                    ┌──────────────────────────┐
+                                    │  FUN_060366EC (sub #17)  │
+                                    │  VELOCITY INTEGRATOR     │
+                                    │  +0x24 += +0xF0          │
+                                    │  collision: +0x24 -= hit │
+                                    └──────────┬───────────────┘
+                                               ↓
+                                    car[+0x24] = velocity
+                                    NOP Exp 1: car frozen
+                                               ↓
+                              ┌────────────────┴────────────────┐
+                              ↓                                 ↓
+                    ┌─────────────────┐              ┌──────────────────┐
+                    │ FUN_06036790    │              │ FUN_0604DB10     │
+                    │ POSITION WRITER │              │ TRACTION MODEL   │
+                    │ (sub #18)       │              │ (sub #8)         │
+                    │                 │              │ +0xD0 clamp 8500 │
+                    │ scaled = +0x24  │              │ → feeds back to  │
+                    │   × +0x158     │              │   +0xF0 next     │
+                    │   >> 16         │              │   frame          │
+                    │ X = cos(h)      │              └──────────────────┘
+                    │   × scaled >> 16│
+                    │ Z = -sin(h)     │
+                    │   × scaled >> 16│
+                    │ +0x00 += X      │
+                    │ +0x08 += Z      │
+                    └────────┬────────┘
+                             ↓
+                    ═════════════════
+                         OCEAN
+                    ═════════════════
+                    car[+0x00] = X position
+                    car[+0x08] = Z position
+                    car[+0x38] = heading (from steering chain)
+                    car[+0x0E] = heading render copy
+                    car[+0x04] = Y position (from polygon terrain)
+                    car[+0x10] = banking (from polygon terrain)
+
+═══════════════════════════════════════════════════════════════
+
+COORDINATE SPACES:
+  CAR SPACE: car[+0x00], car[+0x08] — physics positions
+  POLYGON SPACE: polygon vertex table — 16× car space
+  BRIDGE: FUN_06036A70 shifts car coords << 4 (×16) for lookup
+  ONE-WAY: polygon space → car space (surface props only)
+```
+
+---
+
+## Gaps Status
+
+| Gap | Status | What's Needed |
+|-----|--------|---------------|
+| Force formula (subs #8-#12) | **OPEN** | Ghidra decompile of FUN_0604DB10 + FUN_06035904. DUSA has full 7-step formula. |
+| Heading computation (sub #15) | **OPEN** | FUN_06035C98 is 592 bytes of trig. Need Ghidra pass. |
+| Pad state address | **OPEN** | Where does raw button state enter? DUSA uses sym_06063D98. CCE's equivalent not traced. |
+| Surface fields +0xEC/+0xF0 | **OPEN** | DUSA's surface chain (FUN_0602F5B6 → +0xEC/+0xF0/+0xF4/+0x11C) has no confirmed CCE polygon-path equivalent. These fields exist in CCE but their source is untraced. |
+| Collision detection trigger | **OPEN** | What detects the wall contact before FUN_06035C58 sets +0x176? |
+| +0x158 scale factor origin | **OPEN** | Who writes it? Is it truly always 1.0? Does it vary by track/mode? |
+| FUN_0604D580 exact formula | **PARTIALLY CLOSED** | Input scaling/clamping documented from observations. Exact intermediate math not decompiled. |
