@@ -1611,3 +1611,41 @@ interpolation method (flat vs sloped polygon).
 output may be equivalent — both produce surface properties into the car struct.
 The next step is determining what surface_A/B/C actually MEAN by observing
 their values on straight vs curve vs grass sections.
+
+---
+
+### Entry 26: Surface Property Cross-Reference — CCE ↔ '95 (Tier 0)
+
+**Source**: Explorer survey_003 (race throttle 600f, curve vs straight),
+'95 struct_map.md, '95 track_data_obs.md
+
+#### CCE Surface Properties (from curve vs straight comparison)
+
+| CCE Field | Straight | Curve | Meaning |
+|-----------|----------|-------|---------|
+| **+0x10** | 0x00000000 | 0xF5200000 (peak) | Banking angle — zero on flat, negative on right curves |
+| **+0x19C** | 0x0 | 0x0-0x7 discrete | Surface segment type (8 values) |
+| **+0x04** | 0x00000000 | 0x0005575F (peak) | Terrain Y height |
+
+#### '95 Surface Properties
+
+| '95 Field | Straight | Curve | Meaning |
+|-----------|----------|-------|---------|
+| **+0xF4** | ~0 | oscillates ±2.9M | Terrain lateral force (banking/slope) |
+| **+0x1FC** | 0x300-0x500 | varies | Surface type index (6 values) |
+| **+0x14** | 0x00000000 | nonzero | Y position (terrain height) |
+
+#### Cross-Reference
+
+| Role | CCE | '95 | Compatible? |
+|------|-----|-----|------------|
+| Banking | +0x10 | +0xF4 | PROBABLY — both zero on straights, active on curves. Different scale. |
+| Surface type | +0x19C (0-7) | +0x1FC (0x000-0x600) | YES — need 8→6 mapping table |
+| Height | +0x04 | +0x14 | YES — both externally computed |
+| Surface normal | polygon +0x24/+0x28/+0x2C | +0xEC/+0xF0 | UNKNOWN — need per-polygon value analysis |
+
+**Transplant architecture**: The adaptation layer reads CCE's +0x10 (banking)
+and +0x19C (surface type), converts to '95 format, writes to the fields that
+the '95 force computation reads (+0xEC, +0xF0, +0xF4, +0x11C). CCE's spatial
+grid + polygon lookup continues running unchanged — only the property-to-physics
+translation changes.
