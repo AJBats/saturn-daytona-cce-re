@@ -25,11 +25,18 @@ Many entries need empirical verification.
 
 ## Track Data Compatibility
 
+**KEY FINDING**: Both games use DUAL track indexing — a spatial surface system
+AND a sequential progression system. Despite incompatible raw formats, the
+architecture is structurally parallel.
+
 | Aspect | '95 | CCE | Adaptation |
 |--------|-----|-----|-----------|
-| Track geometry format | Edge-pair waypoints (784 × 16B) | Polygon mesh (~800 × 52B) | **INCOMPATIBLE raw format** |
-| Track data location | 0x060C6000 (HWR) | 0x00228000 (LWR) | Different memory regions |
-| Lookup method | Segment index (car[+0x1E4]) | Spatial grid hash (X,Z) | Different lookup architecture |
+| **Dual indexing** | **YES** (surface table + segment table) | **YES** (polygon grid + spline) | **Architecturally compatible** |
+| Surface geometry | Edge-pair waypoints (784 × 16B) | Polygon mesh (~800 × 52B) | INCOMPATIBLE raw format |
+| Surface data location | 0x060C6000 (HWR) | 0x00228000 (LWR) | Different memory regions |
+| Surface lookup | Segment index (car[+0x1E4]) | Spatial grid hash (X,Z) | Different method, same concept |
+| **Sequential spline** | **147 entries × 4B** at sym_0607EB84 | **44B entries** at +0x154 ptr (0x060F4xxx) | **Both have sequential track progression** |
+| Spline advancement | car[+0x1E4] increments by segment | +0x154 pointer advances proportional to speed | Different mechanism, same concept |
 | Banking output | '95 +0xF4 (terrain lateral force) | CCE +0x10 (banking angle) | **Conversion needed** — same concept, different scale |
 | Surface type | '95 +0x1FC (6 values: 0x000-0x600) | CCE +0x19C (8 values: 0-7) | **Mapping table** (8→6) |
 | Height output | '95 +0x14 (Y position) | CCE +0x04 (Y position) | **Compatible** — both externally computed |
