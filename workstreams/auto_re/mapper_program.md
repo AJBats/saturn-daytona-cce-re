@@ -286,7 +286,12 @@ If all four are met → write a NOP test recommendation.
 If one is missing → target the gap in the next Explorer priority.
 If a scenario is missing → write a scenario request for the human.
 
-**(e) Deepen static analysis.** When priorities are current and no gaps
+**(e) Cross-game compatibility work (Phase 4).** Read the '95 project's
+struct map and observations. Compare field mappings, trace CCE equivalents
+of '95 systems, update the compatibility matrix. This is the highest-value
+static analysis when the Explorer is busy with track data investigation.
+
+**(f) Deepen static analysis.** When priorities are current and no gaps
 are actionable without Explorer data:
 - Analyze existing CSVs for undocumented correlations
 - Cross-reference observations for unlinked connections
@@ -362,15 +367,52 @@ up the '95 model:
 - **Compatibility risks**: fields where format differences between '95
   and CCE could cause problems
 
+### Phase 4: Cross-game compatibility mapping (active)
+
+The '95 driving model RE is now mature enough to begin transplant planning.
+This phase runs alongside Phase 2/3 and focuses on answering: can the '95
+model receive equivalent inputs from CCE's systems?
+
+The '95 project (D:\Projects\SaturnReverseTest) has its own auto-RE pipeline
+producing observations, claims, and a struct map. Read the '95 homework:
+- `D:\Projects\SaturnReverseTest\workstreams\driving_model\struct_map.md`
+- `D:\Projects\SaturnReverseTest\workstreams\auto_re\observations\`
+
+Focus on:
+- **Track data format compatibility**: '95 uses sequential waypoint tables
+  (784 edge-pair entries). CCE uses a spatial grid (FUN_060368D4 hashes
+  X/Z → grid cells). These are architecturally different. The transplant
+  question is: do they produce equivalent surface properties into the car
+  struct? Trace CCE's grid cell → car struct pipeline end-to-end.
+- **Surface property field mapping**: '95's physics reads banking, curvature,
+  surface type from its car struct. Find the CCE car struct fields that
+  carry equivalent data. Compare during curve vs straight driving.
+- **Field format differences**: heading conventions (CCE uses 0x4000 at
+  start, '95 uses 0xFFFFAAAB), speed units (CCE km/h, '95 mph × 1467),
+  steering input ranges. Document conversion factors.
+- **Structural parallels**: both games have 18-call dispatchers, position
+  as write-only output, force→speed→position chains. Map the 1:1
+  function correspondences where they exist.
+
+Deliverable: a **compatibility matrix** showing each '95 input/output,
+its CCE equivalent (if any), format differences, and adaptation needed.
+
+When writing Explorer priorities in this phase, focus on:
+1. Track data structure investigation (grid cells, surface properties)
+2. Field format comparison (dump same-scenario data from both games)
+3. Interface fields that the '95 model reads from external systems
+
 ### What to deprioritize
 
 - AI car physics internals (different GBR base, different pipeline) —
   unless AI reads player interface fields
 - Menu/transition code
 - Utility functions (atan2, sqrt) unless they reveal an interface point
+- CCE driving model internals that will be replaced — don't spend time
+  understanding computations that the '95 model supersedes
 
 When the Explorer wanders into these areas, don't add them to priorities
-unless they reveal something about the interface boundary.
+unless they reveal something about transplant compatibility.
 
 ## Naming Fields
 

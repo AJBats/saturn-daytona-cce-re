@@ -1219,6 +1219,40 @@ convention differ. Need empirical mapping (e.g., NW in both games → what value
 
 Key unmapped '95 fields: +0x28 (slip angle), +0x30 (yaw rate), +0x1E4 (segment index)
 
+#### '95 Writer Map Correlation (from D:/Projects/SaturnReverseTest)
+
+The '95 writer map (81 unique offsets, 1800 writes over 60 frames) reveals the
+struct layout differences. Key writer functions and their CCE equivalents:
+
+| '95 Writer | '95 Fields | Role | CCE Equivalent |
+|-----------|-----------|------|----------------|
+| FUN_0602D8CA | +0x10,+0x18,+0x20,+0x38,+0x3C | Position/heading | FUN_06036790 (+0x00,+0x08,+0x0E) |
+| FUN_0602D818 | +0x0C | Speed magnitude | FUN_060366EC (+0x24) |
+| FUN_0602F3F0 | +0x08 | Speed index | FUN_0604D580 (+0x34) |
+| FUN_0602EF4C | +0x00,+0x5C,+0xFC | Flags + accel delta | FUN_06035904 (+0xF0), frame loop (+0x30) |
+| FUN_0602CE4E | +0x28,+0x2C,+0x30,+0x60,+0x64 | Heading/slip/yaw | FUN_06035C98, FUN_060366EC |
+| FUN_06034F7C | +0x00 (180 writes) | Main loop flags | Per-car frame loop (+0x30) |
+
+**Layout shift**: '95 puts flags at +0x00, position at +0x10/+0x18, heading at
++0x20, speed at +0x0C. CCE puts position at +0x00/+0x08, heading at +0x0C/+0x0E,
+velocity at +0x24, speed gate at +0x34. No direct offset-to-offset compatibility.
+
+**Transplant conversion layer** (for Option A-hybrid):
+The '95 model computes forces internally and writes to its own +0xFC. A
+conversion trampoline maps '95 outputs → CCE fields:
+```
+'95 +0xFC (accel delta) → scale → CCE +0xF0 (net force)
+'95 +0x20 (heading)     → remap → CCE +0x38 (heading angle)
+'95 +0x10 (position X)  → scale → CCE +0x00 (X position)
+'95 +0x18 (position Z)  → scale → CCE +0x08 (Z position)
+```
+CCE's integration chain (+0xF0 → +0x24 → +0x34) and rendering pipeline
+(+0x00/+0x08/+0x0E → display) handle the rest natively.
+
+Alternatively, the force-level transplant lets CCE compute position from
+velocity: the '95 model only needs to write +0xF0, and CCE's subs #17
+(FUN_060366EC) and #18 (FUN_06036790) handle velocity→position.
+
 ---
 
 ### Entry 23: Phase 2 — Per-Car Frame Loop and Physics Dispatch Chain (Tier 0)
