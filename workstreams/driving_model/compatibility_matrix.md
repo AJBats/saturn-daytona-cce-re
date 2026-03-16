@@ -105,9 +105,16 @@ transplant — the scaling factor bridges the velocity unit difference.
    Compare track dimensions: same course (Three Seven) should have the same
    physical distance between turns, allowing unit calibration.
 
-2. **Heading convention**: '95 start heading = 0xFFFFAAAB, CCE = 0x4000.
-   What direction do these represent? A 90° turn in both games would reveal
-   the mapping.
+2. **Heading convention** — RESOLVED via static analysis:
+   '95: X = speed × sin(heading), Z = speed × cos(heading)
+   CCE: X = cos(-heading) × velocity, Z = sin(-heading) × velocity
+   Since cos(-θ) = cos(θ) and sin(-θ) = -sin(θ), the axes are swapped
+   and Z is negated relative to '95. This is a **90° heading offset**:
+   `CCE_heading = '95_heading + 0x4000` (quarter turn).
+   Verified: '95 start = 0xFFFFAAAB + 0x4000 = 0xFFFFEAAB, while CCE start
+   = 0x4000. The difference 0xFFFFEAAB - 0x4000 = 0xFFFFAAAB — consistent
+   with a world rotation, not just a heading offset. **Full axis mapping
+   needs empirical verification with known turn directions.**
 
 3. **Force scaling**: '95 accel delta range ±300, CCE net force range ±1400.
    The scaling difference needs calibration via matching speed curves.
