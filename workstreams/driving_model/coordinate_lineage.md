@@ -472,10 +472,12 @@ COORDINATE SPACES:
 
 | Gap | Status | What's Needed |
 |-----|--------|---------------|
-| Force formula (subs #8-#12) | **OPEN** | Ghidra decompile of FUN_0604DB10 + FUN_06035904. DUSA has full 7-step formula. |
-| Heading computation (sub #15) | **OPEN** | FUN_06035C98 is 592 bytes of trig. Need Ghidra pass. |
+| Force formula (sub #12) | **CLOSED** | Ghidra FUN_0600D904.c fully annotated. 7-step formula: (1) roll projection using -sin/cos(heading) × decay fields, (2) magnitude X via manhattan approx vs +0xF4 threshold, (3) magnitude Z via manhattan approx vs +0xF8 threshold, (4) drift detection, (5) steering rate: +0x14 = -(+0xAC) >> 3, (6) collision/heading gate zero-outs on +0x190/+0x170, (7) final: car[+0xF0] = gear × (term_A + term_B - car[+0xBC]) >> 16 >> 8. All 37 DAT_ refs mapped to struct offsets. |
+| Traction formula (sub #8) | **OPEN** | FUN_0604DB10 (Ghidra FUN_06025B10.c). Need Ghidra pass to match DUSA's FUN_0602CCEC formula. |
+| Heading computation (sub #15) | **OPEN** | FUN_06035C98 (Ghidra FUN_0600DC98.c). 592 bytes of trig. Need Ghidra pass. |
 | Pad state address | **OPEN** | Where does raw button state enter? DUSA uses sym_06063D98. CCE's equivalent not traced. |
 | Surface fields +0xEC/+0xF0 | **OPEN** | DUSA's surface chain (FUN_0602F5B6 → +0xEC/+0xF0/+0xF4/+0x11C) has no confirmed CCE polygon-path equivalent. These fields exist in CCE but their source is untraced. |
 | Collision detection trigger | **OPEN** | What detects the wall contact before FUN_06035C58 sets +0x176? |
 | +0x158 scale factor origin | **OPEN** | Who writes it? Is it truly always 1.0? Does it vary by track/mode? |
 | FUN_0604D580 exact formula | **PARTIALLY CLOSED** | Input scaling/clamping documented from observations. Exact intermediate math not decompiled. |
+| 3D rendering geometry | **FOUND** | Explorer found 3D track model at 0x06093818 (HWR): 16-bit X,Y,Z triplets, ~3,068 vertices, ~401 faces. Separate from 2D physics polygons. |
