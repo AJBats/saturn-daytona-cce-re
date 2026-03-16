@@ -85,6 +85,20 @@ read the processed values (+0x78, +0x80, +0x90), convert to '95 input format.
 | Camera | +0x10,+0x18,+0x30 | +0x00,+0x08,+0x38 | Position + heading |
 | Sound | Unknown | +0x33 bits, +0xB4, +0x190 | Different trigger mechanisms |
 
+## Key Transplant Mechanism: +0x158 Scaling Factor
+
+CCE's position writer (FUN_06036790, sub #18) computes:
+`position_delta = cos/sin(heading) × (velocity × +0x158) >> 32`
+
++0x158 is currently 1.0 (0x00010000 in 16.16 fixed-point). It's a
+**velocity-to-position scaling factor** that can absorb the world-unit
+conversion between '95 and CCE. If the '95 model writes velocity in
+'95 internal units to +0x24, setting +0x158 to the appropriate conversion
+factor would produce correct CCE world coordinates automatically.
+
+This means the position writer (sub #18) can remain UNCHANGED in the
+transplant — the scaling factor bridges the velocity unit difference.
+
 ## Open Questions
 
 1. **World coordinate scale factor**: How do '95 and CCE world units relate?
