@@ -15,7 +15,41 @@ entries × 16 bytes) for track geometry. CCE uses a **spatial grid** system
 understanding CCE's track data so the '95 model can receive equivalent surface
 properties. This is the #1 blocker for transplant feasibility.
 
-### 1. Dump the Spatial Grid Table (HIGHEST PRIORITY)
+### 1. ~~Dump the Spatial Grid Table~~ RESOLVED (survey_001)
+
+Grid at 0x00220000 (race) / 0x00224000 (TT), 4096 cells, ~162 populated.
+Cell data = polygon index lists at 0x00238xxx. See survey_001 and survey_002.
+
+### 1b. ~~Trace the Grid Cell Processing Chain~~ RESOLVED (survey_002 + Mapper static)
+
+Polygon table at 0x00228000, stride 52 bytes, ~814 entries.
+Point-in-polygon via cross products. Surface properties at +0x24/+0x28/+0x2C/+0x30.
+
+### 1c. Surface Property Output — Where Do They End Up? (NEW HIGHEST PRIORITY)
+
+- **Why**: We know the polygon table has 4 surface properties per polygon
+  (A=+0x24, B=+0x28, C=+0x2C, D=+0x30). FUN_06036914/FUN_06036948 copy them
+  to an output scratch struct (R6=0x0605269C in race mode). But we need to
+  trace what happens AFTER — the calling functions (FUN_060384C4, FUN_060386D8)
+  read from this scratch struct and write values to the CAR struct. Which car
+  struct fields receive the processed surface properties?
+- **What to do**:
+  1. Load `cce_race_start.mc0`, advance 2 frames, hold B
+  2. Set breakpoint at FUN_06036914 (0x06036914) — fires when polygon found
+  3. When it fires, read R7 (output struct base) and dump 32 bytes at R7
+  4. Let the breakpoint fire again (next caller in same frame)
+  5. After all calls in one frame, dump the output struct again to see what changed
+  6. Then set watchpoints on car struct fields that might receive surface data:
+     - GBR+0x10 (0x0605225C) — height (was static=0 in TT)
+     - GBR+0xB4 (0x06052300) — static in TT, but read by physics
+     - GBR+0x74 (0x060522C0) — listed as "table base pointer"
+  7. Run 60 frames and check which watchpoints fire from PCs in the
+     FUN_060384C4 / FUN_060386D8 range (0x060384C4-0x06038A82)
+- **What this unblocks**: Maps the polygon properties → car struct fields
+  pipeline. This is the last piece needed to compare '95 surface properties
+  with CCE surface properties.
+
+### 1d. Dump Polygon Properties on Curve vs Straight
 
 - **Why**: FUN_060368D4 (the core spatial lookup) uses a grid table at R7 to
   map (X, Z) world coordinates to track data cells. We need to see what's in
