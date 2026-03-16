@@ -99,6 +99,57 @@ factor would produce correct CCE world coordinates automatically.
 This means the position writer (sub #18) can remain UNCHANGED in the
 transplant — the scaling factor bridges the velocity unit difference.
 
+## Detailed Field Correspondence (Car Struct)
+
+Fields the '95 driving model reads/writes, mapped to CCE equivalents.
+Status: CONFIRMED = both sides empirically verified, PROPOSED = based on
+behavioral/structural matching, UNKNOWN = no CCE equivalent identified.
+
+### Core Pipeline Fields
+
+| '95 Field | '95 Role | CCE Field | CCE Role | Status | Offset Δ |
+|-----------|----------|-----------|----------|--------|----------|
+| +0x0C | Speed magnitude | +0x24 | Velocity magnitude | PROPOSED | +0x18 |
+| +0x08 | Speed index (×72) | +0x34 | Speed gate (×108) | PROPOSED | +0x2C |
+| +0xFC | Accel delta | +0xF0 | Net force | PROPOSED | -0x0C |
+| +0x10 | World X position | +0x00 | World X position | PROPOSED | -0x10 |
+| +0x18 | World Z position | +0x08 | World Z position | PROPOSED | -0x10 |
+| +0x14 | World Y position | +0x04 | World Y position | PROPOSED | -0x10 |
+| +0x20 | Heading (yaw) | +0x38 | Heading angle | PROPOSED | +0x18 |
+| +0xE0 | Gear-scaled speed | +0xD0 | Clamped speed copy | PROPOSED (0x2134 match!) | -0x10 |
+| +0xDC | Gear section index | +0x34? | Speed gate? | UNCERTAIN | — |
+
+### Input Fields
+
+| '95 Field | '95 Role | CCE Field | CCE Role | Status |
+|-----------|----------|-----------|----------|--------|
+| +0x74 | Throttle accumulator (56-184) | +0x80 | Throttle ramp (0-0xFF) | PROPOSED — different range |
+| +0x90 | Brake accumulator (56-184) | +0x90 | Brake ramp | PROPOSED — same offset! |
+| +0xAC | Steering value (analog ±128) | +0x78 | Steer input (0-0x69) | PROPOSED — different range |
+| +0x6C | Throttle active flag | +0x84 | Physics-active flag | PROPOSED |
+| +0xDE | Gear position (0-3) | Unknown | Unknown | UNKNOWN |
+
+### Surface/Track Fields
+
+| '95 Field | '95 Role | CCE Field | CCE Role | Status |
+|-----------|----------|-----------|----------|--------|
+| +0xF4 | Terrain lateral force | +0x10 | Banking angle | PROPOSED — same concept |
+| +0x1FC | Surface type (6 values) | +0x19C | Surface type (8 values) | PROPOSED |
+| +0xEC/+0xF0 | Surface normals | polygon +0x24/+0x28 | Polygon surface props | UNKNOWN |
+| +0x11C | Surface energy | Unknown | Unknown | UNKNOWN — critical for traction |
+| +0x1E4 | Segment index | +0x154 (pointer) | Spline progression | PROPOSED — different mechanism |
+
+### Rendering Output Fields
+
+| '95 Field | '95 Role | CCE Field | CCE Role | Status |
+|-----------|----------|-----------|----------|--------|
+| +0x01 | Active/visible flag | Unknown | Unknown | UNKNOWN |
+| +0x1C | Pitch angle | None identified | — | '95 may skip |
+| +0x24 | Roll angle | None identified | — | '95 may skip |
+| +0x28 | Slip angle | None identified | — | '95-specific |
+| +0x30 | Heading copy | +0x0C? | Heading (16-bit) | PROPOSED |
+| +0xB8 | Gear/collision state | +0xB8 | Speed+turn gate | PROPOSED — same offset! |
+
 ## Open Questions
 
 1. **World coordinate scale factor**: How do '95 and CCE world units relate?
