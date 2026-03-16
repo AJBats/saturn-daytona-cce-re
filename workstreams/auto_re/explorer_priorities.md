@@ -1,145 +1,143 @@
-# Explorer Priorities — Updated 2026-03-14 (Cycle 28, Phase 2)
+# Explorer Priorities — Updated 2026-03-15 (Cycle 30, Phase 3: Track Data)
 
 ## Resolved Priorities (all prior cycles)
 
 Initial list #1-8: all resolved.
 Cycle 11 list #1-8: 7 of 8 resolved (#5 +0x1CB inconclusive, likely constant 0x02).
 Cycle 15 list: all resolved (surveys #1-#4).
+Cycle 28 Phase 2 list: deferred — track data investigation takes priority.
 
-## Phase 2 Priorities — Transplant Boundary Verification
+## URGENT: Track Data Structure Investigation
 
-These targets are driven by Phase 2 analysis of external consumers. The goal
-is to verify the transplant interface — which fields cross the boundary between
-the driving model and rendering/HUD/sound systems.
+**Context**: The '95 driving model uses sequential waypoint tables (784 edge-pair
+entries × 16 bytes) for track geometry. CCE uses a **spatial grid** system
+(FUN_060368D4 hashes world X/Z into grid cells). The transplant depends on
+understanding CCE's track data so the '95 model can receive equivalent surface
+properties. This is the #1 blocker for transplant feasibility.
 
-### HIGH Priority
+### 1. Dump the Spatial Grid Table (HIGHEST PRIORITY)
 
-### 1. FUN_060384C4 — rendering transform field reads
+- **Why**: FUN_060368D4 (the core spatial lookup) uses a grid table at R7 to
+  map (X, Z) world coordinates to track data cells. We need to see what's in
+  the table and what the cells point to.
+- **What to do**:
+  1. Load `cce_race_start.mc0` (race mode — more track data active)
+  2. Advance 2 frames
+  3. Set breakpoint at FUN_06036AA8 (0x06036AA8) — the spatial lookup wrapper
+  4. Advance 1 frame to hit the breakpoint
+  5. Read registers — **R7** is the grid table base, **R6** is a data pointer
+  6. Record R7 value (expected ~0x060528D8 from prior observation)
+  7. Clear breakpoint
+  8. Dump the grid table: `dump_region <R7_value> 0x4000`
+  9. Also dump 256 bytes at R6 value: `dump_region <R6_value> 256`
+- **Analysis**: Look at the dumped grid table:
+  - How many 4-byte entries are non-zero?
+  - Are the non-zero values pointers (0x060xxxxx range)?
+  - Pick 3-4 non-zero entries, dump 128 bytes at each pointer target
+  - What structure do the targets have? Entry size? Fields?
+- **What this unblocks**: Understanding the raw track data format — is it
+  edge-pairs like '95, polygons, BSP cells, or something else entirely?
 
-- **Why**: This function reads +0x00 (X), +0x08 (Z), +0x0E (heading), +0x120,
-  and +0x160 from the car struct. Static analysis says it's the primary
-  rendering coordinate updater. Runtime verification would confirm which
-  fields it actually reads and what it writes to the render targets.
-- **What to do**: Load `cce_tt_straight.mc0`, use `straight_throttle`. Set
-  breakpoint at FUN_060384C4 (0x060384C4), verify it fires, dump registers.
-  Then set watchpoints on the render target addresses (resolved from +0x160
-  and +0x12C pointers) to see what gets written.
-- **What this unblocks**: Confirms the rendering interface — which physics
-  fields the renderer actually reads at runtime (not just static analysis).
+### 2. Trace the Grid Cell Processing Chain
 
-### 2. +0x04 (Y position) writer verification
+- **Why**: After FUN_060368D4 finds a grid cell, FUN_06036990 processes it.
+  This function turns raw grid data into usable track properties. Its OUTPUT
+  fields tell us what surface data CCE's physics model works with.
+- **What to do**:
+  1. Load `cce_tt_straight.mc0`, advance 2 frames, hold B (throttle)
+  2. Set breakpoint at FUN_06036990 (0x06036990)
+  3. Advance 1 frame to hit breakpoint
+  4. Dump registers — R3, R6, R7 are key data pointers
+  5. Read memory at the pointer values to see what data structure is being processed
+  6. Step through ~20 instructions, dumping registers after each step to
+     see what values flow through the computation
+  7. Note: also check FUN_06036914 and FUN_06036948 — these are called from
+     FUN_06036A70 based on a condition flag, and they process the cell data
+     into the output struct at R7
+- **What this unblocks**: Maps the grid cell → car struct surface property
+  pipeline. Once we know what fields get written, we can compare with '95's
+  surface properties (+0xEC, +0xF0, +0xF4, +0x11C).
 
-- **Why**: Static analysis shows FUN_060386D8 writes +0x04 from a terrain
-  height lookup using +0x00 and +0x08. If confirmed, this means the '95
-  model does NOT need to produce Y — it's derived externally. This is a
-  major simplification for the transplant.
-- **What to do**: Load `cce_tt_straight.mc0`, `straight_throttle`. Set
-  watchpoint on GBR+0x04 (0x06052250). Confirm writer PC is inside
-  FUN_060386D8 (0x060386D8-0x06038A82). Record value changes over 60 frames.
-- **What this unblocks**: Confirms Y position is external, reducing the
-  transplant output contract to just X, Z, and heading.
+### 3. Dump WRAM High for Disc-Loaded Track Data
 
-### 3. +0x194/+0x192 rendering heading writer
+- **Why**: '95's track tables live at 0x060C6000-0x060D5840 (disc-loaded into
+  WRAM High). CCE likely has equivalent disc-loaded data. The race module
+  binary ends around 0x06050000; everything from ~0x06058000 onwards could
+  be disc-loaded track/course data. Two symbols reference WRAM High addresses:
+  sym_060ED100 and sym_060FD400.
+- **What to do**:
+  1. Load `cce_race_start.mc0` (race mode, Three Seven Speedway)
+  2. Advance 2 frames
+  3. Dump: `dump_region 0x060ED100 0x100` (check what's at sym_060ED100)
+  4. Dump: `dump_region 0x060FD400 0x200` (check what's at sym_060FD400)
+  5. If these contain structured data, dump larger regions (0x1000+ bytes)
+  6. Also check what the grid cell pointers from Investigation 1 point to —
+     if they point into the 0x060C-0x060F range, that's the disc-loaded data
+- **What this unblocks**: Locates the raw track geometry data in CCE. Enables
+  comparison with '95's waypoint format.
 
-- **Why**: FUN_06036BB8 reads +0x194 and copies to +0x48. FUN_060385CE
-  compares +0x194 with +0x38 for delta detection. Static analysis says
-  FUN_06038A84 writes these via atan2. Runtime confirmation would verify
-  the rendering heading pipeline: physics +0x38 → ??? → rendering +0x194.
-- **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
-  watchpoint on GBR+0x194 (0x060523E0) and GBR+0x192 (0x060523DE). Record
-  writer PCs and values over 60 frames with steer+throttle input.
-- **What this unblocks**: Confirms the heading data flow for the transplant
-  boundary. If +0x194 is derived from +0x38, the '95 model only needs to
-  write +0x38 and external code handles the rest.
+### 4. Compare Surface Fields During Curve vs Straight
 
-### MEDIUM Priority
+- **Why**: The '95 model reads surface properties from the car struct that
+  change based on track curvature (banking, grip, lateral force). We need to
+  know which CCE car struct fields carry equivalent information.
+- **What to do**:
+  1. Load `cce_race_start.mc0` (race mode — has curves)
+  2. Hold B for 300+ frames (enough to reach a curve on Three Seven)
+  3. Sample the player struct extended range during the curve:
+     `sample_memory 0x0605224C 512 300` (capture 512 bytes = beyond +0x1FF)
+  4. Compare fields between the initial straight and the curve section
+  5. Fields that change on curves but not straights are surface/curvature data
+  6. Cross-reference with the same analysis on the straight TT save state
+- **What this unblocks**: Identifies which car struct fields carry surface
+  properties, regardless of how the raw track data is structured.
 
-### 4. +0x1A6 speed output — who reads it?
+### 5. Check if CCE Has Segment-Based Track Progression
 
-- **Why**: FUN_06039BE4 writes this field in the common exit (every frame).
-  FUN_06039DCC and FUN_06039ED8 read it. But we don't know if it feeds
-  the HUD or any other external system. If it's HUD-visible, it's an
-  interface field.
-- **What to do**: Load `cce_tt_straight.mc0`, `straight_throttle`. Set
-  watchpoint on GBR+0x1A6 (0x060523F2). Record writer PC, then trace
-  readers by checking if the HUD speedometer correlates with this value
-  (sample +0x1A6 alongside +0x34 over 60 frames with throttle).
-- **What this unblocks**: Determines if +0x1A6 is a transplant interface
-  field or internal to the external state machines.
+- **Why**: '95 has two independent track indexing systems: a fine surface table
+  (784 entries) and a coarse segment table (147 entries for lap counting). CCE
+  might have only the spatial grid, or it might ALSO have a segment system.
+  The AI car chain has field +96 "parametric t" which sounds segment-like.
+- **What to do**:
+  1. Load `cce_race_start.mc0`, hold B, let the car drive a full lap
+  2. Sample the player struct at 0x0605224C, 512 bytes, for 600+ frames
+  3. Look for any field that increments monotonically through a lap then resets
+     (that's a segment/progress counter)
+  4. Also check the AI chain struct: `read_memory 0x060FD400 256` to see if
+     chain entries have segment indices
 
-### 5. +0x12C render pointer — what does it point to?
+---
 
-- **Why**: Three major rendering consumers read through this pointer. Knowing
-  what data structure it points to (VDP1 command table? sprite transform
-  buffer?) would complete the rendering boundary map.
-- **What to do**: Load any save state. Break at FUN_060384C4, read the
-  value at GBR+0x12C. Then dump 64 bytes at that address. Compare with
-  VDP1 command table format (if known from Ghidra).
-- **What this unblocks**: Maps the rendering data structures that receive
-  physics output.
+## Phase 2 Priorities (deferred, still valid)
 
-### LOW Priority
+### Rendering transform verification (FUN_060384C4)
+### +0x04 Y position writer verification
+### +0x194 rendering heading writer
 
-### 6. +0x190 collision gate — who sets it?
-
-- **Why**: Wide-ranging gate field (4 consumers), controls collision response
-  activation. Finding the writer completes the collision state machine.
-- **What to do**: Load `cce_tt_straight.mc0`, `right_wall_strike`. Set
-  watchpoint on GBR+0x190 (0x0605243C). Wait for wall contact (~frame 140).
+These are still valid but lower priority than the track data investigation.
+Resume after the track data structure is understood.
 
 ---
 
 ## NOP Test Recommendations (for human)
 
 ### ALREADY COMPLETED (do not re-run)
-- +0x24 — Experiment 1 (CONFIRMED: velocity accumulator, car frozen)
-- +0x0E — Experiment 2 (CONFIRMED: rendering heading, sprite frozen but car turns)
-- +0xF0 — Experiment 3 (CONFIRMED: sole force channel, car frozen, no RPM)
-- +0x34 — Experiment 4 (CONFIRMED: speed display + physics gate, KPH=0, gear stuck)
-- +0x80 — Experiment 5 (CONFIRMED: throttle input, dual-writer, both NOPs needed)
-
-See `workstreams/driving_model/nop_experiments.md` for full results.
+- +0x24, +0x0E, +0xF0, +0x34, +0x80 — see nop_experiments.md
 
 ### NEW: NOP Test +0xD0 (clamped speed copy)
-
-- **What to NOP**: Replace `mov.l r5, @(r0, r1)` at PC ~0x06036756
-  with `nop` (0x0009). This prevents FUN_060366EC from writing +0xD0.
-  Source: `src/race/FUN_0603631C.s`, line ~624.
-- **Writer function**: FUN_060366EC (oracle-confirmed, writes_D0 PASS, 59 hits)
-- **Expected effect**: +0xD0 stays at 0. This feeds FUN_0604DB10's heavy
-  multiply chain. With +0xD0 stuck at 0, the downstream computation
-  (which produces +0xC4, +0xC8, +0xCC, +0xD8, +0xDC) would use 0 as
-  input. The car may still accelerate (+0x24 still works) but with
-  degraded/absent lateral forces.
-- **Best scenario**: Load `cce_tt_straight.mc0`, use `straight_throttle`.
-  Compare behavior to baseline — car should accelerate but may have
-  strange handling or missing physics effects.
-- **Confidence**: MEDIUM — oracle-confirmed writer, but behavioral effect
-  less predictable than the upstream NOP tests.
-
-### FUTURE: Phase 2 NOP Tests (when ready)
-
-These would test the transplant interface boundary:
-- +0x38 (heading angle) — would physics steering still work without heading?
-- +0x00 (X position) — NOP FUN_06036790's write, car sprite should freeze in place
-- +0x176 (collision timer) — NOP FUN_06035C58's write, collision response should break
-
-These need the actual write PCs verified first (from nop_experiments.md format).
+See previous cycle for details.
 
 ---
 
 ## Scenario Requests
 
-### High-speed braking scenario (carried from cycle 15)
+### High-speed curve scenario (NEW — for track data investigation)
 
-- **Why needed**: Fields +0x90, +0x98, +0x9C only activate with brake input,
-  and +0xB8 only activates after frame 200 (speed threshold).
-- **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
-  on the straight (~350 frames of throttle), then hold A (brake) for 200 frames.
-
-### High-speed steering scenario (carried from cycle 15)
-
-- **Why needed**: FUN_06035F48's gated setup path requires +0x34 >= 100 AND
-  steering. Need high speed + steer to trigger the gated path.
-- **Suggested setup**: Time trial, beginner course, accelerate to 200+ km/h
-  (~350 frames of throttle), then hold RIGHT while maintaining B.
+- **Why needed**: Need the car ON A CURVE to see surface property changes.
+  Current TT save state is on a straight. Race mode has curves but 39 AI
+  cars add noise. Ideal: TT save state on or approaching a curve.
+- **Suggested setup**: Time trial, Three Seven Speedway, drive to the first
+  turn (hold B for ~650 frames from cce_tt_straight.mc0), save state just
+  before entering the curve.
+- **What it would unlock**: Clean curve vs straight comparison for surface
+  property identification.
