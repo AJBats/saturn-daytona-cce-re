@@ -17,7 +17,7 @@ Many entries need empirical verification.
 | Position writer | sym_0602D8BC (call 19) | FUN_06036790 (sub #18) | YES — both: pos += sin/cos(heading) × speed |
 | Force accumulator | FUN_0602CA84 (call 15) | FUN_06035904 (sub #12) | YES — both: multi-input force computation |
 | Input handler | sym_0602FDA4 (call 1) | FUN_06036CEC (sub #1) | YES — both: read controller, write struct |
-| Traction model | FUN_0602CCEC (within call 15) | FUN_0604DB10 (sub #8)? | UNKNOWN — need CCE traction verification |
+| Traction model | FUN_0602CCEC (within call 15) | FUN_0604DB10 (sub #8) | **LIKELY** — both clamp to 0x2134 (8500). '95 +0xE0 ↔ CCE +0xD0 (gear-scaled speed) |
 | Position is write-only | CONFIRMED (NOP test) | CONFIRMED (static analysis) | YES — critical match |
 | Player runs first in frame | CONFIRMED (3.4% of frame) | Not verified | LIKELY — same game engine |
 | Car struct stride | 0x268 (616 bytes) | 0x1D8 (472 bytes) | NO — different sizes |
