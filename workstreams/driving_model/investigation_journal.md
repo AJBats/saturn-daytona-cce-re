@@ -1649,3 +1649,63 @@ and +0x19C (surface type), converts to '95 format, writes to the fields that
 the '95 force computation reads (+0xEC, +0xF0, +0xF4, +0x11C). CCE's spatial
 grid + polygon lookup continues running unchanged — only the property-to-physics
 translation changes.
+
+---
+
+### Entry 27: Collision Architecture Comparison — '95 vs CCE (Tier 0)
+
+#### '95 Collision Pipeline (dedicated stages)
+
+Four sequential calls in the player dispatcher (FUN_0602EEB8):
+```
+Call 13: FUN_0602C690 — collision magnitude (reads +0x120-+0x12C)
+Call 14: FUN_0602C8E2 — collision response decision (reads +0x40, +0x5C, +0x60, +0x64)
+Call 15: FUN_0602CA84 — collision impact computation (writes +0xFC accel delta)
+Call 16: FUN_0602D43C — collision + steering response (conditional on +0x9E)
+```
+The collision system is a **dedicated pipeline segment** — four functions run
+in sequence, each consuming the previous stage's output. Collision force
+ultimately lands in +0xFC (accel delta), which the speed writer (call 18)
+integrates into +0x0C (speed).
+
+#### CCE Collision System (distributed, timer-gated)
+
+CCE's collision is NOT a separate pipeline segment. It's **distributed across
+multiple sub-functions** gated by +0x176 (collision timer):
+
+| Component | Function | Role |
+|-----------|---------|------|
+| Trigger | FUN_06035C58 | Sets +0x176 = 15 (starts 0.5s countdown) |
+| Countdown | Sub #4 (0x0604D758) | Decrements +0x176 each frame |
+| Velocity response | FUN_060366EC (sub #17) | When +0x176 > 0: collision damping on +0x24 |
+| Flag checks | FUN_06035904 (sub #12), FUN_06035C98 (sub #15) | Read +0x176 for conditional paths |
+| Animation | FUN_06038C64 | Reads +0x176 for tire marks/sparks |
+| Sound | FUN_06038DD8 | Reads +0x170/+0x190 for collision sounds |
+
+The collision response is EMBEDDED in the velocity integrator (FUN_060366EC):
+when +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0, it computes a
+collision impact and subtracts from velocity. This is gated, not staged.
+
+#### Transplant Implications
+
+The collision architecture is the most significant structural difference between
+the two games' driving models. Options:
+
+**(a) Use '95 collision, write CCE timer**: The '95 model runs its own
+collision detection and force computation (calls 13-16). When collision is
+detected, it writes +0x176 = 15 to trigger CCE's animation/sound systems,
+and applies its own collision force through +0xF0 (net force). CCE's embedded
+collision response in FUN_060366EC would need to be DISABLED (the +0x176 gate
+check in sub #17 would fire, but the '95 force already accounts for collision).
+
+**(b) Use CCE collision entirely**: Keep CCE's distributed collision system.
+The '95 model doesn't do collision — it only does force computation. CCE's
+FUN_06035C58 triggers, FUN_060366EC damps velocity. This preserves CCE's
+collision feel, which may be better tuned for CCE's track geometry.
+
+**(c) Hybrid**: '95 handles force computation (calls 13-15 equivalent), but
+CCE handles the animation/sound/timer response. The '95 collision force is
+added to +0xF0, and CCE's timer system handles the visual response.
+
+Option (c) is likely best — it gives '95-feel collision physics while
+keeping CCE's visual/audio feedback intact.
