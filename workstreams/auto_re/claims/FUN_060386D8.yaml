@@ -1,0 +1,48 @@
+# FUN_060386D8 — Terrain surface processor (Y height + banking angle)
+#
+# Observation: workstreams/auto_re/observations/FUN_060386D8_obs.md
+# File: src/race/FUN_060384C4.s
+# Address range: 0x060386D8 - 0x06038A82
+#
+# From observation:
+# - Called 1/frame from per-frame game loop (init module, PR=0x06037FCE)
+# - GBR = 0x06057800 (NOT player struct), R14 = 0x0605224C (player struct)
+# - Writes +0x04 (Y/height) at PC 0x060389B0 from terrain lookup
+# - Writes +0x10 (banking angle) at PC 0x06038A70 from surface properties
+# - Calls FUN_06036AA8 three times (3-point terrain sampling)
+# - Both output fields computed externally from car's XZ position
+#
+# NOTE: All addresses absolute because GBR != player struct base.
+
+function: FUN_060386D8
+address: 0x060386D8
+address_end: 0x06038A82
+source_file: src/race/FUN_060384C4.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called 1 time per game frame from init module game loop"
+    type: call_count_per_frame
+    function: FUN_060386D8
+    address: 0x060386D8
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 1
+
+  - id: writes_04_height
+    description: "Writes terrain height to +0x04 (PC 0x060389B0, offtrack terrain varies)"
+    type: writes_to
+    function: FUN_060386D8
+    function_end: 0x06038A82
+    address: 0x06052250
+    scenario: offtrack_throttle
+    frames: 60
+
+  - id: writes_10_banking
+    description: "Writes banking angle to +0x10 (PC 0x06038A70, changes on curves)"
+    type: writes_to
+    function: FUN_060386D8
+    function_end: 0x06038A82
+    address: 0x0605225C
+    scenario: race_throttle
+    frames: 150

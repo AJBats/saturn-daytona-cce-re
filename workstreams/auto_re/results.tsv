@@ -45,3 +45,4 @@ FUN_060368D4	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Grid hash
 FUN_06036990	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Point-in-polygon cell processor, pure function. No struct writes — register I/O only
 track_grid_survey_003	—	—	—	Phase 3 field behavior analysis (banking +0x10, surface type +0x19C, heading copies +0x134/+0x140). No function writers to test — architectural documentation for transplant spec
 track_grid_survey_004	—	—	—	Phase 3 track spline progression (+0x154 pointer). Dual indexing system documented (spatial grid + sequential spline). No function writers to test
+FUN_060386D8	3	3	2	call_count_throttle PASS (0-2 calls, tolerance 1), writes_04_height PASS (0x06052250, offtrack_throttle, PC 0x060389B0), writes_10_banking PASS (0x0605225C, 149 hits, PC 0x06038A70, race_throttle)
