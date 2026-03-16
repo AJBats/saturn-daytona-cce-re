@@ -1519,3 +1519,95 @@ because CCE's sub #3 computes it.
 | +0x8C | Throttle scaled | [0, 0xFF] |
 | +0x90 | Brake ramp | [0, 0xFF], mirrors +0x80 |
 | +0x34 | Speed gate | [0, 0x14E], from +0x24 |
+
+---
+
+### Entry 25: CCE Track Data System — Polygon Mesh with Spatial Grid (Tier 0)
+
+**Files**: `src/race/FUN_060368D4.s` (grid hash), `src/race/FUN_06036914.s`
+(TU: polygon test + surface extraction), `src/race/FUN_06036A70.s` (wrapper)
+
+#### Architecture Discovery
+
+CCE represents the track as a **2D polygon mesh** with a spatial grid
+acceleration structure. This is fundamentally different from '95's sequential
+edge-pair waypoint table.
+
+| Component | Location | Size | Purpose |
+|-----------|---------|------|---------|
+| Spatial grid | 0x00220000 (LWR) | 16KB (4096 × 4B ptrs) | Hash (X,Z) → cell |
+| Cell data | 0x00238D24-0x0023B5F4 (LWR) | ~10KB | Polygon index lists per cell |
+| **Polygon table** | **0x00228000 (LWR)** | **~41.6KB** (~800 × 52B) | Vertex coords + surface props |
+
+All track geometry lives in **Low Work RAM** (0x002xxxxx), disc-loaded.
+
+#### Polygon Entry Format (52 bytes, stride 0x34)
+
+Decoded from FUN_06036990 (point-in-polygon test) and FUN_06036914/FUN_06036948
+(surface property extraction):
+
+```
++0x00: flags       (4B) — bit 0: 0=triangle, 1=quad
++0x04: vertex0_X   (4B) — world X coordinate
++0x08: vertex0_Z   (4B) — world Z coordinate
++0x0C: vertex1_X   (4B)
++0x10: vertex1_Z   (4B)
++0x14: vertex2_X   (4B)
++0x18: vertex2_Z   (4B)
++0x1C: vertex3_X   (4B) — quads only
++0x20: vertex3_Z   (4B) — quads only
++0x24: surface_A    (4B) → copied to output @(0, r7)
++0x28: surface_B    (4B) → copied to output @(4, r7)
++0x2C: surface_C    (4B) → copied to output @(8, r7)
++0x30: height_norm  (4B) → dot product with 0x400000 scale
+```
+
+The physics pipeline queries: "given world (X, Z), which polygon am I on?"
+FUN_060368D4 hashes to a grid cell, FUN_06036990 iterates the cell's polygon
+indices testing each with 2D cross products (edge winding test). When the
+containing polygon is found, FUN_06036914 or FUN_06036948 extracts the three
+surface properties and height into the output struct.
+
+#### Point-in-Polygon Algorithm (FUN_06036990)
+
+For each polygon_index in cell_list: compute the polygon address from
+`polygon_table[index * 52]` (base 0x00228000). For each edge of the polygon
+(3 for triangles, 4 for quads), compute a 2D cross product between the edge
+vector and the vector from the edge start to the query point using `dmuls.l`
++ `mac.l` (64-bit precision). If all cross products have the same sign, the
+point is inside the polygon. Return the polygon address for property extraction.
+
+#### Surface Property Extraction
+
+Two extraction functions handle different cases:
+
+**FUN_06036914** (nonzero flag at output @(16, r7)):
+- Reads polygon +0x30 (height/normal), multiplies by 0x400000
+- Dot product with query offset via MAC accumulator
+- Writes to hardware divider at 0xFFFFFF00 (height interpolation)
+- Copies polygon +0x24/+0x28/+0x2C → output +0x00/+0x04/+0x08
+
+**FUN_06036948** (zero flag):
+- Cross-product computation for height interpolation
+- Same surface property copy: +0x24/+0x28/+0x2C → output
+- Returns `abs(result) >> 10` (distance metric?)
+
+Both paths output the same 3 surface properties. The difference is height
+interpolation method (flat vs sloped polygon).
+
+#### Comparison with '95 Track System
+
+| Aspect | '95 (DUSA) | CCE |
+|--------|-----------|-----|
+| Geometry | Edge-pair waypoints (linear) | Polygon mesh (tri/quad) |
+| Lookup | Segment index (car[+0x1E4]) | Spatial grid → point-in-polygon |
+| Data location | 0x060C6000 (HWR) | 0x00228000 (LWR) |
+| Entry size | 16 bytes | 52 bytes |
+| Entries/track | 784 waypoints | ~800 polygons |
+| Surface props | 4 fields (X, Z, banking?, curvature?) | 3 fields (A, B, C) + height |
+| Height data | Implicit (banking angle?) | Explicit (per-polygon normal) |
+
+**Transplant implication**: The raw formats are incompatible, but the SEMANTIC
+output may be equivalent — both produce surface properties into the car struct.
+The next step is determining what surface_A/B/C actually MEAN by observing
+their values on straight vs curve vs grass sections.
