@@ -116,8 +116,17 @@ transplant — the scaling factor bridges the velocity unit difference.
    with a world rotation, not just a heading offset. **Full axis mapping
    needs empirical verification with known turn directions.**
 
-3. **Force scaling**: '95 accel delta range ±300, CCE net force range ±1400.
-   The scaling difference needs calibration via matching speed curves.
+3. **Velocity/force unit conversion**: Two approaches:
+   **(a) Convert at velocity level** (recommended): Scale '95 velocity to CCE
+   units before writing +0x24. Then +0x158 stays 1.0, +0x34 (HUD speed) is
+   computed correctly by CCE's sub #3, and everything downstream works.
+   The conversion factor: CCE velocity 0x15D4C at 147 km/h; '95 velocity
+   262,577 at 288 km/h. Factor = (0x15D4C / 147) × (288 / 262,577) ≈ 0.666.
+   Apply this multiply to '95 velocity before writing +0x24.
+   **(b) Convert via +0x158**: Set +0x158 to the conversion factor. Position
+   integration works, but +0x34 (HUD) would show wrong speed because sub #3
+   reads +0x24 directly. Would also need to patch the +0x34 conversion constant.
+   More invasive — not recommended.
 
 4. **Pitch and roll**: '95 has 3D orientation (+0x1C pitch, +0x24 roll).
    CCE may not have these (Three Seven is flat). Other CCE tracks may need them.
