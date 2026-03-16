@@ -1,0 +1,29 @@
+# FUN_06036990 — Point-in-polygon cell processor (track surface lookup)
+#
+# Observation: workstreams/auto_re/observations/track_grid_survey_002_obs.md
+# File: src/race/FUN_06036914.s
+# Address range: 0x06036990 - 0x06036A68
+#
+# From survey data:
+# - Pure function: 2D point-in-polygon test against track polygons
+# - Returns polygon pointer in r6, boolean in r0 (-1=found, 0=not found)
+# - No GBR struct writes — reads track data at 0x00228000, outputs via registers
+# - Called from spatial lookup chain: FUN_06036AA8 → FUN_06036A70 → FUN_060368D4 → this
+# - Reachable in straight_throttle
+#
+# Structurally Tier 1 — pure function, register I/O only, no struct field writes.
+
+function: FUN_06036990
+address: 0x06036990
+address_end: 0x06036A68
+source_file: src/race/FUN_06036914.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called multiple times per frame from spatial lookup chain"
+    type: call_count_per_frame
+    function: FUN_06036990
+    address: 0x06036990
+    scenario: straight_throttle
+    expected_count: 3
+    tolerance: 10
