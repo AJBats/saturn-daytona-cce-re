@@ -40,6 +40,8 @@ architecture is structurally parallel.
 | Banking output | '95 +0xF4 (terrain lateral force) | CCE +0x10 (banking angle) | **Conversion needed** — CONFIRMED: FUN_060386D8 writes +0x10 at PC 0x06038A70 from polygon lookup. Same concept, different scale |
 | Surface type | '95 +0x1FC (6 values: 0x000-0x600) | CCE +0x19C (8 values: 0-7) | **Mapping table** (8→6) |
 | Height output | '95 +0x14 (Y position) | CCE +0x04 (Y position) | **Compatible** — CONFIRMED: FUN_060386D8 writes +0x04 at PC 0x060389B0 from 3-point terrain sampling |
+| Surface normals | '95 +0xEC/+0xF0 (2 components) | CCE polygon +0x24/+0x28/+0x2C (3 props) | **RESOLVED**: Only +0x04 and +0x10 reach the car struct. No direct surface normal pipeline. |
+| Surface energy | '95 +0x11C (energy from surface) | No CCE equivalent | **RESOLVED**: No direct polygon→struct pipeline for energy. The '95 surface energy concept has no CCE counterpart. The '95 adaptation layer must compute this from CCE banking (+0x10) and speed. |
 | Surface normals | '95 +0xEC/+0xF0 (2 components) | CCE polygon +0x24/+0x28/+0x2C (3 props) | **UNKNOWN** — need property identification |
 
 **Strategy**: Keep CCE's spatial grid + polygon lookup entirely. Build a thin
