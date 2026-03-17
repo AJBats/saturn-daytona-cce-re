@@ -1,82 +1,93 @@
-# Explorer Priorities — Updated 2026-03-15 (Cycle 45, Phase 5: Geometry Comparison)
+# Explorer Priorities — Updated 2026-03-16 (Transplant Phase, HWR Memory Survey)
 
 ## Resolved Priorities
 
-All Phase 1-4 priorities resolved. Track data system fully mapped.
+All Phase 1-5 priorities resolved.
 
-## STRATEGY CHANGE
+## URGENT: HWR Memory Map During Active Racing
 
-The transplant approach has changed. We are NOT adapting the '95 model to
-read CCE track data. Instead, we bring the ENTIRE '95 driving model + its
-own track data into CCE, and wire CCE's graphics engine to read the '95
-car struct for rendering.
+**Context**: We need to place DUSA driving model code + track data into CCE's
+HWR. A previous analysis says 0x060A4000-0x060ECFFF (292KB) is free. Frame
+dumps 796-814 show all zeros there. But `hwr_racing.bin` shows 84.7% fill
+in the same region. We need to understand WHY the discrepancy and whether
+this memory is truly safe to use.
 
-The new critical question: **does CCE's rendered track geometry match where
-the '95 physics thinks the road is?** If the visual track matches the physics
-track, the transplant works visually. If not, the car bounces off invisible
-walls or drives through rendered ones.
+### 1. Capture HWR during ACTIVE racing (multiple game states)
 
-## URGENT: Dump CCE Polygon Vertex Table (HIGHEST PRIORITY)
-
-### 1. Full polygon vertex table dump
-
-- **Why**: We need ALL polygon vertices for Three Seven Speedway so we can
-  overlay them with DUSA's waypoint data and verify the track shapes match.
-  The polygon table is at 0x00228000 in LWR, stride 52 bytes, ~814 entries.
-  We need the X/Z vertex coordinates from every polygon.
+- **Why**: The frame dumps 796-814 may be from attract mode or early boot,
+  not active racing. We need dumps during confirmed gameplay states:
+  time trial driving, race mode driving, different tracks.
 
 - **What to do**:
-  1. Load `cce_race_start.mc0`, advance 2 frames
-  2. Dump the FULL polygon table:
-     `dump_region 0x00228000 0xA800`
-     (0xA800 = 814 × 52 = 42,328 bytes — covers all entries)
-  3. Save to `build/dumps/cce_polygon_table_three_seven.bin`
+  1. Load `cce_tt_straight.mc0` (time trial, Three Seven)
+  2. Hold B for 300 frames (car actively driving at speed)
+  3. Dump full HWR: `dump_region 0x06000000 0x100000`
+  4. Save as `build/dumps/hwr_tt_driving_f300.bin`
+  5. Then load `cce_race_start.mc0` (race mode, 40 cars, Three Seven)
+  6. Hold B for 300 frames (active racing with AI)
+  7. Dump full HWR: `dump_region 0x06000000 0x100000`
+  8. Save as `build/dumps/hwr_race_driving_f300.bin`
 
-- **What this unblocks**: The Mapper (or human) can extract all vertex
-  coordinates and plot the CCE track outline. Then overlay with DUSA's
-  784 waypoint coordinates (already dumped at D:\Projects\SaturnReverseTest\
-  build\dumps\). If the shapes match (after coordinate transform), the
-  wholesale transplant approach is confirmed viable.
+- **Analysis**: For BOTH dumps, check the 292KB region:
+  ```
+  read_memory 0x060A4000 64    # is it zeros or data?
+  read_memory 0x060B0000 64    # middle of the region
+  read_memory 0x060D0000 64    # near the end
+  ```
+  If ALL zeros in both dumps: region is genuinely free.
+  If nonzero: report what's there (pointers? vertex data? patterns?).
 
-### 2. Also dump the DUSA-equivalent track data if accessible
+### 2. Consecutive-frame comparison during ACTIVE racing
 
-- **Why**: The DUSA waypoint table was dumped from 0x060C6000 (HWR) in the
-  '95 project. The human may already have this data. If not, we could load
-  the '95 save state and dump it too. But this may be better done from the
-  DUSA project side.
-
-- **Skip this if the human already has the DUSA dump.**
-
-### 3. Identify the coordinate system relationship
-
-- **Why**: We already know the heading convention has a 90° rotation between
-  the games. The world coordinates likely have a similar transform. By
-  comparing known landmarks (e.g., the start/finish line position, the
-  apex of the first turn), we can derive the coordinate transform:
-  `CCE_coord = f(DUSA_coord)` — rotation, scale, and offset.
+- **Why**: Even if the region is filled, it might be static (loaded once)
+  vs dynamic (changes every frame). Static = we can't use it. Dynamic =
+  it's a scratch buffer, we could potentially relocate it.
 
 - **What to do**:
-  1. From the polygon dump, find polygons near the start line (where the
-     car starts in cce_race_start.mc0 — X≈0x008CF8D0, Z≈0x0091960B)
-  2. From the DUSA data, find waypoints near the start line (DUSA start
-     position: X≈0xFFDCEBC7, Z≈0xFF7AA916)
-  3. Compare the coordinates — derive rotation, scale, and offset
-  4. Verify by checking a second landmark (e.g., the first turn apex)
+  1. Load `cce_race_start.mc0`, hold B for 100 frames (get up to speed)
+  2. Dump HWR: `dump_region 0x060A4000 0x49000` (the 292KB region)
+  3. Save as `build/dumps/hwr_region_race_f100.bin`
+  4. Advance 1 more frame
+  5. Dump again: `dump_region 0x060A4000 0x49000`
+  6. Save as `build/dumps/hwr_region_race_f101.bin`
+  7. Advance 1 more frame
+  8. Dump again: save as `hwr_region_race_f102.bin`
 
-- **What this unblocks**: The exact coordinate transform between DUSA
-  physics space and CCE render space. This transform is needed to verify
-  alignment and may also be needed at runtime if the '95 position output
-  must be converted for CCE rendering.
+- **Analysis**: Compare the three dumps byte-by-byte. Report:
+  - How many bytes differ between f100 and f101?
+  - How many bytes are nonzero in each?
+  - Are the differences concentrated in specific sub-regions?
+
+### 3. Determine what `hwr_racing.bin` actually captured
+
+- **Why**: This dump shows the region as 84.7% full, contradicting the
+  frame dumps. We need to know what game state produced it.
+
+- **What to do**: Check the car struct in `hwr_racing.bin` to determine
+  the game state:
+  ```python
+  # Read player car position from the dump
+  # Player struct at offset 0x0605224C - 0x06000000 = 0x5224C
+  # +0x00 = X position, +0x08 = Z position, +0x24 = velocity
+  ```
+  If velocity is nonzero and position is on-track, it was captured
+  during active driving. If velocity is zero or position is off-track,
+  it was a different state.
+
+### 4. Check what frames 796-814 actually are
+
+- **Why**: These show the region as empty, but we need to confirm they're
+  during racing and not during boot/attract/menu.
+
+- **What to do**: Same car struct check on `hwr_frame796.bin`:
+  ```python
+  # Check offset 0x5224C in the dump for player position/velocity
+  ```
 
 ---
 
-## Phase 2 Deferred Items (LOW — resume only if geometry comparison is done)
+## MEDIUM: Previous Phase 5 items (deferred)
 
-### 4. +0x04 Y position writer verification
-### 5. +0x10 banking writer verification
-### 6. Rendering transform field reads (FUN_060384C4)
-### 7. +0x190 collision gate writer
-
----
-
-## NOP Tests — see nop_experiments.md (5 done, +0xD0 recommended)
+### 5. Phase 2 deferred items (rendering verification)
+### 6. +0x190 collision gate writer
+### 7. +0x12C render pointer structure
