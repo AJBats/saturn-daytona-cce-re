@@ -1,143 +1,82 @@
-# Explorer Priorities — Updated 2026-03-15 (Cycle 30, Phase 3: Track Data)
+# Explorer Priorities — Updated 2026-03-15 (Cycle 45, Phase 5: Geometry Comparison)
 
-## Resolved Priorities (all prior cycles)
+## Resolved Priorities
 
-Initial list #1-8: all resolved.
-Cycle 11 list #1-8: 7 of 8 resolved (#5 +0x1CB inconclusive, likely constant 0x02).
-Cycle 15 list: all resolved (surveys #1-#4).
-Cycle 28 Phase 2 list: deferred — track data investigation takes priority.
+All Phase 1-4 priorities resolved. Track data system fully mapped.
 
-## URGENT: Track Data Structure Investigation
+## STRATEGY CHANGE
 
-**Context**: The '95 driving model uses sequential waypoint tables (784 edge-pair
-entries × 16 bytes) for track geometry. CCE uses a **spatial grid** system
-(FUN_060368D4 hashes world X/Z into grid cells). The transplant depends on
-understanding CCE's track data so the '95 model can receive equivalent surface
-properties. This is the #1 blocker for transplant feasibility.
+The transplant approach has changed. We are NOT adapting the '95 model to
+read CCE track data. Instead, we bring the ENTIRE '95 driving model + its
+own track data into CCE, and wire CCE's graphics engine to read the '95
+car struct for rendering.
 
-### 1. Dump the Spatial Grid Table (HIGHEST PRIORITY)
+The new critical question: **does CCE's rendered track geometry match where
+the '95 physics thinks the road is?** If the visual track matches the physics
+track, the transplant works visually. If not, the car bounces off invisible
+walls or drives through rendered ones.
 
-- **Why**: FUN_060368D4 (the core spatial lookup) uses a grid table at R7 to
-  map (X, Z) world coordinates to track data cells. We need to see what's in
-  the table and what the cells point to.
+## URGENT: Dump CCE Polygon Vertex Table (HIGHEST PRIORITY)
+
+### 1. Full polygon vertex table dump
+
+- **Why**: We need ALL polygon vertices for Three Seven Speedway so we can
+  overlay them with DUSA's waypoint data and verify the track shapes match.
+  The polygon table is at 0x00228000 in LWR, stride 52 bytes, ~814 entries.
+  We need the X/Z vertex coordinates from every polygon.
+
 - **What to do**:
-  1. Load `cce_race_start.mc0` (race mode — more track data active)
-  2. Advance 2 frames
-  3. Set breakpoint at FUN_06036AA8 (0x06036AA8) — the spatial lookup wrapper
-  4. Advance 1 frame to hit the breakpoint
-  5. Read registers — **R7** is the grid table base, **R6** is a data pointer
-  6. Record R7 value (expected ~0x060528D8 from prior observation)
-  7. Clear breakpoint
-  8. Dump the grid table: `dump_region <R7_value> 0x4000`
-  9. Also dump 256 bytes at R6 value: `dump_region <R6_value> 256`
-- **Analysis**: Look at the dumped grid table:
-  - How many 4-byte entries are non-zero?
-  - Are the non-zero values pointers (0x060xxxxx range)?
-  - Pick 3-4 non-zero entries, dump 128 bytes at each pointer target
-  - What structure do the targets have? Entry size? Fields?
-- **What this unblocks**: Understanding the raw track data format — is it
-  edge-pairs like '95, polygons, BSP cells, or something else entirely?
+  1. Load `cce_race_start.mc0`, advance 2 frames
+  2. Dump the FULL polygon table:
+     `dump_region 0x00228000 0xA800`
+     (0xA800 = 814 × 52 = 42,328 bytes — covers all entries)
+  3. Save to `build/dumps/cce_polygon_table_three_seven.bin`
 
-### 2. Trace the Grid Cell Processing Chain
+- **What this unblocks**: The Mapper (or human) can extract all vertex
+  coordinates and plot the CCE track outline. Then overlay with DUSA's
+  784 waypoint coordinates (already dumped at D:\Projects\SaturnReverseTest\
+  build\dumps\). If the shapes match (after coordinate transform), the
+  wholesale transplant approach is confirmed viable.
 
-- **Why**: After FUN_060368D4 finds a grid cell, FUN_06036990 processes it.
-  This function turns raw grid data into usable track properties. Its OUTPUT
-  fields tell us what surface data CCE's physics model works with.
+### 2. Also dump the DUSA-equivalent track data if accessible
+
+- **Why**: The DUSA waypoint table was dumped from 0x060C6000 (HWR) in the
+  '95 project. The human may already have this data. If not, we could load
+  the '95 save state and dump it too. But this may be better done from the
+  DUSA project side.
+
+- **Skip this if the human already has the DUSA dump.**
+
+### 3. Identify the coordinate system relationship
+
+- **Why**: We already know the heading convention has a 90° rotation between
+  the games. The world coordinates likely have a similar transform. By
+  comparing known landmarks (e.g., the start/finish line position, the
+  apex of the first turn), we can derive the coordinate transform:
+  `CCE_coord = f(DUSA_coord)` — rotation, scale, and offset.
+
 - **What to do**:
-  1. Load `cce_tt_straight.mc0`, advance 2 frames, hold B (throttle)
-  2. Set breakpoint at FUN_06036990 (0x06036990)
-  3. Advance 1 frame to hit breakpoint
-  4. Dump registers — R3, R6, R7 are key data pointers
-  5. Read memory at the pointer values to see what data structure is being processed
-  6. Step through ~20 instructions, dumping registers after each step to
-     see what values flow through the computation
-  7. Note: also check FUN_06036914 and FUN_06036948 — these are called from
-     FUN_06036A70 based on a condition flag, and they process the cell data
-     into the output struct at R7
-- **What this unblocks**: Maps the grid cell → car struct surface property
-  pipeline. Once we know what fields get written, we can compare with '95's
-  surface properties (+0xEC, +0xF0, +0xF4, +0x11C).
+  1. From the polygon dump, find polygons near the start line (where the
+     car starts in cce_race_start.mc0 — X≈0x008CF8D0, Z≈0x0091960B)
+  2. From the DUSA data, find waypoints near the start line (DUSA start
+     position: X≈0xFFDCEBC7, Z≈0xFF7AA916)
+  3. Compare the coordinates — derive rotation, scale, and offset
+  4. Verify by checking a second landmark (e.g., the first turn apex)
 
-### 3. Dump WRAM High for Disc-Loaded Track Data
-
-- **Why**: '95's track tables live at 0x060C6000-0x060D5840 (disc-loaded into
-  WRAM High). CCE likely has equivalent disc-loaded data. The race module
-  binary ends around 0x06050000; everything from ~0x06058000 onwards could
-  be disc-loaded track/course data. Two symbols reference WRAM High addresses:
-  sym_060ED100 and sym_060FD400.
-- **What to do**:
-  1. Load `cce_race_start.mc0` (race mode, Three Seven Speedway)
-  2. Advance 2 frames
-  3. Dump: `dump_region 0x060ED100 0x100` (check what's at sym_060ED100)
-  4. Dump: `dump_region 0x060FD400 0x200` (check what's at sym_060FD400)
-  5. If these contain structured data, dump larger regions (0x1000+ bytes)
-  6. Also check what the grid cell pointers from Investigation 1 point to —
-     if they point into the 0x060C-0x060F range, that's the disc-loaded data
-- **What this unblocks**: Locates the raw track geometry data in CCE. Enables
-  comparison with '95's waypoint format.
-
-### 4. Compare Surface Fields During Curve vs Straight
-
-- **Why**: The '95 model reads surface properties from the car struct that
-  change based on track curvature (banking, grip, lateral force). We need to
-  know which CCE car struct fields carry equivalent information.
-- **What to do**:
-  1. Load `cce_race_start.mc0` (race mode — has curves)
-  2. Hold B for 300+ frames (enough to reach a curve on Three Seven)
-  3. Sample the player struct extended range during the curve:
-     `sample_memory 0x0605224C 512 300` (capture 512 bytes = beyond +0x1FF)
-  4. Compare fields between the initial straight and the curve section
-  5. Fields that change on curves but not straights are surface/curvature data
-  6. Cross-reference with the same analysis on the straight TT save state
-- **What this unblocks**: Identifies which car struct fields carry surface
-  properties, regardless of how the raw track data is structured.
-
-### 5. Check if CCE Has Segment-Based Track Progression
-
-- **Why**: '95 has two independent track indexing systems: a fine surface table
-  (784 entries) and a coarse segment table (147 entries for lap counting). CCE
-  might have only the spatial grid, or it might ALSO have a segment system.
-  The AI car chain has field +96 "parametric t" which sounds segment-like.
-- **What to do**:
-  1. Load `cce_race_start.mc0`, hold B, let the car drive a full lap
-  2. Sample the player struct at 0x0605224C, 512 bytes, for 600+ frames
-  3. Look for any field that increments monotonically through a lap then resets
-     (that's a segment/progress counter)
-  4. Also check the AI chain struct: `read_memory 0x060FD400 256` to see if
-     chain entries have segment indices
+- **What this unblocks**: The exact coordinate transform between DUSA
+  physics space and CCE render space. This transform is needed to verify
+  alignment and may also be needed at runtime if the '95 position output
+  must be converted for CCE rendering.
 
 ---
 
-## Phase 2 Priorities (deferred, still valid)
+## Phase 2 Deferred Items (LOW — resume only if geometry comparison is done)
 
-### Rendering transform verification (FUN_060384C4)
-### +0x04 Y position writer verification
-### +0x194 rendering heading writer
-
-These are still valid but lower priority than the track data investigation.
-Resume after the track data structure is understood.
+### 4. +0x04 Y position writer verification
+### 5. +0x10 banking writer verification
+### 6. Rendering transform field reads (FUN_060384C4)
+### 7. +0x190 collision gate writer
 
 ---
 
-## NOP Test Recommendations (for human)
-
-### ALREADY COMPLETED (do not re-run)
-- +0x24, +0x0E, +0xF0, +0x34, +0x80 — see nop_experiments.md
-
-### NEW: NOP Test +0xD0 (clamped speed copy)
-See previous cycle for details.
-
----
-
-## Scenario Requests
-
-### High-speed curve scenario (NEW — for track data investigation)
-
-- **Why needed**: Need the car ON A CURVE to see surface property changes.
-  Current TT save state is on a straight. Race mode has curves but 39 AI
-  cars add noise. Ideal: TT save state on or approaching a curve.
-- **Suggested setup**: Time trial, Three Seven Speedway, drive to the first
-  turn (hold B for ~650 frames from cce_tt_straight.mc0), save state just
-  before entering the curve.
-- **What it would unlock**: Clean curve vs straight comparison for surface
-  property identification.
+## NOP Tests — see nop_experiments.md (5 done, +0xD0 recommended)

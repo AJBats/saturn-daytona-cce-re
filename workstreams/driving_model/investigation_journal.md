@@ -1219,6 +1219,40 @@ convention differ. Need empirical mapping (e.g., NW in both games → what value
 
 Key unmapped '95 fields: +0x28 (slip angle), +0x30 (yaw rate), +0x1E4 (segment index)
 
+#### '95 Writer Map Correlation (from D:/Projects/SaturnReverseTest)
+
+The '95 writer map (81 unique offsets, 1800 writes over 60 frames) reveals the
+struct layout differences. Key writer functions and their CCE equivalents:
+
+| '95 Writer | '95 Fields | Role | CCE Equivalent |
+|-----------|-----------|------|----------------|
+| FUN_0602D8CA | +0x10,+0x18,+0x20,+0x38,+0x3C | Position/heading | FUN_06036790 (+0x00,+0x08,+0x0E) |
+| FUN_0602D818 | +0x0C | Speed magnitude | FUN_060366EC (+0x24) |
+| FUN_0602F3F0 | +0x08 | Speed index | FUN_0604D580 (+0x34) |
+| FUN_0602EF4C | +0x00,+0x5C,+0xFC | Flags + accel delta | FUN_06035904 (+0xF0), frame loop (+0x30) |
+| FUN_0602CE4E | +0x28,+0x2C,+0x30,+0x60,+0x64 | Heading/slip/yaw | FUN_06035C98, FUN_060366EC |
+| FUN_06034F7C | +0x00 (180 writes) | Main loop flags | Per-car frame loop (+0x30) |
+
+**Layout shift**: '95 puts flags at +0x00, position at +0x10/+0x18, heading at
++0x20, speed at +0x0C. CCE puts position at +0x00/+0x08, heading at +0x0C/+0x0E,
+velocity at +0x24, speed gate at +0x34. No direct offset-to-offset compatibility.
+
+**Transplant conversion layer** (for Option A-hybrid):
+The '95 model computes forces internally and writes to its own +0xFC. A
+conversion trampoline maps '95 outputs → CCE fields:
+```
+'95 +0xFC (accel delta) → scale → CCE +0xF0 (net force)
+'95 +0x20 (heading)     → remap → CCE +0x38 (heading angle)
+'95 +0x10 (position X)  → scale → CCE +0x00 (X position)
+'95 +0x18 (position Z)  → scale → CCE +0x08 (Z position)
+```
+CCE's integration chain (+0xF0 → +0x24 → +0x34) and rendering pipeline
+(+0x00/+0x08/+0x0E → display) handle the rest natively.
+
+Alternatively, the force-level transplant lets CCE compute position from
+velocity: the '95 model only needs to write +0xF0, and CCE's subs #17
+(FUN_060366EC) and #18 (FUN_06036790) handle velocity→position.
+
 ---
 
 ### Entry 23: Phase 2 — Per-Car Frame Loop and Physics Dispatch Chain (Tier 0)
@@ -1485,3 +1519,193 @@ because CCE's sub #3 computes it.
 | +0x8C | Throttle scaled | [0, 0xFF] |
 | +0x90 | Brake ramp | [0, 0xFF], mirrors +0x80 |
 | +0x34 | Speed gate | [0, 0x14E], from +0x24 |
+
+---
+
+### Entry 25: CCE Track Data System — Polygon Mesh with Spatial Grid (Tier 0)
+
+**Files**: `src/race/FUN_060368D4.s` (grid hash), `src/race/FUN_06036914.s`
+(TU: polygon test + surface extraction), `src/race/FUN_06036A70.s` (wrapper)
+
+#### Architecture Discovery
+
+CCE represents the track as a **2D polygon mesh** with a spatial grid
+acceleration structure. This is fundamentally different from '95's sequential
+edge-pair waypoint table.
+
+| Component | Location | Size | Purpose |
+|-----------|---------|------|---------|
+| Spatial grid | 0x00220000 (LWR) | 16KB (4096 × 4B ptrs) | Hash (X,Z) → cell |
+| Cell data | 0x00238D24-0x0023B5F4 (LWR) | ~10KB | Polygon index lists per cell |
+| **Polygon table** | **0x00228000 (LWR)** | **~41.6KB** (~800 × 52B) | Vertex coords + surface props |
+
+All track geometry lives in **Low Work RAM** (0x002xxxxx), disc-loaded.
+
+#### Polygon Entry Format (52 bytes, stride 0x34)
+
+Decoded from FUN_06036990 (point-in-polygon test) and FUN_06036914/FUN_06036948
+(surface property extraction):
+
+```
++0x00: flags       (4B) — bit 0: 0=triangle, 1=quad
++0x04: vertex0_X   (4B) — world X coordinate
++0x08: vertex0_Z   (4B) — world Z coordinate
++0x0C: vertex1_X   (4B)
++0x10: vertex1_Z   (4B)
++0x14: vertex2_X   (4B)
++0x18: vertex2_Z   (4B)
++0x1C: vertex3_X   (4B) — quads only
++0x20: vertex3_Z   (4B) — quads only
++0x24: surface_A    (4B) → copied to output @(0, r7)
++0x28: surface_B    (4B) → copied to output @(4, r7)
++0x2C: surface_C    (4B) → copied to output @(8, r7)
++0x30: height_norm  (4B) → dot product with 0x400000 scale
+```
+
+The physics pipeline queries: "given world (X, Z), which polygon am I on?"
+FUN_060368D4 hashes to a grid cell, FUN_06036990 iterates the cell's polygon
+indices testing each with 2D cross products (edge winding test). When the
+containing polygon is found, FUN_06036914 or FUN_06036948 extracts the three
+surface properties and height into the output struct.
+
+#### Point-in-Polygon Algorithm (FUN_06036990)
+
+For each polygon_index in cell_list: compute the polygon address from
+`polygon_table[index * 52]` (base 0x00228000). For each edge of the polygon
+(3 for triangles, 4 for quads), compute a 2D cross product between the edge
+vector and the vector from the edge start to the query point using `dmuls.l`
++ `mac.l` (64-bit precision). If all cross products have the same sign, the
+point is inside the polygon. Return the polygon address for property extraction.
+
+#### Surface Property Extraction
+
+Two extraction functions handle different cases:
+
+**FUN_06036914** (nonzero flag at output @(16, r7)):
+- Reads polygon +0x30 (height/normal), multiplies by 0x400000
+- Dot product with query offset via MAC accumulator
+- Writes to hardware divider at 0xFFFFFF00 (height interpolation)
+- Copies polygon +0x24/+0x28/+0x2C → output +0x00/+0x04/+0x08
+
+**FUN_06036948** (zero flag):
+- Cross-product computation for height interpolation
+- Same surface property copy: +0x24/+0x28/+0x2C → output
+- Returns `abs(result) >> 10` (distance metric?)
+
+Both paths output the same 3 surface properties. The difference is height
+interpolation method (flat vs sloped polygon).
+
+#### Comparison with '95 Track System
+
+| Aspect | '95 (DUSA) | CCE |
+|--------|-----------|-----|
+| Geometry | Edge-pair waypoints (linear) | Polygon mesh (tri/quad) |
+| Lookup | Segment index (car[+0x1E4]) | Spatial grid → point-in-polygon |
+| Data location | 0x060C6000 (HWR) | 0x00228000 (LWR) |
+| Entry size | 16 bytes | 52 bytes |
+| Entries/track | 784 waypoints | ~800 polygons |
+| Surface props | 4 fields (X, Z, banking?, curvature?) | 3 fields (A, B, C) + height |
+| Height data | Implicit (banking angle?) | Explicit (per-polygon normal) |
+
+**Transplant implication**: The raw formats are incompatible, but the SEMANTIC
+output may be equivalent — both produce surface properties into the car struct.
+The next step is determining what surface_A/B/C actually MEAN by observing
+their values on straight vs curve vs grass sections.
+
+---
+
+### Entry 26: Surface Property Cross-Reference — CCE ↔ '95 (Tier 0)
+
+**Source**: Explorer survey_003 (race throttle 600f, curve vs straight),
+'95 struct_map.md, '95 track_data_obs.md
+
+#### CCE Surface Properties (from curve vs straight comparison)
+
+| CCE Field | Straight | Curve | Meaning |
+|-----------|----------|-------|---------|
+| **+0x10** | 0x00000000 | 0xF5200000 (peak) | Banking angle — zero on flat, negative on right curves |
+| **+0x19C** | 0x0 | 0x0-0x7 discrete | Surface segment type (8 values) |
+| **+0x04** | 0x00000000 | 0x0005575F (peak) | Terrain Y height |
+
+#### '95 Surface Properties
+
+| '95 Field | Straight | Curve | Meaning |
+|-----------|----------|-------|---------|
+| **+0xF4** | ~0 | oscillates ±2.9M | Terrain lateral force (banking/slope) |
+| **+0x1FC** | 0x300-0x500 | varies | Surface type index (6 values) |
+| **+0x14** | 0x00000000 | nonzero | Y position (terrain height) |
+
+#### Cross-Reference
+
+| Role | CCE | '95 | Compatible? |
+|------|-----|-----|------------|
+| Banking | +0x10 | +0xF4 | PROBABLY — both zero on straights, active on curves. Different scale. |
+| Surface type | +0x19C (0-7) | +0x1FC (0x000-0x600) | YES — need 8→6 mapping table |
+| Height | +0x04 | +0x14 | YES — both externally computed |
+| Surface normal | polygon +0x24/+0x28/+0x2C | +0xEC/+0xF0 | UNKNOWN — need per-polygon value analysis |
+
+**Transplant architecture**: The adaptation layer reads CCE's +0x10 (banking)
+and +0x19C (surface type), converts to '95 format, writes to the fields that
+the '95 force computation reads (+0xEC, +0xF0, +0xF4, +0x11C). CCE's spatial
+grid + polygon lookup continues running unchanged — only the property-to-physics
+translation changes.
+
+---
+
+### Entry 27: Collision Architecture Comparison — '95 vs CCE (Tier 0)
+
+#### '95 Collision Pipeline (dedicated stages)
+
+Four sequential calls in the player dispatcher (FUN_0602EEB8):
+```
+Call 13: FUN_0602C690 — collision magnitude (reads +0x120-+0x12C)
+Call 14: FUN_0602C8E2 — collision response decision (reads +0x40, +0x5C, +0x60, +0x64)
+Call 15: FUN_0602CA84 — collision impact computation (writes +0xFC accel delta)
+Call 16: FUN_0602D43C — collision + steering response (conditional on +0x9E)
+```
+The collision system is a **dedicated pipeline segment** — four functions run
+in sequence, each consuming the previous stage's output. Collision force
+ultimately lands in +0xFC (accel delta), which the speed writer (call 18)
+integrates into +0x0C (speed).
+
+#### CCE Collision System (distributed, timer-gated)
+
+CCE's collision is NOT a separate pipeline segment. It's **distributed across
+multiple sub-functions** gated by +0x176 (collision timer):
+
+| Component | Function | Role |
+|-----------|---------|------|
+| Trigger | FUN_06035C58 | Sets +0x176 = 15 (starts 0.5s countdown) |
+| Countdown | Sub #4 (0x0604D758) | Decrements +0x176 each frame |
+| Velocity response | FUN_060366EC (sub #17) | When +0x176 > 0: collision damping on +0x24 |
+| Flag checks | FUN_06035904 (sub #12), FUN_06035C98 (sub #15) | Read +0x176 for conditional paths |
+| Animation | FUN_06038C64 | Reads +0x176 for tire marks/sparks |
+| Sound | FUN_06038DD8 | Reads +0x170/+0x190 for collision sounds |
+
+The collision response is EMBEDDED in the velocity integrator (FUN_060366EC):
+when +0x176 > 0 AND +0x34 < 0x46 AND (+0x14 XOR +0x68) > 0, it computes a
+collision impact and subtracts from velocity. This is gated, not staged.
+
+#### Transplant Implications
+
+The collision architecture is the most significant structural difference between
+the two games' driving models. Options:
+
+**(a) Use '95 collision, write CCE timer**: The '95 model runs its own
+collision detection and force computation (calls 13-16). When collision is
+detected, it writes +0x176 = 15 to trigger CCE's animation/sound systems,
+and applies its own collision force through +0xF0 (net force). CCE's embedded
+collision response in FUN_060366EC would need to be DISABLED (the +0x176 gate
+check in sub #17 would fire, but the '95 force already accounts for collision).
+
+**(b) Use CCE collision entirely**: Keep CCE's distributed collision system.
+The '95 model doesn't do collision — it only does force computation. CCE's
+FUN_06035C58 triggers, FUN_060366EC damps velocity. This preserves CCE's
+collision feel, which may be better tuned for CCE's track geometry.
+
+**(c) Hybrid**: '95 handles force computation (calls 13-15 equivalent), but
+CCE handles the animation/sound/timer response. The '95 collision force is
+added to +0xF0, and CCE's timer system handles the visual response.
+
+Option (c) is likely best — it gives '95-feel collision physics while
+keeping CCE's visual/audio feedback intact.

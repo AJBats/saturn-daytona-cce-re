@@ -1,0 +1,28 @@
+# FUN_06036914 — Surface property extractor (polygon → scratch buffer)
+#
+# Observation: workstreams/auto_re/observations/track_grid_survey_005_obs.md
+# File: src/race/FUN_06036914.s
+# Address range: 0x06036914 - 0x06036948
+#
+# From survey data:
+# - Copies polygon surface properties A/B/C to scratch buffer at 0x0605269C
+# - Called from FUN_06036990 on each successful polygon match
+# - Scratch buffer feeds FUN_060386D8 which writes +0x04 (Y) and +0x10 (banking)
+# - Small function (~52 bytes), pure copy operation
+#
+# Structurally Tier 1 — copies to scratch buffer, no direct car struct writes.
+
+function: FUN_06036914
+address: 0x06036914
+address_end: 0x06036948
+source_file: src/race/FUN_06036914.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called from polygon lookup chain (once per successful match)"
+    type: call_count_per_frame
+    function: FUN_06036914
+    address: 0x06036914
+    scenario: straight_throttle
+    expected_count: 3
+    tolerance: 10

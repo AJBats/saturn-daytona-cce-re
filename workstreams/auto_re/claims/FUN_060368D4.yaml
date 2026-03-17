@@ -1,0 +1,29 @@
+# FUN_060368D4 — Grid hash + spatial lookup (track geometry)
+#
+# Observation: workstreams/auto_re/observations/track_grid_survey_001_obs.md
+# File: src/race/FUN_060368D4.s
+# Address range: 0x060368D4 - 0x06036914 (approx, next function in TU)
+#
+# From survey data:
+# - Core spatial lookup: hashes world (X,Z) to grid cell index
+# - Grid table at 0x00220000 (race) / 0x00224000 (TT), 4096 × 4-byte pointers
+# - Pure function: no GBR struct writes, outputs via registers/memory pointer
+# - Called from FUN_06036A70 (coordinate scaling wrapper)
+# - Reachable in race_idle
+#
+# Structurally Tier 1 — pure spatial lookup, no struct field writes.
+
+function: FUN_060368D4
+address: 0x060368D4
+address_end: 0x06036914
+source_file: src/race/FUN_060368D4.s
+
+claims:
+  - id: call_count_throttle
+    description: "Called multiple times per frame from spatial lookup chain"
+    type: call_count_per_frame
+    function: FUN_060368D4
+    address: 0x060368D4
+    scenario: straight_throttle
+    expected_count: 3
+    tolerance: 10
