@@ -15,7 +15,10 @@ interface to the emulator is `tools/test_claim.py`.
    - `build/samples/samples.md` — capture catalog (for cross-referencing observation data)
 2. **Check**: `workstreams/auto_re/observations/` has files to process.
 3. **Check**: `workstreams/auto_re/results.tsv` exists (create with header if not).
-4. **Scan**: Check which observation files already have corresponding claim files
+4. **Check for review notes**: If `workstreams/auto_re/reviews/verifier_review.md`
+   exists, read it. Address any HIGH action items before processing new observations.
+   These are feedback from the Reviewer — treat them as corrections to apply.
+5. **Scan**: Check which observation files already have corresponding claim files
    in `workstreams/auto_re/claims/`. Don't redo them unless re-testing.
 
 ## What You CAN Do

@@ -14,6 +14,9 @@ how data behaves — the Verifier decides what it means.
 3. **Check**: Save states exist at `build/save_states/` (see `save_states.md` for the list).
 4. **Check**: `workstreams/auto_re/observations/` directory exists (create if not).
 5. **Scan**: Check which functions already have observation files. Don't redo them.
+6. **Check for review notes**: If `workstreams/auto_re/reviews/explorer_review.md`
+   exists, read it. Address any HIGH action items before starting new work.
+   These are feedback from the Reviewer — treat them as corrections to apply.
 
 ## What You CAN Do
 

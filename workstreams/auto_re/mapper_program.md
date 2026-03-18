@@ -69,6 +69,9 @@ and which save state scenario will reveal the effect clearly.
 3. **Scan**: `workstreams/auto_re/claims/` — all claim YAML files
 4. **Read**: `build/samples/samples.md` — capture catalog (what each CSV contains)
 5. **Scan**: `build/samples/` — available per-frame capture CSVs
+6. **Check for review notes**: If `workstreams/auto_re/reviews/mapper_review.md`
+   exists, read it. Address any HIGH action items before starting your cycle.
+   These are feedback from the Reviewer — treat them as corrections to apply.
 
 ## What You CAN Do
 
