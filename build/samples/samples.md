@@ -76,6 +76,27 @@ standing start) unless noted otherwise.
 - **Purpose**: Extracted speed/position curve from throttle capture.
   Shows acceleration profile over time.
 
+### race_throttle_600f_ext
+
+- **Frames**: 600
+- **Input**: B (throttle)
+- **Save state**: cce_race_start.mc0 (race mode, 40 cars, 300 km/h)
+- **Struct size**: 512 bytes (+0x00 to +0x1FC)
+- **Purpose**: Extended struct capture during straight→curve transition.
+  Car starts at 300 km/h on straight, enters right-hand curve at ~frame 100.
+  Shows surface/curvature fields (+0x10 banking, +0x19C surface type).
+
+### offtrack_throttle_324f_ext
+
+- **Frames**: 324
+- **Input**: B (throttle)
+- **Save state**: cce_tt_offtrack_stop.mc0 (TT, car at track edge facing grass)
+- **Struct size**: 512 bytes (+0x00 to +0x1FC)
+- **Purpose**: Pavement-to-grass transition. Car drives from track edge onto
+  grass at ~frame 124. Shows surface type fields (+0x4C-0x58: 1→3→4),
+  speed target drop (+0x70: 0xAC1F→0x1999), banking→0 (+0x10), and the
+  complete surface physics mechanism.
+
 ### field_classification.json
 
 - **Format**: JSON, not CSV. Auto-generated field analysis.
