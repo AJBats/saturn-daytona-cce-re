@@ -56,3 +56,11 @@ claims:
     address: "GBR+236"
     scenario: right_wall_strike
     frames: 60
+
+  - id: field64_changes_steer
+    description: "+0x64 changes when RIGHT is held (static at 0x01 without steer, 132 unique with steer)"
+    type: value_changes_with_input
+    address: "GBR+100"
+    input: RIGHT
+    direction: increases
+    frames: 60
