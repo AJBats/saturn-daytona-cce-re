@@ -255,12 +255,49 @@ lookups. This is internal to CCE's FUN_06036A70 and doesn't affect the
 transplant — the rewritten DUSA code writes car-space positions, and
 CCE's existing terrain lookup handles the ×16 scaling.
 
-### 3. Track Data
+### 3. Track Data Loading — The COL File Trick
 
-DUSA waypoint tables (~13KB per track) must be loaded into free HWR space.
-Three tracks available immediately (Three Seven, Dinosaur Canyon, Seaside
-Street Galaxy). CCE-exclusive tracks require a future converter tool
-(polygon mesh → DUSA waypoint format).
+**Key discovery (NOP experiments 6-7 + rendering analysis)**: CCE's 3D track
+rendering uses COURSE*.MDL vertex data (loaded to HWR at 0x06093818), NOT
+the physics polygon table (loaded to LWR at 0x00220000 from CS*_COL.BIN).
+The polygon table is ONLY read by the terrain processor and surface type
+detector — both of which the DUSA model replaces with its own equivalents.
+
+**This means we can overwrite the polygon data with DUSA waypoint data.**
+
+The approach:
+1. Replace the contents of CS0_COL.BIN (Three Seven) with DUSA's waypoint
+   table + segment table (~13KB, vs the original 112KB COL file)
+2. Init loads it to 0x00220000 in LWR via its normal disc loading — no
+   init code changes needed
+3. The DUSA track query functions (FUN_0600CA96, FUN_0600CD40) get their
+   wpool constants set to read from 0x00220000
+4. CCE's rendering continues using COURSE0.MDL (completely separate data)
+5. CCE's polygon lookup chain (FUN_060368D4 → FUN_06036990) never runs
+   because the DUSA model doesn't call it
+
+**Experiment to validate**: Replace CS0_COL.BIN with a file of all zeros.
+Boot Three Seven time trial. If the 3D track still renders correctly but
+the car falls through the ground (no terrain height), the rendering is
+confirmed independent of the COL data.
+
+**Per-course files**:
+| Course | CCE COL file | Size | DUSA waypoint size |
+|--------|-------------|------|-------------------|
+| Three Seven | CS0_COL.BIN | 112 KB | ~13 KB |
+| Dinosaur Canyon | CS1_COL.BIN | 260 KB | TBD |
+| Seaside Street Galaxy | CS2_COL.BIN | 553 KB | TBD |
+
+DUSA data is always smaller than CCE collision data, so the COL file
+replacement always fits. Excess space in the file is ignored.
+
+**Risks**:
+- Init might validate the COL file size or checksum — if so, pad the
+  DUSA data to the original file size
+- Other systems might read from the COL data region that we haven't
+  identified — the zero-file experiment would reveal this
+- The ARC.DAT archive also unpacks data after the COL file (0x002AA576+
+  on Seaside) — need to verify this doesn't depend on COL contents
 
 ### 4. Math Functions
 
