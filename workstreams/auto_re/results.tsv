@@ -47,3 +47,4 @@ track_grid_survey_003	—	—	—	Phase 3 field behavior analysis (banking +0x10
 track_grid_survey_004	—	—	—	Phase 3 track spline progression (+0x154 pointer). Dual indexing system documented (spatial grid + sequential spline). No function writers to test
 FUN_060386D8	3	3	2	call_count_throttle PASS (0-2 calls, tolerance 1), writes_04_height PASS (0x06052250, offtrack_throttle, PC 0x060389B0), writes_10_banking PASS (0x0605225C, 149 hits, PC 0x06038A70, race_throttle)
 FUN_06036914	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Surface property extractor, copies polygon data to scratch buffer. No direct car struct writes
+surface_physics_survey_001	—	—	—	Surface physics deep dive: +0x4C-0x58 per-wheel surface type (1=road,4=grass), +0x70 grip coefficient drops 6.7x on grass. Writers for +0x4C-0x58 and +0x70 unknown — gap in chain
