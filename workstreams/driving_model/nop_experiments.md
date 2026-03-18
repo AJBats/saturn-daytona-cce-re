@@ -260,10 +260,9 @@ the source assembly.
 ### Experiment 6: NOP +0x4C surface type writer (hypothesis: sole surface mechanism)
 
 - **Oracle PC**: 0x06036CD2 (FUN_06036CEC, sub #1, oracle-confirmed writes_4C_surface_type PASS, 2 hits)
-- **Actual write PC**: Need to verify — the oracle PC is ~2-4 bytes after the actual store.
-  Check assembly in `src/race/FUN_06036BB8.s` near the end of FUN_06036CEC for a
-  `mov.l` or `mov.b` that writes to offset +0x4C via R0 or wpool.
-- **Patch**: `poke <actual_write_PC> 00 09`
+- **Actual write PC**: 0x06036CCE (`mov.l r2, @(r0, r5)` — bytes `05 26`,
+  r0 loaded from .L_wpool_06036CE4 = 0x004C)
+- **Patch**: `poke 0x06036CCE 00 09`
 - **Context**: FUN_06036CEC (sub #1, register save preamble) writes surface type
   (1=road, 3=transition, 4=grass) to +0x4C through +0x58 as the car crosses
   track boundaries. These values gate FUN_06035B30 which reduces +0x70 (grip
@@ -277,13 +276,13 @@ the source assembly.
 ### Experiment 7: NOP +0x10 banking writer (hypothesis: banking affects physics)
 
 - **Oracle PC**: 0x06038A70 (FUN_060386D8, terrain processor, oracle-confirmed writes_10_banking PASS, 149 hits)
-- **Actual write PC**: Need to verify — check `src/race/FUN_060384C4.s` in the
-  FUN_060386D8 area for the `mov.w` or `mov.l` near PC 0x06038A70.
-- **Patch**: `poke <actual_write_PC> 00 09`
+- **Actual write PC**: 0x06038A6C (`mov.w r0, @(16, r14)` — bytes `81 E8`,
+  r14 = car struct pointer, offset 16 = +0x10)
+- **Patch**: `poke 0x06038A6C 00 09`
 - **Context**: FUN_060386D8 (external terrain processor) reads polygon surface
   data via the spatial grid lookup and writes banking angle to +0x10. This runs
   in the per-car frame loop, NOT the physics dispatcher.
-- **Hold B, drive through banked curves from `cce_race_start.mc0`**
+- **Hold B, drive through banked curves from `cce_tt_straight.mc0`**
 - **Expected if physics-affecting**: Car handles differently on curves — possibly
   slides more or feels "flat." Steering feedback changes because the force formula
   reads +0x10 indirectly through the heading/rotation pipeline.
@@ -291,6 +290,51 @@ the source assembly.
   normally. Banking is cosmetic and the DUSA model can ignore it.
 - **Transplant significance**: If banking affects physics, the DUSA model needs
   CCE's +0x10 value as an input. If rendering-only, it's not needed.
+
+## Results (continued)
+
+### Experiment 6: NOP +0x4C — CONFIRMED: sole surface type gate (grass + wall collision)
+
+- **Patch applied**: 0x06036CCE (`05 26` → `00 09`)
+- **Inputs**: B held, drove off track into grass from `cce_tt_offtrack_stop.mc0`
+- **Observation** (from human tester):
+  - Car accelerated across grass at FULL ROAD SPEED — no slowdown, no tire
+    slip, no RPM maxing in gear 1. Grass friction completely disabled.
+  - Car clipped through the outer boundary wall — noclip-style. Wall collision
+    depends on surface type detection.
+  - Car still collided with the ground appropriately — bounced over curbs.
+    Vertical/ground collision is a separate system from surface type.
+- **Conclusion**: **+0x4C is the sole surface type gate.** It controls BOTH
+  terrain friction (grass slowdown) AND horizontal wall collision detection.
+  Vertical ground collision is independent.
+- **Transplant significance**: The '95 model MUST write correct surface type
+  values to +0x4C or the car will either ignore grass or clip through walls.
+  The terrain processor (FUN_06036CEC) that writes +0x4C must remain intact
+  as an external input to whatever driving model is active.
+
+### Experiment 7: NOP +0x10 — CONFIRMED: banking affects both rendering AND physics
+
+- **Patch applied**: 0x06038A6C (`81 E8` → `00 09`)
+- **Inputs**: B held, drove through banked curves from `cce_tt_straight.mc0`.
+  Human toggled NOP on/off mid-session to compare directly.
+- **Observation** (from human tester):
+  - **Rendering**: Car stays level on banked curves — does not tilt with the
+    road surface. Visually "floats" over the track.
+  - **Physics (grip turning)**: Turning power is reduced. Grip turns on banked
+    corners are less tight — the car doesn't hold the line as well.
+  - **Physics (powerslide turning)**: Powerslide turns don't slide as tightly.
+    Similar effect to grip turns but with slight nuance — both turning modes
+    (grip and powerslide) are affected by banking.
+  - Effect confirmed by toggling patch on/off: with banking restored, cornering
+    tightness returned to normal in both turning modes.
+- **Conclusion**: **+0x10 is a dual-purpose field — rendering AND physics.**
+  Banking angle affects both the visual tilt of the car and the cornering
+  force/grip calculations. The effect is noticeable but not dramatic.
+- **Transplant significance**: The '95 model MUST receive banking data from
+  CCE's terrain processor (FUN_060386D8). +0x10 is an **external input** to
+  the driving model, not something the model computes internally. The terrain
+  processor reads polygon surface data and writes +0x10 — this pipeline must
+  stay intact for the transplant.
 
 ## Notes
 
