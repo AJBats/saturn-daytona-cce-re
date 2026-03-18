@@ -29,9 +29,35 @@ car drives onto grass polygon
 
 ---
 
+## RESOLVED
+
+### 1. ~~Differential field capture~~ RESOLVED (survey_001)
+Surface type in +0x4C/+0x50/+0x54/+0x58 (1=road, 3=transition, 4=grass).
+Grip coefficient +0x70 drops 0xAC1F→0x1999 on grass (6.7x reduction).
+Polygon flags: 0x0100=road, 0x0300=grass.
+
 ## HIGH PRIORITY
 
-### 1. Differential field capture: pavement vs grass
+### 1b. Trace the +0x4C-+0x58 → +0x70 computation (LAST GAP)
+
+- **Why**: We know +0x4C-+0x58 carry surface type, and +0x70 is the grip
+  coefficient that limits speed. But WHICH FUNCTION reads +0x4C-+0x58 and
+  computes the new +0x70? The writer of +0x70 is FUN_06035B30 (helper of
+  sub #12, at PC 0x06035C50). But FUN_06035B30 may compute +0x70 from other
+  inputs that are ALREADY surface-adjusted by an earlier function.
+- **What to do**:
+  1. Load `cce_tt_offtrack_stop.mc0`, hold B
+  2. Set breakpoint at FUN_06035B30 (find its entry — it's a helper called
+     from FUN_06035904 around the +0x70 write area)
+  3. Advance to frame ~130 (on grass, +0x70 should be 0x1999)
+  4. When breakpoint fires, dump all registers — which inputs differ from
+     the pavement case?
+  5. Also: set watchpoint on +0x4C (0x060522F8) to find WHO WRITES the
+     surface type. Is it FUN_060386D8 (terrain processor) or something else?
+
+### 1c. ORIGINAL Priority 1 below (for reference)
+
+~~1. Differential field capture: pavement vs grass~~
 
 - **Why**: Something in the car struct changes when the car crosses from
   pavement to grass. We need to find WHICH fields change.
