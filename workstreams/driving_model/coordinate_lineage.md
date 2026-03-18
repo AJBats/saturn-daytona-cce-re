@@ -474,9 +474,11 @@ COORDINATE SPACES:
 |-----|--------|---------------|
 | Force formula (sub #12) | **CLOSED** | Ghidra FUN_0600D904.c fully annotated. 7-step formula: (1) roll projection using -sin/cos(heading) × decay fields, (2) magnitude X via manhattan approx vs +0xF4 threshold, (3) magnitude Z via manhattan approx vs +0xF8 threshold, (4) drift detection, (5) steering rate: +0x14 = -(+0xAC) >> 3, (6) collision/heading gate zero-outs on +0x190/+0x170, (7) final: car[+0xF0] = gear × (term_A + term_B - car[+0xBC]) >> 16 >> 8. All 37 DAT_ refs mapped to struct offsets. |
 | Traction formula (sub #8) | **OPEN** | FUN_0604DB10 (Ghidra FUN_06025B10.c). Need Ghidra pass to match DUSA's FUN_0602CCEC formula. |
-| Heading computation (sub #15) | **OPEN** | FUN_06035C98 (Ghidra FUN_0600DC98.c). 592 bytes of trig. Need Ghidra pass. |
+| Heading computation (sub #15) | **CLOSED** | Ghidra FUN_0600DC98.c decoded: +0xE8/+0xEC are EMA-filtered heading deltas (decay 1/16) scaled by constants at +0x14C (800.0) and +0x150 (700.0). Also writes +0x38 (heading), +0x3C (copy), +0x60 (frame counter). All heading/steering derived. |
+| Rotation transform (sub #10) | **CLOSED** | Ghidra FUN_0600D4A0.c decoded: +0xF4/+0xF8 are clamped rotation components with low-pass filter (>>2 or >>4 depending on flag at +0x1C7 byte). Computed from cross-products of heading components. Physics-internal, not surface data. |
+| Surface fields +0xEC/+0xF0/+0xF4 | **CLOSED** | All three are physics-internal: +0xEC by sub #15 (heading EMA), +0xF0 by sub #12 (force output), +0xF4 by sub #10 (rotation component). NONE come from track/polygon data. Watchpoint-confirmed writers: +0xEC at PC 0x06035E50, +0xF0 at PC 0x0604D404 (sub #12 RTS delay), +0xF4 at PC 0x0603561E. |
+| **Grass slowdown mechanism** | **OPEN** | Car slows to 64 km/h on grass but the mechanism is unknown. +0xEC/+0xF0/+0xF4 show no surface correlation. Something else carries the grass signal. Explorer priorities set for pavement→grass differential investigation. |
 | Pad state address | **OPEN** | Where does raw button state enter? DUSA uses sym_06063D98. CCE's equivalent not traced. |
-| Surface fields +0xEC/+0xF0 | **OPEN** | DUSA's surface chain (FUN_0602F5B6 → +0xEC/+0xF0/+0xF4/+0x11C) has no confirmed CCE polygon-path equivalent. These fields exist in CCE but their source is untraced. |
 | Collision detection trigger | **OPEN** | What detects the wall contact before FUN_06035C58 sets +0x176? |
 | +0x158 scale factor origin | **OPEN** | Who writes it? Is it truly always 1.0? Does it vary by track/mode? |
 | FUN_0604D580 exact formula | **PARTIALLY CLOSED** | Input scaling/clamping documented from observations. Exact intermediate math not decompiled. |
