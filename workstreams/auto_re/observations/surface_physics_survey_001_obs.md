@@ -138,6 +138,53 @@ surface type to compute the new +0x70 value. This is the gap in the chain.
    The DUSA model just needs to read the equivalent of +0x70 as a
    traction/grip modifier from whatever CCE writes.
 
+## Priority #3: +0x10 and +0x04 During Offtrack Transition
+
+| Frame | +0x10 (banking) | +0x04 (Y height) | +0x70 (speed target) |
+|-------|----------------|------------------|---------------------|
+| 0 | 0xFE2C0000 | 0x00005EA8 | 0x00010000 |
+| 100 | 0xFF860000 | 0x000027F2 | 0x0000AC1F |
+| 130 | 0xFFEC0000 | 0x000012AE | 0x000084E3 |
+| 150 | 0x00000000 | 0x00001999 | 0x00001999 |
+| 200 | 0x00000000 | 0x00001999 | 0x00001999 |
+
+Banking transitions from negative (terrain angle on pavement) to zero
+(flat grass) by frame 150. Y height drops from 0x5EA8 to 0x1999.
+
+**Notable**: +0x04 (Y height) and +0x70 (speed target) converge to the
+IDENTICAL value (0x1999) on grass. This may indicate a shared computation
+path or a clamping mechanism that affects both height and speed ceiling.
+
+## Priority #4: FUN_06035904 Register Comparison
+
+| Register | Pavement (f158) | Grass (f358) | Change |
+|----------|----------------|-------------|--------|
+| R7 | 0x46 | 0x46 | Same (constant) |
+| R8 | 0x18C | 0x18C | Same (constant) |
+| R10 | 0x00039FC9 | 0x000002AD | 346x DROP |
+| R11 | 0xFFEE1948 | 0xFFFFFD53 | = -R10 |
+
+R10 is the primary force magnitude input. Drops 346x on grass, directly
+reducing the force computation output. R7/R8 are unchanged (constants
+or scaling factors). The grass signal enters entirely through R10.
+
+## Priority #5: Polygon Property D — Different Between Surfaces
+
+| Surface | Property D |
+|---------|-----------|
+| Pavement | 0xFE1299EB (-31,655,445) |
+| Grass | 0x00066666 (419,430) |
+
+Dramatically different. Pavement D is large negative (terrain coefficient),
+grass D is small positive. All surface properties (A/B/C/D) differ between
+road and grass polygons.
+
+## Priority #6: +0x19C During Offtrack
+
++0x19C stays 0x00000000 throughout the entire 324-frame offtrack scenario.
+It does NOT change on grass. It only tracks road segment classification
+(curves on paved track), not surface type.
+
 ## Sample captures
 
 - offtrack_throttle_324f_ext.bin/csv — 512-byte struct, 324 frames
