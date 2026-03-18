@@ -15,7 +15,7 @@ FUN_0603B284	3	3	1	call_count_idle PASS (0 calls), call_count_steer PASS (0 call
 FUN_0603B4A4	3	3	1	call_count_idle PASS (0 calls), call_count_throttle PASS (0 calls), gate_byte_stable PASS (sym_002FC233=0); DOWNGRADED: gate_byte is generic, 0 calls — unreachable in race
 FUN_060354A0	3	3	2	call_count_throttle PASS (1 call), writes_F4 PASS (GBR+244), E4_stable PASS (GBR+228=0x10000)
 FUN_06035750	3	3	2	call_count_throttle PASS (3 calls), steer_angle_stable PASS (GBR+12=0x3FFF, non-globally-static), lateral_offset_stable PASS (GBR+172=0x00, non-globally-static)
-FUN_06035904	4	4	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000), writes_A0 PASS (GBR+160, 149 hits, PC 0x06035AC0, survey_003)
+FUN_06035904	5	5	2	call_count_throttle PASS (1 call), writes_FC PASS (GBR+252, PC 0x06035960), E4_stable PASS (GBR+228=0x10000), writes_A0 PASS (GBR+160, 149 hits, PC 0x06035AC0, survey_003), writes_70 PASS (GBR+112, 29 hits, PC 0x06035A3A, surface_survey_001)
 FUN_06035C98	5	5	2	call_count_throttle PASS (1 call), field64_stable PASS (GBR+100=0x01), field68_stable PASS (GBR+104=0x01), writes_E8 PASS (GBR+232, 59 hits, PC 0x06035E4E, survey_002), writes_EC PASS (GBR+236, 59 hits, PC 0x06035E50, survey_002)
 FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 299 hits, right_wall_strike), heading_A_stable PASS (GBR+56=0x4000, non-globally-static)
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
@@ -47,4 +47,4 @@ track_grid_survey_003	—	—	—	Phase 3 field behavior analysis (banking +0x10
 track_grid_survey_004	—	—	—	Phase 3 track spline progression (+0x154 pointer). Dual indexing system documented (spatial grid + sequential spline). No function writers to test
 FUN_060386D8	3	3	2	call_count_throttle PASS (0-2 calls, tolerance 1), writes_04_height PASS (0x06052250, offtrack_throttle, PC 0x060389B0), writes_10_banking PASS (0x0605225C, 149 hits, PC 0x06038A70, race_throttle)
 FUN_06036914	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Surface property extractor, copies polygon data to scratch buffer. No direct car struct writes
-surface_physics_survey_001	—	—	—	Surface physics deep dive: +0x4C-0x58 per-wheel surface type (1=road,4=grass), +0x70 grip coefficient drops 6.7x on grass. Writers for +0x4C-0x58 and +0x70 unknown — gap in chain
+surface_physics_survey_001	—	—	—	Surface physics deep dive: +0x4C-0x58 per-wheel surface type (1=road,4=grass), +0x70 grip coefficient drops 6.7x on grass. +0x70 writer CONFIRMED (FUN_06035904 PC 0x06035A3A). +0x4C-0x58 runtime writer: likely FUN_0603C304 or FUN_06038DD8 (static analysis — needs Explorer watchpoint)

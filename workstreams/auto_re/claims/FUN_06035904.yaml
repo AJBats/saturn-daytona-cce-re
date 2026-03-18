@@ -49,3 +49,12 @@ claims:
     address: "GBR+160"
     scenario: right_wall_strike
     frames: 150
+
+  - id: writes_70
+    description: "Writes speed target +0x70 (PC 0x06035A3A, from FUN_06035F48_obs watchpoint data)"
+    type: writes_to
+    function: FUN_06035904
+    function_end: 0x06035B0E
+    address: "GBR+112"
+    scenario: right_wall_strike
+    frames: 60
