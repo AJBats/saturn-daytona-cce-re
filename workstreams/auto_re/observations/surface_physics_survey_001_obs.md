@@ -185,6 +185,36 @@ road and grass polygons.
 It does NOT change on grass. It only tracks road segment classification
 (curves on paved track), not surface type.
 
+## Follow-Up: +0x4C Writer Identification (Verifier Question)
+
+**Watchpoint on 0x06052298 (+0x4C)** during offtrack_throttle:
+
+| Writer PC | Function | old | new | Frame |
+|-----------|----------|-----|-----|-------|
+| 0x06036CD2 | FUN_06036CEC area (sub #1 in dispatcher) | 0x00000001 | 0x00000003 | 112 |
+
+**FUN_06036CEC (sub #1)** writes +0x4C. This is the FIRST function called in
+the player physics dispatcher (FUN_0604D380). It reads the spatial grid lookup
+result and writes the surface type to the car struct.
+
+Registers at the write:
+- R0 = 0x4C (the field offset)
+- R2 = 0x03 (the surface type value: 3=transitional)
+- PR = 0x06036BE2 (caller in FUN_06036BB8 TU)
+- R4 = 0x060525FC, R5 = 0x0605224C (player struct)
+
+This fills step 6 in the surface mechanism chain:
+```
+Grass polygon (flags=0x0300)
+  -> FUN_06036990 point-in-polygon test
+  -> FUN_06036914 copies surface properties
+  -> FUN_060386D8 computes Y/banking
+  -> **FUN_06036CEC (sub #1) writes surface type to +0x4C-0x58**
+  -> [intermediate] computes +0x70 from surface type
+  -> FUN_0603EE64 drives speed toward +0x70 target
+  -> car plateaus at 64 km/h
+```
+
 ## Sample captures
 
 - offtrack_throttle_324f_ext.bin/csv — 512-byte struct, 324 frames
