@@ -58,3 +58,11 @@ claims:
     address: "GBR+112"
     scenario: right_wall_strike
     frames: 60
+
+  - id: field_F4_changes_throttle
+    description: "+0xF4 (magnitude threshold) changes when throttle held — 143 unique values in observation"
+    type: value_changes_with_input
+    address: "GBR+244"
+    input: B
+    direction: decreases
+    frames: 60

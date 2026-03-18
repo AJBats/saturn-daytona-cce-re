@@ -1,14 +1,13 @@
-# FUN_06036CEC — Register-save preamble (6 stack pushes, no GBR writes)
+# FUN_06036CEC — Sub #1 in dispatcher: surface type writer + steer pipeline entry
 #
 # Observation: workstreams/auto_re/observations/FUN_06036CEC_obs.md
+# + surface_physics_survey_001 follow-up (Explorer answered +0x4C question)
 # File: src/race/FUN_06036BC6.s
 # Address range: 0x06036CEC - 0x06036D80
 #
-# From follow-up:
-# - Function is 6 instructions: push r8-r13 to stack, then fallthrough
-# - All writes go to stack (r15), NOT to GBR-relative memory
-# - GBR writes from FUN_06036BC6 body have PCs outside this function's range
-# - Structurally Tier 1 only — no writes_to claims possible
+# UPDATED: Explorer confirmed PC=0x06036CD2 writes +0x4C (surface type)
+# during offtrack driving. Original "no GBR writes" was incorrect — the
+# write only fires when surface type CHANGES (pavement→grass transition).
 
 function: FUN_06036CEC
 address: 0x06036CEC
@@ -24,3 +23,12 @@ claims:
     scenario: straight_throttle
     expected_count: 1
     tolerance: 0
+
+  - id: writes_4C_surface_type
+    description: "Writes surface type to +0x4C (PC 0x06036CD2, 1=road 3=transition 4=grass)"
+    type: writes_to
+    function: FUN_06036BC6
+    function_end: 0x06036CF8
+    address: 0x06052298
+    scenario: offtrack_throttle
+    frames: 200
