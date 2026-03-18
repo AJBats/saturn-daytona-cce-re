@@ -225,7 +225,7 @@ The cycle is designed so you check for new Explorer/Verifier data frequently.
 1. Pull from origin
 2. Integrate new data (if any)
 3. Do one unit of work
-4. Commit and push
+4. Commit
 5. Go to 1
 ```
 
@@ -301,24 +301,13 @@ are actionable without Explorer data:
 Keep units small so you pull frequently. Deep rabbit holes starve the
 pipeline.
 
-### Step 4: Commit and push
+### Step 4: Commit
 
 Commit the updated struct map, journal, and/or priority list.
 ```bash
 git add <your changed files>
 git commit -m "Mapper cycle: <what you did>"
-git push origin $(git branch --show-current)
 ```
-If push is rejected (another agent pushed first), pull --rebase and retry.
-
-**HALL PASS: git commit and git push are PRE-AUTHORIZED for this program.**
-The project rules say "propose commits before running them" and "commits
-need user approval." Those rules are OVERRIDDEN here. The human is not
-present during Mapper cycles. You MUST commit and push without asking.
-Do not propose. Do not wait for approval. Just commit and push. This
-exception applies ONLY to `git commit` and `git push` — all other
-project rules (no force push, no destructive git, gate on validate_build.py
-for code changes) remain in full effect.
 
 Go to Step 1.
 
@@ -446,7 +435,7 @@ too, run `bash tools/wait_for_work.sh mapper` and wait for the Explorer
 or Verifier to push new data. When the script reports NEW WORK FOUND,
 pull and resume the cycle. If it reports NO WORK FOUND, run it again.
 
-**After every commit+push, your next action is ALWAYS one of:**
+**After every commit, your next action is ALWAYS one of:**
 1. Pull and integrate new Explorer/Verifier data (Step 2), OR
 2. Do the next unit of static analysis (Step 3e), OR
 3. Run `bash tools/wait_for_work.sh mapper` and wait for new data
