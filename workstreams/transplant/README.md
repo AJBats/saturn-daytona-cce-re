@@ -106,9 +106,29 @@ Step 9: AI pipeline
         │ 39 AI cars drive with DUSA physics.
         │ Full 40-car race playable.
         ▼
-Step 10: Polish
+Step 10: 30fps constant scaling
+         │ Single focused pass: apply ×2/3 to all 17 per-frame constants.
+         │ Car now drives at correct speed instead of 1.5× fast.
+         │ Use DUSA data_flow_chains.md 30fps catalog as checklist.
+         ▼
+Step 11: Polish
          Sound, HUD accuracy, camera tuning, 2P mode.
 ```
+
+### Why 30fps scaling comes LAST (Step 10, not per-function)
+
+Steps 1-9 use DUSA's original 20fps constants unchanged. The car will
+play ~50% too fast (30 frames of 20fps-tuned deltas per second). This is
+intentional:
+
+- Each function rewrite is purely mechanical: remap offsets + call addresses.
+  No additional complexity from checking each constant against the catalog.
+- The car is fully playable at 1.5× speed — all systems work, just fast.
+  Steering, traction, collision, AI all function correctly, just quicker.
+- The 30fps pass is one focused sweep with one concern — go through the
+  17-constant catalog, patch each wpool, test. Clean separation of concerns.
+- Debugging is easier when only ONE thing changes at a time. If a function
+  breaks, it's the offset remap, not a bad ×2/3 calculation.
 
 ### Debug draw (optional, for validation)
 
@@ -181,16 +201,18 @@ already at known addresses). Bring DUSA's only if CCE lacks an equivalent.
 
 ### Per-function adaptation checklist
 
-For EACH function being rewritten:
+For EACH function being rewritten (Steps 1-9):
 
 - [ ] Copy DUSA .s file as starting point
 - [ ] Remap every struct offset wpool (DUSA offset → CCE offset)
 - [ ] Remap math function call addresses (DUSA sin/cos → CCE sin/cos)
 - [ ] Remap data table pool references (DUSA table addr → embedded CCE addr)
-- [ ] Scale per-frame constants ×2/3 (from 30fps catalog)
 - [ ] Remap global variable addresses (DUSA globals → CCE equivalents)
 - [ ] Test in isolation with hardcoded inputs
 - [ ] Test integrated with previous steps
+
+NOTE: per-frame constants are NOT scaled during Steps 1-9. The car will
+run 1.5× fast. This is handled in Step 10 as a single pass.
 
 ## Struct Offset Mapping (Quick Reference)
 
@@ -216,9 +238,10 @@ Full mapping: `workstreams/driving_model/compatibility_matrix.md`
 
 ### 1. Frame Rate (20fps → 30fps)
 
-17 per-frame constants cataloged in DUSA data_flow_chains.md. Applied at
-rewrite time — each wpool constant gets the 30fps value hardcoded.
-Lookup tables and ratios stay unchanged.
+17 per-frame constants cataloged in DUSA data_flow_chains.md. Deferred to
+Step 10 — the entire DM is built and tested at 1.5× speed first, then
+all constants are patched in a single focused pass. Lookup tables and
+ratios stay unchanged regardless.
 
 ### 2. Coordinate Space
 
