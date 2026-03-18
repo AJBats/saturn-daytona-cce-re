@@ -257,6 +257,41 @@ the source assembly.
   ```
   Blocking any link freezes everything downstream. No bypass paths exist.
 
+### Experiment 6: NOP +0x4C surface type writer (hypothesis: sole surface mechanism)
+
+- **Oracle PC**: 0x06036CD2 (FUN_06036CEC, sub #1, oracle-confirmed writes_4C_surface_type PASS, 2 hits)
+- **Actual write PC**: Need to verify — the oracle PC is ~2-4 bytes after the actual store.
+  Check assembly in `src/race/FUN_06036BB8.s` near the end of FUN_06036CEC for a
+  `mov.l` or `mov.b` that writes to offset +0x4C via R0 or wpool.
+- **Patch**: `poke <actual_write_PC> 00 09`
+- **Context**: FUN_06036CEC (sub #1, register save preamble) writes surface type
+  (1=road, 3=transition, 4=grass) to +0x4C through +0x58 as the car crosses
+  track boundaries. These values gate FUN_06035B30 which reduces +0x70 (grip
+  coefficient) on grass.
+- **Hold B, drive onto grass from `cce_tt_offtrack_stop.mc0`**
+- **Expected if sole surface mechanism**: Car drives onto grass at FULL ROAD SPEED.
+  No slowdown. +0x4C stays at 1 (pavement), FUN_06035B30's gate (type > 2) never
+  fires, +0x70 stays at full grip. The grass does not exist for physics.
+  If the car STILL slows on grass, we missed a surface detection path.
+
+### Experiment 7: NOP +0x10 banking writer (hypothesis: banking affects physics)
+
+- **Oracle PC**: 0x06038A70 (FUN_060386D8, terrain processor, oracle-confirmed writes_10_banking PASS, 149 hits)
+- **Actual write PC**: Need to verify — check `src/race/FUN_060384C4.s` in the
+  FUN_060386D8 area for the `mov.w` or `mov.l` near PC 0x06038A70.
+- **Patch**: `poke <actual_write_PC> 00 09`
+- **Context**: FUN_060386D8 (external terrain processor) reads polygon surface
+  data via the spatial grid lookup and writes banking angle to +0x10. This runs
+  in the per-car frame loop, NOT the physics dispatcher.
+- **Hold B, drive through banked curves from `cce_race_start.mc0`**
+- **Expected if physics-affecting**: Car handles differently on curves — possibly
+  slides more or feels "flat." Steering feedback changes because the force formula
+  reads +0x10 indirectly through the heading/rotation pipeline.
+- **Expected if rendering-only**: No change in driving behavior. Car still corners
+  normally. Banking is cosmetic and the DUSA model can ignore it.
+- **Transplant significance**: If banking affects physics, the DUSA model needs
+  CCE's +0x10 value as an input. If rendering-only, it's not needed.
+
 ## Notes
 
 - Reload save state between experiments to clear patches
