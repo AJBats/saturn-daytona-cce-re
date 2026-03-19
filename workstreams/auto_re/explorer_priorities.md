@@ -1,168 +1,125 @@
-# Explorer Priorities — auto-re-loop-3 (Surface Physics Deep Dive)
+# Explorer Priorities — Transplant AI Dispatch Investigation
 
-**NOP tests completed**: See `workstreams/driving_model/nop_experiments.md`
-for 5 confirmed field identity tests (+0x24, +0x0E, +0xF0, +0x34, +0x80).
+**Context**: Transplant Step 0 (brain-dead car) is working. Player physics
+disabled via 18 NOP'd JSRs in FUN_0604D380. AI cars still drive normally.
+We need to find and disable the AI dispatch path, and locate the collision
+system, before proceeding with COL file and DUSA code integration.
 
-## Mission
-
-Completely reverse engineer how CCE's track surface affects the driving model.
-We need to understand the FULL chain from "car is on grass" to "car slows down"
-with zero gaps. This is critical for the transplant — we need to know whether
-the DUSA driving model can use CCE's surface system, or must bring its own.
-
-## What We Know
-
-- CCE's polygon table has 4 surface properties per polygon (A/B/C/D at +0x24/+0x28/+0x2C/+0x30)
-- FUN_060386D8 (terrain processor) reads polygons and writes car[+0x04] (Y) and car[+0x10] (banking)
-- car[+0xEC/+0xF0/+0xF4] are NOT surface data — they're physics-internal (heading/speed derived)
-- The car DOES slow on grass (maxes at ~64 km/h vs 300+ on road)
-- But we DON'T know HOW grass slows the car — the mechanism is unknown
-
-## What We Need
-
-The complete chain:
-```
-car drives onto grass polygon
-    → ??? (what detects the surface change?)
-    → ??? (what field changes?)
-    → ??? (how does that field affect the force computation?)
-    → car[+0xF0] (net force) is reduced
-    → car slows down
-```
+**Prior failure**: We modified FUN_06034D32 (NOP'd AI calls + replaced
+jmp FUN_0603976C with rts). Zero effect — breakpoint confirmed FUN_06034D32
+never fires during racing. It's a dead-end attract/pre-race path.
 
 ---
 
-## RESOLVED
-
-### 1. ~~Differential field capture~~ RESOLVED (survey_001)
-Surface type in +0x4C/+0x50/+0x54/+0x58 (1=road, 3=transition, 4=grass).
-Grip coefficient +0x70 drops 0xAC1F→0x1999 on grass (6.7x reduction).
-Polygon flags: 0x0100=road, 0x0300=grass.
-
 ## HIGH PRIORITY
 
-### 1b. ~~Trace +0x4C-+0x58 → +0x70 computation~~ RESOLVED (Mapper cycles 56-58)
+### 1. Breakpoint sweep: which AI functions fire during racing?
 
-- +0x4C writer: FUN_06036CEC (sub #1) at PC 0x06036CD2 (Explorer watchpoint)
-- +0x70 writer: FUN_06035B30 (sub #12 helper) at PC 0x06035A3A (Verifier claim)
-- Ghidra FUN_0600DB30 decoded: reads surface type, gates on > 2, clamps grip
-- Complete chain: polygon flags → +0x4C(type) → FUN_06035B30(gate) → +0x70(grip) → force
-
-### 1c. ORIGINAL Priority 1 below (for reference)
-
-~~1. Differential field capture: pavement vs grass~~
-
-- **Why**: Something in the car struct changes when the car crosses from
-  pavement to grass. We need to find WHICH fields change.
+- **Why**: Static analysis alone can't tell us which code paths are live.
+  FUN_06034D32 was our best static guess and it was wrong. We need empirical
+  confirmation before modifying anything.
 - **What to do**:
-  1. Load `cce_tt_offtrack_stop.mc0`, advance 2 frames
-  2. Read the FULL 512-byte car struct (no input, car on pavement edge)
-  3. Hold B, advance to frame 120 (still on pavement, approaching edge)
-  4. Read the full 512-byte car struct again
-  5. Hold B, advance to frame 140 (car fully on grass per scenario)
-  6. Read the full 512-byte car struct again
-  7. Advance to frame 200 (deep on grass, speed plateau)
-  8. Read the full 512-byte car struct again
-  9. **Compare all 4 dumps field by field.** Report EVERY field that differs
-     between pavement (frame 120) and grass (frame 140/200), excluding
-     fields that change due to speed/position (we already know those).
-  10. Focus on fields that are CONSTANT on pavement but CHANGE on grass,
-      or fields that JUMP discontinuously at the transition.
-- **What this unblocks**: Identifies the surface-sensitive fields.
+  1. Boot retail CCE disc, start a Three Seven time trial (1P, beginner)
+  2. Get to the race (past GO countdown, cars actively racing)
+  3. Pause emulator
+  4. Set breakpoints on ALL of these addresses:
+     - `0x0603976C` — FUN_0603976C (bulk AI processor)
+     - `0x06040E80` — FUN_06040E80 (per-AI-car state processor)
+     - `0x0603938A` — FUN_0603938A (per-AI-car helper)
+     - `0x060352E8` — per-car physics prologue (does it fire for AI too?)
+     - `0x060352FA` — FUN_060352FA (jump table dispatch)
+     - `0x06037E28` — FUN_06037E28 (per-car master processor)
+  5. Advance exactly 1 frame
+  6. Report: which breakpoints fired? For FUN_060352FA and FUN_06037E28,
+     note the value of R4 (car index) or R0 (car struct pointer) when they fire.
+  7. Clear all breakpoints after recording.
+- **What this unblocks**: Confirms the real AI dispatch path so we can
+  surgically disable it.
 
-### 2. Polygon property comparison: road vs grass polygon
+### 2. FUN_0603976C caller trace
 
-- **Why**: The polygon table has surface properties A/B/C/D. We need to
-  know if road polygons and grass polygons have DIFFERENT property values.
-  If they do, that's how the physics knows it's on grass.
+- **Why**: We know FUN_06028000 calls FUN_0603976C at two sites (addresses
+  0x06028742 and 0x06028BC6). But FUN_06034D32 also called it and was dead.
+  We need to confirm which call site is actually live.
 - **What to do**:
-  1. Load `cce_tt_offtrack_stop.mc0`, advance 2 frames
-  2. Set breakpoint at FUN_06036990 (0x06036990) — polygon lookup
-  3. Hold B, advance until the breakpoint fires
-  4. When it fires: R1 = polygon entry address. Read 52 bytes at R1.
-     This is the polygon the car is currently on (pavement near edge).
-     Record the 4 surface properties at R1+0x24, R1+0x28, R1+0x2C, R1+0x30.
-  5. Clear breakpoint. Advance to ~frame 140 (on grass).
-  6. Set breakpoint at FUN_06036990 again. Advance 1 frame.
-  7. Read the new polygon entry. Record its surface properties.
-  8. **Compare**: do A/B/C/D differ between road and grass polygons?
-- **What this unblocks**: Tells us if polygon surface properties encode
-  surface type (road vs grass) and what values change.
+  1. Set breakpoint at `0x0603976C`
+  2. Advance 1 frame during active racing
+  3. When it fires, dump the call stack
+  4. Record the return address in PR — this tells us exactly who called it
+  5. If PR points into FUN_06028000, record the exact offset
+- **What this unblocks**: Pinpoints the exact call site for surgical NOP.
 
-### 3. Watchpoint on car[+0x10] (banking) during pavement→grass
+### 3. Collision system trace
 
-- **Why**: We know FUN_060386D8 writes +0x10 from polygon data. If +0x10
-  changes when the car moves to grass, and the force formula reads +0x10,
-  that's the mechanism: grass polygon → different banking → different force.
+- **Why**: AI cars nudge the brain-dead player car's position (+0x00/+0x08)
+  even though all 18 physics sub-functions are NOPped. Collision is OUTSIDE
+  the physics dispatcher. We found FUN_060384C4 writes positions and is called
+  8x from FUN_06037E28. Need empirical confirmation.
 - **What to do**:
-  1. Load `cce_tt_offtrack_stop.mc0`, hold B
-  2. Sample car[+0x10] every frame for 200 frames
-  3. Does +0x10 change at the grass transition (~frame 124)?
-  4. Also sample car[+0x04] (Y height) — does the terrain change?
-- **Already partially answered**: survey_003 showed +0x10 changes on curves
-  but we haven't checked the offtrack scenario specifically.
+  1. Load the brain-dead mod disc (transplant Step 0)
+  2. Start a time trial, get to the race (brain-dead car on start line)
+  3. Set write watchpoint on car[+0x00] (player X position)
+     Address: 0x0605224C (car struct base), watch offset +0x00 = `0x0605224C`
+  4. Advance frames until an AI car collides with the player (they lap around)
+     OR use a save state where collision is imminent
+  5. When the watchpoint fires: dump the call stack and note the PC
+  6. Is the writer FUN_060384C4? Or something else?
+  7. Also check: does the watchpoint fire EVERY frame (continuous writes)
+     or only on collision (discrete events)?
+- **What this unblocks**: Confirms whether FUN_060384C4 is the collision
+  system and whether position is written every frame or only on collision.
 
-### 4. Force computation differential: what changes +0xF0 on grass?
+### 4. AI car state identification
 
-- **Why**: The speed plateau at 64 km/h means the net force (+0xF0) drops
-  to zero on grass. Something in the force formula (sub #12, FUN_06035904)
-  produces less force. We need to know WHICH input changes.
+- **Why**: We need to know what state AI cars are in (+0x5C) to understand
+  which state handlers they use and what happens when we disable them.
 - **What to do**:
-  1. Load offtrack scenario. Sample +0xF0 (net force) every frame.
-  2. Find the frame where +0xF0 starts decreasing (force drops on grass).
-  3. At that frame, set breakpoint at FUN_06035904 entry.
-  4. Dump all registers — R0-R14 contain the function's inputs.
-  5. Compare registers between a pavement frame and a grass frame.
-  6. The register(s) that differ are the grass-sensitive inputs.
-- **What this unblocks**: Pinpoints exactly which field carries the grass
-  signal into the force formula.
-
-### 5. Trace the polygon property D (height_norm, +0x30)
-
-- **Why**: Polygon property D was observed as 0x00066666 (≈6.4 in 16.16)
-  for road polygons. If grass polygons have a DIFFERENT value for D, and
-  D feeds into the terrain processor which then affects the force chain,
-  that's the surface mechanism.
-- **What to do**:
-  1. From Priority #2, we'll know if D differs between road and grass.
-  2. If it does: trace how D flows from the polygon table through
-     FUN_06036914 → scratch buffer → FUN_060386D8 → car struct.
-  3. Set watchpoint on the scratch buffer field that receives D.
-  4. Compare the value on pavement vs grass.
+  1. During active racing (retail disc, not brain-dead mod)
+  2. Pause emulator
+  3. Read car[+0x5C] for cars 0-4:
+     - Car 0: `0x0605224C + 0x5C` = `0x060522A8`
+     - Car 1: `0x0605224C + 0x1D8 + 0x5C` = `0x06052480`
+     - Car 2: `0x0605224C + 0x3B0 + 0x5C` = `0x06052658`
+     - Car 3: `0x0605224C + 0x588 + 0x5C` = `0x06052830`
+     - Car 4: `0x0605224C + 0x760 + 0x5C` = `0x06052A08`
+  4. Report each car's state value
+- **What this unblocks**: Confirms which jump table states AI cars use,
+  which tells us which state handlers to preserve or disable.
 
 ---
 
 ## MEDIUM PRIORITY
 
-### 6. Check car[+0x19C] (surface type) on the offtrack scenario
+### 5. FUN_06037E28 call count per frame
 
-- **Why**: +0x19C was identified as a surface type field (discrete 0-7)
-  from the curve analysis. But it stayed at 0 during the offtrack sample.
-  Need to verify: does it change on grass, or is it only for road segments?
+- **Why**: FUN_06037E28 is the per-car master processor. If it's called 40
+  times per frame (once per car), the AI dispatch goes through it. If only
+  1 time, AI uses a separate path.
+- **What to do**:
+  1. Set breakpoint at `0x06037E28`
+  2. Advance 1 frame, count how many times it fires
+  3. Each time it fires, note R4 (car index)
+- **What this unblocks**: Tells us if FUN_06037E28 is the universal per-car
+  entry or player-only.
 
-### 7. Extended struct fields during offtrack
+### 6. Per-car physics prologue fire count
 
-- **Why**: There may be surface-related fields beyond +0x1FF that we
-  haven't captured. The offtrack scenario should use a 768-byte or larger
-  capture to catch extended fields.
-
-### 8. Ghidra verification of sub #10 (FUN_060354A0) inputs
-
-- **Why**: Sub #10 writes +0xF4. Mapper decoded sub #15 (writes +0xE8/+0xEC)
-  from Ghidra — both are heading-derived. Sub #10 needs the same treatment
-  to confirm +0xF4 is also heading-only.
+- **Why**: FUN_060352E8 pushes registers and calls FUN_060352FA (jump table).
+  If it fires 40 times per frame, every car goes through the physics dispatch.
+  If only once, only the player does.
+- **What to do**:
+  1. Set breakpoint at `0x060352E8`
+  2. Advance 1 frame, count fires
+  3. Check if GBR changes between fires (GBR = car struct pointer)
 
 ---
 
 ## Controlled Experiment Protocol
 
-For ALL surface investigations, use the offtrack scenario with this timeline:
-
-| Phase | Frames | Surface | Input | What to observe |
-|-------|--------|---------|-------|-----------------|
-| Baseline | 0-100 | Pavement (near edge) | B (throttle) | Fields at steady state on road |
-| Transition | 100-130 | Crossing to grass | B | Fields that change at crossing |
-| Grass steady | 130-200 | Fully on grass | B | Fields at plateau (64 km/h) |
-
-Always compare pavement-phase values to grass-phase values for the same
-field. The DIFFERENCE reveals what's surface-sensitive.
+For ALL experiments, use the same controlled setup:
+- **Retail disc**: Three Seven time trial, 1P, beginner course
+- **Timing**: Past GO, cars actively racing (not countdown)
+- **Brain-dead mod disc**: For collision tests (Priority 3)
+- **Frame advance**: Always use single-frame advance, not free-run
+- Report exact addresses, register values, and call stacks.
+  Do not summarize — raw data is what we need.
