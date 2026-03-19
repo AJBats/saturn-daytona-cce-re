@@ -1834,3 +1834,67 @@ Also: `sym_00220000` (polygon data) is referenced by FUN_060385CE (same
 TU, line 174), not by FUN_060384C4 directly. FUN_060385CE reads car[+0x38]
 (heading) and car[+0x194], and sets bit 3 in car[+0x30] (flags). Both
 FUN_060384C4 and FUN_060385CE are called from FUN_06037E28.
+
+---
+
+## Entry 29: Explorer survey_001 results — dispatch architecture confirmed
+
+**Date**: 2026-03-18
+**Source**: ai_dispatch_survey_001_obs.md (Explorer empirical data)
+
+### All 6 candidate functions FIRE during racing
+
+Breakpoint sweep confirmed all 6 functions are live during active racing:
+- FUN_06037E28: called ONCE per frame (player only), from FUN_06028000 at 0x0602831A
+- FUN_060352E8: called ONCE (player only), from FUN_06037E28 at 0x06037F3A
+- FUN_060352FA: called ONCE (player only)
+- FUN_0603976C: called ONCE, from FUN_06028000 at **0x06028742** (confirmed)
+- FUN_06040E80: called from FUN_0603976C at 0x0603978A
+- FUN_0603938A: called from FUN_0603976C at 0x0603978E
+
+### AI cut point: confirmed at 0x06028742
+
+The jsr at address 0x06028742 in FUN_06028000 calls FUN_0603976C. NOPping
+this single instruction disables ALL AI processing. There is a second call
+site at 0x06028BC6 that was not confirmed live in this test — may be for
+a different game mode (2P, attract, etc.).
+
+### Car state values: surprising
+
+During active racing at 300 km/h:
+- Player: car[+0x5C] = **1** (not 2 as assumed)
+- AI cars: car[+0x5C] = **0**
+
+States 0 and 1 in the FUN_060352FA jump table are state-advance handlers:
+state 0 increments +0x5C to 1, state 1 increments to 2, each doing one
+frame of initialization. The car likely transitions 0→1→2 during startup
+and spends most of the race in state 2 (FUN_0604D380). The Explorer may
+have caught the player mid-transition or at a lap boundary.
+
+Critically: AI cars never go through FUN_060352FA — they use FUN_0603976C
+→ FUN_06040E80 exclusively. The +0x5C value for AI is irrelevant to their
+dispatch path.
+
+### FUN_06037E28 is player-only
+
+Called exactly ONCE per frame with the player car only. AI cars NEVER go
+through FUN_06037E28. This means:
+- FUN_060384C4 (collision, called 8x from FUN_06037E28) only runs for the
+  player car, not for AI cars
+- The per-car physics prologue (FUN_060352E8) only runs for the player
+- AI collision must be handled elsewhere (inside FUN_0603976C or its
+  callees)
+
+### Updated architecture (empirically confirmed)
+
+```
+FUN_06028000 (every game frame)
+  ├─ 0x0602831A → FUN_06037E28(player)    [ONCE, player only]
+  │     ├─ FUN_060384C4 (×8)               [collision, player only]
+  │     └─ FUN_060352E8 → FUN_060352FA     [physics dispatch]
+  │           └─ FUN_0604D380 (state 2)    [18 sub-functions, NOPped in Step 0]
+  │
+  └─ 0x06028742 → FUN_0603976C            [ONCE, AI bulk processor]
+        ├─ FUN_06040E80                    [per-AI state processor]
+        └─ FUN_0603938A                    [per-AI helper]
+```
