@@ -1709,3 +1709,110 @@ added to +0xF0, and CCE's timer system handles the visual response.
 
 Option (c) is likely best — it gives '95-feel collision physics while
 keeping CCE's visual/audio feedback intact.
+
+---
+
+## Entry 28: Per-frame dispatch architecture (transplant Step 0 analysis)
+
+**Date**: 2026-03-18
+**Source**: Static analysis of FUN_06028000, FUN_06034D32, FUN_0603976C,
+FUN_06037E28; engineer's empirical testing during transplant Step 0.
+
+### Discovery: dual physics pipelines (player vs AI)
+
+The per-car dispatch has TWO separate pipelines:
+
+**Player pipeline**:
+```
+FUN_06028000 (.L_06028318)
+  → FUN_06037E28(r4=0)          per-car master processor
+    → FUN_060352E8               per-car physics prologue (push GBR, r8-r13)
+      → FUN_060352FA             jump table dispatch on car[+0x5C]
+        → FUN_0604D380 (state 2) physics dispatcher (18 sub-functions)
+    → FUN_060384C4 (×8)          collision processor (writes position directly)
+```
+
+**AI pipeline**:
+```
+FUN_06028000 (two call sites: 0x06028742, 0x06028BC6)
+  → FUN_0603976C                 bulk AI processor
+    → FUN_06040E80               per-AI-car state processor
+    → FUN_0603938A               per-AI-car helper
+    → loop over cars 2..car_count-1 (car count byte at 0x060529AC)
+```
+
+Key: AI cars do NOT go through FUN_060352E8 or FUN_060352FA. They use a
+completely separate code path. This is why NOPping all 18 JSRs in
+FUN_0604D380 killed player physics but left AI completely unaffected.
+
+**IMPORTANT CAVEAT**: FUN_06034D32 was our first guess for the AI dispatch
+caller — it calls FUN_06037E28(1) and tail-calls FUN_0603976C. Engineer
+set a breakpoint at 0x06034D32 during active racing: **it never fired**.
+FUN_06034D32 is a dead path during racing (probably attract mode or
+pre-race). The REAL caller is FUN_06028000 directly. Explorer Priority 1
+will confirm which FUN_06028000 call site is active.
+
+### Discovery: collision system is OUTSIDE the physics dispatcher
+
+FUN_060384C4 is the collision processor. Evidence:
+- Called 8 times from FUN_06037E28 via `bsr` (lines 170, 206, 348, 384,
+  502, 544, 824, 861 in FUN_06037E28.s)
+- Writes car position directly: `mov.l r0, @r9` for +0x00 (X) and
+  `mov.l r0, @(8, r9)` for +0x08 (Z)
+- References polygon data at 0x00220000 and 0x00224000
+- Engineer confirmed: with all 18 physics sub-functions NOPped, AI cars
+  still nudge the brain-dead player car's position on collision
+
+This means collision is part of the per-car master processor
+(FUN_06037E28), NOT the physics dispatcher (FUN_0604D380). The physics
+dispatcher handles force/velocity/position pipeline. Collision handles
+direct position correction on contact.
+
+For the transplant: FUN_060384C4 reads CCE polygon data format. When we
+replace with DUSA data, CCE collision will break. The 8 `bsr FUN_060384C4`
+calls in FUN_06037E28 will need to be disabled once DUSA collision is in
+place.
+
+### Discovery: AI state handlers share sub-functions with player
+
+Static analysis of the jump table state handlers:
+- State 3 (FUN_0604D46C): shares FUN_0604D580, FUN_0604D780, FUN_0604DB10,
+  FUN_06035EE8 with the player dispatcher
+- State 4 (FUN_0604D520): shares FUN_06035EE8
+- State 5/6 (FUN_0604D540): shares FUN_0604D6B8, FUN_0604D83C,
+  FUN_060366EC, FUN_06036790
+- State 10 (FUN_0604D570): jumps into FUN_0604D380+0x8 (shared body)
+
+Only FUN_06036CEC (terrain processor, sub #1) is exclusively called by
+the player dispatcher. All other sub-functions are shared. This means we
+CANNOT remove the sub-function code even though the player doesn't call
+them — AI state handlers still need them.
+
+### Discovery: +0x8 mid-function entry point
+
+FUN_0604D380 has a hidden entry point at byte offset +0x8. FUN_0604D570
+(state 10) and FUN_06035430 both push PR, call FUN_06037484, then
+`jmp FUN_0604D380+0x8` to share the remaining 17 sub-function calls and
+epilogue. This is a code-sharing optimization in the original binary.
+
+The engineer's first transplant attempt replaced FUN_0604D380's body with
+an early return. This put `mov.l @r15+, r12` at offset +0x8 (mid-epilogue),
+causing total register corruption when any car entered state 10. The fix
+was to NOP only the 18 JSR instructions, preserving the entire function
+skeleton including the +0x8 entry point.
+
+### Key addresses confirmed
+
+| What | Address | Notes |
+|------|---------|-------|
+| Car struct array base | 0x0605224C | |
+| Car struct size | 0x1D8 (472 bytes) | car[N] = base + N*0x1D8 |
+| Car state field | +0x5C within struct | dispatch key |
+| Car count byte | 0x060529AC | gates AI loop in FUN_0603976C |
+| 2P mode flag | 0x060540B4 | byte, 1 = 2-player |
+| Game state byte | 0x002FC233 | gates FUN_0603CDD8 calls |
+| Per-car master function | FUN_06037E28 | r4 = car index |
+| Physics prologue | 0x060352E8 | FUN_060351CC+0x11C |
+| Collision processor | FUN_060384C4 | writes +0x00/+0x08 directly |
+| Bulk AI processor | FUN_0603976C | loop over cars 2..N-1 |
+| Dead during racing | FUN_06034D32 | attract/pre-race only |
