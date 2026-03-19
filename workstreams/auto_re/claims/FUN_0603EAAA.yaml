@@ -1,0 +1,39 @@
+# FUN_0603EAAA — AI car position integration (writes X/Z to chain array)
+#
+# Observation: workstreams/auto_re/observations/ai_dispatch_survey_002_obs.md
+# File: src/race/FUN_0603DF28.s
+# Address range: 0x0603EAAA - 0x0603EBE2
+#
+# From survey data:
+# - Writes chain[n]+0x00 (X) at PC 0x0603EB2A
+# - Writes chain[n]+0x08 (Z) at PC 0x0603EB2C
+# - Part of per-car chain iteration (FUN_0603DF84 loop)
+# - Runs for ALL cars every frame via linked list
+# - Separate from AI decision-making (FUN_0603976C)
+# - This is the spline-following position integration — makes cars follow track
+#
+# Testing against chain[0] (first AI car at 0x060FD400) in race mode.
+
+function: FUN_0603EAAA
+address: 0x0603EAAA
+address_end: 0x0603EBE2
+source_file: src/race/FUN_0603DF28.s
+
+claims:
+  - id: writes_chain0_X
+    description: "Writes AI car X position to chain[0]+0x00 (PC 0x0603EB2A)"
+    type: writes_to
+    function: FUN_0603EAAA
+    function_end: 0x0603EBE2
+    address: 0x060FD400
+    scenario: race_throttle
+    frames: 60
+
+  - id: writes_chain0_Z
+    description: "Writes AI car Z position to chain[0]+0x08 (PC 0x0603EB2C)"
+    type: writes_to
+    function: FUN_0603EAAA
+    function_end: 0x0603EBE2
+    address: 0x060FD408
+    scenario: race_throttle
+    frames: 60

@@ -50,3 +50,4 @@ FUN_06036914	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Surface p
 surface_physics_survey_001	—	—	—	Surface physics deep dive: +0x4C-0x58 per-wheel surface type (1=road,4=grass), +0x70 grip coefficient drops 6.7x on grass. +0x70 writer CONFIRMED (FUN_06035904 PC 0x06035A3A). +0x4C-0x58 runtime writer: likely FUN_0603C304 or FUN_06038DD8 (static analysis — needs Explorer watchpoint)
 FUN_0603976C	1	1	1	call_count_race PASS (1 call). AI bulk processor — NOP at 0x06028742 disables all AI. Transplant cut point
 FUN_06037E28	1	1	1	call_count_race PASS (1 call). Player per-car master — orchestrates all player processing per frame
+FUN_0603EAAA	2	2	1	writes_chain0_X PASS (0x060FD400, 59 hits, PC 0x0603EB2A, race_throttle), writes_chain0_Z PASS (0x060FD408, 47 hits, PC 0x0603EB2A-EB2C). AI car position integration — spline following, separate from AI decision-making
