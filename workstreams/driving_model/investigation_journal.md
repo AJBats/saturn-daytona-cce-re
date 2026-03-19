@@ -1898,3 +1898,16 @@ FUN_06028000 (every game frame)
         ├─ FUN_06040E80                    [per-AI state processor]
         └─ FUN_0603938A                    [per-AI helper]
 ```
+
+### AI cut validation: PASSED (Explorer live-patch)
+
+Explorer live-patched both call sites during active racing:
+- 0x06028742: NOP'd (mov.l + jsr + delay slot → 3 nops, 6 bytes)
+- 0x06028BC6: NOP'd (same pattern)
+
+Result: AI cars stopped processing (coasted on momentum), player drove
+normally at 96-110 km/h with full control, no crash or hang. Both call
+sites confirmed safe to NOP.
+
+**This is the confirmed AI cut point for the transplant mod.** The engineer
+can build a mod that NOPs these 6 bytes at each call site in FUN_06028000.s.

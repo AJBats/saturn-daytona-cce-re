@@ -44,21 +44,9 @@ Called ONCE per frame — player only. AI never goes through it.
   Critical for knowing whether DUSA needs its own collision or can
   reuse CCE's.
 
-### 7. AI cut validation
-
-- **Why**: We now know the exact cut point (jsr at 0x06028742). Before
-  building the mod, we should validate with a live NOP via debugger.
-- **What to do**:
-  1. Boot retail disc, get to active racing
-  2. Pause emulator
-  3. Write `0x0009` (nop) to address `0x06028742` (overwrite the jsr opcode)
-  4. Write `0x0009` (nop) to address `0x06028744` (overwrite the delay slot nop)
-  5. Also write to `0x06028BC6` and `0x06028BC8` (second call site, may or
-     may not be live)
-  6. Unpause and observe: do AI cars freeze? Does the player still drive?
-  7. If AI freezes: this confirms the cut point for the mod build
-- **What this unblocks**: Confirms the AI cut before committing to a
-  mod build. Much faster than build-inject-boot cycle.
+### 7. ~~AI cut validation~~ RESOLVED (survey_001 update)
+Live NOP at both call sites (0x06028742 and 0x06028BC6) confirmed safe.
+AI stopped processing, player unaffected, no crash. Ready for mod build.
 
 ---
 
