@@ -99,3 +99,24 @@ To disable player physics: NOP the 18 jsr calls in FUN_0604D380 (already done in
 3. **The cut line is clear**: FUN_06028000 orchestrates both paths. The
    transplant replaces FUN_0604D380's internals while preserving the
    surrounding infrastructure (FUN_06037E28, FUN_060352E8).
+
+## Priority #7: AI Cut Validation — CONFIRMED
+
+Live NOP test via debugger poke during active racing:
+
+### Patches applied
+- 0x06028742: D3 26 43 0B 00 09 → 00 09 00 09 00 09 (NOP mov.l + jsr + nop)
+- 0x06028BC6: D3 24 43 0B 00 09 → 00 09 00 09 00 09 (NOP second call site)
+
+### Results
+- **AI cars stopped processing**: no AI decision-making, cars coasted on
+  existing momentum and drove away from the player
+- **Player physics UNAFFECTED**: player drove at 96-110 km/h with full control
+- **Position went 40/40**: AI cars with existing momentum outran the
+  brain-dead AI-less player (they had a head start at 300 km/h)
+- **No crash/hang**: game runs stably with AI calls NOPped
+
+### Validation
+The AI cut point at 0x06028742 (jsr to FUN_0603976C) is confirmed safe
+to NOP for the transplant. Both call sites (0x06028742 and 0x06028BC6)
+were NOPped with no adverse effects.
