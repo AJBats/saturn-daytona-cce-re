@@ -120,3 +120,17 @@ Live NOP test via debugger poke during active racing:
 The AI cut point at 0x06028742 (jsr to FUN_0603976C) is confirmed safe
 to NOP for the transplant. Both call sites (0x06028742 and 0x06028BC6)
 were NOPped with no adverse effects.
+
+## Priority #8: Second Call Site (0x06028BC6) — Race Mode Test
+
+Breakpoint at 0x06028BC6 during 300 frames of active 1P race mode:
+**NO HIT.** The second call site does NOT fire during normal 1P racing.
+
+It is likely used for:
+- 2P split-screen mode (second player's AI)
+- Attract mode demo races
+- Some other non-standard game mode
+
+For the transplant (targeting 1P racing on Three Seven), only the first
+call site at 0x06028742 needs to be NOPped. The second site at 0x06028BC6
+can also be NOPped for safety (confirmed harmless in Priority #7's live test).
