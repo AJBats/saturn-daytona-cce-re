@@ -1816,3 +1816,21 @@ skeleton including the +0x8 entry point.
 | Collision processor | FUN_060384C4 | writes +0x00/+0x08 directly |
 | Bulk AI processor | FUN_0603976C | loop over cars 2..N-1 |
 | Dead during racing | FUN_06034D32 | attract/pre-race only |
+
+### Static analysis: FUN_060384C4 position write mechanism
+
+FUN_060384C4 does NOT write to car[+0x00/+0x08] directly. The write path:
+1. `r9 = car[+0x160]` — load a pointer from the car struct
+2. `r9 = *(r9 + 4)` — dereference to get a second pointer
+3. `*(r9) = new_X`, `*(r9+8) = new_Z` — write through the chain
+
+The position write target is whatever car[+0x160]+4 points to. This could
+be: (a) the car struct itself (circular reference), (b) a rendering
+position buffer, or (c) a collision scratch structure. Explorer Priority 3
+(watchpoint on car[+0x00]) will reveal whether FUN_060384C4 is the actual
+writer or if there's an intermediate copy step.
+
+Also: `sym_00220000` (polygon data) is referenced by FUN_060385CE (same
+TU, line 174), not by FUN_060384C4 directly. FUN_060385CE reads car[+0x38]
+(heading) and car[+0x194], and sets bit 3 in car[+0x30] (flags). Both
+FUN_060384C4 and FUN_060385CE are called from FUN_06037E28.
