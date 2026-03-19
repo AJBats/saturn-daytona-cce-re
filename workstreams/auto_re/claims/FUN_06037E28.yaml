@@ -1,0 +1,28 @@
+# FUN_06037E28 — Player per-car master (per-frame game loop)
+#
+# Observation: workstreams/auto_re/observations/ai_dispatch_survey_001_obs.md
+# File: src/race/FUN_06037E28.s
+# Address range: 0x06037E28 - TBD
+#
+# From survey data:
+# - Called 1x/frame from init module at 0x0602831A
+# - Processes ONLY the player car (AI uses separate FUN_0603976C path)
+# - Calls FUN_060352E8 → FUN_060352FA → FUN_0604D380 (physics dispatcher)
+# - Also calls FUN_0603833C, FUN_060384C4, FUN_060386D8 (confirmed by prior obs)
+#
+# This is the per-frame game loop master that orchestrates all player processing.
+
+function: FUN_06037E28
+address: 0x06037E28
+address_end: 0x06038000
+source_file: src/race/FUN_06037E28.s
+
+claims:
+  - id: call_count_race
+    description: "Called 1 time per game frame in race mode (player per-car master)"
+    type: call_count_per_frame
+    function: FUN_06037E28
+    address: 0x06037E28
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 1

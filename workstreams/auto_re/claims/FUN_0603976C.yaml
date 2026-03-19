@@ -1,0 +1,29 @@
+# FUN_0603976C — AI bulk processor (transplant cut point)
+#
+# Observation: workstreams/auto_re/observations/ai_dispatch_survey_001_obs.md
+# File: src/race/FUN_0603976C.s (approx)
+# Address range: 0x0603976C - TBD
+#
+# From survey data:
+# - Called 1x/frame from FUN_06028000 at 0x06028742
+# - Processes ALL AI cars (bulk dispatcher)
+# - NOP at 0x06028742 disables ALL AI processing
+# - Calls FUN_06040E80 (per-AI state) and FUN_0603938A (per-AI helper)
+# - Player car does NOT go through this path
+#
+# Key transplant target: NOP this call to disable AI during testing.
+
+function: FUN_0603976C
+address: 0x0603976C
+address_end: 0x060397C0
+source_file: src/race/FUN_0603976C.s
+
+claims:
+  - id: call_count_race
+    description: "Called 1 time per game frame in race mode (AI bulk processor)"
+    type: call_count_per_frame
+    function: FUN_0603976C
+    address: 0x0603976C
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 1
