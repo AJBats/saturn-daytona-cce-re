@@ -345,3 +345,88 @@ the source assembly.
 - If a NOP crashes the emulator, that's also evidence — the field is load-bearing
 - Oracle-reported PCs are typically 2-4 bytes AFTER the actual store instruction
   due to SH-2 pipeline delay. Always verify against the assembly source.
+
+---
+
+## COL Swap Hardening — Polygon Data Reader NOP Tests
+
+These 6 functions are confirmed active during 1P mid-race (pc_trace
+sweep, hollowing_survey_001). Each reads from the 0x00220000 polygon
+data region. When we swap CS*_COL.BIN for DUSA waypoint data, these
+functions will read DUSA-format data instead of CCE polygons. We need
+to know what each function does for the player so we can decide: cut
+it, keep it, or replace it.
+
+**Setup**: load `cce_race_start.mc0`, advance to frame 120 (active
+racing). Apply NOP via debugger poke. Observe for 300+ frames.
+Reload save state between each test.
+
+**NOP method for all tests**: write `0x000B 0x0009` (rts; nop) at the
+function entry address. This makes the function return immediately
+on all calls. Equivalent to cutting all callers at once.
+
+### Experiment 8: FUN_060385CE (polygon reader)
+
+- **What to NOP**: `rts; nop` at `0x060385CE`
+- **Function**: reads polygon data at sym_00220000, reads car[+0x38]
+  (heading) and car[+0x194], sets bit 3 in car[+0x30] (flags).
+  Called 2x/frame from FUN_06037E28 (player master), 7 bsr sites total.
+- **Expected effect**: unknown — could affect rendering, collision
+  detection, or surface response. This is the function we previously
+  misattributed to FUN_060384C4.
+- **Watch for**: visual glitches, collision behavior changes, car
+  clipping through track, any crash.
+- **Confidence**: HIGH that it reads polygon data (pc_trace confirmed).
+  LOW on what breaks when cut.
+
+### Experiment 9: FUN_060386D8 (terrain height processor)
+
+- **What to NOP**: `rts; nop` at `0x060386D8`
+- **Function**: writes car[+0x04] (Y height) and car[+0x10] (banking).
+  Reads polygon data at sym_00220000 and sym_00224000. Called from
+  FUN_06037E28, 4 bsr sites.
+- **Expected effect**: car should lose terrain following — may float
+  above track or clip below it. Banking on curves should stop.
+- **Watch for**: car floating at a fixed Y, car sinking through road,
+  car staying level on banked curves.
+- **Confidence**: HIGH — confirmed terrain writer from previous analysis.
+- **Transplant note**: if DUSA provides Y/banking through its own terrain
+  query, this function can be cut. If not, we may need to keep it and
+  feed it compatible polygon data.
+
+### Experiment 10: FUN_06036914 (surface property extractor)
+
+- **What to NOP**: `rts; nop` at `0x06036914`
+- **Function**: reads from sym_00228000. Called from FUN_06036A70
+  (coordinate space bridge) via bsr. Part of the terrain lookup chain.
+- **Expected effect**: surface properties (grass/road type) may stop
+  updating. With the 18 physics JSRs already NOPped, the surface data
+  has nowhere to feed — so this may have no visible effect.
+- **Watch for**: any change at all. If no change, this function is
+  already dead due to the physics NOP and doesn't need separate cutting.
+
+### Experiment 11: FUN_06036B60 (grid table accessor)
+
+- **What to NOP**: `rts; nop` at `0x06036B60`
+- **Function**: reads both sym_00220000 and sym_00224000. Called from
+  FUN_0604264C.
+- **Expected effect**: unknown — grid lookup may feed terrain height,
+  surface detection, or collision.
+- **Watch for**: any crash (grid accessor returning garbage could
+  cascade), terrain glitches, car falling through track.
+
+### Experiment 12: FUN_06042998 (unclassified)
+
+- **What to NOP**: `rts; nop` at `0x06042998`
+- **Function**: reads sym_00224000. Called from FUN_06040FE4. Completely
+  unclassified — no static analysis has been done.
+- **Expected effect**: unknown. NOP reveals the role.
+- **Watch for**: anything — visual, audio, gameplay, crash.
+
+### Experiment 13: FUN_06044788 (unclassified)
+
+- **What to NOP**: `rts; nop` at `0x06044788`
+- **Function**: reads sym_00220000. Called from FUN_060446F4 (2 bsr sites).
+  Completely unclassified.
+- **Expected effect**: unknown. NOP reveals the role.
+- **Watch for**: anything — visual, audio, gameplay, crash.
