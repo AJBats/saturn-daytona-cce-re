@@ -112,3 +112,27 @@ the 0x00220000 polygon data region during active racing.
 
 Total: 6 functions must be addressed before COL swap.
 The two NEW functions (FUN_06042998, FUN_06044788) need classification.
+
+## Priority #25: Attract Mode Scenario Sweep
+
+8 breakpoints set, cold boot to attract mode demo race:
+
+| Function | Fires? | Frame | Caller (PR) | Phase |
+|----------|--------|-------|-------------|-------|
+| **FUN_060291E0** | **YES** | 1999 | 0x06028168 (FUN_06028000) | Attract race active |
+| FUN_06032E44 | NO | — | — | — |
+| FUN_06034904 | NO | — | — | — |
+| FUN_0603C304 | NO | — | — | — |
+| **FUN_0603CDD8** | **YES** | 2087 | 0x0603522E (FUN_060351CC) | Track init |
+| **FUN_0603D558** | **YES** | 2084 | 0x0603D13C (FUN_0603D0CA) | Track init |
+| **FUN_0603D980** | **YES** | 2086 | 0x06029370 | Track init |
+| FUN_0603DF28 | NO | — | — | — |
+
+4 of 8 fire during attract mode:
+- FUN_060291E0: fires during the attract demo race (NOT during 1P racing)
+- FUN_0603CDD8, FUN_0603D558, FUN_0603D980: fire during track loading/init
+
+4 remain inactive even in attract: FUN_06032E44, FUN_06034904, FUN_0603C304, FUN_0603DF28.
+
+Priorities #26-29 blocked — need save states for pre-GO countdown,
+finish line crossing, Dinosaur Canyon, and car select screen.
