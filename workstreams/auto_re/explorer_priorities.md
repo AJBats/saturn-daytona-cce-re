@@ -1,136 +1,125 @@
-# Explorer Priorities — FUN_06028000 Frame Map
+# Explorer Priorities — Transplant Hollowing
 
-**Updated**: 2026-03-19
+**Updated**: 2026-03-20
 
-**Goal**: Map EVERY function called during one frame of active racing,
-classify as gameplay vs system/rendering, find the cut boundary.
+**Goal**: Identify every function that reads 0x00220000 (polygon/collision
+data) so we know exactly what breaks when we swap COL files for DUSA data.
+Also trace the collision chain downstream of FUN_060384C4.
 
-**Context**: FUN_06028000 has 170+ jsr calls across a 3-level state machine.
-Ghidra decompilation shows the structure but all targets are opaque DAT_
-references. The near/far zone discovery revealed the position integration
-chain (FUN_0603F9FC → FUN_0603DF84 → FUN_0603EAAA) is NOT directly
-called from FUN_06028000 — it goes through an unknown intermediate.
+---
+
+## RESOLVED (previous passes)
+
+- #1-2: Breakpoint sweep + FUN_0603976C caller — RESOLVED
+- #3: Player position writer = FUN_06036790 (sub #18) — RESOLVED
+- #4-5: AI car states + FUN_06037E28 count — RESOLVED
+- #7: AI cut validation at 0x06028742 — RESOLVED
+- #8: Second call site 0x06028BC6 not live in 1P — RESOLVED
+- #9: AI position writer = FUN_0603EAAA via init chain — RESOLVED
+- #10: Partial frame map (17 race calls + 4 init calls) — RESOLVED
+- #11: FUN_0603F9FC caller = init module at 0x06013C8E — RESOLVED
+- #12: bsr FUN_060291E0 never fires during racing — RESOLVED (disproven)
+- #13: Init callback chain = single entry FUN_0603C5CC — RESOLVED
 
 ---
 
 ## HIGH PRIORITY
 
-### 12. Model viewer cut test: NOP `bsr FUN_060291E0`
+### 14. Collision chain trace: what reads FUN_060384C4's output?
 
-- **Why**: Mapper found the gameplay/rendering boundary in FUN_06028000.
-  All gameplay runs through `bsr FUN_060291E0` at line 1759 (runtime
-  address near 0x06028CAC — verify exact address from assembly). A flag
-  gate at lines 1750-1753 ensures rendering runs every frame regardless.
-  NOPping this one bsr should kill ALL car gameplay while preserving
-  rendering, music, HUD, and system infrastructure.
-- **What to do**:
-  1. Boot retail disc, get to active racing
-  2. Pause emulator
-  3. Find the exact runtime address of `bsr FUN_060291E0`. It's encoded
-     as a .reloc bsr in the assembly (line 1759). Read the 2 bytes at
-     the computed address to verify it's a bsr opcode (0xBxxx).
-  4. NOP it (write 0x0009 over the bsr, and 0x0009 over the delay slot)
-  5. Unpause and observe:
-     - Does the 3D track still render?
-     - Does the car sprite still show?
-     - Does the HUD (speed, position, lap) still display?
-     - Does music still play?
-     - Do ALL cars freeze (player AND AI)?
-     - Does the camera update or freeze?
-  6. If everything renders but cars freeze: **this is the cut point**.
-  7. If rendering breaks: FUN_060291E0 has rendering calls mixed in
-     and we need to cut more surgically inside it.
-- **What this unblocks**: The "model viewer" architecture. If this works,
-  we have a single NOP that turns CCE into a dumb rendering frontend.
-
-### 13. Dump the init callback chain — every registered function
-
-- **Why**: Init module has a generic linked-list dispatcher (FUN_0600EA84,
-  runtime 0x06013C84). Every frame it walks a chain of entries, calling
-  each entry's function pointer at entry+0x0C. We need to know every
-  function registered in this chain to understand the full AI/rendering
-  pipeline and identify what to cut.
+- **Why**: FUN_060384C4 computes 4-corner car geometry and writes it
+  via the pointer chain at car[+0x160]. We confirmed (engineer test)
+  that cutting FUN_060384C4 causes collision feedback loops — proving
+  something reads those corners for collision detection. That downstream
+  collision consumer MAY read 0x00220000 (track polygon data) to
+  determine wall positions. We need to find it.
 - **What to do**:
   1. Boot retail disc, get to active racing, pause
-  2. The chain head pointer is likely at a known address. The first
-     chain entry seen by the Explorer had GBR=0x060FD400.
-  3. Set breakpoint at runtime 0x06013C8A (the `jsr @r1` inside the
-     dispatcher loop)
-  4. Each time it fires:
-     - Read R1 (the function being called)
-     - Read R0 (the current chain entry address)
-     - Read R0+0x04 (the next entry pointer)
-     - Read R0+0x0C (should match R1)
-  5. Continue until the loop terminates (R0+0x04 = NULL)
-  6. Report the COMPLETE chain: entry address → function pointer,
-     for every entry in order
-  7. For each function pointer, note if it's in:
-     - Race module (0x06028000-0x060A0000): gameplay candidate
-     - Init module (0x06005200-0x0601A200): system/infrastructure
-- **What this unblocks**: Complete map of init's per-frame callbacks.
-  We can classify each as gameplay (cut) vs rendering (keep).
+  2. Read car[+0x160] to get the pointer to the corner struct
+     (`read_u32 0x060523AC` = 0x0605224C + 0x160)
+  3. Dereference: read the 4 pointers at offsets +0, +4, +8, +12
+  4. Set write watchpoint on one of those corner positions
+     (pick the first one — offset +0 of the pointer at car[+0x160]+4)
+  5. Advance 1 frame — confirm FUN_060384C4 is the writer (PC should
+     be in 0x060384C4-0x06038590 range)
+  6. Now set READ watchpoint (if available) on the same corner address
+  7. Advance 1 frame — who READS the corner position?
+  8. Report the reader PC and call stack — this is the collision
+     detection function
+  9. Check: does THAT function reference 0x00220000?
+- **What this unblocks**: Determines if the collision chain reads track
+  data. If yes, it must be cut before COL swap. If no, collision is
+  safe to keep alongside DUSA physics.
 
-### 10. Full-frame call_trace during active 1P racing
+### 15. Comprehensive 0x00220000 reader sweep
 
-- **Why**: We need the complete ordered list of functions called per frame
-  to identify what's gameplay vs system/rendering. Static analysis of
-  170+ call sites is impractical — empirical trace is faster.
+- **Why**: We need a complete list of every function that reads from
+  the polygon data region during one frame of racing. Any function
+  that reads 0x00220000 will break when COL data is replaced with
+  DUSA format. Previous attribution errors (FUN_060384C4 false positive)
+  show we can't trust file-level grep — we need runtime confirmation.
 - **What to do**:
-  1. Boot retail disc, load `cce_race_start.mc0`, advance to frame 120
-     (past GO, active racing)
-  2. Start a call_trace
-  3. Advance exactly 1 frame
-  4. Stop the call_trace
-  5. Report the FULL list of functions called, in order, with:
-     - Function address
-     - Caller address (PR at entry)
-     - Call depth (nesting level)
-  6. Highlight any function we already know:
-     - `0x06037E28` = FUN_06037E28 (player master) — GAMEPLAY
-     - `0x0603976C` = FUN_0603976C (AI bulk processor) — GAMEPLAY
-     - `0x0603EAAA` = position integration writer — GAMEPLAY
-     - `0x0603DF84` = chain iteration loop — GAMEPLAY
-     - `0x0603F9FC` = position integration entry — GAMEPLAY
-     - `0x060352E8` = physics prologue — GAMEPLAY
-     - `0x0604D380` = physics dispatcher — GAMEPLAY
-     - `0x060384C4` = collision processor — GAMEPLAY
-  7. For unknown functions, note the address and caller so the Mapper
-     can classify them from static analysis
-- **What this unblocks**: Complete frame map. Once we have this, the
-  Mapper can identify the gameplay/rendering boundary and specify
-  exactly which calls to NOP for the "model viewer" cut.
+  1. Boot retail disc, get to active racing
+  2. Set read watchpoint on `0x00220000` (the base of the polygon table)
+  3. Advance 1 frame
+  4. Report ALL reader PCs that fire
+  5. For each reader PC, identify the function and its call chain
+  6. Also watchpoint `0x00220004` and `0x00220008` (in case the base
+     address is skipped but nearby data is read)
+  7. Classify each reader:
+     - Physics (will be replaced by DUSA) → CUT
+     - Rendering (needs polygon data for display) → PROBLEM
+     - Collision (needs wall positions) → needs investigation
+     - Other → needs investigation
+- **What this unblocks**: The definitive answer to "what breaks when
+  we swap the COL file." No more guessing from grep — runtime proof
+  of every reader.
+- **IMPORTANT**: Previous error was attributing file-level grep hits
+  to wrong functions within a TU. This watchpoint approach confirms
+  the actual EXECUTING code, not just pool proximity.
 
-### 11. Find FUN_0603F9FC's caller chain from FUN_06028000
+### 16. FUN_0602A048 classification
 
-- **Why**: FUN_0603F9FC (position integration) is NOT in FUN_06028000's
-  pool entries and has no .reloc reference from it. It's called through
-  an unknown intermediate. The engineer couldn't find it to NOP it.
-  We need to know the full chain.
+- **Why**: One of the 4 direct init→race calls per frame. The other
+  three are classified (two position integration, one rendering init).
+  This one is unknown.
 - **What to do**:
-  1. Set breakpoint at `0x0603F9FC` during active racing
-  2. When it fires, dump the full call stack
-  3. Report every return address between FUN_06028000 and FUN_0603F9FC
-  4. This identifies the intermediate function(s)
-- **What this unblocks**: Tells us WHERE to NOP to kill position
-  integration. May also reveal other gameplay functions called
-  through the same intermediate.
+  1. Set breakpoint at `0x0602A048` during active racing
+  2. When it fires, dump regs and call stack
+  3. Read the first 20 instructions of the function — what does it do?
+  4. Does it reference 0x00220000? (check pools in FUN_06029FE8.s)
+  5. Does it write to car struct fields?
+- **What this unblocks**: Completes the init→race call classification.
 
 ---
 
 ## MEDIUM PRIORITY
 
-### 3. Player position writer trace (updated)
+### 17. FUN_060385CE verification
 
-- **Why**: We found the AI position writer (PC 0x0603EB2A, velocity
-  integration). Does the PLAYER use the same path? Or does the player
-  get position from the physics dispatcher only?
+- **Why**: FUN_060385CE (same TU as FUN_060384C4) is the function that
+  ACTUALLY references sym_00220000 at pool line 213. We incorrectly
+  attributed this to FUN_060384C4 in earlier analysis. Need to confirm:
+  does FUN_060385CE fire during racing? Is it called from FUN_06037E28?
+  What does it do with the polygon data?
 - **What to do**:
-  1. Boot retail disc, get to active racing
-  2. Set write watchpoint on player X: `0x0605224C`
-  3. Advance 1 frame
-  4. Report the writer PC and call stack
-  5. Is it the same FUN_0603EAAA, or is it FUN_06036790 (sub #18 of
-     the physics dispatcher), or something else?
-- **What this unblocks**: Tells us if cutting the position integration
-  chain would freeze the player too (as the near/far test suggested),
-  or if the player has a separate position path through the dispatcher.
+  1. Set breakpoint at `0x060385CE` during active racing
+  2. Does it fire? How many times per frame?
+  3. If it fires: dump regs and call stack. Who calls it?
+  4. Trace what it reads from 0x00220000 and what it writes
+- **What this unblocks**: Determines if FUN_060385CE is another function
+  we need to cut before COL swap.
+
+### 18. FUN_060351CC + FUN_0603CDD8 polygon data access
+
+- **Why**: FUN_060351CC (per-car state checks) calls FUN_0603CDD8 for
+  car states 2/6/7/8. FUN_0603CDD8 references both 0x00220000 and
+  0x00224000. We need to know if this fires during racing and what
+  it does with the data.
+- **What to do**:
+  1. Set breakpoint at `0x0603CDD8` during active racing
+  2. Does it fire? For which cars (player, AI, both)?
+  3. What does it read from 0x00220000?
+  4. Can it be safely cut without affecting game state?
+- **What this unblocks**: Determines if per-car state checks need
+  cutting before COL swap.
