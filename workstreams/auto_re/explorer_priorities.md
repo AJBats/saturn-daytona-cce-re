@@ -15,6 +15,34 @@ called from FUN_06028000 — it goes through an unknown intermediate.
 
 ## HIGH PRIORITY
 
+### 12. Model viewer cut test: NOP `bsr FUN_060291E0`
+
+- **Why**: Mapper found the gameplay/rendering boundary in FUN_06028000.
+  All gameplay runs through `bsr FUN_060291E0` at line 1759 (runtime
+  address near 0x06028CAC — verify exact address from assembly). A flag
+  gate at lines 1750-1753 ensures rendering runs every frame regardless.
+  NOPping this one bsr should kill ALL car gameplay while preserving
+  rendering, music, HUD, and system infrastructure.
+- **What to do**:
+  1. Boot retail disc, get to active racing
+  2. Pause emulator
+  3. Find the exact runtime address of `bsr FUN_060291E0`. It's encoded
+     as a .reloc bsr in the assembly (line 1759). Read the 2 bytes at
+     the computed address to verify it's a bsr opcode (0xBxxx).
+  4. NOP it (write 0x0009 over the bsr, and 0x0009 over the delay slot)
+  5. Unpause and observe:
+     - Does the 3D track still render?
+     - Does the car sprite still show?
+     - Does the HUD (speed, position, lap) still display?
+     - Does music still play?
+     - Do ALL cars freeze (player AND AI)?
+     - Does the camera update or freeze?
+  6. If everything renders but cars freeze: **this is the cut point**.
+  7. If rendering breaks: FUN_060291E0 has rendering calls mixed in
+     and we need to cut more surgically inside it.
+- **What this unblocks**: The "model viewer" architecture. If this works,
+  we have a single NOP that turns CCE into a dumb rendering frontend.
+
 ### 10. Full-frame call_trace during active 1P racing
 
 - **Why**: We need the complete ordered list of functions called per frame
