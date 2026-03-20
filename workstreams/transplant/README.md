@@ -60,6 +60,149 @@ No separate "DUSA simulation layer." No output bridge. No coordinate
 conversion. The rewritten DUSA code IS part of CCE — it writes directly
 to CCE's car struct fields, and CCE's renderer reads them normally.
 
+## Step 0: Hollowing Out CCE — Model Viewer Baseline
+
+Before adding DUSA code, we must turn CCE into a dumb rendering frontend.
+All gameplay logic is disabled. The game boots, renders the track and car
+sprites, plays music — but nothing moves unless we poke values into memory.
+
+### Confirmed Per-Frame Architecture
+
+Init is the permanent dispatcher. Everything is downstream from init.
+
+```
+INIT MODULE (permanent at 0x06005200, DAYTONA/0):
+  Frame loop (FUN_06005760)
+    │
+    ├─ Callback chain (0x06013C8A, FUN_0600EA84 linked-list dispatcher)
+    │     └─ ONE registered entry → FUN_0603C5CC (race module)
+    │           └─ FUN_0603F9FC → FUN_0603DF84 (iterates 37 car chain entries)
+    │                 └─ FUN_0603EAAA: position += delta per car
+    │                       (velocity integration for AI cars on scripted track paths)
+    │
+    ├─ Direct init→race calls (from ~0x0600746A):
+    │     ├─ 0x0603E394 (FUN_0603E350+0x44) — position integration TU, reads 0x00220000
+    │     ├─ 0x0603E60C (FUN_0603E60C)      — position integration TU, reads 0x00220000
+    │     ├─ 0x06045664 (FUN_06045664)      — rendering state init (harmless)
+    │     └─ 0x0602A048 (FUN_0602A048)      — unclassified
+    │
+    └─ FUN_06028000 (race module entry, called every game frame)
+          ├─ FUN_06037E28 (player master, 1x/frame, player car ONLY)
+          │     ├─ FUN_060384C4 ×8 via .reloc bsr (collision/terrain, reads 0x00220000)
+          │     ├─ FUN_060385CE (collision helper, reads 0x00220000)
+          │     └─ jsr @r9 → FUN_060352E8 (physics prologue)
+          │           └─ FUN_060352FA (jump table on car[+0x5C])
+          │                 └─ FUN_0604D380 (state 2: player physics, 18 sub-functions)
+          │                       └─ FUN_06036790 (sub #18: player position writer)
+          │
+          ├─ FUN_0603976C (AI-player collision — only confirmed effect)
+          ├─ FUN_060351CC (per-car state checks, calls FUN_0603CDD8 which reads 0x00220000)
+          └─ 15+ other calls (rendering, HUD, sound, camera — KEEP)
+```
+
+Key facts:
+- **Player position** is written by FUN_06036790 (sub #18), inside the physics dispatcher
+- **AI position** is written by FUN_0603EAAA (chain loop), dispatched from init module
+- Player and AI use **completely separate** position write paths
+- Everything that reads **0x00220000** (polygon/collision data) must be cut before COL file swap
+
+### Current NOP Status (mods/transplant/race/)
+
+**FUN_0604D380.s** — 18 jsr NOPs inside the player physics dispatcher:
+```
+#1  FUN_06036CEC  — input/surface/register save
+#2  FUN_0604D580  — input scaling/clamping
+#3  0x0604D6B8    — speed conversion (+0x24→+0x34)
+#4  0x0604D758    — collision timer tick
+#5  0x0604D780    — throttle/brake ramp
+#6  FUN_0604D94C  — conditional, gated by +0x174
+#7  0x0604D83C    — state-to-constant mapper
+#8  0x0604DAD8    — heavy multiply chain (force)
+#9  FUN_0604DB10  — heading sin/cos
+#10 FUN_0604DD04  — heading→sin/cos lookup
+#11 FUN_060354A0  — rotation transform
+#12 FUN_06035750  — timer chain + sqrt
+#13 FUN_06035904  — cross-product/force output
+#14 FUN_0603631C  — conditional, gated by +0x16A
+#15 FUN_06035C98  — trig/heading computation
+#16 FUN_06035EE8  — external struct writer
+#17 FUN_060366EC  — velocity integrator (+0xF0→+0x24)
+#18 FUN_06036790  — position writer (+0x24→+0x00/+0x08)
+```
+
+**FUN_06028000.s** — 2 jsr NOPs for AI-player collision:
+```
+0x06028742: jsr FUN_0603976C — AI-player collision disabled (1P mode)
+0x06028BC6: jsr FUN_0603976C — AI-player collision disabled (2P/demo)
+```
+
+**FUN_0603DF28.s** — 2 add NOPs for near-zone AI position:
+```
+add r1, r4 → nop — near-zone X position += deltaX
+add r3, r6 → nop — near-zone Z position += deltaZ
+⚠ PARTIAL: only freezes near-zone cars. Far-zone cars still move.
+```
+
+### Proposed: Caller-Level Cut Strategy
+
+Move all cuts to function entry points or caller jsr sites. Cleaner, fewer
+edits, complete coverage.
+
+**FUN_0604D380.s** — REPLACE 18 internal NOPs with caller-level cuts:
+```
+NOP all "jsr @r9" in FUN_06037E28.s (7 call sites, lines 152/295/330/484/644/685/721)
+  → kills entire physics dispatch (FUN_060352E8 + FUN_060352FA + all state handlers)
+  → replaces all 18 sub-function NOPs with 7 caller NOPs
+  ⚠ VERIFY: confirm r9 = FUN_060352E8 at all 7 sites (r9 may be reloaded)
+```
+
+**FUN_06028000.s** — KEEP existing 2 NOPs (already at caller level):
+```
+0x06028742: jsr FUN_0603976C — KEEP (already correct)
+0x06028BC6: jsr FUN_0603976C — KEEP (already correct)
+```
+
+**FUN_0603DF28.s** — REPLACE 2 internal add NOPs with upstream cuts:
+```
+rts/nop at entry of FUN_0603C5CC — kills entire init callback chain (near+far)
+rts/nop at entry of FUN_0603E60C — kills direct init→race position call
+  ⚠ 0x0603E394 is FUN_0603E350+0x44 (mid-function entry) — rts at FUN_0603E350
+    won't catch it. Need rts/nop at 0x0603E350+0x44 too, or NOP the init caller.
+```
+
+**FUN_06037E28.s** — NEW: cut player collision (reads 0x00220000):
+```
+rts/nop at entry of FUN_060384C4 — kills all 8 bsr callers with one edit
+```
+
+**FUN_060351CC.s** — NEW: cut per-car state checks (reads 0x00220000 via FUN_0603CDD8):
+```
+Option A: NOP the jsr to FUN_060351CC in FUN_06028000
+Option B: NOP the jsr to FUN_0603CDD8 inside FUN_060351CC
+⚠ NEEDS INVESTIGATION — may affect game state machine
+```
+
+### Open Questions
+
+1. **FUN_0602A048** (direct init→race call) — unclassified. Does it touch
+   0x00220000? Does it affect gameplay? Need to investigate before cutting.
+2. **r9 at all 7 jsr sites in FUN_06037E28** — is r9 always FUN_060352E8,
+   or does it get reloaded? If reloaded, some jsr @r9 calls may be to
+   different functions and shouldn't be NOPped.
+3. **FUN_060351CC** — cuts may affect the game state machine. Need to test.
+4. **0x0603E394 mid-function entry** — the init caller jumps to
+   FUN_0603E350+0x44, bypassing the function entry. Need rts at both
+   +0x00 and +0x44, or NOP the init-side caller (requires init module mod).
+
+### Poke Test Results (from Step 0)
+
+With the current brain-dead mod (18 JSR NOPs + AI collision cut):
+- **+0x00 (X position)**: poke moves car sprite laterally. Camera follows on unpause.
+- **+0x38 (physics heading)**: poke has no visible effect (nothing propagates to sprite).
+- **+0x0E (render heading)**: poke rotates car sprite. Camera does NOT follow.
+- **AI collision**: AI cars clip through player (collision disabled).
+- **Near-zone AI**: freeze after position add NOPs. Far-zone still moves.
+
 ## The Build-Up: Function by Function
 
 Each step adds one pipeline stage. Each step is independently testable.
