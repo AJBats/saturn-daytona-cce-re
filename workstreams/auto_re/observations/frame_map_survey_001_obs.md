@@ -107,3 +107,45 @@ Cutting the chain iteration loop (FUN_0603F9FC from init module) would
 freeze AI cars but NOT the player. The player's position comes from
 the physics dispatcher, which is the transplant target. The DUSA model
 will write the player's position through the same dispatcher interface.
+
+## Priority #13: Init Callback Chain — RESOLVED
+
+### Chain structure
+
+The init dispatcher at 0x06013C84 reads a callback entry from GBR+8
+(GBR=0x060FFC00 → entry at 0x060FFC08 → points to 0x06015128).
+It's a SINGLE callback slot, not a linked list.
+
+### Chain entry at 0x06015128 (live, frame 120)
+
+| Offset | Value | Notes |
+|--------|-------|-------|
+| +0x00 | 0x00000000 | Flags (zero) |
+| +0x04 | 0x00000000 | Next pointer (NULL = end) |
+| +0x08 | 0x00000000 | Unknown |
+| +0x0C | **0x0603C5CC** | **Function pointer (RACE module)** |
+
+### Complete init → position integration chain
+
+```
+Init dispatcher (0x06013C8A, jsr @r1)
+  → 0x0603C5CC (FUN_0603C5CC, registered callback in race module)
+    → FUN_0603F9FC (position integration entry)
+      → FUN_0603DF84 (per-car chain iteration, 37 cars)
+        → 0x0603EB2A (writes chain[n]+0x00 X and +0x08 Z per car)
+```
+
+FUN_0603C5CC is the INTERMEDIATE function the Mapper couldn't find. It's
+the race module's callback registered with the init dispatcher, and it
+calls the position integration chain.
+
+### To disable position integration
+
+Option A: NOP the jsr @r1 at **0x06013C8A** (init module, kills ALL
+registered callbacks — may break other things)
+
+Option B: Zero the function pointer at **0x06015134** (entry +0x0C,
+kills only this specific callback)
+
+Option C: NOP inside **FUN_0603C5CC** at 0x0603C5CC (race module,
+surgically disables position integration without touching init)
