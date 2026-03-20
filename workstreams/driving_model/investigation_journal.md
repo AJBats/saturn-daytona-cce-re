@@ -1952,9 +1952,53 @@ Same pattern as FUN_060352E8/FUN_060352FA (player physics dispatch).
 FUN_0603FA1E = prologue, FUN_0603F9FC = epilogue. The position integration
 chain uses the same code-sharing optimization.
 
-### Cut point
+### Cut point (UPDATED)
 
-NOP the `jsr @r3` at runtime address **0x060292DE** in FUN_06028000.s
-(line 2611-2613). This kills FUN_0603CE88 and everything downstream.
-Note: FUN_0603CE88 may do other things besides position integration —
-Explorer verification recommended before building the mod.
+The `jsr @r3` at 0x060292DE is inside **FUN_060291E0** (line 2472), NOT
+FUN_06028000 directly. FUN_060291E0 is a sub-function called via
+`bsr FUN_060291E0` at line 1759 of FUN_06028000.
+
+---
+
+## Entry 31: FUN_06028000 frame architecture — GAMEPLAY/RENDERING BOUNDARY
+
+**Date**: 2026-03-19
+**Source**: Static analysis of FUN_06028000 gate structure
+
+### The gameplay gate
+
+FUN_06028000 has a FLAG GATE at lines 1750-1766 that separates gameplay
+from rendering:
+
+```
+Lines 1744-1749: two system calls (always run)
+Lines 1750-1753: read flag at .L_pool_06028E28
+  if ZERO → jump to .L_06028D3A (SKIP GAMEPLAY → rendering only)
+  if NON-ZERO:
+    Line 1755: pre-gameplay call
+    Line 1759: bsr FUN_060291E0  ← ALL CAR GAMEPLAY
+    Line 1762: post-gameplay call
+    Lines 1764-1766: clear flag, jump to .L_06028D3A
+```
+
+### FUN_060291E0 is the gameplay sub-function
+
+FUN_060291E0 (line 2472) is in the same TU as FUN_06028000. It contains:
+- Its own state dispatch (5 states, lines 2498-2511)
+- FUN_0603CE88 call (position integration chain) at line 2611
+- FUN_06034D32 call (car dispatch, dead during racing) at line 2620
+- Car processing loops (lines 2623+)
+
+### .L_06028D3A is the rendering/system exit
+
+ALL branches in FUN_06028000 converge on .L_06028D3A (line 1832).
+20+ `bra .L_06028D3A` from all state handlers. This runs rendering,
+state cleanup, and the function epilogue.
+
+### Model viewer candidate: NOP `bsr FUN_060291E0`
+
+To make CCE a rendering frontend:
+1. NOP `bsr FUN_060291E0` at line 1759 (+ delay slot)
+2. The flag gate ensures rendering still runs every frame
+3. ALL car gameplay is skipped
+4. Needs Explorer verification that FUN_060291E0 is purely gameplay
