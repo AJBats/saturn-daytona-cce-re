@@ -20,6 +20,15 @@ address_end: 0x0603EBE2
 source_file: src/race/FUN_0603DF28.s
 
 claims:
+  - id: call_count_race
+    description: "Called per-car in chain iteration (~40 times/frame in race mode)"
+    type: call_count_per_frame
+    function: FUN_0603EAAA
+    address: 0x0603EAAA
+    scenario: race_throttle
+    expected_count: 20
+    tolerance: 25
+
   - id: writes_chain0_X
     description: "Writes AI car X position to chain[0]+0x00 (PC 0x0603EB2A)"
     type: writes_to
