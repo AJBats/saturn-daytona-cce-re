@@ -80,8 +80,13 @@ all pool constants that hold sym_00220000, sym_00224000, or sym_00228000.
 | 0x06038638 | sym_00220000 | **FUN_060385CE** | Polygon reader (confirmed 2x/frame) |
 | 0x060386D0 | sym_00224000 | **FUN_060386D8** | Terrain height processor |
 | 0x060386D4 | sym_00220000 | **FUN_060386D8** | Terrain height processor |
-| 0x06042B68 | sym_00224000 | **FUN_06042998** | **NEW — unknown, needs classification** |
-| 0x06044814 | sym_00220000 | **FUN_06044788** | **NEW — unknown, needs classification** |
+| 0x06042B68 | sym_00224000 | **FUN_06042998** | Unknown — needs classification |
+| 0x06044814 | sym_00220000 | **FUN_06044788** | Unknown — needs classification |
+
+**All 8 are newly confirmed as runtime polygon data readers via pc_trace.**
+Previous surveys identified some of these functions for other roles (terrain
+height, surface properties) but never specifically confirmed they read from
+the 0x00220000 polygon data region during active racing.
 
 ### INACTIVE consumers (14 pool refs — safe for COL swap)
 
