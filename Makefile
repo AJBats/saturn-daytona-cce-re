@@ -72,10 +72,19 @@ else
   OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRC_ONLY_$(1)))
 endif
 
-# Per-module config change detection
+# Per-module config change detection (shift value)
 PREV_SHIFT_$(1) := $$(shell cat $(PROJDIR)/build/$(1)/.shift 2>/dev/null)
 ifneq ($$(SHIFT),$$(PREV_SHIFT_$(1)))
     $$(shell rm -f $(PROJDIR)/build/$(1)/$(1)_free.elf $(PROJDIR)/build/$(1)/$(1)_free.bin)
+endif
+
+# Per-module config change detection (MOD name)
+# When MOD changes, stale .o files from a different mod may be cached.
+# Wipe all .o files for this module to force a clean reassemble.
+PREV_MOD_$(1) := $$(shell cat $(PROJDIR)/build/$(1)/.mod 2>/dev/null)
+ifneq ($$(MOD),$$(PREV_MOD_$(1)))
+    $$(shell rm -f $(PROJDIR)/build/$(1)/*.o $(PROJDIR)/build/$(1)/$(1)_free.elf $(PROJDIR)/build/$(1)/$(1)_free.bin)
+    $$(shell echo "$(MOD)" > $(PROJDIR)/build/$(1)/.mod)
 endif
 
 # Mod overlay pattern rule (checked first)
