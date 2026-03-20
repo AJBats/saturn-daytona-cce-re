@@ -1,0 +1,46 @@
+# auto_re project configuration — Daytona USA CCE
+
+game_name: "Daytona USA CCE"
+
+assembly_dir: src/race
+
+car_struct:
+  base: 0x0605224C
+  stride: 0x100
+  count: 40
+  addressing: GBR
+
+controls:
+  throttle: B
+  brake: A
+  steer_left: LEFT
+  steer_right: RIGHT
+
+save_states:
+  race_idle:
+    file: build/save_states/cce_race_start.mc0
+    inputs: []
+    notes: "40 cars, rolling start 300 km/h, no input"
+  race_throttle:
+    file: build/save_states/cce_race_start.mc0
+    inputs: [B]
+    notes: "40 cars, rolling start, throttle held"
+  straight_throttle:
+    file: build/save_states/cce_tt_straight.mc0
+    inputs: [B]
+    frames: 650
+    notes: "Dead stop, hold B, wall strike at frame 650"
+  right_wall_strike:
+    file: build/save_states/cce_tt_straight.mc0
+    inputs: [RIGHT, B]
+    frames: 150
+    notes: "Angled right wall collision"
+  offtrack_throttle:
+    file: build/save_states/cce_tt_offtrack_stop.mc0
+    inputs: [B]
+    frames: 324
+    notes: "Grass at frame 124, traction loss"
+
+struct_map_path: workstreams/driving_model/struct_map.md
+
+cue_path: "external_resources/Daytona USA - Circuit Edition (Japan)/Daytona USA - Circuit Edition (Japan).cue"
