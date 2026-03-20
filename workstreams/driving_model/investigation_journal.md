@@ -1911,3 +1911,50 @@ sites confirmed safe to NOP.
 
 **This is the confirmed AI cut point for the transplant mod.** The engineer
 can build a mod that NOPs these 6 bytes at each call site in FUN_06028000.s.
+
+---
+
+## Entry 30: Position integration call chain — FULLY TRACED (static analysis)
+
+**Date**: 2026-03-19
+**Source**: Static analysis tracing pool references across 4 TUs
+
+### The full chain from FUN_06028000 to the position writer
+
+The engineer couldn't find FUN_0603F9FC in FUN_06028000's pool entries
+because it goes through TWO intermediates and a tail-jump:
+
+```
+FUN_06028000  (jsr at runtime 0x060292DE, asm line 2611)
+  → FUN_0603CE88  (pool .L_pool_06029420)
+    → FUN_0603C5CC  (in FUN_0603C304.s TU)
+      → jmp FUN_0603FA1E  (TAIL-JUMP at .L_0603C650, not jsr)
+        FUN_0603FA1E = prologue (pushes PR, MACH, MACL, GBR, r8-r13)
+        → falls through to work...
+        → FUN_0603F9FC = epilogue wrapper
+          → jsr FUN_0603E14C  (pool .L_pool_0603FC38)
+            → FUN_0603DF84 (chain iteration loop)
+              → FUN_0603EAAA (per-car position integrator)
+                → PC 0x0603EB2A: chain[n]+0x00 += chain[n]+0x64
+                → PC 0x0603EB2C: chain[n]+0x08 += chain[n]+0x6C
+```
+
+### Why it was invisible to the engineer
+
+1. FUN_0603F9FC/FUN_0603FA1E have NO DAT_ entry in FUN_06028000.s
+2. No .reloc references from FUN_06028000 to these functions
+3. The chain goes FUN_0603CE88 → FUN_0603C5CC → tail-jump (jmp, not jsr)
+4. The tail-jump doesn't set PR, so no return address linkage
+
+### Split prologue/epilogue pattern (third instance)
+
+Same pattern as FUN_060352E8/FUN_060352FA (player physics dispatch).
+FUN_0603FA1E = prologue, FUN_0603F9FC = epilogue. The position integration
+chain uses the same code-sharing optimization.
+
+### Cut point
+
+NOP the `jsr @r3` at runtime address **0x060292DE** in FUN_06028000.s
+(line 2611-2613). This kills FUN_0603CE88 and everything downstream.
+Note: FUN_0603CE88 may do other things besides position integration —
+Explorer verification recommended before building the mod.
