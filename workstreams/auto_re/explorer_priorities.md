@@ -43,6 +43,33 @@ called from FUN_06028000 — it goes through an unknown intermediate.
 - **What this unblocks**: The "model viewer" architecture. If this works,
   we have a single NOP that turns CCE into a dumb rendering frontend.
 
+### 13. Dump the init callback chain — every registered function
+
+- **Why**: Init module has a generic linked-list dispatcher (FUN_0600EA84,
+  runtime 0x06013C84). Every frame it walks a chain of entries, calling
+  each entry's function pointer at entry+0x0C. We need to know every
+  function registered in this chain to understand the full AI/rendering
+  pipeline and identify what to cut.
+- **What to do**:
+  1. Boot retail disc, get to active racing, pause
+  2. The chain head pointer is likely at a known address. The first
+     chain entry seen by the Explorer had GBR=0x060FD400.
+  3. Set breakpoint at runtime 0x06013C8A (the `jsr @r1` inside the
+     dispatcher loop)
+  4. Each time it fires:
+     - Read R1 (the function being called)
+     - Read R0 (the current chain entry address)
+     - Read R0+0x04 (the next entry pointer)
+     - Read R0+0x0C (should match R1)
+  5. Continue until the loop terminates (R0+0x04 = NULL)
+  6. Report the COMPLETE chain: entry address → function pointer,
+     for every entry in order
+  7. For each function pointer, note if it's in:
+     - Race module (0x06028000-0x060A0000): gameplay candidate
+     - Init module (0x06005200-0x0601A200): system/infrastructure
+- **What this unblocks**: Complete map of init's per-frame callbacks.
+  We can classify each as gameplay (cut) vs rendering (keep).
+
 ### 10. Full-frame call_trace during active 1P racing
 
 - **Why**: We need the complete ordered list of functions called per frame
