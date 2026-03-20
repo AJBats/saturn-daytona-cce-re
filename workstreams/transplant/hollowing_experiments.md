@@ -80,15 +80,25 @@ per-car master function. The entire per-car processing chain never runs.
 
 ## Recommended Cut Level for Transplant
 
-**Level 2 (7 `jsr @r9` NOPs in FUN_06037E28)** is the sweet spot.
+**Level 2 (7 `jsr @r9` NOPs in FUN_06037E28) + AI callback chain kill
+(`rts; nop` at FUN_0603C5CC)** is the full model viewer baseline.
 
-Rationale:
-- The per-car state machine handles car lifecycle (init → rolling start →
-  racing → finish) and must keep running for the game to progress normally
-- Collision detection in the case branches still works (AI nudge) — this
-  can be redirected to DUSA collision response later
-- Animations (wheel spin, body rumble) still play — rendering is alive
-- The physics dispatch is cleanly separated at the `jsr @r9` boundary
+This combination achieves:
+- **Player car**: brain-dead (physics dispatch killed at `jsr @r9` boundary)
+- **ALL AI cars**: frozen, near and far (init callback chain killed)
+- **Attract mode**: works (player car still drives in demo replays)
+- **Rolling start**: works (state machine handles pre-race animation)
+- **Game loop**: alive (timer, pause, HUD, rendering, sound)
+
+Two mod files (`FUN_06037E28.s` + `FUN_0603C304.s`), 18 bytes changed
+from retail. The mod name is `transplant_callcut`.
+
+Rationale for Level 2 over Level 1:
+- Level 2 cuts fewer bytes (18 vs 36) but at higher-leverage points
+- Level 2 kills the entire physics dispatch chain with 7 NOPs instead of
+  18 — cleaner, less fragile
+- Level 2 loses engine sound and collision sparks vs Level 1, but these
+  are polish items (Step 11) that DUSA code will handle
 
 Things DUSA code will need to restore:
 - **Engine sound**: write whatever field drives engine pitch (likely in the
@@ -97,6 +107,8 @@ Things DUSA code will need to restore:
   system (the trigger mechanism is inside the physics subs we NOPped)
 - **Starting position**: DUSA position writer needs to run from frame 1
   to set initial car position, or we pre-initialize the struct
+- **AI car positions**: DUSA AI pipeline writes to car structs, replacing
+  the init callback chain we killed
 
 ## Additional Findings
 
