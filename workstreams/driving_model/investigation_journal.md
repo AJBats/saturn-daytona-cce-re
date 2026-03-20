@@ -2058,7 +2058,7 @@ RACE MODULE (0x06028000, hot-swapped):
       → FUN_060384C4 (×8)                     [player collision]
       → FUN_060352E8 → FUN_0604D380           [player physics, 18 subs]
         → FUN_06036790 (sub #18)              [player position writer]
-    → FUN_0603976C                             [AI collision + decisions]
+    → FUN_0603976C                             [AI-player collision (only confirmed effect)]
     → FUN_060351CC                             [per-car state checks]
     → 15+ other calls                         [rendering, HUD, sound, etc.]
 ```
@@ -2068,7 +2068,7 @@ RACE MODULE (0x06028000, hot-swapped):
 | System | Cut? | Where | Module |
 |--------|------|-------|--------|
 | Player physics (18 subs) | YES | FUN_0604D380 JSRs NOPped | race |
-| AI collision/decisions | YES | FUN_0603976C NOPped at 0x06028742 | race |
+| AI-player collision | YES | FUN_0603976C NOPped at 0x06028742 | race |
 | AI near-zone position | PARTIAL | FUN_0603EAAA add instructions NOPped | race |
 | AI far-zone position | NO | Unknown — may be same chain or init call | init? |
 | AI position (upstream) | NO | Init module call at ~0x06013C8C | **init** |
