@@ -51,3 +51,4 @@ surface_physics_survey_001	—	—	—	Surface physics deep dive: +0x4C-0x58 per
 FUN_0603976C	1	1	1	call_count_race PASS (1 call). AI bulk processor — NOP at 0x06028742 disables all AI. Transplant cut point
 FUN_06037E28	1	1	1	call_count_race PASS (1 call). Player per-car master — orchestrates all player processing per frame
 FUN_0603EAAA	3	3	2	call_count_race PASS (37 calls, expected 20±25), writes_chain0_X PASS (0x060FD400, 59 hits), writes_chain0_Z PASS (0x060FD408, 47 hits). AI car position integration — upgraded to Tier 2
+FUN_0603C5CC	1	1	1	call_count_race PASS (1 call). Init callback gateway — calls position integration chain. Transplant cut point for disabling AI position updates

@@ -1,0 +1,27 @@
+# FUN_0603C5CC — Race module init callback (position integration gateway)
+#
+# Observation: workstreams/auto_re/observations/frame_map_survey_001_obs.md (Priority #13)
+# File: src/race/FUN_0603C304.s
+# Address range: 0x0603C5CC - TBD
+#
+# From survey data:
+# - Registered as callback at 0x06015134 by the race module
+# - Called 1x/frame from init dispatcher at 0x06013C8A
+# - Calls FUN_0603F9FC → FUN_0603DF84 (chain iteration, 37 cars)
+# - Transplant cut point: NOP inside this function disables position integration
+#   without touching the init module
+
+function: FUN_0603C5CC
+address: 0x0603C5CC
+address_end: 0x0603C600
+source_file: src/race/FUN_0603C304.s
+
+claims:
+  - id: call_count_race
+    description: "Called 1 time per game frame from init dispatcher callback"
+    type: call_count_per_frame
+    function: FUN_0603C5CC
+    address: 0x0603C5CC
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 1
