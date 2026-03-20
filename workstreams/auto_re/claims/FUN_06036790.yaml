@@ -1,13 +1,13 @@
-# FUN_06036790 — Last dispatcher sub: trig computation on +0x158 → +0x108/+0x10C
+# FUN_06036790 — Last dispatcher sub (#18): position writer + trig computation
 #
 # Observation: workstreams/auto_re/observations/FUN_06036790_obs.md
+# + frame_map_survey_001 (player X position writer confirmed)
 # File: src/race/FUN_06036790.s
 # Address range: 0x06036790 - 0x06036BC6
 #
-# From follow-up:
-# - Watchpoint confirmed writes to +0x108 (PC 0x060367DC) and +0x10C (PC 0x060367EC)
-# - Both PCs in function range [0x06036790, 0x06036BC6)
-# - Writes only occur with steering input (+0x170 gate skips main computation at idle)
+# Writes: +0x00 (X position, PC 0x060367E0), +0x08 (Z position, PC 0x060367F0),
+# +0x108, +0x10C (trig outputs with steer). Player position writer confirmed
+# by frame_map_survey_001 — separate from AI position writer (FUN_0603EAAA).
 
 function: FUN_06036790
 address: 0x06036790
@@ -49,4 +49,13 @@ claims:
     function_end: 0x06036BC6
     address: "GBR+8"
     scenario: right_wall_strike
+    frames: 60
+
+  - id: writes_00_player_X
+    description: "Writes player X position to +0x00 (PC 0x060367E0, frame_map_survey_001)"
+    type: writes_to
+    function: FUN_06036790
+    function_end: 0x06036BC6
+    address: "GBR+0"
+    scenario: straight_throttle
     frames: 60
