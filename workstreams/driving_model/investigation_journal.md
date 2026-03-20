@@ -1995,10 +1995,81 @@ ALL branches in FUN_06028000 converge on .L_06028D3A (line 1832).
 20+ `bra .L_06028D3A` from all state handlers. This runs rendering,
 state cleanup, and the function epilogue.
 
-### Model viewer candidate: NOP `bsr FUN_060291E0`
+### Model viewer candidate: NOP `bsr FUN_060291E0` — DISPROVEN
 
-To make CCE a rendering frontend:
-1. NOP `bsr FUN_060291E0` at line 1759 (+ delay slot)
-2. The flag gate ensures rendering still runs every frame
-3. ALL car gameplay is skipped
-4. Needs Explorer verification that FUN_060291E0 is purely gameplay
+Explorer set breakpoint at FUN_060291E0 during racing: **zero hits in 10
+frames**. The flag gate routes AROUND it during active racing. FUN_060291E0
+is for a different game phase (attract, pre-race, results).
+
+---
+
+## Entry 32: Position integration from INIT module — architecture resolved
+
+**Date**: 2026-03-19
+**Source**: frame_map_survey_001_obs.md (Explorer empirical data)
+
+### Key discovery: AI position integration runs from the INIT MODULE
+
+FUN_0603F9FC (position integration) is NOT called from race module
+FUN_06028000. It's called from the **init module** (permanent at
+0x06005200):
+
+```
+Init frame loop: 0x06005760
+  → 0x06011F84
+    → 0x06013C8E  ← call to race module FUN_0603F9FC
+      → FUN_0603F9FC → FUN_0603E14C → FUN_0603DF84 (chain loop)
+        → FUN_0603EAAA → writes AI car positions
+```
+
+The init module is PERMANENT — never replaced. It dispatches the per-frame
+chain iteration loop, which processes car positions for ALL non-player cars.
+
+### Player and AI position paths are COMPLETELY SEPARATE
+
+| Car | Writer | Function | Called from |
+|-----|--------|----------|------------|
+| Player | PC 0x060367E0 | FUN_06036790 (sub #18 of dispatcher) | Race: FUN_0604D380 |
+| AI | PC 0x0603EB2A | FUN_0603EAAA (chain loop) | Init: 0x06013C8E |
+
+Player position is written by the physics dispatcher (FUN_0604D380 sub #18).
+AI position is written by the chain loop dispatched from init.
+
+### To freeze ALL AI cars
+
+NOP the init module call at ~0x06013C8C (the jsr/bsr that calls
+FUN_0603F9FC from the init frame loop). This is in the **init module**
+(DAYTONA/0), NOT race.bin. Requires patching a different binary.
+
+Player position is UNAFFECTED — it comes from FUN_06036790 inside the
+race module's physics dispatcher.
+
+### Revised architecture (fully confirmed)
+
+```
+INIT MODULE (0x06005200, permanent):
+  Frame loop at 0x06005760
+    → 0x06013C8E → FUN_0603F9FC → chain loop  [AI position integration]
+    → FUN_06028000 (race module entry)         [everything else]
+
+RACE MODULE (0x06028000, hot-swapped):
+  FUN_06028000:
+    → FUN_06037E28(player)                     [player master, 1x/frame]
+      → FUN_060384C4 (×8)                     [player collision]
+      → FUN_060352E8 → FUN_0604D380           [player physics, 18 subs]
+        → FUN_06036790 (sub #18)              [player position writer]
+    → FUN_0603976C                             [AI collision + decisions]
+    → FUN_060351CC                             [per-car state checks]
+    → 15+ other calls                         [rendering, HUD, sound, etc.]
+```
+
+### What's been cut so far and what remains
+
+| System | Cut? | Where | Module |
+|--------|------|-------|--------|
+| Player physics (18 subs) | YES | FUN_0604D380 JSRs NOPped | race |
+| AI collision/decisions | YES | FUN_0603976C NOPped at 0x06028742 | race |
+| AI near-zone position | PARTIAL | FUN_0603EAAA add instructions NOPped | race |
+| AI far-zone position | NO | Unknown — may be same chain or init call | init? |
+| AI position (upstream) | NO | Init module call at ~0x06013C8C | **init** |
+| Player position | N/A | FUN_06036790 — will be replaced by DUSA | race |
