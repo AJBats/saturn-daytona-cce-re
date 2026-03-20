@@ -81,3 +81,29 @@ wasn't committed due to interruption. Key findings carried forward.)
 
 Top functions by call count: rendering pipeline (0x06045xxx area, 7,400+
 calls/frame = 76% of all calls).
+
+## Priority #3: Player Position Writer — RESOLVED
+
+### Player X position is written by FUN_06036790 (sub #18), NOT the chain loop
+
+| Field | Writer PC | Function | Call chain |
+|-------|-----------|----------|------------|
+| player +0x00 (X) | **0x060367E0** | **FUN_06036790** (sub #18) | FUN_0604D380 → FUN_06036790 |
+
+### Comparison: Player vs AI position writers
+
+| Car type | Writer PC | Function | Path |
+|----------|-----------|----------|------|
+| **Player** | 0x060367E0 | FUN_06036790 (physics dispatcher sub #18) | FUN_0604D380 chain |
+| **AI** | 0x0603EB2A | FUN_0603E7B0 area (chain iteration) | Init module → FUN_0603F9FC → chain loop |
+
+Player and AI use COMPLETELY different position write paths:
+- Player position is written INSIDE the physics dispatcher (FUN_0604D380, sub #18)
+- AI position is written by the chain iteration loop (called from init module)
+
+### Transplant implication
+
+Cutting the chain iteration loop (FUN_0603F9FC from init module) would
+freeze AI cars but NOT the player. The player's position comes from
+the physics dispatcher, which is the transplant target. The DUSA model
+will write the player's position through the same dispatcher interface.
