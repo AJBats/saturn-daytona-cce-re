@@ -88,8 +88,7 @@ INIT MODULE (permanent at 0x06005200, DAYTONA/0):
     │
     └─ FUN_06028000 (race module entry, called every game frame)
           ├─ FUN_06037E28 (player master, 1x/frame, player car ONLY)
-          │     ├─ FUN_060384C4 ×8 via .reloc bsr (collision/terrain, reads 0x00220000)
-          │     ├─ FUN_060385CE (collision helper, reads 0x00220000)
+          │     ├─ FUN_060384C4 ×8 via .reloc bsr (4-corner geometry, pure math — KEEP)
           │     └─ jsr @r9 → FUN_060352E8 (physics prologue)
           │           └─ FUN_060352FA (jump table on car[+0x5C])
           │                 └─ FUN_0604D380 (state 2: player physics, 18 sub-functions)
@@ -105,6 +104,10 @@ Key facts:
 - **AI position** is written by FUN_0603EAAA (chain loop), dispatched from init module
 - Player and AI use **completely separate** position write paths
 - Everything that reads **0x00220000** (polygon/collision data) must be cut before COL file swap
+- **FUN_060384C4** computes 4-corner car geometry from position + heading using
+  pure math (sin/cos/multiply). Writes to external struct via car[+0x160] pointer
+  chain. Does not read track data. MUST KEEP — cutting it causes collision feedback
+  loop (stale corners → false collision detection → animation spam → camera jitter)
 
 ### Current NOP Status (mods/transplant/race/)
 
@@ -170,12 +173,14 @@ rts/nop at entry of FUN_0603E60C — kills direct init→race position call
     won't catch it. Need rts/nop at 0x0603E350+0x44 too, or NOP the init caller.
 ```
 
-**FUN_06037E28.s** — NEW: cut player collision (reads 0x00220000):
+**FUN_060384C4** — KEEP (verified by assembly + engineer test):
 ```
-rts/nop at entry of FUN_060384C4 — kills all 8 bsr callers with one edit
+Computes 4-corner car geometry: reads car[+0x00/+0x08/+0x0E], calls
+sin/cos/multiply, writes 4 world-space corners via car[+0x160] chain.
+Pure math — no track data access. Required by collision/rendering.
 ```
 
-**FUN_060351CC.s** — NEW: cut per-car state checks (reads 0x00220000 via FUN_0603CDD8):
+**FUN_060351CC.s** — cut per-car state checks (reads 0x00220000 via FUN_0603CDD8):
 ```
 Option A: NOP the jsr to FUN_060351CC in FUN_06028000
 Option B: NOP the jsr to FUN_0603CDD8 inside FUN_060351CC
@@ -193,6 +198,9 @@ Option B: NOP the jsr to FUN_0603CDD8 inside FUN_060351CC
 4. **0x0603E394 mid-function entry** — the init caller jumps to
    FUN_0603E350+0x44, bypassing the function entry. Need rts at both
    +0x00 and +0x44, or NOP the init-side caller (requires init module mod).
+5. **Collision chain** — FUN_060384C4 writes corner positions. Something
+   downstream reads them for collision detection. That consumer may read
+   track data (0x00220000). Need to trace the reader (Explorer priority #14).
 
 ### Poke Test Results (from Step 0)
 
