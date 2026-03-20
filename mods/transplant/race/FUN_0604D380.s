@@ -8,30 +8,30 @@
 FUN_0604D380:
     sts.l pr, @-r15
     mov.l .L_pool_0604D3C0, r13
-    nop                         /* TRANSPLANT: sub #1 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06036CEC — input/surface/register save */
     nop
     mov.l .L_pool_0604D3C4, r13
-    nop                         /* TRANSPLANT: sub #2 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0604D580 — input scaling/clamping */
     nop
     mov.w .L_wpool_0604D3BA, r1
     mov.w @(r0, r1), r2
     mov.w .L_wpool_0604D3BC, r1
     mov.w r2, @(r0, r1)
     mov.l .L_pool_0604D3C8, r13
-    nop                         /* TRANSPLANT: sub #3 disabled */
+    nop                         /* TRANSPLANT: was jsr 0x0604D6B8 — speed conversion (+0x24→+0x34) */
     nop
     mov.l .L_pool_0604D3CC, r13
-    nop                         /* TRANSPLANT: sub #4 disabled */
+    nop                         /* TRANSPLANT: was jsr 0x0604D758 — collision timer tick */
     nop
     mov.l .L_pool_0604D3D0, r13
-    nop                         /* TRANSPLANT: sub #5 disabled */
+    nop                         /* TRANSPLANT: was jsr 0x0604D780 — throttle/brake ramp */
     nop
     mov.w .L_wpool_0604D3BE, r1
     mov.w @(r0, r1), r2
     tst r2, r2
     bt .L_0604D3D8
     mov.l .L_pool_0604D3D4, r13
-    nop                         /* TRANSPLANT: sub #6 (conditional) disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0604D94C — conditional, gated by +0x174 */
     nop
     bra .L_0604D3DE
     nop
@@ -55,33 +55,33 @@ FUN_0604D380:
     .4byte DAT_0604D94C  /* 0604D94C = FUN_0604D94C */
 .L_0604D3D8:
     mov.l .L_pool_0604D418, r13
-    nop                         /* TRANSPLANT: sub #7 disabled */
+    nop                         /* TRANSPLANT: was jsr 0x0604D83C — state-to-constant mapper */
     nop
 .L_0604D3DE:
     mov.l .L_pool_0604D41C, r13
-    nop                         /* TRANSPLANT: sub #8 disabled */
+    nop                         /* TRANSPLANT: was jsr 0x0604DAD8 — heavy multiply chain (force) */
     nop
     mov.l .L_pool_0604D420, r13
-    nop                         /* TRANSPLANT: sub #9 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0604DB10 — heading sin/cos */
     nop
     mov.l .L_pool_0604D424, r13
-    nop                         /* TRANSPLANT: sub #10 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0604DD04 — heading→sin/cos lookup */
     nop
     mov.l .L_pool_0604D428, r13
-    nop                         /* TRANSPLANT: sub #11 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_060354A0 — rotation transform */
     nop
     mov.l .L_pool_0604D42C, r13
-    nop                         /* TRANSPLANT: sub #12 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06035750 — timer chain + sqrt */
     nop
     mov.l .L_pool_0604D430, r13
-    nop                         /* TRANSPLANT: sub #13 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06035904 — cross-product/force output */
     nop
     mov.w .L_wpool_0604D414, r1
     mov.w @(r0, r1), r2
     tst r2, r2
     bt .L_0604D438
     mov.l .L_pool_0604D434, r12
-    nop                         /* TRANSPLANT: sub #14 (conditional) disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0603631C — conditional, gated by +0x16A */
     nop
     bra .L_0604D43E
     nop
@@ -109,16 +109,16 @@ FUN_0604D380:
     nop
 .L_0604D43E:
     mov.l .L_pool_0604D4A0, r13
-    nop                         /* TRANSPLANT: sub #15 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06035C98 — trig/heading computation */
     nop
     mov.l .L_pool_0604D4A4, r13
-    nop                         /* TRANSPLANT: sub #16 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06035EE8 — external struct writer */
     nop
     mov.l .L_pool_0604D4A8, r13
-    nop                         /* TRANSPLANT: sub #17 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_060366EC — velocity integrator (+0xF0→+0x24) */
     nop
     mov.l .L_pool_0604D4AC, r13
-    nop                         /* TRANSPLANT: sub #18 disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_06036790 — position writer (+0x24→+0x00/+0x08) */
     nop
     lds.l @r15+, pr
     mov.l @r15+, r14

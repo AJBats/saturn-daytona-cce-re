@@ -1012,7 +1012,7 @@ FUN_06028000:
     mov.b r14, @r1
 .L_06028742:
     mov.l .L_pool_060287DC, r3
-    nop                         /* TRANSPLANT: AI collision disabled (cars clip through player) */
+    nop                         /* TRANSPLANT: was jsr FUN_0603976C — AI bulk processor (disables AI-player collision) */
     nop
     mov.l .L_pool_060287E0, r3
     mov.b @r3, r0
@@ -1628,7 +1628,7 @@ FUN_06028000:
     mov.b r12, @r2
 .L_06028BC6:
     mov.l .L_pool_06028C58, r3
-    nop                         /* TRANSPLANT: AI collision (2nd site) disabled */
+    nop                         /* TRANSPLANT: was jsr FUN_0603976C — AI bulk processor (2nd call site, 2P/demo) */
     nop
     mov.l .L_pool_06028C5C, r3
     mov.b @r3, r0
