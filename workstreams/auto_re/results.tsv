@@ -52,3 +52,5 @@ FUN_0603976C	1	1	1	call_count_race PASS (1 call). AI bulk processor — NOP at 0
 FUN_06037E28	1	1	1	call_count_race PASS (1 call). Player per-car master — orchestrates all player processing per frame
 FUN_0603EAAA	3	3	2	call_count_race PASS (37 calls, expected 20±25), writes_chain0_X PASS (0x060FD400, 59 hits), writes_chain0_Z PASS (0x060FD408, 47 hits). AI car position integration — upgraded to Tier 2
 FUN_0603C5CC	1	1	1	call_count_race PASS (1 call). Init callback gateway — calls position integration chain. Transplant cut point for disabling AI position updates
+FUN_060385CE	1	1	1	call_count_race PASS (2 calls). Polygon data reader, 2x/frame from player master. Reads sym_00220000 — will break on COL swap
+FUN_060384C4	1	1	1	writes_corner_geometry PASS (0x060525FC, 58 hits, PC 0x0603853A, race_throttle). Corner geometry writer for collision subsystem

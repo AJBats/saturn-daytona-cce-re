@@ -1,0 +1,26 @@
+# FUN_060385CE — Polygon data reader (active collision consumer)
+#
+# Observation: workstreams/auto_re/observations/hollowing_survey_001_obs.md
+# File: src/race/FUN_060384C4.s
+# Address range: 0x060385CE - 0x060386D8
+#
+# From survey data:
+# - Fires 2x per game frame from FUN_06037E28 (player master)
+# - Called from PR=0x06037F60 and PR=0x06037F68
+# - References sym_00220000 (polygon data) at pool line 213
+# - Active during 1P racing — will break on COL swap
+
+function: FUN_060385CE
+address: 0x060385CE
+address_end: 0x060386D8
+source_file: src/race/FUN_060384C4.s
+
+claims:
+  - id: call_count_race
+    description: "Called 2 times per game frame (polygon reader, two call sites in player master)"
+    type: call_count_per_frame
+    function: FUN_060385CE
+    address: 0x060385CE
+    scenario: race_throttle
+    expected_count: 2
+    tolerance: 1

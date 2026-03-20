@@ -1,0 +1,26 @@
+# FUN_060384C4 — Corner geometry writer (collision subsystem)
+#
+# Observation: workstreams/auto_re/observations/hollowing_survey_001_obs.md
+# File: src/race/FUN_060384C4.s
+# Address range: 0x060384C4 - 0x06038590
+#
+# From survey data:
+# - Writes corner geometry at PC=0x0603853A to car[+0x160] struct at 0x060525FC
+# - Called from FUN_06037E28 at PR=0x06037F60
+# - Corner struct has 8 pointers (stride 0x28) for collision geometry
+# - GBR = 0x06057800 (NOT player struct), writes via R9 register
+
+function: FUN_060384C4
+address: 0x060384C4
+address_end: 0x06038590
+source_file: src/race/FUN_060384C4.s
+
+claims:
+  - id: writes_corner_geometry
+    description: "Writes corner geometry to car[+0x160] struct (PC 0x0603853A)"
+    type: writes_to
+    function: FUN_060384C4
+    function_end: 0x06038590
+    address: 0x060525FC
+    scenario: race_throttle
+    frames: 60
