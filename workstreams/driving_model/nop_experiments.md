@@ -430,3 +430,100 @@ on all calls. Equivalent to cutting all callers at once.
   Completely unclassified.
 - **Expected effect**: unknown. NOP reveals the role.
 - **Watch for**: anything — visual, audio, gameplay, crash.
+
+## Results: COL Swap Hardening (Experiments 8-13)
+
+### Experiment 8: FUN_060385CE — INCONCLUSIVE (possible delayed crash)
+
+- **Patch applied**: 0x060385CE (`D6 18` → `00 0B`, `D5 18` → `00 09`)
+- **Inputs**: drive normally from race start save state
+- **Observation** (from human tester):
+  - No visible difference for 6 full laps of normal racing
+  - Emulator crashed after lap 6
+  - Crash could be from the NOP (accumulated state corruption) or Mednafen
+    instability (we've seen random crashes before)
+- **Conclusion**: INCONCLUSIVE. No visible gameplay effect, but possible
+  delayed crash. Needs a second test or longer run to determine if the
+  crash is reproducible. The function sets bit 3 in car[+0x30] flags —
+  the missing flag might cause a problem after enough laps.
+- **Transplant note**: treat as potentially unsafe until re-tested.
+
+### Experiment 9: FUN_060386D8 — CONFIRMED: terrain height + banking writer
+
+- **Patch applied**: 0x060386D8 (`rts; nop`)
+- **Inputs**: drive normally from race start save state
+- **Observation** (from human tester):
+  - OBVIOUS change on banked curves
+  - Car does not follow the road surface — drives through banked curves
+    on an invisible flat "sea level" plane
+  - Car passes through road geometry that rises above the stale Y height
+- **Conclusion**: FUN_060386D8 writes car[+0x04] (Y height) and car[+0x10]
+  (banking) from polygon terrain data. Without it, the car stays at
+  whatever Y it had when the NOP was applied.
+- **Transplant note**: DUSA must provide Y height and banking. Either
+  DUSA writes +0x04 and +0x10 directly (cut this function), or we keep
+  this function and feed it DUSA-compatible polygon data via the COL file.
+
+### Experiment 10: FUN_06036914 — GAME HANG (critical function)
+
+- **Patch applied**: 0x06036914 (`rts; nop`)
+- **Inputs**: load race start save state
+- **Observation** (from human tester):
+  - Game appeared frozen — stuck at "GO!" screen
+  - Timer at 0'00"00, speed at 301, position 40/40
+  - Same symptom as the original Step 0 crash (per-car loop hung)
+- **Conclusion**: FUN_06036914 is in the terrain lookup call chain and
+  its execution is required for the per-car loop to complete. Cannot be
+  cut with a simple `rts; nop`. The function likely returns a value or
+  modifies a struct that the caller depends on to proceed.
+- **Transplant note**: DO NOT CUT. Must either keep running with
+  compatible data, or replace with a stub that returns the expected
+  value/state.
+
+### Experiment 11: FUN_06036B60 — CONFIRMED: trackside object collision
+
+- **Patch applied**: 0x06036B60 (`rts; nop`)
+- **Inputs**: drive normally from race start save state
+- **Observation** (from human tester):
+  - Gameplay identical — no terrain, physics, or visual changes
+  - ONE difference: red traffic cones no longer animate being bounced away
+    on contact. Instead they vanish instantly on hit.
+- **Conclusion**: FUN_06036B60 handles trackside object collision response
+  (cone bounce animation). The grid lookup determines which polygon cell
+  the object is in for its physics response.
+- **Transplant note**: safe to cut. DUSA will drive trackside object
+  positions and animations through its own gameplay code, same as AI cars.
+
+### Experiment 12: FUN_06042998 — NO VISIBLE EFFECT
+
+- **Patch applied**: 0x06042998 (`rts; nop`)
+- **Inputs**: drive normally from race start save state
+- **Observation** (from human tester):
+  - No visible difference detected
+- **Conclusion**: function has no observable effect during normal 1P
+  racing. May affect edge cases, 2P mode, or internal state that nothing
+  visible depends on.
+- **Transplant note**: safe to cut for 1P racing. Monitor for issues in
+  other game modes.
+
+### Experiment 13: FUN_06044788 — NO VISIBLE EFFECT
+
+- **Patch applied**: 0x06044788 (`rts; nop`)
+- **Inputs**: drive normally from race start save state, 5 laps
+- **Observation** (from human tester):
+  - No visible difference detected over 5 full laps
+  - First attempt: Mednafen crashed before test could start (unrelated)
+  - Second attempt: ran clean for 5 laps with no issues
+- **Conclusion**: function has no observable effect during normal 1P racing.
+- **Transplant note**: safe to cut for 1P racing.
+
+## COL Swap Readiness Summary
+
+| Function | Reads | NOP Result | Safe to cut? |
+|----------|-------|------------|--------------|
+| FUN_060385CE | 0x00220000 | Inconclusive (6 laps OK, then crash) | MAYBE — retest needed |
+| FUN_060386D8 | 0x00220000, 0x00224000 | Car loses terrain height/banking | YES if DUSA provides Y/banking |
+| FUN_06036914 | 0x00228000 | Game hang (per-car loop stuck) | NO — critical, needs stub |
+| FUN_06036B60 | 0x00220000, 0x00224000 | Cone bounce animation lost | YES — DUSA handles objects |
+| FUN_06042998 | 0x00224000 | No visible effect | YES |
+| FUN_06044788 | 0x00220000 | No visible effect | YES |
