@@ -44,3 +44,7 @@ save_states:
 struct_map_path: workstreams/driving_model/struct_map.md
 
 cue_path: "external_resources/Daytona USA - Circuit Edition (Japan)/Daytona USA - Circuit Edition (Japan).cue"
+
+mednafen:
+  ipc_dir: build/mcp_ipc
+  home_dir: build/mednafen_home
