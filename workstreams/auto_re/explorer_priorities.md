@@ -63,6 +63,21 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 
 ---
 
+## RESOLVED (Phase 4 continued)
+
+### 35b. CS0_BLK.BIN load address -- RESOLVED
+
+- **Result**: CS0_BLK.BIN loads at 0x060ED100 in HWR (42,676 bytes).
+  99.9% binary match with disc file (6/10,669 dwords differ — endian fixups).
+  Contains track segment/waypoint data. FUN_06038A84 reads direction vectors
+  at segment offsets +0x24/+0x28, computes heading via atan2.
+- **Key insight**: BLK is the "second gear" — provides track path/direction
+  data that drives AI heading. COL provides collision geometry. Both needed
+  for transplant (~154K/course combined).
+- See FUN_06038A84_obs.md for full analysis.
+
+---
+
 ## HIGH PRIORITY
 
 ### 34. Find START0.BIN load address in RAM
@@ -94,18 +109,41 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 - **TOOLS**: cdb_trace_start / cdb_trace_stop
 - **UNBLOCKS**: Complete disc->RAM address map for all course files.
 
-### 36. Trace terrain height reader function
+### 36. Trace terrain height reader function -- RESOLVED
 
-- **WHY**: The car's Y position (car struct +0x04) is written by
-  FUN_060386D8 based on X/Z position. This function reads terrain height
-  from somewhere. That "somewhere" is either START0.BIN data or the COL
-  polygon grid. Tracing the data flow from +0x04 back to its source
-  reveals how the terrain system works.
-- **WHAT**: Set write watchpoint on car[+0x04] (GBR+0x04 = 0x06052250).
-  When it fires, dump the writing PC. Read that function's Ghidra
-  decompilation. Trace what memory it reads from. If it reads from
-  LWR (0x002xxxxx), that's COL/BLK/START data. If HWR, it's computed.
-- **SCENARIO**: race_idle or straight_throttle
-- **TOOLS**: watchpoint_set (write on 0x06052250), dump_regs, Ghidra ref
-- **UNBLOCKS**: Direct identification of how terrain height is computed
-  and which data files feed into it.
+- **Result**: Write watchpoint on 0x06052250 (car +0x04, Y position)
+  fired at PC=0x060389B0 in FUN_060386D8 during Dino Canyon driving.
+  Y decreases as car drives downhill (0x28F→0x28B).
+- **Key finding**: FUN_060386D8 reads terrain height FROM the BLK segment
+  data via car struct +0x154 (same pointer as FUN_06038A84). It samples
+  4 corner heights from the segment structure, averages them, and writes
+  to +0x04 (Y position). Also computes pitch (+0x0C) and roll (+0x10)
+  from height differences.
+- **Implication**: BLK data contains BOTH direction vectors AND height
+  data. The terrain system is entirely BLK-dependent, not COL-dependent.
+  This explains why zeroing COL didn't remove ALL terrain — BLK was
+  still providing height data. COL zeroing broke collision detection but
+  BLK-based height/heading kept partially working.
+
+### 37. Map all BLK consumers (read watchpoint survey)
+
+- **WHY**: FUN_06038A84 is one BLK consumer. There may be others (collision,
+  AI drone pathing, rolling start). Mapping all readers tells us the full
+  scope of BLK dependency for the transplant.
+- **WHAT**: Set logging read watchpoint on a BLK segment entry (e.g. the
+  direction vector at a known segment). Run 5 frames across multiple
+  scenarios. Collect all reader PCs.
+- **SCENARIO**: race_idle, attract_race, pre_rolling_start
+- **TOOLS**: read_watchpoint_set (log=True) on 0x060F5694 (+0x24 of known segment)
+- **UNBLOCKS**: Complete BLK consumer map for transplant boundary spec.
+
+### 38. Compare CCE BLK with DUSA track data structure
+
+- **WHY**: The transplant requires replacing CCE BLK with DUSA equivalent.
+  Understanding structural differences determines conversion effort.
+- **WHAT**: Dump the DUSA equivalent track segment table from
+  D:/Projects/SaturnReverseTest. Compare segment stride, field layout,
+  direction vector format. Check if DUSA has a direct BLK equivalent.
+- **SCENARIO**: Static analysis (no emulator needed)
+- **TOOLS**: File comparison, struct analysis
+- **UNBLOCKS**: Conversion feasibility assessment for track data transplant.
