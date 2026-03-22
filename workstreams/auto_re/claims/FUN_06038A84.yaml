@@ -6,7 +6,8 @@
 #
 # Key discovery: CS0_BLK.BIN loads at 0x060ED100 in HWR (99.9% binary match).
 # This function reads BLK segment direction vectors via car_struct+0x154 pointer
-# and computes track heading via atan2. Drives AI path following in attract mode.
+# and computes track heading via atan2. NOP test DISPROVED that +0x194 drives
+# AI path following -- AI cars still turn normally with +0x194 write NOPed.
 
 function: FUN_06038A84
 address: 0x06038A84
