@@ -89,6 +89,21 @@ Frame 0 = save state load. Inputs applied at frame 2.
   functions that fire during countdown but not during active racing
 - **Avoid for**: Active racing observations (use cce_race_start.mc0 instead)
 
+## cce_dino_canyon_countdown.mc0
+
+- **Mode**: Time Trial (solo, no AI cars)
+- **Course**: Dinosaur Canyon (Intermediate)
+- **Speed**: 0 km/h (countdown "2")
+- **Position**: N/A (time trial)
+- **Transmission**: AUTO
+- **Location**: Start line, countdown at "2" before GO
+- **Known constraints**:
+  - GO fires within ~200 frames of load
+  - Course record 3'28"00, fastest lap 0'50"00
+- **Best for**: Different-course testing, track-specific geometry investigation,
+  comparing behavior across courses
+- **Avoid for**: Multi-car scenarios (time trial = solo)
+
 ## cce_pre_attract.mc0
 
 - **Mode**: Title screen / "Press Start Button" screen

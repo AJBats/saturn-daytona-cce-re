@@ -35,21 +35,21 @@ Priorities #1-18 RESOLVED. See previous versions for details.
   Tested with cce_pre_rolling_start.mc0 (GENTLEMEN START YOUR ENGINES → GO).
   Even FUN_0603CDD8 (which fires in attract mode) does not fire here.
 
-### 27. Scenario: Race finish (crossing the finish line)
+### 27. Scenario: Race finish (crossing the finish line) — RESOLVED
 
-- **Setup**: need a save state near the end of a lap, just before
-  crossing the finish line.
-- **Breakpoint all 8 functions**
-- **Advance frames across the finish line crossing**
-- **Report**: which fire during the finish transition?
+- **Result**: 0 of 8 fire. Human drove 2 full laps on Dinosaur Canyon TT
+  with all 8 breakpoints armed — no hits through any finish line crossing.
 
-### 28. Scenario: Different course (Dinosaur Canyon)
+### 28. Scenario: Different course (Dinosaur Canyon) — RESOLVED
 
-- **Setup**: start Dinosaur Canyon time trial, get to active racing.
-- **Breakpoint all 8 functions**
-- **Advance 1 frame**
-- **Report**: any functions that fire on Dinosaur Canyon but not Three
-  Seven? Track-specific polygon readers would show up here.
+- **Result**: 0 of 8 fire on Dinosaur Canyon. Human drove 2 laps + pit stop
+  with all 8 breakpoints armed — zero hits. Also confirmed by PC trace at
+  f300 (idle on track, 250K PCs). Track-specific polygon readers do NOT exist
+  among these 8 functions.
+- **Conclusion**: 7 of 8 functions are dead code in all tested scenarios.
+  Only FUN_0603CDD8 fires (attract mode only). The polygon data address
+  pool refs (0x00220000/0x00224000/0x00228000) in these 7 functions are
+  not reached during normal gameplay.
 
 ### 29. Scenario: Track loading / initialization — RESOLVED
 

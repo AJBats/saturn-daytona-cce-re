@@ -2,7 +2,7 @@
 function: FUN_0603CDD8
 address: 0x0603CDD8
 explored: 2026-03-21
-scenarios_tested: [attract_race, pre_rolling_start]
+scenarios_tested: [attract_race, pre_rolling_start, dino_canyon]
 reachable: true
 ---
 
@@ -13,6 +13,7 @@ reachable: true
 | attract_race | 1 | Confirmed via PC trace (295K PCs, 1 frame) and breakpoint hit |
 | pre_rolling_start (f50) | 0 | Not reached during loading phase (234K PCs) |
 | pre_rolling_start (f600) | 0 | Not reached during 3-2-1 countdown (221K PCs) |
+| dino_canyon (f300) | 0 | Not reached on Dinosaur Canyon time trial (250K PCs) |
 
 ## Register Context at Entry
 

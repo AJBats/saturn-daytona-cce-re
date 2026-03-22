@@ -45,6 +45,11 @@ save_states:
     inputs: []
     frames: 1363
     notes: "Loading screen through rolling start to GO, ~1363 frames"
+  dino_canyon:
+    file: build/save_states/cce_dino_canyon_countdown.mc0
+    inputs: []
+    frames: 200
+    notes: "Dinosaur Canyon TT, countdown at 2, GO within ~200 frames"
   pre_attract:
     file: build/save_states/cce_pre_attract.mc0
     inputs: []
