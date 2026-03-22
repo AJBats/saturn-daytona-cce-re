@@ -101,14 +101,51 @@ track loading, Dinosaur Canyon (2 laps + pit stop), finish line crossing.
 | CS4_COL.BIN | 221K | Unknown |
 | CS12_COL.BIN | 254K | Unknown (same size as CS1) |
 
+## Cross-Game Comparison (CCE vs '95)
+
+### File Organization
+
+| | CCE | '95 |
+|--|-----|-----|
+| Polygon data | CS0_COL.BIN (112K) | CS0POLY.BIN (297K) |
+| Line/grid data | (embedded in COL header) | CS0_LINE.BIN (35K) |
+| Structure | Combined: header + pointers + polygons | Split: separate files |
+
+### Format Differences
+
+- **'95 CS0POLY.BIN** starts immediately with dense vertex data (no header).
+  First bytes: 0xFE7DA1CB — vertex coordinates. 3x larger file.
+- **'95 CS0_LINE.BIN** starts with 0x00008000 — likely a pointer/offset table.
+  35K file, similar in role to CCE's pointer table regions.
+- **No shared byte patterns** between CCE and '95 polygon records.
+- **Coordinate ranges differ**: '95 uses values ~±400 in upper 16 bits;
+  CCE uses ~±4000 — a 10x scale difference.
+- **'95 has 3 vertices per record starting at byte 0** (pure data);
+  **CCE has a count field + vertices + properties** (self-describing records).
+
+### Key Implication
+
+The COL formats are **incompatible**. A direct file swap won't work.
+The transplant must either:
+
+1. **Convert '95 polygon data to CCE format** — write a tool to transform
+   CS0POLY.BIN + CS0_LINE.BIN into CS0_COL.BIN format
+2. **Bypass the COL reader** — have the '95 driving model bring its own
+   surface detection code and read '95-format polygon data directly
+3. **Keep CCE's track data** — use CCE's existing COL files and only
+   transplant the physics/dynamics code that consumes the surface type output
+
+Option 3 is the simplest path — the COL data defines the track, not the
+driving model. The driving model only needs to know "what surface am I on?"
+which comes from FUN_06036914's output, not the raw polygon data.
+
 ## Transplant Implications
 
-For the driving model transplant:
 1. **FUN_06036914 is the key interface** — it translates track geometry into
    surface type for the physics engine. The '95 model needs equivalent
    surface data.
-2. **The COL format is game-specific** — '95 has its own COL files with
-   potentially different structure. Cross-game format comparison needed.
+2. **Keep CCE's COL files** — the track geometry should stay CCE-native.
+   Only transplant the driving model code that runs AFTER surface detection.
 3. **The zeroed-COL experiment (black screen)** confirms the header region
    is essential for initialization — can't just zero the whole file.
 4. **Surgical modification is feasible** — zero only the dense body (0x8000+)
