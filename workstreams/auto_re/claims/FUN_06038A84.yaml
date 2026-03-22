@@ -1,47 +1,46 @@
-# FUN_06038A84 — Writes +0x1A4 (rendering counter/state)
+# FUN_06038A84 — Track segment heading computer (BLK data consumer)
 #
-# Observation: workstreams/auto_re/observations/field_writer_survey_005_obs.md (Priority #4)
-# File: src/race/FUN_060384C4.s
-# Address range: 0x06038A84 - 0x06038BC4
+# Observation: workstreams/auto_re/observations/FUN_06038A84_obs.md
+# File: src/race/FUN_060384C4.s (TU merge, line 804)
+# Address range: 0x06038A84 - 0x06038BBA
 #
-# From survey data:
-# - Writer PC 0x06038AE4
-# - GBR = 0x06057800 (NOT player struct)
-# - Writes to +0x1A4 (upper 16 bits of 4-byte word at 0x060523F0)
-# - Values: 0x0041→0x0042 at frame 80 (incrementing counter)
-# - Scenario: straight_throttle
-#
-# NOTE: Using absolute address because GBR != player struct base.
+# Key discovery: CS0_BLK.BIN loads at 0x060ED100 in HWR (99.9% binary match).
+# This function reads BLK segment direction vectors via car_struct+0x154 pointer
+# and computes track heading via atan2. Drives AI path following in attract mode.
 
 function: FUN_06038A84
 address: 0x06038A84
-address_end: 0x06038BC4
+address_end: 0x06038BBA
 source_file: src/race/FUN_060384C4.s
 
 claims:
-  - id: writes_1A4
-    description: "Writes incrementing counter to +0x1A4 (PC 0x06038AE4, rendering state)"
+  - id: writes_194_heading
+    description: "Writes track heading angle to car struct +0x194 via atan2 of BLK direction vector"
     type: writes_to
     function: FUN_06038A84
-    function_end: 0x06038BC4
-    address: 0x060523F0
-    scenario: straight_throttle
-    frames: 120
+    address: 0x06038B38
+    target: "car_struct+0x194"
+    scenario: attract_race
 
-  - id: call_count_race
-    description: "Called per game frame in race scenario"
-    type: call_count_per_frame
+  - id: writes_1A4_segment
+    description: "Writes segment lookup result to car struct +0x1A4 via FUN_0602AAA8"
+    type: writes_to
     function: FUN_06038A84
-    address: 0x06038A84
-    scenario: race_throttle
-    expected_count: 1
-    tolerance: 10
+    address: 0x06038B24
+    target: "car_struct+0x1A4"
+    scenario: attract_race
 
-  - id: call_count_straight
-    description: "Called per game frame in time trial"
-    type: call_count_per_frame
+  - id: writes_192_type
+    description: "Copies BLK segment type field (+0x02) to car struct +0x192"
+    type: writes_to
     function: FUN_06038A84
-    address: 0x06038A84
-    scenario: straight_throttle
-    expected_count: 1
-    tolerance: 10
+    address: 0x06038B32
+    target: "car_struct+0x192"
+    scenario: attract_race
+
+  - id: blk_load_address
+    description: "CS0_BLK.BIN loaded at 0x060ED100 (42,676 bytes, 99.9% binary match)"
+    type: value_stable
+    address: "0x060ED100"
+    scenario: attract_race
+    frames: 10
