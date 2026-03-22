@@ -21,7 +21,7 @@ FUN_06035EE8	3	3	2	call_count_throttle PASS (1 call), writes_134 PASS (GBR+308, 
 FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
 FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), writes_24 PASS (GBR+36, 58 hits, PC 0x060366FA), writes_D0 PASS (GBR+208, 59 hits, PC 0x06036756)
 FUN_06036790	5	5	2	call_count_throttle PASS (1 call), writes_108 PASS (GBR+264, 59 hits), writes_10C PASS (GBR+268, 59 hits), writes_08 PASS (GBR+8, 59 hits), writes_00_player_X PASS (GBR+0, 59 hits, PC 0x060367E0, frame_map)
-FUN_06036CEC	2	2	1	call_count_throttle PASS (1 call), writes_4C_surface_type PASS (0x06052298, 2 hits, PC 0x06036CD2, offtrack_throttle); FUN_06036BC6 range [BC6,CF8) — surface type writer confirmed
+FUN_06036CEC	3	3	2	call_count_throttle PASS (1 call), writes_4C_surface_type PASS (0x06052298, 2 hits, PC 0x06036CD2, offtrack_throttle), call_count_race PASS (1 call/frame in race_throttle); surface type writer confirmed
 FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
 FUN_0604D580	5	5	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01), writes_AC PASS (GBR+172, 26 hits, PC 0x0604D79A, survey_001), writes_176_dec PASS (0x060523C2, 45 hits, PC 0x0604D766, survey_002)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
@@ -53,7 +53,7 @@ FUN_06037E28	1	1	1	call_count_race PASS (1 call). Player per-car master — orch
 FUN_0603EAAA	3	3	2	call_count_race PASS (37 calls, expected 20±25), writes_chain0_X PASS (0x060FD400, 59 hits), writes_chain0_Z PASS (0x060FD408, 47 hits). AI car position integration — upgraded to Tier 2
 FUN_0603C5CC	1	1	1	call_count_race PASS (1 call). Init callback gateway — calls position integration chain. Transplant cut point for disabling AI position updates
 FUN_060385CE	1	1	1	call_count_race PASS (2 calls). Polygon data reader, 2x/frame from player master. Reads sym_00220000 — will break on COL swap
-FUN_060384C4	2	2	1	call_count_race PASS (1 call, tolerance 1), writes_corner_geometry PASS (0x060525FC, 59 hits, PC 0x0603853A). Corner geometry writer — 2 claims, 2 types, needs 3rd for Tier 2
+FUN_060384C4	3	3	2	call_count_race PASS (1 call), writes_corner_geometry PASS (0x060525FC, 59 hits, PC 0x0603853A), call_count_straight PASS (1 call in straight_throttle). Corner geometry writer
 FUN_0603CDD8	1	1	1	call_count_attract_race PASS (1 call/frame)
 FUN_060291E0	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attract mode)
 FUN_06032E44	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attract mode)

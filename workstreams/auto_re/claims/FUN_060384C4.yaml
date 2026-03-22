@@ -33,3 +33,12 @@ claims:
     address: 0x060525FC
     scenario: race_throttle
     frames: 60
+
+  - id: call_count_straight
+    description: "Called 1 time per game frame in time trial (straight_throttle)"
+    type: call_count_per_frame
+    function: FUN_060384C4
+    address: 0x060384C4
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 1

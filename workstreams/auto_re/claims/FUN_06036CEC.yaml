@@ -32,3 +32,12 @@ claims:
     address: 0x06052298
     scenario: offtrack_throttle
     frames: 200
+
+  - id: call_count_race
+    description: "Called 1 time per game frame in race scenario (40 car race)"
+    type: call_count_per_frame
+    function: FUN_06036CEC
+    address: 0x06036CEC
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 0

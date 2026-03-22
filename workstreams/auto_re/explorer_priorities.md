@@ -22,23 +22,12 @@ Priorities #1-18 RESOLVED. See previous versions for details.
 
 ## HIGH PRIORITY
 
-### 25. Scenario: Attract mode demo race
+### 25. Scenario: Attract mode demo race — RESOLVED
 
-- **Setup**: boot retail disc cold, do NOT press start. Let the attract
-  mode cycle to a demo race (cars racing automatically).
-- **Breakpoint all 8 functions**:
-  ```
-  0x060291E0  (FUN_060291E0)
-  0x06032E44  (FUN_06032E44)
-  0x06034904  (FUN_06034904)
-  0x0603C304  (FUN_0603C304)
-  0x0603CDD8  (FUN_0603CDD8)
-  0x0603D558  (FUN_0603D558)
-  0x0603D980  (FUN_0603D980)
-  0x0603DF28  (FUN_0603DF28)
-  ```
-- **Advance 1 frame during the demo race**
-- **Report**: which breakpoints fire? For each hit, dump PR (caller).
+- **Result**: 1 of 8 fires. FUN_0603CDD8 called 1x/frame (PR=0x0603522E).
+  7 unreachable: FUN_060291E0, FUN_06032E44, FUN_06034904, FUN_0603C304,
+  FUN_0603D558, FUN_0603D980, FUN_0603DF28.
+- All 8 oracle-verified (Tier 1).
 
 ### 26. Scenario: Rolling start countdown (pre-GO)
 
