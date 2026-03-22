@@ -162,3 +162,15 @@ experiments:
     result: "Player car frozen in place. Attract mode camera frozen (no orbit or view changes). Drone cars STILL DRIVING normally. FUN_06038BC4 only controls the player car replay (car[+0x12]==1 gate). Drones use a separate AI system."
     conclusion: "FUN_06038BC4 is the player-car replay overwrite. It bulk-copies position/heading/velocity from a pre-recorded table into the player car struct. Drones are driven by a separate AI chain. Camera is tied to player replay data."
     name: replay_state_overwrite
+
+  - function: FUN_06038BC4
+    field: "car X/Y/Z/heading/velocity bulk overwrite"
+    patch_addr: "0x06038BC4"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_bytes_original: "2F E6 E0 12"
+    scenario: pre_rolling_start
+    prediction: "Player car stays at start line during rolling start. Pack rolls without player. After GO, normal control resumes."
+    status: confirmed
+    result: "Player car stuck a few yards ahead of start line (default init position, not zero). Rolling start pack moved normally without player. Camera swoops still functioned. After GO, normal player control resumed."
+    conclusion: "FUN_06038BC4 also drives the rolling start scripted path. The pre-GO roll is replay data, not physics. Default init position is a valid track location slightly offset from start line. Camera swoops are independent of car replay."
+    name: rolling_start_replay
