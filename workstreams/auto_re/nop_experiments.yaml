@@ -1,0 +1,140 @@
+# NOP Experiments -- structured format for auto_re.py
+#
+# Converted from legacy workstreams/driving_model/nop_experiments.md
+# 13 experiments total: 10 confirmed, 1 disproved, 1 inconclusive, 1 hang
+
+experiments:
+  - function: FUN_060366EC
+    field: "+0x24"
+    patch_addr: "0x060366F6"
+    patch_addr_2: "0x060366FE"
+    scenario: straight_throttle
+    prediction: "Car stays still despite throttle -- velocity never integrates"
+    status: confirmed
+    result: "Car completely frozen. 0 km/h, gear 1, no movement. Timer advances but car position unchanged."
+    conclusion: "+0x24 is the velocity accumulator. Integration step +0x24 += +0xF0 is the sole mechanism for force->speed."
+    name: velocity_integrator
+
+  - function: FUN_06036790
+    field: "+0x0E"
+    patch_addr: "0x060367A0"
+    scenario: right_wall_strike
+    prediction: "Car drives straight, steering has no effect"
+    status: confirmed
+    result: "Car sprite stayed pointing straight but trajectory DID turn right -- slid into wall. Camera tracked invisible true heading. On wall contact sprite went haywire."
+    conclusion: "+0x0E is mid-pipeline rendering heading. Steering lives upstream, rendering downstream. Collision response also depends on it."
+    name: render_heading_copy
+
+  - function: FUN_06035904
+    field: "+0xF0"
+    patch_addr: "0x06035B0C"
+    scenario: straight_throttle
+    prediction: "Car stays still -- force never reaches velocity"
+    status: confirmed
+    result: "Car completely frozen. 0 km/h, gear 1. RPM gauge did NOT ramp up (unlike exp 4). No engine response."
+    conclusion: "+0xF0 is the sole force channel. Pipeline: physics->+0xF0->+0x24(velocity)->+0x34(KPH). No bypass paths."
+    name: force_channel
+
+  - function: FUN_0604D580
+    field: "+0x34"
+    patch_addr: "0x0604D706"
+    scenario: straight_throttle
+    prediction: "KPH gauge stays 0, car may still move"
+    status: confirmed
+    result: "RPM ramped normally. Gear stuck at 1. KPH gauge 0. Car IS moving but much slower -- physics gates (shift thresholds) never fire."
+    conclusion: "+0x34 is display speed AND physics gate. Derived from +0x24. Feeds HUD + 5 downstream threshold gates."
+    name: display_speed_gate
+
+  - function: FUN_0604D580
+    field: "+0x80"
+    patch_addr: "0x0604D796"
+    patch_addr_2: "0x0604D7DE"
+    scenario: straight_throttle
+    prediction: "Car stays still -- throttle input blocked"
+    status: confirmed
+    result: "Writer A only: car still accelerated (writer B compensated). Both writers NOPed: car completely frozen."
+    conclusion: "+0x80 is throttle input with dual-writer ramp filter. Both paths must be blocked to kill throttle."
+    name: throttle_input_ramp
+
+  - function: FUN_06036CEC
+    field: "+0x4C"
+    patch_addr: "0x06036CCE"
+    scenario: offtrack_throttle
+    prediction: "Car drives on grass at full road speed, no slowdown, clips through walls"
+    status: confirmed
+    result: "Car crossed grass at full road speed. Clipped through outer wall noclip-style. Ground collision still worked (curb bounce)."
+    conclusion: "+0x4C is sole surface type gate. Controls terrain friction AND horizontal wall collision. Vertical ground collision independent."
+    name: surface_type_gate
+
+  - function: FUN_060386D8
+    field: "+0x10"
+    patch_addr: "0x06038A6C"
+    scenario: straight_throttle
+    prediction: "Car handles differently on curves -- reduced grip or flat feeling"
+    status: confirmed
+    result: "Car stays level on banked curves (visual). Turning power reduced in both grip and powerslide modes. Confirmed by toggling patch on/off."
+    conclusion: "+0x10 is dual-purpose: rendering banking AND physics grip on curves."
+    name: banking_angle
+
+  - function: FUN_060385CE
+    field: "car[+0x30] bit 3"
+    patch_addr: "0x060385CE"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Unknown -- polygon reader, may affect rendering or collision"
+    status: inconclusive
+    result: "No visible difference for 6 laps. Emulator crashed after lap 6. Crash may be from NOP or Mednafen instability."
+    conclusion: "Possibly unsafe -- sets bit 3 in car flags. Needs retest with 10+ laps."
+
+  - function: FUN_060386D8
+    field: "car[+0x04] Y height + car[+0x10] banking"
+    patch_addr: "0x060386D8"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Car loses terrain following -- floats or clips through road"
+    status: confirmed
+    result: "Car does not follow road surface on banked curves. Drives through geometry on invisible flat plane at stale Y."
+    conclusion: "FUN_060386D8 writes Y height and banking from polygon terrain data. Must provide DUSA equivalent."
+    name: terrain_height_banking
+
+  - function: FUN_06036914
+    field: "terrain lookup chain"
+    patch_addr: "0x06036914"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Surface properties stop updating"
+    status: confirmed
+    result: "Game hung at GO screen. Per-car loop stuck. Timer 0'00, speed 301, position 40/40."
+    conclusion: "Critical function in terrain lookup chain. Cannot be cut -- caller depends on return value. Needs compatible stub."
+    name: terrain_lookup_critical
+
+  - function: FUN_06036B60
+    field: "trackside object collision"
+    patch_addr: "0x06036B60"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Unknown -- grid table accessor, may affect terrain or collision"
+    status: confirmed
+    result: "No terrain/physics changes. Only difference: traffic cones vanish instantly instead of bouncing away on hit."
+    conclusion: "Handles trackside object collision response (cone bounce). Safe to cut."
+    name: trackside_object_collision
+
+  - function: FUN_06042998
+    field: "unknown"
+    patch_addr: "0x06042998"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Unknown -- reads 0x00224000"
+    status: confirmed
+    result: "No visible difference during normal 1P racing."
+    conclusion: "No observable effect in 1P. Safe to cut."
+
+  - function: FUN_06044788
+    field: "unknown"
+    patch_addr: "0x06044788"
+    patch_method: "rts;nop at entry"
+    scenario: race_idle
+    prediction: "Unknown -- reads 0x00220000"
+    status: confirmed
+    result: "No visible difference over 5 full laps."
+    conclusion: "No observable effect in 1P. Safe to cut."
