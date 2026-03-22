@@ -40,6 +40,16 @@ save_states:
     inputs: [B]
     frames: 324
     notes: "Grass at frame 124, traction loss"
+  pre_attract:
+    file: build/save_states/cce_pre_attract.mc0
+    inputs: []
+    frames: 1028
+    notes: "Title screen, attract mode loads somewhere in 0-1028 frames"
+  attract_race:
+    file: build/save_states/cce_attract_race.mc0
+    inputs: []
+    frames: 5000
+    notes: "AI-only demo race, no player input, 5000+ frames available"
 
 struct_map_path: workstreams/driving_model/struct_map.md
 

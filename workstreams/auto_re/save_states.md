@@ -72,3 +72,35 @@ Frame 0 = save state load. Inputs applied at frame 2.
 |----------|--------|--------|------------------|
 | **straight_throttle** | B | 650 | Full-speed run down straight, wall strike at far corner |
 | **right_wall_strike** | RIGHT + B | 150 | Angled collision with right guardrail, ~26 km/h at impact, REVERSE indicator |
+
+## cce_pre_attract.mc0
+
+- **Mode**: Title screen / "Press Start Button" screen
+- **Course**: N/A
+- **Speed**: N/A
+- **Position**: N/A
+- **Transmission**: N/A
+- **Location**: Daytona trademark screen, before attract mode cycle begins
+- **Known constraints**:
+  - Attract mode demo race loads somewhere between frame 0 and frame ~1028
+  - Exact frame of RACE.BIN load / COL data read is unknown
+  - This is the critical junction where COL data is read to set up the attract demo race
+- **Best for**: Observing the attract mode startup sequence, COL data loading,
+  module swap from title to race, init dispatcher behavior
+- **Avoid for**: In-race observations (use cce_attract_race.mc0 instead)
+
+## cce_attract_race.mc0
+
+- **Mode**: Attract mode demo race (no player input, AI-only)
+- **Course**: Unknown (attract mode selects automatically)
+- **Speed**: AI cars racing at full speed
+- **Position**: N/A (spectator view)
+- **Transmission**: N/A
+- **Location**: Saved during fade-in of attract demo race
+- **Known constraints**:
+  - 5000+ frames of demo race available (tested — still racing at frame 5000)
+  - No player input required — AI drives all cars
+  - Pressing Start exits attract mode to title screen
+- **Best for**: Testing which functions fire during AI-only racing, confirming
+  attract mode reachability of race module functions
+- **Avoid for**: Player input response tests (no player car), throttle/brake observations
