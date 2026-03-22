@@ -30,8 +30,20 @@ public class ExportDecompiledAll extends GhidraScript {
     @Override
     public void run() throws Exception {
 
-        // Derive project root from script location (ghidra_plugins/ -> project root)
-        String projectRoot = getSourceFile().getParentFile().getParent();
+        // Derive project root from script location or CWD
+        String projectRoot = null;
+        try {
+            generic.jar.ResourceFile rf = getSourceFile();
+            if (rf != null) {
+                java.io.File scriptFile = rf.getFile(false);
+                if (scriptFile != null) {
+                    projectRoot = scriptFile.getParentFile().getParent();
+                }
+            }
+        } catch (Exception e) { /* fall through */ }
+        if (projectRoot == null) {
+            projectRoot = System.getProperty("user.dir");
+        }
 
         String progName = currentProgram.getName();
         String moduleName = detectModule(progName);
@@ -116,14 +128,15 @@ public class ExportDecompiledAll extends GhidraScript {
     }
 
     private String detectModule(String progName) {
-        if (progName.equals("0")) return "init";
-        if (progName.toLowerCase().contains("iso")) return "main";
-        if (progName.equalsIgnoreCase("RACE.BIN")) return "race";
-        if (progName.equalsIgnoreCase("SLCT.BIN")) return "select";
-        if (progName.equalsIgnoreCase("RESULT2P.BIN")) return "result2p";
-        if (progName.equalsIgnoreCase("NAME.BIN")) return "name";
-        if (progName.equalsIgnoreCase("BKUP.BIN")) return "backup";
-        if (progName.equalsIgnoreCase("ENDING.BIN")) return "ending";
+        String lower = progName.toLowerCase();
+        if (lower.equals("main.bin")) return "main";
+        if (lower.equals("init.bin") || progName.equals("0")) return "init";
+        if (lower.equals("race.bin")) return "race";
+        if (lower.equals("slct.bin")) return "select";
+        if (lower.equals("result2p.bin")) return "result2p";
+        if (lower.equals("name.bin")) return "name";
+        if (lower.equals("bkup.bin")) return "backup";
+        if (lower.equals("ending.bin")) return "ending";
         return null;
     }
 }

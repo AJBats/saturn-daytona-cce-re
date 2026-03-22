@@ -51,8 +51,20 @@ public class ExportDisassemblyAll extends GhidraScript {
     @Override
     public void run() throws Exception {
 
-        // Derive project root from script location (ghidra_plugins/ -> project root)
-        String projectRoot = getSourceFile().getParentFile().getParent();
+        // Derive project root from script location or CWD
+        String projectRoot = null;
+        try {
+            generic.jar.ResourceFile rf = getSourceFile();
+            if (rf != null) {
+                java.io.File scriptFile = rf.getFile(false);
+                if (scriptFile != null) {
+                    projectRoot = scriptFile.getParentFile().getParent();
+                }
+            }
+        } catch (Exception e) { /* fall through */ }
+        if (projectRoot == null) {
+            projectRoot = System.getProperty("user.dir");
+        }
         String outBase = projectRoot + "/ghidra_reference";
 
         String progName = currentProgram.getName();

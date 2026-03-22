@@ -1,0 +1,18 @@
+/* FUN_0602D92C  0x0602D92C */
+
+
+void FUN_0602d92c(undefined4 param_1)
+
+{
+  undefined4 uVar1;
+  code *in_r3;
+  int unaff_r11;
+  
+  (*in_r3)(param_1,unaff_r11 + 6);
+  uVar1 = (*DAT_0602d984)();
+  FUN_0602d8c2(uVar1);
+  uVar1 = (*DAT_0602d984)();
+  FUN_0602d8c2(uVar1);
+  return;
+}
+

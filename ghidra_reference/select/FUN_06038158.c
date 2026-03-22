@@ -1,0 +1,26 @@
+/* FUN_06038158  0x06038158 */
+
+
+undefined4 FUN_06038158(void)
+
+{
+  undefined4 uVar1;
+  undefined4 *puVar2;
+  undefined4 *puVar3;
+  int iVar4;
+  
+  iVar4 = 0x30;
+  puVar2 = puRam06038164;
+  puVar3 = puRam06038160;
+  do {
+    uVar1 = *puVar3;
+    puVar3 = puVar3 + 1;
+    *puVar2 = uVar1;
+    iVar4 = iVar4 + -1;
+    puVar2 = puVar2 + 1;
+  } while (iVar4 != 0);
+  FUN_0603846c();
+  uVar1 = FUN_06038a6c(0);
+  return uVar1;
+}
+

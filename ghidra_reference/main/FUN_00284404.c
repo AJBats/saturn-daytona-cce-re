@@ -1,0 +1,39 @@
+/* FUN_00284404  0x00284404 */
+
+
+int FUN_00284404(int param_1,undefined4 param_2,int *param_3)
+
+{
+  int iVar1;
+  int iStack_18;
+  int iStack_14;
+  int iStack_10;
+  int aiStack_c [2];
+  
+  iVar1 = (*(code *)PTR_FUN_00284498)
+                    (*(undefined4 *)(param_1 + 0x20),*(undefined4 *)(param_1 + 0x40),param_2,
+                     &iStack_18,param_3);
+  if (iVar1 == 0) {
+    iVar1 = (*(code *)PTR_FUN_0028449c)();
+    if (iVar1 == 0) {
+      if (param_3 == (int *)0x0) {
+        return iStack_18;
+      }
+      (*(code *)PTR_FUN_002844a0)(param_1,0,0,&iStack_14,&iStack_10,aiStack_c,0,0);
+      iVar1 = (*(code *)PTR_FUN_002844a4)(param_1 + 0x1c);
+      if (iVar1 + iStack_18 < iStack_10) {
+        return iStack_18;
+      }
+      if (aiStack_c[0] == 0) {
+        return iStack_18;
+      }
+      if (iStack_18 < 1) {
+        return iStack_18;
+      }
+      *param_3 = *param_3 - (iStack_14 - aiStack_c[0]);
+      return iStack_18;
+    }
+  }
+  return 0;
+}
+

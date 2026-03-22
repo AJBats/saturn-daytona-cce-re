@@ -1,0 +1,19 @@
+/* FUN_060106E0  0x060106E0 */
+
+
+void FUN_060106e0(undefined1 param_1,undefined2 param_2,undefined2 param_3,undefined3 param_4)
+
+{
+  undefined1 uStack_10;
+  undefined1 auStack_f [3];
+  undefined1 uStack_c;
+  undefined1 auStack_b [7];
+  
+  _uStack_10 = CONCAT13(0x52,param_4);
+  _uStack_10 = CONCAT22(_uStack_10,param_2);
+  _uStack_c = CONCAT13(param_1,param_4);
+  _uStack_c = CONCAT22(_uStack_c,param_3);
+  (*(code *)PTR_FUN_06010844)(0x40,&uStack_10);
+  return;
+}
+

@@ -1,0 +1,138 @@
+/* FUN_0603F30E  0x0603F30E */
+
+
+/* WARNING: Control flow encountered bad instruction data */
+
+void FUN_0603f30e(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+
+{
+  undefined1 *in_r0;
+  undefined4 in_r1;
+  undefined4 in_r2;
+  undefined4 in_r3;
+  undefined4 unaff_r8;
+  int unaff_r9;
+  undefined4 *unaff_r10;
+  undefined4 *unaff_r11;
+  undefined4 *unaff_r12;
+  undefined4 *unaff_r13;
+  undefined4 *unaff_r14;
+  
+  *(undefined4 **)(unaff_r9 + 4) = unaff_r12;
+  *(undefined4 **)(unaff_r9 + 0x38) = unaff_r12;
+  *(undefined4 **)(unaff_r9 + 0x30) = unaff_r13;
+  *(undefined4 **)(unaff_r9 + 0x24) = unaff_r14;
+  *(BADSPACEBASE **)(unaff_r9 + 0x18) = register0x0000003c;
+  unaff_r10[3] = in_r0;
+  *unaff_r10 = in_r1;
+  unaff_r10[0xd] = in_r1;
+  unaff_r10[10] = in_r2;
+  unaff_r10[7] = in_r3;
+  unaff_r10[4] = param_1;
+  unaff_r10[1] = param_2;
+  unaff_r10[0xe] = param_2;
+  unaff_r10[0xb] = param_3;
+  unaff_r10[8] = param_4;
+  unaff_r10[5] = unaff_r8;
+  unaff_r10[2] = unaff_r9;
+  unaff_r10[0xf] = unaff_r9;
+  unaff_r10[0xc] = unaff_r10;
+  unaff_r10[9] = unaff_r11;
+  unaff_r10[5] = unaff_r12;
+  unaff_r10[2] = unaff_r13;
+  unaff_r10[0xf] = unaff_r13;
+  unaff_r10[0xc] = unaff_r14;
+  unaff_r10[8] = register0x0000003c;
+  unaff_r11[5] = in_r0;
+  unaff_r11[2] = in_r1;
+  unaff_r11[0xe] = in_r1;
+  unaff_r11[0xb] = in_r2;
+  unaff_r11[7] = in_r3;
+  unaff_r11[4] = param_1;
+  *unaff_r11 = param_2;
+  unaff_r11[0xd] = param_2;
+  unaff_r11[9] = param_3;
+  unaff_r11[6] = param_4;
+  unaff_r11[2] = unaff_r8;
+  unaff_r11[0xf] = unaff_r8;
+  unaff_r11[0xb] = unaff_r9;
+  unaff_r11[7] = unaff_r10;
+  unaff_r11[4] = unaff_r11;
+  *unaff_r11 = unaff_r12;
+  unaff_r11[0xc] = unaff_r12;
+  unaff_r11[9] = unaff_r13;
+  unaff_r11[5] = unaff_r14;
+  unaff_r11[1] = register0x0000003c;
+  unaff_r11[0xd] = register0x0000003c;
+  unaff_r12[9] = in_r0;
+  unaff_r12[6] = in_r1;
+  unaff_r12[2] = in_r2;
+  unaff_r12[0xe] = in_r2;
+  unaff_r12[10] = in_r3;
+  unaff_r12[6] = param_1;
+  unaff_r12[2] = param_2;
+  unaff_r12[0xe] = param_2;
+  unaff_r12[10] = param_3;
+  unaff_r12[6] = param_4;
+  unaff_r12[2] = unaff_r8;
+  unaff_r12[0xe] = unaff_r8;
+  unaff_r12[10] = unaff_r9;
+  unaff_r12[5] = unaff_r10;
+  unaff_r12[1] = unaff_r11;
+  unaff_r12[0xd] = unaff_r11;
+  unaff_r12[9] = unaff_r12;
+  unaff_r12[5] = unaff_r13;
+  *unaff_r12 = unaff_r14;
+  unaff_r12[0xc] = unaff_r14;
+  unaff_r12[8] = register0x0000003c;
+  unaff_r13[4] = in_r0;
+  unaff_r13[0xf] = in_r0;
+  unaff_r13[0xb] = in_r1;
+  unaff_r13[6] = in_r2;
+  unaff_r13[2] = in_r3;
+  unaff_r13[0xe] = in_r3;
+  unaff_r13[9] = param_1;
+  unaff_r13[5] = param_2;
+  *unaff_r13 = param_3;
+  unaff_r13[0xc] = param_3;
+  unaff_r13[7] = param_4;
+  unaff_r13[3] = unaff_r8;
+  unaff_r13[0xe] = unaff_r8;
+  unaff_r13[9] = unaff_r9;
+  unaff_r13[5] = unaff_r10;
+  *unaff_r13 = unaff_r11;
+  unaff_r13[0xb] = unaff_r11;
+  unaff_r13[7] = unaff_r12;
+  unaff_r13[2] = unaff_r13;
+  unaff_r13[0xd] = unaff_r13;
+  unaff_r13[9] = unaff_r14;
+  unaff_r13[4] = register0x0000003c;
+  unaff_r13[0xf] = register0x0000003c;
+  unaff_r14[10] = in_r0;
+  unaff_r14[5] = in_r1;
+  *unaff_r14 = in_r2;
+  unaff_r14[0xc] = in_r2;
+  unaff_r14[7] = in_r3;
+  unaff_r14[2] = param_1;
+  unaff_r14[0xd] = param_1;
+  unaff_r14[8] = param_2;
+  unaff_r14[3] = param_3;
+  unaff_r14[0xe] = param_3;
+  unaff_r14[9] = param_4;
+  unaff_r14[4] = unaff_r8;
+  unaff_r14[0xf] = unaff_r8;
+  unaff_r14[9] = unaff_r9;
+  unaff_r14[4] = unaff_r10;
+  unaff_r14[0xf] = unaff_r10;
+  unaff_r14[10] = unaff_r11;
+  unaff_r14[5] = unaff_r12;
+  *unaff_r14 = unaff_r13;
+  unaff_r14[10] = unaff_r13;
+  unaff_r14[5] = unaff_r14;
+  *unaff_r14 = register0x0000003c;
+  unaff_r14[0xb] = register0x0000003c;
+  *in_r0 = (char)in_r0;
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
+

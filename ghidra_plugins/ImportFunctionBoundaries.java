@@ -1,12 +1,16 @@
 // Import Function Boundaries from src/ tree
 //
-// Reads FUN_XXXXXXXX.s filenames from the project's src/ directory
+// Reads .global FUN_XXXXXXXX labels from all .s files in src/<module>/
 // and creates functions in Ghidra at any addresses that weren't auto-detected.
+// This catches TU-internal functions that the filename-only approach misses.
 //
-// Usage:
-//   1. Open a binary in Ghidra's CodeBrowser (e.g. init module "0" or main ISO)
-//   2. Script Manager -> Run this script
-//   3. It will detect which module is loaded based on the program name
+// Works in both GUI and headless mode.
+//
+// Headless usage:
+//   analyzeHeadless ... -scriptPath ghidra_plugins -postScript ImportFunctionBoundaries.java
+//
+// GUI usage:
+//   Script Manager -> Run this script
 //
 // @category DaytonaCCE
 // @author Claude
@@ -18,7 +22,7 @@ import ghidra.program.model.listing.FunctionManager;
 import ghidra.program.model.listing.FunctionIterator;
 import ghidra.program.model.mem.Memory;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
@@ -27,35 +31,52 @@ public class ImportFunctionBoundaries extends GhidraScript {
     @Override
     public void run() throws Exception {
 
-        // Derive project root from script location (ghidra_plugins/ -> project root)
-        String projectRoot = getSourceFile().getParentFile().getParent();
-        String srcDir = projectRoot + "/src";
+        // Derive project root from script location or CWD
+        String projectRoot = null;
+        try {
+            generic.jar.ResourceFile rf = getSourceFile();
+            if (rf != null) {
+                File scriptFile = rf.getFile(false);
+                if (scriptFile != null) {
+                    projectRoot = scriptFile.getParentFile().getParent();
+                }
+            }
+        } catch (Exception e) {
+            // fall through
+        }
+        if (projectRoot == null) {
+            projectRoot = System.getProperty("user.dir");
+        }
+
+        String srcBase = projectRoot + File.separator + "src";
 
         // Detect module from program name
         String progName = currentProgram.getName();
         String moduleName = detectModule(progName);
 
         if (moduleName == null) {
-            popup("Could not detect module from program name: " + progName +
-                  "\nExpected: '0' (init), 'daytona_cce_data.iso' (main), " +
-                  "'RACE.BIN' (race), etc.");
+            printerr("Could not detect module from program name: " + progName);
+            printerr("Expected: '0' (init), 'RACE.BIN' (race), etc.");
             return;
         }
 
-        println("Detected module: " + moduleName + " (program: " + progName + ")");
+        println("Module: " + moduleName + " (program: " + progName + ")");
+        println("Source: " + srcBase + File.separator + moduleName);
 
-        // Get known function addresses from hardcoded list or src/
-        Map<Long, String> knownMap = new LinkedHashMap<>();
-        Map<Long, String> hardcoded = getHardcodedFunctions(moduleName);
-        if (hardcoded != null) {
-            knownMap = hardcoded;
-            println("Found " + knownMap.size() + " hardcoded function addresses for " + moduleName);
-        } else {
-            List<long[]> known = getFunctionAddressesFromSrc(moduleName);
-            for (long[] entry : known) {
-                knownMap.put(entry[0], String.format("FUN_%08X", entry[0]));
+        // Scan all .s files for .global FUN_ labels
+        Map<Long, String> knownMap = scanFunctionLabels(srcBase, moduleName);
+        println("Found " + knownMap.size() + " function labels in src/" + moduleName + "/");
+
+        // Some modules use base-0x06000000 addresses in src/ but load at a
+        // different runtime address. Detect and apply offset if needed.
+        long addrOffset = detectAddressOffset(moduleName, knownMap);
+        if (addrOffset != 0) {
+            println("Applying address offset: +0x" + Long.toHexString(addrOffset));
+            Map<Long, String> adjusted = new TreeMap<>();
+            for (Map.Entry<Long, String> e : knownMap.entrySet()) {
+                adjusted.put(e.getKey() + addrOffset, e.getValue());
             }
-            println("Found " + known.size() + " function addresses in src/" + moduleName + "/");
+            knownMap = adjusted;
         }
 
         // Get existing functions in Ghidra
@@ -66,10 +87,7 @@ public class ImportFunctionBoundaries extends GhidraScript {
             Function f = iter.next();
             existing.add(f.getEntryPoint().getOffset());
         }
-        println("Ghidra currently has " + existing.size() + " functions");
-
-        int missing = knownMap.size() - existing.size();
-        println("Missing: ~" + missing + " functions");
+        println("Ghidra auto-analysis found " + existing.size() + " functions");
 
         // Create missing functions
         int created = 0;
@@ -89,18 +107,16 @@ public class ImportFunctionBoundaries extends GhidraScript {
             Address addr = currentProgram.getAddressFactory()
                 .getDefaultAddressSpace().getAddress(addrVal);
 
-            // Check if address is in valid memory
             if (!mem.contains(addr)) {
-                println("  SKIP " + name + " @ " + addr + " - not in memory");
                 failed++;
                 continue;
             }
 
-            // Try to disassemble first (needed for raw bytes)
+            // Disassemble at address if needed
             try {
                 disassemble(addr);
             } catch (Exception e) {
-                // May already be disassembled, that's fine
+                // already disassembled
             }
 
             // Create function
@@ -108,92 +124,101 @@ public class ImportFunctionBoundaries extends GhidraScript {
                 Function f = createFunction(addr, name);
                 if (f != null) {
                     created++;
-                    if (created <= 20 || created % 50 == 0) {
+                    if (created <= 20 || created % 100 == 0) {
                         println("  Created " + name + " @ " + addr);
                     }
                 } else {
-                    println("  FAIL  " + name + " @ " + addr + " - createFunction returned null");
                     failed++;
                 }
             } catch (Exception e) {
-                println("  ERROR " + name + " @ " + addr + " - " + e.getMessage());
                 failed++;
             }
 
-            // Check for cancellation
             if (monitor.isCancelled()) {
-                println("Cancelled by user.");
+                println("Cancelled.");
                 break;
             }
         }
 
         println("");
-        println("=== Summary for " + moduleName + " ===");
-        println("  Known addresses:   " + knownMap.size());
+        println("=== Import Summary for " + moduleName + " ===");
+        println("  Labels in src/:    " + knownMap.size());
         println("  Already in Ghidra: " + skipped);
         println("  Newly created:     " + created);
-        println("  Failed:            " + failed);
+        println("  Failed/skipped:    " + failed);
         println("  Ghidra total now:  " + (skipped + created));
     }
 
     private String detectModule(String progName) {
-        // Match program name to module
-        if (progName.equals("0")) return "init";
-        if (progName.toLowerCase().contains("iso")) return "main";
-        if (progName.equalsIgnoreCase("RACE.BIN")) return "race";
-        if (progName.equalsIgnoreCase("SLCT.BIN")) return "select";
-        if (progName.equalsIgnoreCase("RESULT2P.BIN")) return "result2p";
-        if (progName.equalsIgnoreCase("NAME.BIN")) return "name";
-        if (progName.equalsIgnoreCase("BKUP.BIN")) return "backup";
-        if (progName.equalsIgnoreCase("ENDING.BIN")) return "ending";
-        if (progName.toUpperCase().contains("IP")) return "ipbin";
+        String lower = progName.toLowerCase();
+        if (lower.equals("main.bin")) return "main";
+        if (lower.equals("init.bin") || progName.equals("0")) return "init";
+        if (lower.equals("race.bin")) return "race";
+        if (lower.equals("slct.bin")) return "select";
+        if (lower.equals("result2p.bin")) return "result2p";
+        if (lower.equals("name.bin")) return "name";
+        if (lower.equals("bkup.bin")) return "backup";
+        if (lower.equals("ending.bin")) return "ending";
         return null;
     }
 
-    private Map<Long, String> getHardcodedFunctions(String moduleName) {
-        if (!"ipbin".equals(moduleName)) return null;
+    /**
+     * Detect if src/ addresses need offsetting to match Ghidra's load address.
+     * Some modules use base-0x06000000 in src/ but load at 0x06028000 etc.
+     */
+    private long detectAddressOffset(String moduleName, Map<Long, String> knownMap) {
+        // main and race use runtime addresses — no offset needed
+        if ("main".equals(moduleName) || "race".equals(moduleName)) {
+            return 0;
+        }
 
-        Map<Long, String> map = new LinkedHashMap<>();
-        map.put(0x06002100L, "ip_entry");
-        map.put(0x06002280L, "FUN_06002280");
-        map.put(0x0600231CL, "FUN_0600231C");
-        map.put(0x06002348L, "sega_auth_check");
-        map.put(0x060023E6L, "FUN_060023E6");
-        map.put(0x06002404L, "FUN_06002404");
-        map.put(0x0600245CL, "FUN_0600245C");
-        map.put(0x06002486L, "FUN_06002486");
-        map.put(0x060024D8L, "FUN_060024D8");
-        map.put(0x06002510L, "FUN_06002510");
-        map.put(0x0600255CL, "FUN_0600255C");
-        map.put(0x06002594L, "FUN_06002594");
-        map.put(0x060026DCL, "decompress_entry");
-        map.put(0x06002702L, "decompress_main");
-        map.put(0x0600270AL, "bitstream_reader");
-        map.put(0x06002D88L, "FUN_06002D88");
-        map.put(0x06002F20L, "FUN_06002F20");
-        return map;
+        // init: src uses 0x06000000 base, loaded at 0x06005200
+        if ("init".equals(moduleName)) {
+            return 0x5200;
+        }
+
+        // All other sub-modules: src uses 0x06000000 base, loaded at 0x06028000
+        return 0x28000;
     }
 
-    private List<long[]> getFunctionAddressesFromSrc(String moduleName) {
-        List<long[]> addrs = new ArrayList<>();
-        File srcDir = new File(srcDir, moduleName);
+    /**
+     * Scan all .s files in src/<module>/ for .global FUN_XXXXXXXX labels.
+     * Returns a map of address -> name, sorted by address.
+     */
+    private Map<Long, String> scanFunctionLabels(String srcBase, String moduleName) {
+        Map<Long, String> result = new TreeMap<>();
+        File srcDir = new File(srcBase, moduleName);
 
         if (!srcDir.isDirectory()) {
             printerr("Source directory not found: " + srcDir.getAbsolutePath());
-            return addrs;
+            return result;
         }
 
-        Pattern pattern = Pattern.compile("^FUN_([0-9A-Fa-f]+)\\.s$");
+        Pattern globalPattern = Pattern.compile("^\\s*\\.global\\s+(FUN_([0-9A-Fa-f]{8}))");
 
-        for (String fname : srcDir.list()) {
-            Matcher m = pattern.matcher(fname);
-            if (m.matches()) {
-                long addr = Long.parseLong(m.group(1), 16);
-                addrs.add(new long[]{addr});
+        File[] sFiles = srcDir.listFiles(new java.io.FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".s");
+            }
+        });
+        if (sFiles == null) return result;
+
+        for (File sFile : sFiles) {
+            try (BufferedReader br = new BufferedReader(new FileReader(sFile))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Matcher m = globalPattern.matcher(line);
+                    if (m.find()) {
+                        String funName = m.group(1);
+                        long addr = Long.parseLong(m.group(2), 16);
+                        result.put(addr, funName);
+                    }
+                }
+            } catch (IOException e) {
+                printerr("Error reading " + sFile.getName() + ": " + e.getMessage());
             }
         }
 
-        Collections.sort(addrs, (a, b) -> Long.compare(a[0], b[0]));
-        return addrs;
+        return result;
     }
 }

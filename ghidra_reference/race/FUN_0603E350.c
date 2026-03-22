@@ -1,0 +1,24 @@
+/* FUN_0603E350  0x0603E350 */
+
+
+undefined4 * FUN_0603e350(undefined4 param_1)
+
+{
+  undefined4 *puVar1;
+  int unaff_r13;
+  undefined4 *unaff_r14;
+  
+  do {
+    *DAT_0603e450 = 0x11;
+    puVar1 = (undefined4 *)unaff_r14[0x21];
+    if (*(char *)((int)unaff_r14 + 0xc1) == '\0') {
+      (*(code *)(*(short *)(&DAT_0603e388 + *(char *)(unaff_r14 + 0x26) * 2) + 0x603e378))
+                (param_1,*unaff_r14,unaff_r14[2]);
+      puVar1 = (undefined4 *)unaff_r14[0x21];
+    }
+    unaff_r13 = unaff_r13 + -1;
+    unaff_r14 = puVar1;
+  } while (unaff_r13 != 0);
+  return puVar1;
+}
+

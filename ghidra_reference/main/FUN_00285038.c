@@ -1,0 +1,49 @@
+/* FUN_00285038  0x00285038 */
+
+
+uint FUN_00285038(byte *param_1)
+
+{
+  undefined *puVar1;
+  int iVar2;
+  uint uVar3;
+  byte bVar4;
+  undefined4 local_18 [3];
+  
+  if (*DAT_002850d0 == 1) {
+    iVar2 = -8;
+    *DAT_002850d0 = 0;
+  }
+  else {
+    iVar2 = (*(code *)PTR_FUN_002850d4)(param_1);
+  }
+  if (iVar2 != 0) {
+    (*(code *)PTR_FUN_002850d8)(param_1);
+  }
+  uVar3 = (*(code *)PTR_FUN_002850dc)();
+  if ((uVar3 & 0x20) == 0) {
+    bVar4 = *param_1 & 0xf;
+    if (bVar4 == 7) {
+      *DAT_002850e0 = 0xfffffff2;
+      return uVar3;
+    }
+    if (7 < bVar4) {
+      if (bVar4 != 10) {
+        return uVar3;
+      }
+      *DAT_002850e0 = 0xfffffff0;
+      local_18[0] = 0;
+      (*(code *)PTR_FUN_002850e4)(local_18);
+      puVar1 = PTR_FUN_002850e8;
+      (*(code *)PTR_FUN_002850e8)();
+      (*(code *)puVar1)();
+      return uVar3;
+    }
+    if (bVar4 != 6) {
+      return uVar3;
+    }
+  }
+  *DAT_002850e0 = 0xfffffff3;
+  return uVar3;
+}
+
