@@ -40,6 +40,8 @@ SAVE_STATES = {
     # Offtrack scenarios — from save_states.md
     "offtrack_throttle": os.path.join(PROJECT, "build", "save_states", "cce_tt_offtrack_stop.mc0"),
     "offtrack_donut": os.path.join(PROJECT, "build", "save_states", "cce_tt_offtrack_stop.mc0"),
+    # Attract mode scenarios
+    "attract_race": os.path.join(PROJECT, "build", "save_states", "cce_attract_race.mc0"),
 }
 
 SCENARIO_INPUTS = {
@@ -56,6 +58,8 @@ SCENARIO_INPUTS = {
     "offtrack_throttle": ["B"],
     # offtrack_donut omitted: requires LEFT added at frame 124, which the
     # current input system can't express (all inputs applied at frame 2)
+    # Attract mode scenarios
+    "attract_race": [],
 }
 
 CUE_PATH = os.path.join(

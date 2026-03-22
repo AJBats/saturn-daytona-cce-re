@@ -1,0 +1,13 @@
+function: FUN_0603D980
+address: 100915584
+function_end: ''
+source_file: ''
+claims:
+- id: call_count_attract_race
+  description: FUN_0603D980 called 0 times/frame in attract_race
+  type: call_count_per_frame
+  function: FUN_0603D980
+  address: 100915584
+  scenario: attract_race
+  expected_count: 0
+  tolerance: 1
