@@ -42,6 +42,8 @@ SAVE_STATES = {
     "offtrack_donut": os.path.join(PROJECT, "build", "save_states", "cce_tt_offtrack_stop.mc0"),
     # Attract mode scenarios
     "attract_race": os.path.join(PROJECT, "build", "save_states", "cce_attract_race.mc0"),
+    # Pre-race scenarios
+    "pre_rolling_start": os.path.join(PROJECT, "build", "save_states", "cce_pre_rolling_start.mc0"),
 }
 
 SCENARIO_INPUTS = {
@@ -60,6 +62,8 @@ SCENARIO_INPUTS = {
     # current input system can't express (all inputs applied at frame 2)
     # Attract mode scenarios
     "attract_race": [],
+    # Pre-race scenarios
+    "pre_rolling_start": [],
 }
 
 CUE_PATH = os.path.join(

@@ -40,6 +40,11 @@ save_states:
     inputs: [B]
     frames: 324
     notes: "Grass at frame 124, traction loss"
+  pre_rolling_start:
+    file: build/save_states/cce_pre_rolling_start.mc0
+    inputs: []
+    frames: 1363
+    notes: "Loading screen through rolling start to GO, ~1363 frames"
   pre_attract:
     file: build/save_states/cce_pre_attract.mc0
     inputs: []

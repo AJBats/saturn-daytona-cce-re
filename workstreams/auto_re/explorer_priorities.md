@@ -29,14 +29,11 @@ Priorities #1-18 RESOLVED. See previous versions for details.
   FUN_0603D558, FUN_0603D980, FUN_0603DF28.
 - All 8 oracle-verified (Tier 1).
 
-### 26. Scenario: Rolling start countdown (pre-GO)
+### 26. Scenario: Rolling start countdown (pre-GO) — RESOLVED
 
-- **Setup**: need a save state during the 3-2-1 countdown while cars
-  are rolling toward the start line. If no save state exists, the human
-  needs to create one (see scenario requests below).
-- **Breakpoint all 8 functions**
-- **Advance 1 frame during countdown**
-- **Report**: which fire during the rolling start phase?
+- **Result**: 0 of 8 fire during rolling start (PC trace at f50 loading + f600 countdown).
+  Tested with cce_pre_rolling_start.mc0 (GENTLEMEN START YOUR ENGINES → GO).
+  Even FUN_0603CDD8 (which fires in attract mode) does not fire here.
 
 ### 27. Scenario: Race finish (crossing the finish line)
 
@@ -54,24 +51,21 @@ Priorities #1-18 RESOLVED. See previous versions for details.
 - **Report**: any functions that fire on Dinosaur Canyon but not Three
   Seven? Track-specific polygon readers would show up here.
 
-### 29. Scenario: Track loading / initialization
+### 29. Scenario: Track loading / initialization — RESOLVED
 
-- **Setup**: boot retail disc, navigate to car select, save state.
-  Load state, set all 8 breakpoints, proceed through track loading
-  into the race.
-- **Report**: which functions fire during the load transition?
+- **Result**: 0 of 8 fire during track loading (PC trace at f50 from
+  cce_pre_rolling_start.mc0, which covers the load→race transition).
+  Combined with Priority 26 — loading phase fully swept.
 
 ---
 
 ## Scenario Requests (for the human)
 
-Save states needed for these tests:
+Save states needed for remaining tests:
 
-1. **Pre-GO countdown**: Three Seven time trial, save during 3-2-1
-   countdown (before GO, cars rolling)
+1. ~~Pre-GO countdown~~ — DONE (cce_pre_rolling_start.mc0)
 2. **Near finish line**: Three Seven time trial, save just before
    completing lap 1
 3. **Dinosaur Canyon race**: Dinosaur Canyon time trial, save during
    active racing (past GO)
-4. **Car select screen**: save on the car/track selection screen
-   before loading into any race
+4. ~~Car select screen~~ — covered by cce_pre_rolling_start.mc0 loading phase

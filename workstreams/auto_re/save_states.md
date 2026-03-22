@@ -73,6 +73,22 @@ Frame 0 = save state load. Inputs applied at frame 2.
 | **straight_throttle** | B | 650 | Full-speed run down straight, wall strike at far corner |
 | **right_wall_strike** | RIGHT + B | 150 | Angled collision with right guardrail, ~26 km/h at impact, REVERSE indicator |
 
+## cce_pre_rolling_start.mc0
+
+- **Mode**: Race (40 cars, 1P), Three Seven Speedway
+- **Course**: Three Seven Speedway (Beginner)
+- **Speed**: 0 km/h (loading screen, pre-race)
+- **Position**: 40/40
+- **Transmission**: AUTO
+- **Location**: "GENTLEMEN START YOUR ENGINES" loading screen
+- **Known constraints**:
+  - Rolling start countdown begins shortly after load (exact frame TBD)
+  - GO fires at approximately frame ~1363
+  - Covers: loading → "start your engines" → rolling start → 3-2-1 → GO
+- **Best for**: Observing track loading, race initialization, rolling start phase,
+  functions that fire during countdown but not during active racing
+- **Avoid for**: Active racing observations (use cce_race_start.mc0 instead)
+
 ## cce_pre_attract.mc0
 
 - **Mode**: Title screen / "Press Start Button" screen
