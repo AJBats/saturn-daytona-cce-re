@@ -61,11 +61,18 @@ define module_rules
 $(PROJDIR)/build/$(1):
 	mkdir -p $$@
 
-# Source collection with optional mod overlay
+# Source collection with optional mod overlay and exclude list
 ifdef MOD
   MOD_SRCS_$(1) := $$(wildcard $(PROJDIR)/mods/$(MOD)/$(1)/FUN_*.s)
   MOD_NAMES_$(1) := $$(notdir $$(MOD_SRCS_$(1)))
-  SRC_ONLY_$(1) := $$(filter-out $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_NAMES_$(1))),$$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s))
+  # Read exclude list: mods/<MOD>/<module>/EXCLUDE (one TU filename per line, e.g. FUN_0604D380.s)
+  EXCLUDE_FILE_$(1) := $(PROJDIR)/mods/$(MOD)/$(1)/EXCLUDE
+  EXCLUDE_NAMES_$(1) := $$(if $$(wildcard $$(EXCLUDE_FILE_$(1))),$$(shell cat $$(EXCLUDE_FILE_$(1)) 2>/dev/null))
+  # Filter: remove mod-overlaid files and excluded files from src, then combine with mod files
+  SRC_ONLY_$(1) := $$(filter-out \
+    $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_NAMES_$(1))) \
+    $$(addprefix $(PROJDIR)/src/$(1)/,$$(EXCLUDE_NAMES_$(1))), \
+    $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s))
   OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o))
 else
   SRC_ONLY_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
