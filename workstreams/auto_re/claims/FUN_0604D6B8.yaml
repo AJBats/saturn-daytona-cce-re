@@ -35,3 +35,12 @@ claims:
     input: B
     direction: increases
     frames: 10
+
+  - id: call_count_race
+    description: "Called 1 time per game frame in race scenario"
+    type: call_count_per_frame
+    function: FUN_0604D6B8
+    address: 0x0604D6B8
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 0

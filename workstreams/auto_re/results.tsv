@@ -25,7 +25,7 @@ FUN_06036CEC	3	3	2	call_count_throttle PASS (1 call), writes_4C_surface_type PAS
 FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
 FUN_0604D580	5	5	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01), writes_AC PASS (GBR+172, 26 hits, PC 0x0604D79A, survey_001), writes_176_dec PASS (0x060523C2, 45 hits, PC 0x0604D766, survey_002)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
-FUN_0604DAD8	2	2	1	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00, non-globally-static); writes_BC cross-writer (dispatcher PC 0x0604D3E6)
+FUN_0604DAD8	3	3	2	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00), call_count_race PASS (1 call/frame in race_throttle); state-to-constant mapper via +0x17E
 FUN_0604DB10	3	3	2	call_count_throttle PASS (1 call), writes_C4 PASS (GBR+196, PC 0x0604DBB2, 59 hits), field74_stable PASS (GBR+116=0x002DD774)
 FUN_0604DD04	3	3	1	call_count_throttle PASS (1 call), E0_stable PASS (GBR+224=0x00), E4_stable PASS (GBR+228=0x10000); DOWNGRADED: both E0 and E4 are globally static outputs (no-op with +0x10=0)
 FUN_0602A544	0	0	0	UNREACHABLE: 0 hits in 3500 frames (TT + race). CDL B2=218 shows it executes but not in available save states
@@ -40,7 +40,7 @@ FUN_0603833C	3	3	2	call_count_throttle PASS (0-2 calls, tolerance 1), writes_2C 
 FUN_06035C58	1	1	1	writes_176_set PASS (0x060523C2, 13 hits, PC 0x06035C7A, right_wall_strike); survey_002 — collision trigger, sets timer +0x176=15
 FUN_060375F0	1	1	1	writes_A8 PASS (0x060522F4, 1 hit, PC 0x060376FE, right_wall_strike); survey_003 — writes via R14 not GBR, late activation near wall strike
 FUN_06038A84	1	1	1	writes_1A4 PASS (0x060523F0, 92 hits, PC 0x06038AE4, straight_throttle); survey_005 — rendering counter increment
-FUN_0604D6B8	2	2	1	call_count_throttle PASS (1 call), flag84_activates PASS (0→1 with B); survey_004 — sub #3 of D580, byte write invisible to watchpoint
+FUN_0604D6B8	3	3	2	call_count_throttle PASS (1 call), flag84_activates PASS (0→1 with B), call_count_race PASS (1 call/frame in race_throttle); sub #3 of D580, +0x84 flag writer
 FUN_060368D4	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Grid hash spatial lookup, pure function. No struct writes — register I/O only
 FUN_06036990	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Point-in-polygon cell processor, pure function. No struct writes — register I/O only
 track_grid_survey_003	—	—	—	Phase 3 field behavior analysis (banking +0x10, surface type +0x19C, heading copies +0x134/+0x140). No function writers to test — architectural documentation for transplant spec
