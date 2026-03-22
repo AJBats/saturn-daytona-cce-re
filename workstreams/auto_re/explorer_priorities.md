@@ -1,71 +1,85 @@
-# Explorer Priorities — COL Swap Scenario Sweeps
+# Explorer Priorities — Track Data Architecture (Phase 4)
 
-**Updated**: 2026-03-20
+**Updated**: 2026-03-22
 
-**Goal**: Determine which of the 8 inactive polygon data readers fire in
-scenarios OTHER than 1P mid-race on Three Seven. These functions have pool
-refs to 0x00220000/0x00224000/0x00228000 but did not execute during the
-pc_trace sweep. They may fire during attract mode, rolling start, race
-finish, different courses, or track loading.
-
-NOP tests on the 6 confirmed-active readers are in
-`workstreams/driving_model/nop_experiments.md` (experiments 8-13) for
-human execution.
+**Goal**: Map the complete track data loading pipeline. Identify ALL disc
+files that contribute track physics/path data. Find the second track data
+source that drives attract mode and rolling start (proved to exist by COL
+zero experiment). Determine which data can be unloaded and replaced with
+DUSA equivalents.
 
 ---
 
-## RESOLVED (all previous passes)
+## RESOLVED (COL Swap Sweeps — Phase 2)
 
-Priorities #1-18 RESOLVED. See previous versions for details.
+Priorities #1-29 RESOLVED. COL reader sweep complete: 7 of 8 dead code,
+only FUN_0603CDD8 fires (attract mode only). See git history for details.
 
 ---
 
 ## HIGH PRIORITY
 
-### 25. Scenario: Attract mode demo race — RESOLVED
+### 30. DMA trace: boot → race start (disc load map)
 
-- **Result**: 1 of 8 fires. FUN_0603CDD8 called 1x/frame (PR=0x0603522E).
-  7 unreachable: FUN_060291E0, FUN_06032E44, FUN_06034904, FUN_0603C304,
-  FUN_0603D558, FUN_0603D980, FUN_0603DF28.
-- All 8 oracle-verified (Tier 1).
+- **WHY**: We don't know which disc files load where in RAM. The COL zero
+  experiment proved a second track data source exists. A DMA trace during
+  the boot-to-race sequence maps every disc transfer to its RAM destination.
+- **WHAT**: Use cce_pre_rolling_start.mc0. Start DMA trace at frame 0,
+  advance through the full loading→rolling start→GO sequence (~1363 frames).
+  Cross-reference DMA destinations with the ISO 9660 directory (which
+  inject_disc.py already parses) to identify each file.
+- **SCENARIO**: pre_rolling_start
+- **TOOLS**: dma_trace_start / dma_trace_stop, or cdb_trace_start / cdb_trace_stop
+- **UNBLOCKS**: Identifying every data file's RAM address. Finding the
+  second track data source. Understanding what's safe to overwrite.
 
-### 26. Scenario: Rolling start countdown (pre-GO) — RESOLVED
+### 31. Memory diff: normal vs COL-zeroed attract mode
 
-- **Result**: 0 of 8 fire during rolling start (PC trace at f50 loading + f600 countdown).
-  Tested with cce_pre_rolling_start.mc0 (GENTLEMEN START YOUR ENGINES → GO).
-  Even FUN_0603CDD8 (which fires in attract mode) does not fire here.
+- **WHY**: The COL zero experiment showed the car still partially follows
+  the track. By diffing normal attract mode memory against COL-zeroed
+  attract mode memory, we can see exactly which memory regions are affected
+  by the COL data — and which regions are UNCHANGED (meaning they get their
+  data from elsewhere).
+- **WHAT**: Two runs from cce_attract_race.mc0:
+  Run A: retail disc, advance 100 frames, dump HWR + LWR
+  Run B: COL-zeroed disc, advance 100 frames, dump HWR + LWR
+  Use auto_re.py memdiff to compare.
+- **SCENARIO**: attract_race (both normal and COL-zeroed disc)
+- **TOOLS**: dump_region, auto_re.py memdiff
+- **UNBLOCKS**: Pinpoints which memory regions depend on COL data vs other
+  sources. May directly reveal the second track data source address range.
 
-### 27. Scenario: Race finish (crossing the finish line) — RESOLVED
+### 32. Call graph gap: top unobserved functions from gap analysis
 
-- **Result**: 0 of 8 fire. Human drove 2 full laps on Dinosaur Canyon TT
-  with all 8 breakpoints armed — no hits through any finish line crossing.
+- **WHY**: 130 functions fire per frame but have no observation. The top
+  callers (FUN_06045B74: 4.8M calls, FUN_060459C4: 1.9M calls) are likely
+  core rendering or physics infrastructure. Understanding them completes
+  the system architecture picture.
+- **WHAT**: Read the Ghidra decompilation for the top 5 gap functions.
+  Classify each as: rendering, physics, track data, utility, or other.
+  Write observation reports for any that touch track data or the interface
+  boundary.
+- **TOP GAP FUNCTIONS**:
+  - FUN_06045B74 (4.8M calls) — likely rendering core (polygon processing?)
+  - FUN_060459C4 (1.9M calls) — likely rendering (called by FUN_0604585C)
+  - FUN_06045B10 (1.1M calls) — likely rendering
+  - FUN_06046BF4 (765K calls) — likely rendering
+  - FUN_0604698C (748K calls) — likely rendering
+- **SCENARIO**: N/A (static analysis of Ghidra decompilation first)
+- **UNBLOCKS**: Confirms which high-call-count functions are rendering
+  (deprioritize) vs physics/track (investigate further).
 
-### 28. Scenario: Different course (Dinosaur Canyon) — RESOLVED
+### 33. Disc file inventory: suspicious track data files
 
-- **Result**: 0 of 8 fire on Dinosaur Canyon. Human drove 2 laps + pit stop
-  with all 8 breakpoints armed — zero hits. Also confirmed by PC trace at
-  f300 (idle on track, 250K PCs). Track-specific polygon readers do NOT exist
-  among these 8 functions.
-- **Conclusion**: 7 of 8 functions are dead code in all tested scenarios.
-  Only FUN_0603CDD8 fires (attract mode only). The polygon data address
-  pool refs (0x00220000/0x00224000/0x00228000) in these 7 functions are
-  not reached during normal gameplay.
-
-### 29. Scenario: Track loading / initialization — RESOLVED
-
-- **Result**: 0 of 8 fire during track loading (PC trace at f50 from
-  cce_pre_rolling_start.mc0, which covers the load→race transition).
-  Combined with Priority 26 — loading phase fully swept.
-
----
-
-## Scenario Requests (for the human)
-
-Save states needed for remaining tests:
-
-1. ~~Pre-GO countdown~~ — DONE (cce_pre_rolling_start.mc0)
-2. **Near finish line**: Three Seven time trial, save just before
-   completing lap 1
-3. **Dinosaur Canyon race**: Dinosaur Canyon time trial, save during
-   active racing (past GO)
-4. ~~Car select screen~~ — covered by cce_pre_rolling_start.mc0 loading phase
+- **WHY**: Several disc files have names suggesting track/physics data but
+  we don't know their contents or load addresses.
+- **WHAT**: Read the raw bytes of each file, look for structure (headers,
+  pointer tables, coordinate data). Compare across courses (CS0 vs CS1 vs
+  CS2) to identify course-specific vs common data.
+- **FILES TO EXAMINE**:
+  - BALANCE.BIN / BALANC2P.BIN (balance = physics tuning? AI paths?)
+  - CS0_GST.PAD (ghost = replay data? path data?)
+  - CS0_BLK.BIN, CS0_1.BLK, CS0_2.BLK (block = spatial partition?)
+  - ARC.DAT (archive — what does it contain?)
+- **UNBLOCKS**: May directly identify the second track data source without
+  needing DMA traces.
