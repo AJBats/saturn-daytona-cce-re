@@ -432,6 +432,58 @@ Boot Three Seven time trial. If the 3D track still renders correctly but
 the car falls through the ground (no terrain height), the rendering is
 confirmed independent of the COL data.
 
+**EXPERIMENT RESULTS (2026-03-21)**:
+
+Two tests performed:
+
+1. **Full zero** (entire 112K COL file zeroed): Black screen. Game fails
+   to initialize — the header region (0x0000–0x7FFF) contains essential
+   init data. CONCLUSION: header must be preserved or replicated.
+
+2. **Surgical zero** (header 0x0000–0x7FFF preserved, dense body 0x8000+
+   zeroed = 79K of collision polygons removed):
+   - **3D track RENDERS CORRECTLY** — mountains, road, guardrails, trees
+     all visible. CONFIRMS rendering uses COURSE*.MDL, NOT COL data.
+   - **Attract mode**: car starts out of bounds (no surface data), but
+     recovers and finds the track. Cars visibly racing on rendered track.
+   - **Rolling start**: same — starts displaced, eventually finds track.
+   - **Gameplay**: RPM and speedometer respond to throttle input.
+   - **Symptoms**: constant camera jitter + collision animation spam.
+     Identical to FUN_060384C4 NOP result — stale/zero corner geometry
+     triggers false collision detection every frame.
+   - **Game eventually goes black** after extended play (crash or timeout).
+
+   CONCLUSIONS:
+   - **Rendering is 100% independent of COL data** — CONFIRMED
+   - **COL header (0x0000–0x7FFF)** contains pointer tables the init
+     system needs. Must be preserved or stubbed when replacing content.
+   - **COL dense body (0x8000+)** is ONLY used by physics/collision.
+     Zeroing it produces exactly the predicted symptoms (no surface
+     detection, false collisions from FUN_060384C4 bad geometry).
+   - **The COL trick is validated** — replace dense body with DUSA
+     track data, keep or stub the header, rendering works fine.
+
+**COL file structure** (mapped from static analysis, 2026-03-21):
+```
+CS0_COL.BIN (112,132 bytes, loaded at 0x00220000)
+├── 0x00000–0x017FF: Header (6K zeros — init reads this)
+├── 0x01800–0x027FF: Pointer Table A (17 groups, spatial grid index)
+├── 0x02800–0x057FF: Gap (12K zeros)
+├── 0x05800–0x067FF: Pointer Table B (similar to A, 188 byte diff)
+├── 0x06800–0x07FFF: Gap (6K zeros)
+└── 0x08000–0x1B603: Dense body (78K collision polygons — REPLACEABLE)
+    ├── Polygon records (~0x34 bytes each: vertex count + 3-4 XZ coords + surface props)
+    └── Index lists (16-bit polygon indices per grid cell)
+```
+
+3 active readers confirmed by PC trace during racing:
+- FUN_06028000 (entry, 1x/frame) — reads 0x00220000, passes COL base to init
+- FUN_06036914 (surface extractor, 8x/frame) — reads 0x00228000 dense body
+- FUN_060384C4 (corner geometry, 1x/frame) — reads 0x00220000 + 0x00224000
+
+10 functions reference COL addresses but are dead code in all tested scenarios.
+Full analysis: `workstreams/driving_model/col_analysis.md`
+
 **Per-course files**:
 | Course | CCE COL file | Size | DUSA waypoint size |
 |--------|-------------|------|-------------------|

@@ -139,14 +139,38 @@ Option 3 is the simplest path — the COL data defines the track, not the
 driving model. The driving model only needs to know "what surface am I on?"
 which comes from FUN_06036914's output, not the raw polygon data.
 
+## Zeroed-COL Experiments (2026-03-21)
+
+### Test 1: Full zero (entire file)
+- **Result**: Black screen. Game fails to init.
+- **Cause**: Header region (0x0000–0x7FFF) contains init-essential data.
+
+### Test 2: Surgical zero (header preserved, dense body 0x8000+ zeroed)
+- **Result**: Game boots! Track renders correctly (mountains, road, guardrails).
+- **Symptoms**: Camera jitter + collision animation spam (identical to
+  FUN_060384C4 NOP — stale corners → false collision → animation loop).
+  Car starts out of bounds, eventually finds track. RPM/speedometer work.
+  Game crashes after extended play.
+- **Confirms**: Rendering uses COURSE*.MDL, NOT COL data. The dense body
+  is exclusively physics/collision data.
+
+### Implications
+- The COL trick IS validated — replace dense body with DUSA track data
+- Header must be preserved or stubbed (pointer tables needed by init)
+- FUN_060384C4 must be kept active (or its corner output stubbed) to
+  prevent collision feedback loop even after transplant
+
 ## Transplant Implications
 
-1. **FUN_06036914 is the key interface** — it translates track geometry into
-   surface type for the physics engine. The '95 model needs equivalent
-   surface data.
-2. **Keep CCE's COL files** — the track geometry should stay CCE-native.
-   Only transplant the driving model code that runs AFTER surface detection.
-3. **The zeroed-COL experiment (black screen)** confirms the header region
-   is essential for initialization — can't just zero the whole file.
-4. **Surgical modification is feasible** — zero only the dense body (0x8000+)
-   to test what breaks when surface data is missing but structure is intact.
+1. **Replace CCE's COL dense body with DUSA track data** — the header
+   stays, the 78K+ polygon body gets replaced with ~13K DUSA waypoints.
+   Rendering is unaffected (confirmed by surgical zero experiment).
+2. **FUN_06036914 will be replaced** by DUSA's surface query functions
+   (FUN_0600CA96, FUN_0600CD40) that read DUSA-format track data.
+3. **FUN_060384C4 must be kept or stubbed** — it writes corner geometry
+   that the collision system reads. Without valid corners, false collision
+   detection causes camera jitter and animation spam.
+4. **COL header pointer tables** point into the dense body. After
+   replacement, these pointers will be invalid. Since the DUSA model
+   doesn't use CCE's grid lookup chain, this is harmless — but any
+   surviving CCE code that reads these pointers must be identified and cut.
