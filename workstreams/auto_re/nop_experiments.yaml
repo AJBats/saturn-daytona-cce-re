@@ -138,3 +138,15 @@ experiments:
     status: confirmed
     result: "No visible difference over 5 full laps."
     conclusion: "No observable effect in 1P. Safe to cut."
+
+  # --- New experiments from BLK discovery session ---
+
+  - function: FUN_06038A84
+    field: "+0x194"
+    patch_addr: "0x06038B3A"
+    scenario: attract_race
+    prediction: "AI cars stop following track path -- heading freezes at stale value, cars drive straight off track."
+    status: disproved
+    result: "No visible difference. AI cars still follow track normally through ~4000 frames of attract mode. NOP confirmed in place (0x00 0x09 at 0x06038B3A). +0x194 is computed but not the mechanism that drives AI path following."
+    conclusion: "+0x194 (track heading from BLK atan2) is NOT the AI steering input. AI heading is controlled through a different path. +0x194 may be informational (HUD, lap tracking) rather than steering."
+    name: track_heading_from_blk
