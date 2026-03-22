@@ -22,7 +22,7 @@ FUN_0603631C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 c
 FUN_060366EC	3	3	2	call_count_throttle PASS (1 call), writes_24 PASS (GBR+36, 58 hits, PC 0x060366FA), writes_D0 PASS (GBR+208, 59 hits, PC 0x06036756)
 FUN_06036790	5	5	2	call_count_throttle PASS (1 call), writes_108 PASS (GBR+264, 59 hits), writes_10C PASS (GBR+268, 59 hits), writes_08 PASS (GBR+8, 59 hits), writes_00_player_X PASS (GBR+0, 59 hits, PC 0x060367E0, frame_map)
 FUN_06036CEC	3	3	2	call_count_throttle PASS (1 call), writes_4C_surface_type PASS (0x06052298, 2 hits, PC 0x06036CD2, offtrack_throttle), call_count_race PASS (1 call/frame in race_throttle); surface type writer confirmed
-FUN_0604D380	3	3	1	call_count_throttle PASS (1 call), E4_stable PASS (GBR+228=0x10000), field50_stable PASS (GBR+80=0x01); DOWNGRADED: E4 globally static, field50 likely globally static
+FUN_0604D380	5	5	1	call_count_throttle PASS, E4_stable PASS (DOWNGRADED), field50_stable PASS (DOWNGRADED), call_count_race PASS (1 call), call_count_attract PASS (0 calls±1); dispatcher — all call_count type, needs writes_to for Tier 2
 FUN_0604D580	5	5	2	call_count_throttle PASS (1 call), writes_34 PASS (GBR+52, PC 0x0604D70A, 59 hits), field50_stable PASS (GBR+80=0x01), writes_AC PASS (GBR+172, 26 hits, PC 0x0604D79A, survey_001), writes_176_dec PASS (0x060523C2, 45 hits, PC 0x0604D766, survey_002)
 FUN_0604D94C	3	3	1	call_count_throttle PASS (0 calls), call_count_race PASS (0 calls), gate_field_stable PASS (0x06052298=0x01); DOWNGRADED: 0 calls in all scenarios, gate_field is generic
 FUN_0604DAD8	3	3	2	call_count_throttle PASS (1 call), BC_stable_throttle PASS (GBR+188=0x00), call_count_race PASS (1 call/frame in race_throttle); state-to-constant mapper via +0x17E
@@ -37,9 +37,9 @@ FUN_06047E0C	1	1	1	call_count_throttle PASS (4 calls). Pure atan2 math utility, 
 FUN_06035F48	4	4	2	call_count_throttle PASS (2 calls), writes_64 PASS (GBR+100, PC 0x060362A6, right_wall_strike), writes_68 PASS (GBR+104, 56 hits, PC 0x060361A6), writes_104 PASS (GBR+260, 26 hits, PC 0x06036164)
 FUN_060371FC	3	3	2	call_count_steer PASS (1 call at 0x06037200), writes_78 PASS (0x060522C4, 42 hits, PC 0x0603725E), field78_increases_right PASS (0→106 with RIGHT); full obs upgraded from survey_001 Tier 1
 FUN_0603833C	3	3	2	call_count_throttle PASS (0-2 calls, tolerance 1), writes_2C PASS (0x06052278, 59 hits, PC 0x06038468), distance_increases PASS (90600→99714 with B); full obs upgraded from survey_001 Tier 1
-FUN_06035C58	1	1	1	writes_176_set PASS (0x060523C2, 13 hits, PC 0x06035C7A, right_wall_strike); survey_002 — collision trigger, sets timer +0x176=15
-FUN_060375F0	1	1	1	writes_A8 PASS (0x060522F4, 1 hit, PC 0x060376FE, right_wall_strike); survey_003 — writes via R14 not GBR, late activation near wall strike
-FUN_06038A84	1	1	1	writes_1A4 PASS (0x060523F0, 92 hits, PC 0x06038AE4, straight_throttle); survey_005 — rendering counter increment
+FUN_06035C58	2	3	2	writes_176_set PASS, call_count_race FAIL (emu crash), call_count_straight PASS (1 call); collision trigger +0x176=15
+FUN_060375F0	3	3	2	writes_A8 PASS, call_count_race PASS (0±10), call_count_straight PASS (0±10); wall proximity writer
+FUN_06038A84	3	3	2	writes_1A4 PASS (92 hits), call_count_race PASS (2 calls), call_count_straight PASS (2 calls); rendering counter increment
 FUN_0604D6B8	3	3	2	call_count_throttle PASS (1 call), flag84_activates PASS (0→1 with B), call_count_race PASS (1 call/frame in race_throttle); sub #3 of D580, +0x84 flag writer
 FUN_060368D4	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Grid hash spatial lookup, pure function. No struct writes — register I/O only
 FUN_06036990	1	1	1	call_count_throttle PASS (8 calls, expected 3±10). Point-in-polygon cell processor, pure function. No struct writes — register I/O only

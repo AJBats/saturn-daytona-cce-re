@@ -28,3 +28,21 @@ claims:
     address: 0x060523C2
     scenario: right_wall_strike
     frames: 60
+
+  - id: call_count_race
+    description: "Called per game frame in race scenario"
+    type: call_count_per_frame
+    function: FUN_06035C58
+    address: 0x06035C58
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 10
+
+  - id: call_count_straight
+    description: "Called per game frame in time trial"
+    type: call_count_per_frame
+    function: FUN_06035C58
+    address: 0x06035C58
+    scenario: straight_throttle
+    expected_count: 1
+    tolerance: 10

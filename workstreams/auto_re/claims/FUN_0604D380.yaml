@@ -38,3 +38,21 @@ claims:
     address: "GBR+80"
     scenario: straight_throttle
     frames: 120
+
+  - id: call_count_race
+    description: "Called 1 time per game frame in 40-car race"
+    type: call_count_per_frame
+    function: FUN_0604D380
+    address: 0x0604D380
+    scenario: race_throttle
+    expected_count: 1
+    tolerance: 0
+
+  - id: call_count_attract
+    description: "Called 1 time per game frame in attract mode demo race"
+    type: call_count_per_frame
+    function: FUN_0604D380
+    address: 0x0604D380
+    scenario: attract_race
+    expected_count: 1
+    tolerance: 1
