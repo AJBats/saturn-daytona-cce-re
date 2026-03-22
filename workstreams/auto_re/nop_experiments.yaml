@@ -150,3 +150,15 @@ experiments:
     result: "No visible difference. AI cars still follow track normally through ~4000 frames of attract mode. NOP confirmed in place (0x00 0x09 at 0x06038B3A). +0x194 is computed but not the mechanism that drives AI path following."
     conclusion: "+0x194 (track heading from BLK atan2) is NOT the AI steering input. AI heading is controlled through a different path. +0x194 may be informational (HUD, lap tracking) rather than steering."
     name: track_heading_from_blk
+
+  - function: FUN_06038BC4
+    field: "car X/Y/Z/heading/velocity bulk overwrite"
+    patch_addr: "0x06038BC4"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_bytes_original: "2F E6 E0 12"
+    scenario: attract_race
+    prediction: "AI cars freeze in place or drive erratically -- the replay overwrite that copies pre-recorded X/Y/Z/heading/velocity into the car struct every frame is disabled."
+    status: confirmed
+    result: "Player car frozen in place. Attract mode camera frozen (no orbit or view changes). Drone cars STILL DRIVING normally. FUN_06038BC4 only controls the player car replay (car[+0x12]==1 gate). Drones use a separate AI system."
+    conclusion: "FUN_06038BC4 is the player-car replay overwrite. It bulk-copies position/heading/velocity from a pre-recorded table into the player car struct. Drones are driven by a separate AI chain. Camera is tied to player replay data."
+    name: replay_state_overwrite
