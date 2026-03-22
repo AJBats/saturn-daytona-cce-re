@@ -19,13 +19,13 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 
 ## HIGH PRIORITY
 
-### 30. DMA trace: boot → race start (disc load map)
+### 30. DMA trace: boot -> race start (disc load map)
 
 - **WHY**: We don't know which disc files load where in RAM. The COL zero
   experiment proved a second track data source exists. A DMA trace during
   the boot-to-race sequence maps every disc transfer to its RAM destination.
 - **WHAT**: Use cce_pre_rolling_start.mc0. Start DMA trace at frame 0,
-  advance through the full loading→rolling start→GO sequence (~1363 frames).
+  advance through the full loading->rolling start->GO sequence (~1363 frames).
   Cross-reference DMA destinations with the ISO 9660 directory (which
   inject_disc.py already parses) to identify each file.
 - **SCENARIO**: pre_rolling_start
