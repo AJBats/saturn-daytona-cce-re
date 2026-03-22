@@ -174,3 +174,39 @@ experiments:
     result: "Player car stuck a few yards ahead of start line (default init position, not zero). Rolling start pack moved normally without player. Camera swoops still functioned. After GO, normal player control resumed."
     conclusion: "FUN_06038BC4 also drives the rolling start scripted path. The pre-GO roll is replay data, not physics. Default init position is a valid track location slightly offset from start line. Camera swoops are independent of car replay."
     name: rolling_start_replay
+
+  - function: FUN_0603833C
+    field: "terrain height + banking + track heading (BLK master)"
+    patch_addr: "0x0603833C"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_bytes_original: "D5 17 E0 12"
+    scenario: straight_throttle
+    prediction: "Car floats at stale Y, no banking on curves, track heading frozen."
+    status: inconclusive
+    result: "No visible effect. Logging breakpoint confirmed function is NEVER CALLED during TT racing on Three Seven (~2200 frames, zero hits). Not in any of 9 call graph traces either. Original observation claiming 1x/frame may have been from a different game state or was incorrect."
+    conclusion: "FUN_0603833C is not called during normal TT racing. Original observation needs re-verification. Cannot test what doesn't execute."
+    name: blk_terrain_master
+
+  - function: FUN_0602AAA8
+    field: "segment lookup (BLK gateway)"
+    patch_addr: "0x0602AAA8"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_bytes_original: "4F 22 2F 86"
+    scenario: dino_canyon
+    prediction: "car[+0x154] stops updating, terrain height and heading both freeze. Possible crash if caller depends on return value."
+    status: confirmed
+    result: "No crash. Physics, terrain, rendering all normal. But lap counter never increments and track segment position never advances. Car drives full laps without triggering finish line detection. Segment ID at car +0x1A4 is frozen. Also confirmed on Three Seven (likely same effect, just not noticed on oval)."
+    conclusion: "FUN_0602AAA8 is the segment lookup gateway. Without it, segment transitions stop -- lap counting and track progress tracking break. Physics and terrain still work because segment pointers are cached from pre-NOP state. Safe to cut only if lap/progress tracking is handled externally."
+    name: segment_lookup_gateway
+
+  - function: FUN_060386D8
+    field: "car[+0x04] Y height + car[+0x10] banking (BLK-sourced)"
+    patch_addr: "0x060386D8"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_bytes_original: "2F E6 6E 43"
+    scenario: dino_canyon
+    prediction: "Car loses terrain following on Dino Canyon slopes — floats or clips through hills."
+    status: confirmed
+    result: "Car clips straight through the ground on Dino Canyon's big hill at track start. Stays at initial Y (sea level) while track rises and falls. Very dramatic on Dino Canyon vs Three Seven (exp 9) where the track is mostly flat."
+    conclusion: "FUN_060386D8 is confirmed terrain height writer. Dino Canyon makes the effect unmistakable — car drives through hills at a fixed elevation. For transplant, DUSA must provide Y height or this function must be kept with compatible BLK data."
+    name: terrain_height_blk_dino
