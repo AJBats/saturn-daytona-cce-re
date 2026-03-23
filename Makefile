@@ -8,9 +8,12 @@
 #   make              — build all 8 modules with free.ld (zero shift)
 #   make validate     — build free (zero shift) + byte-compare against retail
 #   make retail       — build all 8 modules with retail .ld
+#   make disc         — build all + inject disc (use with MOD= for modded builds)
 #   make 4shift       — race +4 shift, other 7 zero-shift, inject disc
 #   make clean        — remove build/ directories (never touches src/)
 #   make info         — print configuration
+#
+#   make MOD=transplant disc  — build transplant mod + inject disc (one-liner)
 
 PROJDIR := $(shell pwd)
 TOOLDIR ?= $(PROJDIR)/tools/sh-elf/bin
@@ -37,7 +40,7 @@ ORIG_PATH_name     := DAYTONA/NAME.BIN
 ORIG_PATH_backup   := DAYTONA/BKUP.BIN
 ORIG_PATH_ending   := DAYTONA/ENDING.BIN
 
-.PHONY: all validate retail 4shift noptest clean info
+.PHONY: all validate retail 4shift noptest disc clean info
 
 # ─── Default: free.ld zero-shift build ─────────────────────────────────────
 all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
@@ -185,6 +188,14 @@ noptest:
 		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
 	@echo ""
 	@echo "  noptest disc ready: build/disc/rebuilt_disc/"
+
+# ─── disc: build all modules + inject disc (works with MOD=) ──────────────
+# One-liner: make MOD=transplant disc
+disc: all
+	@python3 $(PROJDIR)/tools/inject_disc.py \
+		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+	@echo ""
+	@echo "  Disc ready: build/disc/rebuilt_disc/daytona_cce_rebuilt.cue"
 
 clean:
 	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
