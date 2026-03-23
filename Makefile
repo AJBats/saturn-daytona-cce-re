@@ -126,15 +126,18 @@ $(PROJDIR)/build/$(1)/$(1).bin: $(PROJDIR)/build/$(1)/$(1).elf
 
 # Linker script: use filtered version if EXCLUDE exists, otherwise use src/ original
 ifdef MOD
-  LD_SCRIPT_$(1) := $$(if $$(EXCLUDE_NAMES_$(1)),$(PROJDIR)/build/$(1)/$(1)_free.ld,$(PROJDIR)/src/$(1)/$(1)_free.ld)
+  LD_SCRIPT_$(1) := $(PROJDIR)/build/$(1)/$(1)_free.ld
 else
   LD_SCRIPT_$(1) := $(PROJDIR)/src/$(1)/$(1)_free.ld
 endif
 
-# Generate filtered linker script (only when EXCLUDE is active)
-$(PROJDIR)/build/$(1)/$(1)_free.ld: $(PROJDIR)/src/$(1)/$(1)_free.ld $$(EXCLUDE_FILE_$(1)) | $(PROJDIR)/build/$(1)
-	@python3 $(PROJDIR)/tools/filter_ld_excludes.py \
-		$(PROJDIR)/src/$(1)/$(1)_free.ld $(PROJDIR)/src/$(1) $$(EXCLUDE_FILE_$(1)) $$@
+# Generate filtered linker script (when MOD is active)
+# Scans .o files to remove PROVIDE lines for symbols that no longer exist
+ifdef MOD
+$(PROJDIR)/build/$(1)/$(1)_free.ld: $(PROJDIR)/src/$(1)/$(1)_free.ld $$(OBJS_$(1)) | $(PROJDIR)/build/$(1)
+	@python3 $(PROJDIR)/tools/filter_ld_by_objects.py \
+		$(PROJDIR)/src/$(1)/$(1)_free.ld $$@ $$(OBJS_$(1))
+endif
 
 # Free link (with optional shift)
 $(PROJDIR)/build/$(1)/$(1)_free.elf: $$(OBJS_$(1)) $$(LD_SCRIPT_$(1))

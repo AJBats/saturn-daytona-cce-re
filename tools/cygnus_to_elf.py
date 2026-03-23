@@ -80,11 +80,8 @@ def convert(input_path, output_path, section_name=None):
         # Local label references anywhere in an instruction line
         # mov.l L20,r1  or  bra L5  or  , L20
         converted = re.sub(r'\b(L\d+)\b', r'.L_c_\1', converted)
-        # jsr @r references — keep as-is
-        # _symbol references in instructions (e.g., mov.l _sym, r1)
-        # This is tricky — only strip _ for known globals
-        for sym in defined_globals:
-            converted = re.sub(rf'\b_{sym}\b', sym, converted)
+        # Strip _ prefix from all COFF symbol references (FUN_, DAT_, sym_, PTR_)
+        converted = re.sub(r'\b_(FUN_|DAT_|sym_|PTR_)', r'\1', converted)
 
         result.append(converted)
 
