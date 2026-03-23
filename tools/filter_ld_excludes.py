@@ -35,21 +35,17 @@ with open(exclude_file) as f:
                 if m:
                     excluded_syms.add(m.group(1))
 
-# Filter the linker script
-zeroed = 0
+# Filter the linker script — remove PROVIDE lines for excluded symbols entirely.
+# Any remaining .4byte pool reference to these symbols in kept code will produce
+# a linker error — that error is the TODO list of references to clean up.
+removed = 0
 with open(input_ld) as fin, open(output_ld, 'w', newline='\n') as fout:
     for line in fin:
-        # Check if this PROVIDE line references an excluded symbol
-        # Pattern: PROVIDE(DAT_XXXX = FUN_YYYY + 0xZZ);
-        m = re.match(r'PROVIDE\((\w+)\s*=\s*(\w+)(.*)', line)
+        m = re.match(r'PROVIDE\((\w+)\s*=\s*(\w+)', line)
         if m and m.group(2) in excluded_syms:
-            dat_sym = m.group(1)
-            parent = m.group(2)
-            fout.write('PROVIDE(%s = 0);  /* EXCLUDED: was %s — pool refs in kept code need cleanup */\n' % (
-                dat_sym, parent))
-            zeroed += 1
+            removed += 1
             continue
         fout.write(line)
 
-print('  Filtered LD: %d symbols zeroed (%d excluded symbols from %s)' % (
-    zeroed, len(excluded_syms), exclude_file))
+print('  Filtered LD: %d PROVIDE lines removed (%d excluded symbols from %s)' % (
+    removed, len(excluded_syms), exclude_file))

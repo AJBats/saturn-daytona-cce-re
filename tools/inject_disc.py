@@ -165,9 +165,11 @@ def write_dir(disc, dir_lba, dir_data):
 # ─── Injection ────────────────────────────────────────────────────────────────
 
 def inject_module(disc, bin_data, file_lba, orig_size):
-    """Write bin_data into disc sectors starting at file_lba."""
+    """Write bin_data into disc sectors starting at file_lba.
+    Zeros any leftover sectors if the new file is smaller than the original."""
     new_size    = len(bin_data)
     new_sectors = (new_size + USER_DATA_SIZE - 1) // USER_DATA_SIZE
+    orig_sectors = (orig_size + USER_DATA_SIZE - 1) // USER_DATA_SIZE
     for i in range(new_sectors):
         chunk_start = i * USER_DATA_SIZE
         chunk_end   = min(chunk_start + USER_DATA_SIZE, new_size)
@@ -175,6 +177,10 @@ def inject_module(disc, bin_data, file_lba, orig_size):
         if len(chunk) < USER_DATA_SIZE:
             chunk = chunk + b'\x00' * (USER_DATA_SIZE - len(chunk))
         write_sector(disc, file_lba + i, chunk)
+    # Zero stale sectors beyond the new file end
+    zero_sector = b'\x00' * USER_DATA_SIZE
+    for i in range(new_sectors, orig_sectors):
+        write_sector(disc, file_lba + i, zero_sector)
 
 # ─── CUE generation ──────────────────────────────────────────────────────────
 
@@ -323,13 +329,13 @@ def main():
         if new_size != orig_size:
             orig_secs = (orig_size + USER_DATA_SIZE - 1) // USER_DATA_SIZE
             new_secs  = (new_size  + USER_DATA_SIZE - 1) // USER_DATA_SIZE
-            if orig_secs != new_secs:
-                print('  WARN  %-12s  sector count changed (%d -> %d) — '
+            if new_secs > orig_secs:
+                print('  WARN  %-12s  needs more sectors (%d -> %d) — '
                       'full disc shift not supported yet, skipping'
                       % (mod_name, orig_secs, new_secs))
                 skipped += 1
                 continue
-            # Same sector count but different byte count: update dir entry
+            # Fits in existing sectors (same or fewer): update dir entry size
             patch_entry_size(dir_data, entry_offset, new_size)
             dirs_modified[dir_lba] = (dir_data, dir_lba)
 
