@@ -151,8 +151,8 @@ FUN_06037E28:
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038DD8 - 4
-    .2byte 0xB000    /* bsr FUN_06010DD8 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038DD8 (state transition) */
+    nop    /* bsr FUN_06010DD8 (linker-resolved) */
     mov r14, r4
     mov.l @(48, r14), r2
     mov.w .L_wpool_0603800C, r3
@@ -170,34 +170,34 @@ FUN_06037E28:
     .reloc ., R_SH_IND12W, FUN_060384C4 - 4
     .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     mov.l @(16, r13), r6
     mov r14, r5
     mov #0x0, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov #0x4, r7
     mov.l @(20, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov.l @(24, r13), r6
     mov r14, r5
     mov #0x8, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov #0xC, r7
     mov.l @(28, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
     mov r14, r5
-    jsr @r10
+    nop                         /* TRANSPLANT: was jsr @r10 — collision response (EE0/654) */
     mov #0x0, r4
     mov.w .L_wpool_0603800A, r0
     mov.b @(r0, r14), r0
@@ -209,22 +209,22 @@ FUN_06037E28:
     mov #0x0, r7
     mov.l @(16, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov.l @(20, r13), r6
     mov r14, r5
     mov #0x4, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov #0x8, r7
     mov.l @(24, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov.l @(28, r13), r6
     mov r14, r5
     mov #0xC, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
     /* .reloc removed — TRANSPLANT */
 .L_06037FCA:
@@ -233,7 +233,7 @@ FUN_06037E28:
     mov.l .L_pool_0603801C, r2
     jsr @r2
     mov r14, r4
-    jsr @r8
+    nop                         /* TRANSPLANT: was jsr @r8 — state/flag management (ED8) */
     .global FUN_06037FD6
 FUN_06037FD6:
     mov r14, r4
@@ -288,9 +288,9 @@ FUN_06037FD6:
     .4byte DAT_06039014  /* 06039014 = FUN_06039014 */
 .L_pool_06038028:
     .4byte DAT_06039110  /* 06039110 = FUN_06039110 */
-    .reloc ., R_SH_IND12W, FUN_06038BC4 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038BC4 (replay overwrite) */
 .L_jt_0603802C:
-    .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
@@ -307,11 +307,11 @@ FUN_06037FD6:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
@@ -329,8 +329,8 @@ FUN_06037FD6:
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038DD8 - 4
-    .2byte 0xB000    /* bsr FUN_06010DD8 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038DD8 (state transition) */
+    nop    /* bsr FUN_06010DD8 (linker-resolved) */
     mov r14, r4
     mov.l @(48, r14), r2
     mov.w .L_wpool_0603813E, r3
@@ -348,34 +348,34 @@ FUN_06037FD6:
     .reloc ., R_SH_IND12W, FUN_060384C4 - 4
     .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     mov.l @(16, r13), r6
     mov r14, r5
     mov #0x0, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov #0x4, r7
     mov.l @(20, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov.l @(24, r13), r6
     mov r14, r5
     mov #0x8, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov #0xC, r7
     mov.l @(28, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
     mov r14, r5
-    jsr @r10
+    nop                         /* TRANSPLANT: was jsr @r10 — collision response (EE0/654) */
     mov #0x0, r4
     mov.w .L_wpool_06038144, r0
     mov.b @(r0, r14), r0
@@ -391,21 +391,21 @@ FUN_06037FD6:
     mov.l @(20, r13), r6
     mov r14, r5
     mov #0x4, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov #0x8, r7
     mov.l @(24, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov.l @(28, r13), r6
     mov r14, r5
     mov #0xC, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
-    .reloc ., R_SH_IND12W, FUN_060386D8 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060386D8 (terrain height) */
 .L_060380FE:
-    .2byte 0xB000    /* bsr FUN_060106D8 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_060386D8 */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
@@ -413,7 +413,7 @@ FUN_06037FD6:
     mov.l .L_pool_06038154, r3
     jsr @r3
     mov r14, r4
-    jsr @r8
+    nop                         /* TRANSPLANT: was jsr @r8 — state/flag management (ED8) */
     mov r14, r4
     mov.l .L_pool_06038158, r2
     jsr @r2
@@ -483,8 +483,8 @@ FUN_06037FD6:
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038DD8 - 4
-    .2byte 0xB000    /* bsr FUN_06010DD8 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038DD8 (state transition) */
+    nop    /* bsr FUN_06010DD8 (linker-resolved) */
     mov r14, r4
     mov.l @(48, r14), r2
     mov.w .L_wpool_06038256, r3
@@ -502,31 +502,31 @@ FUN_06037FD6:
     .reloc ., R_SH_IND12W, FUN_060384C4 - 4
     .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     mov #0x0, r7
     mov.l @(16, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov.l @(20, r13), r6
     mov r14, r5
     mov #0x4, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov #0x8, r7
     mov.l @(24, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov.l @(28, r13), r6
     mov r14, r5
     mov #0xC, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
     mov #0x4, r3
     mov.w .L_wpool_0603825C, r0
@@ -535,7 +535,7 @@ FUN_06037FD6:
     cmp/ge r3, r2
     bf .L_0603821C
     mov r14, r5
-    jsr @r10
+    nop                         /* TRANSPLANT: was jsr @r10 — collision response (EE0/654) */
     mov #0x0, r4
     mov.w .L_wpool_06038254, r0
     mov.b @(r0, r14), r0
@@ -547,28 +547,28 @@ FUN_06037FD6:
     mov.l @(16, r13), r6
     mov r14, r5
     mov #0x0, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov #0x4, r7
     mov.l @(20, r13), r6
     .global FUN_06038202
 FUN_06038202:
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov.l @(24, r13), r6
     mov r14, r5
     mov #0x8, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov #0xC, r7
     mov.l @(28, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
-    .reloc ., R_SH_IND12W, FUN_060386D8 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060386D8 (terrain height) */
 .L_0603821C:
-    .2byte 0xB000    /* bsr FUN_060106D8 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_060386D8 */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
@@ -576,7 +576,7 @@ FUN_06038202:
     mov.l .L_pool_0603826C, r3
     jsr @r3
     mov r14, r4
-    jsr @r8
+    nop                         /* TRANSPLANT: was jsr @r8 — state/flag management (ED8) */
     mov r14, r4
     mov.l .L_pool_06038270, r2
     jsr @r2
@@ -631,9 +631,9 @@ FUN_06038202:
     mov.l .L_pool_06038384, r1
     jsr @r1
     nop
-    .reloc ., R_SH_IND12W, FUN_06038BC4 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038BC4 (replay overwrite) */
 .L_jt_06038284:
-    .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */
     mov r14, r4
     mov.l .L_pool_06038388, r2
     jsr @r2
@@ -643,8 +643,8 @@ FUN_06038202:
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038DD8 - 4
-    .2byte 0xB000    /* bsr FUN_06010DD8 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038DD8 (state transition) */
+    nop    /* bsr FUN_06010DD8 (linker-resolved) */
     mov r14, r4
     mov.l @(48, r14), r3
     mov.w .L_wpool_0603837A, r2
@@ -659,11 +659,11 @@ FUN_06038202:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
@@ -671,16 +671,16 @@ FUN_06038202:
     mov.l .L_pool_06038390, r2
     jsr @r2
     mov r14, r4
-    jsr @r8
+    nop                         /* TRANSPLANT: was jsr @r8 — state/flag management (ED8) */
     mov r14, r4
     mov.l .L_pool_06038394, r3
     jsr @r3
     mov r14, r4
     bra .L_0603844C
     nop
-    .reloc ., R_SH_IND12W, FUN_06038BC4 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038BC4 (replay overwrite) */
 .L_jt_060382D6:
-    .2byte 0xB000    /* bsr FUN_06010BC4 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */
     mov r14, r4
     nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
     mov r14, r4
@@ -697,11 +697,11 @@ FUN_06038202:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
@@ -710,7 +710,7 @@ FUN_06038202:
     mov.l .L_pool_06038390, r2
     jsr @r2
     mov r14, r4
-    jsr @r8
+    nop                         /* TRANSPLANT: was jsr @r8 — state/flag management (ED8) */
     mov r14, r4
     bra .L_0603844C
     nop
@@ -825,34 +825,34 @@ FUN_0603833C:
 .L_060383D6:
     .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_06038A82 - 4
-    .2byte 0xB000    /* bsr FUN_06010A82 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
+    nop    /* bsr FUN_06010A82 (linker-resolved) */
     mov r14, r4
-    .reloc ., R_SH_IND12W, FUN_060385CE - 4
-    .2byte 0xB000    /* bsr FUN_060105CE (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060385CE (polygon reader) */
+    nop    /* bsr FUN_060105CE (linker-resolved) */
     mov r14, r4
     mov #0x0, r7
     mov.l @(16, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov.l @(20, r13), r6
     mov r14, r5
     mov #0x4, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov #0x8, r7
     mov.l @(24, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov.l @(28, r13), r6
     mov r14, r5
     mov #0xC, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
     mov r14, r5
-    jsr @r10
+    nop                         /* TRANSPLANT: was jsr @r10 — collision response (EE0/654) */
     mov #0x0, r4
     mov.w .L_wpool_060384AC, r0
     mov.b @(r0, r14), r0
@@ -864,26 +864,26 @@ FUN_0603833C:
     mov.l @(16, r13), r6
     mov r14, r5
     mov #0x0, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @r13, r4
     mov #0x4, r7
     mov.l @(20, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(4, r13), r4
     mov.l @(24, r13), r6
     mov r14, r5
     mov #0x8, r7
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(8, r13), r4
     mov #0xC, r7
     mov.l @(28, r13), r6
     mov r14, r5
-    jsr @r12
+    nop                         /* TRANSPLANT: was jsr @r12 — surface polygon lookup (BB8) */
     mov.l @(12, r13), r4
-    .reloc ., R_SH_IND12W, FUN_060386D8 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060386D8 (terrain height) */
 .L_06038444:
-    .2byte 0xB000    /* bsr FUN_060106D8 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_060386D8 */
     mov r14, r4
     .reloc ., R_SH_IND12W, FUN_06038C64 - 4
     .2byte 0xB000    /* bsr FUN_06010C64 (linker-resolved) */
