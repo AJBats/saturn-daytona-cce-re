@@ -76,7 +76,9 @@ ifdef MOD
     $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_NAMES_$(1))) \
     $$(addprefix $(PROJDIR)/src/$(1)/,$$(EXCLUDE_NAMES_$(1))), \
     $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s))
-  OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o))
+  # Generate stub symbols for excluded TUs so the linker doesn't fail on PROVIDE references
+  EXCLUDE_STUB_$(1) := $$(if $$(EXCLUDE_NAMES_$(1)),$(PROJDIR)/build/$(1)/_exclude_stubs.o)
+  OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o)) $$(EXCLUDE_STUB_$(1))
 else
   SRC_ONLY_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
   OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRC_ONLY_$(1)))
@@ -101,6 +103,12 @@ endif
 ifdef MOD
 $(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.s | $(PROJDIR)/build/$(1)
 	$(AS) -big -o $$@ $$<
+
+# Generate stub .o for excluded TUs — provides empty symbols so linker PROVIDE lines resolve
+$(PROJDIR)/build/$(1)/_exclude_stubs.o: $$(EXCLUDE_FILE_$(1)) | $(PROJDIR)/build/$(1)
+	@python3 $(PROJDIR)/tools/gen_exclude_stubs.py \
+		$(PROJDIR)/src/$(1) $$(EXCLUDE_FILE_$(1)) $(PROJDIR)/build/$(1)/_exclude_stubs.s
+	$(AS) -big -o $$@ $(PROJDIR)/build/$(1)/_exclude_stubs.s
 endif
 
 # Default src pattern rule
