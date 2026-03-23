@@ -226,9 +226,9 @@ FUN_06037E28:
     mov #0xC, r7
     jsr @r12
     mov.l @(12, r13), r4
-    .reloc ., R_SH_IND12W, FUN_060386D8 - 4
+    /* .reloc removed — TRANSPLANT */
 .L_06037FCA:
-    .2byte 0xB000    /* bsr FUN_060106D8 (linker-resolved) */
+    nop                         /* TRANSPLANT: was bsr FUN_060386D8 — terrain height + banking */
     mov r14, r4
     mov.l .L_pool_0603801C, r2
     jsr @r2

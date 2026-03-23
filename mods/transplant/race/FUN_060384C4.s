@@ -145,8 +145,8 @@ FUN_06038590:
     .global FUN_060385CE
     .type FUN_060385CE, @function
 FUN_060385CE:
-    mov.l .L_pool_06038630, r6
-    mov.l .L_pool_06038634, r5
+    rts                         /* TRANSPLANT: kill polygon reader (reads COL, sets flag bit 3) */
+    nop                         /* was: mov.l .L_pool_06038630, r6 */
     mov.l @(56, r4), r7
     mov.w .L_wpool_06038610, r0
     mov.w @(r0, r4), r3
