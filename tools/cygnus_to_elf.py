@@ -3,10 +3,10 @@
 
 Handles:
 - Remove leading _ from all symbol names (COFF -> ELF convention)
-- Convert .align N to .balign (2^N bytes)
 - Remove gcc2_compiled/gnu_compiled markers
 - Add .section directive
 - Convert local labels (L1: -> .L_c_1:) to avoid conflicts
+- Convert .long -> .4byte, .short -> .2byte (ELF convention)
 
 Usage:
     python tools/cygnus_to_elf.py <input.S> <output.s> [--section NAME]
@@ -47,14 +47,6 @@ def convert(input_path, output_path, section_name=None):
                 result.append(f'    .section .text.{section_name}')
             else:
                 result.append('    .text')
-            continue
-
-        # Convert .align N to .balign (2^N)
-        m = re.match(r'(\s*)\.align\s+(\d+)', stripped)
-        if m:
-            indent = m.group(1)
-            n = int(m.group(2))
-            result.append(f'{indent}.balign {1 << n}')
             continue
 
         # Strip _ prefix from .global declarations
