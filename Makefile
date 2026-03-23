@@ -68,15 +68,18 @@ $(PROJDIR)/build/$(1):
 ifdef MOD
   MOD_SRCS_$(1) := $$(wildcard $(PROJDIR)/mods/$(MOD)/$(1)/FUN_*.s)
   MOD_NAMES_$(1) := $$(notdir $$(MOD_SRCS_$(1)))
+  MOD_CSRCS_$(1) := $$(wildcard $(PROJDIR)/mods/$(MOD)/$(1)/FUN_*.c)
+  MOD_CNAMES_$(1) := $$(notdir $$(MOD_CSRCS_$(1)))
   # Read exclude list: mods/<MOD>/<module>/EXCLUDE (one TU filename per line, e.g. FUN_0604D380.s)
   EXCLUDE_FILE_$(1) := $(PROJDIR)/mods/$(MOD)/$(1)/EXCLUDE
   EXCLUDE_NAMES_$(1) := $$(if $$(wildcard $$(EXCLUDE_FILE_$(1))),$$(shell cat $$(EXCLUDE_FILE_$(1)) 2>/dev/null))
-  # Filter: remove mod-overlaid files and excluded files from src, then combine with mod files
+  # Filter: remove mod-overlaid files (.s and .c overrides) and excluded files from src
   SRC_ONLY_$(1) := $$(filter-out \
     $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_NAMES_$(1))) \
+    $$(addprefix $(PROJDIR)/src/$(1)/,$$(MOD_CNAMES_$(1):.c=.s)) \
     $$(addprefix $(PROJDIR)/src/$(1)/,$$(EXCLUDE_NAMES_$(1))), \
     $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s))
-  OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o))
+  OBJS_$(1) := $$(addprefix $(PROJDIR)/build/$(1)/,$$(notdir $$(SRC_ONLY_$(1):.s=.o)) $$(MOD_NAMES_$(1):.s=.o) $$(MOD_CNAMES_$(1):.c=.o))
 else
   SRC_ONLY_$(1) := $$(wildcard $(PROJDIR)/src/$(1)/FUN_*.s)
   OBJS_$(1) := $$(patsubst $(PROJDIR)/src/$(1)/%.s,$(PROJDIR)/build/$(1)/%.o,$$(SRC_ONLY_$(1)))
@@ -97,10 +100,16 @@ ifneq ($$(MOD),$$(PREV_MOD_$(1)))
     $$(shell echo "$(MOD)" > $(PROJDIR)/build/$(1)/.mod)
 endif
 
-# Mod overlay pattern rule (checked first)
+# Mod overlay pattern rules (checked first)
 ifdef MOD
 $(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.s | $(PROJDIR)/build/$(1)
 	$(AS) -big -o $$@ $$<
+
+# C mod overlay: .c -> Cygnus GCC -> cygnus_to_elf.py -> sh-elf-as -> .o
+$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.c | $(PROJDIR)/build/$(1)
+	@echo "  CC (cygnus) $$<"
+	bash $(PROJDIR)/tools/cygnus_compile.sh $$< $(PROJDIR)/build/$(1)/$$*.s $$*
+	$(AS) -big -o $$@ $(PROJDIR)/build/$(1)/$$*.s
 endif
 
 # Default src pattern rule
