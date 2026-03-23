@@ -115,9 +115,21 @@ $(PROJDIR)/build/$(1)/$(1).bin: $(PROJDIR)/build/$(1)/$(1).elf
 	$(OBJCOPY) -O binary $$< $$@
 	@echo "  built (retail): $(1).bin"
 
+# Linker script: use filtered version if EXCLUDE exists, otherwise use src/ original
+ifdef MOD
+  LD_SCRIPT_$(1) := $$(if $$(EXCLUDE_NAMES_$(1)),$(PROJDIR)/build/$(1)/$(1)_free.ld,$(PROJDIR)/src/$(1)/$(1)_free.ld)
+else
+  LD_SCRIPT_$(1) := $(PROJDIR)/src/$(1)/$(1)_free.ld
+endif
+
+# Generate filtered linker script (only when EXCLUDE is active)
+$(PROJDIR)/build/$(1)/$(1)_free.ld: $(PROJDIR)/src/$(1)/$(1)_free.ld $$(EXCLUDE_FILE_$(1)) | $(PROJDIR)/build/$(1)
+	@python3 $(PROJDIR)/tools/filter_ld_excludes.py \
+		$(PROJDIR)/src/$(1)/$(1)_free.ld $(PROJDIR)/src/$(1) $$(EXCLUDE_FILE_$(1)) $$@
+
 # Free link (with optional shift)
-$(PROJDIR)/build/$(1)/$(1)_free.elf: $$(OBJS_$(1)) $(PROJDIR)/src/$(1)/$(1)_free.ld
-	$(LD) -T $(PROJDIR)/src/$(1)/$(1)_free.ld \
+$(PROJDIR)/build/$(1)/$(1)_free.elf: $$(OBJS_$(1)) $$(LD_SCRIPT_$(1))
+	$(LD) -T $$(LD_SCRIPT_$(1)) \
 		$$(if $$(filter-out 0,$$(SHIFT)),--defsym __pad_size=$$(SHIFT)) \
 		-o $$@ $$(OBJS_$(1))
 	@echo "$$(SHIFT)" > $(PROJDIR)/build/$(1)/.shift
