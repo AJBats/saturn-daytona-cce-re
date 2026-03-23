@@ -31,9 +31,6 @@ tools/archive/
 # Claude session memory (auto-generated, not tracked)
 .claude/memory/
 
-# Ghidra reference (generated, large)
-ghidra_reference/
-
 # Python bytecode cache
 __pycache__/
 *.pyc
