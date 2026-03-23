@@ -1,0 +1,10 @@
+/* FUN_06030488  0x06030488 */
+
+
+void FUN_06030488(void)
+
+{
+  FUN_060308c0(PTR_DAT_060304ec,PTR_DAT_060304f0);
+  return;
+}
+

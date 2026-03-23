@@ -52,12 +52,14 @@ echo "=== Step 2: Run merge in Ghidra headless ==="
 if [[ "$HEADLESS" == *.bat ]]; then
     cmd //c "$HEADLESS" "$GHIDRA_PROJECT_DIR" "$GHIDRA_PROJECT_NAME" \
         -process "RACE.BIN" \
-        -postScript "build/ghidra/merge_tus.py" \
+        -scriptPath "build/ghidra" \
+        -postScript "merge_tus.java" \
         -noanalysis
 else
     "$HEADLESS" "$GHIDRA_PROJECT_DIR" "$GHIDRA_PROJECT_NAME" \
         -process "RACE.BIN" \
-        -postScript "build/ghidra/merge_tus.py" \
+        -scriptPath "build/ghidra" \
+        -postScript "merge_tus.java" \
         -noanalysis
 fi
 
