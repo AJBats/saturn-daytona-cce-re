@@ -15,7 +15,7 @@ BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
 TEST_BIN = os.path.join(SCRIPT_DIR, "build", "test.bin")
 
 # Known-working IP.BIN from yaul (boots in Mednafen)
-IP_TEMPLATE = os.path.join(os.path.dirname(__file__), "build", "IP.BIN")
+IP_TEMPLATE = os.path.join(os.path.dirname(__file__), "IP.BIN")
 MKISOFS = "genisoimage"  # Linux native — available in WSL
 
 def main():
@@ -42,8 +42,8 @@ def main():
     title = b"UNIT TEST       "
     ip_data[0x60:0x70] = title[:16]
 
-    # Write patched IP.BIN
-    ip_path = os.path.join(BUILD_DIR, "IP.BIN")
+    # Write patched IP.BIN to a separate file (don't mutate template)
+    ip_path = os.path.join(BUILD_DIR, "IP_patched.BIN")
     with open(ip_path, "wb") as f:
         f.write(ip_data)
 
