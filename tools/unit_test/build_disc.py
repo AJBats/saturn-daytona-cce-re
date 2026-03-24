@@ -12,7 +12,7 @@ import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
-TEST_BIN = os.path.join(SCRIPT_DIR, "test.bin")
+TEST_BIN = os.path.join(SCRIPT_DIR, "build", "test.bin")
 
 # Known-working IP.BIN from yaul (boots in Mednafen)
 IP_TEMPLATE = os.path.join(os.path.dirname(__file__), "build", "IP.BIN")
