@@ -9,7 +9,7 @@ extern char sym_060540B4;
 extern char sym_060FFB00;
 extern char sym_060FD400;
 
-void decomp_FUN_06038BCC(int *car)
+static void decomp_FUN_06038BCC(int *car)
 {
     int uVar1;
     int iVar2;
@@ -44,4 +44,10 @@ void decomp_FUN_06038BCC(int *car)
     car[0x13] = uVar1;
     car[0x14] = uVar1;
     car[0x15] = uVar1;
+}
+
+/* BC4 is the C-callable entry point — matches vanilla_FUN_06038BC4 */
+void decomp_FUN_06038BC4(int *car)
+{
+    decomp_FUN_06038BCC(car);
 }

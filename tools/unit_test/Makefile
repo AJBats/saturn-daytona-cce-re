@@ -16,7 +16,7 @@ BUILDDIR := build
 CDDIR    := $(BUILDDIR)/cd
 
 # Source files
-ASM_SRCS := start.s call_vanilla.s vanilla_BCC.s stubs.s
+ASM_SRCS := start.s vanilla_BCC.s stubs.s
 C_SRCS   := test_harness.c decomp_BCC.c
 
 # Cygnus compilation (C -> .s via DOSBox)

@@ -2,12 +2,11 @@
  *
  * Vanilla FUN_06038BCC shares its prologue/epilogue with FUN_06038BC4.
  * FUN_06038BC4 pushes r14, r13, PR then falls through to FUN_06038BCC.
- * FUN_06038BCC's epilogue pops all three — it expects the CALLER to
- * have pushed them.
+ * FUN_06038BCC pushes PR itself, and the epilogue pops PR + r13 + r14.
  *
- * We replicate FUN_06038BC4's behavior exactly: push r14/r13/PR,
- * set r14=car, r0=0x12, then JMP (not JSR!) to the function.
- * JMP doesn't save PR, so the vanilla epilogue pops our stack correctly.
+ * So we push ONLY r14 and r13 (not PR). Vanilla pushes/pops its own PR.
+ * The harness's return address stays in PR through the jmp, vanilla
+ * saves it, and rts returns to the harness correctly.
  */
     .section .text.call_vanilla
     .global call_vanilla
@@ -15,7 +14,6 @@
 call_vanilla:
     mov.l r14, @-r15
     mov.l r13, @-r15
-    sts.l pr, @-r15
     mov r4, r14
     mov #0x12, r0
     mov.l .Lcv_target, r3
