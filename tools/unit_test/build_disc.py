@@ -15,8 +15,8 @@ BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
 TEST_BIN = os.path.join(SCRIPT_DIR, "test.bin")
 
 # Known-working IP.BIN from yaul (boots in Mednafen)
-IP_TEMPLATE = "D:/Projects/Saturn/yaul-0.3.1-win64-20240125/libyaul-examples/vdp1-balls/build/IP.BIN"
-MKISOFS = "D:/Projects/Saturn/joengine/Compiler/WINDOWS/Other Utilities/mkisofs.exe"
+IP_TEMPLATE = os.path.join(os.path.dirname(__file__), "build", "IP.BIN")
+MKISOFS = "genisoimage"  # Linux native — available in WSL
 
 def main():
     os.makedirs(BUILD_DIR, exist_ok=True)
@@ -33,8 +33,8 @@ def main():
     test_size = os.path.getsize(TEST_BIN)
     # The IP header load size field is at 0xE0 (big-endian 32-bit)
     struct.pack_into(">I", ip_data, 0xE0, test_size)
-    # Load address stays at 0x06004000 (offset 0xE4 in yaul format)
-    load_addr = struct.unpack_from(">I", ip_data, 0xE4)[0]
+    # Load address is at offset 0xF0 in the IP header (big-endian 32-bit)
+    load_addr = struct.unpack_from(">I", ip_data, 0xF0)[0]
     print(f"Test binary: {test_size} bytes")
     print(f"Load address: 0x{load_addr:08X}")
 

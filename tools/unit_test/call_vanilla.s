@@ -1,6 +1,13 @@
 /* Wrapper to call vanilla_FUN_06038BCC with correct register setup.
- * Vanilla expects: r14 = car pointer, r0 = 0x12 (car index offset)
- * C calling convention gives us: r4 = car pointer
+ *
+ * Vanilla FUN_06038BCC shares its prologue/epilogue with FUN_06038BC4.
+ * FUN_06038BC4 pushes r14, r13, PR then falls through to FUN_06038BCC.
+ * FUN_06038BCC's epilogue pops all three — it expects the CALLER to
+ * have pushed them.
+ *
+ * We replicate FUN_06038BC4's behavior exactly: push r14/r13/PR,
+ * set r14=car, r0=0x12, then JMP (not JSR!) to the function.
+ * JMP doesn't save PR, so the vanilla epilogue pops our stack correctly.
  */
     .section .text.call_vanilla
     .global call_vanilla
@@ -12,12 +19,8 @@ call_vanilla:
     mov r4, r14
     mov #0x12, r0
     mov.l .Lcv_target, r3
-    jsr @r3
+    jmp @r3
     nop
-    lds.l @r15+, pr
-    mov.l @r15+, r13
-    rts
-    mov.l @r15+, r14
 
     .align 2
 .Lcv_target:
