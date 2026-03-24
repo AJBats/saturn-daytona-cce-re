@@ -78,8 +78,9 @@ void FUN_06038BC4();
 void FUN_06038BCC();
 void FUN_06038C64();
 
-/* Common tail — shared by FUN_06037E28 and the mid-function entries */
-static void common_tail(int *car)
+/* Common tail — shared by FUN_06037E28 and the mid-function entries.
+ * Returns ci*2 (vanilla leaves this in r0 as the return value). */
+static int common_tail(int *car)
 {
     int ci;
     FUN_06039BE4(car);
@@ -94,13 +95,14 @@ static void common_tail(int *car)
         if (timer2[ci] != 0)
             timer2[ci]--;
     }
+    return ci * 2;
 }
 
 /* ================================================================
  * FUN_06037FD6 — Tail entry for case 0/1 (after DAT_06039ED8)
  * Called by FUN_06036CF8 TU via tail-branch.
  * ================================================================ */
-void FUN_06037FD6(int *car)
+int FUN_06037FD6(int *car)
 {
     DAT_0603A614(car);
     FUN_06038C64(car);
@@ -110,7 +112,7 @@ void FUN_06037FD6(int *car)
         *(short *)((int)car + 0x176) = 0;
         *(short *)((int)car + 0x178) = 0;
     }
-    common_tail(car);
+    return common_tail(car);
 }
 
 /* ================================================================
@@ -119,7 +121,7 @@ void FUN_06037FD6(int *car)
  * r12=FUN_06036BB8, r13=render, r14=car already set by caller.
  * In C we just reproduce the remaining tail logic.
  * ================================================================ */
-void FUN_06038202(int *car)
+int FUN_06038202(int *car)
 {
     int *render = *(int **)((int)car + 0x160);
 
@@ -133,7 +135,7 @@ void FUN_06038202(int *car)
     DAT_06039DCC(car);
     DAT_06039ED8(car);
     DAT_0603A1A4(car);
-    common_tail(car);
+    return common_tail(car);
 }
 
 /* ================================================================
@@ -363,9 +365,8 @@ int FUN_06037E28(int car_index)
         break;
     }
 
-    /* Common tail */
-    common_tail(car);
-    return 0;
+    /* Common tail — returns ci*2 (vanilla return value) */
+    return common_tail(car);
 }
 
 /* ================================================================
@@ -404,7 +405,7 @@ void FUN_060384C4(int *car)
     compute_corner(car, corners, 0x0001FA5E, (int)0xFFFFD16B, heading);
 
     corners = *(int **)(corner_base + 8);
-    compute_corner(car, corners, 0x0001FA5E, 0x2E95, heading);
+    compute_corner(car, corners, 0x0001FA5E, (int)(short)0xAE95, heading);
 }
 
 /* ================================================================
@@ -661,7 +662,7 @@ void FUN_06038BCC(int *car)
     *(short *)((int)car + 0x16) = *(short *)((int)puVar3 + 0x16);
     *(short *)((int)car + 24) = *(short *)((int)puVar3 + 24);
     car[0xd] = (int)(short)((uint)puVar3[0x12] >> 0x10);
-    uVar1 = DAT_06048180(puVar3[0x12], *(short *)((int)car + 0x25E));
+    uVar1 = DAT_06048180(puVar3[0x12], 0x025E);
     car[9] = uVar1;
     car[0xe] = (int)*(short *)((int)puVar3 + 0xe);
     car[0xf] = (int)*(short *)((int)puVar3 + 0xe);
