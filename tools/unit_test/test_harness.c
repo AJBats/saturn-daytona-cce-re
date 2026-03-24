@@ -34,9 +34,10 @@ struct test_results {
 /* Car struct size — 0x1D8 bytes */
 #define CAR_SIZE 0x1D8
 
-/* Both versions of the function under test */
-extern void vanilla_FUN_06038BCC();
-extern void decomp_FUN_06038BCC();
+/* Both versions of the function under test — using BC4 entry point
+ * (BC4 is the proper C-callable entry; BCC shares BC4's prologue) */
+extern void vanilla_FUN_06038BC4();
+extern void decomp_FUN_06038BC4();
 
 /* memcpy/memcmp — tiny implementations since we have no libc */
 static void my_memcpy(char *dst, char *src, int n)
@@ -87,11 +88,11 @@ void run_tests(void)
         my_memcpy(car_vanilla, car_template, CAR_SIZE);
         my_memcpy(car_decomp, car_template, CAR_SIZE);
 
-        /* Call vanilla (via asm wrapper that sets r14) */
-        call_vanilla((int *)car_vanilla);
+                /* Call vanilla (proper BC4 entry — normal C call) */
+        vanilla_FUN_06038BC4((int *)car_vanilla);
 
         /* Call decomp (normal C call) */
-        decomp_FUN_06038BCC((int *)car_decomp);
+        decomp_FUN_06038BC4((int *)car_decomp);
 
         /* Compare */
         res->total = res->total + 1;

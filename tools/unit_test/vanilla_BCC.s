@@ -1,11 +1,21 @@
-/* Vanilla FUN_06038BCC — renamed to avoid symbol clash with decomp version */
+/* Vanilla FUN_06038BC4 + FUN_06038BCC — full entry point for unit testing.
+ * BC4 is the proper C-callable entry: r4 = car pointer.
+ * BC4 pushes r14/r13, sets r14=car, r0=0x12, falls through to BCC.
+ * BCC pushes PR and does the work. Epilogue pops PR/r13/r14.
+ */
 
     .section .text.vanilla
-    .global vanilla_FUN_06038BCC
-    .type vanilla_FUN_06038BCC, @function
+    .global vanilla_FUN_06038BC4
+    .type vanilla_FUN_06038BC4, @function
 
-/* Entry: r0 = 0x12 (set by caller/stub), r14 = car pointer */
-vanilla_FUN_06038BCC:
+/* FUN_06038BC4 prologue — sets up for BCC */
+vanilla_FUN_06038BC4:
+    mov.l r14, @-r15
+    mov #0x12, r0
+    mov.l r13, @-r15
+    mov r4, r14
+
+/* FUN_06038BCC body — falls through from BC4 */
     sts.l pr, @-r15
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
