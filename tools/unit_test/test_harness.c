@@ -1,13 +1,26 @@
 /* SH-2 Unit Test Harness — runs on Saturn via Mednafen
  *
  * Tests FUN_06038BC4/BCC: vanilla asm vs decomp C, byte-for-byte.
- * Results at 0x06020000 for MCP to read.
  *
  * 400 tests: 40 car_indices x 2 flag states x 5 data patterns.
- * Single flat loop to avoid Cygnus nested-loop codegen issues.
+ * Single flat loop with running counters (avoids Cygnus nested-loop issues).
+ *
+ * Results at RESULTS_ADDR (0x06020000, guarded by linker) for MCP to read:
+ *   +0x00: magic     0xDEADBEEF = complete, 0xFEEDFACE = running, 0 = not started
+ *   +0x04: total     test cases executed so far
+ *   +0x08: passed    matching cases
+ *   +0x0C: failed    mismatching cases
+ *   +0x10: first_fail_test   index of first failure (-1 if none)
+ *   +0x14: first_fail_offset byte offset in car struct of first mismatch
+ *   +0x18: first_fail_vanilla value from vanilla at that offset
+ *   +0x1C: first_fail_decomp  value from decomp at that offset
+ *
+ * Crash detection: magic transitions 0 -> 0xFEEDFACE -> 0xDEADBEEF.
+ * If magic is 0xFEEDFACE and total stops incrementing, a crash occurred.
  */
 
 typedef unsigned int uint;
+typedef unsigned short ushort;
 typedef unsigned char uchar;
 
 #define RESULTS_ADDR 0x06020000
@@ -27,8 +40,8 @@ struct test_results {
 extern void vanilla_FUN_06038BC4();
 extern void decomp_FUN_06038BC4();
 
-/* Global buffers — linker maps sym_060FD400 etc. to these.
- * Putting them in BSS guarantees they're in writable memory. */
+/* Global buffers — linker maps sym_060FD400 etc. to these via PROVIDE.
+ * In BSS, zeroed by start.s. */
 char g_param_table[0x2800];
 char g_flag_2p;
 
@@ -36,19 +49,15 @@ extern char sym_060FD400;
 extern char sym_060FFB00;
 extern char sym_060540B4;
 
+/* Tiny libc replacements */
 static void my_memset(char *dst, int val, int n)
 {
     int i;
     for (i = 0; i < n; i++) dst[i] = (char)val;
 }
 
-static void my_memcpy(char *dst, char *src, int n)
-{
-    int i;
-    for (i = 0; i < n; i++) dst[i] = src[i];
-}
-
-static int my_memcmp(char *a, char *b, int n)
+/* Returns byte offset of first difference, or -1 if identical */
+static int my_memdiff(char *a, char *b, int n)
 {
     int i;
     for (i = 0; i < n; i++) {
@@ -57,10 +66,16 @@ static int my_memcmp(char *a, char *b, int n)
     return -1;
 }
 
+/* Fill a parameter table entry (256 bytes) with test pattern.
+ * The function under test reads these offsets:
+ *   0,4,8 (int) — position; 12,14,16 (short) — angles;
+ *   20,22,24 (short) — angles; 36 (int) — velocity;
+ *   0x48 (int) — speed/multiply input; 0x13 (byte) — flag */
 static void fill_entry(char *e, int pat)
 {
     my_memset(e, 0, 256);
     if (pat == 1) {
+        /* Small positive values */
         *(int *)(e + 0)  = 0x00010000;
         *(int *)(e + 4)  = 0x00002000;
         *(int *)(e + 8)  = 0x00030000;
@@ -73,6 +88,7 @@ static void fill_entry(char *e, int pat)
         *(int *)(e + 36)  = 0x00050000;
         *(int *)(e + 0x48) = 0x00C80000;
     } else if (pat == 2) {
+        /* Large / negative values */
         *(int *)(e + 0)  = 0x7FFF0000;
         *(int *)(e + 4)  = 0xFFFF0000;
         *(int *)(e + 8)  = 0x80000000;
@@ -85,14 +101,17 @@ static void fill_entry(char *e, int pat)
         *(int *)(e + 36)  = 0xFFF00000;
         *(int *)(e + 0x48) = 0xFFFF0000;
     } else if (pat == 3) {
+        /* Flag=1 path + boundary values */
         *(int *)(e + 0)  = 0x00ABCDEF;
         *(short *)(e + 14) = 0x1234;
         *(int *)(e + 36)  = 0x00100000;
         *(int *)(e + 0x48) = 0x01000000;
         *(char *)(e + 0x13) = 1;
     } else if (pat == 4) {
+        /* All 0xFF — stress test, also tests flag != 1 path with 0xFF */
         my_memset(e, 0xFF, 256);
     }
+    /* pat == 0: all zeros (already set by memset) */
 }
 
 void run_tests(void)
@@ -111,10 +130,9 @@ void run_tests(void)
     res->first_fail_test = -1;
     res->first_fail_offset = -1;
 
-    /* 400 tests: flat loop, compute ci/fp/pat from index
-     * t = ci * 10 + fp * 5 + pat
-     * ci = t / 10, fp = (t / 5) & 1, pat = t % 5
-     * Avoid division — use running counters instead */
+    /* Signal: tests are running */
+    res->magic = 0xFEEDFACE;
+
     ci = 0;
     fp = 0;
     pat = 0;
@@ -143,7 +161,7 @@ void run_tests(void)
         decomp_FUN_06038BC4((int *)car_d);
 
         /* Compare */
-        diff = my_memcmp(car_v, car_d, CAR_SIZE);
+        diff = my_memdiff(car_v, car_d, CAR_SIZE);
         res->total = res->total + 1;
         if (diff == -1) {
             res->passed = res->passed + 1;
@@ -169,6 +187,7 @@ void run_tests(void)
         }
     }
 
+    /* Signal: all tests complete */
     res->magic = 0xDEADBEEF;
     while (1) {}
 }
