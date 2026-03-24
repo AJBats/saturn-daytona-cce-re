@@ -27,6 +27,11 @@ struct test_results {
 extern void vanilla_FUN_06038BC4();
 extern void decomp_FUN_06038BC4();
 
+/* Global buffers — linker maps sym_060FD400 etc. to these.
+ * Putting them in BSS guarantees they're in writable memory. */
+char g_param_table[0x2800];
+char g_flag_2p;
+
 extern char sym_060FD400;
 extern char sym_060FFB00;
 extern char sym_060540B4;
