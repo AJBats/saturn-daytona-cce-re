@@ -103,7 +103,7 @@ void run_tests(void)
                         /* Record outputs */
                         {
                             char *out = output + t * OUT_SIZE;
-                            *(int *)(out + 0) = car[1];
+                            *(int *)(out + 0) = *(int *)((int)car + 4); /* car Y position */
                             *(short *)(out + 4) = *(short *)((int)car + 12);
                             *(short *)(out + 6) = *(short *)((int)car + 16);
                             *(int *)(out + 8) = g_render_entries[0][1];
