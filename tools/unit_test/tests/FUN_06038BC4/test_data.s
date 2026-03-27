@@ -89,6 +89,18 @@ g_data_060FD400:
 g_data_060FFB00:
     .space 0x100        /* 2P param table */
 
+/* ── Corner output buffers (for FUN_060384C4 / FUN_060386D8 tests) ── */
+
+    .global g_corner_ptrs
+    .align 2
+g_corner_ptrs:
+    .space 0x20         /* 4 pointers + padding (16 bytes used, 16 pad) */
+
+    .global g_corner_bufs
+    .align 2
+g_corner_bufs:
+    .space 0x40         /* 4 corners * 12 bytes + padding */
+
 /* ── DAT_ data tables (NOT functions) ────────────────────────────────
  * These are embedded lookup tables in the game. The vanilla asm loads
  * their address and indexes into them. Must NOT be function stubs.
