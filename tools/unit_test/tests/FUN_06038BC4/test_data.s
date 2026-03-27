@@ -27,13 +27,14 @@ g_data_002FC21C:
     .space 0x20         /* game mode flags */
 
     .global g_data_002FC233
+    .align 2
 g_data_002FC233:
     .space 0x01         /* game mode byte */
 
     .global g_data_0605224C
     .align 2
 g_data_0605224C:
-    .space 0x3B00       /* car struct array (40 * 0x1D8) */
+    .space 0x49C0       /* car struct array (40 * 0x1D8 = 0x49C0) */
 
     .global g_data_060527D0
     .align 2
@@ -48,29 +49,30 @@ g_data_060527D4:
     .global g_data_060527DC
     .align 2
 g_data_060527DC:
-    .space 0x50         /* tracking array */
+    .space 0x0340       /* tracking array (40 cars * 0x14 = 0x320, + margin) */
 
     .global g_data_06052888
     .align 2
 g_data_06052888:
-    .space 0x28         /* corner array 0 */
+    .space 0x0340       /* corner array 0 (40 cars * 0x14 = 0x320, + margin) */
 
     .global g_data_060528B0
     .align 2
 g_data_060528B0:
-    .space 0x28         /* corner array 1 */
+    .space 0x0340       /* corner array 1 (40 cars * 0x14) */
 
     .global g_data_060528D8
     .align 2
 g_data_060528D8:
-    .space 0x28         /* corner array 2 */
+    .space 0x0340       /* corner array 2 (40 cars * 0x14) */
 
     .global g_data_06052900
     .align 2
 g_data_06052900:
-    .space 0x28         /* corner array 3 */
+    .space 0x0340       /* corner array 3 (40 cars * 0x14) */
 
     .global g_data_060540B4
+    .align 2
 g_data_060540B4:
     .space 0x04         /* 2P flag (padded to 4) */
 
