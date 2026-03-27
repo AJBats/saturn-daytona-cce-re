@@ -10,15 +10,24 @@ import struct
 import subprocess
 import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
-TEST_BIN = os.path.join(SCRIPT_DIR, "build", "test.bin")
-
-# Known-working IP.BIN from yaul (boots in Mednafen)
-IP_TEMPLATE = os.path.join(os.path.dirname(__file__), "IP.BIN")
 MKISOFS = "genisoimage"  # Linux native — available in WSL
 
 def main():
+    # Accept args: build_disc.py <test.bin> <output.cue> [IP.BIN]
+    if len(sys.argv) >= 3:
+        TEST_BIN = sys.argv[1]
+        cue_path = sys.argv[2]
+        BUILD_DIR = os.path.dirname(os.path.abspath(cue_path))
+        IP_TEMPLATE = sys.argv[3] if len(sys.argv) > 3 else os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "IP.BIN")
+    else:
+        # Legacy: no args, use defaults
+        SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+        BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
+        TEST_BIN = os.path.join(BUILD_DIR, "test.bin")
+        IP_TEMPLATE = os.path.join(SCRIPT_DIR, "IP.BIN")
+        cue_path = None  # set later
+
     os.makedirs(BUILD_DIR, exist_ok=True)
 
     if not os.path.exists(TEST_BIN):
@@ -42,13 +51,16 @@ def main():
     title = b"UNIT TEST       "
     ip_data[0x60:0x70] = title[:16]
 
+    # Derive unique names from the binary path to avoid collisions
+    bin_stem = os.path.splitext(os.path.basename(TEST_BIN))[0]
+
     # Write patched IP.BIN to a separate file (don't mutate template)
-    ip_path = os.path.join(BUILD_DIR, "IP_patched.BIN")
+    ip_path = os.path.join(BUILD_DIR, f"IP_{bin_stem}.BIN")
     with open(ip_path, "wb") as f:
         f.write(ip_data)
 
     # Create filesystem directory with our binary as "0"
-    fs_dir = os.path.join(BUILD_DIR, "cd")
+    fs_dir = os.path.join(BUILD_DIR, f"cd_{bin_stem}")
     os.makedirs(fs_dir, exist_ok=True)
 
     # The binary goes as the first file — name it "0" to match
@@ -57,7 +69,7 @@ def main():
     shutil.copy2(TEST_BIN, os.path.join(fs_dir, "0"))
 
     # Build ISO with mkisofs, embedding IP.BIN as system area
-    iso_path = os.path.join(BUILD_DIR, "test_disc.iso")
+    iso_path = os.path.join(BUILD_DIR, f"{bin_stem}.iso")
 
     result = subprocess.run([
         MKISOFS,
@@ -78,9 +90,11 @@ def main():
         sys.exit(1)
 
     # Write CUE sheet pointing to the ISO
-    cue_path = os.path.join(BUILD_DIR, "test_disc.cue")
+    if cue_path is None:
+        cue_path = os.path.join(BUILD_DIR, "test_disc.cue")
+    iso_basename = os.path.basename(iso_path)
     with open(cue_path, "w") as f:
-        f.write(f'FILE "test_disc.iso" BINARY\n')
+        f.write(f'FILE "{iso_basename}" BINARY\n')
         f.write(f'  TRACK 01 MODE1/2048\n')
         f.write(f'    INDEX 01 00:00:00\n')
 
