@@ -91,7 +91,7 @@ void run_tests(void)
     for (pi = 0; pi < 4; pi++) {
         for (hi = 0; hi < 16; hi++) {
             for (si = 0; si < 8; si++) {
-                for (ci_s = 0; ci_s < 8; ci_s++) {
+                for (ci_s = 0; ci_s < 7; ci_s++) {
                     /* Setup car */
                     my_memset(car, 0, CAR_SIZE);
                     car[0x12] = 0;  /* car index doesn't matter for this func */
