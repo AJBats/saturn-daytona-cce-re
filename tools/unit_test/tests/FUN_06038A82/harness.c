@@ -7,7 +7,11 @@
  * Globals: sym_060527DC (tracking), sym_06054920 (course),
  *          sym_002FC233 (game mode), sym_002FC21C (game flags),
  *          DAT_0604F9BC/AC/B4/9C (course tables)
- * Calls: DAT_0602AAA8, DAT_06047E0C (atan2)
+ * Calls: DAT_0602AAA8 (road lookup), DAT_06047E0C (atan2)
+ *
+ * car+0x154 is a POINTER to a sub-struct (road geometry data).
+ * The function dereferences it: reads @(2, ptr), reads @(0x24+ptr).
+ * We allocate a mock sub-struct and point car+0x154 at it.
  *
  * Sweep: 10 car indices x 3 courses x 5 surface patterns = 150 tests
  */
@@ -30,6 +34,13 @@ extern char sym_060527DC;
 extern char sym_06054920;
 extern char sym_002FC233;
 extern char sym_002FC21C;
+
+/* Mock sub-struct for car+0x154 pointer.
+ * Function reads: @(2, ptr) as short, @(0x24+ptr) as long ptr → deref @(4).
+ * The value at +0x24 is itself a pointer that gets dereferenced.
+ * We need a second-level buffer for that pointer chain. */
+char g_mock_road_geom[0x30];
+char g_mock_road_inner[0x10];
 
 static void my_memset(char *dst, int val, int n)
 {
@@ -61,25 +72,32 @@ void run_tests(void)
         for (course = 0; course < 3; course++) {
             for (pat = 0; pat < 5; pat++) {
                 my_memset(car, 0, CAR_SIZE);
+                my_memset(g_mock_road_geom, 0, 0x30);
+                my_memset(g_mock_road_inner, 0, 0x10);
                 car[0x12] = (char)ci;
+
+                /* Wire pointer chain: car+0x154 → mock_road_geom
+                 * mock_road_geom+0x24 → mock_road_inner (for double deref) */
+                *(int *)((int)car + 0x154) = (int)g_mock_road_geom;
+                *(int *)(g_mock_road_geom + 0x24) = (int)g_mock_road_inner;
 
                 *(char *)&sym_06054920 = (char)course;
                 *(char *)&sym_002FC233 = 0;
                 *(char *)&sym_002FC21C = 0;
 
                 if (pat == 0) {
-                    /* zeros */
+                    /* zeros — pointer chain set, data all zero */
                 } else if (pat == 1) {
                     /* normal driving */
                     *(int *)((int)car + 0x30) = 0x00000004;
-                    *(short *)((int)car + 0x154) = 0x1000;
+                    *(short *)(g_mock_road_geom + 2) = 5;
                     *(short *)((int)car + 0x192) = 5;
                     *(short *)((int)car + 0x194) = 0x2000;
                     *(short *)((int)car + 0x1A4) = 1;
                 } else if (pat == 2) {
                     /* off-road */
                     *(int *)((int)car + 0x30) = 0x0000000C;
-                    *(short *)((int)car + 0x154) = (short)0x8000;
+                    *(short *)(g_mock_road_geom + 2) = 0x23;
                     *(short *)((int)car + 0x192) = 0x23;
                     *(short *)((int)car + 0x194) = (short)0xC000;
                     *(short *)((int)car + 0x1A4) = 3;
@@ -89,9 +107,9 @@ void run_tests(void)
                     *(int *)((int)car + 0x30) = 0x00000008;
                     *(short *)((int)car + 0x194) = 0x4000;
                 } else {
-                    /* all flags set */
-                    *(int *)((int)car + 0x30) = (int)0xFFFFFFFF;
-                    *(short *)((int)car + 0x154) = (short)0xFFFF;
+                    /* varied data */
+                    *(int *)((int)car + 0x30) = 0x0000040C;
+                    *(short *)(g_mock_road_geom + 2) = (short)0xFFFF;
                     *(short *)((int)car + 0x192) = (short)0xFFFF;
                     *(short *)((int)car + 0x194) = (short)0xFFFF;
                     *(short *)((int)car + 0x1A4) = (short)0xFFFF;
