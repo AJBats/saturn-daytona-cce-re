@@ -11,8 +11,10 @@
  * Output: 4 corners x 3 ints x 4 bytes = 48 bytes per test
  */
 
-#define RESULTS_ADDR 0x06010000
-#define OUTPUT_ADDR  0x06010010
+/* Results address provided by linker — placed right after BSS */
+extern char _results_start;
+#define RESULTS_ADDR ((int)&_results_start)
+#define OUTPUT_ADDR  (RESULTS_ADDR + 16)
 #define CAR_SIZE     0x1D8
 #define OUT_SIZE     48     /* 4 corners * 12 bytes each */
 
@@ -91,7 +93,7 @@ void run_tests(void)
     for (pi = 0; pi < 4; pi++) {
         for (hi = 0; hi < 16; hi++) {
             for (si = 0; si < 8; si++) {
-                for (ci_s = 0; ci_s < 7; ci_s++) {
+                for (ci_s = 0; ci_s < 8; ci_s++) {
                     /* Setup car */
                     my_memset(car, 0, CAR_SIZE);
                     car[0x12] = 0;  /* car index doesn't matter for this func */
