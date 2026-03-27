@@ -132,9 +132,10 @@ def main():
             if d.startswith("FUN_") and os.path.isdir(os.path.join(SCRIPT_DIR, d))
         ])
 
-    ipc_dir = os.path.join(PROJECT_DIR, "build", "mcp_ipc")
+    ipc_dir = os.path.join(PROJECT_DIR, "build", "test_ipc")
     home_dir = os.path.join(PROJECT_DIR, "build", "mednafen_home")
     os.makedirs(ipc_dir, exist_ok=True)
+    os.makedirs(home_dir, exist_ok=True)
 
     print(f"Running {len(tests)} function tests\n")
     all_pass = True
