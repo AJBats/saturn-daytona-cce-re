@@ -11,9 +11,25 @@ import struct
 import time
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_OFFSET = 0x10010   # 0x06010010 - 0x06000000
-HEADER_OFFSET = 0x10000   # 0x06010000 - 0x06000000
+HWR_BASE = 0x06000000
 CAR_SIZE = 0x1D8
+
+def get_results_addr(elf_path):
+    """Read _results_start address from ELF symbol table."""
+    import re
+    result = subprocess.run(
+        ["sh-elf-nm", elf_path], capture_output=True, text=True)
+    if result.returncode != 0:
+        # Try with full path
+        tooldir = os.path.join(SCRIPT_DIR, "..", "..", "..", "tools", "sh-elf", "bin")
+        result = subprocess.run(
+            [os.path.join(tooldir, "sh-elf-nm"), elf_path],
+            capture_output=True, text=True)
+    for line in result.stdout.splitlines():
+        if "_results_start" in line:
+            addr = int(line.split()[0], 16)
+            return addr - HWR_BASE  # offset into HWR dump
+    return None
 
 def find_tests():
     """Find all test directories."""
@@ -25,13 +41,13 @@ def find_tests():
                 tests.append(name)
     return tests
 
-def read_results(dump_path):
+def read_results(dump_path, header_offset):
     """Read header and output from HWR dump."""
     with open(dump_path, "rb") as f:
         data = f.read()
 
-    magic = struct.unpack_from(">I", data, HEADER_OFFSET)[0]
-    total = struct.unpack_from(">i", data, HEADER_OFFSET + 4)[0]
+    magic = struct.unpack_from(">I", data, header_offset)[0]
+    total = struct.unpack_from(">i", data, header_offset + 4)[0]
 
     return magic, total, data
 

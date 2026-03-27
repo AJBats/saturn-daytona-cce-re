@@ -8,8 +8,10 @@
  * Sweep: 8 car indices x 4 course values x 5 angle patterns = 160 tests
  */
 
-#define RESULTS_ADDR 0x06010000
-#define OUTPUT_ADDR  0x06010010
+/* Results address provided by linker — placed right after BSS */
+extern char _results_start;
+#define RESULTS_ADDR ((int)&_results_start)
+#define OUTPUT_ADDR  (RESULTS_ADDR + 16)
 #define CAR_SIZE     0x1D8
 #define NUM_TESTS    160
 

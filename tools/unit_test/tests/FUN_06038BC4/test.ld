@@ -1,10 +1,13 @@
-/* Linker script for FUN_06038BC4 unit test
+/* Linker script for unit tests (shared across TU)
  *
  * Memory layout:
  *   0x06004000  Code + rodata (loaded by BIOS from disc)
- *   0x06020000  Results header (16 bytes)
- *   0x06020010  Output car structs (400 * 0x1D8 = 120,800 bytes)
- *   BSS follows code — global test data buffers
+ *   0x06040000  Stack (grows down)
+ *   0x06050000  BSS (game data buffers — placed high to avoid HWR mirror wrap)
+ *   after BSS   Results header + test output (dynamically placed, up to HWR end)
+ *
+ * The output region follows BSS automatically — no hardcoded address,
+ * no manual size calculation, no overflow risk.
  */
 
 OUTPUT_FORMAT("elf32-sh")
@@ -41,19 +44,19 @@ SECTIONS {
         _bss_end = .;
     }
 
-    /* Results region — between code and BSS.
-     * Code ends ~0x06005000. Results at 0x06010000.
-     * 400 car structs * 0x1D8 = 0x2DFC8 bytes → ends ~0x0603E000.
-     * BSS starts at 0x06050000. Plenty of room. */
-    .results 0x06010000 (NOLOAD) : {
+    /* Results + output region — placed right after BSS.
+     * Grows toward HWR end (0x06100000). No fixed size needed.
+     * The harness writes to RESULTS_ADDR which we export here. */
+    .results ALIGN(4) (NOLOAD) : {
         _results_start = .;
-        . += 0x2E000;  /* 16 header + 400 * 0x1D8 output + margin */
-        _results_end = .;
     }
 
-    ASSERT(_results_end <= 0x06050000, "Results overlap BSS")
     ASSERT(_bss_end <= 0x06100000, "BSS exceeds HWR boundary")
 }
+
+/* Export the results address so harness.c can use it */
+PROVIDE(_results_addr = _results_start);
+PROVIDE(_results_max = 0x06100000);
 
 /* ── Data symbols → BSS globals ──────────────────────────────────────────
  *
