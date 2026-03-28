@@ -40,10 +40,14 @@ ORIG_PATH_name     := DAYTONA/NAME.BIN
 ORIG_PATH_backup   := DAYTONA/BKUP.BIN
 ORIG_PATH_ending   := DAYTONA/ENDING.BIN
 
-.PHONY: all validate retail 4shift noptest disc clean info
+.PHONY: all validate retail 4shift noptest disc clean info _invalidate_disc
 
 # ─── Default: free.ld zero-shift build ─────────────────────────────────────
-all: $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+# Delete stale disc cue FIRST so a failed build can't leave a bootable disc
+all: _invalidate_disc $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+
+_invalidate_disc:
+	@rm -f $(PROJDIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
 	@echo ""
 	@echo "========================================"
 	@echo "  All 8 modules built (free, shift=$(SHIFT))."
@@ -216,6 +220,7 @@ noptest:
 # ─── disc: build all modules + inject disc (works with MOD=) ──────────────
 # One-liner: make MOD=transplant disc
 disc: all
+	@rm -f $(PROJDIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
 	@python3 $(PROJDIR)/tools/inject_disc.py \
 		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
 	@echo ""
@@ -223,6 +228,7 @@ disc: all
 
 clean:
 	@rm -rf $(foreach mod,$(MODULES),$(PROJDIR)/build/$(mod))
+	@rm -f $(PROJDIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
 	@echo "Build directories cleaned."
 
 info:
