@@ -37,16 +37,8 @@ int DAT_0602AAA8() { return 0; }
 void FUN_06039AA4() { return; }
 int DAT_06039BE4() { return 0; }
 
-/* Sub-functions called via BSR from vanilla E28 .s.
- * In the real game these live in FUN_060384C4 TU.
- * For vanilla test: these stubs provide the symbols.
- * For decomp test: the consolidated C defines them (overrides weak). */
-__attribute__((weak)) void FUN_060384C4() { return; }
-__attribute__((weak)) void FUN_060385CE() { return; }
-__attribute__((weak)) void FUN_060386D8() { return; }
-__attribute__((weak)) void FUN_06038A82() { return; }
-__attribute__((weak)) void FUN_06038BC4() { return; }
-__attribute__((weak)) void FUN_06038C64() { return; }
+/* Sub-functions (FUN_060384C4 TU) are linked as real .s for vanilla
+ * and come from the consolidated C for decomp. No stubs needed. */
 
 int ___mulsi3(int a, int b) { return a * b; }
 
