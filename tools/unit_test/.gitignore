@@ -1,0 +1,9 @@
+# Build artifacts
+build/
+*.o
+*.elf
+*.bin
+
+# Cygnus-generated assembly (from .c -> DOSBox -> .S -> .s)
+decomp_BCC.s
+test_harness.s

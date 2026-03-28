@@ -68,7 +68,7 @@ public class ExportDecompiledAll extends GhidraScript {
         int done = 0;
         int success = 0;
         int failed = 0;
-        int skipped = 0;
+        int overwritten = 0;
 
         FunctionIterator iter = fm.getFunctions(true);
         while (iter.hasNext()) {
@@ -85,11 +85,8 @@ public class ExportDecompiledAll extends GhidraScript {
             String normName = "FUN_" + addr.toUpperCase();
             File outFile = new File(outDir, normName + ".c");
 
-            // Skip if already exists
-            if (outFile.exists() && outFile.length() > 0) {
-                skipped++;
-                continue;
-            }
+            // Always regenerate — ghidra_reference/ is machine-generated
+            boolean existed = outFile.exists();
 
             // Decompile
             DecompileResults result = decomp.decompileFunction(func, 30, monitor);
@@ -103,8 +100,9 @@ public class ExportDecompiledAll extends GhidraScript {
                         pw.print(cCode);
                     }
                     success++;
+                    if (existed) overwritten++;
                     if (success <= 20 || success % 100 == 0) {
-                        println("  [" + done + "/" + total + "] " + normName + " OK");
+                        println("  [" + done + "/" + total + "] " + normName + (existed ? " UPDATED" : " OK"));
                     }
                 } else {
                     println("  [" + done + "/" + total + "] " + normName + " EMPTY");
@@ -123,7 +121,7 @@ public class ExportDecompiledAll extends GhidraScript {
         println("=== Export Summary for " + moduleName + " ===");
         println("  Total functions: " + total);
         println("  Exported:        " + success);
-        println("  Skipped (exist): " + skipped);
+        println("  Overwritten:     " + overwritten);
         println("  Failed:          " + failed);
     }
 
