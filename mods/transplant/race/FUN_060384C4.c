@@ -56,26 +56,16 @@ void FUN_060384C4(int *car)
 
 /* FUN_06038590 inlined into compute_corner — not a separate function */
 
-/* ================================================================
- * FUN_060385CE — (REMOVED) Polygon reader (reads COL, sets car flags)
- * ================================================================ */
-
-/* ================================================================
- * FUN_060386D8 — (REMOVED) Terrain height + banking (reads BLK data)
- *
- * This is 487 lines of assembly. Samples 4 terrain heights around
- * the car, averages for Y, computes pitch/roll from differences.
- * Structural recreation — exact terrain sampling needs full trace.
- * ================================================================ */
-
-/* ================================================================
- * FUN_06038A82 — (REMOVED) Heading stub (sets R0=0x12, falls into A84)
- * FUN_06038A84 — (REMOVED) Track heading from BLK direction vectors
- * ================================================================ */
-
-/* ================================================================
- * FUN_06038BC4 (REMOVED) / FUN_06038BCC — Replay state overwrite
- * ================================================================ */
+/* Removed functions — stubs retained so linker can resolve
+ * references from other TUs (e.g. FUN_06034904 calls DAT_06038A82).
+ * All callsites in E28 are NOP'd, so these never execute from the
+ * orchestrator. But external callers need the symbols to exist. */
+void FUN_060385CE() { return; }
+void FUN_060386D8() { return; }
+void FUN_06038A82() { return; }
+void FUN_06038A84() { return; }
+void FUN_06038BC4() { return; }
+void FUN_06038BCC() { return; }
 
 /* ================================================================
  * FUN_06038C64 — Animation frame selector
