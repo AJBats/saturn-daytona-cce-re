@@ -9,21 +9,13 @@ into the CCE binary, combining '95-authentic gameplay with CCE's higher-quality 
 
 - **WSL** (Ubuntu) with `build-essential`, `wget`, and `libsdl2-dev` installed
 - **Python 3.10+** (Windows side, for validation and tooling)
-- **GCC 4.9.4 mingw64 cross-compiler** at `/opt/gcc-4.9.4-mingw64` (for Mednafen build)
+- **[SaturnAutoRE](https://github.com/AJBats/SaturnAutoRE)** at `D:/Projects/SaturnAutoRE` — provides the custom Mednafen debug emulator and MCP automation tools
 - Your backup of Daytona USA Championship Circuit Edition (Japan) in BIN/CUE form
 
 ## Setup
 
-Clone with `--recursive` to pull the custom Mednafen debugger submodule:
-
 ```bash
-git clone --recursive https://github.com/AJBats/DaytonaCCEReverse.git
-```
-
-If you already cloned without `--recursive`:
-
-```bash
-git submodule update --init
+git clone https://github.com/AJBats/DaytonaCCEReverse.git
 ```
 
 Place your disc image at:
@@ -45,7 +37,7 @@ This will:
 1. Check prerequisites (Python 3, gcc, make, wget, SDL2)
 2. Extract game files from your disc image
 3. Build the sh-elf cross-toolchain (binutils 2.42 + GCC 13.3.0)
-4. Cross-compile the Mednafen debug emulator for Windows (GCC 4.9.4 mingw64)
+4. Verify SaturnAutoRE is available (debug Mednafen emulator)
 
 You can check what's installed at any time with `./setup.sh status`.
 
@@ -99,7 +91,6 @@ src/          - SH-2 assembly, one directory per game module
 
 tools/        - Python tooling (disassembly, validation, tracing, analysis)
 mods/         - Code modification overlays
-mednafen/     - Mednafen debug emulator (git submodule)
 docs/         - Reference documents (boot chain, data catalogs)
 workstreams/  - Past and current work initiatives
 ```

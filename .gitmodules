@@ -1,4 +1,0 @@
-[submodule "mednafen"]
-	path = mednafen
-	url = https://github.com/AJBats/mednafen-saturn-debug.git
-	ignore = dirty

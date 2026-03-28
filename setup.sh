@@ -12,7 +12,7 @@
 #   1. Checks prerequisites (Python 3, gcc, make, wget, SDL2)
 #   2. Extracts game files from disc image
 #   3. Builds sh-elf cross-toolchain (binutils 2.42 + GCC 13.3.0)
-#   4. Builds debug Mednafen emulator (from mednafen/ submodule)
+#   4. Checks for SaturnAutoRE debug Mednafen (external dependency)
 #
 # Disc image location (place yours here — extraction TBD):
 #   external_resources/Daytona USA - Circuit Edition (Japan)/
@@ -79,11 +79,13 @@ do_status() {
         miss "sh-elf-gcc not built"
     fi
 
-    # Mednafen
-    if [ -f "$PROJ_ROOT/mednafen/mednafen_gcc494.exe" ]; then
-        ok "Mednafen debug emulator (mednafen_gcc494.exe)"
+    # SaturnAutoRE (Mednafen debug emulator)
+    SATURN_AUTO_RE="D:/Projects/SaturnAutoRE"
+    if [ -d "$SATURN_AUTO_RE/mednafen" ]; then
+        ok "SaturnAutoRE Mednafen ($SATURN_AUTO_RE/mednafen/)"
     else
-        miss "Mednafen not built (run ./setup.sh)"
+        miss "SaturnAutoRE not found at $SATURN_AUTO_RE"
+        echo "  Clone from: https://github.com/AJBats/SaturnAutoRE"
     fi
 
     # Source modules
@@ -272,30 +274,22 @@ do_setup() {
         fi
     fi
 
-    # ── Mednafen (debug emulator) ──────────────────────────────────
+    # ── SaturnAutoRE (debug emulator) ────────────────────────────────
 
-    step "5. Debug emulator (Mednafen)"
+    step "5. Debug emulator (SaturnAutoRE Mednafen)"
 
-    MEDNAFEN_BIN="$PROJ_ROOT/mednafen/mednafen_gcc494.exe"
+    SATURN_AUTO_RE="D:/Projects/SaturnAutoRE"
 
-    if [ -f "$MEDNAFEN_BIN" ]; then
-        ok "Already built at mednafen/mednafen_gcc494.exe"
+    if [ -d "$SATURN_AUTO_RE/mednafen" ]; then
+        ok "SaturnAutoRE found at $SATURN_AUTO_RE"
     else
-        if [ ! -d "$PROJ_ROOT/mednafen/src" ]; then
-            miss "mednafen submodule not checked out"
-            echo "  Run: git submodule update --init --recursive"
-            exit 1
-        fi
-
-        echo "  Building Mednafen (Windows cross-compile with GCC 4.9.4)..."
-        bash "$PROJ_ROOT/mednafen/build_with_gcc494.sh"
-
-        if [ -f "$MEDNAFEN_BIN" ]; then
-            ok "Mednafen built"
-        else
-            miss "Mednafen build failed"
-            exit 1
-        fi
+        miss "SaturnAutoRE not found"
+        echo ""
+        echo "  The debug Mednafen emulator lives in a separate project:"
+        echo "    https://github.com/AJBats/SaturnAutoRE"
+        echo ""
+        echo "  Clone it to $SATURN_AUTO_RE and follow its setup instructions."
+        exit 1
     fi
 
     # ── Done ───────────────────────────────────────────────────────
@@ -317,7 +311,7 @@ case "$CMD" in
         echo "Usage: ./setup.sh [command]"
         echo ""
         echo "Commands:"
-        echo "  (none)    Full setup — disc extraction, toolchain, Mednafen"
+        echo "  (none)    Full setup — disc extraction, toolchain, SaturnAutoRE check"
         echo "  clean     Remove all derived artifacts (ground zero)"
         echo "  status    Show what's present and what's missing"
         echo "  help      This message"

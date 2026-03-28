@@ -21,7 +21,8 @@ import sys
 import os
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(PROJECT, "tools"))
+AUTORE_DIR = os.path.join(os.path.dirname(PROJECT), "SaturnAutoRE")
+sys.path.insert(0, os.path.join(AUTORE_DIR, "mednafen"))
 
 from mednafen_bot import MednafenBot
 

@@ -89,5 +89,5 @@ Classification rules:
 To reproduce any capture from scratch:
 1. Boot CCE retail disc
 2. Navigate to race start manually, save state to slot 0
-3. Copy save state: `cp mednafen/home/mcs/...mc0 build/save_states/cce_race_start.mc0`
+3. Copy save state from your SaturnAutoRE Mednafen save directory to `build/save_states/cce_race_start.mc0`
 4. Run captures using the boot/capture sequences above
