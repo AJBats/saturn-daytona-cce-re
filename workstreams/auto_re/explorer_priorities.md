@@ -198,7 +198,7 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 - **TOOLS**: breakpoint, call_trace, targeted NOP tests
 - **UNBLOCKS**: Separating race state management from BLK reads.
 
-### 42. MDL-BLK bridge — how does rendering use BLK?
+### 42. MDL-BLK bridge — RESOLVED (indirect via cell streaming)
 
 - **WHY**: COURSE*.MDL is the 3D track model (vertices, textures). BLK is
   segment/spline data. Yet cutting BLK readers kills MDL rendering. The
