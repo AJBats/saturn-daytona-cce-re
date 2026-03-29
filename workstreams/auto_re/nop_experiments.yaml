@@ -222,3 +222,15 @@ experiments:
     result: "Track renders perfectly. AI cars drive normally. BUT: arcade countdown timer frozen, lap timer frozen, lap counter does not increment on finish line crossing. Race never ends."
     conclusion: "FUN_0602B6D4 is the race progression manager (timer, laps, finish detection). NOT the rendering killer. Rendering is fully independent of this function."
     name: race_progression_manager
+
+  - function: FUN_06029D8C
+    field: "call from FUN_06029A78 (per-car AI loop)"
+    patch_addr: "0x06029DA4"
+    patch_verified: true
+    patch_bytes_original: "40 0B"
+    scenario: race_start
+    prediction: "Track rendering breaks (road vanishes). Timer still works (handled by FUN_0602B6D4)."
+    status: confirmed
+    result: "Track renders for the STARTING CELL only. As car drives forward, track beyond the initial cell is invisible — geometry stops loading. Game otherwise fully functional: timer works, laps count, AI drives. Car flagged as driving BACKWARDS despite following correct direction. Reverse detection is in this call chain."
+    conclusion: "FUN_06029D8C is the per-car segment visibility/progression manager. It advances which track cells are rendered (LOD/streaming). Without it, only the initially-loaded cell draws. Also handles direction-of-travel detection. NOT the race timer (that's FUN_0602B6D4). Combined with FUN_0602B6D4 test, both symptoms from the original combined cut are now fully attributed."
+    name: segment_visibility_and_direction
