@@ -67,3 +67,4 @@ FUN_0602B6D4	2	2	1	call_count_race_idle PASS (1 call), call_count_race_throttle 
 FUN_06029D8C	1	1	1	call_count_race_idle PASS (1 call/2frames). Segment visibility + direction manager. NOP confirmed: only starting cell renders.
 FUN_0602A6EC	1	1	1	call_count_race_idle PASS (1 call/2frames). BLK spatial lookup function in segment visibility chain.
 FUN_0602A118	1	1	1	call_count_race_idle PASS (2 calls, within tolerance). BLK segment activation/marking function.
+FUN_0602A9F0	1	1	1	call_count_race_idle PASS (0-1 calls, within tolerance). BLK segment chain search.

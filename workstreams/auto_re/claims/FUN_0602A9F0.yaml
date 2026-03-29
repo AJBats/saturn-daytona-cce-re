@@ -1,0 +1,13 @@
+function: FUN_0602A9F0
+address: 100837872
+function_end: 100838056
+source_file: src/race/FUN_0602A9F0.s
+claims:
+- id: call_count_race_idle
+  description: FUN_0602A9F0 called 1 times/frame in race_idle
+  type: call_count_per_frame
+  function: FUN_0602A9F0
+  address: 100837872
+  scenario: race_idle
+  expected_count: 1
+  tolerance: 1
