@@ -146,7 +146,7 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 every function in the rendering-killing and game-over-killing call chains,
 and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 
-### 39. BLK file format full decode
+### 39. BLK file format full decode -- RESOLVED
 
 - **WHY**: We know 3 fields (+0x02 type, +0x24 dir X, +0x28 dir Z) out of
   ~48 bytes per segment. Height data is somewhere in there (priority #36
@@ -159,7 +159,14 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 - **TOOLS**: read_memory_binary on 0x060ED100, hex analysis
 - **UNBLOCKS**: Understanding which BLK fields feed rendering vs physics.
 
-### 40. FUN_0602B22C subtree — suspected rendering killer (unconfirmed)
+### 40. FUN_0602B22C subtree — RESOLVED (race progression manager)
+
+- **Result**: NOP test at 0x060283B0 confirmed. Actually FUN_0602B6D4
+  (the runtime entry in this TU). Timer frozen, laps don't count,
+  rendering perfect. NOT the rendering killer — manages race timing.
+  Observation written: FUN_0602B6D4_obs.md.
+
+### 40b. FUN_0602B6D4 subtree — callees need observation
 
 - **WHY**: Cutting FUN_0602B22C AND FUN_06029D8C simultaneously killed
   track rendering and caused instant GAME OVER. Not tested individually
