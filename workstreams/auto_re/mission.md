@@ -165,7 +165,7 @@ Prior BLK claims that are now suspect:
   but these functions may be general track geometry processors used by
   both rendering and physics.
 
-### Phase 4b: BLK deep investigation — NOT STARTED
+### Phase 4b: BLK deep investigation — COMPLETE
 
 **Goal**: Fully explain BLK's role so we can determine whether to replace
 it, leave it alone, or surgically modify it for the transplant.
@@ -183,17 +183,15 @@ it, leave it alone, or surgically modify it for the transplant.
 6. Which BLK consumers are physics-only vs rendering-essential?
 
 **Investigation plan**:
-- Phase 4b-1: BLK file format decode (hex analysis of 42KB structure)
-- Phase 4b-2: FUN_0602B22C subtree observations (rendering killer)
-  - auto_re observe each function in the call tree
-  - mem_read_profile + mem_write_profile for data flow
-  - Targeted NOP tests on sub-calls to isolate which kills rendering
-- Phase 4b-3: FUN_06029D8C subtree observations (game over killer)
-  - Same treatment — isolate which sub-call breaks the timer/state
-- Phase 4b-4: MDL↔BLK bridge identification
-  - Trace rendering pipeline backward from VDP1 command table
-  - Cross-reference BLK writer outputs with renderer inputs
-  - Determine if BLK can coexist with DUSA physics or needs replacement
+**Results:**
+- BLK file = chained road quads, 48-byte segments, 4 sections
+- FUN_0602B6D4 = race progression manager (timer, laps, finish)
+- FUN_06029D8C = segment visibility/cell streaming + direction detection
+- MDL-BLK bridge = INDIRECT. Renderer reads MDL, never BLK. BLK drives
+  cell streaming that loads/unloads MDL chunks.
+- **Coexistence model CONFIRMED**: DUSA physics writes car position,
+  CCE's BLK system reads it and handles cell streaming automatically.
+  No BLK modification needed if coordinate spaces are compatible.
 
 ### Phase 5: Document the transplant specification — NOT STARTED
 Input contract, output contract, cut lines, compatibility risks.
