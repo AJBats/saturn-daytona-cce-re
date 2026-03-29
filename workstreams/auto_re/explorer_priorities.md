@@ -166,7 +166,7 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
   rendering perfect. NOT the rendering killer — manages race timing.
   Observation written: FUN_0602B6D4_obs.md.
 
-### 40b. FUN_0602B6D4 subtree — callees need observation
+### 40b. FUN_0602B6D4 subtree — RESOLVED (callees trivial/non-BLK)
 
 - **WHY**: Cutting FUN_0602B22C AND FUN_06029D8C simultaneously killed
   track rendering and caused instant GAME OVER. Not tested individually
@@ -183,7 +183,7 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 - **TOOLS**: breakpoint, call_trace, mem_read_profile, sample_memory
 - **UNBLOCKS**: Understanding the rendering↔BLK bridge.
 
-### 41. FUN_06029D8C subtree — suspected game state killer (unconfirmed)
+### 41. FUN_06029D8C subtree — RESOLVED (segment visibility confirmed)
 
 - **WHY**: Cutting FUN_06029D8C AND FUN_0602B22C simultaneously caused
   instant GAME OVER and track rendering loss. Not tested individually.
@@ -198,7 +198,7 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 - **TOOLS**: breakpoint, call_trace, targeted NOP tests
 - **UNBLOCKS**: Separating race state management from BLK reads.
 
-### 42. MDL↔BLK bridge — how does rendering use BLK?
+### 42. MDL-BLK bridge — how does rendering use BLK?
 
 - **WHY**: COURSE*.MDL is the 3D track model (vertices, textures). BLK is
   segment/spline data. Yet cutting BLK readers kills MDL rendering. The

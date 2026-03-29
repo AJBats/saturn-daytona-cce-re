@@ -324,3 +324,28 @@ experiments:
     scenario: race_start
     prediction: "AI cars freeze in Z — stop progressing along track. Combined with X NOP would fully freeze AI."
     status: proposed
+
+  - function: FUN_060384C4
+    field: "corner geometry struct @R9 (0x060525FC)"
+    patch_addr: "0x06038536"
+    patch_verified: true
+    patch_bytes_original: "29 02"
+    scenario: race_start
+    prediction: "Corner geometry stops updating. Previous NOP experiments showed this causes collision animation spam and camera jitter when physics is active. With physics NOPped in transplant mod, effect may be invisible."
+    status: proposed
+
+  - function: FUN_0603EE48
+    field: "GBR+0x18 (chain velocity accumulator)"
+    patch_addr: null
+    patch_verified: false
+    scenario: race_start
+    prediction: "AI chain velocity stops accumulating. AI cars may freeze or drift."
+    status: proposed
+
+  - function: FUN_06035EE8
+    field: "GBR+0x134 (external struct writer)"
+    patch_addr: null
+    patch_verified: false
+    scenario: straight_throttle
+    prediction: "External struct field stops updating. Unknown visible effect."
+    status: proposed
