@@ -234,3 +234,93 @@ experiments:
     result: "Track renders for the STARTING CELL only. As car drives forward, track beyond the initial cell is invisible — geometry stops loading. Game otherwise fully functional: timer works, laps count, AI drives. Car flagged as driving BACKWARDS despite following correct direction. Reverse detection is in this call chain."
     conclusion: "FUN_06029D8C is the per-car segment visibility/progression manager. It advances which track cells are rendered (LOD/streaming). Without it, only the initially-loaded cell draws. Also handles direction-of-travel detection. NOT the race timer (that's FUN_0602B6D4). Combined with FUN_0602B6D4 test, both symptoms from the original combined cut are now fully attributed."
     name: segment_visibility_and_direction
+
+  - function: FUN_0603E7B0
+    field: "GBR+0x1C (chain struct heading)"
+    patch_addr: "0x0603E808"
+    patch_verified: true
+    patch_bytes_original: "C1 07"
+    scenario: race_start
+    prediction: "AI cars stop turning — heading never updates. Cars drive straight off track."
+    status: proposed
+
+  - function: FUN_060354A0
+    field: "GBR+0xF4 (rotation result)"
+    patch_addr: "0x0603561A"
+    patch_verified: true
+    patch_bytes_original: "01 26"
+    scenario: straight_throttle
+    prediction: "Player car rotation/orientation freezes. Car drives straight regardless of steering."
+    status: proposed
+
+  - function: FUN_06035C98
+    field: "GBR+0xE8 (trig computation output)"
+    patch_addr: "0x06035E4A"
+    patch_verified: true
+    patch_bytes_original: "01 56"
+    scenario: straight_throttle
+    prediction: "Heading computation breaks — car steering or direction changes stop working."
+    status: proposed
+
+  - function: FUN_0604DB10
+    field: "GBR+0xC4 (position delta)"
+    patch_addr: "0x0604DBAE"
+    patch_verified: true
+    patch_bytes_original: "01 26"
+    scenario: straight_throttle
+    prediction: "Car stays still — position delta never computed from heading+speed. Speed accumulates but position frozen."
+    status: proposed
+
+  - function: FUN_06035F48
+    field: "GBR+0x64 (steer lateral component)"
+    patch_addr: "0x060362A2"
+    patch_verified: true
+    patch_bytes_original: "01 66"
+    scenario: straight_throttle
+    prediction: "Steering lateral force freezes at zero. Car cannot turn even with D-pad input."
+    status: proposed
+
+  - function: FUN_06035F48
+    field: "GBR+0x68 (steer lateral component 2)"
+    patch_addr: "0x060361A2"
+    patch_verified: true
+    patch_bytes_original: "02 56"
+    scenario: straight_throttle
+    prediction: "Second steering component freezes. May cause asymmetric steering or no turning."
+    status: proposed
+
+  - function: FUN_060371FC
+    field: "+0x78 (steering curve output)"
+    patch_addr: "0x0603725E"
+    patch_verified: true
+    patch_bytes_original: "03 16"
+    scenario: right_wall_strike
+    prediction: "Steering input table lookup result never written. Car ignores D-pad steering entirely."
+    status: proposed
+
+  - function: FUN_06035C58
+    field: "+0x176 (16-bit write)"
+    patch_addr: "0x06035C76"
+    patch_verified: true
+    patch_bytes_original: "01 55"
+    scenario: straight_throttle
+    prediction: "Unknown effect — field +0x176 purpose not yet identified."
+    status: proposed
+
+  - function: FUN_0603EAAA
+    field: "chain[+0x00] (AI car X position)"
+    patch_addr: "0x0603EB26"
+    patch_verified: true
+    patch_bytes_original: "1E 40"
+    scenario: race_start
+    prediction: "AI cars freeze in X — stop moving laterally. May continue Z movement if only X is NOPped."
+    status: proposed
+
+  - function: FUN_0603EAAA
+    field: "chain[+0x08] (AI car Z position)"
+    patch_addr: "0x0603EB28"
+    patch_verified: true
+    patch_bytes_original: "1E 62"
+    scenario: race_start
+    prediction: "AI cars freeze in Z — stop progressing along track. Combined with X NOP would fully freeze AI."
+    status: proposed
