@@ -165,7 +165,7 @@ Prior BLK claims that are now suspect:
   but these functions may be general track geometry processors used by
   both rendering and physics.
 
-### Phase 4b: BLK deep investigation — COMPLETE
+### Phase 4b: BLK deep investigation — IN PROGRESS (NOP tests pending)
 
 **Goal**: Fully explain BLK's role so we can determine whether to replace
 it, leave it alone, or surgically modify it for the transplant.

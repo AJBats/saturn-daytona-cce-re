@@ -242,7 +242,9 @@ experiments:
     patch_bytes_original: "C1 07"
     scenario: race_start
     prediction: "AI cars stop turning — heading never updates. Cars drive straight off track."
-    status: proposed
+    status: inconclusive
+    result: "No visible difference after multiple laps. AI cars appear to drive normally."
+    conclusion: "GBR+0x1C at this PC may not be the active heading writer, or heading is redundantly written elsewhere."
 
   - function: FUN_060354A0
     field: "GBR+0xF4 (rotation result)"
@@ -251,7 +253,9 @@ experiments:
     patch_bytes_original: "01 26"
     scenario: straight_throttle
     prediction: "Player car rotation/orientation freezes. Car drives straight regardless of steering."
-    status: proposed
+    status: inconclusive
+    result: "No visible difference. Car steers and drives normally."
+    conclusion: "GBR+0xF4 at this PC may not be the active rotation writer, or rotation is computed elsewhere."
 
   - function: FUN_06035C98
     field: "GBR+0xE8 (trig computation output)"
@@ -260,7 +264,10 @@ experiments:
     patch_bytes_original: "01 56"
     scenario: straight_throttle
     prediction: "Heading computation breaks — car steering or direction changes stop working."
-    status: proposed
+    status: confirmed
+    result: "Car handling becomes slippery. Car enters powerslide at high speed turns without brake input. Normally powerslides require brake+turn. Steering still works but traction characteristics changed."
+    conclusion: "GBR+0xE8 is a traction/grip stabilizer. Without it, the car loses lateral grip more easily — the trig output normally counteracts oversteer. This is the grip feedback that prevents unintended slides."
+    name: grip_stabilizer
 
   - function: FUN_0604DB10
     field: "GBR+0xC4 (position delta)"
@@ -269,7 +276,10 @@ experiments:
     patch_bytes_original: "01 26"
     scenario: straight_throttle
     prediction: "Car stays still — position delta never computed from heading+speed. Speed accumulates but position frozen."
-    status: proposed
+    status: confirmed
+    result: "Broke acceleration entirely. Car coasts to a stop, pressing B does nothing — RPM stays at 0. Not just position delta; the force/throttle pipeline depends on this field as feedback."
+    conclusion: "GBR+0xC4 is a core pipeline field that feeds back into force computation. Without it, the throttle→force→speed chain breaks completely. Deeper in the pipeline than 'position delta' — it's the velocity/force accumulator output."
+    name: force_feedback_accumulator
 
   - function: FUN_06035F48
     field: "GBR+0x64 (steer lateral component)"
@@ -287,7 +297,10 @@ experiments:
     patch_bytes_original: "02 56"
     scenario: straight_throttle
     prediction: "Second steering component freezes. May cause asymmetric steering or no turning."
-    status: proposed
+    status: confirmed
+    result: "Steering still works for basic turning, but power sliding is disabled. Holding brake + turn no longer produces oversteer/drift. Normal cornering unaffected."
+    conclusion: "GBR+0x68 is the drift/slide lateral force component. It enables oversteer behavior — without it, the car handles like it's on rails (grip-only, no drift). Separate from basic steering (+0x78)."
+    name: drift_lateral_force
 
   - function: FUN_060371FC
     field: "+0x78 (steering curve output)"
@@ -296,7 +309,9 @@ experiments:
     patch_bytes_original: "03 16"
     scenario: right_wall_strike
     prediction: "Steering input table lookup result never written. Car ignores D-pad steering entirely."
-    status: proposed
+    status: inconclusive
+    result: "No visible difference. Steering works normally."
+    conclusion: "+0x78 may have another writer, or this store is not on the active code path from this save state."
 
   - function: FUN_06035C58
     field: "+0x176 (16-bit write)"
@@ -305,7 +320,9 @@ experiments:
     patch_bytes_original: "01 55"
     scenario: straight_throttle
     prediction: "Unknown effect — field +0x176 purpose not yet identified."
-    status: proposed
+    status: inconclusive
+    result: "No visible difference. Normal driving feel."
+    conclusion: "+0x176 has no observable effect in 1P racing. May be cosmetic, debug, or only relevant in specific scenarios (2P, collision, etc)."
 
   - function: FUN_0603EAAA
     field: "chain[+0x00] (AI car X position)"
@@ -314,7 +331,10 @@ experiments:
     patch_bytes_original: "1E 40"
     scenario: race_start
     prediction: "AI cars freeze in X — stop moving laterally. May continue Z movement if only X is NOPped."
-    status: proposed
+    status: confirmed
+    result: "Near-zone AI cars behave erratically — abrupt speed reduction, diverting sideways, sometimes stopping briefly then resuming. Far-zone cars unaffected. Consistent with stale X causing inconsistent position → spurious collision detection in near-zone physics."
+    conclusion: "chain[+0x00] is near-zone AI X position. Two-zone split confirmed: near cars use detailed position integration (affected), far cars use simplified path (unaffected). Stale X with live Z creates position inconsistency that triggers collision-like behavior."
+    name: ai_near_zone_x_position
 
   - function: FUN_0603EAAA
     field: "chain[+0x08] (AI car Z position)"
@@ -323,7 +343,58 @@ experiments:
     patch_bytes_original: "1E 62"
     scenario: race_start
     prediction: "AI cars freeze in Z — stop progressing along track. Combined with X NOP would fully freeze AI."
-    status: proposed
+    status: confirmed
+    result: "Very similar to X NOP — near-zone AI cars become erratic. Same near/far split."
+    conclusion: "chain[+0x08] is near-zone AI Z position. Same two-zone behavior as X NOP. Both axes need to be written together for coherent near-zone AI movement."
+    name: ai_near_zone_z_position
+
+  - function: FUN_0602A6EC
+    field: "rts;nop at entry (BLK reader)"
+    patch_addr: "0x0602A6EC"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "4F 22 54 E0"
+    scenario: race_start
+    prediction: "Unknown — BLK spatial lookup function, part of FUN_06029D8C subtree."
+    status: confirmed
+    result: "Same as FUN_06029D8C NOP — only starting cell renders. Track beyond initial cell invisible. Reverse indicator fires on back half of track. Game otherwise functional."
+    conclusion: "FUN_0602A6EC is essential for cell streaming. Produces same result as cutting its parent (FUN_06029D8C). This function is the bottleneck — without it, no new track cells load."
+
+  - function: FUN_0602A118
+    field: "rts;nop at entry (BLK reader)"
+    patch_addr: "0x0602A118"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "4F 22 D3 30"
+    scenario: race_start
+    prediction: "Unknown — part of FUN_06029D8C subtree."
+    status: confirmed
+    result: "Driving and main track rendering normal. Infield (grassy interior of Three Seven Speedway) fails to render — pops in only when car drives directly into that area. Existing pop-in behavior made worse. Road surface and outer track draw correctly."
+    conclusion: "FUN_0602A118 handles infield/off-road cell activation. The main road cells load fine without it, but adjacent non-road cells (infield grass) don't get marked active until the car is physically inside them. Separable from main road streaming."
+
+  - function: FUN_0602A9F0
+    field: "rts;nop at entry (BLK reader)"
+    patch_addr: "0x0602A9F0"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "4F 22 2F 46"
+    scenario: race_start
+    prediction: "Unknown — part of FUN_06029D8C subtree."
+    status: confirmed
+    result: "Draw distance feels shorter. Glitchy polygon flickering around turn 2 and turn 3 — geometry flickers in and out near the player car. Worse at turns than straights. Game otherwise functional."
+    conclusion: "FUN_0602A9F0 affects draw distance and cell streaming accuracy at turns. Without it, the cell activation becomes unstable — cells that should be visible flicker. May handle forward-lookahead for upcoming segments around curves."
+
+  - function: FUN_0602A958
+    field: "rts;nop at entry (BLK reader)"
+    patch_addr: "0x0602A958"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "4F 22 D1 1C"
+    scenario: race_start
+    prediction: "Unknown — reads BLK direction vectors."
+    status: inconclusive
+    result: "No visible difference. Driving, rendering, reverse indicator all normal."
+    conclusion: "FUN_0602A958 has no observable effect in normal 1P racing on Three Seven. May only matter in specific scenarios or its output may be redundantly computed elsewhere."
 
   - function: FUN_060384C4
     field: "corner geometry struct @R9 (0x060525FC)"
