@@ -396,6 +396,14 @@ experiments:
     result: "No visible difference. Driving, rendering, reverse indicator all normal."
     conclusion: "FUN_0602A958 has no observable effect in normal 1P racing on Three Seven. May only matter in specific scenarios or its output may be redundantly computed elsewhere."
 
+  - function: FUN_0603FAA8
+    field: "rts;nop at entry (heaviest BLK reader, 2032 reads/10frames)"
+    patch_addr: "0x0603FAA8"
+    patch_verified: false
+    scenario: race_start
+    prediction: "Unknown — in the AI callback chain (FUN_0603C5CC → FUN_0603DF28 → FUN_0603F9FC → FUN_0603FAA8). This is the only untested BLK reader that could show an AI connection to BLK data. All other BLK readers only affected graphics."
+    status: proposed
+
   - function: FUN_060384C4
     field: "corner geometry struct @R9 (0x060525FC)"
     patch_addr: "0x06038536"
