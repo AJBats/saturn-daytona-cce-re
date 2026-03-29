@@ -12,8 +12,8 @@ reachable: true
 
 | Scenario | Calls/Frame | Notes |
 |----------|-------------|-------|
-| race_idle | 39 (odd frames only) | Once per AI car, every other frame |
-| race_throttle | 39 (odd frames only) | Same pattern, player input irrelevant |
+| race_idle | 39 | Once per AI car, odd frames only |
+| race_throttle | 39 | Same pattern, player input irrelevant |
 
 Called from PR=0x0603E26A (FUN_0603DF28, AI chain iterator).
 Part of the init-module AI tributary, NOT the per-car master loop (E28).

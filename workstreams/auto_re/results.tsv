@@ -62,3 +62,4 @@ FUN_0603C304	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attr
 FUN_0603D558	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attract mode)
 FUN_0603D980	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attract mode)
 FUN_0603DF28	1	1	1	call_count_attract_race PASS (0 calls — unreachable in attract mode)
+FUN_0603DC9C	2	2	1	call_count_race_idle PASS (39 calls), call_count_race_throttle PASS (39 calls)

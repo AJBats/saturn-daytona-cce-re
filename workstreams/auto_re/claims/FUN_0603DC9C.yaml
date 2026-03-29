@@ -1,0 +1,21 @@
+function: FUN_0603DC9C
+address: 100916380
+function_end: 100917032
+source_file: src/race/FUN_0603DC9C.s
+claims:
+- id: call_count_race_idle
+  description: FUN_0603DC9C called 39 times/frame in race_idle
+  type: call_count_per_frame
+  function: FUN_0603DC9C
+  address: 100916380
+  scenario: race_idle
+  expected_count: 39
+  tolerance: 3
+- id: call_count_race_throttle
+  description: FUN_0603DC9C called 39 times/frame in race_throttle
+  type: call_count_per_frame
+  function: FUN_0603DC9C
+  address: 100916380
+  scenario: race_throttle
+  expected_count: 39
+  tolerance: 3
