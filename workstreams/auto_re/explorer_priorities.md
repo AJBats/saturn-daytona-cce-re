@@ -30,7 +30,7 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 - **Follow-up needed**: CDB trace from earlier save state (mode select)
   to capture the full course file loading sequence.
 
-### 31. Memory diff: normal vs COL-zeroed attract mode -- BLOCKED
+### 31. Memory diff: normal vs COL-zeroed attract mode -- RESOLVED (abandoned)
 
 - **Result**: COL-zeroed disc black-screens on boot. Cannot reach attract
   mode to capture comparable memory state. The surgical zero (header
@@ -80,7 +80,7 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 
 ## HIGH PRIORITY
 
-### 34. Find START0.BIN load address in RAM
+### 34. Find START0.BIN load address in RAM -- RESOLVED (deferred to post-4b)
 
 - **WHY**: START0.BIN (282x282 terrain grid) is the second track data
   source. To understand how the physics reads it, we need to know where
@@ -96,7 +96,7 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 - **UNBLOCKS**: Once we know the RAM address, we can trace which functions
   read from START0.BIN and how they use it.
 
-### 35. CDB trace from cold boot or mode select
+### 35. CDB trace from cold boot or mode select -- RESOLVED (deferred to post-4b)
 
 - **WHY**: Priority #30 only captured 3 disc reads because the save state
   already had course files loaded. We need the full loading sequence to
