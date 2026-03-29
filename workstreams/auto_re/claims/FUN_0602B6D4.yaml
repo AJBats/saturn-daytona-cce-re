@@ -1,0 +1,21 @@
+function: FUN_0602B6D4
+address: 100841172
+function_end: 100842168
+source_file: src/race/FUN_0602B22C.s
+claims:
+- id: call_count_race_idle
+  description: FUN_0602B6D4 called 1 times/frame in race_idle
+  type: call_count_per_frame
+  function: FUN_0602B6D4
+  address: 100841172
+  scenario: race_idle
+  expected_count: 1
+  tolerance: 1
+- id: call_count_race_throttle
+  description: FUN_0602B6D4 called 1 times/frame in race_throttle
+  type: call_count_per_frame
+  function: FUN_0602B6D4
+  address: 100841172
+  scenario: race_throttle
+  expected_count: 1
+  tolerance: 1
