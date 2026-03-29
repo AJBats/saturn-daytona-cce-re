@@ -210,3 +210,15 @@ experiments:
     result: "Car clips straight through the ground on Dino Canyon's big hill at track start. Stays at initial Y (sea level) while track rises and falls. Very dramatic on Dino Canyon vs Three Seven (exp 9) where the track is mostly flat."
     conclusion: "FUN_060386D8 is confirmed terrain height writer. Dino Canyon makes the effect unmistakable — car drives through hills at a fixed elevation. For transplant, DUSA must provide Y height or this function must be kept with compatible BLK data."
     name: terrain_height_blk_dino
+
+  - function: FUN_0602B6D4
+    field: "call from FUN_06028000 (race entry)"
+    patch_addr: "0x060283B0"
+    patch_verified: true
+    patch_bytes_original: "43 0B"
+    scenario: race_start
+    prediction: "Unknown — isolation test. Combined cut with FUN_06029D8C killed rendering + caused instant GAME OVER. Testing this cut alone to isolate which symptom it causes."
+    status: confirmed
+    result: "Track renders perfectly. AI cars drive normally. BUT: arcade countdown timer frozen, lap timer frozen, lap counter does not increment on finish line crossing. Race never ends."
+    conclusion: "FUN_0602B6D4 is the race progression manager (timer, laps, finish detection). NOT the rendering killer. Rendering is fully independent of this function."
+    name: race_progression_manager
