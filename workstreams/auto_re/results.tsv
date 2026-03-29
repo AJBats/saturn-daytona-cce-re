@@ -68,3 +68,4 @@ FUN_06029D8C	1	1	1	call_count_race_idle PASS (1 call/2frames). Segment visibilit
 FUN_0602A6EC	1	1	1	call_count_race_idle PASS (1 call/2frames). BLK spatial lookup function in segment visibility chain.
 FUN_0602A118	1	1	1	call_count_race_idle PASS (2 calls, within tolerance). BLK segment activation/marking function.
 FUN_0602A9F0	1	1	1	call_count_race_idle PASS (0-1 calls, within tolerance). BLK segment chain search.
+FUN_0602A958	1	1	1	call_count_race_idle PASS (1 call). Direction-of-travel detector (forward/reverse via atan2).
