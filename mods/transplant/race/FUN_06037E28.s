@@ -167,8 +167,8 @@ FUN_06037E28:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
     nop    /* bsr FUN_06010A82 (linker-resolved) */
@@ -203,8 +203,8 @@ FUN_06037E28:
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bf .L_06037FCA
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     mov #0x0, r7
     mov.l @(16, r13), r6
@@ -345,8 +345,8 @@ FUN_06037FD6:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
     nop    /* bsr FUN_06010A82 (linker-resolved) */
@@ -381,8 +381,8 @@ FUN_06037FD6:
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bf .L_060380FE
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     mov #0x0, r7
     mov.l @(16, r13), r6
@@ -499,8 +499,8 @@ FUN_06037FD6:
     mov #-0x41, r0
     and r0, r1
     mov.l r1, @(48, r14)
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
     nop    /* bsr FUN_06010A82 (linker-resolved) */
@@ -541,8 +541,8 @@ FUN_06037FD6:
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bf .L_0603821C
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     mov.l @(16, r13), r6
     mov r14, r5
@@ -821,9 +821,9 @@ FUN_0603833C:
     add r2, r3
     mov.l @(8, r3), r3
     mov.l r3, @(8, r14)
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
 .L_060383D6:
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    nop
     mov r14, r4
     /* .reloc removed — TRANSPLANT: was bsr FUN_06038A82 (heading stub) */
     nop    /* bsr FUN_06010A82 (linker-resolved) */
@@ -858,8 +858,8 @@ FUN_0603833C:
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
     bf .L_06038444
-    .reloc ., R_SH_IND12W, FUN_060384C4 - 4
-    .2byte 0xB000    /* bsr FUN_060104C4 (linker-resolved) */
+    /* .reloc removed — TRANSPLANT: was bsr FUN_060384C4 (corner geometry + COL/BLK reader) */
+    nop
     mov r14, r4
     mov.l @(16, r13), r6
     mov r14, r5
