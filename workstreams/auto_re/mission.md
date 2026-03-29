@@ -134,9 +134,66 @@ parallels confirmed. transplant_manifest.md has the full inventory.
 Map the complete track data loading pipeline. Understand ALL disc files
 that contribute track physics/path data. Determine which can be unloaded
 and replaced with '95 equivalents.
-- COL file structure mapped (header + pointer tables + dense polygon body)
-- COL zero experiment done (second data source confirmed)
-- Next: DMA trace, disc load map, identify the second track data source
+
+**COL status: RESOLVED.** All COL reads eliminated (0 reads across 632
+frames, verified via mem_read_profile on cold-booted mod disc). 8 bsr
+FUN_060384C4 NOPs in FUN_06037E28 killed the last COL reader chain.
+COL dense body (78KB at 0x00228000) is free real estate for DUSA data.
+
+**BLK status: BLOCKED — deep investigation needed.** CS0_BLK.BIN (42KB
+at 0x060ED100 HWR) is load-bearing for rendering AND gameplay. Two
+attempts to cut BLK reader chains failed:
+- Cutting FUN_06029D8C (upstream caller): track geometry vanished,
+  race ended instantly with GAME OVER. Cars drew but road was gone.
+- Cutting 8 leaf BLK reader functions (rts;nop): game froze on skybox.
+
+**Key revelation**: BLK is NOT just "AI pathing data" as originally
+labeled. FUN_060386D8 reads terrain height FROM BLK segments (confirmed
+by write watchpoint on car+0x04). The rendering pipeline depends on BLK
+data — possibly for camera transforms, LOD, or road surface geometry
+selection. The relationship between COURSE*.MDL (render geometry) and
+BLK (segment data) is unknown and critical to understand.
+
+Prior BLK claims that are now suspect:
+- "BLK + COL are a matched pair" — based on static byte scan finding 17
+  values in 0x0022xxxx range. But 0 COL reads when BLK calls are live
+  suggests these values aren't used as COL pointers.
+- "BLK defines track direction for AI path following" — based on one
+  observation of FUN_06038A84 during attract mode. The same data feeds
+  terrain height, rendering, and possibly camera/timer systems.
+- The 0x0602A000-0x0602B700 function cluster was labeled "BLK accessors"
+  but these functions may be general track geometry processors used by
+  both rendering and physics.
+
+### Phase 4b: BLK deep investigation — NOT STARTED
+
+**Goal**: Fully explain BLK's role so we can determine whether to replace
+it, leave it alone, or surgically modify it for the transplant.
+
+**Success criteria** — the investigation is complete when we can answer:
+1. What is every byte/field in CS0_BLK.BIN? (full file format spec)
+2. What does every function in FUN_0602B22C's call tree do?
+3. What does every function in FUN_06029D8C's call tree do?
+4. Which cut caused which symptom? (both were cut simultaneously —
+   track rendering loss and instant GAME OVER were observed together
+   but not attributed to individual cuts)
+5. How does COURSE*.MDL rendering depend on BLK data? (the specific
+   mechanism — does the renderer read BLK directly, or does BLK write
+   to car/camera struct fields that the renderer reads?)
+6. Which BLK consumers are physics-only vs rendering-essential?
+
+**Investigation plan**:
+- Phase 4b-1: BLK file format decode (hex analysis of 42KB structure)
+- Phase 4b-2: FUN_0602B22C subtree observations (rendering killer)
+  - auto_re observe each function in the call tree
+  - mem_read_profile + mem_write_profile for data flow
+  - Targeted NOP tests on sub-calls to isolate which kills rendering
+- Phase 4b-3: FUN_06029D8C subtree observations (game over killer)
+  - Same treatment — isolate which sub-call breaks the timer/state
+- Phase 4b-4: MDL↔BLK bridge identification
+  - Trace rendering pipeline backward from VDP1 command table
+  - Cross-reference BLK writer outputs with renderer inputs
+  - Determine if BLK can coexist with DUSA physics or needs replacement
 
 ### Phase 5: Document the transplant specification — NOT STARTED
 Input contract, output contract, cut lines, compatibility risks.

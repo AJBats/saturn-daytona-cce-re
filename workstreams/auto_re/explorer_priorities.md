@@ -125,25 +125,90 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
   still providing height data. COL zeroing broke collision detection but
   BLK-based height/heading kept partially working.
 
-### 37. Map all BLK consumers (read watchpoint survey)
+### 37. Map all BLK consumers — RESOLVED
 
-- **WHY**: FUN_06038A84 is one BLK consumer. There may be others (collision,
-  AI drone pathing, rolling start). Mapping all readers tells us the full
-  scope of BLK dependency for the transplant.
-- **WHAT**: Set logging read watchpoint on a BLK segment entry (e.g. the
-  direction vector at a known segment). Run 5 frames across multiple
-  scenarios. Collect all reader PCs.
-- **SCENARIO**: race_idle, attract_race, pre_rolling_start
-- **TOOLS**: read_watchpoint_set (log=True) on 0x060F5694 (+0x24 of known segment)
-- **UNBLOCKS**: Complete BLK consumer map for transplant boundary spec.
+- **Result**: mem_read_profile sweep (10 frames, retail binary) found 11
+  reader functions and 17 unique caller PCs. Complete reader inventory:
+  FUN_0602A118, FUN_0602A20C, FUN_0602A2FC, FUN_0602A6EC, FUN_0602A818,
+  FUN_0602A9F0, FUN_0602AAB6, FUN_0602B6F0, FUN_06038A84, FUN_0603FAA8,
+  FUN_06047E0C. See build/cdl/blk_read_profile_10f.txt.
+- **Key finding**: BLK is load-bearing for rendering. Cutting callers
+  FUN_0602B22C or FUN_06029D8C kills track rendering and race state.
+  These are NOT just "AI accessors" — they're essential game systems.
 
-### 38. Compare CCE BLK with DUSA track data structure
+---
 
-- **WHY**: The transplant requires replacing CCE BLK with DUSA equivalent.
-  Understanding structural differences determines conversion effort.
-- **WHAT**: Dump the DUSA equivalent track segment table from
-  D:/Projects/SaturnReverseTest. Compare segment stride, field layout,
-  direction vector format. Check if DUSA has a direct BLK equivalent.
-- **SCENARIO**: Static analysis (no emulator needed)
-- **TOOLS**: File comparison, struct analysis
-- **UNBLOCKS**: Conversion feasibility assessment for track data transplant.
+## Phase 4b: BLK Deep Investigation
+
+**Updated**: 2026-03-29
+
+**Goal**: Fully understand BLK's role. Explain every byte of CS0_BLK.BIN,
+every function in the rendering-killing and game-over-killing call chains,
+and the mechanism by which COURSE*.MDL rendering depends on BLK data.
+
+### 39. BLK file format full decode
+
+- **WHY**: We know 3 fields (+0x02 type, +0x24 dir X, +0x28 dir Z) out of
+  ~48 bytes per segment. Height data is somewhere in there (priority #36
+  confirmed FUN_060386D8 reads height from BLK). Full decode tells us what
+  each field contributes to rendering vs physics.
+- **WHAT**: Hex dump CS0_BLK.BIN. Map every field in the segment structure.
+  Cross-reference with runtime reads from the mem_read_profile data to
+  see which offsets are actually accessed and by which functions.
+- **SCENARIO**: Static analysis + cross-ref with build/cdl/blk_read_profile_10f.txt
+- **TOOLS**: read_memory_binary on 0x060ED100, hex analysis
+- **UNBLOCKS**: Understanding which BLK fields feed rendering vs physics.
+
+### 40. FUN_0602B22C subtree — suspected rendering killer (unconfirmed)
+
+- **WHY**: Cutting FUN_0602B22C AND FUN_06029D8C simultaneously killed
+  track rendering and caused instant GAME OVER. Not tested individually
+  — either or both cuts may be responsible. This function is called
+  12x/frame and its subtree includes FUN_0602D4D0, FUN_0604C76C, and
+  FUN_06044788. Understanding what it does tells us how rendering depends
+  on BLK and whether we can surgically separate BLK physics reads from
+  BLK rendering reads.
+- **WHAT**: auto_re observation on FUN_0602B22C. Map its full call tree.
+  For each callee, determine: does it read BLK? Does it write to VDP1?
+  Does it write to car/camera struct fields? Use mem_read_profile on
+  BLK range during just this function's execution if possible.
+- **SCENARIO**: race_idle, race_throttle
+- **TOOLS**: breakpoint, call_trace, mem_read_profile, sample_memory
+- **UNBLOCKS**: Understanding the rendering↔BLK bridge.
+
+### 41. FUN_06029D8C subtree — suspected game state killer (unconfirmed)
+
+- **WHY**: Cutting FUN_06029D8C AND FUN_0602B22C simultaneously caused
+  instant GAME OVER and track rendering loss. Not tested individually.
+  This is the per-car state processor
+  called for all 40 cars. It reads BLK but also manages race state.
+  Understanding it tells us which of its sub-calls control the timer/lap
+  system vs which ones do BLK segment reads.
+- **WHAT**: auto_re observation on FUN_06029D8C. Map the call tree.
+  Targeted NOP tests on individual sub-calls to isolate which one
+  controls the race timer/finish condition.
+- **SCENARIO**: race_idle, race_throttle
+- **TOOLS**: breakpoint, call_trace, targeted NOP tests
+- **UNBLOCKS**: Separating race state management from BLK reads.
+
+### 42. MDL↔BLK bridge — how does rendering use BLK?
+
+- **WHY**: COURSE*.MDL is the 3D track model (vertices, textures). BLK is
+  segment/spline data. Yet cutting BLK readers kills MDL rendering. The
+  bridge mechanism is unknown. Hypotheses: (a) BLK provides camera
+  transform data without which VDP1 can't project geometry, (b) BLK
+  selects which MDL segments are visible (LOD/culling), (c) the road
+  surface is drawn from BLK, not MDL.
+- **WHAT**: Trace the rendering pipeline backward from VDP1 command table
+  writes. Which car/camera struct fields does the renderer read? Cross-
+  reference with BLK consumer write targets from priorities 40-41. The
+  intersection is the bridge.
+- **SCENARIO**: race_idle
+- **TOOLS**: mem_profile on VDP1 VRAM, field tracing, Ghidra
+- **UNBLOCKS**: Final determination of whether BLK can coexist with DUSA
+  physics or needs replacement/modification.
+
+### 38. Compare CCE BLK with DUSA track data structure (DEFERRED)
+
+- Deferred until Phase 4b completes. We need to understand what BLK does
+  before we can assess whether DUSA has an equivalent.
