@@ -218,8 +218,9 @@ def generate_cue(orig_cue_path, out_dir, cue_out_path):
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 def parse_overrides(args):
-    """Parse --override module:path arguments into a dict."""
+    """Parse --override module:path and --data-overlay dir arguments."""
     overrides = {}
+    data_overlay = None
     i = 0
     while i < len(args):
         if args[i] == '--override' and i + 1 < len(args):
@@ -227,13 +228,70 @@ def parse_overrides(args):
             if len(parts) == 2:
                 overrides[parts[0]] = parts[1]
             i += 2
+        elif args[i] == '--data-overlay' and i + 1 < len(args):
+            data_overlay = args[i + 1]
+            i += 2
         else:
             i += 1
-    return overrides
+    return overrides, data_overlay
+
+
+def inject_data_overlay(disc, overlay_dir, root_entries, root_dir_data, root_lba,
+                        daytona_entries, daytona_dir_data, daytona_lba, dirs_modified):
+    """Inject data files from overlay_dir into the disc, matching ISO paths."""
+    if not os.path.isdir(overlay_dir):
+        print('  WARN  data overlay dir not found: %s' % overlay_dir)
+        return 0
+
+    injected = 0
+    for dirpath, _dirnames, filenames in os.walk(overlay_dir):
+        for fname in filenames:
+            full_path = os.path.join(dirpath, fname)
+            rel_path  = os.path.relpath(full_path, overlay_dir).replace('\\', '/')
+            parts     = rel_path.split('/')
+
+            if len(parts) == 1:
+                entry    = find_entry(root_entries, parts[0])
+                dir_data = root_dir_data
+                dir_lba  = root_lba
+            elif len(parts) == 2 and parts[0].upper() == 'DAYTONA':
+                entry    = find_entry(daytona_entries, parts[1])
+                dir_data = daytona_dir_data
+                dir_lba  = daytona_lba
+            else:
+                print('  WARN  data overlay: unsupported path: %s' % rel_path)
+                continue
+
+            if entry is None:
+                print('  WARN  data overlay: not found in ISO: %s' % rel_path)
+                continue
+
+            with open(full_path, 'rb') as f:
+                file_data = f.read()
+
+            entry_offset, _, file_lba, orig_size, _ = entry
+            new_size = len(file_data)
+
+            orig_secs = (orig_size + USER_DATA_SIZE - 1) // USER_DATA_SIZE
+            new_secs  = (new_size  + USER_DATA_SIZE - 1) // USER_DATA_SIZE
+            if new_secs > orig_secs:
+                print('  WARN  %s: needs more sectors (%d -> %d), skipping'
+                      % (rel_path, orig_secs, new_secs))
+                continue
+
+            if new_size != orig_size:
+                patch_entry_size(dir_data, entry_offset, new_size)
+
+            dirs_modified[dir_lba] = (dir_data, dir_lba)
+            inject_module(disc, file_data, file_lba, orig_size)
+            print('  OK    %-20s  LBA=%-5d  %d bytes' % (rel_path, file_lba, new_size))
+            injected += 1
+
+    return injected
 
 
 def main():
-    overrides = parse_overrides(sys.argv[1:])
+    overrides, data_overlay = parse_overrides(sys.argv[1:])
     disc_src_dir = os.path.join(
         PROJDIR, 'external_resources',
         'Daytona USA - Circuit Edition (Japan)'
@@ -346,7 +404,16 @@ def main():
         if dir_lba not in dirs_modified:
             dirs_modified[dir_lba] = (dir_data, dir_lba)
 
-    print()
+    # Inject data overlay files (e.g. zeroed COL for transplant mod)
+    if data_overlay:
+        print('Data overlay: %s' % data_overlay)
+        overlay_count = inject_data_overlay(
+            disc, data_overlay,
+            root_entries, root_dir_data, root_lba,
+            daytona_entries, daytona_dir_data, daytona_lba,
+            dirs_modified)
+        injected += overlay_count
+        print()
 
     # Write back any modified directories
     for dir_data, dir_lba in dirs_modified.values():

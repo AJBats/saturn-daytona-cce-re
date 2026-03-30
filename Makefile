@@ -221,8 +221,12 @@ noptest:
 # One-liner: make MOD=transplant disc
 disc: all
 	@rm -f $(PROJDIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
+	@if [ -n "$(MOD)" ] && [ -f "$(PROJDIR)/mods/$(MOD)/gen_disc_data.py" ]; then \
+		python3 $(PROJDIR)/mods/$(MOD)/gen_disc_data.py; \
+	fi
 	@python3 $(PROJDIR)/tools/inject_disc.py \
-		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin)
+		$(foreach mod,$(MODULES),--override $(mod):$(PROJDIR)/build/$(mod)/$(mod)_free.bin) \
+		$(if $(MOD),--data-overlay $(PROJDIR)/build/mods/$(MOD)/disc)
 	@echo ""
 	@echo "  Disc ready: build/disc/rebuilt_disc/daytona_cce_rebuilt.cue"
 
