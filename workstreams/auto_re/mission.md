@@ -165,7 +165,7 @@ Prior BLK claims that are now suspect:
   but these functions may be general track geometry processors used by
   both rendering and physics.
 
-### Phase 4b: BLK deep investigation — IN PROGRESS (NOP tests pending)
+### Phase 4b: BLK deep investigation — COMPLETE
 
 **Goal**: Fully explain BLK's role so we can determine whether to replace
 it, leave it alone, or surgically modify it for the transplant.
@@ -192,6 +192,15 @@ it, leave it alone, or surgically modify it for the transplant.
 - **Coexistence model CONFIRMED**: DUSA physics writes car position,
   CCE's BLK system reads it and handles cell streaming automatically.
   No BLK modification needed if coordinate spaces are compatible.
+- **BLK is rendering data** that gameplay systems (lap control, reverse
+  indicator) piggyback on. AI drones navigate independently of BLK.
+- **7 BLK reader NOP tests**: zero AI impact across all tests. Every
+  BLK reader either affects graphics/cell-streaming, hangs the game,
+  or has no visible effect. AI pathfinding is fully independent.
+- **Transplant model**: DUSA driving model feeds position values into
+  the CCE car struct, progressing the car through BLK cells. This
+  triggers the cell traversal system which updates track graphics.
+  BLK data stays intact and untouched.
 
 ### Phase 5: Document the transplant specification — NOT STARTED
 Input contract, output contract, cut lines, compatibility risks.
