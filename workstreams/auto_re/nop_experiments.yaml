@@ -396,13 +396,30 @@ experiments:
     result: "No visible difference. Driving, rendering, reverse indicator all normal."
     conclusion: "FUN_0602A958 has no observable effect in normal 1P racing on Three Seven. May only matter in specific scenarios or its output may be redundantly computed elsewhere."
 
+  - function: FUN_0602A818
+    field: "rts;nop at entry (shared BLK segment data reader)"
+    patch_addr: "0x0602A818"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "66 62 26 68"
+    scenario: race_start
+    prediction: "Unknown — low-level BLK data accessor shared by FUN_0602A6EC and FUN_0602AAA8."
+    status: confirmed
+    result: "Track graphics immediately invisible. Drove briefly with no visible track. Some AI drone cars visible briefly before they also disappeared. Game hung shortly after. Delayed hang (not instant like FUN_0603FAA8)."
+    conclusion: "FUN_0602A818 is essential for both track rendering AND game stability. Delayed hang suggests downstream code eventually chokes on missing segment data. Both track cells and AI drone visibility depend on data this function provides."
+
   - function: FUN_0603FAA8
     field: "rts;nop at entry (heaviest BLK reader, 2032 reads/10frames)"
     patch_addr: "0x0603FAA8"
-    patch_verified: false
+    patch_addr_2: "0x0603FAEA"
+    patch_verified: true
+    patch_bytes_original: "2F 06 44 18"
+    patch_bytes_original_2: "2F 66 E6 30"
     scenario: race_start
-    prediction: "Unknown — in the AI callback chain (FUN_0603C5CC → FUN_0603DF28 → FUN_0603F9FC → FUN_0603FAA8). This is the only untested BLK reader that could show an AI connection to BLK data. All other BLK readers only affected graphics."
-    status: proposed
+    prediction: "Unknown — in the AI callback chain. Only untested BLK reader that could show AI connection."
+    status: confirmed
+    result: "First attempt: rts;nop at 0x0603FAA8 only — no visible effect. BLK read profile showed reads still occurring at 0x0603FB04/FB0C/FBB0 (mid-function PCs). A mid-function entry point at 0x0603FAEA (FUN_0603FAA8+0x42) bypasses the entry rts. Second attempt: rts;nop at BOTH 0x0603FAA8 AND 0x0603FAEA — game hangs immediately. Stuck on 1 frame, audio continues (sound CPU independent). BLK reads from this function drop to 0 (verified by read profile: 235 total reads remaining, all from other functions)."
+    conclusion: "FUN_0603FAA8 is essential for the game loop — cutting it hangs the main CPU. Has a mid-function entry at +0x42 used by callers in the same TU. NOT just a BLK data reader — it performs computation that the game loop depends on to advance frames. No AI impact observed when only the main entry was NOPped (mid-entry kept it running)."
 
   - function: FUN_060384C4
     field: "corner geometry struct @R9 (0x060525FC)"
