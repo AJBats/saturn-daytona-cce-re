@@ -154,16 +154,15 @@ data — possibly for camera transforms, LOD, or road surface geometry
 selection. The relationship between COURSE*.MDL (render geometry) and
 BLK (segment data) is unknown and critical to understand.
 
-Prior BLK claims that are now suspect:
-- "BLK + COL are a matched pair" — based on static byte scan finding 17
-  values in 0x0022xxxx range. But 0 COL reads when BLK calls are live
-  suggests these values aren't used as COL pointers.
-- "BLK defines track direction for AI path following" — based on one
-  observation of FUN_06038A84 during attract mode. The same data feeds
-  terrain height, rendering, and possibly camera/timer systems.
-- The 0x0602A000-0x0602B700 function cluster was labeled "BLK accessors"
-  but these functions may be general track geometry processors used by
-  both rendering and physics.
+Prior BLK claims that were DISPROVED:
+- "BLK + COL are a matched pair" — DISPROVED. 17 values in 0x0022xxxx
+  range are coincidental, not COL pointers. Zero COL reads when BLK is
+  active. COL dense body replaceable independently.
+- "BLK defines track direction for AI path following" — DISPROVED.
+  7 BLK reader NOP tests showed zero AI impact. AI navigates
+  independently of BLK data.
+- The 0x0602A000-0x0602B700 function cluster — confirmed as rendering
+  cell streaming infrastructure, not AI or physics accessors.
 
 ### Phase 4b: BLK deep investigation — COMPLETE
 

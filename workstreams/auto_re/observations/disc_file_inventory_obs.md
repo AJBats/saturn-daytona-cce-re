@@ -57,12 +57,14 @@ track data files. No emulator needed.
   - 0x7000-0xA6B3: Dense data with address references
 - **COL address references**: 17 absolute addresses in 0x0022xxxx range
   found in the file, pointing into CS0_COL.BIN's loaded data
-- **Interpretation**: Spatial block partition index. Divides the track into
-  cells and maps each cell to polygon indices in the COL file. BLK + COL
-  are a matched pair — the block map IS the spatial index for the collision
-  polygon database.
-- **Transplant impact**: BLK and COL must be replaced together. Replacing
-  COL without BLK would leave stale pointers. Both are loaded to LWR.
+- **Interpretation**: Track cell/segment structure for rendering cell
+  streaming. Contains chained road quads (48-byte segments). The 17
+  COL-range addresses may be coincidental data values — zero COL reads
+  were observed when BLK calls were active, suggesting these are not
+  used as COL pointers at runtime.
+- **Transplant impact**: BLK must be kept intact — rendering cell
+  streaming depends on it. COL dense body can be replaced independently
+  (confirmed by zero-COL-read transplant mod).
 
 ### BALANCE.BIN (106,332 bytes, LBA 12013)
 
@@ -90,16 +92,16 @@ track data files. No emulator needed.
 2. **CS0_GST.PAD is ghost replay data** — explains attract mode behavior
    during COL zero (pre-recorded inputs, not live AI navigation).
 
-3. **CS0_BLK.BIN + CS0_COL.BIN are a matched pair** — BLK is the spatial
-   index, COL is the polygon data. Both must be replaced together.
+3. **CS0_BLK.BIN is rendering cell structure** — drives track cell
+   streaming. Must be kept intact. COL dense body replaceable independently.
 
 4. **BALANCE.BIN is the physics tuning database** — 106KB, structure TBD.
    Likely contains car-specific physics parameters.
 
 5. **Per-course file set** (7 files per course):
    - COURSE*.MDL + COURSE*.TEX (rendering — keep for CCE graphics)
-   - CS*_BLK.BIN (spatial index — replace with DUSA equivalent)
-   - CS*_COL.BIN (collision polygons — replace with DUSA equivalent)
+   - CS*_BLK.BIN (rendering cell structure — keep intact)
+   - CS*_COL.BIN (collision polygons — dense body replaceable)
    - CS*.BG (background — keep)
    - CS*OBJ.MDL + CS*OBJ.TEX (trackside objects — keep)
    - CS*_GST.PAD (ghost replay — keep or replace with DUSA ghost)

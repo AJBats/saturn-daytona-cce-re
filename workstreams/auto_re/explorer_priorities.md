@@ -56,9 +56,8 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 - **Result**: Static analysis of 5 disc files revealed track architecture:
   - START0.BIN: 282x282 byte terrain heightmap (second track data source)
   - CS0_GST.PAD: ghost car replay data (pre-recorded button inputs)
-  - CS0_BLK.BIN: spatial block index with 17 COL address references
+  - CS0_BLK.BIN: rendering cell structure (NOT AI data, NOT COL index)
   - BALANCE.BIN: 106KB physics tuning database (structure TBD)
-  - BLK + COL are a matched pair (index + data)
 - See disc_file_inventory_obs.md and disc_load_map_obs.md for details.
 
 ---
@@ -71,9 +70,9 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
   99.9% binary match with disc file (6/10,669 dwords differ — endian fixups).
   Contains track segment/waypoint data. FUN_06038A84 reads direction vectors
   at segment offsets +0x24/+0x28, computes heading via atan2.
-- **Key insight**: BLK is the "second gear" — provides track path/direction
-  data that drives AI heading. COL provides collision geometry. Both needed
-  for transplant (~154K/course combined).
+- **Key insight**: BLK is rendering cell structure — drives track cell
+  streaming. 7 NOP tests showed zero AI impact. Must be kept intact for
+  transplant. COL dense body is independently replaceable.
 - See FUN_06038A84_obs.md for full analysis.
 
 ---
