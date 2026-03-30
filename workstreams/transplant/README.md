@@ -50,7 +50,8 @@ CCE RACE.BIN (modified)
 │   └── Uses 30fps-adjusted constants
 │
 ├── DUSA track data (Three Seven waypoints + segments)
-│   └── Loaded into free HWR gap (~13KB per track)
+│   └── Loaded into COL dense body at 0x00228000 (~13KB per track)
+│       COL header preserved, dense body replaced with DUSA data
 │
 └── Integration point: FUN_060352FA jump table
     └── State 2 → points to DUSA dispatcher (instead of CCE's FUN_0604D380)
@@ -103,99 +104,75 @@ Key facts:
 - **Player position** is written by FUN_06036790 (sub #18), inside the physics dispatcher
 - **AI position** is written by FUN_0603EAAA (chain loop), dispatched from init module
 - Player and AI use **completely separate** position write paths
-- Everything that reads **0x00220000** (polygon/collision data) must be cut before COL file swap
-- **FUN_060384C4** computes 4-corner car geometry from position + heading using
-  pure math (sin/cos/multiply). Writes to external struct via car[+0x160] pointer
-  chain. Does not read track data. MUST KEEP — cutting it causes collision feedback
-  loop (stale corners → false collision detection → animation spam → camera jitter)
+- **COL reads: ELIMINATED.** All COL reads during gameplay are zero (verified
+  via mem_read_profile, 632 frames). 8 bsr FUN_060384C4 NOPs in FUN_06037E28
+  killed the last reader chain. COL dense body is zeroed in the transplant mod.
+- **FUN_060384C4** — NOW FULLY NOPPED (8 call sites in FUN_06037E28). Previously
+  kept alive for collision feedback, but with physics dispatch and collision
+  response all NOPped, the feedback loop can't fire. Cutting it also eliminated
+  the last COL reads.
+- **BLK data (CS0_BLK.BIN)** — rendering cell structure. Must stay intact.
+  DUSA physics writes car position → CCE's BLK system reads it → cell
+  streaming updates track graphics. 7 NOP tests confirmed BLK has zero
+  AI impact. BLK is rendering infrastructure with race progress (timer/laps)
+  piggybacking on the same data.
 
 ### Current NOP Status (mods/transplant/race/)
 
-**FUN_0604D380.s** — 18 jsr NOPs inside the player physics dispatcher:
+**FUN_06037E28.s** — caller-level cuts (79 NOPs total):
 ```
-#1  FUN_06036CEC  — input/surface/register save
-#2  FUN_0604D580  — input scaling/clamping
-#3  0x0604D6B8    — speed conversion (+0x24→+0x34)
-#4  0x0604D758    — collision timer tick
-#5  0x0604D780    — throttle/brake ramp
-#6  FUN_0604D94C  — conditional, gated by +0x174
-#7  0x0604D83C    — state-to-constant mapper
-#8  0x0604DAD8    — heavy multiply chain (force)
-#9  FUN_0604DB10  — heading sin/cos
-#10 FUN_0604DD04  — heading→sin/cos lookup
-#11 FUN_060354A0  — rotation transform
-#12 FUN_06035750  — timer chain + sqrt
-#13 FUN_06035904  — cross-product/force output
-#14 FUN_0603631C  — conditional, gated by +0x16A
-#15 FUN_06035C98  — trig/heading computation
-#16 FUN_06035EE8  — external struct writer
-#17 FUN_060366EC  — velocity integrator (+0xF0→+0x24)
-#18 FUN_06036790  — position writer (+0x24→+0x00/+0x08)
+7× jsr @r9     — physics dispatch (FUN_060352E8 → FUN_0604D380 chain)
+8× bsr 060384C4 — corner geometry + COL/BLK reader (kills all COL reads)
+7× bsr 06038A82 — heading stub
+7× bsr 060385CE — polygon reader
+7× bsr 060386D8 — terrain height + banking
+31× jsr @r12    — surface polygon lookup (FUN_06036BB8)
+4× bsr 06038DD8 — state transition
+5× jsr @r8     — state/flag management
+4× jsr @r10    — collision response
+6× bsr 06038BC4 — replay overwrite
 ```
 
-**FUN_06028000.s** — 2 jsr NOPs for AI-player collision:
+**FUN_0603C304.s** — rts;nop at FUN_0603C5CC entry:
 ```
-0x06028742: jsr FUN_0603976C — AI-player collision disabled (1P mode)
-0x06028BC6: jsr FUN_0603976C — AI-player collision disabled (2P/demo)
+Kills init callback chain (AI position integration, near+far)
 ```
 
 **FUN_0603DF28.s** — 2 add NOPs for near-zone AI position:
 ```
 add r1, r4 → nop — near-zone X position += deltaX
 add r3, r6 → nop — near-zone Z position += deltaZ
-⚠ PARTIAL: only freezes near-zone cars. Far-zone cars still move.
 ```
 
-### Proposed: Caller-Level Cut Strategy
-
-Move all cuts to function entry points or caller jsr sites. Cleaner, fewer
-edits, complete coverage.
-
-**FUN_0604D380.s** — REPLACE 18 internal NOPs with caller-level cuts:
+**Disc data overlay** — gen_disc_data.py:
 ```
-NOP all "jsr @r9" in FUN_06037E28.s (7 call sites, lines 152/295/330/484/644/685/721)
-  → kills entire physics dispatch (FUN_060352E8 + FUN_060352FA + all state handlers)
-  → replaces all 18 sub-function NOPs with 7 caller NOPs
-  ⚠ VERIFY: confirm r9 = FUN_060352E8 at all 7 sites (r9 may be reloaded)
+CS0_COL.BIN: header preserved (0x0000-0x7FFF), dense body zeroed (0x8000+)
 ```
 
-**FUN_06028000.s** — KEEP existing 2 NOPs (already at caller level):
-```
-0x06028742: jsr FUN_0603976C — KEEP (already correct)
-0x06028BC6: jsr FUN_0603976C — KEEP (already correct)
-```
+### COL Header — Outstanding Issue
 
-**FUN_0603DF28.s** — REPLACE 2 internal add NOPs with upstream cuts:
-```
-rts/nop at entry of FUN_0603C5CC — kills entire init callback chain (near+far)
-rts/nop at entry of FUN_0603E60C — kills direct init→race position call
-  ⚠ 0x0603E394 is FUN_0603E350+0x44 (mid-function entry) — rts at FUN_0603E350
-    won't catch it. Need rts/nop at 0x0603E350+0x44 too, or NOP the init caller.
-```
+The COL header (32KB at 0x00220000-0x00227FFF) must be preserved. Zeroing
+the entire file causes a black screen on boot. The dense body (0x8000+)
+can be zeroed or replaced freely.
 
-**FUN_060384C4** — KEEP (verified by assembly + engineer test):
-```
-Computes 4-corner car geometry: reads car[+0x00/+0x08/+0x0E], calls
-sin/cos/multiply, writes 4 world-space corners via car[+0x160] chain.
-Pure math — no track data access. Required by collision/rendering.
-```
+**Init-time header readers** (captured via mem_read_profile during cold boot
+to attract mode, 2026-03-29):
 
-**FUN_060351CC.s** — cut per-car state checks (reads 0x00220000 via FUN_0603CDD8):
-```
-Option A: NOP the jsr to FUN_060351CC in FUN_06028000
-Option B: NOP the jsr to FUN_0603CDD8 inside FUN_060351CC
-⚠ NEEDS INVESTIGATION — may affect game state machine
-```
+| Reader PC | Caller PR | Reads | Range | Role |
+|-----------|-----------|-------|-------|------|
+| 0x0602BA0C | 0x06028752 | 32,769 | 0x00220000-0x00228000 | Race module bulk init scan |
+| 0x06007DF0 | 0x06007DAC | 27,584 | 0x00220014-0x00228000 | Init module grid setup |
+| 0x06029A7C | 0x06034E24 | 16 | 0x00220000-0x00220010 | File header fields |
+
+The header contains pointer tables and spatial grid setup data that init
+code reads to configure buffers/globals. The dense body is NOT read during
+init — only during racing (and those reads are now eliminated).
+
+**Decision**: Keep the header intact. No benefit to zeroing it (only 32KB),
+and the init readers would need to be NOPed or stubbed. The dense body at
+0x00228000 is where DUSA track data will be placed.
 
 ### Open Questions
-
-1. **FUN_0602A048** (direct init→race call) — unclassified. Does it touch
-   0x00220000? Does it affect gameplay? Need to investigate before cutting.
-2. **r9 at all 7 jsr sites in FUN_06037E28** — is r9 always FUN_060352E8,
-   or does it get reloaded? If reloaded, some jsr @r9 calls may be to
-   different functions and shouldn't be NOPped.
-3. **FUN_060351CC** — cuts may affect the game state machine. Need to test.
-4. **0x0603E394 mid-function entry** — the init caller jumps to
    FUN_0603E350+0x44, bypassing the function entry. Need rts at both
    +0x00 and +0x44, or NOP the init-side caller (requires init module mod).
 5. **Collision chain** — FUN_060384C4 writes corner positions. Something
@@ -476,23 +453,44 @@ CS0_COL.BIN (112,132 bytes, loaded at 0x00220000)
     └── Index lists (16-bit polygon indices per grid cell)
 ```
 
-3 active readers confirmed by PC trace during racing:
-- FUN_06028000 (entry, 1x/frame) — reads 0x00220000, passes COL base to init
-- FUN_06036914 (surface extractor, 8x/frame) — reads 0x00228000 dense body
-- FUN_060384C4 (corner geometry, 1x/frame) — reads 0x00220000 + 0x00224000
+**COL READERS — FULLY ELIMINATED (2026-03-29)**:
 
-10 functions reference COL addresses but are dead code in all tested scenarios.
-Full analysis: `workstreams/driving_model/col_analysis.md`
+All COL reads during gameplay are ZERO. Verified via mem_read_profile
+across 632 frames of cold-booted attract mode. The transplant mod NOPs
+in FUN_06037E28 (8× bsr FUN_060384C4 + 7× jsr @r9 physics dispatch +
+31× jsr @r12 surface lookup + 7× bsr FUN_060385CE polygon reader)
+killed every active COL reader chain.
 
-**Per-course files**:
-| Course | CCE COL file | Size | DUSA waypoint size |
-|--------|-------------|------|-------------------|
-| Three Seven | CS0_COL.BIN | 112 KB | ~13 KB |
-| Dinosaur Canyon | CS1_COL.BIN | 260 KB | TBD |
-| Seaside Street Galaxy | CS2_COL.BIN | 553 KB | TBD |
+**COL header reads during INIT**: 61,481 reads from the header region
+(0x00220000-0x00228000) occur during boot/loading. Two bulk readers:
+- FUN_0602BA0C (32,769 reads) — race module init scan
+- FUN_06007DF0 (27,584 reads) — init module grid setup
+These require the header to be preserved. The dense body at 0x8000+
+is not read during init.
 
-DUSA data is always smaller than CCE collision data, so the COL file
-replacement always fits. Excess space in the file is ignored.
+**TRANSPLANT MOD STATUS**: gen_disc_data.py generates CS0_COL.BIN with
+header preserved, dense body zeroed. Successfully boots and runs.
+Dense body (79KB on Three Seven) is available for DUSA track data.
+
+**Per-course COL dense body available for DUSA data**:
+| Course | COL dense body | DUSA waypoints | DUSA segments | DUSA total | Fits? |
+|--------|---------------|----------------|---------------|------------|-------|
+| Three Seven | 79 KB | 784×16 = 12.5 KB | 147×4 = 0.6 KB | ~13 KB | YES |
+| Dinosaur Canyon | 221 KB | TBD | TBD | TBD | LIKELY |
+| Seaside Street | 520 KB | TBD | TBD | TBD | LIKELY |
+
+NOTE: DUSA track data sizes for Dinosaur Canyon and Seaside Street are
+unknown. The 13KB figure is Three Seven only (784 waypoints, 147 segments).
+Larger tracks will have more entries but the per-entry size is small
+(16 bytes/waypoint, 4 bytes/segment). Even 5× more entries (~65KB) fits
+in all courses. Determining exact sizes requires loading each track in
+the DUSA emulator and measuring — this is SaturnReverseTest project work.
+
+IMPORTANT: DUSA disc files (CS0POLY.BIN = 297KB, CS1POLY.BIN = 631KB,
+CS2POLY.BIN = 847KB) are much larger than the transplant data because
+they contain rendering polygons and other track data. The transplant
+only needs the waypoint + segment tables extracted from them, not the
+full files.
 
 **Risks**:
 - Init might validate the COL file size or checksum — if so, pad the
