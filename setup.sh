@@ -60,9 +60,23 @@ do_status() {
     # Extracted game files
     if [ -d "$PROJ_ROOT/build/disc/files" ] && [ "$(ls -A "$PROJ_ROOT/build/disc/files" 2>/dev/null)" ]; then
         COUNT=$(ls "$PROJ_ROOT/build/disc/files" | wc -l | tr -d ' ')
-        ok "Game files extracted ($COUNT files in build/disc/files/)"
+        ok "CCE game files extracted ($COUNT files in build/disc/files/)"
     else
-        miss "Game files not extracted (run ./setup.sh)"
+        miss "CCE game files not extracted (run ./setup.sh)"
+    fi
+
+    # DUSA disc image + extracted files (optional, for transplant)
+    DUSA_DIR="$PROJ_ROOT/external_resources/Daytona USA (USA)"
+    if [ -d "$DUSA_DIR" ]; then
+        ok "DUSA disc image: external_resources/Daytona USA (USA)/"
+        if [ -d "$PROJ_ROOT/build/disc_dusa/files" ] && [ "$(ls -A "$PROJ_ROOT/build/disc_dusa/files" 2>/dev/null)" ]; then
+            COUNT=$(ls "$PROJ_ROOT/build/disc_dusa/files" | wc -l | tr -d ' ')
+            ok "DUSA game files extracted ($COUNT files in build/disc_dusa/files/)"
+        else
+            warn "DUSA game files not extracted (run ./setup.sh)"
+        fi
+    else
+        warn "DUSA disc image not found (optional — needed for transplant mod)"
     fi
 
     # Toolchain

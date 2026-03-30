@@ -31,6 +31,11 @@ OUTPUT_DIR = os.path.join(PROJDIR, 'build', 'disc')
 OUTPUT_ISO = os.path.join(OUTPUT_DIR, 'daytona_cce_data.iso')
 OUTPUT_FILES = os.path.join(OUTPUT_DIR, 'files')
 
+DUSA_INPUT = os.path.join(PROJDIR, 'external_resources', 'Daytona USA (USA)')
+DUSA_OUTPUT_DIR = os.path.join(PROJDIR, 'build', 'disc_dusa')
+DUSA_OUTPUT_ISO = os.path.join(DUSA_OUTPUT_DIR, 'daytona_usa_data.iso')
+DUSA_OUTPUT_FILES = os.path.join(DUSA_OUTPUT_DIR, 'files')
+
 
 def convert_bin_to_iso(bin_path, iso_path):
     """Convert MODE1/2352 BIN to standard 2048-byte ISO."""
@@ -238,7 +243,7 @@ def main():
 
     # List extracted files and identify the main binary
     print("=" * 44)
-    print("Extraction complete!")
+    print("CCE extraction complete!")
     print()
     print(f"  Location: {OUTPUT_FILES}")
     print()
@@ -247,6 +252,52 @@ def main():
         size = os.path.getsize(os.path.join(OUTPUT_FILES, f))
         print(f"  {f}  ({size} bytes)")
     print()
+
+    # ── DUSA (Daytona USA '95) extraction ──────────────────────────
+
+    if os.path.isdir(DUSA_INPUT):
+        print()
+        print("Daytona USA '95 - Disc Image Extractor")
+        print("=" * 44)
+        print()
+
+        dusa_data_track = os.path.join(DUSA_INPUT, 'Daytona USA (USA) (Track 01).bin')
+        if not os.path.isfile(dusa_data_track):
+            print(f"  SKIP: DUSA data track not found: {dusa_data_track}")
+        else:
+            os.makedirs(DUSA_OUTPUT_DIR, exist_ok=True)
+
+            if os.path.isfile(DUSA_OUTPUT_ISO) and not args.force:
+                print(f"  DUSA ISO already exists, skipping conversion")
+            else:
+                print("  Converting MODE1/2352 -> 2048 bytes/sector...")
+                print()
+                if not convert_bin_to_iso(dusa_data_track, DUSA_OUTPUT_ISO):
+                    print("  WARNING: DUSA conversion failed, skipping")
+                else:
+                    print()
+
+            if os.path.isdir(DUSA_OUTPUT_FILES) and os.listdir(DUSA_OUTPUT_FILES) and not args.force:
+                print(f"  DUSA files already extracted: {DUSA_OUTPUT_FILES}")
+            elif os.path.isfile(DUSA_OUTPUT_ISO):
+                print("  Extracting DUSA ISO 9660 filesystem...")
+                print()
+                extract_iso_filesystem(DUSA_OUTPUT_ISO, DUSA_OUTPUT_FILES)
+
+            if os.path.isdir(DUSA_OUTPUT_FILES):
+                print()
+                print(f"  DUSA Location: {DUSA_OUTPUT_FILES}")
+                print()
+                dusa_extracted = [f for f in os.listdir(DUSA_OUTPUT_FILES)
+                                  if os.path.isfile(os.path.join(DUSA_OUTPUT_FILES, f))]
+                for f in sorted(dusa_extracted):
+                    size = os.path.getsize(os.path.join(DUSA_OUTPUT_FILES, f))
+                    print(f"  {f}  ({size} bytes)")
+                print()
+    else:
+        print(f"  DUSA disc not found at: {DUSA_INPUT}")
+        print(f"  (Optional — needed for transplant mod)")
+        print()
 
 
 if __name__ == '__main__':
