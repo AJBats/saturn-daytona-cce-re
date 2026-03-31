@@ -237,7 +237,7 @@ matter for the transplant.
 - **TOOLS**: call_trace, input_playback
 - **UNBLOCKS**: Identifying the init-time caller chain for COL readers.
 
-### 44. Observe init-time COL reader callers
+### 44. Observe init-time COL reader callers -- RESOLVED
 
 - **WHY**: Once we know the callers from priority 43, we need to
   understand what they compute. Are they building spatial indices?
