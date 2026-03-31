@@ -248,7 +248,7 @@ matter for the transplant.
 - **TOOLS**: breakpoint, mem_profile, sample_memory
 - **UNBLOCKS**: Understanding if init COL readers affect racing behavior.
 
-### 45. Determine init COL reader impact on transplant
+### 45. Determine init COL reader impact on transplant -- RESOLVED
 
 - **WHY**: The game doesn't crash despite reading DUSA data as CCE
   polygons. We need to know if this causes subtle bugs (wrong terrain

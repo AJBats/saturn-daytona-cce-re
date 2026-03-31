@@ -71,3 +71,4 @@ FUN_0602A9F0	1	1	1	call_count_race_idle PASS (0-1 calls, within tolerance). BLK 
 FUN_0602A958	1	1	1	call_count_race_idle PASS (1 call). Direction-of-travel detector (forward/reverse via atan2).
 col_init_readers	3	3	1	init_path_dominant PASS (structural), two_parallel_paths PASS (architectural), ai_init_reads_col PASS (structural). Call graph analysis of init-time COL readers.
 FUN_0603C6A0	1	1	1	call_count manual (300 total during loading, not per-frame). Dominant init-time COL reader via FUN_060351CC.
+col_init_impact	1	1	1	Structural comparison PASS. 1/118 fields suspicious (+0x1B0, 65x magnitude diff). Minimal init COL reader impact on transplant.
