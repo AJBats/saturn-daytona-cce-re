@@ -60,6 +60,11 @@ save_states:
     inputs: []
     frames: 5000
     notes: "AI-only demo race, no player input, 5000+ frames available"
+  transplant_car_select:
+    file: build/save_states/cce_transplant_car_select.mc0
+    inputs: []
+    notes: "Transplant mod disc (DUSA COL data). Car select screen, Three Seven. Cold booted."
+    disc: "build/disc/rebuilt_disc/daytona_cce_rebuilt.cue"
 
 struct_map_path: workstreams/driving_model/struct_map.md
 

@@ -135,3 +135,28 @@ Frame 0 = save state load. Inputs applied at frame 2.
 - **Best for**: Testing which functions fire during AI-only racing, confirming
   attract mode reachability of race module functions
 - **Avoid for**: Player input response tests (no player car), throttle/brake observations
+
+## cce_transplant_car_select.mc0
+
+- **Mode**: Car select screen
+- **Course**: Three Seven Speedway selected
+- **Speed**: N/A
+- **Position**: N/A
+- **Transmission**: N/A
+- **Location**: Car select, Three Seven already chosen
+- **Disc**: Transplant mod (build/disc/rebuilt_disc/daytona_cce_rebuilt.cue)
+  - DUSA waypoint + segment data embedded in CS0_COL.BIN dense body
+  - All transplant mod NOPs active in race module
+- **Known constraints**:
+  - MUST boot with transplant mod disc (save state restores RAM but disc
+    reads come from whatever CUE is loaded in Mednafen)
+  - Cold booted — no prior save state loaded
+  - From here, pressing START enters race loading → rolling start → GO
+  - Approximate landmarks (NOT precise, user-observed):
+    - ~frame 691: loading screen fades to black (loading done or nearly done)
+    - ~frame 980: game graphics fading in (start of rolling start visual)
+    - ~frame 1852: after GO signal (active racing begins)
+  - Total sequence car select → active racing: ~1900 frames
+- **Best for**: Observing COL data reads during track loading and rolling
+  start init sequence, testing what reads DUSA data where CCE data is expected
+- **Avoid for**: In-race observations (COL readers are NOPped during racing)
