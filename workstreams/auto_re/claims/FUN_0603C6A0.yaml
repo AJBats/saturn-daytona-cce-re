@@ -1,0 +1,13 @@
+function: FUN_0603C6A0
+address: 100910752
+function_end: 100910998
+source_file: src/race/FUN_0603C304.s
+claims:
+- id: call_count_transplant_car_select
+  description: FUN_0603C6A0 called 300 times/frame in transplant_car_select
+  type: call_count_per_frame
+  function: FUN_0603C6A0
+  address: 100910752
+  scenario: transplant_car_select
+  expected_count: 300
+  tolerance: 30
