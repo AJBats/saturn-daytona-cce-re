@@ -201,6 +201,46 @@ it, leave it alone, or surgically modify it for the transplant.
   triggers the cell traversal system which updates track graphics.
   BLK data stays intact and untouched.
 
+### Phase 4c: COL init-time reader investigation — IN PROGRESS
+
+**Goal**: Fully reverse engineer the loading sequence that reads from the
+COL data memory region (0x00220000-0x0023C000) during track loading.
+Our transplant mod eliminates all COL reads during racing (0 reads across
+632 frames), but mem_read_profile from car select through rolling start
+captured 32.8 million reads — the game's init/loading code hammers the
+COL region before the race NOPs take effect.
+
+Despite reading DUSA waypoint data where it expects CCE polygon records,
+the game doesn't crash and races fine. We need to understand WHY:
+- What are these init readers computing?
+- Are their outputs consumed during racing, or are they dead after init?
+- Could incorrect init computation cause subtle bugs we haven't noticed?
+- Can we safely ignore these reads, or do we need to NOP/stub them too?
+
+**Known init-time COL readers** (from mem_read_profile, car select → GO):
+
+| Function | Reads | Region | Notes |
+|----------|------:|--------|-------|
+| FUN_06036990 | 29M | dense | Point-in-polygon. NOPped during racing but fires during init |
+| FUN_06036A0E | 3.6M | dense | Property reader. Same — NOPped during racing, active during init |
+| INIT 0x06007DF0 | 84K | both | Init module grid setup |
+| FUN_06028000 (via 0x06028D54) | 77K | both | Race entry bulk scan |
+| FUN_06028DCA | 1.2K | dense | Unknown, in race entry TU |
+| FUN_060368D4 | 470 | header | Grid hash |
+| FUN_0602D270 | 1 | dense | Single read |
+
+**Key finding**: FUN_06036990 and FUN_06036A0E (the spatial lookup chain)
+fire 32M+ times during init despite being NOPped in FUN_06037E28. This
+means they have a DIFFERENT caller during the loading sequence — not
+through FUN_06037E28 at all. Need to map the full call graph from the
+init-time entry point to understand this parallel call path.
+
+**Investigation plan**:
+- Capture call trace during the loading sequence (car select → GO)
+- Map the full call graph to find all paths into the COL reader chain
+- Observe each init-time caller to understand what it computes
+- Determine if the outputs affect racing or are init-only artifacts
+
 ### Phase 5: Document the transplant specification — NOT STARTED
 Input contract, output contract, cut lines, compatibility risks.
 compatibility_matrix.md is the draft. transplant_proposal.md has the

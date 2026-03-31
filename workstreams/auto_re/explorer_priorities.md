@@ -214,6 +214,53 @@ and the mechanism by which COURSE*.MDL rendering depends on BLK data.
 - **UNBLOCKS**: Final determination of whether BLK can coexist with DUSA
   physics or needs replacement/modification.
 
+---
+
+## Phase 4c: COL Init-Time Reader Investigation
+
+**Updated**: 2026-03-31
+
+**Goal**: Map the full call graph of init-time COL readers. Understand
+why FUN_06036990 fires 29M times during loading despite being NOPped
+during racing. Find the parallel call path and determine if the outputs
+matter for the transplant.
+
+### 43. Call graph capture: loading sequence (car select → GO)
+
+- **WHY**: 32.8M COL reads during loading, but 0 during racing. The
+  spatial lookup chain (FUN_06036990/FUN_06036A0E) has a different
+  caller during init than during racing. We need to find that caller.
+- **WHAT**: Load transplant_car_select save state on transplant mod disc.
+  Capture call_trace from car select through loading to GO signal.
+  Map full call graph with focus on paths into FUN_06036A70.
+- **SCENARIO**: transplant_car_select (input: START to begin race)
+- **TOOLS**: call_trace, input_playback
+- **UNBLOCKS**: Identifying the init-time caller chain for COL readers.
+
+### 44. Observe init-time COL reader callers
+
+- **WHY**: Once we know the callers from priority 43, we need to
+  understand what they compute. Are they building spatial indices?
+  Precomputing terrain data? Populating caches?
+- **WHAT**: auto_re observation on each init-time caller. What does
+  it read from COL? What does it write? Where do the outputs go?
+- **SCENARIO**: transplant_car_select or pre_rolling_start
+- **TOOLS**: breakpoint, mem_profile, sample_memory
+- **UNBLOCKS**: Understanding if init COL readers affect racing behavior.
+
+### 45. Determine init COL reader impact on transplant
+
+- **WHY**: The game doesn't crash despite reading DUSA data as CCE
+  polygons. We need to know if this causes subtle bugs (wrong terrain
+  height init, incorrect spatial indices, stale cache values) or if
+  the outputs are truly unused during racing.
+- **WHAT**: Compare racing behavior between retail disc and transplant
+  mod disc. Look for differences in terrain response, collision, surface
+  detection during the first few seconds of racing.
+- **SCENARIO**: Side-by-side comparison
+- **TOOLS**: sample_memory on car struct fields across both builds
+- **UNBLOCKS**: Decision on whether to NOP init COL readers or leave them.
+
 ### 38. Compare CCE BLK with DUSA track data structure (DEFERRED)
 
 - Deferred until Phase 4b completes. We need to understand what BLK does
