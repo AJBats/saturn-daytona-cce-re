@@ -1,0 +1,21 @@
+# col_init_readers — manually authored claims
+# Call graph analysis, not a single function — claims are structural
+
+function: col_init_readers
+source: workstreams/auto_re/observations/col_init_readers_obs.md
+
+claims:
+  - id: init_path_dominant
+    type: call_chain
+    description: "FUN_060351CC -> FUN_0603C6A0 -> FUN_06036AA8 is the dominant init-time path into COL readers (300/470 calls to FUN_06036AA8)"
+    evidence: "call_trace during 2000 frames of loading sequence, grep for 06036AA8 callers"
+
+  - id: two_parallel_paths
+    type: architectural
+    description: "Two parallel paths into FUN_06036AA8: racing via FUN_060384C4 (NOPped), loading via FUN_060351CC/FUN_0603C6A0 (NOT NOPped)"
+    evidence: "Racing mem_read_profile = 0 COL reads. Loading mem_read_profile = 32.8M reads. Same COL reader functions, different callers."
+
+  - id: ai_init_reads_col
+    type: call_chain
+    description: "FUN_0603EAAA calls FUN_06036AA8 160x during loading for AI car spatial initialization"
+    evidence: "call_trace grep: 80 calls from PC 0x0603EB16, 80 from 0x0603EB9C"
