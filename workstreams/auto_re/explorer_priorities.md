@@ -225,7 +225,7 @@ why FUN_06036990 fires 29M times during loading despite being NOPped
 during racing. Find the parallel call path and determine if the outputs
 matter for the transplant.
 
-### 43. Call graph capture: loading sequence (car select -> GO)
+### 43. Call graph capture: loading sequence (car select -> GO) -- RESOLVED
 
 - **WHY**: 32.8M COL reads during loading, but 0 during racing. The
   spatial lookup chain (FUN_06036990/FUN_06036A0E) has a different
