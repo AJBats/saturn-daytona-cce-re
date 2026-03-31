@@ -421,6 +421,18 @@ experiments:
     result: "First attempt: rts;nop at 0x0603FAA8 only — no visible effect. BLK read profile showed reads still occurring at 0x0603FB04/FB0C/FBB0 (mid-function PCs). A mid-function entry point at 0x0603FAEA (FUN_0603FAA8+0x42) bypasses the entry rts. Second attempt: rts;nop at BOTH 0x0603FAA8 AND 0x0603FAEA — game hangs immediately. Stuck on 1 frame, audio continues (sound CPU independent). BLK reads from this function drop to 0 (verified by read profile: 235 total reads remaining, all from other functions)."
     conclusion: "FUN_0603FAA8 is essential for the game loop — cutting it hangs the main CPU. Has a mid-function entry at +0x42 used by callers in the same TU. NOT just a BLK data reader — it performs computation that the game loop depends on to advance frames. No AI impact observed when only the main entry was NOPped (mid-entry kept it running)."
 
+  - function: FUN_06036AA8
+    field: "rts;nop at entry (COL spatial lookup gateway)"
+    patch_addr: "0x06036AA8"
+    patch_method: "rts;nop at entry (00 0B 00 09)"
+    patch_verified: true
+    patch_bytes_original: "25 F8 00 EC"
+    scenario: transplant_car_select
+    prediction: "Init-time COL reads eliminated. Game loads and races normally since the spatial index built from garbage DUSA data is equivalent to no index at all."
+    status: confirmed
+    result: "Rolling start played back slow (same as without NOP — no change from baseline transplant mod behavior). COL reads reduced from 32.8M to 19.6M (40% reduction). FUN_06036990 reads per PC dropped from 1.81M to 1.08M. The remaining 19.6M reads come through another call path not through FUN_06036AA8."
+    conclusion: "FUN_06036AA8 NOP eliminates ~13M COL reads from the init callers (FUN_0603C6A0, FUN_0603EAAA, FUN_06036B6E). But another caller path still produces 19.6M reads — FUN_06036A70 is called from somewhere else during loading that we haven't identified."
+
   - function: FUN_060384C4
     field: "corner geometry struct @R9 (0x060525FC)"
     patch_addr: "0x06038536"
