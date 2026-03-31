@@ -112,7 +112,7 @@ only FUN_0603CDD8 fires (attract mode only). See git history for details.
 
 - **Result**: Write watchpoint on 0x06052250 (car +0x04, Y position)
   fired at PC=0x060389B0 in FUN_060386D8 during Dino Canyon driving.
-  Y decreases as car drives downhill (0x28F→0x28B).
+  Y decreases as car drives downhill (0x28F->0x28B).
 - **Key finding**: FUN_060386D8 reads terrain height FROM the BLK segment
   data via car struct +0x154 (same pointer as FUN_06038A84). It samples
   4 corner heights from the segment structure, averages them, and writes
@@ -225,7 +225,7 @@ why FUN_06036990 fires 29M times during loading despite being NOPped
 during racing. Find the parallel call path and determine if the outputs
 matter for the transplant.
 
-### 43. Call graph capture: loading sequence (car select → GO)
+### 43. Call graph capture: loading sequence (car select -> GO)
 
 - **WHY**: 32.8M COL reads during loading, but 0 during racing. The
   spatial lookup chain (FUN_06036990/FUN_06036A0E) has a different
