@@ -201,7 +201,7 @@ it, leave it alone, or surgically modify it for the transplant.
   triggers the cell traversal system which updates track graphics.
   BLK data stays intact and untouched.
 
-### Phase 4c: COL init-time reader investigation — IN PROGRESS
+### Phase 4c: COL init-time reader investigation — COMPLETE
 
 **Goal**: Fully reverse engineer the loading sequence that reads from the
 COL data memory region (0x00220000-0x0023C000) during track loading.
