@@ -430,8 +430,8 @@ experiments:
     scenario: transplant_car_select
     prediction: "Init-time COL reads eliminated. Game loads and races normally since the spatial index built from garbage DUSA data is equivalent to no index at all."
     status: confirmed
-    result: "Rolling start played back slow (same as without NOP — no change from baseline transplant mod behavior). COL reads reduced from 32.8M to 19.6M (40% reduction). FUN_06036990 reads per PC dropped from 1.81M to 1.08M. The remaining 19.6M reads come through another call path not through FUN_06036AA8."
-    conclusion: "FUN_06036AA8 NOP eliminates ~13M COL reads from the init callers (FUN_0603C6A0, FUN_0603EAAA, FUN_06036B6E). But another caller path still produces 19.6M reads — FUN_06036A70 is called from somewhere else during loading that we haven't identified."
+    result: "Rolling start played back slow (same as without NOP — no change from baseline transplant mod behavior). COL reads measured at 19.6M but user stopped rolling start early, so NOT comparable to the 32.8M baseline (which ran to completion). The reduction percentage is NOT valid. What IS valid: COL reads still occur (FUN_06036990 PCs still active), meaning another call path into FUN_06036A70 exists beyond FUN_06036AA8."
+    conclusion: "FUN_06036AA8 NOP did not crash or change behavior. COL reads still occur through an unidentified caller path. Rolling start slowdown unchanged."
 
   - function: FUN_060384C4
     field: "corner geometry struct @R9 (0x060525FC)"
