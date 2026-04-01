@@ -431,7 +431,7 @@ experiments:
     prediction: "Init-time COL reads eliminated. Game loads and races normally since the spatial index built from garbage DUSA data is equivalent to no index at all."
     status: confirmed
     result: "Rolling start played back slow (same as without NOP — no change from baseline transplant mod behavior). COL reads measured at 19.6M but user stopped rolling start early, so NOT comparable to the 32.8M baseline (which ran to completion). The reduction percentage is NOT valid. What IS valid: COL reads still occur (FUN_06036990 PCs still active), meaning another call path into FUN_06036A70 exists beyond FUN_06036AA8."
-    conclusion: "FUN_06036AA8 NOP did not crash or change behavior. COL reads still occur through an unidentified caller path. Rolling start slowdown unchanged."
+    conclusion: "FUN_06036AA8 NOP did not crash or change behavior. COL reads still occur through an unidentified caller path. Rolling start slowdown unchanged. FUN_06036A70 (downstream) is the correct cut point — see FUN_06036A70 experiment."
 
   # --- Phase 4c: Init-time COL reader NOP tests ---
 
@@ -443,7 +443,10 @@ experiments:
     patch_bytes_original: "25 F8 00 F8"
     scenario: transplant_car_select
     prediction: "ALL init-time COL reads eliminated. If rolling start slowdown is caused by COL reads, it should play at normal speed. Game may crash if init code depends on the spatial lookup results."
-    status: proposed
+    status: confirmed
+    result: "Rolling start plays at NORMAL SPEED. Game boots and races fine. COL reads reduced from 32.8M to 164K (99.5% eliminated). Remaining 164K reads are from init module grid setup (84K) and race entry bulk scan (77K) — neither goes through FUN_06036A70. Implemented as permanent mod in mods/transplant/race/FUN_06036A70.s."
+    conclusion: "FUN_06036A70 is the correct cut point for eliminating COL spatial lookups. The rolling start slowdown was caused by the init code processing DUSA waypoint data through the polygon spatial lookup chain — 32.8M reads of wrong-format data. Cutting the lookup fixes the slowdown completely. The remaining 164K init reads (grid setup + bulk scan) don't cause visible issues."
+    name: col_spatial_lookup_kill
 
   - function: INIT_06007DF0
     field: "rts;nop at entry (init module grid setup — 84K COL reads)"

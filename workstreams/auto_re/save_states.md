@@ -147,6 +147,7 @@ Frame 0 = save state load. Inputs applied at frame 2.
 - **Disc**: Transplant mod (build/disc/rebuilt_disc/daytona_cce_rebuilt.cue)
   - DUSA waypoint + segment data embedded in CS0_COL.BIN dense body
   - All transplant mod NOPs active in race module
+  - FUN_06036A70 rts;nop (COL spatial lookup kill) included
 - **Known constraints**:
   - MUST boot with transplant mod disc (save state restores RAM but disc
     reads come from whatever CUE is loaded in Mednafen)
