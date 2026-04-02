@@ -28,6 +28,10 @@ OUTPUT_DIR = os.path.join(PROJDIR, 'build', 'mods', 'transplant', 'disc', 'DAYTO
 
 COL_HEADER_SIZE = 0x8000
 
+# Set True to zero the dense body instead of embedding DUSA data.
+# Use for poke-drive testing where zeros are a cleaner signal.
+ZERO_BODY_ONLY = False
+
 # Per-course extraction specs:
 #   col_file:      CCE COL file (provides header + file size)
 #   line_file:     DUSA LINE file (contains waypoint + segment tables)
@@ -126,9 +130,13 @@ def main():
             print('  SKIP  %-16s  (CCE COL not found)' % spec['col_file'])
             continue
 
-        if not os.path.isfile(line_src):
-            print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
-                  % (spec['col_file'], spec['line_file']))
+        if ZERO_BODY_ONLY or not os.path.isfile(line_src):
+            if ZERO_BODY_ONLY:
+                print('  NOTE  %-16s  (ZERO_BODY_ONLY=True — zeroing body for testing)'
+                      % spec['col_file'])
+            else:
+                print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
+                      % (spec['col_file'], spec['line_file']))
             size = gen_zeroed_col(col_src, dst_path)
             print('  OK    %-16s  %d bytes (header preserved, body zeroed)'
                   % (spec['col_file'], size))
