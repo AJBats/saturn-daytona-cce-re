@@ -65,23 +65,107 @@ The March attempt was blind. Since then:
 
 ## Inventory
 
-Every function currently NOPped in the transplant mod. Populated from
-ground truth (the actual `.s` files in
-[mods/transplant/race/](../../mods/transplant/race/)) before removal
-begins. Not from README.md or hollowing_experiments.md, which may
-have drifted.
+Populated 2026-04-11 from ground truth — the mod files in
+[mods/transplant/race/](../../mods/transplant/race/) and the TU
+files they NOP into in [src/race/](../../src/race/).
 
-| Function | Source file | Bytes | NOP style | Candidate? | Notes |
-|----------|-------------|------:|-----------|:----------:|-------|
-| _TBD_    |             |       |           |            |       |
+### Mod files (caller-side modifications, already in the mod)
 
-Legend:
-- **NOP style**: `rts;nop` (function body replaced with early return),
-  `call-site-NOP` (body intact, all call sites in caller NOPped),
-  `body-NOP` (instructions inside function replaced with nops),
-  `shrunk` (partial body already removed via delete_function.py).
-- **Candidate?**: whether the function is a deletion target. "No"
-  means something still calls it (static or empirical evidence).
+These files live in the transplant mod and are themselves **not**
+removal candidates — they are the callers that NOP out their own call
+sites. They stay in the mod at full size because their surviving
+bodies are live.
+
+| File | Bytes | Role | Modifications |
+|------|------:|------|---------------|
+| [FUN_06037E28.s](../../mods/transplant/race/FUN_06037E28.s) | 27,797 | Player master orchestrator (per-car state machine) | 79 call-site NOPs across 10 case branches |
+| [FUN_06028000.s](../../mods/transplant/race/FUN_06028000.s) | (full TU) | Race module entry — master per-frame dispatcher | 2 call-site NOPs killing FUN_0603976C at 0x06028744 + 0x06028BC6. Restored 2026-04-11 from commit b761f720 (lost in the callcut → transplant consolidation). |
+| [FUN_06034904.s](../../mods/transplant/race/FUN_06034904.s) | 27,834 | State-machine helper (contains FUN_060351CC among others) | 1 call-site NOP (heading lookup via DAT_06038A82) |
+| [FUN_0603C304.s](../../mods/transplant/race/FUN_0603C304.s) | 34,207 | TU containing FUN_0603C5CC (init callback chain) | 1 `rts` gate at FUN_0603C5CC entry (line 404) |
+| [FUN_0603DF28.s](../../mods/transplant/race/FUN_0603DF28.s) | 43,072 | Position integrator TU (init→race path) | 3 `rts` gates at lines 616, 654, 1019 |
+| [FUN_06036A70.s](../../mods/transplant/race/FUN_06036A70.s) | 1,031 | COL spatial lookup driver | `rts;nop` at function entry (full body dead below) |
+| [FUN_060384C4.c](../../mods/transplant/race/FUN_060384C4.c) | 5,060 | C rewrite replacing the 1,287-line FUN_060384C4.s TU | Live: FUN_060384C4, FUN_06038C64. Stub returns: FUN_060385CE, FUN_060386D8, FUN_06038A82, FUN_06038A84, FUN_06038BC4, FUN_06038BCC. Savings from this rewrite are already realized. |
+
+### Removal candidates (dead functions NOT yet removed from the binary)
+
+These TUs live in [src/race/](../../src/race/) and are pulled
+unchanged into the transplant build. Each contains one or more
+functions reachable **only** from NOPped call sites above. They
+are the byte opportunity.
+
+| Candidate | Containing TU | TU lines | Status | Notes |
+|-----------|---------------|---------:|--------|-------|
+| FUN_0604D380 + 18 sub-functions (player physics dispatcher) | [FUN_0604D380.s](../../src/race/FUN_0604D380.s) | 8,649 | **Empirically dead** (0 BP hits through boot + menus + rolling start + GO, 2026-04-11) | **Biggest prize.** Retail call graph shows two caller paths: FUN_060352E8 (via E28's NOPped `jsr @r9`) AND FUN_06038DD8 → FUN_0604D380. The second path was a surprise — FUN_06038DD8 fires per-frame via FUN_06028000/FUN_0603976C, but internally the conditional that reaches FUN_0604D380 is never taken in the current mod. Verified with commit 4e0d84a4 applied. |
+| FUN_0603976C (AI-player collision) | [FUN_06038DD8.s](../../src/race/FUN_06038DD8.s) (lines 1424+) | ~455 lines of TU tail | **Empirically dead** after 4e0d84a4 (0 BP hits, 2026-04-11) | Lives at the TAIL of the FUN_06038DD8.s TU. Can be deleted with `delete_function.py` without touching the earlier live functions in the same TU. Est. 1.5–2 KB. |
+| FUN_06037658 (collision response) + 15 siblings | [FUN_06036CF8.s](../../src/race/FUN_06036CF8.s) | 2,533 | **Likely dead, unverified** | 4× `jsr @r10` NOPs in E28 kill the main caller. Retail graphs show a rare FUN_060351CC → FUN_06036CF8 edge (1 hit in pre_rolling_start, 1 in pre_attract). Needs BP verification before deletion. |
+| FUN_06036BB8 + FUN_06036BC6 (surface polygon lookup) | [FUN_06036BB8.s](../../src/race/FUN_06036BB8.s) | 185 | **Likely dead, unverified** | **Smallest candidate → safest first deletion target.** Retail callers: FUN_06037E28 (31 NOPped jsr @r12 sites) and FUN_0604D380 (now empirically dead). Both dead in current mod. Only 2 functions in TU. |
+| FUN_060352E8 mid-region (physics prologue) | [FUN_060351CC.s](../../src/race/FUN_060351CC.s) | 1,073 | Deferred | **NOT a whole-function delete.** FUN_060352E8 is `FUN_060351CC + 0x11C` — a mid-function label. Parent FUN_060351CC is still live. Removing the 0x11C-0x??? sub-region requires a function split or accepting this as unrecoverable. Defer. |
+| FUN_06036A70 body (after `rts;nop`) | [mods/transplant/race/FUN_06036A70.s](../../mods/transplant/race/FUN_06036A70.s) | 40 lines / 1031 bytes | Trivial trim | Dead below line 7. Maybe 60-100 bytes saved. |
+| FUN_0603C5CC body (after rts) | inside [FUN_0603C304.s](../../mods/transplant/race/FUN_0603C304.s) | part of 34,207-byte file | In-place shrink | Dead below the rts at line 404. Shrink in place; preserve live neighbors. |
+| FUN_0603DF28 sub-regions between 3 rts gates | [FUN_0603DF28.s](../../mods/transplant/race/FUN_0603DF28.s) | part of 43,072-byte file | In-place shrink | 3 dead sub-regions. Shrink in place; preserve live neighbors. |
+
+### NOT deletion candidates (proven live or caller miss)
+
+| Function | Why not | Source |
+|----------|---------|--------|
+| FUN_06038DD8 (head of its 1,879-line TU) | **Alive via init-only path** through FUN_060291E0 → FUN_06034D32 → ... → FUN_06038DD8. Only 2 hits per full run, but they happen during init and removing the function would crash loading. | Empirical breakpoint log 2026-04-11 |
+| FUN_06038DD8.s TU as a whole | Contains FUN_06038DD8 (live) plus siblings that may be reachable via the same init path. Can't nuke the TU wholesale — only shrink from the tail (FUN_0603976C) via `delete_function.py`. | Empirical breakpoint log 2026-04-11 |
+
+### Rough byte opportunity
+
+Updated 2026-04-11 after empirical BP validation.
+
+Confirmed-deletable (empirical 0 hits):
+- FUN_0604D380.s  ~ 8,649 lines ≈ **25-30 KB**
+- FUN_0603976C (tail of FUN_06038DD8.s TU) ~ 455 lines ≈ **1.5-2 KB**
+
+Likely-deletable (needs BP verification per function):
+- FUN_06036CF8.s  ~ 2,533 lines ≈ **7-9 KB**
+- FUN_06036BB8.s  ~ 185 lines ≈ **0.5-0.7 KB**
+
+Not deletable (alive):
+- ~~FUN_06038DD8.s TU~~ — 2 init-only hits confirmed
+
+Partial shrinks:
+- FUN_06036A70 tail, FUN_0603C5CC tail, FUN_0603DF28 gaps ≈ **~1-2 KB combined**
+
+**Revised confirmed-or-likely headroom**: **~34-43 KB** after
+full verification. Still lines up with transplant README's Memory
+Budget section ("~44KB confirmed permanent free HWR space"). Drop
+from ~40 KB estimate is because FUN_06038DD8.s TU is no longer
+wholly deletable — only its tail function FUN_0603976C is.
+
+### Known gotchas flagged during inventory
+
+1. **FUN_060384C4 has a live body** in the C rewrite. It is NOT a
+   removal candidate — it's still called by the TU head `FUN_06034904`
+   after the NOPped call site was added to the mod. The 6 stub functions
+   in the .c file exist for this reason.
+2. **FUN_060352E8 is a mid-function label**, not a standalone function.
+   `delete_function.py` cannot delete it directly. Its parent
+   FUN_060351CC is live. Deferred.
+3. **Grep for callers misses indirect pool-loaded calls.** The static
+   scan at inventory time concluded FUN_06038DD8 was dead through E28
+   cuts alone. Empirical BP testing proved it was reached ~358×/frame
+   via FUN_06028000 → FUN_0603976C through a pool-loaded jsr that no
+   string grep would find. The call graph captures in
+   [auto_re/call_graphs/](../auto_re/call_graphs/) are the authoritative
+   cross-module caller map — always cross-check there, not just grep.
+4. **The callcut → transplant consolidation lost a file.** FUN_06028000.s
+   had per-frame NOPs from commit b761f720 that were not carried forward
+   (they weren't in callcut because callcut used a different approach).
+   Restored 2026-04-11 in commit 4e0d84a4. Two other OLD transplant
+   edits were checked and found redundant via upstream callcut cuts
+   (see session log for 2026-04-11).
+5. **init module has zero cross-references** to any race-module
+   candidate on this list (verified via cross-module grep). This
+   eliminates the specific March 2026 failure mode ("init module
+   calls we didn't map"). Still verify empirically per function.
+6. **FUN_060386D8 in the .c stubs**: commit e5894dc5 claimed to
+   delete FUN_060386D8 from FUN_060384C4.s TU, but the function still
+   has a stub return in the C rewrite. The delete was of the
+   assembly body; the stub exists for symbol resolution. Likely a
+   non-issue but flagged for sanity on first removal.
 
 ## Verification protocol
 
