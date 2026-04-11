@@ -203,43 +203,68 @@ it, leave it alone, or surgically modify it for the transplant.
 
 ### Phase 4c: COL init-time reader investigation — COMPLETE
 
-**Goal**: Fully reverse engineer the loading sequence that reads from the
-COL data memory region (0x00220000-0x0023C000) during track loading.
-Our transplant mod eliminates all COL reads during racing (0 reads across
-632 frames), but mem_read_profile from car select through rolling start
-captured 32.8 million reads — the game's init/loading code hammers the
-COL region before the race NOPs take effect.
+**Starting problem**: mem_read_profile from car select → GO captured 32.8M
+reads on the COL region (0x00220000–0x0023C000). The game's init/loading
+code hammers the COL before our race-time NOPs take effect. Despite
+reading DUSA waypoint data where CCE polygon records are expected, the
+game doesn't crash.
 
-Despite reading DUSA waypoint data where it expects CCE polygon records,
-the game doesn't crash and races fine. We need to understand WHY:
-- What are these init readers computing?
-- Are their outputs consumed during racing, or are they dead after init?
-- Could incorrect init computation cause subtle bugs we haven't noticed?
-- Can we safely ignore these reads, or do we need to NOP/stub them too?
+**Resolution**:
 
-**Known init-time COL readers** (from mem_read_profile, car select → GO):
+1. **Racing-time entry path identified and cut.** FUN_06036990 and
+   FUN_06036A0E were firing 32M+ times during loading via FUN_06036A70
+   (the spatial lookup driver). That call path is separate from the
+   per-car FUN_06037E28 chain we'd already NOPped. Applied `rts;nop` at
+   [FUN_06036A70](mods/transplant/race/FUN_06036A70.s) — reduced reads
+   from 32.8M to 164K and fixed the rolling-start slowdown.
 
-| Function | Reads | Region | Notes |
-|----------|------:|--------|-------|
-| FUN_06036990 | 29M | dense | Point-in-polygon. NOPped during racing but fires during init |
-| FUN_06036A0E | 3.6M | dense | Property reader. Same — NOPped during racing, active during init |
-| INIT 0x06007DF0 | 84K | both | Init module grid setup |
-| FUN_06028000 (via 0x06028D54) | 77K | both | Race entry bulk scan |
-| FUN_06028DCA | 1.2K | dense | Unknown, in race entry TU |
-| FUN_060368D4 | 470 | header | Grid hash |
-| FUN_0602D270 | 1 | dense | Single read |
+2. **Remaining 164K reads characterized as three harmless chains**:
 
-**Key finding**: FUN_06036990 and FUN_06036A0E (the spatial lookup chain)
-fire 32M+ times during init despite being NOPped in FUN_06037E28. This
-means they have a DIFFERENT caller during the loading sequence — not
-through FUN_06037E28 at all. Need to map the full call graph from the
-init-time entry point to understand this parallel call path.
+   | Chain | Reads | Path | Verdict |
+   |-------|------:|------|---------|
+   | 1 — Grid analysis | 78K | FUN_06029E90 walks the spatial grid, finds 9/16-polygon-mass cell | Pure arithmetic, output writes to `0x06005100` struct, downstream consumers all NOPped |
+   | 2 — Init parser | 84K | FUN_06007D9E stream-parses the whole COL file, populates a descriptor struct | Output descriptor consumed by code paths we've killed or that tolerate garbage |
+   | 3 — Residual | 1.8K | FUN_06036AA8 reads 4 grid base pointers then calls the now-rts'd FUN_06036A70 | Dead-ended by the FUN_06036A70 cut |
 
-**Investigation plan**:
-- Capture call trace during the loading sequence (car select → GO)
-- Map the full call graph to find all paths into the COL reader chain
-- Observe each init-time caller to understand what it computes
-- Determine if the outputs affect racing or are init-only artifacts
+3. **Poke-drive test** ([col_body_poke_drive_test.md](workstreams/transplant/col_body_poke_drive_test.md)):
+   with `ZERO_BODY_ONLY=True`, drove the car through 8 track positions
+   by poking XYZ into the car struct. Track geometry and player car
+   rendered correctly at every position. **COL dense body is not
+   load-bearing for track/player rendering.**
+
+4. **Side effects observed but out of scope**:
+   - Drones show on minimap but don't draw as 3D sprites (COL-based spatial culling)
+   - Collidable cones lie on their sides (COL-based normal/placement)
+   - One-time XYZ snap-back event, not reproducible
+   - These are all collision/placement-driven and will be fed by DUSA
+     data once physics is transplanted.
+
+**What we took as free real estate**: the 80 KB COL dense body
+(`0x00228000`–`0x0023C000`). [gen_disc_data.py](mods/transplant/gen_disc_data.py)
+now embeds DUSA waypoint (784×16) + segment (147×4) tables = ~13 KB into
+that space with ~67 KB headroom. The first 32 KB header
+(`0x00220000`–`0x00227FFF`) is preserved verbatim from retail — zeroing
+it black-screens the game.
+
+**Known unknowns (parked)** — revisit only if a specific downstream
+symptom points here:
+
+- **Which specific bytes in the 32 KB COL header are load-bearing?**
+  Zeroing the whole header breaks boot; we did not bisect. If we ever
+  need the header space, bisect by halves.
+- **What descriptor struct does FUN_06007D9E populate, and who reads
+  it during racing?** If a DUSA physics transplant bug points at
+  stale COL-derived data, start here — trace `r5` (the descriptor
+  pointer) across the init call site.
+- **Does anything read `0x06005100` after init completes?** Chain 1's
+  output lands there. 8 race-module consumers were identified in
+  [col_init_liveness_plan.md](workstreams/transplant/col_init_liveness_plan.md).
+  If any fire during racing on retail and aren't in our NOP set,
+  that's a live consumer we haven't accounted for.
+- **Where does the drone culling / cone placement read COL from?**
+  Relevant once we wire DUSA — we'll need to either feed DUSA data
+  into the same read path, or NOP the readers and accept missing
+  drones/cones. Not urgent.
 
 ### Phase 5: Document the transplant specification — NOT STARTED
 Input contract, output contract, cut lines, compatibility risks.

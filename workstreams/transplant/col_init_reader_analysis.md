@@ -151,3 +151,54 @@ writer populates +0x1B0.
 If we NOP Chain 1 (FUN_06029E90): **~86K reads remaining** (file loading
 + residual). This is likely the floor without modifying the init module
 or removing CS0_COL.BIN from disc.
+
+---
+
+## Status: CLOSED (2026-04-11)
+
+Investigation parked after the poke-drive test
+([col_body_poke_drive_test.md](col_body_poke_drive_test.md)) proved the
+COL dense body is not required for track/player rendering. The 164K
+init-time reads are left in place — they're pure-arithmetic header/body
+walks whose outputs either land in NOPped consumers or tolerate garbage.
+
+### Correction to the Chain 2 description
+
+Earlier text above calls FUN_06007D9E a "scatter-copy / relocation table
+processor". On re-read of the assembly at
+[FUN_06007D9E.s](../../src/init/FUN_06007D9E.s) this is wrong — it's a
+**stream parser**, not a scatter-copy. It walks r14 (a stream-state
+struct whose buffer points at the loaded COL file) forward through
+sub-parsers at [FUN_06007C3A.s](../../src/init/FUN_06007C3A.s),
+[FUN_06007CBA.s](../../src/init/FUN_06007CBA.s), and
+[FUN_06007C72.s](../../src/init/FUN_06007C72.s), each returning a
+byte/word/dword read from the stream. Parsed fields are stored into a
+descriptor struct at `r12` (the second argument), which lives
+**somewhere outside the COL region** — so the reads on 0x00220000 are
+the COL file acting as source; the writes go elsewhere entirely. There
+is no "write to what it just read" paradox.
+
+### Known unknowns (parked — revisit only on specific downstream symptom)
+
+- **Header load-bearing bytes.** The first 32 KB
+  (0x00220000–0x00227FFF) can't be zeroed without black-screening
+  boot. We did not bisect to find which specific header bytes are
+  actually read before the zero breaks something. If we ever need the
+  header space for DUSA data, bisect by halves.
+- **Chain 2 descriptor consumers.** FUN_06007D9E writes parsed COL
+  fields into a caller-provided descriptor struct at `r5`/`r12`. We
+  did not trace who reads that struct during racing. If DUSA physics
+  transplant misbehaves in a way that smells like stale COL-derived
+  data, start here — trace r5 across the init call site.
+- **Chain 1 output at 0x06005100 live consumers.**
+  [col_init_liveness_plan.md](col_init_liveness_plan.md) lists 8
+  race-module functions that reference `sym_06005100`. They're
+  presumed NOPped or dead-branch, but no PC-filtered read watchpoint
+  test was run on retail to confirm. If Phase 5 hits a regression
+  around lap timing, wrong-way detection, or LOD, run that test.
+- **Drone culling / cone placement readers.** Poke-drive showed
+  drones missing and cones on their sides. These consumers live
+  somewhere in the code we haven't traced, probably a spatial query
+  that reads COL normals + polygon membership. Not urgent — they'll
+  get real data back when DUSA is wired in, or we NOP them and
+  accept the loss.
