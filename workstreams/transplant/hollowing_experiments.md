@@ -5,6 +5,12 @@ CCE's gameplay code can be removed while preserving rendering, sound, and
 system infrastructure. Goal: turn CCE into a model viewer that DUSA code
 drives.
 
+> **Physical removal** of the NOPped code — actually shrinking the
+> binary so DUSA code has space to land — is tracked separately in
+> [code_removal.md](code_removal.md). This doc is the historical record
+> of which cut levels produced which symptoms; code_removal.md is the
+> plan and progress log for turning NOPs into deleted bytes.
+
 ## Cut Levels Tested
 
 ### Level 1: 18 JSR NOPs inside FUN_0604D380 (mod: `transplant`)
