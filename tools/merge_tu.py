@@ -143,9 +143,10 @@ def merge_tu_group(group_name, group_data, dry_run=False, allow_no_refs=False):
     if functions[0] in ENTRY_FUNCTIONS:
         return False, "Entry function (special linker handling)"
 
-    # Skip already-merged groups (first file already has TU header)
+    # In batch mode, refuse to re-merge an already-merged head. Explicit --group
+    # (allow_no_refs=True) bypasses this so two merged TUs can be combined.
     first_path = os.path.join(SRC_DIR, f"{functions[0]}.s")
-    if os.path.exists(first_path):
+    if os.path.exists(first_path) and not allow_no_refs:
         with open(first_path, "r") as f:
             first_line = f.readline().strip()
         if first_line.startswith("/* TU:"):
@@ -243,6 +244,13 @@ def merge_tu_group(group_name, group_data, dry_run=False, allow_no_refs=False):
 
     for i, fn in enumerate(file_functions):
         lines = file_data[fn]
+
+        # Strip a pre-existing /* TU: ... */ header (and the blank line after it)
+        # so re-merging two already-merged TUs doesn't duplicate the banner.
+        if lines and lines[0].lstrip().startswith("/* TU:"):
+            lines = lines[1:]
+            if lines and not lines[0].strip():
+                lines = lines[1:]
 
         if i == 0:
             # First function: use its section directive and all content
