@@ -3,10 +3,6 @@ name: tu-detection
 description: Identify and merge Translation Unit (.c file) groupings in disassembled SH-2 code. Use when consolidating per-function .s files back into their original TU groupings, or when investigating cross-file relationships.
 ---
 
-# TU Detection — Race Module Lessons
-
-The race module went from 613 per-function .s files to ~43 TUs using these techniques. The splitter created the per-function files; we've been undoing that. Default state should always be "together" — splitting requires positive evidence.
-
 ## Two-part proof model
 
 A TU merge needs BOTH:
@@ -56,43 +52,10 @@ python tools/detect_tu_groups.py --json out.json
 
 For the fall-through check: scan each .s file's last function for `rts`/`jmp`. If absent, it falls through.
 
-## Merge process
-
-1. **Verify contiguity** — list all files in the proposed address range, flag interlopers.
-2. **Check fall-through** at the end of each candidate file before deciding merge order.
-3. **Concatenate** — first file keeps `.section`, others skip it. Strip OLD `/* TU: ... */` headers (both single-line and multi-line).
-4. **Convert intra-section `.reloc R_SH_IND12W`** to direct `bsr`/`bra`. **MUST do this** — binutils 2.42 sh-elf-as has a bug that corrupts intra-section R_SH_IND12W addends. Handle the case where a label sits BETWEEN the `.reloc` and the `.2byte` (script must skip labels when finding the matching `.2byte`).
-5. **Check duplicate local labels** — `.L_bsrf_return` etc. collide when two formerly-separate files used the same generic label. Address-suffix rename one (`.L_bsrf_return_0604XXXX`).
-6. **Delete partner files**.
-7. **Validate** — `python tools/validate_build.py` reads ALL THREE classes (free, retail, +4 shift boot test). **Read FULL output, never tail/head/grep.**
-
 ## Mid-function entry points
 
 Some Ghidra-discovered functions don't have `FUN_XXXX:` labels in any .s file. They're addresses inside larger function bodies that Ghidra treated as separate functions. Check the linker scripts (race.ld, race_free.ld) for `PROVIDE(DAT_XXXXXXXX = FUN_BASE + offset)` aliases — those are mid-entry points handled correctly.
 
-## Overgrouping is cheap
+## The analysis doesnt stop here
 
-There's no real downside to merging too aggressively. The validation pipeline catches actual breakage (duplicate labels, missing `.global`). Worst case is a slightly lumpy source file. Under-grouping leaves real technical debt (cross-section refs that break under non-uniform shifts).
-
-If in doubt: merge. Validate. Split later if better evidence emerges.
-
-## Reverse the workflow on new projects
-
-The whole TU consolidation effort exists because the splitter created per-function .s files. **Don't do that.** Start with one big .s file per binary. Only split when there's strong evidence of a TU boundary (e.g., contiguous block with no internal cross-references, fall-through patterns absent at the boundary, distinct code style change).
-
-Default state = "together." Splitting requires positive evidence.
-
-## Common pitfalls
-
-- **Filtering build output** — never `tail -N` or `grep` `validate_build.py` or `make` output. Read it all. Important info appears anywhere in the output.
-- **Multi-line TU comment stripping** — `/* TU: ... */` can be multi-line. Don't accidentally eat the `.global FUN_X` / `.type` / `FUN_X:` lines that follow. If in doubt, only strip single-line `/* TU: ... */` and rely on `.section` removal for the rest.
-- **Reloc conversion regex** — must skip intervening labels (`.L_XXXX:`, `FUN_XXXX:`) between `.reloc` and `.2byte`.
-
-## Validation gate
-
-Every merge MUST pass:
-- Class 1: free build (zero-shift, byte-identical to retail) — 8/8 modules
-- Class 2: retail build — 8/8 modules
-- Class 3: race +4 shift disc + boot test — pixel-comparison against golden screenshot
-
-If any class fails, don't commit. Diagnose and fix.
+The list of techniques in this skill is not exhaustive. Use them as a starting point, but always be on the lookout for new patterns and signals as you investigate the codebase. The more you understand the compiler's behavior and the code structure, the better you'll get at identifying TU groupings.
