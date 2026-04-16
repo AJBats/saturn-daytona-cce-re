@@ -119,7 +119,7 @@ def find_existing_label(lines, line_idx):
     return None
 
 
-def merge_tu_group(group_name, group_data, dry_run=False):
+def merge_tu_group(group_name, group_data, dry_run=False, allow_no_refs=False):
     """Merge a TU group's .s files into a single file.
 
     Concatenates function .s files into one shared section. Cross-section
@@ -135,7 +135,7 @@ def merge_tu_group(group_name, group_data, dry_run=False):
     if len(functions) < 2:
         return False, "Single-function group, nothing to merge"
 
-    if not cross_refs:
+    if not cross_refs and not allow_no_refs:
         return False, "No cross-section refs to fix"
 
     # Entry functions have special linker handling (pinned sections) — skip
@@ -338,7 +338,9 @@ def main():
 
     for gk, g in groups_to_merge:
         print(f"TU {gk} ({g['size']} functions, {len(g['cross_refs'])} refs):")
-        ok, msg = merge_tu_group(gk, g, dry_run=dry_run)
+        # Explicit --group requests bypass the pool-ref guard; batch mode keeps it.
+        ok, msg = merge_tu_group(gk, g, dry_run=dry_run,
+                                 allow_no_refs=(target_group is not None))
         if ok:
             print(f"  OK: {msg}")
             success_count += 1
