@@ -51,16 +51,47 @@ The March attempt was blind. Since then:
    (or only call other removed functions) before functions higher up.
    A leaf can't break anything that was still live, because by
    definition nothing downstream depends on it.
-2. **One function per commit.** Delete, build, boot-test, commit.
-   Bulk removal is what failed in March.
-3. **No pool-zeroing to make the linker happy.** If a dangling pool
-   reference appears, *that is a signal the function is still
-   reachable from somewhere we didn't map.* Investigate the caller
-   before proceeding, don't zero the symbol.
-4. **Use `delete_function.py`.** It preserves shared pool constants
+2. **Two-phase removal protocol.** (Added 2026-04-11 after learning
+   from the March failure mode.)
+   - **Phase A — Proof of death (runtime neutralization)**. Copy the
+     candidate's TU file into the mod, replace the function's entry
+     with `rts; nop` (size-preserving — exactly 4 bytes in, 4 bytes
+     out). Build (trivially — same byte count), boot-test, poke-drive
+     a lap. If the game stays stable with the function's body
+     unreachable, the function is proven unnecessary for gameplay.
+     Batch multiple candidates into one Phase A pass to amortize the
+     poke-drive cost. Optionally add BPs on alternate entry points
+     (for merged TUs where one function falls through to another) to
+     catch direct-entry callers that rts at the head can't intercept.
+   - **Phase B — Physical shrink (build validation)**. Once Phase A
+     proves a batch, run `delete_function.py` on each candidate to
+     actually remove the bytes. Build-test only — no emulator needed.
+     If the linker complains about dangling pool refs, that's a
+     mechanical issue to resolve, not a sign the function is alive —
+     Phase A already proved otherwise.
+   - The split isolates runtime risk from build risk. March's attempt
+     blew up on both at once and prior-us couldn't tell which caused
+     the crash.
+   - **Size preservation is mandatory** for Phase A edits. SH-2 mov.l
+     pool loads must stay 4-byte aligned. Replace instructions 2-for-2
+     (each SH-2 instruction is 2 bytes); never insert or delete
+     instructions. A 2-byte shift misaligns every downstream pool load
+     and the build fails with "offset to unaligned destination".
+3. **Start small, scale on success.** First Phase A batch is one
+   small function to prove the mechanism. If that works, subsequent
+   batches can cover the full byte budget. On failure, bisect the
+   batch.
+4. **No pool-zeroing to make the linker happy.** If Phase B produces
+   a dangling pool reference, it's a mechanical issue (the surviving
+   functions reference the dead function's pool constants). The fix
+   is to preserve those pool entries (which `delete_function.py`
+   does automatically), not to zero the symbol in the linker script.
+   The March failure was caused by auto-zeroing symbols to silence
+   linker errors, which masked the real problem.
+5. **Use `delete_function.py`.** It preserves shared pool constants
    referenced by surviving functions. Hand-editing .s files is the
    path the March attempt took.
-5. **Cold boot, not save states.** Save states restore the old
+6. **Cold boot, not save states.** Save states restore the old
    binary. Every boot test is a fresh cold boot from the CUE.
 
 ## Inventory
