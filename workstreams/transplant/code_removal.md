@@ -213,17 +213,57 @@ For each candidate function, before deletion:
   the function is not a candidate (or the caller needs to be cut
   first).
 
-### Empirical check — live PC breakpoint on cold boot
+### Empirical check — BP sweep via probe file
 
-- Set a breakpoint at the function's entry PC.
-- Cold boot the transplant mod disc (no save state).
-- Run through: splash screens → menu → course select → car select →
-  rolling start → at least one full lap → finish.
-- If the breakpoint *never fires*, the function is dead in the
-  transplant mod. Candidate confirmed.
-- If the breakpoint fires, record the call stack and the caller
-  — that's a call path neither grep nor the NOPs caught. Do not
-  delete.
+**A single BP at the entry PC is not enough.** Mid-function aliases
+(`PROVIDE(DAT_Y = FUN_X + 0xNN)` in race.ld) are real jump targets
+that bypass the primary entry. A single BP misses those callers and
+silently passes functions that are actually live. This bit us on the
+first attempt at the FUN_0604D380 TU — we passed Phase A, deleted 34
+functions, and broke attract mode because FUN_0603976C was jumping
+into DAT_0604DD34 = FUN_0604DD04 + 0x30.
+
+Use `tools/enumerate_probes.py` to get every probe address for a
+function — primary entry + all mid-function aliases + rts locations
++ tail-call site:
+
+```bash
+# Single function
+python tools/enumerate_probes.py FUN_0604DD04 --probe-file > probes.txt
+
+# Whole TU (every .global in a .s file)
+grep '.global FUN_' src/race/FUN_0604D380.s | awk '{print $2}' | \
+  while read fn; do python tools/enumerate_probes.py $fn --probe-file; done \
+  > build/probes/FUN_0604D380_tu.txt
+```
+
+Then batch-install all probes with a single MCP call and run scenarios:
+
+```
+breakpoint_set_from_file(path="build/probes/FUN_0604D380_tu.txt",
+                         clear_existing=True)
+# run scenarios (cold boot → attract loops → car-select → rolling-start
+# → poke-playback lap → ...)
+breakpoint_hits_summary()   # produces .summary.json
+```
+
+Any probe that never fires = dead in the scenarios we ran. Any probe
+that fires surfaces (a) the exact entry point reached and (b) the
+caller's return address (PR) so we can find the call site.
+
+**Scenario coverage matters.** A sweep only proves dead in the
+scenarios we ran. Cover at minimum:
+  1. Attract mode, at least two full loops (catches demo-AI paths)
+  2. Title → car-select → Start → rolling-start-frozen
+  3. Forced lap via `poke_playback_start` with
+     `build/samples/retail_lap_poke.csv` (843-frame retail lap)
+
+Paths we typically MISS: pause menu, retry, race-end/results, time
+trial, 2P mode. If those reach a function our attract+lap sweep said
+was dead, the deletion regresses. Expand coverage when new scenarios
+are feasible, but prioritize "good enough" over "perfect" — a dead
+function in the driving-model TU stays dead because DUSA code will
+replace it anyway.
 
 ### Regression check — post-deletion
 
