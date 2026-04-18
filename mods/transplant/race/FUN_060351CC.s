@@ -6785,7 +6785,7 @@ FUN_06037FD6:
     jsr @r3
     mov r14, r4
     mov.l .L_pool_06038028, r2
-    jsr @r2
+    nop                         /* TRANSPLANT: was jsr @r2 — FUN_06039110 stuck-car rescue (case 0/1 tail) */
     mov r14, r4
     mov #0x20, r3
     mov.w .L_wpool_06038006, r0
@@ -6946,7 +6946,7 @@ FUN_06037FD6:
     jsr @r2
     mov r14, r4
     mov.l .L_pool_0603815C, r3
-    jsr @r3
+    nop                         /* TRANSPLANT: was jsr @r3 — FUN_06039110 stuck-car rescue (case 3) */
     mov r14, r4
     bra .L_0603844C
     nop
