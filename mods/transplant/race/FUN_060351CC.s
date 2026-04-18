@@ -194,15 +194,15 @@ FUN_060352FA:
 .L_pool_06035310:
     .4byte DAT_06035314  /* 06035314 = FUN_060352FA + 0x1A */
     .4byte DAT_0603533C  /* 0x0603533C = FUN_060352FA + 0x42 */
-    .4byte DAT_0604D380  /* 0x0604D380 = FUN_0604D380 */
-    .4byte DAT_0604D46C  /* 0x0604D46C = FUN_0604D46C */
-    .4byte DAT_0604D520  /* 0x0604D520 = FUN_0604D520 */
-    .4byte DAT_0604D540  /* 0x0604D540 = FUN_0604D540 */
-    .4byte DAT_0604D540  /* 0x0604D540 = FUN_0604D540 */
-    .4byte DAT_0604D46C  /* 0x0604D46C = FUN_0604D46C */
-    .4byte DAT_0604D46C  /* 0x0604D46C = FUN_0604D46C */
-    .4byte DAT_0604D46C  /* 0x0604D46C = FUN_0604D46C */
-    .4byte DAT_0604D570  /* 0x0604D570 = FUN_0604D570 */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D380  (0x0604D380 = FUN_0604D380) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D46C  (0x0604D46C = FUN_0604D46C) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D520  (0x0604D520 = FUN_0604D520) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D540  (0x0604D540 = FUN_0604D540) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D540  (0x0604D540 = FUN_0604D540) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D46C  (0x0604D46C = FUN_0604D46C) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D46C  (0x0604D46C = FUN_0604D46C) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D46C  (0x0604D46C = FUN_0604D46C) - target deleted, caller BP-verified dead */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D570  (0x0604D570 = FUN_0604D570) - target deleted, caller BP-verified dead */
     mov r14, r0
     mov.w .L_wpool_06035350, r1
     mov.l @(r0, r1), r2
@@ -404,7 +404,7 @@ FUN_06035430:
 .L_pool_06035498:
     .4byte DAT_06037484  /* 06037484 = FUN_06037166 + 0x31E */
 .L_pool_0603549C:
-    .4byte DAT_0604D388  /* 0604D388 = FUN_0604D380 + 0x8 */
+    .4byte 0  /* TRANSPLANT: was DAT_0604D388  (0604D388 = FUN_0604D380 + 0x8) - target deleted, caller BP-verified dead */
 
     .global FUN_060354A0
     .type FUN_060354A0, @function
@@ -9842,7 +9842,7 @@ FUN_060394A8:
 .L_pool_06039554:
     .4byte sym_0605224C  /* 06011554 = 0x0605224C */
 .L_pool_06039558:
-    .4byte DAT_0604DEEC  /* 0604DEEC = FUN_0604DE9A + 0x52 */
+    .4byte 0  /* TRANSPLANT: was DAT_0604DEEC  (0604DEEC = FUN_0604DE9A + 0x52) - target deleted, caller BP-verified dead */
 .L_0603955C:
     mov r12, r2
     shar r2
