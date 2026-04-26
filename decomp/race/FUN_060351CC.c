@@ -1,13 +1,17 @@
-/* FUN_060351CC — naked asm shim, mechanically generated.
+/* FUN_060351CC TU — naked asm shims, mechanically generated.
  *
  * Source: src/race/FUN_060351CC.s
  * Generator: decomp/tools/gen_shim.py
  *
- * Body emitted verbatim via saturncc Stage 4 naked asm-shim emit.
- * Prod's own framing (.section / .global / .type / entry label)
- * is dropped — saturncc emits its own framing per Stage 4. The
- * function and any trailing literal pool / data table inside its
- * section are wrapped in a single asm{} block.
+ * Each prod entry in this TU appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
+ * in saturncc takes each body verbatim, prepending its own
+ * `.global` / `.text` / `.align` / label framing. The function's
+ * trailing literal pool and any co-located data table travel with
+ * its asm body.
+ *
+ * Hand edits will be lost on regeneration. Re-run gen_shim.py
+ * for this TU to refresh.
  */
 
 int FUN_060351CC(void) asm {
@@ -176,10 +180,9 @@ int FUN_060351CC(void) asm {
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_060352FA
-    .type FUN_060352FA, @function
-FUN_060352FA:
+int FUN_060352FA(void) asm {
     mov.l r14, @-r15
     mov r0, r14
     mov.w .L_wpool_0603530E, r1
@@ -328,10 +331,9 @@ FUN_060352FA:
     mov.w @r1+, r0
     .4byte 0xC1DB6011  /* 06035428 = 0xC1DB6011 */
     .4byte 0xC1DC60F6  /* 0603542C = 0xC1DC60F6 */
+}
 
-    .global FUN_06035430
-    .type FUN_06035430, @function
-FUN_06035430:
+int FUN_06035430(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06035498, r13
     jsr @r13
@@ -406,10 +408,9 @@ FUN_06035430:
     .4byte DAT_06037484  /* 06037484 = FUN_06037166 + 0x31E */
 .L_pool_0603549C:
     .4byte DAT_0604D388  /* 0604D388 = FUN_0604D380 + 0x8 */
+}
 
-    .global FUN_060354A0
-    .type FUN_060354A0, @function
-FUN_060354A0:
+int FUN_060354A0(void) asm {
     sts.l pr, @-r15
     mov.w .L_wpool_0603552E, r1
     mov.w .L_wpool_06035530, r2
@@ -623,10 +624,9 @@ FUN_060354A0:
     rts
     mov.l r4, @(r0, r3)
     nop
+}
 
-    .global FUN_06035624
-    .type FUN_06035624, @function
-FUN_06035624:
+int FUN_06035624(void) asm {
     mov.l @(52, r0), r3
     mov #0xA, r2
     mov.l r10, @-r15
@@ -748,10 +748,9 @@ FUN_06035624:
     bt .L_0603573E
     mov.l r0, @-r15
     mov r8, r1
+}
 
-    .global FUN_060356F8
-    .type FUN_060356F8, @function
-FUN_060356F8:
+int FUN_060356F8(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06035728, r12
     jsr @r12
@@ -808,18 +807,16 @@ FUN_060356F8:
     sts macl, r4
     rts
     mov.l @r15+, r10
+}
 
-    .global FUN_06035748
-    .type FUN_06035748, @function
-FUN_06035748:
+int FUN_06035748(void) asm {
     mov #0x1, r4
     mov.l @r15+, r10
     rts
     shll16 r4
+}
 
-    .global FUN_06035750
-    .type FUN_06035750, @function
-FUN_06035750:
+int FUN_06035750(void) asm {
     sts.l pr, @-r15
     mov #0x0, r12
     mov #0x0, r6
@@ -1076,10 +1073,9 @@ FUN_06035750:
     .4byte 0x000107AE  /* 060358FC = 0x000107AE */
 .L_pool_06035900:
     .4byte 0x09D58000  /* 06035900 = 0x09D58000 */
+}
 
-    .global FUN_06035904
-    .type FUN_06035904, @function
-FUN_06035904:
+int FUN_06035904(void) asm {
     sts.l pr, @-r15
     mov.w .L_wpool_06035984, r1
     mov.l @(r0, r1), r2
@@ -1370,10 +1366,9 @@ FUN_06035904:
     lds.l @r15+, pr
     rts
     mov.l r3, @(r0, r4)
+}
 
-    .global FUN_06035B0E
-    .type FUN_06035B0E, @function
-FUN_06035B0E:
+int FUN_06035B0E(void) asm {
     mov.w .L_wpool_06035C0A, r7
     mov.w @(r0, r7), r3
     mov #0x4, r4
@@ -1393,10 +1388,9 @@ FUN_06035B0E:
 .L_06035B2C:
     rts
     nop
+}
 
-    .global FUN_06035B30
-    .type FUN_06035B30, @function
-FUN_06035B30:
+int FUN_06035B30(void) asm {
     sts.l pr, @-r15
     mov #0x0, r7
     mov r14, r0
@@ -1575,10 +1569,9 @@ FUN_06035B30:
     rts
     mov.l r7, @(r0, r2)
     nop
+}
 
-    .global FUN_06035C58
-    .type FUN_06035C58, @function
-FUN_06035C58:
+int FUN_06035C58(void) asm {
     mov.l r3, @-r15
     mov.l @(52, r0), r3
     mov.w .L_wpool_06035C8C, r1
@@ -1617,10 +1610,9 @@ FUN_06035C58:
     .4byte 0x0000000F  /* 06035C90 = 0x0000000F */
 .L_pool_06035C94:
     .4byte 0x00002000  /* 06035C94 = 0x00002000 */
+}
 
-    .global FUN_06035C98
-    .type FUN_06035C98, @function
-FUN_06035C98:
+int FUN_06035C98(void) asm {
     sts.l pr, @-r15
     mov.w .L_wpool_06035CE6, r7
     mov #0x0, r6
@@ -1953,10 +1945,9 @@ FUN_06035C98:
     rts
     nop
     nop
+}
 
-    .global FUN_06035EE8
-    .type FUN_06035EE8, @function
-FUN_06035EE8:
+int FUN_06035EE8(void) asm {
     sts.l pr, @-r15
     mov.l @(60, r0), r3
     mov.l @(56, r0), r4
@@ -2010,10 +2001,9 @@ FUN_06035EE8:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06035F48
-    .type FUN_06035F48, @function
-FUN_06035F48:
+int FUN_06035F48(void) asm {
     sts.l pr, @-r15
     mov r14, r0
     mov.w .L_wpool_06035FA8, r1
@@ -2571,10 +2561,9 @@ FUN_06035F48:
     .byte 0x00, 0x00
 .L_pool_06036318:
     .4byte 0xFFFFCA00  /* 06036318 = 0xFFFFCA00 */
+}
 
-    .global FUN_0603631C
-    .type FUN_0603631C, @function
-FUN_0603631C:
+int FUN_0603631C(void) asm {
     sts.l pr, @-r15
     mov r14, r0
     mov.w .L_wpool_0603637C, r1
@@ -3001,8 +2990,9 @@ FUN_0603631C:
     sub r4, r5
     mov.l r7, @-r15
     muls.w r6, r7
-    .global FUN_06036608
-FUN_06036608:
+}
+
+int FUN_06036608(void) asm {
     sts macl, r6
     neg r4, r4
     shar r6
@@ -3205,10 +3195,9 @@ FUN_06036608:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06036770
-    .type FUN_06036770, @function
-FUN_06036770:
+int FUN_06036770(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r14, r0
@@ -3226,19 +3215,17 @@ FUN_06036770:
     nop
 .L_wpool_0603678E:
     .byte 0x00, 0xC0
+}
 
-    .global FUN_06036790
-    .type FUN_06036790, @function
-FUN_06036790:
+int FUN_06036790(void) asm {
     mov #0x0, r4
     mov.w .L_wpool_060367F4, r1
     mov.w @(r0, r1), r2
     cmp/eq r4, r2
     bf FUN_06036808
+}
 
-    .global FUN_0603679A
-    .type FUN_0603679A, @function
-FUN_0603679A:
+int FUN_0603679A(void) asm {
     sts.l pr, @-r15
     mov.l @(60, r0), r4
     mov.w .L_wpool_060367F6, r7
@@ -3274,8 +3261,9 @@ FUN_0603679A:
     add r3, r5
     mov.l r5, @(0, r0)
     dmuls.l r8, r9
-    .global FUN_060367E0
-FUN_060367E0:
+}
+
+int FUN_060367E0(void) asm {
     mov.w .L_wpool_060367FC, r10
     sts mach, r8
     sts macl, r9
@@ -3301,10 +3289,9 @@ FUN_060367E0:
     .4byte DAT_06047D3C  /* 06047D3C = FUN_06047D3C */
 .L_pool_06036804:
     .4byte DAT_06047D20  /* 06047D20 = FUN_06047B34 + 0x1EC */
+}
 
-    .global FUN_06036808
-    .type FUN_06036808, @function
-FUN_06036808:
+int FUN_06036808(void) asm {
 .L_06036808:
     sts.l pr, @-r15
     mov r0, r14
@@ -3415,10 +3402,9 @@ FUN_06036808:
     .4byte 0x0000010C  /* 060368CC = 0x0000010C */
     .byte 0x00, 0x0B
     .byte 0x00, 0x09
+}
 
-    .global FUN_060368D4
-    .type FUN_060368D4, @function
-FUN_060368D4:
+int FUN_060368D4(void) asm {
     mov.l .L_pool_06036904, r1
     mov r4, r2
     add r1, r2
@@ -3452,10 +3438,9 @@ FUN_060368D4:
     rts
     nop
     nop
+}
 
-    .global FUN_06036914
-    .type FUN_06036914, @function
-FUN_06036914:
+int FUN_06036914(void) asm {
     mov r6, r3
     mov.l @(48, r3), r1
     mov #0x40, r0
@@ -3482,10 +3467,9 @@ FUN_06036914:
     mov.l r1, @(4, r7)
     rts
     mov.l r2, @(8, r7)
+}
 
-    .global FUN_06036948
-    .type FUN_06036948, @function
-FUN_06036948:
+int FUN_06036948(void) asm {
     mov.l @(4, r6), r0
     sub r4, r0
     mov.l @(16, r6), r1
@@ -3523,10 +3507,9 @@ FUN_06036948:
     rts
     shlr2 r0
     nop
+}
 
-    .global FUN_06036990
-    .type FUN_06036990, @function
-FUN_06036990:
+int FUN_06036990(void) asm {
     mov.l @r6, r6
     mov.l .L_pool_06036A5C, r7
     mov.l r12, @-r15
@@ -3591,8 +3574,9 @@ FUN_06036990:
     dmuls.l r2, r3
     mov.l @(4, r1), r2
     mov.l @(32, r1), r3
-    .global FUN_06036A0E
-FUN_06036A0E:
+}
+
+int FUN_06036A0E(void) asm {
     sub r4, r2
     neg r2, r2
     sub r5, r3
@@ -3647,10 +3631,9 @@ FUN_06036A0E:
     mov.l @r15+, r12
     rts
     mov r1, r6
+}
 
-    .global FUN_06036A70
-    .type FUN_06036A70, @function
-FUN_06036A70:
+int FUN_06036A70(void) asm {
     sts.l pr, @-r15
     mov r6, r13
     shll2 r4
@@ -3682,10 +3665,9 @@ FUN_06036A70:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036AA8
-    .type FUN_06036AA8, @function
-FUN_06036AA8:
+int FUN_06036AA8(void) asm {
     sts.l pr, @-r15
     mov.l r8, @-r15
     mov.l r9, @-r15
@@ -3693,10 +3675,9 @@ FUN_06036AA8:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06036AB6
-    .type FUN_06036AB6, @function
-FUN_06036AB6:
+int FUN_06036AB6(void) asm {
     mov.l r14, @-r15
     bsr FUN_06036A70
     nop
@@ -3788,10 +3769,9 @@ FUN_06036AB6:
     lds.l @r15+, pr
     rts
     mov #0x0, r0
+}
 
-    .global FUN_06036B60
-    .type FUN_06036B60, @function
-FUN_06036B60:
+int FUN_06036B60(void) asm {
     sts.l pr, @-r15
     mov.l r8, @-r15
     mov.l r9, @-r15
@@ -3799,10 +3779,9 @@ FUN_06036B60:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06036B6E
-    .type FUN_06036B6E, @function
-FUN_06036B6E:
+int FUN_06036B6E(void) asm {
     mov.l r14, @-r15
     mov.l .L_pool_06036B88, r1
     mov.b @r1, r1
@@ -3842,10 +3821,9 @@ FUN_06036B6E:
     nop
 .L_pool_06036BB4:
     .4byte sym_00220000  /* 06036BB4 = 0x00220000 */
+}
 
-    .global FUN_06036BB8
-    .type FUN_06036BB8, @function
-FUN_06036BB8:
+int FUN_06036BB8(void) asm {
     sts.l pr, @-r15
     mov.l r8, @-r15
     mov.l r9, @-r15
@@ -3853,10 +3831,9 @@ FUN_06036BB8:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06036BC6
-    .type FUN_06036BC6, @function
-FUN_06036BC6:
+int FUN_06036BC6(void) asm {
     mov.l r14, @-r15
     mov.l r4, @-r15
     mov.l r5, @-r15
@@ -4022,10 +3999,9 @@ FUN_06036BC6:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06036CF8
-    .type FUN_06036CF8, @function
-FUN_06036CF8:
+int FUN_06036CF8(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov #0x0, r9
@@ -4076,10 +4052,9 @@ FUN_06036CF8:
     mov.l @r15+, r8
     rts
     nop
+}
 
-    .global FUN_06036D52
-    .type FUN_06036D52, @function
-FUN_06036D52:
+int FUN_06036D52(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036DE4, r12
     jsr @r12
@@ -4101,10 +4076,9 @@ FUN_06036D52:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036D7C
-    .type FUN_06036D7C, @function
-FUN_06036D7C:
+int FUN_06036D7C(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036DE4, r12
     jsr @r12
@@ -4126,10 +4100,9 @@ FUN_06036D7C:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036DA6
-    .type FUN_06036DA6, @function
-FUN_06036DA6:
+int FUN_06036DA6(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036DE4, r12
     jsr @r12
@@ -4190,8 +4163,9 @@ FUN_06036DA6:
     mov.l @r15+, r0
     mov.w .L_wpool_06036E26, r2
     and r2, r3
-    .global FUN_06036E14
-FUN_06036E14:
+}
+
+int FUN_06036E14(void) asm {
     tst r3, r3
     bf .L_06036E30
     mov.l .L_pool_06036E2C, r12
@@ -4245,10 +4219,9 @@ FUN_06036E14:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036E6C
-    .type FUN_06036E6C, @function
-FUN_06036E6C:
+int FUN_06036E6C(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036EF0, r12
     jsr @r12
@@ -4267,10 +4240,9 @@ FUN_06036E6C:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036E90
-    .type FUN_06036E90, @function
-FUN_06036E90:
+int FUN_06036E90(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036EF0, r12
     jsr @r12
@@ -4289,10 +4261,9 @@ FUN_06036E90:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_06036EB4
-    .type FUN_06036EB4, @function
-FUN_06036EB4:
+int FUN_06036EB4(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06036EF0, r12
     jsr @r12
@@ -4467,8 +4438,9 @@ FUN_06036EB4:
     mov #0x1, r5
     mov.l .L_pool_06037018, r2
     add r13, r2
-    .global FUN_06036FEA
-FUN_06036FEA:
+}
+
+int FUN_06036FEA(void) asm {
     mov.w @r2, r2
     tst r1, r2
     bt .L_0603701C
@@ -4601,10 +4573,9 @@ FUN_06036FEA:
     sub r8, r7
     mov.l r1, @-r15
     mov.l r3, @-r15
+}
 
-    .global FUN_060370D0
-    .type FUN_060370D0, @function
-FUN_060370D0:
+int FUN_060370D0(void) asm {
     sts.l pr, @-r15
     mov r7, r1
     mov.w .L_wpool_060370F0, r3
@@ -4690,10 +4661,9 @@ FUN_060370D0:
     sub r8, r7
     mov.l r1, @-r15
     mov.l r3, @-r15
+}
 
-    .global FUN_06037166
-    .type FUN_06037166, @function
-FUN_06037166:
+int FUN_06037166(void) asm {
     sts.l pr, @-r15
     mov r7, r1
     mov.w .L_wpool_06037186, r3
@@ -4785,8 +4755,9 @@ FUN_06037166:
     .byte 0x01, 0x18
 .L_wpool_060371FA:
     .byte 0x01, 0x1C
-    .global FUN_060371FC
-FUN_060371FC:
+}
+
+int FUN_060371FC(void) asm {
 .L_060371FC:
     rts
     nop
@@ -5142,10 +5113,9 @@ FUN_060371FC:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06037490
-    .type FUN_06037490, @function
-FUN_06037490:
+int FUN_06037490(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov #0x0, r9
@@ -5345,8 +5315,9 @@ FUN_06037490:
     mov.l r4, @(r0, r3)
     mov.l .L_pool_06037620, r2
     mov #0x0, r7
-    .global FUN_060375F0
-FUN_060375F0:
+}
+
+int FUN_060375F0(void) asm {
     mov.l r7, @(r0, r2)
 .L_060375F2:
     rts
@@ -5395,16 +5366,14 @@ FUN_060375F0:
     .4byte 0x00000094  /* 06037650 = 0x00000094 */
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_06037658
-    .type FUN_06037658, @function
-FUN_06037658:
+int FUN_06037658(void) asm {
     mov.l r14, @-r15
     mov r5, r14
+}
 
-    .global FUN_0603765C
-    .type FUN_0603765C, @function
-FUN_0603765C:
+int FUN_0603765C(void) asm {
     sts.l pr, @-r15
     mov.w .L_wpool_0603768A, r3
     add r14, r3
@@ -5614,8 +5583,9 @@ FUN_0603765C:
     mov r4, r3
     shll r4
     add r4, r3
-    .global FUN_060377CC
-FUN_060377CC:
+}
+
+int FUN_060377CC(void) asm {
     cmp/gt r3, r2
     bt .L_060377D2
     add r4, r5
@@ -5940,8 +5910,9 @@ FUN_060377CC:
     .byte 0x01, 0x60
 .L_060379F4:
     mov.l @(48, r14), r0
-    .global FUN_060379F6
-FUN_060379F6:
+}
+
+int FUN_060379F6(void) asm {
     mov.w .L_wpool_06037A12, r4
     or r4, r0
     mov.l r0, @(48, r14)
@@ -6183,10 +6154,9 @@ FUN_060379F6:
     mov.l @r15+, r12
     rts
     nop
+}
 
-    .global FUN_06037B98
-    .type FUN_06037B98, @function
-FUN_06037B98:
+int FUN_06037B98(void) asm {
     sts.l pr, @-r15
     mov.l r11, @-r15
     mov.l .L_pool_06037CBC, r0
@@ -6235,10 +6205,9 @@ FUN_06037B98:
     rts
     nop
     nop                             /* alignment padding */
+}
 
-    .global FUN_06037BF8
-    .type FUN_06037BF8, @function
-FUN_06037BF8:
+int FUN_06037BF8(void) asm {
     mov.l r8, @-r15
     mov.l r9, @-r15
     mov.l r10, @-r15
@@ -6522,8 +6491,9 @@ FUN_06037BF8:
     .byte 0x00, 0xDC
     .byte 0x00, 0xDC
     .byte 0x00, 0xDC
-    .global FUN_06037DFC
-FUN_06037DFC:
+}
+
+int FUN_06037DFC(void) asm {
     .byte 0x00, 0xDC
     .byte 0x00, 0xDC
     .byte 0x00, 0x96
@@ -6546,10 +6516,9 @@ FUN_06037DFC:
     .byte 0x00, 0xAA
     .byte 0x00, 0x00
     .byte 0x00, 0x00
+}
 
-    .global FUN_06037E28
-    .type FUN_06037E28, @function
-FUN_06037E28:
+int FUN_06037E28(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -6774,8 +6743,9 @@ FUN_06037E28:
     jsr @r2
     mov r14, r4
     jsr @r8
-    .global FUN_06037FD6
-FUN_06037FD6:
+}
+
+int FUN_06037FD6(void) asm {
     mov r14, r4
     mov.l .L_pool_06038020, r3
     jsr @r3
@@ -7074,8 +7044,9 @@ FUN_06037FD6:
     mov.l @r13, r4
     mov #0x4, r7
     mov.l @(20, r13), r6
-    .global FUN_06038202
-FUN_06038202:
+}
+
+int FUN_06038202(void) asm {
     mov r14, r5
     jsr @r12
     mov.l @(4, r13), r4
@@ -7248,8 +7219,9 @@ FUN_06038202:
     mov.l r1, @(48, r14)
     jsr @r3
     mov r14, r4
-    .global FUN_0603833C
-FUN_0603833C:
+}
+
+int FUN_0603833C(void) asm {
     mov.l .L_pool_0603839C, r5
     mov #0x12, r0
     mov.l .L_pool_060383A0, r6
@@ -7458,10 +7430,9 @@ FUN_0603833C:
     .4byte sym_060527D0  /* 060104BC = 0x060527D0 */
 .L_pool_060384C0:
     .4byte sym_060527D4  /* 060104C0 = 0x060527D4 */
+}
 
-    .global FUN_060384C4
-    .type FUN_060384C4, @function
-FUN_060384C4:
+int FUN_060384C4(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
@@ -7564,8 +7535,9 @@ FUN_060384C4:
     mov.l @(r0, r14), r8
     mov.l @(8, r8), r8
     add r12, r4
-    .global FUN_06038590
-FUN_06038590:
+}
+
+int FUN_06038590(void) asm {
     mov.l r4, @r15
     jsr @r11
     nop
@@ -7597,10 +7569,9 @@ FUN_06038590:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_060385CE
-    .type FUN_060385CE, @function
-FUN_060385CE:
+int FUN_060385CE(void) asm {
     mov.l .L_pool_06038630, r6
     mov.l .L_pool_06038634, r5
     mov.l @(56, r4), r7
@@ -7759,10 +7730,9 @@ FUN_060385CE:
     .4byte sym_00224000  /* 060106D0 = 0x00224000 */
 .L_pool_060386D4:
     .4byte sym_00220000  /* 060106D4 = 0x00220000 */
+}
 
-    .global FUN_060386D8
-    .type FUN_060386D8, @function
-FUN_060386D8:
+int FUN_060386D8(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
@@ -8248,15 +8218,13 @@ FUN_060386D8:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06038A82
-    .type FUN_06038A82, @function
-FUN_06038A82:
+int FUN_06038A82(void) asm {
     mov #0x12, r0
+}
 
-    .global FUN_06038A84
-    .type FUN_06038A84, @function
-FUN_06038A84:
+int FUN_06038A84(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
@@ -8428,18 +8396,16 @@ FUN_06038A84:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06038BC4
-    .type FUN_06038BC4, @function
-FUN_06038BC4:
+int FUN_06038BC4(void) asm {
     mov.l r14, @-r15
     mov #0x12, r0
     mov.l r13, @-r15
     mov r4, r14
+}
 
-    .global FUN_06038BCC
-    .type FUN_06038BCC, @function
-FUN_06038BCC:
+int FUN_06038BCC(void) asm {
     sts.l pr, @-r15
     mov.b @(r0, r14), r0
     cmp/eq #0x1, r0
@@ -8520,10 +8486,9 @@ FUN_06038BCC:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06038C64
-    .type FUN_06038C64, @function
-FUN_06038C64:
+int FUN_06038C64(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_06038C9E, r0
@@ -8738,10 +8703,9 @@ FUN_06038C64:
     .4byte DAT_0604F9AC  /* 0604F9AC = FUN_0604E0F6 + 0x18B6 */
 .L_pool_06038DD4:
     .4byte DAT_0604F99C  /* 0604F99C = FUN_0604E0F6 + 0x18A6 */
+}
 
-    .global FUN_06038DD8
-    .type FUN_06038DD8, @function
-FUN_06038DD8:
+int FUN_06038DD8(void) asm {
     mov.l r14, @-r15
     mov r4, r0
     mov.l r13, @-r15
@@ -8752,10 +8716,9 @@ FUN_06038DD8:
     mov.l r11, @-r15
     mov.l r10, @-r15
     mov #0x8, r10
+}
 
-    .global FUN_06038DEC
-    .type FUN_06038DEC, @function
-FUN_06038DEC:
+int FUN_06038DEC(void) asm {
     sts.l pr, @-r15
     mov.b @r0, r0
     tst #0x40, r0
@@ -9067,17 +9030,15 @@ FUN_06038DEC:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06039014
-    .type FUN_06039014, @function
-FUN_06039014:
+int FUN_06039014(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_0603906E, r0
+}
 
-    .global FUN_0603901A
-    .type FUN_0603901A, @function
-FUN_0603901A:
+int FUN_0603901A(void) asm {
     sts.l pr, @-r15
     mov.l .L_pool_06039074, r4
     mov.b @(r0, r14), r3
@@ -9218,10 +9179,9 @@ FUN_0603901A:
     lds.l @r15+, pr
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06039110
-    .type FUN_06039110, @function
-FUN_06039110:
+int FUN_06039110(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_06039162, r0
@@ -9354,15 +9314,13 @@ FUN_06039110:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06039202
-    .type FUN_06039202, @function
-FUN_06039202:
+int FUN_06039202(void) asm {
     mov #0x12, r0
+}
 
-    .global FUN_06039204
-    .type FUN_06039204, @function
-FUN_06039204:
+int FUN_06039204(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
@@ -9571,15 +9529,13 @@ FUN_06039204:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_0603938A
-    .type FUN_0603938A, @function
-FUN_0603938A:
+int FUN_0603938A(void) asm {
     mov #0x5C, r0
+}
 
-    .global FUN_0603938C
-    .type FUN_0603938C, @function
-FUN_0603938C:
+int FUN_0603938C(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -9738,10 +9694,9 @@ FUN_0603938C:
     .4byte DAT_0603A784  /* 0603A784 = FUN_0603A6BC + 0xC8 */
 .L_pool_060394A4:
     .4byte sym_060529AC  /* 060114A4 = 0x060529AC */
+}
 
-    .global FUN_060394A8
-    .type FUN_060394A8, @function
-FUN_060394A8:
+int FUN_060394A8(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -10136,10 +10091,9 @@ FUN_060394A8:
     .4byte sym_060527CC  /* 06011764 = 0x060527CC */
 .L_pool_06039768:
     .4byte DAT_0603DE68  /* 0603DE68 = FUN_0603DE68 */
+}
 
-    .global FUN_0603976C
-    .type FUN_0603976C, @function
-FUN_0603976C:
+int FUN_0603976C(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
@@ -10595,10 +10549,9 @@ FUN_0603976C:
     .byte 0x00, 0x8C
 .L_wpool_06039AA2:
     .byte 0x00, 0x9B
+}
 
-    .global FUN_06039AA4
-    .type FUN_06039AA4, @function
-FUN_06039AA4:
+int FUN_06039AA4(void) asm {
     mov.l r14, @-r15
     mov #0x12, r0
     mov r4, r14
@@ -10736,10 +10689,9 @@ FUN_06039AA4:
 .L_06039B8C:
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06039B90
-    .type FUN_06039B90, @function
-FUN_06039B90:
+int FUN_06039B90(void) asm {
     mov.l r14, @-r15
     mov #0x12, r0
     mov r4, r14
@@ -10785,10 +10737,9 @@ FUN_06039B90:
     .4byte sym_0600795A  /* 06011BDC = 0x0602F95A */
 .L_pool_06039BE0:
     .4byte sym_060079E8  /* 06011BE0 = 0x0602F9E8 */
+}
 
-    .global FUN_06039BE4
-    .type FUN_06039BE4, @function
-FUN_06039BE4:
+int FUN_06039BE4(void) asm {
     mov.l r14, @-r15
     mov #0x12, r0
     mov.l r13, @-r15
@@ -11053,10 +11004,9 @@ FUN_06039BE4:
     .4byte sym_06054923  /* 06011DC4 = 0x06054923 */
 .L_pool_06039DC8:
     .4byte sym_002FC21C  /* 06011DC8 = 0x002FC21C */
+}
 
-    .global FUN_06039DCC
-    .type FUN_06039DCC, @function
-FUN_06039DCC:
+int FUN_06039DCC(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_06039EAA, r0
@@ -11206,10 +11156,9 @@ FUN_06039DCC:
     .4byte 0xEFFFFFFF  /* 06011ED0 = 0xEFFFFFFF */
 .L_pool_06039ED4:
     .4byte 0xDFFFFFFF  /* 06011ED4 = 0xDFFFFFFF */
+}
 
-    .global FUN_06039ED8
-    .type FUN_06039ED8, @function
-FUN_06039ED8:
+int FUN_06039ED8(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_0603A01A, r0
@@ -11603,10 +11552,9 @@ FUN_06039ED8:
     .byte 0x01, 0x64
 .L_wpool_0603A1A2:
     .byte 0x00, 0xAC
+}
 
-    .global FUN_0603A1A4
-    .type FUN_0603A1A4, @function
-FUN_0603A1A4:
+int FUN_0603A1A4(void) asm {
     mov.l r14, @-r15
     mov #0x12, r0
     mov.l .L_pool_0603A2A0, r5
@@ -12116,18 +12064,16 @@ FUN_0603A1A4:
     rts
     mov.l @r15+, r14
     mov #0x38, r5
+}
 
-    .global FUN_0603A548
-    .type FUN_0603A548, @function
-FUN_0603A548:
+int FUN_0603A548(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.w .L_wpool_0603A5EC, r0
     mov #0x0, r4
+}
 
-    .global FUN_0603A550
-    .type FUN_0603A550, @function
-FUN_0603A550:
+int FUN_0603A550(void) asm {
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l r4, @(r0, r14)
@@ -12269,10 +12215,9 @@ FUN_0603A550:
 .L_0603A64C:
     rts
     nop
+}
 
-    .global FUN_0603A650
-    .type FUN_0603A650, @function
-FUN_0603A650:
+int FUN_0603A650(void) asm {
     sts.l pr, @-r15
     mov #0x0, r5
     mov.w .L_wpool_0603A750, r0
@@ -12313,10 +12258,9 @@ FUN_0603A650:
     add #0x48, r0
     rts
     mov.b r5, @(r0, r4)
+}
 
-    .global FUN_0603A6A0
-    .type FUN_0603A6A0, @function
-FUN_0603A6A0:
+int FUN_0603A6A0(void) asm {
     sts.l pr, @-r15
     add #-0x4, r15
     mov.l .L_pool_0603A768, r3
@@ -12331,10 +12275,9 @@ FUN_0603A6A0:
     lds.l @r15+, pr
     rts
     nop
+}
 
-    .global FUN_0603A6BC
-    .type FUN_0603A6BC, @function
-FUN_0603A6BC:
+int FUN_0603A6BC(void) asm {
     mov.l r14, @-r15
     mov r4, r5
     mov.l .L_pool_0603A76C, r7
@@ -12457,10 +12400,9 @@ FUN_0603A6BC:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_0603A790
-    .type FUN_0603A790, @function
-FUN_0603A790:
+int FUN_0603A790(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
@@ -12486,10 +12428,9 @@ FUN_0603A790:
     mov r9, r4
     sub r7, r4
     mov.l .L_pool_0603A864, r0
+}
 
-    .global FUN_0603A7C0
-    .type FUN_0603A7C0, @function
-FUN_0603A7C0:
+int FUN_0603A7C0(void) asm {
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -12941,8 +12882,9 @@ FUN_0603A7C0:
     mov.l .L_pool_0603AB50, r9
     jsr @r9
     nop
-    .global FUN_0603AAFE
-FUN_0603AAFE:
+}
+
+int FUN_0603AAFE(void) asm {
 .L_0603AAFE:
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -12955,10 +12897,9 @@ FUN_0603AAFE:
     rts
     nop
     nop
+}
 
-    .global FUN_0603AB14
-    .type FUN_0603AB14, @function
-FUN_0603AB14:
+int FUN_0603AB14(void) asm {
     mov.l r4, @-r15
     mov.l r5, @-r15
     mov.l r6, @-r15
@@ -13004,20 +12945,18 @@ FUN_0603AB14:
     mov.l @r15+, r4
     rts
     nop
+}
 
-    .global FUN_0603AB66
-    .type FUN_0603AB66, @function
-FUN_0603AB66:
+int FUN_0603AB66(void) asm {
     mov.l r0, @-r15
     mov r8, r5
     sub r6, r5
     mov r9, r4
     sub r7, r4
     mov.l .L_pool_0603AC20, r0
+}
 
-    .global FUN_0603AB72
-    .type FUN_0603AB72, @function
-FUN_0603AB72:
+int FUN_0603AB72(void) asm {
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -13514,10 +13453,9 @@ FUN_0603AB72:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_0603AF0C
-    .type FUN_0603AF0C, @function
-FUN_0603AF0C:
+int FUN_0603AF0C(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
@@ -13541,10 +13479,9 @@ FUN_0603AF0C:
     mov r9, r4
     sub r7, r4
     mov.l .L_pool_0603AFD8, r0
+}
 
-    .global FUN_0603AF38
-    .type FUN_0603AF38, @function
-FUN_0603AF38:
+int FUN_0603AF38(void) asm {
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -13979,10 +13916,9 @@ FUN_0603AF38:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_0603B254
-    .type FUN_0603B254, @function
-FUN_0603B254:
+int FUN_0603B254(void) asm {
     mov.l r14, @-r15
     sts.l pr, @-r15
     mov r4, r14
@@ -14008,10 +13944,9 @@ FUN_0603B254:
     mov r9, r4
     sub r7, r4
     mov.l .L_pool_0603B2E4, r0
+}
 
-    .global FUN_0603B284
-    .type FUN_0603B284, @function
-FUN_0603B284:
+int FUN_0603B284(void) asm {
     sts.l pr, @-r15
     jsr @r0
     nop
@@ -14280,8 +14215,9 @@ FUN_0603B284:
     mov.l .L_pool_0603B518, r9
     jsr @r9
     nop
-    .global FUN_0603B484
-FUN_0603B484:
+}
+
+int FUN_0603B484(void) asm {
 .L_0603B484:
     lds.l @r15+, pr
     mov.l @r15+, r14
@@ -14293,20 +14229,18 @@ FUN_0603B484:
     mov.l @r15+, r8
     rts
     nop
+}
 
-    .global FUN_0603B498
-    .type FUN_0603B498, @function
-FUN_0603B498:
+int FUN_0603B498(void) asm {
     mov.l r0, @-r15
     mov r8, r5
     sub r6, r5
     mov r9, r4
     sub r7, r4
     mov.l .L_pool_0603B51C, r0
+}
 
-    .global FUN_0603B4A4
-    .type FUN_0603B4A4, @function
-FUN_0603B4A4:
+int FUN_0603B4A4(void) asm {
     sts.l pr, @-r15
     jsr @r0
     nop

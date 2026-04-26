@@ -1,13 +1,17 @@
-/* FUN_06042998 — naked asm shim, mechanically generated.
+/* FUN_06042998 TU — naked asm shims, mechanically generated.
  *
  * Source: src/race/FUN_06042998.s
  * Generator: decomp/tools/gen_shim.py
  *
- * Body emitted verbatim via saturncc Stage 4 naked asm-shim emit.
- * Prod's own framing (.section / .global / .type / entry label)
- * is dropped — saturncc emits its own framing per Stage 4. The
- * function and any trailing literal pool / data table inside its
- * section are wrapped in a single asm{} block.
+ * Each prod entry in this TU appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
+ * in saturncc takes each body verbatim, prepending its own
+ * `.global` / `.text` / `.align` / label framing. The function's
+ * trailing literal pool and any co-located data table travel with
+ * its asm body.
+ *
+ * Hand edits will be lost on regeneration. Re-run gen_shim.py
+ * for this TU to refresh.
  */
 
 int FUN_06042998(void) asm {
@@ -39,18 +43,16 @@ int FUN_06042998(void) asm {
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_060429CE
-    .type FUN_060429CE, @function
-FUN_060429CE:
+int FUN_060429CE(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov r4, r14
     mov.l .L_pool_06042AA8, r3
+}
 
-    .global FUN_060429D6
-    .type FUN_060429D6, @function
-FUN_060429D6:
+int FUN_060429D6(void) asm {
     sts.l pr, @-r15
     sts.l macl, @-r15
     add #-0x1C, r15
@@ -207,10 +209,9 @@ FUN_060429D6:
     mov.l @r15+, r13
     rts
     mov.l @r15+, r14
+}
 
-    .global FUN_06042AF8
-    .type FUN_06042AF8, @function
-FUN_06042AF8:
+int FUN_06042AF8(void) asm {
     mov.l r14, @-r15
     mov r4, r14
     mov.l r13, @-r15
@@ -276,19 +277,17 @@ FUN_06042AF8:
     .4byte DAT_06036AA8  /* 06036AA8 = FUN_06036AA8 */
 .L_pool_06042B70:
     .4byte DAT_06047D68  /* 06047D68 = FUN_06047D3C + 0x2C */
+}
 
-    .global FUN_06042B74
-    .type FUN_06042B74, @function
-FUN_06042B74:
+int FUN_06042B74(void) asm {
     mov.l r14, @-r15
     mov.l r13, @-r15
     mov.l r12, @-r15
     mov #0x4, r13
     mov.l .L_pool_06042C44, r14
+}
 
-    .global FUN_06042B7E
-    .type FUN_06042B7E, @function
-FUN_06042B7E:
+int FUN_06042B7E(void) asm {
     sts.l pr, @-r15
 .L_06042B80:
     mov r14, r4

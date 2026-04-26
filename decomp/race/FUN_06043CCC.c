@@ -1,13 +1,17 @@
-/* FUN_06043CCC — naked asm shim, mechanically generated.
+/* FUN_06043CCC TU — naked asm shims, mechanically generated.
  *
  * Source: src/race/FUN_06043CCC.s
  * Generator: decomp/tools/gen_shim.py
  *
- * Body emitted verbatim via saturncc Stage 4 naked asm-shim emit.
- * Prod's own framing (.section / .global / .type / entry label)
- * is dropped — saturncc emits its own framing per Stage 4. The
- * function and any trailing literal pool / data table inside its
- * section are wrapped in a single asm{} block.
+ * Each prod entry in this TU appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
+ * in saturncc takes each body verbatim, prepending its own
+ * `.global` / `.text` / `.align` / label framing. The function's
+ * trailing literal pool and any co-located data table travel with
+ * its asm body.
+ *
+ * Hand edits will be lost on regeneration. Re-run gen_shim.py
+ * for this TU to refresh.
  */
 
 int FUN_06043CCC(void) asm {
@@ -19,10 +23,9 @@ int FUN_06043CCC(void) asm {
     mov.l r9, @-r15
     mov.l r8, @-r15
     stc.l gbr, @-r15
+}
 
-    .global FUN_06043CDC
-    .type FUN_06043CDC, @function
-FUN_06043CDC:
+int FUN_06043CDC(void) asm {
     sts.l pr, @-r15
     mov r5, r14
     ldc r6, gbr
@@ -316,10 +319,9 @@ FUN_06043CDC:
     bra FUN_06044ADA
 
 /* FUN_06043F10  0x06043F10 */
+}
 
-    .global FUN_06043F10
-    .type FUN_06043F10, @function
-FUN_06043F10:
+int FUN_06043F10(void) asm {
     mov r0, r1
     mova .L_data_06043F70, r0
     shll2 r1
@@ -332,10 +334,9 @@ FUN_06043F10:
     .4byte DAT_060457DC  /* 060457DC = FUN_060457AC + 0x30 */
 
 /* FUN_06043F24  0x06043F24 */
+}
 
-    .global FUN_06043F24
-    .type FUN_06043F24, @function
-FUN_06043F24:
+int FUN_06043F24(void) asm {
     sts.l pr, @-r15
     mov.l r0, @-r15
     mov.l .L_pool_06043F58, r0

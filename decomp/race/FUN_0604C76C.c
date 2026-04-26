@@ -1,13 +1,17 @@
-/* FUN_0604C76C — naked asm shim, mechanically generated.
+/* FUN_0604C76C TU — naked asm shims, mechanically generated.
  *
  * Source: src/race/FUN_0604C76C.s
  * Generator: decomp/tools/gen_shim.py
  *
- * Body emitted verbatim via saturncc Stage 4 naked asm-shim emit.
- * Prod's own framing (.section / .global / .type / entry label)
- * is dropped — saturncc emits its own framing per Stage 4. The
- * function and any trailing literal pool / data table inside its
- * section are wrapped in a single asm{} block.
+ * Each prod entry in this TU appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
+ * in saturncc takes each body verbatim, prepending its own
+ * `.global` / `.text` / `.align` / label framing. The function's
+ * trailing literal pool and any co-located data table travel with
+ * its asm body.
+ *
+ * Hand edits will be lost on regeneration. Re-run gen_shim.py
+ * for this TU to refresh.
  */
 
 int FUN_0604C76C(void) asm {
@@ -1143,19 +1147,17 @@ int FUN_0604C76C(void) asm {
     mov #0x0, r0
     bra FUN_0604D112
     rotr r1
+}
 
-    .global FUN_0604CFD6
-    .type FUN_0604CFD6, @function
-FUN_0604CFD6:
+int FUN_0604CFD6(void) asm {
 .L_0604CFD6:
     mov.l .L_pool_0604D140, r8
     mov #0x0, r1
     bra FUN_0604D0F4
     mov #0x0, r0
+}
 
-    .global FUN_0604CFDE
-    .type FUN_0604CFDE, @function
-FUN_0604CFDE:
+int FUN_0604CFDE(void) asm {
 .L_0604CFDE:
     mov #0x0, r10
     mov.l .L_pool_0604D140, r8
@@ -1180,10 +1182,9 @@ FUN_0604CFDE:
     mov.l r11, @-r15
     mov.l r12, @-r15
     mov.l r13, @-r15
+}
 
-    .global FUN_0604D00C
-    .type FUN_0604D00C, @function
-FUN_0604D00C:
+int FUN_0604D00C(void) asm {
     mov.l r14, @-r15
     sts.l macl, @-r15
     sts.l mach, @-r15
@@ -1209,12 +1210,14 @@ FUN_0604D00C:
     bt .L_0604CF6C
     tst r8, r8
     bt .L_0604CF84
-    .global FUN_0604D03E
-FUN_0604D03E:
+}
+
+int FUN_0604D03E(void) asm {
     tst r9, r9
     bt .L_0604CFA8
-    .global FUN_0604D042
-FUN_0604D042:
+}
+
+int FUN_0604D042(void) asm {
     mov.l .L_pool_0604D150, r2
     add r9, r8
     sub r2, r8
@@ -1310,8 +1313,9 @@ FUN_0604D042:
     shlr r1
     rotcr r0
     add #0x1, r8
-    .global FUN_0604D0F4
-FUN_0604D0F4:
+}
+
+int FUN_0604D0F4(void) asm {
 .L_0604D0F4:
     shlr r1
     rotcr r0
@@ -1328,8 +1332,9 @@ FUN_0604D0F4:
     shll r1
     shll r10
     rotcr r1
-    .global FUN_0604D112
-FUN_0604D112:
+}
+
+int FUN_0604D112(void) asm {
     lds.l @r15+, mach
     lds.l @r15+, macl
     mov.l @r15+, r14

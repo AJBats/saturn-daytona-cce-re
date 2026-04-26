@@ -1,14 +1,17 @@
-/* FUN_06029810 — beachhead asm shim.
+/* FUN_06029810 TU — naked asm shim, mechanically generated.
  *
- * Hand-extracted from prod ../src/race/FUN_06029810.s (lines 7-212).
- * The function body and its trailing literal pool / data table are
- * emitted verbatim via Stage 4 naked asm-shim emit.
+ * Source: src/race/FUN_06029810.s
+ * Generator: decomp/tools/gen_shim.py
  *
- * Prod's own framing (.section / .global / .type / entry label —
- * lines 3-6) is dropped: saturncc emits its own .text + .global +
- * label per Stage 4. Everything inside asm{} is the body proper,
- * starting from the first instruction through the last data byte
- * of the function's section.
+ * Each prod entry in this TU appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
+ * in saturncc takes each body verbatim, prepending its own
+ * `.global` / `.text` / `.align` / label framing. The function's
+ * trailing literal pool and any co-located data table travel with
+ * its asm body.
+ *
+ * Hand edits will be lost on regeneration. Re-run gen_shim.py
+ * for this TU to refresh.
  */
 
 int FUN_06029810(void) asm {
