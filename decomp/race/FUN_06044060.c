@@ -1,17 +1,13 @@
-/* FUN_06044060 TU — naked asm shims, mechanically generated.
+/* FUN_06044060 TU — naked asm shims (decomp source of truth).
  *
- * Source: src/race/FUN_06044060.s
- * Generator: decomp/tools/gen_shim.py
- *
- * Each prod entry in this TU appears below as its own
- * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit
- * in saturncc takes each body verbatim, prepending its own
+ * Each prod entry appears below as its own
+ * `int FUN_<addr>(void) asm { ... }` block. Stage 4 naked emit in
+ * saturncc takes each body verbatim, prepending its own
  * `.global` / `.text` / `.align` / label framing. The function's
  * trailing literal pool and any co-located data table travel with
  * its asm body.
  *
- * Hand edits will be lost on regeneration. Re-run gen_shim.py
- * for this TU to refresh.
+ * Originally seeded from src/race/FUN_06044060.s; now hand-edited.
  */
 
 int FUN_06044060(void) asm {
