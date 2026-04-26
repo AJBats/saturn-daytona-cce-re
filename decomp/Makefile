@@ -47,9 +47,35 @@ AS       := $(TOOLDIR)/sh-elf-as
 LD       := $(TOOLDIR)/sh-elf-ld
 OBJCOPY  := $(TOOLDIR)/sh-elf-objcopy
 
-.PHONY: all race.s race.o race.elf race.bin clean info
+.PHONY: all race.s race.o race.elf race.bin validate clean info
 
 all: race.bin
+
+# ─── validate: byte-match against retail RACE.BIN ─────────────────
+#
+# build/disc/files/DAYTONA/RACE.BIN is the extracted retail binary
+# from the original disc — the same artifact the project's top-
+# level `make validate` checks build/race/race_free.bin against.
+# We point at it directly and pass-through that infrastructure's
+# byte-match guarantee.
+RETAIL_RACE := $(PROJDIR)/../build/disc/files/DAYTONA/RACE.BIN
+
+validate: race.bin
+	@if [ ! -f "$(RETAIL_RACE)" ]; then \
+		echo "  ERROR: retail RACE.BIN not found at $(RETAIL_RACE)" >&2; \
+		exit 1; \
+	fi
+	@if cmp -s "$(BUILDDIR)/race/race.bin" "$(RETAIL_RACE)"; then \
+		printf "  PASS  race.bin byte-identical to retail (%s bytes)\n" \
+			"$$(wc -c < "$(BUILDDIR)/race/race.bin" | tr -d ' ')"; \
+	else \
+		printf "  FAIL  race.bin diverges from retail RACE.BIN\n"; \
+		printf "        ours:   %s bytes\n" "$$(wc -c < "$(BUILDDIR)/race/race.bin" | tr -d ' ')"; \
+		printf "        retail: %s bytes\n" "$$(wc -c < "$(RETAIL_RACE)" | tr -d ' ')"; \
+		printf "        diverging bytes: %s\n" \
+			"$$(cmp -l "$(BUILDDIR)/race/race.bin" "$(RETAIL_RACE)" 2>/dev/null | wc -l)"; \
+		exit 1; \
+	fi
 
 # ─── race module ──────────────────────────────────────────────────
 
