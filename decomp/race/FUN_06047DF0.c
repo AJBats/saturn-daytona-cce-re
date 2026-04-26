@@ -128,8 +128,7 @@ FUN_06047EA8:
     sts.l pr, @-r15
     bsr FUN_06047E0C
     mov.l r4, @-r15
-    .reloc ., R_SH_IND12W, FUN_06047D3C - 4
-    .2byte 0xB000    /* bsr FUN_0601FD3C (linker-resolved) */
+    bsr FUN_06047D3C
     mov r0, r4
     mov #-0x1, r3
     shll8 r3

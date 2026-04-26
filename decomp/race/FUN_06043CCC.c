@@ -313,8 +313,7 @@ FUN_06043CDC:
     .byte 0x00, 0x00
     .byte 0x06, 0x66
     .byte 0xFF, 0xFF
-    .reloc ., R_SH_IND12W, FUN_06044ADA - 4
-    .2byte 0xA000    /* bra FUN_0601CADA (linker-resolved) */
+    bra FUN_06044ADA
 
 /* FUN_06043F10  0x06043F10 */
 

@@ -50,6 +50,37 @@ PROD_SRC = ROOT / "src"
 ENTRY_LABEL_RE = re.compile(r"^([A-Za-z_][\w]*?):\s*$")
 FUN_NAME_RE = re.compile(r"^FUN_[0-9A-Fa-f]+$")
 DROP_DIR_RE = re.compile(r"^\s*\.(section|global|globl|type)\b")
+RELOC_BRANCH_RE = re.compile(
+    r"^(\s*)\.reloc\s+\.,\s*R_SH_IND12W,\s*([A-Za-z_][\w]*)\s*-\s*4\s*$"
+)
+BRANCH_WORD_RE = re.compile(r"^\s*\.2byte\s+0x([AB])000\b")
+
+
+def _rewrite_reloc_branches(lines):
+    """Collapse `.reloc + .2byte 0xA000/0xB000` pairs into bra/bsr.
+
+    Prod's per-TU assemble couldn't reach across .text.FUN_<X>
+    sections, so far-target branches were emitted as a relocation
+    on a placeholder branch word. Our unified .text makes the
+    target visible at assemble time — convert to plain bra/bsr
+    so the assembler resolves directly.
+    """
+    out = []
+    i = 0
+    while i < len(lines):
+        m = RELOC_BRANCH_RE.match(lines[i])
+        if m and i + 1 < len(lines):
+            m2 = BRANCH_WORD_RE.match(lines[i + 1])
+            if m2:
+                indent = m.group(1)
+                target = m.group(2)
+                mnemonic = "bra" if m2.group(1) == "A" else "bsr"
+                out.append(f"{indent}{mnemonic} {target}")
+                i += 2
+                continue
+        out.append(lines[i])
+        i += 1
+    return out
 
 
 def shim_header(fun_name, prod_rel_path):
@@ -97,6 +128,14 @@ def gen_one(module, fun_name):
     # Trim trailing empty lines.
     while body_lines and body_lines[-1].strip() == "":
         body_lines.pop()
+
+    # Rewrite cross-TU branch escapes. Prod uses a `.reloc + .2byte
+    # 0xA000` (or 0xB000) pair to encode bra/bsr to far targets that
+    # the per-TU assemble step couldn't resolve directly because the
+    # target lived in a different .text.FUN_<X> section. Our unified
+    # build has every function in one .text, so the assembler can
+    # resolve these directly. Convert the pair to a plain bra/bsr.
+    body_lines = _rewrite_reloc_branches(body_lines)
 
     out_path = DECOMP / module / f"{fun_name}.c"
     out_path.parent.mkdir(parents=True, exist_ok=True)

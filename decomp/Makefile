@@ -47,9 +47,9 @@ AS       := $(TOOLDIR)/sh-elf-as
 LD       := $(TOOLDIR)/sh-elf-ld
 OBJCOPY  := $(TOOLDIR)/sh-elf-objcopy
 
-.PHONY: all race.s clean info
+.PHONY: all race.s race.o race.elf race.bin clean info
 
-all: race.s
+all: race.bin
 
 # ─── race module ──────────────────────────────────────────────────
 
@@ -68,10 +68,43 @@ $(BUILDDIR)/race/race.pp.c: race/race.c $(wildcard race/FUN_*.c) | $(BUILDDIR)/r
 $(BUILDDIR)/race/race.s: $(BUILDDIR)/race/race.pp.c
 	$(SATURNCC) -target=sh/hitachi $< $@
 
+# Assemble: sh-elf-as turns the unified .s into one big .o whose
+# .text section concatenates every shim body in source order.
+$(BUILDDIR)/race/race.o: $(BUILDDIR)/race/race.s
+	$(AS) -big -o $@ $<
+
+# Link: sh-elf-ld places .text at 0x06028000 per race.ld. The
+# script feeds *(.text) in input-file order — and we have one
+# input file (race.o), so source-order in race.c = link-order
+# in race.bin. No SORT_BY_NAME involved.
+#
+# -L $(PROJDIR)/.. is the project root; race.ld's
+# `INCLUDE "src/init/init_exports.ld"` resolves through this
+# search path. Without it, ld looks relative to its CWD which
+# is the make invocation dir.
+$(BUILDDIR)/race/race.elf: $(BUILDDIR)/race/race.o race/race.ld
+	$(LD) -L $(PROJDIR)/.. -T race/race.ld -o $@ $<
+
+# Final binary: strip ELF metadata, leaving just the raw text.
+# This is what we byte-diff against prod's race_free.bin.
+$(BUILDDIR)/race/race.bin: $(BUILDDIR)/race/race.elf
+	$(OBJCOPY) -O binary $< $@
+	@echo ""
+	@echo "  Wrote: $@ ($$(wc -c < $@) bytes)"
+
 race.s: $(BUILDDIR)/race/race.s
 	@echo ""
 	@echo "  Wrote: $<"
 	@wc -l $<
+
+race.o: $(BUILDDIR)/race/race.o
+	@echo "  Wrote: $<"
+
+race.elf: $(BUILDDIR)/race/race.elf
+	@echo "  Wrote: $<"
+
+race.bin: $(BUILDDIR)/race/race.bin
+	@true
 
 # ─── housekeeping ─────────────────────────────────────────────────
 
