@@ -109,11 +109,11 @@ ifdef MOD
 $(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.s | $(PROJDIR)/build/$(1)
 	$(AS) -big -o $$@ $$<
 
-# C mod overlay: .c -> Cygnus GCC -> cygnus_to_elf.py -> sh-elf-as -> .o
-$(PROJDIR)/build/$(1)/%.o: $(PROJDIR)/mods/$(MOD)/$(1)/%.c | $(PROJDIR)/build/$(1)
-	@echo "  CC (cygnus) $$<"
-	bash $(PROJDIR)/tools/cygnus_compile.sh $$< $(PROJDIR)/build/$(1)/$$*.s $$*
-	$(AS) -big -o $$@ $(PROJDIR)/build/$(1)/$$*.s
+# .c overlays via Cygnus were removed 2026-04-28 -- the active mod path
+# is now the saturncc-driven decomp/mods/transplant/ system. The wrapper
+# scripts (tools/cygnus_compile.sh, tools/cygnus_to_elf.py) and the
+# tools/cygnus-2.7-96Q3/ toolchain stay on disk for archival reproduction
+# of the legacy mods/decomp/race/*.c overlays. See mods/decomp/README.md.
 endif
 
 # Default src pattern rule
