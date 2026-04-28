@@ -155,13 +155,25 @@ investigate Bucket 5.
   HUD code uncovered.
 - **Pause / retry**: skipped.
 
-## Sweep artifacts
+## Sweep artifacts (committed evidence)
 
-- Probe file (transplant-anchored): [build/probes/race_module_transplant.txt](../../build/probes/race_module_transplant.txt) (2,251 probes)
-- Rolling-start hits summary: [build/probes/sweep_rolling_start.summary.json](../../build/probes/sweep_rolling_start.summary.json) (867 fired)
-- Lap hits summary: [build/probes/sweep_lap.summary.json](../../build/probes/sweep_lap.summary.json) (31 fired)
-- Dead-function list: [build/probes/dead_functions_after_lap.txt](../../build/probes/dead_functions_after_lap.txt) (422 entries)
+These files are committed to the repo so the analysis behind this census
+is reproducible without rerunning the (~30 min interactive) mednafen
+session:
+
+- Rolling-start hits summary: [sweep_artifacts/sweep_rolling_start.summary.json](sweep_artifacts/sweep_rolling_start.summary.json) — 867 fired addresses
+- Lap hits summary: [sweep_artifacts/sweep_lap.summary.json](sweep_artifacts/sweep_lap.summary.json) — 31 fired addresses
+- Dead-function list: [sweep_artifacts/dead_functions_after_lap.txt](sweep_artifacts/dead_functions_after_lap.txt) — 422 entries
+
+Regenerable artifacts (live under the gitignored build tree):
+
+- Probe file (transplant-anchored): `build/probes/race_module_transplant.txt`
+  — regenerate with `tools/enumerate_probes.py --module --elf decomp/build/transplant/race/race.elf`
 - Pruned probe files: `build/probes/race_module_transplant_after_*.txt`
+  — regenerate with `tools/prune_probes.py` against the summary JSONs above
+- Bucket file: [dead_function_buckets.txt](dead_function_buckets.txt)
+  — regenerate with `tools/analyze_dead_set.py` (commands in
+    [dead_code_sweep_protocol.md](dead_code_sweep_protocol.md) Step 9)
 
 ## Reproduction protocol
 

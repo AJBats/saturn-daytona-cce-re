@@ -265,11 +265,30 @@ function lists to the `--out` path. The script normalizes
 bin-offset-form FUN_X names (FUN_06000000 + offset) to HWR addresses
 automatically.
 
-## Step 10 — Update the census
+## Step 10 — Snapshot the irreproducible artifacts + update the census
 
-Edit [dead_function_census.md](dead_function_census.md) to reflect the new
-counts and bytes. The bucket explanations are stable across sweeps;
-typically only the numbers change.
+The sweep produces files under `build/probes/` (gitignored). Before the
+build dir gets cleaned or overwritten, **copy the irreproducible bits**
+into the tracked sweep_artifacts/ directory:
+
+```
+cp build/probes/sweep_rolling_start.summary.json   workstreams/transplant/sweep_artifacts/
+cp build/probes/sweep_lap.summary.json             workstreams/transplant/sweep_artifacts/
+cp build/probes/dead_functions_after_lap.txt       workstreams/transplant/sweep_artifacts/
+```
+
+These three files are the **canonical evidence** behind the census --
+the two summary JSONs are the actual measurements from the mednafen
+session (not regenerable without rerunning) and the dead-function list
+is the derived snapshot (regenerable from the summaries via Step 8).
+
+Everything else under `build/probes/` (the probe file, the pruned probe
+files, the buckets file) is regenerable from these three plus the
+tools, so it stays in the gitignored build tree.
+
+Then edit [dead_function_census.md](dead_function_census.md) to reflect
+the new counts and bytes. The bucket explanations are stable across
+sweeps; typically only the numbers change.
 
 If the river or CDL data have changed significantly (rare), also update
 the explanatory text.
