@@ -45,3 +45,8 @@ desktop.ini
 *.swp
 *~
 tools/cygnus-2.7-96Q3/
+
+# Tracked sweep artifacts (override global *.bin / *.BIN ignores above).
+# Irreproducible per-lap captures used as evidence for the dead-code
+# census + per-track cross-reference work.
+!workstreams/transplant/sweep_artifacts/**/*.bin
