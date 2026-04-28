@@ -229,7 +229,25 @@ PARENT_DIR        := $(PROJDIR)/..
 NON_RACE_MODULES  := main init select result2p name backup ending
 PARENT_DISC_OUT   := $(PARENT_DIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
 
-disc: $(MODRACE)/race.bin
+# `disc` is deterministic by construction:
+#   1. Wipe build/<MOD_NAME>/ entirely so no stale spliced TUs, .pp.c,
+#      .s, .o, .elf, or .bin can leak into the final image. The next
+#      step rebuilds everything from sources.
+#   2. Rebuild the race binary from manifest + overrides + pristine TUs.
+#   3. Re-validate that the seven non-race module artifacts under the
+#      parent build are present (they're pristine retail under
+#      MOD=transplant -- transplant only overrides race).
+#   4. Re-run gen_disc_data.py for COL surgery.
+#   5. inject_disc.py with --override per module so file-system state
+#      at PROJDIR/build/race/race_free.bin can never affect the result
+#      -- the override path is unambiguous and read directly.
+#
+# Result: the disc image is a deterministic function of the manifest +
+# overrides + pristine sources, regardless of what's in build/transplant/
+# or build/race/ when you start.
+disc:
+	@rm -rf $(MODBUILD)
+	@$(MAKE) --no-print-directory $(MODRACE)/race.bin
 	@missing=""; for m in $(NON_RACE_MODULES); do \
 		f="$(PARENT_DIR)/build/$$m/$${m}_free.bin"; \
 		if [ ! -f "$$f" ]; then missing="$$missing $$f"; fi; \
