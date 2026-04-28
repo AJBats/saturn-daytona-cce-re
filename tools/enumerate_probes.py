@@ -257,6 +257,123 @@ def find_rts_locations(line_info, start_line, end_line):
     return out, suspicious
 
 
+# SH-2 control-transfer mnemonics that EXIT the current function.
+# bsr/bsrf/jsr are CALLS (return via rts), not exits, so excluded.
+EXIT_MNEMONICS_DIRECT_RTS = {'rts', 'rte'}
+EXIT_MNEMONICS_INDIRECT   = {'jmp', 'braf'}              # @rN / rN — target unknown statically
+EXIT_MNEMONICS_LABELED    = {'bra', 'bt', 'bf', 'bt.s', 'bf.s', 'bt/s', 'bf/s'}
+
+
+def _branch_target_label(text):
+    """Given an instruction line, return the operand label (e.g. '.L_06028080',
+    'FUN_0602D052') for a labeled branch, or None.
+    """
+    if '/*' in text:
+        text = text[:text.index('/*')]
+    s = text.strip()
+    parts = s.split(None, 1)
+    if len(parts) < 2:
+        return None
+    operand = parts[1].strip().rstrip(',')
+    # Skip forms with @ (those are indirect, handled separately).
+    if operand.startswith('@'):
+        return None
+    # Take the leading identifier; ignore trailing comma-args.
+    m = re.match(r'^([A-Za-z_\.][A-Za-z0-9_\.]*)', operand)
+    return m.group(1) if m else None
+
+
+def find_body_exits(line_info, start_line, end_line, anchor_offset, function_size,
+                     symbol_offsets, alias_offsets):
+    """Walk every instruction in [start_line, end_line); identify exit-points.
+
+    An exit-point is any instruction that allows the PC to leave the function
+    body for any reason at any point:
+      - rts / rte                       (return)
+      - jmp @rN, braf rN                (indirect; target unknown statically)
+      - bra LABEL (LABEL outside function range)         (direct tail call)
+      - bt/bf/bt.s/bf.s LABEL (LABEL outside function)   (conditional tail)
+      - bra LABEL where LABEL = a PROVIDE alias address inside the function
+        body (internal re-entry via alias — tagged 'self_alias', useful for
+        catching functions with hidden mid-entries reachable internally)
+
+    bsr/bsrf/jsr are subroutine CALLS (return via rts), not exits — excluded.
+
+    Returns list of dicts: {line, offset, mnemonic, kind, target_label, target_offset}
+    where kind in {rts, jmp_ind, braf_ind, bra_out, cond_out, self_alias, bra_unresolved, cond_unresolved}.
+
+    alias_offsets: set of byte offsets in this function that are PROVIDE'd as
+    aliases for OTHER functions or for this function's mid-entries.
+    """
+    func_end_offset = anchor_offset + function_size
+    out = []
+    region = [(ln, text, kind, size, off)
+              for (ln, text, kind, size, off) in line_info
+              if start_line <= ln < end_line and kind == 'instruction']
+
+    for ln_num, text, kind, size, off in region:
+        mn = instruction_mnemonic(text)
+        if mn is None:
+            continue
+
+        if mn in EXIT_MNEMONICS_DIRECT_RTS:
+            out.append({
+                'line': ln_num, 'offset': off, 'mnemonic': mn,
+                'kind': 'rts', 'target_label': None, 'target_offset': None,
+                'text': text.strip(),
+            })
+            continue
+
+        if mn in EXIT_MNEMONICS_INDIRECT:
+            kind_tag = 'jmp_ind' if mn == 'jmp' else 'braf_ind'
+            out.append({
+                'line': ln_num, 'offset': off, 'mnemonic': mn,
+                'kind': kind_tag, 'target_label': None, 'target_offset': None,
+                'text': text.strip(),
+            })
+            continue
+
+        if mn in EXIT_MNEMONICS_LABELED:
+            label = _branch_target_label(text)
+            if label is None:
+                continue
+            target_off = symbol_offsets.get(label)
+            is_conditional = mn != 'bra'
+
+            if target_off is None:
+                # Label not in this file (cross-section reference, e.g. FUN_X
+                # in another TU). That's a cross-function exit — BP it.
+                out.append({
+                    'line': ln_num, 'offset': off, 'mnemonic': mn,
+                    'kind': 'cond_unresolved' if is_conditional else 'bra_unresolved',
+                    'target_label': label, 'target_offset': None,
+                    'text': text.strip(),
+                })
+                continue
+
+            inside = anchor_offset <= target_off < func_end_offset
+            if not inside:
+                out.append({
+                    'line': ln_num, 'offset': off, 'mnemonic': mn,
+                    'kind': 'cond_out' if is_conditional else 'bra_out',
+                    'target_label': label, 'target_offset': target_off,
+                    'text': text.strip(),
+                })
+            elif target_off in alias_offsets:
+                # Internal jump that lands on a PROVIDE'd alias address —
+                # interesting metadata for "this function re-enters its own
+                # mid-entry from inside." Not a true exit.
+                out.append({
+                    'line': ln_num, 'offset': off, 'mnemonic': mn,
+                    'kind': 'self_alias',
+                    'target_label': label, 'target_offset': target_off,
+                    'text': text.strip(),
+                })
+            # else: pure intra-function jump, skip.
+
+    return out
+
+
 def detect_tail_call(line_info, start_line, end_line, has_rts_in_body):
     """If the function's final control-transfer is jmp / braf / unconditional bra
     (not rts), return info. Otherwise None.
@@ -386,6 +503,33 @@ def build_report(symbol, src_dirs, ld_path):
             'text':           txt.strip(),
         })
 
+    # Body-exit scan (every instruction at any position in the function that
+    # can transfer control out, including cross-function bra and indirect
+    # jmp/braf). Supersedes the legacy end-only tail-call detection at scale.
+    func_size = (globals_in_order[
+                    next(i for i, (n, _, _) in enumerate(globals_in_order) if n == symbol) + 1
+                 ][2] - anchor_offset
+                 if any(n == symbol for n, _, _ in globals_in_order)
+                    and next(i for i, (n, _, _) in enumerate(globals_in_order) if n == symbol) + 1 < len(globals_in_order)
+                 else max((off + size for _, _, _, size, off in line_info), default=anchor_offset) - anchor_offset)
+    alias_offsets = {anchor_offset + a_off for _, a_off, _, _ in aliases}
+    body_exits_raw = find_body_exits(line_info, start_line, end_line,
+                                       anchor_offset, func_size,
+                                       symbol_offsets, alias_offsets)
+    body_exits = []
+    for ex in body_exits_raw:
+        body_exits.append({
+            'name':           f'{symbol}/{ex["kind"]}@L{ex["line"]}',
+            'addr':           section_base + ex['offset'],
+            'offset_in_func': ex['offset'] - anchor_offset,
+            'mnemonic':       ex['mnemonic'],
+            'kind':           ex['kind'],
+            'line':           ex['line'],
+            'target_label':   ex['target_label'],
+            'target_addr':    (section_base + ex['target_offset']) if ex['target_offset'] is not None else None,
+            'text':           ex['text'],
+        })
+
     return {
         'symbol':              symbol,
         'src_file':            sfile,
@@ -394,10 +538,12 @@ def build_report(symbol, src_dirs, ld_path):
         'anchor_offset':       anchor_offset,
         'anchor_abs_addr':     anchor_abs,
         'function_range_lines': [start_line, end_line],
+        'function_size':       func_size,
         'entries':             entries,
         'rtses':               rtses,
         'rtses_suspect':       rtses_suspect,
         'tails':               tails,
+        'body_exits':          body_exits,
     }
 
 
@@ -429,34 +575,69 @@ def emit_human(report):
         print('  (none - function returns via rts normally)')
     for t in report['tails']:
         print(f'  {t["name"]:<32} 0x{t["addr"]:08X}   line {t["line"]}  [{t["kind"]}] {t["text"]}')
+    print()
+    print(f'BODY-EXITS ({len(report["body_exits"])}):')
+    if not report['body_exits']:
+        print('  (none - function has no rts, no jmp/braf, no cross-function bra)')
+    for x in report['body_exits']:
+        tgt = f'-> 0x{x["target_addr"]:08X} ({x["target_label"]})' if x['target_addr'] else (
+              f'-> @{x["mnemonic"]}' if x['kind'] in ('jmp_ind', 'braf_ind') else
+              f'-> {x["target_label"]} (cross-section)' if x['target_label'] else '')
+        print(f'  {x["name"]:<40} 0x{x["addr"]:08X}   L{x["line"]:>5}  [{x["kind"]:<14}] {x["mnemonic"]} {tgt}')
 
 
-def emit_probe_file(report, f=sys.stdout):
+def emit_probe_file(report, f=sys.stdout, seen_addrs=None):
+    """Emit probe lines for one function. seen_addrs: optional shared set to
+    dedupe across multiple reports (when assembling a module-wide probe file).
+    """
     sym = report['symbol']
+    if seen_addrs is None:
+        seen_addrs = set()
     f.write(f'# === {sym} ===\n')
 
     code_entries = [e for e in report['entries'] if e['kind'] == 'code']
     data_entries = [e for e in report['entries'] if e['kind'] == 'data']
     f.write(f'# entries: {len(code_entries)} code, {len(data_entries)} data (data skipped)\n')
     for e in code_entries:
+        if e['addr'] in seen_addrs:
+            continue
+        seen_addrs.add(e['addr'])
         f.write(f'0x{e["addr"]:08X}  # {e["name"]} {e["note"]}\n')
 
-    if report['rtses']:
-        f.write(f'# rts: {len(report["rtses"])}\n')
-        for r in report['rtses']:
-            f.write(f'0x{r["addr"]:08X}  # {r["name"]} ({r["mnemonic"]})\n')
-
-    if report['tails']:
-        f.write(f'# tail-call: {len(report["tails"])}\n')
-        for t in report['tails']:
-            f.write(f'0x{t["addr"]:08X}  # {t["name"]} [{t["kind"]}] {t["mnemonic"]}\n')
+    # body_exits supersedes rtses + tails for probe emission (it's the
+    # superset). rtses + tails remain in the JSON/human reports for clarity.
+    if report['body_exits']:
+        f.write(f'# body-exits: {len(report["body_exits"])}\n')
+        for x in report['body_exits']:
+            if x['addr'] in seen_addrs:
+                continue
+            seen_addrs.add(x['addr'])
+            f.write(f'0x{x["addr"]:08X}  # {x["name"]} [{x["kind"]}] {x["mnemonic"]}\n')
     f.write('\n')
+
+
+def enumerate_all_globals(src_dirs):
+    """Walk every .s file in src_dirs and yield FUN_XXXXXXXX symbols in
+    address-ascending order across the module."""
+    pat = re.compile(r'^\s*\.global\s+(FUN_[0-9A-Fa-f]+)\s*$')
+    syms = set()
+    for d in src_dirs:
+        for sf in sorted(glob.glob(os.path.join(d, '*.s'))):
+            with open(sf, encoding='utf-8', errors='replace') as f:
+                for line in f:
+                    m = pat.match(line)
+                    if m:
+                        syms.add(m.group(1))
+    return sorted(syms, key=lambda s: int(s[len('FUN_'):], 16))
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('symbol', help='Function symbol (FUN_XXXXXXXX)')
+    ap.add_argument('symbol', nargs='?', default=None,
+                    help='Function symbol (FUN_XXXXXXXX). Omit when using --module.')
+    ap.add_argument('--module', action='store_true',
+                    help='Enumerate every FUN_ in the source dir(s) and emit a single combined probe file.')
     ap.add_argument('--src', action='append', default=[],
                     help='Source dir to scan (repeatable). Default: src/race')
     ap.add_argument('--ld', help='Linker script path (default: auto-detect)')
@@ -468,6 +649,32 @@ def main():
     args = ap.parse_args()
 
     src_dirs = args.src if args.src else ['src/race']
+
+    if args.module:
+        if not args.probe_file:
+            print('ERROR: --module currently requires --probe-file output mode', file=sys.stderr)
+            sys.exit(2)
+        symbols = enumerate_all_globals(src_dirs)
+        print(f'# enumerate_probes --module: {len(symbols)} functions across {len(src_dirs)} src dir(s)',
+              file=sys.stderr)
+        seen = set()
+        ok, skipped = 0, []
+        for sym in symbols:
+            try:
+                report = build_report(sym, src_dirs, args.ld)
+            except RuntimeError as e:
+                skipped.append((sym, str(e)))
+                continue
+            emit_probe_file(report, seen_addrs=seen)
+            ok += 1
+        print(f'# emitted {ok} reports, {len(seen)} unique probe addresses, '
+              f'{len(skipped)} skipped', file=sys.stderr)
+        for sym, why in skipped:
+            print(f'# SKIP {sym}: {why}', file=sys.stderr)
+        sys.exit(0)
+
+    if args.symbol is None:
+        ap.error('symbol is required unless --module is given')
 
     try:
         report = build_report(args.symbol, src_dirs, args.ld)
