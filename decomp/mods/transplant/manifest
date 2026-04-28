@@ -5,12 +5,40 @@
 # Format: <function_symbol>  <override_file_path>
 # Override paths are relative to this manifest's directory.
 #
-# The splice toolchain reads this file, groups overrides by their
-# pristine TU, and emits one spliced TU per modded TU under
-# build/transplant/race/spliced/. The unity-build pipeline then
-# consumes the spliced TUs in the same source-order slot the
-# pristine TU would have occupied.
+# Initial population is the port of the legacy whole-TU asm overlays
+# under mods/transplant/race/*.s into per-function overrides. The
+# bodies are byte-for-byte ports including their TRANSPLANT comments;
+# only the wrapping changed (raw .s -> `int FUN_X(void) asm { ... }`
+# under saturncc).
 #
-# Currently empty -- entries land here as we migrate transplant
-# overlays from mods/transplant/race/*.s into per-function .c
-# overrides under decomp/mods/transplant/race/.
+# Deferred (not yet ported):
+#   * mods/transplant/race/FUN_0604D380.s -- the surgical 30-function
+#     removal from ba9cf0de. Belongs with the "real removal" workstream
+#     once Tier 1 splitter symbolicness lands; in the meantime the dead
+#     functions remain pristine in race.bin (they are reachable bytes
+#     but empirically dead callers, so functionally identical).
+#   * mods/decomp/race/FUN_06037E28.c, FUN_06036BB8.c -- Cygnus C
+#     overlays. These need re-translation to saturncc-compatible C
+#     and are part of the lift-to-C track, not the asm-level mod port.
+
+# --- caller-side cuts (jsr -> nop, rts gates) ---
+FUN_06028000    race/FUN_06028000.c
+FUN_06034F54    race/FUN_06034F54.c
+FUN_0603C5CC    race/FUN_0603C5CC.c
+FUN_0603E350    race/FUN_0603E350.c
+FUN_0603E60C    race/FUN_0603E60C.c
+FUN_06036A70    race/FUN_06036A70.c
+FUN_06037E28    race/FUN_06037E28.c
+FUN_06037FD6    race/FUN_06037FD6.c
+FUN_06038202    race/FUN_06038202.c
+FUN_0603833C    race/FUN_0603833C.c
+FUN_060385CE    race/FUN_060385CE.c
+FUN_060386D8    race/FUN_060386D8.c
+FUN_06038A84    race/FUN_06038A84.c
+FUN_06038BC4    race/FUN_06038BC4.c
+FUN_06038BCC    race/FUN_06038BCC.c
+FUN_060394A8    race/FUN_060394A8.c
+
+# --- pool-zero cleanup (jump-table dead entries from FUN_0604D380 cut) ---
+FUN_060352FA    race/FUN_060352FA.c
+FUN_06035430    race/FUN_06035430.c
