@@ -113,6 +113,10 @@ def _line_byte_offsets(raw):
     return offsets
 
 
+# Sentinel marker for deletion entries (no override file, function disappears).
+DELETE_SENTINEL = object()
+
+
 def collect_overrides(override_paths):
     """Return {sym: (override_path, raw_block_bytes)} from all override files."""
     out = {}
@@ -130,6 +134,14 @@ def collect_overrides(override_paths):
             byte_end = offsets[end + 1]  # exclusive
             out[sym] = (str(path), raw[byte_start:byte_end])
     return out
+
+
+def make_deletion(source_label="manifest --delete"):
+    """Return an overrides-dict value that means 'remove this function block
+    from the spliced TU entirely'. Pair with a symbol in the overrides dict
+    just like a normal (path, bytes) entry.
+    """
+    return (source_label, DELETE_SENTINEL)
 
 
 def splice(pristine_path, overrides):
@@ -154,10 +166,17 @@ def splice(pristine_path, overrides):
         if block_byte_start > cursor_byte:
             out_parts.append(raw[cursor_byte:block_byte_start])
         if sym in overrides:
-            _, override_bytes = overrides[sym]
-            out_parts.append(override_bytes)
-            if not override_bytes.endswith(b"\n"):
-                out_parts.append(b"\n")
+            _, override_payload = overrides[sym]
+            if override_payload is DELETE_SENTINEL:
+                # Drop the function block entirely. The next pristine
+                # function (or trailing text) lands at this cursor with no
+                # gap, so the spliced TU shrinks by exactly the deleted
+                # block's bytes.
+                pass
+            else:
+                out_parts.append(override_payload)
+                if not override_payload.endswith(b"\n"):
+                    out_parts.append(b"\n")
         else:
             out_parts.append(raw[block_byte_start:block_byte_end])
         cursor_byte = block_byte_end

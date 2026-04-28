@@ -41,8 +41,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from splice_tu import find_function_blocks, splice  # noqa: E402
 
 
+# Sentinel marker meaning "delete this function from the spliced TU."
+DELETE_MARKER = "--delete"
+
+
 def parse_manifest(manifest_path):
-    """Return list of (symbol, override_abs_path)."""
+    """Return list of (symbol, override_path_or_DELETE).
+
+    A manifest line is either:
+        <symbol>  <override_path>     # replace function body
+        <symbol>  --delete            # remove function block entirely
+    """
     out = []
     seen = {}
     base = manifest_path.parent
@@ -55,20 +64,23 @@ def parse_manifest(manifest_path):
         parts = line.split()
         if len(parts) != 2:
             raise SystemExit(
-                f"{manifest_path}:{lineno}: expected '<symbol> <override_path>', got: {raw!r}"
+                f"{manifest_path}:{lineno}: expected '<symbol> <override_path|--delete>', got: {raw!r}"
             )
         sym, rel = parts
-        override = (base / rel).resolve()
-        if not override.exists():
-            raise SystemExit(
-                f"{manifest_path}:{lineno}: override file does not exist: {override}"
-            )
         if sym in seen:
             raise SystemExit(
                 f"{manifest_path}:{lineno}: duplicate manifest entry for {sym} "
                 f"(first at line {seen[sym]})"
             )
         seen[sym] = lineno
+        if rel == DELETE_MARKER:
+            out.append((sym, DELETE_MARKER))
+            continue
+        override = (base / rel).resolve()
+        if not override.exists():
+            raise SystemExit(
+                f"{manifest_path}:{lineno}: override file does not exist: {override}"
+            )
         out.append((sym, override))
     return out
 
@@ -117,27 +129,41 @@ def main():
         )
 
     # Group overrides by their pristine TU.
-    by_tu = defaultdict(list)  # tu_path -> [(sym, override_path)]
-    for sym, override_path in overrides:
-        by_tu[sym_to_tu[sym]].append((sym, override_path))
+    by_tu = defaultdict(list)  # tu_path -> [(sym, payload)]  payload = Path or DELETE_MARKER
+    for sym, payload in overrides:
+        by_tu[sym_to_tu[sym]].append((sym, payload))
 
     # Splice each modded TU.
+    n_replace = sum(1 for _, p in overrides if p != DELETE_MARKER)
+    n_delete = sum(1 for _, p in overrides if p == DELETE_MARKER)
     if by_tu:
-        print(f"  build_mod: {len(overrides)} override(s) across {len(by_tu)} TU(s)")
+        print(f"  build_mod: {len(overrides)} override(s) "
+              f"({n_replace} replace, {n_delete} delete) across {len(by_tu)} TU(s)")
     else:
         print("  build_mod: empty manifest -- mod build is identity-equivalent to pristine")
 
-    for tu_path, syms_and_paths in sorted(by_tu.items()):
-        # Collect overrides for this TU.
-        from splice_tu import collect_overrides
+    from splice_tu import collect_overrides, make_deletion
 
-        override_paths = [str(p) for _, p in syms_and_paths]
-        ovs = collect_overrides(override_paths)
+    for tu_path, syms_and_payloads in sorted(by_tu.items()):
+        replace_paths = [str(p) for s, p in syms_and_payloads if p != DELETE_MARKER]
+        delete_syms   = [s for s, p in syms_and_payloads if p == DELETE_MARKER]
+
+        ovs = collect_overrides(replace_paths) if replace_paths else {}
+        for s in delete_syms:
+            if s in ovs:
+                raise SystemExit(
+                    f"ERROR: {s} appears in both a replace override and a --delete entry"
+                )
+            ovs[s] = make_deletion(f"manifest --delete @ {args.manifest.name}")
+
         spliced_bytes, applied = splice(str(tu_path), ovs)
         out_tu = args.out_dir / tu_path.name
         out_tu.write_bytes(spliced_bytes)
         rel_out = out_tu.relative_to(Path.cwd()) if out_tu.is_absolute() else out_tu
-        print(f"    {tu_path.name}: spliced {len(applied)} fn(s) -> {rel_out}")
+        n_r = len(replace_paths) if not replace_paths else sum(1 for _, p in syms_and_payloads if p != DELETE_MARKER)
+        n_d = len(delete_syms)
+        print(f"    {tu_path.name}: spliced {len(applied)} fn(s) "
+              f"({n_r} replace, {n_d} delete) -> {rel_out}")
 
     # Copy the pristine unity master into out-dir verbatim. cpp's
     # `#include "FUN_X.c"` resolution searches the master's own dir first

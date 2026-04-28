@@ -11,12 +11,10 @@
 # only the wrapping changed (raw .s -> `int FUN_X(void) asm { ... }`
 # under saturncc).
 #
+# Manifest format: <symbol>  <override_path>     -- replace function body
+#                  <symbol>  --delete            -- remove function block
+#
 # Deferred (not yet ported):
-#   * mods/transplant/race/FUN_0604D380.s -- the surgical 30-function
-#     removal from ba9cf0de. Belongs with the "real removal" workstream
-#     once Tier 1 splitter symbolicness lands; in the meantime the dead
-#     functions remain pristine in race.bin (they are reachable bytes
-#     but empirically dead callers, so functionally identical).
 #   * mods/decomp/race/FUN_06037E28.c, FUN_06036BB8.c -- Cygnus C
 #     overlays. These need re-translation to saturncc-compatible C
 #     and are part of the lift-to-C track, not the asm-level mod port.
@@ -42,3 +40,51 @@ FUN_060394A8    race/FUN_060394A8.c
 # --- pool-zero cleanup (jump-table dead entries from FUN_0604D380 cut) ---
 FUN_060352FA    race/FUN_060352FA.c
 FUN_06035430    race/FUN_06035430.c
+
+# --- surviving 5 functions in FUN_0604D380 TU (need splitter-fixup overrides) ---
+# These functions stay alive but their bodies need the legacy overlay's
+# fix-ups applied: 13 splitter false-positive `bra/bsr FUN_X` data lines
+# replaced with .byte literals (the splitter mis-decoded data as code), and
+# one stub `.L_0604DEE6:` label added inside FUN_0604DE2C to satisfy a
+# bt branch that pointed into deleted FUN_0604DEB0 (FUN_0604DE2C is
+# empirically dead anyway, target position doesn't matter at runtime).
+FUN_0604DD04    race/FUN_0604DD04.c
+FUN_0604DD46    race/FUN_0604DD46.c
+FUN_0604DD4A    race/FUN_0604DD4A.c
+FUN_0604DE2C    race/FUN_0604DE2C.c
+FUN_0604E0F6    race/FUN_0604E0F6.c
+
+# --- surgical removal: 30 dead FUN_0604D380 TU functions (ba9cf0de) ---
+# Empirically dead (4/73 probes hit on cold-boot + attract + car-select +
+# rolling-start + 843-frame retail lap; all hits in the kept call chain).
+# Saves ~3008 bytes from race.bin.
+FUN_0604D380    --delete
+FUN_0604D46C    --delete
+FUN_0604D49A    --delete
+FUN_0604D520    --delete
+FUN_0604D540    --delete
+FUN_0604D570    --delete
+FUN_0604D580    --delete
+FUN_0604D658    --delete
+FUN_0604D8D4    --delete
+FUN_0604D8E4    --delete
+FUN_0604D8EA    --delete
+FUN_0604D94C    --delete
+FUN_0604DA40    --delete
+FUN_0604DA60    --delete
+FUN_0604DB10    --delete
+FUN_0604DB28    --delete
+FUN_0604DB52    --delete
+FUN_0604DBE0    --delete
+FUN_0604DC40    --delete
+FUN_0604DCE0    --delete
+FUN_0604DE9A    --delete
+FUN_0604DEB0    --delete
+FUN_0604DEFE    --delete
+FUN_0604DF02    --delete
+FUN_0604DF12    --delete
+FUN_0604DF58    --delete
+FUN_0604E040    --delete
+FUN_0604E078    --delete
+FUN_0604E09A    --delete
+FUN_0604E0BC    --delete
