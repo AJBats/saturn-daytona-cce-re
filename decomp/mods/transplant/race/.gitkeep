@@ -1,0 +1,6 @@
+# Per-function transplant overrides for the race module land here.
+# One file per overridden function, named after the function symbol:
+#     FUN_06037E28.c   ->  override for FUN_06037E28
+# Each file contains a single `int FUN_X(void) asm { ... }` or lifted
+# C function definition. Register the override in the manifest one
+# directory up.

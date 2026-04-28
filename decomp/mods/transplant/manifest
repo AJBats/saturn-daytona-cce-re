@@ -1,0 +1,16 @@
+# decomp/mods/transplant/manifest
+#
+# Per-function override manifest for the transplant mod.
+#
+# Format: <function_symbol>  <override_file_path>
+# Override paths are relative to this manifest's directory.
+#
+# The splice toolchain reads this file, groups overrides by their
+# pristine TU, and emits one spliced TU per modded TU under
+# build/transplant/race/spliced/. The unity-build pipeline then
+# consumes the spliced TUs in the same source-order slot the
+# pristine TU would have occupied.
+#
+# Currently empty -- entries land here as we migrate transplant
+# overlays from mods/transplant/race/*.s into per-function .c
+# overrides under decomp/mods/transplant/race/.

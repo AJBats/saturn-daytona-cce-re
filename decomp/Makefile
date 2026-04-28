@@ -47,7 +47,8 @@ AS       := $(TOOLDIR)/sh-elf-as
 LD       := $(TOOLDIR)/sh-elf-ld
 OBJCOPY  := $(TOOLDIR)/sh-elf-objcopy
 
-.PHONY: all race.s race.o race.elf race.bin validate clean info
+.PHONY: all race.s race.o race.elf race.bin validate clean info \
+        transplant transplant-info
 
 all: race.bin
 
@@ -131,6 +132,80 @@ race.elf: $(BUILDDIR)/race/race.elf
 
 race.bin: $(BUILDDIR)/race/race.bin
 	@true
+
+# ─── transplant: per-function modded build ────────────────────────
+#
+# The transplant build assembles a modded source tree under
+# build/transplant/race/ from per-function override files listed in
+# the manifest, then runs the same cpp/saturncc/as/ld/objcopy chain
+# against it. The pristine tree under race/ is never touched.
+#
+# How the override is applied:
+#   1. tools/build_mod.py reads the manifest (mods/transplant/manifest),
+#      groups per-function overrides by their pristine TU, and emits a
+#      whole-TU spliced .c file under build/transplant/race/<TU>.c for
+#      every modded TU. It also drops a copy of race/race.c into the
+#      same dir (the mod's unity master).
+#   2. cpp processes that master with `-I race/` so #include of an
+#      unmodded TU resolves to the pristine file, while a #include
+#      that matches a spliced TU resolves to the spliced file in the
+#      master's own dir (cpp searches the including file's dir first).
+#   3. saturncc/as/ld/objcopy run unchanged.
+#
+# No byte-match validation here: a modded build is supposed to differ
+# from retail. Boot-test the resulting race.bin via the project's
+# disc-injection tooling.
+
+MOD_NAME      ?= transplant
+MOD_DIR       := mods/$(MOD_NAME)
+MOD_MANIFEST  := $(MOD_DIR)/manifest
+MOD_OVERRIDES := $(wildcard $(MOD_DIR)/race/FUN_*.c)
+
+MODBUILD      := $(BUILDDIR)/$(MOD_NAME)
+MODRACE       := $(MODBUILD)/race
+
+transplant: $(MODRACE)/race.bin
+
+$(MODRACE):
+	mkdir -p $@
+
+# Trigger: any change to manifest, override files, or splice tooling
+# regenerates the entire spliced TU set + mod unity master. The script
+# is fast enough that selective regeneration is not worth the makefile
+# complexity.
+$(MODRACE)/race.c: $(MOD_MANIFEST) $(MOD_OVERRIDES) \
+                   tools/splice_tu.py tools/build_mod.py \
+                   $(wildcard race/FUN_*.c) | $(MODRACE)
+	python3 tools/build_mod.py \
+		--manifest $(MOD_MANIFEST) \
+		--pristine-dir race \
+		--unity-master race/race.c \
+		--out-dir $(MODRACE)
+
+# cpp: include-path search starts in the master's own dir (where
+# spliced TUs live), then falls through to -I race/ for unmodded TUs.
+$(MODRACE)/race.pp.c: $(MODRACE)/race.c
+	cpp -P -I race $< > $@
+
+$(MODRACE)/race.s: $(MODRACE)/race.pp.c
+	$(SATURNCC) -target=sh/hitachi $< $@
+
+$(MODRACE)/race.o: $(MODRACE)/race.s
+	$(AS) -big -o $@ $<
+
+$(MODRACE)/race.elf: $(MODRACE)/race.o race/race.ld
+	$(LD) -L $(PROJDIR)/.. -T race/race.ld -o $@ $<
+
+$(MODRACE)/race.bin: $(MODRACE)/race.elf
+	$(OBJCOPY) -O binary $< $@
+	@echo ""
+	@echo "  Wrote: $@ ($$(wc -c < $@) bytes)  [mod=$(MOD_NAME)]"
+
+transplant-info:
+	@echo "mod name:        $(MOD_NAME)"
+	@echo "mod manifest:    $(MOD_MANIFEST)"
+	@echo "mod overrides:   $(words $(MOD_OVERRIDES)) file(s)"
+	@echo "mod build dir:   $(MODRACE)"
 
 # ─── housekeeping ─────────────────────────────────────────────────
 
