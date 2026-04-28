@@ -46,6 +46,7 @@ import glob
 import json
 import os
 import re
+import subprocess
 import sys
 
 
@@ -411,6 +412,50 @@ def detect_tail_call(line_info, start_line, end_line, has_rts_in_body):
 
 # ---------- Main ---------------------------------------------------
 
+def _to_wsl_path(p):
+    """Convert a Windows absolute path like d:\\foo\\bar to /mnt/d/foo/bar.
+    Pass-through for paths that already look POSIX."""
+    s = str(p).replace('\\', '/')
+    m = re.match(r'^([A-Za-z]):/(.*)$', s)
+    if m:
+        return f'/mnt/{m.group(1).lower()}/{m.group(2)}'
+    return s
+
+
+def parse_elf_symbols(elf_path):
+    """Return {sym: real_address_int} by running sh-elf-objdump --syms.
+
+    Used to re-base probe addresses against an actual built binary instead
+    of the symbol-name encoding. Critical for modded builds where deletions
+    have shifted surviving functions to non-pristine addresses, OR for
+    unity builds where saturncc's layout differs slightly from the legacy
+    per-TU build.
+
+    Lines look like:
+        060480c0 g       .text	00000000 FUN_060480C4
+        06028000 g     F .entry	00000000 FUN_06028000
+    """
+    abs_path = os.path.abspath(elf_path)
+    wsl_path = _to_wsl_path(abs_path)
+    # sh-elf-objdump is a Linux ELF binary -- invoke through WSL.
+    cmd = ['wsl', '/mnt/d/Projects/DaytonaCCEReverse/tools/sh-elf/bin/sh-elf-objdump',
+           '--syms', wsl_path]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    except FileNotFoundError as e:
+        raise RuntimeError(f'wsl/objdump not found: {e}')
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f'objdump failed: {e.stderr}')
+
+    out = {}
+    pat = re.compile(r'^([0-9a-fA-F]+)\s+\S+\s+(?:F\s+)?\S+\s+\S+\s+(FUN_[0-9A-Fa-f]+)\s*$')
+    for line in result.stdout.splitlines():
+        m = pat.match(line)
+        if m:
+            out[m.group(2)] = int(m.group(1), 16)
+    return out
+
+
 def auto_detect_ld(sfile):
     d = os.path.dirname(sfile)
     base = os.path.basename(d)
@@ -421,7 +466,14 @@ def auto_detect_ld(sfile):
     return None
 
 
-def build_report(symbol, src_dirs, ld_path):
+def build_report(symbol, src_dirs, ld_path, elf_symbols=None):
+    """elf_symbols: optional {sym: real_addr} map. If given and `symbol` is
+    in it, the probe addresses are anchored to the real address rather than
+    the symbol-name encoding -- needed when the binary's layout differs
+    from the pristine source (modded builds, unity builds with shifted
+    functions). If `symbol` is NOT in elf_symbols (e.g. function was
+    --delete'd from the build), raises a RuntimeError tagged 'absent'.
+    """
     sfile = find_symbol_file(symbol, src_dirs)
     if not sfile:
         raise RuntimeError(f'.global {symbol} not found in {src_dirs}')
@@ -438,7 +490,15 @@ def build_report(symbol, src_dirs, ld_path):
     m = re.match(r'FUN_([0-9A-Fa-f]+)', symbol)
     if not m:
         raise RuntimeError('symbol must be FUN_XXXXXXXX form')
-    anchor_abs = int(m.group(1), 16)
+    pristine_anchor_abs = int(m.group(1), 16)
+
+    if elf_symbols is not None:
+        if symbol not in elf_symbols:
+            raise RuntimeError(f'absent: {symbol} not in ELF (likely deleted in this build)')
+        anchor_abs = elf_symbols[symbol]
+    else:
+        anchor_abs = pristine_anchor_abs
+
     section_base = anchor_abs - anchor_offset
 
     total_lines = len(line_info)
@@ -641,6 +701,10 @@ def main():
     ap.add_argument('--src', action='append', default=[],
                     help='Source dir to scan (repeatable). Default: src/race')
     ap.add_argument('--ld', help='Linker script path (default: auto-detect)')
+    ap.add_argument('--elf', help='ELF binary to read real symbol addresses from. '
+                                  'Use this when the build has shifted addresses '
+                                  '(modded builds, unity builds). Functions absent '
+                                  'from the ELF are skipped (likely --delete\'d).')
     g = ap.add_mutually_exclusive_group()
     g.add_argument('--json', action='store_true',
                    help='Emit JSON for machine consumption')
@@ -650,6 +714,16 @@ def main():
 
     src_dirs = args.src if args.src else ['src/race']
 
+    elf_symbols = None
+    if args.elf:
+        try:
+            elf_symbols = parse_elf_symbols(args.elf)
+            print(f'# enumerate_probes --elf: loaded {len(elf_symbols)} FUN_ symbols from {args.elf}',
+                  file=sys.stderr)
+        except RuntimeError as e:
+            print(f'ERROR: {e}', file=sys.stderr)
+            sys.exit(1)
+
     if args.module:
         if not args.probe_file:
             print('ERROR: --module currently requires --probe-file output mode', file=sys.stderr)
@@ -658,17 +732,21 @@ def main():
         print(f'# enumerate_probes --module: {len(symbols)} functions across {len(src_dirs)} src dir(s)',
               file=sys.stderr)
         seen = set()
-        ok, skipped = 0, []
+        ok, skipped, absent = 0, [], 0
         for sym in symbols:
             try:
-                report = build_report(sym, src_dirs, args.ld)
+                report = build_report(sym, src_dirs, args.ld, elf_symbols=elf_symbols)
             except RuntimeError as e:
+                if str(e).startswith('absent:'):
+                    absent += 1
+                    continue
                 skipped.append((sym, str(e)))
                 continue
             emit_probe_file(report, seen_addrs=seen)
             ok += 1
         print(f'# emitted {ok} reports, {len(seen)} unique probe addresses, '
-              f'{len(skipped)} skipped', file=sys.stderr)
+              f'{absent} absent-from-ELF (likely deleted), '
+              f'{len(skipped)} other skips', file=sys.stderr)
         for sym, why in skipped:
             print(f'# SKIP {sym}: {why}', file=sys.stderr)
         sys.exit(0)
@@ -677,7 +755,7 @@ def main():
         ap.error('symbol is required unless --module is given')
 
     try:
-        report = build_report(args.symbol, src_dirs, args.ld)
+        report = build_report(args.symbol, src_dirs, args.ld, elf_symbols=elf_symbols)
     except RuntimeError as e:
         print(f'ERROR: {e}', file=sys.stderr)
         sys.exit(1)
