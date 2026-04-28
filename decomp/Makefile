@@ -48,7 +48,7 @@ LD       := $(TOOLDIR)/sh-elf-ld
 OBJCOPY  := $(TOOLDIR)/sh-elf-objcopy
 
 .PHONY: all race.s race.o race.elf race.bin validate clean info \
-        transplant transplant-info
+        transplant transplant-info disc
 
 all: race.bin
 
@@ -206,6 +206,53 @@ transplant-info:
 	@echo "mod manifest:    $(MOD_MANIFEST)"
 	@echo "mod overrides:   $(words $(MOD_OVERRIDES)) file(s)"
 	@echo "mod build dir:   $(MODRACE)"
+
+# ─── disc: assemble bootable disc with the decomp transplant race.bin ─────
+#
+# Stages the decomp-built race.bin alongside the parent build's free.bin
+# files for the other 7 modules, then runs gen_disc_data.py (COL surgery
+# for the transplant mod) and inject_disc.py to produce a bootable cue.
+#
+# Requires the parent project build to have produced the other 7 module
+# binaries:
+#
+#   (from project root)
+#   make MOD=transplant SHIFT=0 all
+#
+# The non-race modules under MOD=transplant are pristine retail (transplant
+# overlays only race) -- we just need the free-link variants. The disc
+# output lands at the same place the parent's `make MOD=transplant disc`
+# would put it, so downstream tooling (mednafen launchers, screenshot
+# tests) doesn't need any rewiring.
+
+PARENT_DIR        := $(PROJDIR)/..
+NON_RACE_MODULES  := main init select result2p name backup ending
+PARENT_DISC_OUT   := $(PARENT_DIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
+
+disc: $(MODRACE)/race.bin
+	@missing=""; for m in $(NON_RACE_MODULES); do \
+		f="$(PARENT_DIR)/build/$$m/$${m}_free.bin"; \
+		if [ ! -f "$$f" ]; then missing="$$missing $$f"; fi; \
+	done; \
+	if [ -n "$$missing" ]; then \
+		echo "ERROR: missing parent build artifacts:" >&2; \
+		for f in $$missing; do echo "  $$f" >&2; done; \
+		echo "" >&2; \
+		echo "  From project root: make MOD=transplant SHIFT=0 all" >&2; \
+		exit 1; \
+	fi
+	@rm -f $(PARENT_DISC_OUT)
+	@if [ -f "$(PARENT_DIR)/mods/$(MOD_NAME)/gen_disc_data.py" ]; then \
+		python3 $(PARENT_DIR)/mods/$(MOD_NAME)/gen_disc_data.py; \
+	fi
+	@python3 $(PARENT_DIR)/tools/inject_disc.py \
+		--override race:$(MODRACE)/race.bin \
+		$(foreach m,$(NON_RACE_MODULES),--override $(m):$(PARENT_DIR)/build/$(m)/$(m)_free.bin) \
+		--data-overlay $(PARENT_DIR)/build/mods/$(MOD_NAME)/disc
+	@echo ""
+	@echo "  Disc ready (decomp $(MOD_NAME)): $(PARENT_DISC_OUT)"
+	@echo "  Race binary:  $(MODRACE)/race.bin"
+	@echo "  Boot:         path to .cue above"
 
 # ─── housekeeping ─────────────────────────────────────────────────
 
