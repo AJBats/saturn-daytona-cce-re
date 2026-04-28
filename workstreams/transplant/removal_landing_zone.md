@@ -214,8 +214,67 @@ etc.) lands here.
    FUN_06036BB8). Cheap to do now while the emulator infra is fresh.
    Worth blocking Phase 3 on, or run opportunistically?
 
+## Update 2026-04-28 — compiler engineer response received
+
+Saturncc-side reply: [saturncc_capability_response.md](saturncc_capability_response.md).
+Most of the wishlist is more shipped than this doc assumed. The build
+order, Phase 1 scope, and the "what we're waiting on" framing all
+change. **The lists themselves (List 1/2/3) are unchanged.**
+
+### Revised wishlist status
+
+| # | Status as of 2026-04-28 |
+|---|-------------------------|
+| 1 | **Our work, mostly.** Splitter rewrites `.4byte ADDR → .4byte FUN_X` are DaytonaCCEReverse-side. Saturncc offered an optional `-Wfunction-pointer-literal` warning to enforce the no-literal-FP-cast rule — accepted, will batch with #2 on his side. |
+| 2 | **Landing now on saturncc.** Asm-IR substrate (`.asm_entry`) already exists; C-level surface syntax is being designed per his `entry_alias_design.md`. He asked us for additional alias shapes to validate the design (negative offsets, same-as-entry, past-rts). |
+| 3 | **Our work. Deferred.** Build-system layer over `sh-elf-ld` — only worth building once removal cascades hit dangling-pool friction enough to justify it. |
+| 4 | **Already shipped.** Mixed asm/C-statements in one body works today (commits `57e771a` → `b427ae9`, merged via `b49aebf`). Exemplar: `FUN_06044060` in saturncc/saturn/experiments/daytona_byte_match/race_FUN_06044060/FUN_06044060.c. Asm blocks are verbatim with parsed read/write masks; allocator routes C around them. |
+| 5 | **Mostly shipped or done-via-#4.** Cat 4 noregsave / Cat 4 noregalloc / Cat 5 lowfirst all shipped. Cat 7 + Cat 8 done via #4. Cat 1 + Cat 2 substrates exist (Cat 1 surface is #2). **Two genuine partials remain: Cat 3 binding semantics + Cat 6 IPA gen.c allocator piece.** Both are explicitly DUSA-milestone scope, not removal-milestone scope. |
+
+### Revised build order
+
+Original: #1 → #4 → #5 → #2 → #3.
+Revised:
+
+1. **#4** — done. Start using it now. Validate with a real removal-cascade test (his Ask 1).
+2. **#1 splitter side** — our work. Build it.
+3. **#2** — landing now on saturncc. Send alias-shape inventory (his Ask 2).
+4. **#5 Cat 3 binding + Cat 6 IPA generalization** — both deferred to next milestone (DUSA imports).
+5. **#3** — deferred until removal cascades make it worth it.
+
+### Revised Phase 1 milestone
+
+Original Phase 1 said "Compiler #1 + #4 + #5 land in saturncc." That's
+no longer the gating constraint. New Phase 1:
+
+- **Lift test**: take FUN_06036790 (player position writer, ~30 lines,
+  0 annotations per census) and rewrite it as mixed asm/C using #4's
+  shipped form. Validate with `make -C decomp validate`. Success
+  criterion identical to original Phase 1: byte-match preserved.
+- **Splitter pass for #1**: rewrite all `.4byte` constants in
+  `decomp/race/*.c` that match a known FUN_X entry to symbolic
+  `.4byte FUN_X`. Same for any literal-address FP casts that exist.
+- **Alias-shape inventory for his #2**: enumerate the shapes that exist
+  in race.ld's PROVIDE statements (positive offset, negative offset,
+  zero offset, past-rts, alias-of-alias) so the entry_alias_design
+  surface covers what we'll actually need.
+
+End state of Phase 1: one function lifted, splitter symbolifies all
+FP-shaped pool entries, his #2 ships against a use-case set we
+validated. Phase 2 (friction-decomp on List 2) then proceeds with
+real C in the toolbox.
+
+### Compiler-engineer asks (status)
+
+| # | Ask | Decision |
+|---|-----|----------|
+| 1 | Confirm #4 with a real removal-cascade test | **Accepted.** Target: FUN_06036790. |
+| 2 | Send a #2 use case for design validation (alias shapes) | **Accepted.** Source: race.ld PROVIDE statements + `.global` boundaries. |
+| 3 | Confirm whether #1 saturncc-side warning is wanted | **Accepted.** Cheap belt-and-suspenders for the no-literal-FP-cast rule. |
+
 ## Append log
 
 | Date | Note |
 |------|------|
 | 2026-04-27 | Initial doc — pivot from asm-surgery to compiler-driven removal. |
+| 2026-04-28 | Compiler engineer responded; revised build order + Phase 1 scope. |
