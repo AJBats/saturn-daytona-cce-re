@@ -156,15 +156,36 @@ race.bin: $(BUILDDIR)/race/race.bin
 # from retail. Boot-test the resulting race.bin via the project's
 # disc-injection tooling.
 
-MOD_NAME      ?= transplant
-MOD_DIR       := mods/$(MOD_NAME)
-MOD_MANIFEST  := $(MOD_DIR)/manifest
-MOD_OVERRIDES := $(wildcard $(MOD_DIR)/race/FUN_*.c)
+# MOD selects which mod manifest under mods/<MOD>/manifest to apply.
+# Empty (default) means PRISTINE -- no overrides, no overlays, no COL surgery.
+# The disc target picks a code path based on whether MOD is set:
+#   make -C decomp disc                    -> pristine retail-equivalent disc
+#   make -C decomp MOD=transplant disc     -> transplant-mod disc
+#   make -C decomp MOD=<bogus> disc        -> loud error (manifest not found)
+MOD           ?=
+MOD_DIR       := $(if $(MOD),mods/$(MOD),)
+MOD_MANIFEST  := $(if $(MOD),$(MOD_DIR)/manifest,)
+MOD_OVERRIDES := $(if $(MOD),$(wildcard $(MOD_DIR)/race/FUN_*.c),)
 
-MODBUILD      := $(BUILDDIR)/$(MOD_NAME)
-MODRACE       := $(MODBUILD)/race
+MODBUILD      := $(if $(MOD),$(BUILDDIR)/$(MOD),)
+MODRACE       := $(if $(MOD),$(MODBUILD)/race,)
 
-transplant: $(MODRACE)/race.bin
+# Convenience: `make transplant` is shorthand for `make MOD=transplant transplant-bin`.
+.PHONY: transplant
+transplant:
+	@$(MAKE) --no-print-directory MOD=transplant mod-bin
+
+# `make MOD=<name> mod-bin` builds the mod's race binary (no disc).
+.PHONY: mod-bin
+mod-bin:
+ifndef MOD
+	@echo "ERROR: mod-bin requires MOD=<name>" >&2; exit 1
+endif
+	@if [ ! -f "$(MOD_MANIFEST)" ]; then \
+		echo "ERROR: manifest not found: $(MOD_MANIFEST)" >&2; \
+		exit 1; \
+	fi
+	@$(MAKE) --no-print-directory $(MODRACE)/race.bin
 
 $(MODRACE):
 	mkdir -p $@
@@ -202,7 +223,14 @@ $(MODRACE)/race.bin: $(MODRACE)/race.elf
 	@echo "  Wrote: $@ ($$(wc -c < $@) bytes)  [mod=$(MOD_NAME)]"
 
 transplant-info:
-	@echo "mod name:        $(MOD_NAME)"
+	@$(MAKE) --no-print-directory MOD=transplant mod-info
+
+.PHONY: mod-info
+mod-info:
+ifndef MOD
+	@echo "ERROR: mod-info requires MOD=<name>" >&2; exit 1
+endif
+	@echo "mod name:        $(MOD)"
 	@echo "mod manifest:    $(MOD_MANIFEST)"
 	@echo "mod overrides:   $(words $(MOD_OVERRIDES)) file(s)"
 	@echo "mod build dir:   $(MODRACE)"
@@ -229,25 +257,37 @@ PARENT_DIR        := $(PROJDIR)/..
 NON_RACE_MODULES  := main init select result2p name backup ending
 PARENT_DISC_OUT   := $(PARENT_DIR)/build/disc/rebuilt_disc/daytona_cce_rebuilt.cue
 
-# `disc` is deterministic by construction:
-#   1. Wipe build/<MOD_NAME>/ entirely so no stale spliced TUs, .pp.c,
-#      .s, .o, .elf, or .bin can leak into the final image. The next
-#      step rebuilds everything from sources.
-#   2. Rebuild the race binary from manifest + overrides + pristine TUs.
-#   3. Re-validate that the seven non-race module artifacts under the
-#      parent build are present (they're pristine retail under
-#      MOD=transplant -- transplant only overrides race).
-#   4. Re-run gen_disc_data.py for COL surgery.
-#   5. inject_disc.py with --override per module so file-system state
-#      at PROJDIR/build/race/race_free.bin can never affect the result
-#      -- the override path is unambiguous and read directly.
+# Two disc-build code paths, picked by whether MOD is set:
 #
-# Result: the disc image is a deterministic function of the manifest +
-# overrides + pristine sources, regardless of what's in build/transplant/
-# or build/race/ when you start.
-disc:
-	@rm -rf $(MODBUILD)
-	@$(MAKE) --no-print-directory $(MODRACE)/race.bin
+#   make -C decomp disc                 -> pristine disc (no overlays)
+#   make -C decomp MOD=transplant disc  -> transplant-mod disc
+#   make -C decomp MOD=<bogus> disc     -> error (manifest not found)
+#
+# Both paths:
+#   * Force-clean their build subtree first so output is deterministic.
+#   * Validate that the parent project has the seven non-race module
+#     binaries present (the disc bundles them alongside the decomp
+#     race.bin). The parent build under MOD=transplant produces pristine
+#     bytes for non-race modules anyway since transplant only overrides
+#     race -- so a single `make MOD=transplant SHIFT=0 all` from project
+#     root is sufficient setup for both pristine AND transplant
+#     decomp-disc builds.
+#   * Use inject_disc.py --override for the race module so PROJDIR/build/
+#     race/race_free.bin state on disk can never poison the output.
+#
+# The mod path additionally:
+#   * Runs build_mod.py to splice the mod's per-function overrides into
+#     the unity-build source tree.
+#   * Runs the mod's gen_disc_data.py if present (e.g. transplant's COL
+#     surgery on CS0_COL.BIN).
+#   * Passes --data-overlay to inject_disc.py for the mod's disc-data
+#     overlay directory (e.g. transplant's modified CS0_COL.BIN).
+
+PRISTINE_RACE_BIN := $(BUILDDIR)/race/race.bin
+
+# Validate parent's non-race module binaries are present (shared check).
+.PHONY: _check_parent_modules
+_check_parent_modules:
 	@missing=""; for m in $(NON_RACE_MODULES); do \
 		f="$(PARENT_DIR)/build/$$m/$${m}_free.bin"; \
 		if [ ! -f "$$f" ]; then missing="$$missing $$f"; fi; \
@@ -259,16 +299,52 @@ disc:
 		echo "  From project root: make MOD=transplant SHIFT=0 all" >&2; \
 		exit 1; \
 	fi
+
+# Top-level disc target dispatches based on MOD.
+.PHONY: disc
+ifeq ($(MOD),)
+disc: pristine-disc
+else
+disc: mod-disc
+endif
+
+# Pristine disc: no overlays, decomp race.bin straight in, no COL surgery.
+.PHONY: pristine-disc
+pristine-disc: _check_parent_modules
+	@rm -rf $(BUILDDIR)/race
+	@$(MAKE) --no-print-directory $(PRISTINE_RACE_BIN)
 	@rm -f $(PARENT_DISC_OUT)
-	@if [ -f "$(PARENT_DIR)/mods/$(MOD_NAME)/gen_disc_data.py" ]; then \
-		python3 $(PARENT_DIR)/mods/$(MOD_NAME)/gen_disc_data.py; \
+	@python3 $(PARENT_DIR)/tools/inject_disc.py \
+		--override race:$(PRISTINE_RACE_BIN) \
+		$(foreach m,$(NON_RACE_MODULES),--override $(m):$(PARENT_DIR)/build/$(m)/$(m)_free.bin)
+	@echo ""
+	@echo "  Disc ready (decomp PRISTINE): $(PARENT_DISC_OUT)"
+	@echo "  Race binary:  $(PRISTINE_RACE_BIN)  (no overlays)"
+
+# Mod disc: build mod race binary, run mod's gen_disc_data.py (if any),
+# inject with --data-overlay for the mod's disc dir.
+.PHONY: mod-disc
+mod-disc: _check_parent_modules
+ifndef MOD
+	@echo "ERROR: mod-disc requires MOD=<name>" >&2; exit 1
+endif
+	@if [ ! -f "$(MOD_MANIFEST)" ]; then \
+		echo "ERROR: mod manifest not found: $(MOD_MANIFEST)" >&2; \
+		echo "       Available mods: $$(ls -d mods/*/ 2>/dev/null | xargs -n1 basename)" >&2; \
+		exit 1; \
+	fi
+	@rm -rf $(MODBUILD)
+	@$(MAKE) --no-print-directory $(MODRACE)/race.bin
+	@rm -f $(PARENT_DISC_OUT)
+	@if [ -f "$(PARENT_DIR)/mods/$(MOD)/gen_disc_data.py" ]; then \
+		python3 $(PARENT_DIR)/mods/$(MOD)/gen_disc_data.py; \
 	fi
 	@python3 $(PARENT_DIR)/tools/inject_disc.py \
 		--override race:$(MODRACE)/race.bin \
 		$(foreach m,$(NON_RACE_MODULES),--override $(m):$(PARENT_DIR)/build/$(m)/$(m)_free.bin) \
-		--data-overlay $(PARENT_DIR)/build/mods/$(MOD_NAME)/disc
+		--data-overlay $(PARENT_DIR)/build/mods/$(MOD)/disc
 	@echo ""
-	@echo "  Disc ready (decomp $(MOD_NAME)): $(PARENT_DISC_OUT)"
+	@echo "  Disc ready (decomp $(MOD) MOD): $(PARENT_DISC_OUT)"
 	@echo "  Race binary:  $(MODRACE)/race.bin"
 	@echo "  Boot:         path to .cue above"
 
