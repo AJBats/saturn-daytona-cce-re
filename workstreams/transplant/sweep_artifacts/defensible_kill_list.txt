@@ -5,64 +5,38 @@
 #
 # Definition of "defensible kill":
 #   1. In the 422-fn sweep-dead set after lap playback
-#   2. cdl_n_tracks_alive > 0 (positive evidence retail TT runs it)
-#   3. bp_n_tracks_fired = 0 (positive evidence transplant does not run it)
-#   4. Every entry probe and every body-exit probe of the function is
+#   2. cdl_n_tracks_alive > 0 (positive evidence retail TT runs CODE)
+#   3. cdl_data_n_tracks_alive = 0 (no F_DATA reads of body bytes anywhere
+#      in retail TT -- otherwise body is acting as a constant table that
+#      another module reads, and deleting it leaves readers with garbage)
+#   4. bp_n_tracks_fired = 0 (positive evidence transplant does not run it)
+#   5. Every entry probe and every body-exit probe of the function is
 #      unfired across all 4 per-track BP sweeps (no probe-vs-range gap)
-#   5. Preceding function does NOT fall through into us, OR if it does
+#   6. Preceding function does NOT fall through into us, OR if it does
 #      the preceding function is also dead/no-fire (joint entity dead)
 #
-# Total: 50 fns / 13,604 bytes
+# Total: 21 fns / 1,640 bytes
 #
 # Format: <runtime_addr>  <runtime_name>  <size_bytes>
 #
-0x0602A048  FUN_0602A048              208
-0x0602A20C  FUN_0602A20C              152
 0x0602BDDC  FUN_0602BDDC              226
 0x0602C764  FUN_0602C764               96
-0x0602CB28  FUN_0602CB28              332
 0x0602E8B0  FUN_0602E8B0                8
 0x0602F178  FUN_0602F178              148
 0x0602F20C  FUN_0602F20C              104
 0x0602F274  FUN_0602F274               68
-0x060352FA  FUN_060352FA              310
-0x060354A0  FUN_060354A0              388
-0x06035624  FUN_06035624              212
-0x060356F8  FUN_060356F8               80
 0x06035748  FUN_06035748                8
-0x06035750  FUN_06035750              436
-0x06035904  FUN_06035904              522
 0x06035B0E  FUN_06035B0E               34
-0x06035B30  FUN_06035B30              296
-0x06035C58  FUN_06035C58               64
-0x06035C98  FUN_06035C98              592
-0x06035EE8  FUN_06035EE8               96
-0x06035F48  FUN_06035F48              980
-0x0603631C  FUN_0603631C             1108
 0x06036790  FUN_06036790               10
-0x0603679A  FUN_0603679A              110
-0x06036808  FUN_06036808              204
-0x060368D4  FUN_060368D4               64
 0x06036914  FUN_06036914               52
 0x06036948  FUN_06036948               72
 0x06036BB8  FUN_06036BB8               14
-0x06036BC6  FUN_06036BC6              306
-0x06036CF8  FUN_06036CF8               90
 0x06036D52  FUN_06036D52               42
 0x06036E6C  FUN_06036E6C               36
-0x06036EB4  FUN_06036EB4              540
-0x060370D0  FUN_060370D0              150
-0x06037166  FUN_06037166              810
-0x06037490  FUN_06037490              456
 0x06037658  FUN_06037658                4
-0x0603765C  FUN_0603765C             1340
 0x06037B98  FUN_06037B98               96
-0x060386D8  FUN_060386D8              938
-0x06038A84  FUN_06038A84              320
 0x06038DD8  FUN_06038DD8               20
 0x06039AA4  FUN_06039AA4              236
-0x06039ED8  FUN_06039ED8              716
 0x06042C64  FUN_06042C64               12
-0x06043B90  FUN_06043B90              144
 0x060457AA  FUN_060457AA                2
 0x06047EF0  FUN_06047EF0              352

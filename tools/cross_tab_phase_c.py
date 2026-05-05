@@ -51,6 +51,7 @@ CDL_SIZE = 0x100000
 CDL_BASE = 0x06000000
 RACE_LOAD_ADDR = 0x06028000
 F_CODE = 0x01
+F_DATA = 0x02   # mednafen CDL bit: byte was loaded as data (mov.l/mov.w/mov.b)
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -106,6 +107,19 @@ def count_code_bytes(cdl_data, link_addr, size, load_offset):
     n = 0
     for i in range(size):
         if cdl_data[start + i] & F_CODE:
+            n += 1
+    return n
+
+
+def count_data_bytes(cdl_data, link_addr, size, load_offset):
+    """Count bytes flagged F_DATA (loaded by mov.l/mov.w/mov.b from outside).
+    Critical for deletion safety -- a function whose body bytes are read as
+    data is acting as a constant table; deleting it leaves its readers with
+    garbage."""
+    start = (link_addr - 0x06000000) + load_offset
+    n = 0
+    for i in range(size):
+        if cdl_data[start + i] & F_DATA:
             n += 1
     return n
 
@@ -178,10 +192,13 @@ def main():
         runtime_addr = link_addr + load_offset
         cdl_hits = {label: count_code_bytes(cdls[label], link_addr, size, load_offset)
                     for label in cdls}
+        cdl_data_hits = {label: count_data_bytes(cdls[label], link_addr, size, load_offset)
+                         for label in cdls}
         bp_fired = {label: int(bp_fired_in(bps[label], runtime_addr, runtime_addr + size))
                     for label in cdls}
 
         cdl_n = sum(1 for v in cdl_hits.values() if v > 0)
+        cdl_data_n = sum(1 for v in cdl_data_hits.values() if v > 0)
         bp_n = sum(bp_fired.values())
         in_dead = runtime_addr in dead_set
         bucket = buckets.get(runtime_addr, '')
@@ -191,6 +208,11 @@ def main():
         else:
             if bp_n > 0:
                 label = 'SWEEP_FALSE_DEAD'
+            elif cdl_data_n > 0:
+                # Body bytes are read as data by other code in retail.
+                # Deleting it leaves readers with garbage. Don't delete
+                # even if our BP probes never fired the entry.
+                label = 'DATA_USED'
             elif cdl_n > 0:
                 label = 'KILL_LIST'
             else:
@@ -203,8 +225,10 @@ def main():
             'bucket': bucket,
             'in_sweep_dead': int(in_dead),
             'cdl_hits': cdl_hits,
+            'cdl_data_hits': cdl_data_hits,
             'bp_fired': bp_fired,
             'cdl_n_tracks_alive': cdl_n,
+            'cdl_data_n_tracks_alive': cdl_data_n,
             'bp_n_tracks_fired': bp_n,
             'combined_label': label,
         })
@@ -216,7 +240,7 @@ def main():
     print('=' * 72)
     cnt = Counter(r['combined_label'] for r in rows)
     sz = {k: sum(r['size'] for r in rows if r['combined_label'] == k) for k in cnt}
-    for k in ('KILL_LIST', 'COVERAGE_BLIND', 'SWEEP_FALSE_DEAD', 'LIVE'):
+    for k in ('KILL_LIST', 'DATA_USED', 'COVERAGE_BLIND', 'SWEEP_FALSE_DEAD', 'LIVE'):
         n = cnt.get(k, 0)
         b = sz.get(k, 0)
         print(f'  {k:18s}: {n:4d} fns, ~{b:7,} bytes')
@@ -225,16 +249,17 @@ def main():
     print('=' * 72)
     print('Bucket -> combined-label cross-tab')
     print('=' * 72)
-    print(f'  {"bucket":8s} {"KILL":>8s} {"BLIND":>8s} {"FALSE":>8s} '
-          f'{"LIVE":>8s} {"total":>8s}')
+    print(f'  {"bucket":8s} {"KILL":>6s} {"DATA":>6s} {"BLIND":>6s} '
+          f'{"FALSE":>6s} {"LIVE":>6s} {"total":>6s}')
     for b in ('B1', 'B2', 'B3', 'B4', 'B5', ''):
         sub = [r for r in rows if r['bucket'] == b]
         if not sub:
             continue
         c = Counter(r['combined_label'] for r in sub)
-        print(f'  {b or "(none)":8s} {c.get("KILL_LIST",0):8d} '
-              f'{c.get("COVERAGE_BLIND",0):8d} {c.get("SWEEP_FALSE_DEAD",0):8d} '
-              f'{c.get("LIVE",0):8d} {len(sub):8d}')
+        print(f'  {b or "(none)":8s} {c.get("KILL_LIST",0):6d} '
+              f'{c.get("DATA_USED",0):6d} {c.get("COVERAGE_BLIND",0):6d} '
+              f'{c.get("SWEEP_FALSE_DEAD",0):6d} {c.get("LIVE",0):6d} '
+              f'{len(sub):6d}')
 
     # Per-track BP sweep counts (sanity)
     print()
@@ -271,8 +296,10 @@ def main():
     track_names = [t[0] for t in TRACK_CAPTURES]
     header = (
         ['runtime_addr', 'name', 'size', 'bucket', 'in_sweep_dead',
-         'cdl_n_tracks_alive', 'bp_n_tracks_fired', 'combined_label']
+         'cdl_n_tracks_alive', 'cdl_data_n_tracks_alive',
+         'bp_n_tracks_fired', 'combined_label']
         + [f'cdl_{t}' for t in track_names]
+        + [f'cdldata_{t}' for t in track_names]
         + [f'bp_{t}' for t in track_names]
     )
     with out_csv.open('w', encoding='utf-8', newline='') as f:
@@ -285,9 +312,11 @@ def main():
                 r['bucket'],
                 str(r['in_sweep_dead']),
                 str(r['cdl_n_tracks_alive']),
+                str(r['cdl_data_n_tracks_alive']),
                 str(r['bp_n_tracks_fired']),
                 r['combined_label'],
             ] + [str(r['cdl_hits'][t]) for t in track_names] + \
+                [str(r['cdl_data_hits'][t]) for t in track_names] + \
                 [str(r['bp_fired'][t]) for t in track_names]
             f.write(','.join(row) + '\n')
     print()
