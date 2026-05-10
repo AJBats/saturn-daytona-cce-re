@@ -89,14 +89,24 @@ def parse_file_classes(file_path):
 
 def find_last_two_insns(parsed_lines, end_exclusive_idx):
     """Walk backward from end_exclusive_idx-1 through parsed_lines.
-       Return list of last 2 'insn' mnemonics (newest first), stopping at
-       a 'global' line (predecessor's body boundary) or at file start."""
+       Return list of last 2 NON-NOP 'insn' mnemonics (newest first).
+
+       Trailing nops are skipped first — they are the canonical SH-2 pattern
+       of (rts/bra/etc. terminator) + (delay slot, often nop) + (0-N nop
+       padding bytes for next-function alignment). Looking only at the last
+       2 raw instructions misses the terminator behind multi-nop padding.
+
+       Stops at a 'global' line (predecessor's body boundary)."""
     insns = []
+    skipping_trailing_nops = True
     for j in range(end_exclusive_idx - 1, -1, -1):
         idx, kind, mnem = parsed_lines[j]
         if kind == 'global':
             return insns
         if kind == 'insn':
+            if skipping_trailing_nops and mnem == 'nop':
+                continue
+            skipping_trailing_nops = False
             insns.append(mnem)
             if len(insns) >= 2:
                 return insns
@@ -104,13 +114,18 @@ def find_last_two_insns(parsed_lines, end_exclusive_idx):
 
 
 def find_last_two_insns_in_file(parsed_lines):
-    """Walk backward from end of file, return last 2 'insn' mnemonics."""
+    """Walk backward from end of file, return last 2 NON-NOP 'insn' mnemonics.
+       Same trailing-nop-skip semantics as find_last_two_insns."""
     insns = []
+    skipping_trailing_nops = True
     for j in range(len(parsed_lines) - 1, -1, -1):
         idx, kind, mnem = parsed_lines[j]
         if kind == 'global':
             return insns
         if kind == 'insn':
+            if skipping_trailing_nops and mnem == 'nop':
+                continue
+            skipping_trailing_nops = False
             insns.append(mnem)
             if len(insns) >= 2:
                 return insns

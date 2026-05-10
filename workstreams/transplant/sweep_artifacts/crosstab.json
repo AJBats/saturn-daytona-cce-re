@@ -2,19 +2,19 @@
   "matrix": {
     "head": {
       "no-prev-pc": 4,
-      "real-call": 266,
-      "unobserved": 181,
+      "real-call": 289,
+      "unobserved": 198,
       "fall-into": 60,
-      "tail-call": 34,
+      "tail-call": 38,
       "isr-entered": 0,
       "rts-anomaly": 0
     },
     "mid-entry": {
       "fall-into": 132,
-      "real-call": 134,
-      "unobserved": 504,
+      "unobserved": 487,
+      "real-call": 111,
       "rts-anomaly": 3,
-      "tail-call": 25,
+      "tail-call": 21,
       "isr-entered": 11,
       "no-prev-pc": 1
     }
@@ -23,19 +23,19 @@
     "global-FUN": {
       "head": {
         "no-prev-pc": 4,
-        "real-call": 266,
-        "unobserved": 181,
+        "real-call": 289,
+        "unobserved": 198,
         "fall-into": 60,
-        "tail-call": 34,
+        "tail-call": 38,
         "isr-entered": 0,
         "rts-anomaly": 0
       },
       "mid-entry": {
         "fall-into": 107,
-        "real-call": 50,
-        "unobserved": 118,
+        "unobserved": 101,
+        "real-call": 27,
         "rts-anomaly": 3,
-        "tail-call": 21,
+        "tail-call": 17,
         "isr-entered": 8,
         "no-prev-pc": 0
       }
@@ -154,8 +154,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06029588",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -304,8 +304,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060299B6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -352,8 +352,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06029A96",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -376,8 +376,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06029CA0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -396,12 +396,12 @@
       "addr": "0x06029E90",
       "name": "FUN_06029E90",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06029D8C",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -472,8 +472,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06029F74",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -492,12 +492,12 @@
       "addr": "0x0602A048",
       "name": "FUN_0602A048",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06029FE8",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -520,8 +520,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A048",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -544,8 +544,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602A118",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -568,8 +568,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602A20C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -592,8 +592,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A2A4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -616,8 +616,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A2FC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -652,8 +652,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A370",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "sub"
       ],
       "base_fn": "",
       "offset": 0,
@@ -676,8 +676,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602A544",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -696,12 +696,12 @@
       "addr": "0x0602A6EC",
       "name": "FUN_0602A6EC",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A664",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -724,8 +724,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A6EC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -795,8 +795,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A8FA",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -819,8 +819,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602A958",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -864,8 +864,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602A9F0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -912,8 +912,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AAB6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -984,8 +984,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AC56",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1008,8 +1008,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AE18",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1032,8 +1032,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AE44",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1056,8 +1056,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AE74",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1080,8 +1080,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602AFD8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "sub"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1100,12 +1100,12 @@
       "addr": "0x0602B100",
       "name": "FUN_0602B100",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602B014",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1128,8 +1128,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602B100",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1173,8 +1173,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602B1C0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1494,8 +1494,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0602C222",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1518,8 +1518,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602C3F8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -1614,8 +1614,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0602C764",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -2555,8 +2555,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602E03C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -2744,8 +2744,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602E544",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -2882,8 +2882,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602E610",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -2906,8 +2906,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0602E770",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3071,8 +3071,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0602E8B8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3164,8 +3164,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602EAE2",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "bf"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3281,8 +3281,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0602ED5E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3533,8 +3533,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0602EEDA",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3623,8 +3623,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602EFE4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -3737,8 +3737,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602F178",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -4082,8 +4082,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602F500",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -4127,8 +4127,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0602F51C",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5062,8 +5062,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06030442",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5131,8 +5131,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603072A",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5155,8 +5155,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060307A0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5200,8 +5200,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06030824",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5248,8 +5248,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06030A1C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5368,8 +5368,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06030AD8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5416,8 +5416,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06030B10",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5536,8 +5536,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06030C5A",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5560,8 +5560,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06030C7C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5740,8 +5740,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06030DB0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -5764,8 +5764,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06030DEE",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -6358,8 +6358,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06032010",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -6928,8 +6928,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060335E4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -7324,8 +7324,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06034480",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -7534,8 +7534,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060349C8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -7900,8 +7900,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06035430",
       "pred_last_insns": [
-        "nop",
-        "jmp"
+        "jmp",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -7920,12 +7920,12 @@
       "addr": "0x06035624",
       "name": "FUN_06035624",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_060354A0",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8068,8 +8068,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06035B0E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8088,12 +8088,12 @@
       "addr": "0x06035C58",
       "name": "FUN_06035C58",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06035B30",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8136,12 +8136,12 @@
       "addr": "0x06035EE8",
       "name": "FUN_06035EE8",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06035C98",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8164,8 +8164,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06035EE8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8281,8 +8281,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036770",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8353,8 +8353,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060367E0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8377,8 +8377,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036808",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8397,12 +8397,12 @@
       "addr": "0x06036914",
       "name": "FUN_06036914",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_060368D4",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8445,12 +8445,12 @@
       "addr": "0x06036990",
       "name": "FUN_06036990",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06036948",
       "pred_last_insns": [
-        "nop",
-        "shlr2"
+        "shlr2",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8521,8 +8521,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036A70",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8617,8 +8617,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036B6E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8710,8 +8710,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036CF8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8734,8 +8734,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06036D52",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8758,8 +8758,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06036D7C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8806,8 +8806,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06036E14",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8830,8 +8830,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06036E6C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -8854,8 +8854,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06036E90",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -9034,8 +9034,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06037166",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -9394,8 +9394,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060379F6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -9414,12 +9414,12 @@
       "addr": "0x06037BF8",
       "name": "FUN_06037BF8",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06037B98",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -9520,8 +9520,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06037BF8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -9733,8 +9733,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060385CE",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10159,8 +10159,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603976C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10393,8 +10393,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603A550",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10441,8 +10441,8 @@
       "runtime_tier": "no-prev-pc",
       "predecessor": "FUN_0603A6A0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10534,8 +10534,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603A7C0",
       "pred_last_insns": [
-        "nop",
-        "jsr"
+        "jsr",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10554,12 +10554,12 @@
       "addr": "0x0603AB14",
       "name": "FUN_0603AB14",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603AAFE",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10582,8 +10582,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603AB14",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10768,8 +10768,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603B284",
       "pred_last_insns": [
-        "nop",
-        "jsr"
+        "jsr",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10792,8 +10792,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603B484",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -10852,8 +10852,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603B4A4",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -11593,8 +11593,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603C994",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12021,8 +12021,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603DAEC",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12189,8 +12189,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603DEBC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12237,8 +12237,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603DF84",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12285,8 +12285,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603E14C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12309,8 +12309,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603E340",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "bf"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12354,8 +12354,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603E350",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "bf"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12378,8 +12378,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603E3A4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12402,8 +12402,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603E3E8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12474,8 +12474,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603E488",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12570,8 +12570,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603E788",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12594,8 +12594,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603E7B0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12642,8 +12642,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603E928",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12714,8 +12714,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603E9B8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12807,8 +12807,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603EA80",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -12920,12 +12920,12 @@
       "addr": "0x0603EC54",
       "name": "FUN_0603EC54",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603EC46",
       "pred_last_insns": [
-        "nop",
-        "add"
+        "add",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13140,8 +13140,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603ED70",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13188,8 +13188,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603EDA6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13445,8 +13445,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603EF86",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13538,8 +13538,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603F0B4",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13586,8 +13586,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603F0D0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13610,8 +13610,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603F10E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "bt"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13748,8 +13748,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0603F166",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13935,8 +13935,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603F534",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "bf"
       ],
       "base_fn": "",
       "offset": 0,
@@ -13959,8 +13959,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603F53E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14031,8 +14031,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603F61C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14079,8 +14079,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603F6D2",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14144,12 +14144,12 @@
       "addr": "0x0603F770",
       "name": "FUN_0603F770",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603F762",
       "pred_last_insns": [
-        "nop",
-        "add"
+        "add",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14289,8 +14289,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0603F9B2",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14337,8 +14337,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0603F9FC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14385,8 +14385,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603FA32",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -14433,8 +14433,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0603FA5C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15013,12 +15013,12 @@
       "addr": "0x060400C4",
       "name": "FUN_060400C4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060400B6",
       "pred_last_insns": [
-        "nop",
-        "add"
+        "add",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15037,12 +15037,12 @@
       "addr": "0x060400F8",
       "name": "FUN_060400F8",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_060400C4",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15269,8 +15269,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06040480",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15341,8 +15341,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060407D4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15365,8 +15365,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06040860",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15488,8 +15488,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06040A7E",
       "pred_last_insns": [
-        "nop",
-        "jmp"
+        "jmp",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15581,8 +15581,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06040CF0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15698,8 +15698,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06040E4C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "bt"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15742,12 +15742,12 @@
       "addr": "0x06040FE4",
       "name": "FUN_06040FE4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06040EA0",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15770,8 +15770,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06040FE4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -15890,8 +15890,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060416F2",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -16031,8 +16031,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060424B8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -16343,8 +16343,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06042DC4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17063,8 +17063,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06043B04",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17369,8 +17369,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06044588",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17417,8 +17417,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06044788",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17609,8 +17609,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06044B20",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17653,12 +17653,12 @@
       "addr": "0x06044D74",
       "name": "FUN_06044D74",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06044D64",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17725,12 +17725,12 @@
       "addr": "0x06044DB8",
       "name": "FUN_06044DB8",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06044DA8",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -17840,8 +17840,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06044E28",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18203,8 +18203,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604510C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18227,8 +18227,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045198",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18251,8 +18251,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060451AA",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18391,8 +18391,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604523A",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18415,8 +18415,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060452F0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18439,8 +18439,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045318",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18463,8 +18463,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045340",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18511,8 +18511,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045378",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18535,8 +18535,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060453B8",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18603,12 +18603,12 @@
       "addr": "0x0604556C",
       "name": "FUN_0604556C",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060453CC",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18631,8 +18631,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604556C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18655,8 +18655,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604559C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18679,8 +18679,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060455D0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18703,8 +18703,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060455E2",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18727,8 +18727,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045614",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18751,8 +18751,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045620",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18775,8 +18775,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604562C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -18847,8 +18847,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045678",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19104,8 +19104,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045714",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19244,8 +19244,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060457AC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19524,8 +19524,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604595E",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "cmp/eq"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19572,8 +19572,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045A2C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19596,8 +19596,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045A7E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19616,12 +19616,12 @@
       "addr": "0x06045ADC",
       "name": "FUN_06045ADC",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045AC0",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19644,8 +19644,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06045ADC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19688,12 +19688,12 @@
       "addr": "0x06045B48",
       "name": "FUN_06045B48",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045B10",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "or"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19760,12 +19760,12 @@
       "addr": "0x06045BC4",
       "name": "FUN_06045BC4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045BA0",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19807,12 +19807,12 @@
       "addr": "0x06045C00",
       "name": "FUN_06045C00",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045BC6",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19854,12 +19854,12 @@
       "addr": "0x06045C3C",
       "name": "FUN_06045C3C",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045C02",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19878,12 +19878,12 @@
       "addr": "0x06045C9C",
       "name": "FUN_06045C9C",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045C3C",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19927,8 +19927,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045C9C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -19975,8 +19975,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06045D04",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20019,12 +20019,12 @@
       "addr": "0x06045D80",
       "name": "FUN_06045D80",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045D6A",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20091,12 +20091,12 @@
       "addr": "0x06045E06",
       "name": "FUN_06045E06",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06045DCC",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20139,12 +20139,12 @@
       "addr": "0x06045EA8",
       "name": "FUN_06045EA8",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045E44",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20211,12 +20211,12 @@
       "addr": "0x06045F0C",
       "name": "FUN_06045F0C",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045EE8",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "bra"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20259,12 +20259,12 @@
       "addr": "0x06045FC0",
       "name": "FUN_06045FC0",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06045F46",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20454,8 +20454,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060466A0",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20478,8 +20478,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604670C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20566,12 +20566,12 @@
       "addr": "0x0604680C",
       "name": "FUN_0604680C",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060467B4",
       "pred_last_insns": [
-        "nop",
-        "ldc"
+        "ldc",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20658,12 +20658,12 @@
       "addr": "0x06046908",
       "name": "FUN_06046908",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060468B0",
       "pred_last_insns": [
-        "nop",
-        "ldc"
+        "ldc",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20782,8 +20782,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06046A24",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20806,8 +20806,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06046A90",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20830,8 +20830,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046AE8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20850,12 +20850,12 @@
       "addr": "0x06046B64",
       "name": "FUN_06046B64",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046B3C",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "add"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20926,8 +20926,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046B96",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20946,12 +20946,12 @@
       "addr": "0x06046BF4",
       "name": "FUN_06046BF4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046BD4",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "cmp/gt"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20970,12 +20970,12 @@
       "addr": "0x06046C14",
       "name": "FUN_06046C14",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046BF4",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "cmp/gt"
       ],
       "base_fn": "",
       "offset": 0,
@@ -20994,11 +20994,11 @@
       "addr": "0x06046CD0",
       "name": "FUN_06046CD0",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06046C14",
       "pred_last_insns": [
-        "nop",
+        "rts",
         "nop"
       ],
       "base_fn": "",
@@ -21114,12 +21114,12 @@
       "addr": "0x06046D98",
       "name": "FUN_06046D98",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046D78",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "cmp/gt"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21142,8 +21142,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06046D98",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21166,8 +21166,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06046E0E",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21186,12 +21186,12 @@
       "addr": "0x06046EBC",
       "name": "FUN_06046EBC",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046E64",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21210,12 +21210,12 @@
       "addr": "0x06046FD4",
       "name": "FUN_06046FD4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046EBC",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21238,8 +21238,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06046FD4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21262,8 +21262,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047014",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21286,8 +21286,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604708C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21310,8 +21310,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060470A8",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21334,8 +21334,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060470C4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21358,8 +21358,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060470D6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21382,8 +21382,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_060470EC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21406,8 +21406,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060470FE",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21430,8 +21430,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047118",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21478,8 +21478,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047184",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21502,8 +21502,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060471F0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21526,8 +21526,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604720C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21550,8 +21550,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047228",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21574,8 +21574,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604723A",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21598,8 +21598,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047250",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21646,8 +21646,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047270",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21670,8 +21670,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604727C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21742,8 +21742,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_06047332",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21790,8 +21790,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_060473CA",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21810,12 +21810,12 @@
       "addr": "0x06047460",
       "name": "FUN_06047460",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06047414",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21834,12 +21834,12 @@
       "addr": "0x060474D4",
       "name": "FUN_060474D4",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06047460",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21862,8 +21862,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060474D4",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21882,12 +21882,12 @@
       "addr": "0x06047588",
       "name": "FUN_06047588",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "tail-call",
       "predecessor": "FUN_06047548",
       "pred_last_insns": [
-        "nop",
-        "mov"
+        "mov",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -21931,8 +21931,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047588",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "nop"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22000,8 +22000,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06047770",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22047,8 +22047,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_060477D6",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22071,8 +22071,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_060477FC",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22095,8 +22095,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06047866",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22167,8 +22167,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_06047986",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22223,12 +22223,12 @@
       "addr": "0x06047A08",
       "name": "FUN_06047A08",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "unobserved",
       "predecessor": "FUN_060479D6",
       "pred_last_insns": [
-        "nop",
-        "nop"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22275,8 +22275,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047A08",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22455,8 +22455,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047B34",
       "pred_last_insns": [
-        "nop",
-        "sts"
+        "sts",
+        "dmuls"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22590,8 +22590,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06047DF0",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22971,8 +22971,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_06048278",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -22995,8 +22995,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604828C",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "lds"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24035,12 +24035,12 @@
       "addr": "0x0604D380",
       "name": "FUN_0604D380",
       "symbol_class": "global-FUN",
-      "static_bucket": "mid-entry",
+      "static_bucket": "head",
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0604D112",
       "pred_last_insns": [
-        "nop",
-        "add"
+        "add",
+        "rts"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24084,8 +24084,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0604D380",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24108,8 +24108,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604D46C",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24132,8 +24132,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604D49A",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "ldc"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24156,8 +24156,8 @@
       "runtime_tier": "tail-call",
       "predecessor": "FUN_0604D520",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "ldc"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24180,8 +24180,8 @@
       "runtime_tier": "fall-into",
       "predecessor": "FUN_0604D540",
       "pred_last_insns": [
-        "nop",
-        "rts"
+        "rts",
+        "ldc"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24204,8 +24204,8 @@
       "runtime_tier": "real-call",
       "predecessor": "FUN_0604D570",
       "pred_last_insns": [
-        "nop",
-        "jmp"
+        "jmp",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,
@@ -24552,8 +24552,8 @@
       "runtime_tier": "unobserved",
       "predecessor": "FUN_0604DB28",
       "pred_last_insns": [
-        "nop",
-        "bra"
+        "bra",
+        "mov"
       ],
       "base_fn": "",
       "offset": 0,

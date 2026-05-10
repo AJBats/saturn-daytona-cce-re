@@ -7,32 +7,28 @@
 
 | Bucket | Count |
 |---|---:|
-| head | 545 |
-| mid-entry | 810 |
+| head | 589 |
+| mid-entry | 766 |
 
 ## Rule breakdown
 
 | Rule | Count |
 |---|---:|
 | first-in-module | 1 |
-| predecessor-falls-through | 307 |
+| predecessor-falls-through | 263 |
 | predecessor-is-data | 2 |
-| predecessor-terminates | 542 |
+| predecessor-terminates | 586 |
 | provide-alias | 503 |
 
-## Mid-entries (predecessor falls through): 307
+## Mid-entries (predecessor falls through): 263
 
 | Addr | Function | Predecessor | Pred last insns (newest first) |
 |---|---|---|---|
 | 0x060299B6 | FUN_060299B6 | FUN_06029998 | `mov`, `mov` |
 | 0x06029A96 | FUN_06029A96 | FUN_06029A78 | `mov`, `mov` |
-| 0x06029E90 | FUN_06029E90 | FUN_06029D8C | `nop`, `nop` |
-| 0x0602A048 | FUN_0602A048 | FUN_06029FE8 | `nop`, `nop` |
-| 0x0602A6EC | FUN_0602A6EC | FUN_0602A664 | `nop`, `nop` |
 | 0x0602A8FA | FUN_0602A8FA | FUN_0602A8F8 | `sts` |
 | 0x0602AAB6 | FUN_0602AAB6 | FUN_0602AAA8 | `mov`, `mov` |
 | 0x0602AC56 | FUN_0602AC56 | FUN_0602AC38 | `mov`, `mov` |
-| 0x0602B100 | FUN_0602B100 | FUN_0602B014 | `nop`, `nop` |
 | 0x0602B6F0 | FUN_0602B6F0 | FUN_0602B6D4 | `shll2`, `mov` |
 | 0x0602BAD2 | FUN_0602BAD2 | FUN_0602BAB8 | `mov`, `mov` |
 | 0x0602C6F2 | FUN_0602C6F2 | FUN_0602C59A | `mov`, `mov` |
@@ -101,16 +97,11 @@
 | 0x06034F54 | FUN_06034F54 | FUN_06034F3C | `mov`, `mov` |
 | 0x060352FA | FUN_060352FA | FUN_060351CC | `mov`, `mov` |
 | 0x06035430 | FUN_06035430 | FUN_060352FA | `mov`, `mov` |
-| 0x06035624 | FUN_06035624 | FUN_060354A0 | `nop`, `mov` |
 | 0x060356F8 | FUN_060356F8 | FUN_06035624 | `mov`, `mov` |
-| 0x06035C58 | FUN_06035C58 | FUN_06035B30 | `nop`, `mov` |
-| 0x06035EE8 | FUN_06035EE8 | FUN_06035C98 | `nop`, `nop` |
 | 0x06036608 | FUN_06036608 | FUN_0603631C | `muls`, `mov` |
 | 0x06036770 | FUN_06036770 | FUN_06036608 | `mov`, `mov` |
 | 0x0603679A | FUN_0603679A | FUN_06036790 | `bf`, `cmp/eq` |
 | 0x060367E0 | FUN_060367E0 | FUN_0603679A | `dmuls`, `mov` |
-| 0x06036914 | FUN_06036914 | FUN_060368D4 | `nop`, `nop` |
-| 0x06036990 | FUN_06036990 | FUN_06036948 | `nop`, `shlr2` |
 | 0x06036A0E | FUN_06036A0E | FUN_06036990 | `mov`, `mov` |
 | 0x06036AB6 | FUN_06036AB6 | FUN_06036AA8 | `mov`, `mov` |
 | 0x06036B6E | FUN_06036B6E | FUN_06036B60 | `mov`, `mov` |
@@ -126,7 +117,6 @@
 | 0x0603765C | FUN_0603765C | FUN_06037658 | `mov`, `mov` |
 | 0x060377CC | FUN_060377CC | FUN_0603765C | `add`, `shll` |
 | 0x060379F6 | FUN_060379F6 | FUN_060377CC | `mov`, `mov` |
-| 0x06037BF8 | FUN_06037BF8 | FUN_06037B98 | `nop`, `nop` |
 | 0x06037FD6 | FUN_06037FD6 | FUN_06037E28 | `jsr`, `mov` |
 | 0x06038202 | FUN_06038202 | FUN_06037FD6 | `mov`, `mov` |
 | 0x0603833C | FUN_0603833C | FUN_06038202 | `mov`, `jsr` |
@@ -141,14 +131,13 @@
 | 0x0603A550 | FUN_0603A550 | FUN_0603A548 | `mov`, `mov` |
 | 0x0603A790 | FUN_0603A790 | FUN_0603A6BC | `mov`, `mov` |
 | 0x0603A7C0 | FUN_0603A7C0 | FUN_0603A790 | `mov`, `sub` |
-| 0x0603AAFE | FUN_0603AAFE | FUN_0603A7C0 | `nop`, `jsr` |
-| 0x0603AB14 | FUN_0603AB14 | FUN_0603AAFE | `nop`, `nop` |
+| 0x0603AAFE | FUN_0603AAFE | FUN_0603A7C0 | `jsr`, `mov` |
 | 0x0603AB72 | FUN_0603AB72 | FUN_0603AB66 | `mov`, `sub` |
 | 0x0603AF0C | FUN_0603AF0C | FUN_0603AB72 | `mov`, `mov` |
 | 0x0603AF38 | FUN_0603AF38 | FUN_0603AF0C | `mov`, `sub` |
 | 0x0603B254 | FUN_0603B254 | FUN_0603AF38 | `mov`, `mov` |
 | 0x0603B284 | FUN_0603B284 | FUN_0603B254 | `mov`, `sub` |
-| 0x0603B484 | FUN_0603B484 | FUN_0603B284 | `nop`, `jsr` |
+| 0x0603B484 | FUN_0603B484 | FUN_0603B284 | `jsr`, `mov` |
 | 0x0603B4A4 | FUN_0603B4A4 | FUN_0603B498 | `mov`, `sub` |
 | 0x0603BAF4 | FUN_0603BAF4 | FUN_0603B97A | `add`, `mov` |
 | 0x0603BC78 | FUN_0603BC78 | FUN_0603BBCC | `add`, `add` |
@@ -172,7 +161,6 @@
 | 0x0603EA80 | FUN_0603EA80 | FUN_0603EA6C | `mov`, `mov` |
 | 0x0603EBF6 | FUN_0603EBF6 | FUN_0603EBE2 | `mov`, `mov` |
 | 0x0603EC46 | FUN_0603EC46 | FUN_0603EBF6 | `mov`, `mov` |
-| 0x0603EC54 | FUN_0603EC54 | FUN_0603EC46 | `nop`, `add` |
 | 0x0603ECB6 | FUN_0603ECB6 | FUN_0603EC94 | `neg`, `nop` |
 | 0x0603ED24 | FUN_0603ED24 | FUN_0603ED00 | `neg`, `nop` |
 | 0x0603ED70 | FUN_0603ED70 | FUN_0603ED5C | `mov`, `mov` |
@@ -189,7 +177,6 @@
 | 0x0603F512 | FUN_0603F512 | FUN_0603F508 | `mov`, `mov` |
 | 0x0603F6D2 | FUN_0603F6D2 | FUN_0603F6BE | `mov`, `mov` |
 | 0x0603F762 | FUN_0603F762 | FUN_0603F6F8 | `mov`, `mov` |
-| 0x0603F770 | FUN_0603F770 | FUN_0603F762 | `nop`, `add` |
 | 0x0603F8AC | FUN_0603F8AC | FUN_0603F7B8 | `mov`, `add` |
 | 0x0603F99E | FUN_0603F99E | FUN_0603F8AC | `mov`, `nop` |
 | 0x0603F9B2 | FUN_0603F9B2 | FUN_0603F99E | `mov`, `mov` |
@@ -204,15 +191,12 @@
 | 0x06040020 | FUN_06040020 | FUN_0603FFD0 | `mov`, `mov` |
 | 0x06040074 | FUN_06040074 | FUN_0604002C | `mov`, `mov` |
 | 0x060400B6 | FUN_060400B6 | FUN_06040080 | `mov`, `mov` |
-| 0x060400C4 | FUN_060400C4 | FUN_060400B6 | `nop`, `add` |
-| 0x060400F8 | FUN_060400F8 | FUN_060400C4 | `nop`, `mov` |
 | 0x060402A4 | FUN_060402A4 | FUN_06040280 | `shll`, `mov` |
 | 0x0604064E | FUN_0604064E | FUN_0604063E | `stc`, `mov` |
 | 0x06040B9C | FUN_06040B9C | FUN_06040B8C | `stc`, `mov` |
 | 0x06040DEC | FUN_06040DEC | FUN_06040DCC | `bt`, `tst` |
 | 0x06040E4C | FUN_06040E4C | FUN_06040E1C | `mov`, `add` |
 | 0x06040EA0 | FUN_06040EA0 | FUN_06040E90 | `stc`, `mov` |
-| 0x06040FE4 | FUN_06040FE4 | FUN_06040EA0 | `nop`, `nop` |
 | 0x060429D6 | FUN_060429D6 | FUN_060429CE | `mov`, `mov` |
 | 0x06042B7E | FUN_06042B7E | FUN_06042B74 | `mov`, `mov` |
 | 0x06042C70 | FUN_06042C70 | FUN_06042C64 | `mov`, `mov` |
@@ -222,9 +206,7 @@
 | 0x06044060 | FUN_06044060 | FUN_06043F24 | `extu`, `mov` |
 | 0x060449B6 | FUN_060449B6 | FUN_060449AC | `mov`, `mova` |
 | 0x06044ADA | FUN_06044ADA | FUN_06044A9A | `add`, `mov` |
-| 0x06044D74 | FUN_06044D74 | FUN_06044D64 | `nop`, `nop` |
 | 0x06044D80 | FUN_06044D80 | FUN_06044D74 | `mov`, `bt` |
-| 0x06044DB8 | FUN_06044DB8 | FUN_06044DA8 | `nop`, `nop` |
 | 0x06045006 | FUN_06045006 | FUN_06044E3C | `sts`, `dmuls` |
 | 0x06045008 | FUN_06045008 | FUN_06045006 | `mov` |
 | 0x06045020 | FUN_06045020 | FUN_06045008 | `shll2`, `shll2` |
@@ -240,7 +222,6 @@
 | 0x0604523A | FUN_0604523A | FUN_0604521A | `mov`, `lds` |
 | 0x06045378 | FUN_06045378 | FUN_06045368 | `lds`, `nop` |
 | 0x060453CC | FUN_060453CC | FUN_060453C8 | `mov`, `mov` |
-| 0x0604556C | FUN_0604556C | FUN_060453CC | `nop`, `nop` |
 | 0x060456AA | FUN_060456AA | FUN_06045698 | `stc`, `ldc` |
 | 0x060456AC | FUN_060456AC | FUN_060456AA | `sts` |
 | 0x060456CC | FUN_060456CC | FUN_060456C2 | `mov`, `mov` |
@@ -255,51 +236,27 @@
 | 0x060458DE | FUN_060458DE | FUN_060458DA | `bsr`, `sts` |
 | 0x0604595A | FUN_0604595A | FUN_060458DE | `stc`, `nop` |
 | 0x0604595E | FUN_0604595E | FUN_0604595A | `bsr`, `sts` |
-| 0x06045ADC | FUN_06045ADC | FUN_06045AC0 | `nop`, `nop` |
-| 0x06045B48 | FUN_06045B48 | FUN_06045B10 | `nop`, `nop` |
 | 0x06045B74 | FUN_06045B74 | FUN_06045B48 | `merged`, `fun_06045fc0` |
-| 0x06045BC4 | FUN_06045BC4 | FUN_06045BA0 | `nop`, `nop` |
 | 0x06045BC6 | FUN_06045BC6 | FUN_06045BC4 | `sts` |
-| 0x06045C00 | FUN_06045C00 | FUN_06045BC6 | `nop`, `nop` |
 | 0x06045C02 | FUN_06045C02 | FUN_06045C00 | `sts` |
-| 0x06045C3C | FUN_06045C3C | FUN_06045C02 | `nop`, `nop` |
-| 0x06045C9C | FUN_06045C9C | FUN_06045C3C | `nop`, `mov` |
 | 0x06045D04 | FUN_06045D04 | FUN_06045CCC | `neg`, `nop` |
-| 0x06045D80 | FUN_06045D80 | FUN_06045D6A | `nop`, `nop` |
-| 0x06045E06 | FUN_06045E06 | FUN_06045DCC | `nop`, `nop` |
-| 0x06045EA8 | FUN_06045EA8 | FUN_06045E44 | `nop`, `mov` |
-| 0x06045F0C | FUN_06045F0C | FUN_06045EE8 | `nop`, `mov` |
-| 0x06045FC0 | FUN_06045FC0 | FUN_06045F46 | `nop`, `mov` |
 | 0x0604660A | FUN_0604660A | FUN_06046602 | `add`, `bt` |
 | 0x0604669E | FUN_0604669E | FUN_0604660A | `stc`, `nop` |
 | 0x060466A0 | FUN_060466A0 | FUN_0604669E | `sts` |
 | 0x060467B2 | FUN_060467B2 | FUN_0604674E | `stc`, `nop` |
 | 0x060467B4 | FUN_060467B4 | FUN_060467B2 | `sts` |
-| 0x0604680C | FUN_0604680C | FUN_060467B4 | `nop`, `ldc` |
 | 0x060468AE | FUN_060468AE | FUN_0604680C | `stc`, `nop` |
 | 0x060468B0 | FUN_060468B0 | FUN_060468AE | `sts` |
-| 0x06046908 | FUN_06046908 | FUN_060468B0 | `nop`, `ldc` |
 | 0x06046990 | FUN_06046990 | FUN_0604698C | `bt`, `tst` |
 | 0x06046A20 | FUN_06046A20 | FUN_06046990 | `mov`, `nop` |
 | 0x06046A24 | FUN_06046A24 | FUN_06046A20 | `bt`, `tst` |
-| 0x06046B64 | FUN_06046B64 | FUN_06046B3C | `nop`, `nop` |
 | 0x06046B96 | FUN_06046B96 | FUN_06046B70 | `mov`, `bt` |
-| 0x06046BF4 | FUN_06046BF4 | FUN_06046BD4 | `nop`, `nop` |
-| 0x06046C14 | FUN_06046C14 | FUN_06046BF4 | `nop`, `nop` |
-| 0x06046CD0 | FUN_06046CD0 | FUN_06046C14 | `nop`, `nop` |
-| 0x06046D98 | FUN_06046D98 | FUN_06046D78 | `nop`, `nop` |
-| 0x06046EBC | FUN_06046EBC | FUN_06046E64 | `nop`, `nop` |
-| 0x06046FD4 | FUN_06046FD4 | FUN_06046EBC | `nop`, `mov` |
 | 0x06047270 | FUN_06047270 | FUN_06047262 | `add`, `mov` |
 | 0x060472CC | FUN_060472CC | FUN_0604728E | `merged`, `+` |
 | 0x06047332 | FUN_06047332 | FUN_060472CC | `bf`, `tst` |
 | 0x060473CA | FUN_060473CA | FUN_0604737A | `bf`, `tst` |
-| 0x06047460 | FUN_06047460 | FUN_06047414 | `nop`, `nop` |
-| 0x060474D4 | FUN_060474D4 | FUN_06047460 | `nop`, `nop` |
-| 0x06047588 | FUN_06047588 | FUN_06047548 | `nop`, `mov` |
 | 0x060477D6 | FUN_060477D6 | FUN_060477D4 | `sts` |
-| 0x06047A08 | FUN_06047A08 | FUN_060479D6 | `nop`, `nop` |
-| 0x06047D3C | FUN_06047D3C | FUN_06047B34 | `nop`, `sts` |
+| 0x06047D3C | FUN_06047D3C | FUN_06047B34 | `sts`, `dmuls` |
 | 0x06047D46 | FUN_06047D46 | FUN_06047D3C | `shlr2`, `mov` |
 | 0x06047EA8 | FUN_06047EA8 | FUN_06047E0C | `bt`, `tst` |
 | 0x0604C76C | FUN_0604C76C | FUN_060482A8 | `mov`, `mov` |
@@ -308,7 +265,6 @@
 | 0x0604D042 | FUN_0604D042 | FUN_0604D03E | `bt`, `tst` |
 | 0x0604D0F4 | FUN_0604D0F4 | FUN_0604D042 | `add`, `rotcr` |
 | 0x0604D112 | FUN_0604D112 | FUN_0604D0F4 | `rotcr`, `shll` |
-| 0x0604D380 | FUN_0604D380 | FUN_0604D112 | `nop`, `add` |
 | 0x0604D658 | FUN_0604D658 | FUN_0604D580 | `mov`, `mov` |
 | 0x0604D8D4 | FUN_0604D8D4 | FUN_0604D658 | `mov`, `mov` |
 | 0x0604D8E4 | FUN_0604D8E4 | FUN_0604D8D4 | `mov`, `mov` |

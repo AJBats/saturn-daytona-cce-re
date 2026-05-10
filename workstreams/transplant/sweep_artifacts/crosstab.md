@@ -4,8 +4,8 @@
 
 | Bucket | real-call | tail-call | isr-entered | rts-anomaly | fall-into | no-prev-pc | unobserved | Total |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| head | 266 | 34 | 0 | 0 | 60 | 4 | 181 | 545 |
-| mid-entry | 134 | 25 | 11 | 3 | 132 | 1 | 504 | 810 |
+| head | 289 | 38 | 0 | 0 | 60 | 4 | 198 | 589 |
+| mid-entry | 111 | 21 | 11 | 3 | 132 | 1 | 487 | 766 |
 
 ## PROVIDE-alias
 
@@ -17,16 +17,14 @@
 
 | Bucket | real-call | tail-call | isr-entered | rts-anomaly | fall-into | no-prev-pc | unobserved | Total |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| head | 266 | 34 | 0 | 0 | 60 | 4 | 181 | 545 |
-| mid-entry | 50 | 21 | 8 | 3 | 107 | 0 | 118 | 307 |
+| head | 289 | 38 | 0 | 0 | 60 | 4 | 198 | 589 |
+| mid-entry | 27 | 17 | 8 | 3 | 107 | 0 | 101 | 263 |
 
-## Mid-entries with runtime call evidence (159 - real multi-entries, KEEP)
+## Mid-entries with runtime call evidence (132 - real multi-entries, KEEP)
 
 | Addr | Name | Class | Runtime |
 |---|---|---|---|
 | 0x06029A60 | DAT_06029A60 | PROVIDE-alias | real-call |
-| 0x06029E90 | FUN_06029E90 | global-FUN | real-call |
-| 0x0602A6EC | FUN_0602A6EC | global-FUN | real-call |
 | 0x0602AA84 | DAT_0602AA84 | PROVIDE-alias | real-call |
 | 0x0602B21C | DAT_0602B21C | PROVIDE-alias | real-call |
 | 0x0602C020 | DAT_0602C020 | PROVIDE-alias | real-call |
@@ -60,12 +58,7 @@
 | 0x06033B64 | FUN_06033B64 | global-FUN | real-call |
 | 0x060352E8 | DAT_060352E8 | PROVIDE-alias | real-call |
 | 0x0603533C | DAT_0603533C | PROVIDE-alias | tail-call |
-| 0x06035624 | FUN_06035624 | global-FUN | real-call |
-| 0x06035C58 | FUN_06035C58 | global-FUN | real-call |
-| 0x06035EE8 | FUN_06035EE8 | global-FUN | real-call |
 | 0x060366EC | DAT_060366EC | PROVIDE-alias | real-call |
-| 0x06036914 | FUN_06036914 | global-FUN | real-call |
-| 0x06036990 | FUN_06036990 | global-FUN | tail-call |
 | 0x06036CEC | DAT_06036CEC | PROVIDE-alias | real-call |
 | 0x06036F40 | DAT_06036F40 | PROVIDE-alias | real-call |
 | 0x06036FDE | DAT_06036FDE | PROVIDE-alias | real-call |
@@ -83,14 +76,12 @@
 | 0x0603A614 | DAT_0603A614 | PROVIDE-alias | real-call |
 | 0x0603A784 | DAT_0603A784 | PROVIDE-alias | real-call |
 | 0x0603AAFE | FUN_0603AAFE | global-FUN | tail-call |
-| 0x0603AB14 | FUN_0603AB14 | global-FUN | real-call |
 | 0x0603B248 | DAT_0603B248 | PROVIDE-alias | real-call |
 | 0x0603B484 | FUN_0603B484 | global-FUN | tail-call |
 | 0x0603BEF4 | FUN_0603BEF4 | global-FUN | tail-call |
 | 0x0603D4D0 | FUN_0603D4D0 | global-FUN | real-call |
 | 0x0603DA52 | DAT_0603DA52 | PROVIDE-alias | real-call |
 | 0x0603EC40 | DAT_0603EC40 | PROVIDE-alias | real-call |
-| 0x0603EC54 | FUN_0603EC54 | global-FUN | real-call |
 | 0x0603ECB6 | FUN_0603ECB6 | global-FUN | tail-call |
 | 0x0603ED24 | FUN_0603ED24 | global-FUN | tail-call |
 | 0x0603EDF8 | FUN_0603EDF8 | global-FUN | tail-call |
@@ -102,20 +93,17 @@
 | 0x0603F4C0 | FUN_0603F4C0 | global-FUN | real-call |
 | 0x0603F512 | FUN_0603F512 | global-FUN | tail-call |
 | 0x0603F75C | DAT_0603F75C | PROVIDE-alias | real-call |
-| 0x0603F770 | FUN_0603F770 | global-FUN | real-call |
 | 0x0603F8AC | FUN_0603F8AC | global-FUN | real-call |
 | 0x0603F99E | FUN_0603F99E | global-FUN | real-call |
 | 0x0603FABE | DAT_0603FABE | PROVIDE-alias | real-call |
 | 0x0603FAEA | DAT_0603FAEA | PROVIDE-alias | real-call |
 | 0x0603FBD0 | DAT_0603FBD0 | PROVIDE-alias | real-call |
 | 0x0603FFBC | DAT_0603FFBC | PROVIDE-alias | real-call |
-| 0x060400F8 | FUN_060400F8 | global-FUN | real-call |
 | 0x0604016C | DAT_0604016C | PROVIDE-alias | real-call |
 | 0x06040E80 | DAT_06040E80 | PROVIDE-alias | real-call |
 | 0x06043178 | DAT_06043178 | PROVIDE-alias | tail-call |
 | 0x060431BC | DAT_060431BC | PROVIDE-alias | real-call |
 | 0x06043A54 | DAT_06043A54 | PROVIDE-alias | real-call |
-| 0x06044D74 | FUN_06044D74 | global-FUN | real-call |
 | 0x06044D80 | FUN_06044D80 | global-FUN | real-call |
 | 0x06044DBA | DAT_06044DBA | PROVIDE-alias | real-call |
 | 0x06044DF4 | DAT_06044DF4 | PROVIDE-alias | real-call |
@@ -134,26 +122,12 @@
 | 0x060457DE | FUN_060457DE | global-FUN | real-call |
 | 0x060457E4 | FUN_060457E4 | global-FUN | tail-call |
 | 0x0604595A | FUN_0604595A | global-FUN | real-call |
-| 0x06045ADC | FUN_06045ADC | global-FUN | real-call |
-| 0x06045B48 | FUN_06045B48 | global-FUN | real-call |
 | 0x06045B74 | FUN_06045B74 | global-FUN | real-call |
 | 0x06045BC6 | FUN_06045BC6 | global-FUN | real-call |
 | 0x06045C02 | FUN_06045C02 | global-FUN | tail-call |
-| 0x06045C3C | FUN_06045C3C | global-FUN | real-call |
-| 0x06045C9C | FUN_06045C9C | global-FUN | real-call |
 | 0x06045D04 | FUN_06045D04 | global-FUN | real-call |
-| 0x06045D80 | FUN_06045D80 | global-FUN | real-call |
-| 0x06045E06 | FUN_06045E06 | global-FUN | real-call |
-| 0x06046B64 | FUN_06046B64 | global-FUN | real-call |
 | 0x06046B96 | FUN_06046B96 | global-FUN | tail-call |
-| 0x06046BF4 | FUN_06046BF4 | global-FUN | real-call |
-| 0x06046C14 | FUN_06046C14 | global-FUN | real-call |
-| 0x06046CD0 | FUN_06046CD0 | global-FUN | tail-call |
-| 0x06046D98 | FUN_06046D98 | global-FUN | real-call |
-| 0x06046EBC | FUN_06046EBC | global-FUN | real-call |
-| 0x06046FD4 | FUN_06046FD4 | global-FUN | real-call |
 | 0x060472CC | FUN_060472CC | global-FUN | real-call |
-| 0x06047588 | FUN_06047588 | global-FUN | tail-call |
 | 0x06047670 | DAT_06047670 | PROVIDE-alias | real-call |
 | 0x060477B4 | DAT_060477B4 | PROVIDE-alias | real-call |
 | 0x060477D6 | FUN_060477D6 | global-FUN | real-call |
@@ -175,7 +149,6 @@
 | 0x0604CEF0 | DAT_0604CEF0 | PROVIDE-alias | real-call |
 | 0x0604CFE8 | DAT_0604CFE8 | PROVIDE-alias | real-call |
 | 0x0604D112 | FUN_0604D112 | global-FUN | tail-call |
-| 0x0604D380 | FUN_0604D380 | global-FUN | tail-call |
 | 0x0604D388 | DAT_0604D388 | PROVIDE-alias | tail-call |
 | 0x0604D6B8 | DAT_0604D6B8 | PROVIDE-alias | real-call |
 | 0x0604D758 | DAT_0604D758 | PROVIDE-alias | real-call |
@@ -321,7 +294,7 @@
 | 0x0604DEB0 | FUN_0604DEB0 | global-FUN |
 | 0x0604DEEC | DAT_0604DEEC | PROVIDE-alias |
 
-## Mid-entries unobserved (504 - inconclusive, need more scenarios)
+## Mid-entries unobserved (487 - inconclusive, need more scenarios)
 
 Static structure says "mid-entry" but no runtime evidence yet.
 Each could be either a real multi-entry not yet exercised, or a
