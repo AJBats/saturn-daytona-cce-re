@@ -1,0 +1,8390 @@
+{
+  "keep": [
+    {
+      "addr": "0x06029A60",
+      "name": "DAT_06029A60",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602AA84",
+      "name": "DAT_0602AA84",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602B21C",
+      "name": "DAT_0602B21C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602C020",
+      "name": "DAT_0602C020",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602C044",
+      "name": "DAT_0602C044",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602C3B4",
+      "name": "DAT_0602C3B4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602C3BE",
+      "name": "DAT_0602C3BE",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602C3DE",
+      "name": "DAT_0602C3DE",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602CB28",
+      "name": "FUN_0602CB28",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602CC84",
+      "name": "DAT_0602CC84",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602CD62",
+      "name": "DAT_0602CD62",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602D03A",
+      "name": "DAT_0602D03A",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602D046",
+      "name": "DAT_0602D046",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602D090",
+      "name": "DAT_0602D090",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602E738",
+      "name": "DAT_0602E738",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602E928",
+      "name": "DAT_0602E928",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602ED5A",
+      "name": "DAT_0602ED5A",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602EDB4",
+      "name": "DAT_0602EDB4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F168",
+      "name": "DAT_0602F168",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F34A",
+      "name": "DAT_0602F34A",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F42C",
+      "name": "DAT_0602F42C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F81E",
+      "name": "DAT_0602F81E",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FA76",
+      "name": "FUN_0602FA76",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 3,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FACC",
+      "name": "DAT_0602FACC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 6
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603004C",
+      "name": "DAT_0603004C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 8
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603043A",
+      "name": "DAT_0603043A",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030488",
+      "name": "DAT_06030488",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030742",
+      "name": "DAT_06030742",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030CE6",
+      "name": "DAT_06030CE6",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030FEA",
+      "name": "FUN_06030FEA",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060317DC",
+      "name": "FUN_060317DC",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 7,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06033B64",
+      "name": "FUN_06033B64",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060352E8",
+      "name": "DAT_060352E8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603533C",
+      "name": "DAT_0603533C",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060366EC",
+      "name": "DAT_060366EC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603679A",
+      "name": "FUN_0603679A",
+      "runtime_tier": "isr-entered",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036A0E",
+      "name": "FUN_06036A0E",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036AB6",
+      "name": "FUN_06036AB6",
+      "runtime_tier": "isr-entered",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036CEC",
+      "name": "DAT_06036CEC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036F40",
+      "name": "DAT_06036F40",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036FDE",
+      "name": "DAT_06036FDE",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603704A",
+      "name": "DAT_0603704A",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060370A0",
+      "name": "DAT_060370A0",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037484",
+      "name": "DAT_06037484",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060374F2",
+      "name": "DAT_060374F2",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037592",
+      "name": "DAT_06037592",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037654",
+      "name": "DAT_06037654",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037D58",
+      "name": "DAT_06037D58",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037D74",
+      "name": "DAT_06037D74",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06038A84",
+      "name": "FUN_06038A84",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603938C",
+      "name": "FUN_0603938C",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A548",
+      "name": "FUN_0603A548",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A614",
+      "name": "DAT_0603A614",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A784",
+      "name": "DAT_0603A784",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603AAFE",
+      "name": "FUN_0603AAFE",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 4,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603B248",
+      "name": "DAT_0603B248",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603B484",
+      "name": "FUN_0603B484",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603BEF4",
+      "name": "FUN_0603BEF4",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603D4D0",
+      "name": "FUN_0603D4D0",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603DA52",
+      "name": "DAT_0603DA52",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EC40",
+      "name": "DAT_0603EC40",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603ECB6",
+      "name": "FUN_0603ECB6",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603ED24",
+      "name": "FUN_0603ED24",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EDF8",
+      "name": "FUN_0603EDF8",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EE36",
+      "name": "FUN_0603EE36",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EF86",
+      "name": "FUN_0603EF86",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EF8E",
+      "name": "DAT_0603EF8E",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F0D0",
+      "name": "FUN_0603F0D0",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F134",
+      "name": "FUN_0603F134",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F4C0",
+      "name": "FUN_0603F4C0",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F512",
+      "name": "FUN_0603F512",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F75C",
+      "name": "DAT_0603F75C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F8AC",
+      "name": "FUN_0603F8AC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F99E",
+      "name": "FUN_0603F99E",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FABE",
+      "name": "DAT_0603FABE",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FAEA",
+      "name": "DAT_0603FAEA",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FBD0",
+      "name": "DAT_0603FBD0",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FFBC",
+      "name": "DAT_0603FFBC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604016C",
+      "name": "DAT_0604016C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06040200",
+      "name": "DAT_06040200",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06040E80",
+      "name": "DAT_06040E80",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06043178",
+      "name": "DAT_06043178",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060431BC",
+      "name": "DAT_060431BC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06043A54",
+      "name": "DAT_06043A54",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060449B6",
+      "name": "FUN_060449B6",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044D80",
+      "name": "FUN_06044D80",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 12
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044DBA",
+      "name": "DAT_06044DBA",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 27
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044DF4",
+      "name": "DAT_06044DF4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044EF4",
+      "name": "DAT_06044EF4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044F30",
+      "name": "DAT_06044F30",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 11
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045008",
+      "name": "FUN_06045008",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045080",
+      "name": "FUN_06045080",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045080",
+      "name": "DAT_06045080",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060450F4",
+      "name": "FUN_060450F4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604510C",
+      "name": "FUN_0604510C",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060452D0",
+      "name": "DAT_060452D0",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060453CC",
+      "name": "FUN_060453CC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 3,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060456AA",
+      "name": "FUN_060456AA",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060456C8",
+      "name": "DAT_060456C8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060456CC",
+      "name": "FUN_060456CC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 4,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060457AA",
+      "name": "FUN_060457AA",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060457DE",
+      "name": "FUN_060457DE",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060457E4",
+      "name": "FUN_060457E4",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604595A",
+      "name": "FUN_0604595A",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045B74",
+      "name": "FUN_06045B74",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045BC6",
+      "name": "FUN_06045BC6",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 7,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045C02",
+      "name": "FUN_06045C02",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 15,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045CC2",
+      "name": "DAT_06045CC2",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045D04",
+      "name": "FUN_06045D04",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 3,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06046990",
+      "name": "FUN_06046990",
+      "runtime_tier": "isr-entered",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06046A24",
+      "name": "FUN_06046A24",
+      "runtime_tier": "isr-entered",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06046B96",
+      "name": "FUN_06046B96",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060472CC",
+      "name": "FUN_060472CC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047670",
+      "name": "DAT_06047670",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 22
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060477B4",
+      "name": "DAT_060477B4",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060477D6",
+      "name": "FUN_060477D6",
+      "runtime_tier": "real-call",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047B90",
+      "name": "DAT_06047B90",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047D20",
+      "name": "DAT_06047D20",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 25
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047D3C",
+      "name": "FUN_06047D3C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 25
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047D46",
+      "name": "FUN_06047D46",
+      "runtime_tier": "isr-entered",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047D68",
+      "name": "DAT_06047D68",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047DBC",
+      "name": "DAT_06047DBC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047F18",
+      "name": "DAT_06047F18",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06048160",
+      "name": "DAT_06048160",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 11
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x06048180",
+      "name": "DAT_06048180",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 16
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604818C",
+      "name": "DAT_0604818C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 15
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060481A8",
+      "name": "DAT_060481A8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060481FC",
+      "name": "DAT_060481FC",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x060482F8",
+      "name": "DAT_060482F8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604C824",
+      "name": "DAT_0604C824",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604C88C",
+      "name": "DAT_0604C88C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 15
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604C954",
+      "name": "DAT_0604C954",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604CE64",
+      "name": "DAT_0604CE64",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 6
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604CEF0",
+      "name": "DAT_0604CEF0",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 6
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604CFE8",
+      "name": "DAT_0604CFE8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 6
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D112",
+      "name": "FUN_0604D112",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D388",
+      "name": "DAT_0604D388",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D6B8",
+      "name": "DAT_0604D6B8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D758",
+      "name": "DAT_0604D758",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D83C",
+      "name": "DAT_0604D83C",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D8E4",
+      "name": "FUN_0604D8E4",
+      "runtime_tier": "tail-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 0
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DAD8",
+      "name": "DAT_0604DAD8",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DD34",
+      "name": "DAT_0604DD34",
+      "runtime_tier": "real-call",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "REAL_ENTRY"
+    }
+  ],
+  "merge": [
+    {
+      "addr": "0x060299B6",
+      "name": "FUN_060299B6",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06029A96",
+      "name": "FUN_06029A96",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602AAB6",
+      "name": "FUN_0602AAB6",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602B6F0",
+      "name": "FUN_0602B6F0",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602BAD2",
+      "name": "FUN_0602BAD2",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602D37E",
+      "name": "DAT_0602D37E",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602DD60",
+      "name": "FUN_0602DD60",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602E544",
+      "name": "FUN_0602E544",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602E596",
+      "name": "DAT_0602E596",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602E732",
+      "name": "DAT_0602E732",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602EA6A",
+      "name": "DAT_0602EA6A",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602ED5E",
+      "name": "FUN_0602ED5E",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602EE9A",
+      "name": "FUN_0602EE9A",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602EEDA",
+      "name": "FUN_0602EEDA",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602EF36",
+      "name": "DAT_0602EF36",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F4DA",
+      "name": "DAT_0602F4DA",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F84A",
+      "name": "FUN_0602F84A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F900",
+      "name": "FUN_0602F900",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F940",
+      "name": "FUN_0602F940",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F95A",
+      "name": "FUN_0602F95A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602F9E8",
+      "name": "FUN_0602F9E8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FA98",
+      "name": "FUN_0602FA98",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FAF4",
+      "name": "FUN_0602FAF4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FAF8",
+      "name": "FUN_0602FAF8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FBA0",
+      "name": "FUN_0602FBA0",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FC90",
+      "name": "FUN_0602FC90",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FFE4",
+      "name": "FUN_0602FFE4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0602FFEE",
+      "name": "FUN_0602FFEE",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060300AA",
+      "name": "FUN_060300AA",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030442",
+      "name": "FUN_06030442",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030490",
+      "name": "DAT_06030490",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603083C",
+      "name": "DAT_0603083C",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030A5C",
+      "name": "FUN_06030A5C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030B10",
+      "name": "FUN_06030B10",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030CAA",
+      "name": "FUN_06030CAA",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030CE2",
+      "name": "DAT_06030CE2",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06030DA2",
+      "name": "DAT_06030DA2",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06031020",
+      "name": "FUN_06031020",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06031738",
+      "name": "FUN_06031738",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06033BD6",
+      "name": "DAT_06033BD6",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06034F54",
+      "name": "FUN_06034F54",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060352FA",
+      "name": "FUN_060352FA",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06035430",
+      "name": "FUN_06035430",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060356F8",
+      "name": "FUN_060356F8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060367E0",
+      "name": "FUN_060367E0",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036B6E",
+      "name": "FUN_06036B6E",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036BC6",
+      "name": "FUN_06036BC6",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036CF8",
+      "name": "FUN_06036CF8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06036FEA",
+      "name": "FUN_06036FEA",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060370D0",
+      "name": "FUN_060370D0",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037166",
+      "name": "FUN_06037166",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037200",
+      "name": "DAT_06037200",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037490",
+      "name": "FUN_06037490",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060375F0",
+      "name": "FUN_060375F0",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06037658",
+      "name": "FUN_06037658",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603765C",
+      "name": "FUN_0603765C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060377CC",
+      "name": "FUN_060377CC",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060379F6",
+      "name": "FUN_060379F6",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06038590",
+      "name": "FUN_06038590",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06038BCC",
+      "name": "FUN_06038BCC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06038DEC",
+      "name": "FUN_06038DEC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603901A",
+      "name": "FUN_0603901A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06039952",
+      "name": "DAT_06039952",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A546",
+      "name": "DAT_0603A546",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A550",
+      "name": "FUN_0603A550",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A790",
+      "name": "FUN_0603A790",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603A7C0",
+      "name": "FUN_0603A7C0",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603AB72",
+      "name": "FUN_0603AB72",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603B254",
+      "name": "FUN_0603B254",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603B284",
+      "name": "FUN_0603B284",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603B4A4",
+      "name": "FUN_0603B4A4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603BAF4",
+      "name": "FUN_0603BAF4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603BFA8",
+      "name": "FUN_0603BFA8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603C1AA",
+      "name": "DAT_0603C1AA",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603C1B0",
+      "name": "FUN_0603C1B0",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603CDDE",
+      "name": "FUN_0603CDDE",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603D4D4",
+      "name": "FUN_0603D4D4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603D56C",
+      "name": "FUN_0603D56C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603D998",
+      "name": "FUN_0603D998",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603DCA2",
+      "name": "FUN_0603DCA2",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603E9B8",
+      "name": "FUN_0603E9B8",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EA0A",
+      "name": "DAT_0603EA0A",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EBF6",
+      "name": "FUN_0603EBF6",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EC46",
+      "name": "FUN_0603EC46",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603ED70",
+      "name": "FUN_0603ED70",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EE34",
+      "name": "DAT_0603EE34",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603EE38",
+      "name": "FUN_0603EE38",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F146",
+      "name": "FUN_0603F146",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F508",
+      "name": "FUN_0603F508",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F6D2",
+      "name": "FUN_0603F6D2",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F762",
+      "name": "FUN_0603F762",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F99C",
+      "name": "DAT_0603F99C",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F9B2",
+      "name": "FUN_0603F9B2",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603F9FC",
+      "name": "FUN_0603F9FC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FA5C",
+      "name": "FUN_0603FA5C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FAD4",
+      "name": "DAT_0603FAD4",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0603FFC4",
+      "name": "FUN_0603FFC4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060402A4",
+      "name": "FUN_060402A4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604064E",
+      "name": "FUN_0604064E",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06040B9C",
+      "name": "FUN_06040B9C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604252A",
+      "name": "DAT_0604252A",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06042E14",
+      "name": "FUN_06042E14",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06043124",
+      "name": "FUN_06043124",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060431C6",
+      "name": "DAT_060431C6",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06043CDC",
+      "name": "FUN_06043CDC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06044E60",
+      "name": "DAT_06044E60",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045020",
+      "name": "FUN_06045020",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06045098",
+      "name": "FUN_06045098",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060456A8",
+      "name": "DAT_060456A8",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060456AC",
+      "name": "FUN_060456AC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060457AC",
+      "name": "FUN_060457AC",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060457E2",
+      "name": "FUN_060457E2",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604595E",
+      "name": "FUN_0604595E",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604660A",
+      "name": "FUN_0604660A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047270",
+      "name": "FUN_06047270",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x06047332",
+      "name": "FUN_06047332",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x060473CA",
+      "name": "FUN_060473CA",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604CA14",
+      "name": "DAT_0604CA14",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D00C",
+      "name": "FUN_0604D00C",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D03E",
+      "name": "FUN_0604D03E",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D042",
+      "name": "FUN_0604D042",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D658",
+      "name": "FUN_0604D658",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D8D4",
+      "name": "FUN_0604D8D4",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604D8EA",
+      "name": "FUN_0604D8EA",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DB28",
+      "name": "FUN_0604DB28",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DBE0",
+      "name": "FUN_0604DBE0",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DCE0",
+      "name": "FUN_0604DCE0",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DD46",
+      "name": "FUN_0604DD46",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DD4A",
+      "name": "FUN_0604DD4A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DE9A",
+      "name": "FUN_0604DE9A",
+      "runtime_tier": "fall-into",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DEB0",
+      "name": "FUN_0604DEB0",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": "NOT_REAL_ENTRY"
+    },
+    {
+      "addr": "0x0604DEEC",
+      "name": "DAT_0604DEEC",
+      "runtime_tier": "fall-into",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": "NOT_REAL_ENTRY"
+    }
+  ],
+  "unobserved": [
+    {
+      "addr": "0x06029958",
+      "name": "DAT_06029958",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06029A48",
+      "name": "DAT_06029A48",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06029F68",
+      "name": "DAT_06029F68",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06029F6D",
+      "name": "DAT_06029F6D",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602A3A4",
+      "name": "DAT_0602A3A4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602A8FA",
+      "name": "FUN_0602A8FA",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602AC56",
+      "name": "FUN_0602AC56",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602C6F2",
+      "name": "FUN_0602C6F2",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D382",
+      "name": "FUN_0602D382",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D7AC",
+      "name": "FUN_0602D7AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D81A",
+      "name": "FUN_0602D81A",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D850",
+      "name": "FUN_0602D850",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D876",
+      "name": "FUN_0602D876",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602D8B4",
+      "name": "FUN_0602D8B4",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602E7F6",
+      "name": "FUN_0602E7F6",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602E888",
+      "name": "FUN_0602E888",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602E89E",
+      "name": "FUN_0602E89E",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602E8B8",
+      "name": "FUN_0602E8B8",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602EA6C",
+      "name": "FUN_0602EA6C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602EAE2",
+      "name": "FUN_0602EAE2",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602EC96",
+      "name": "FUN_0602EC96",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602EDDA",
+      "name": "DAT_0602EDDA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F036",
+      "name": "DAT_0602F036",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F054",
+      "name": "DAT_0602F054",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F1D4",
+      "name": "DAT_0602F1D4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F274",
+      "name": "FUN_0602F274",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F30A",
+      "name": "FUN_0602F30A",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F312",
+      "name": "DAT_0602F312",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F322",
+      "name": "FUN_0602F322",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F32A",
+      "name": "DAT_0602F32A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F332",
+      "name": "FUN_0602F332",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F500",
+      "name": "FUN_0602F500",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F564",
+      "name": "DAT_0602F564",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602F814",
+      "name": "DAT_0602F814",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602FA08",
+      "name": "FUN_0602FA08",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602FA74",
+      "name": "FUN_0602FA74",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602FD44",
+      "name": "FUN_0602FD44",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0602FD94",
+      "name": "FUN_0602FD94",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030200",
+      "name": "DAT_06030200",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030A8E",
+      "name": "FUN_06030A8E",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030BB8",
+      "name": "FUN_06030BB8",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030DAA",
+      "name": "DAT_06030DAA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030E48",
+      "name": "FUN_06030E48",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06030F54",
+      "name": "FUN_06030F54",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06031B8C",
+      "name": "FUN_06031B8C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06031BCE",
+      "name": "DAT_06031BCE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06031C84",
+      "name": "DAT_06031C84",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06032DDC",
+      "name": "FUN_06032DDC",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06033466",
+      "name": "FUN_06033466",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060335B4",
+      "name": "DAT_060335B4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06033656",
+      "name": "DAT_06033656",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060336FA",
+      "name": "DAT_060336FA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06033B62",
+      "name": "DAT_06033B62",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06033BD8",
+      "name": "FUN_06033BD8",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06034600",
+      "name": "DAT_06034600",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603468E",
+      "name": "DAT_0603468E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06034A56",
+      "name": "DAT_06034A56",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06034BDC",
+      "name": "FUN_06034BDC",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06034BE0",
+      "name": "FUN_06034BE0",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06035314",
+      "name": "DAT_06035314",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06036608",
+      "name": "FUN_06036608",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06036770",
+      "name": "FUN_06036770",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06036E14",
+      "name": "FUN_06036E14",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603726C",
+      "name": "DAT_0603726C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037364",
+      "name": "DAT_06037364",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603740E",
+      "name": "DAT_0603740E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037442",
+      "name": "DAT_06037442",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060375F6",
+      "name": "DAT_060375F6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037D94",
+      "name": "DAT_06037D94",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037DB8",
+      "name": "DAT_06037DB8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037DDC",
+      "name": "DAT_06037DDC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037E00",
+      "name": "DAT_06037E00",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06037E24",
+      "name": "DAT_06037E24",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 5
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06038202",
+      "name": "FUN_06038202",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603833C",
+      "name": "FUN_0603833C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06039204",
+      "name": "FUN_06039204",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603AF00",
+      "name": "DAT_0603AF00",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603AF0C",
+      "name": "FUN_0603AF0C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603AF38",
+      "name": "FUN_0603AF38",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603B6F8",
+      "name": "DAT_0603B6F8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603BC78",
+      "name": "FUN_0603BC78",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603C344",
+      "name": "FUN_0603C344",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603C478",
+      "name": "FUN_0603C478",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603C7A4",
+      "name": "FUN_0603C7A4",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603C970",
+      "name": "FUN_0603C970",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603D704",
+      "name": "FUN_0603D704",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603E394",
+      "name": "DAT_0603E394",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603E788",
+      "name": "FUN_0603E788",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603E928",
+      "name": "FUN_0603E928",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603EA80",
+      "name": "FUN_0603EA80",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603EDA6",
+      "name": "FUN_0603EDA6",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603F132",
+      "name": "DAT_0603F132",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603F33C",
+      "name": "DAT_0603F33C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603F4BE",
+      "name": "DAT_0603F4BE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603FA32",
+      "name": "FUN_0603FA32",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603FBFE",
+      "name": "FUN_0603FBFE",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603FCF4",
+      "name": "FUN_0603FCF4",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603FD0C",
+      "name": "FUN_0603FD0C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0603FF92",
+      "name": "FUN_0603FF92",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040020",
+      "name": "FUN_06040020",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040074",
+      "name": "FUN_06040074",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060400B6",
+      "name": "FUN_060400B6",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060405CC",
+      "name": "DAT_060405CC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040634",
+      "name": "DAT_06040634",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040B50",
+      "name": "DAT_06040B50",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040B60",
+      "name": "DAT_06040B60",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040B6C",
+      "name": "DAT_06040B6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040B7C",
+      "name": "DAT_06040B7C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040DA8",
+      "name": "DAT_06040DA8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040DEC",
+      "name": "FUN_06040DEC",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040E4C",
+      "name": "FUN_06040E4C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06040EA0",
+      "name": "FUN_06040EA0",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060429D6",
+      "name": "FUN_060429D6",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06042B7E",
+      "name": "FUN_06042B7E",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06042C70",
+      "name": "FUN_06042C70",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043588",
+      "name": "DAT_06043588",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043A64",
+      "name": "DAT_06043A64",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043A74",
+      "name": "DAT_06043A74",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043A84",
+      "name": "DAT_06043A84",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043A94",
+      "name": "DAT_06043A94",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AA4",
+      "name": "DAT_06043AA4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AB4",
+      "name": "DAT_06043AB4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AC4",
+      "name": "DAT_06043AC4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AD4",
+      "name": "DAT_06043AD4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AE4",
+      "name": "DAT_06043AE4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043AF4",
+      "name": "DAT_06043AF4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043B88",
+      "name": "DAT_06043B88",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06043B8E",
+      "name": "DAT_06043B8E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06044060",
+      "name": "FUN_06044060",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06044660",
+      "name": "DAT_06044660",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604469E",
+      "name": "DAT_0604469E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06044ADA",
+      "name": "FUN_06044ADA",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06044DF0",
+      "name": "DAT_06044DF0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06044F14",
+      "name": "DAT_06044F14",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06045006",
+      "name": "FUN_06045006",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 17
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604507E",
+      "name": "FUN_0604507E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 28
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060450F2",
+      "name": "FUN_060450F2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 19
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06045154",
+      "name": "DAT_06045154",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060451BE",
+      "name": "FUN_060451BE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060451FA",
+      "name": "FUN_060451FA",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604521A",
+      "name": "FUN_0604521A",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604523A",
+      "name": "FUN_0604523A",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060453EC",
+      "name": "DAT_060453EC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060454AC",
+      "name": "DAT_060454AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060457A8",
+      "name": "DAT_060457A8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060457DC",
+      "name": "DAT_060457DC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 24
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06045858",
+      "name": "FUN_06045858",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604585C",
+      "name": "FUN_0604585C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060458DA",
+      "name": "FUN_060458DA",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060458DE",
+      "name": "FUN_060458DE",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06045958",
+      "name": "DAT_06045958",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 16
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604669E",
+      "name": "FUN_0604669E",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060466A0",
+      "name": "FUN_060466A0",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060467B0",
+      "name": "DAT_060467B0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060467B2",
+      "name": "FUN_060467B2",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060467B4",
+      "name": "FUN_060467B4",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604680E",
+      "name": "DAT_0604680E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060468AE",
+      "name": "FUN_060468AE",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060468B0",
+      "name": "FUN_060468B0",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06046A20",
+      "name": "FUN_06046A20",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060479FC",
+      "name": "DAT_060479FC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047A6C",
+      "name": "DAT_06047A6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047A78",
+      "name": "DAT_06047A78",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047C64",
+      "name": "DAT_06047C64",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047C68",
+      "name": "DAT_06047C68",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047D50",
+      "name": "DAT_06047D50",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06047EA8",
+      "name": "FUN_06047EA8",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06048010",
+      "name": "DAT_06048010",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06048248",
+      "name": "DAT_06048248",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06048254",
+      "name": "DAT_06048254",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604833C",
+      "name": "DAT_0604833C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 7
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604833E",
+      "name": "DAT_0604833E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C33C",
+      "name": "DAT_0604C33C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C740",
+      "name": "DAT_0604C740",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C76C",
+      "name": "FUN_0604C76C",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C96A",
+      "name": "DAT_0604C96A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C96E",
+      "name": "DAT_0604C96E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C972",
+      "name": "DAT_0604C972",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C976",
+      "name": "DAT_0604C976",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C97A",
+      "name": "DAT_0604C97A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C97E",
+      "name": "DAT_0604C97E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C982",
+      "name": "DAT_0604C982",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C986",
+      "name": "DAT_0604C986",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C98A",
+      "name": "DAT_0604C98A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C98E",
+      "name": "DAT_0604C98E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C992",
+      "name": "DAT_0604C992",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C996",
+      "name": "DAT_0604C996",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C99A",
+      "name": "DAT_0604C99A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C99E",
+      "name": "DAT_0604C99E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C9A2",
+      "name": "DAT_0604C9A2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C9A6",
+      "name": "DAT_0604C9A6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C9AA",
+      "name": "DAT_0604C9AA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604C9B0",
+      "name": "DAT_0604C9B0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604CA34",
+      "name": "DAT_0604CA34",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604CA5E",
+      "name": "DAT_0604CA5E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604CBA4",
+      "name": "DAT_0604CBA4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D0F4",
+      "name": "FUN_0604D0F4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 2,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D158",
+      "name": "DAT_0604D158",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D16C",
+      "name": "DAT_0604D16C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D174",
+      "name": "DAT_0604D174",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D180",
+      "name": "DAT_0604D180",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D190",
+      "name": "DAT_0604D190",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D1CC",
+      "name": "DAT_0604D1CC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D204",
+      "name": "DAT_0604D204",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D220",
+      "name": "DAT_0604D220",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D22E",
+      "name": "DAT_0604D22E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D23C",
+      "name": "DAT_0604D23C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D24A",
+      "name": "DAT_0604D24A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D258",
+      "name": "DAT_0604D258",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D268",
+      "name": "DAT_0604D268",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D2A0",
+      "name": "DAT_0604D2A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D310",
+      "name": "DAT_0604D310",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604D780",
+      "name": "DAT_0604D780",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DA40",
+      "name": "FUN_0604DA40",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DA60",
+      "name": "FUN_0604DA60",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DAB8",
+      "name": "DAT_0604DAB8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DEFE",
+      "name": "FUN_0604DEFE",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DF02",
+      "name": "FUN_0604DF02",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DF12",
+      "name": "FUN_0604DF12",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604DF58",
+      "name": "FUN_0604DF58",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E040",
+      "name": "FUN_0604E040",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E078",
+      "name": "FUN_0604E078",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 1,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E09A",
+      "name": "FUN_0604E09A",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E0BC",
+      "name": "FUN_0604E0BC",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E0F6",
+      "name": "FUN_0604E0F6",
+      "runtime_tier": "unobserved",
+      "static_class": "NOT_REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 0
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E138",
+      "name": "DAT_0604E138",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E144",
+      "name": "DAT_0604E144",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E1C4",
+      "name": "DAT_0604E1C4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E1DC",
+      "name": "DAT_0604E1DC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E1F0",
+      "name": "DAT_0604E1F0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E200",
+      "name": "DAT_0604E200",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E210",
+      "name": "DAT_0604E210",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E220",
+      "name": "DAT_0604E220",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E230",
+      "name": "DAT_0604E230",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E240",
+      "name": "DAT_0604E240",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E2A0",
+      "name": "DAT_0604E2A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E340",
+      "name": "DAT_0604E340",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E3D8",
+      "name": "DAT_0604E3D8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E4E8",
+      "name": "DAT_0604E4E8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E630",
+      "name": "DAT_0604E630",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E8A0",
+      "name": "DAT_0604E8A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604E930",
+      "name": "DAT_0604E930",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EA30",
+      "name": "DAT_0604EA30",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EAE8",
+      "name": "DAT_0604EAE8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC38",
+      "name": "DAT_0604EC38",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC4C",
+      "name": "DAT_0604EC4C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC50",
+      "name": "DAT_0604EC50",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC54",
+      "name": "DAT_0604EC54",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC56",
+      "name": "DAT_0604EC56",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC5F",
+      "name": "DAT_0604EC5F",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC61",
+      "name": "DAT_0604EC61",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC6C",
+      "name": "DAT_0604EC6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC70",
+      "name": "DAT_0604EC70",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EC94",
+      "name": "DAT_0604EC94",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECA0",
+      "name": "DAT_0604ECA0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECAD",
+      "name": "DAT_0604ECAD",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECBA",
+      "name": "DAT_0604ECBA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECC8",
+      "name": "DAT_0604ECC8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECE0",
+      "name": "DAT_0604ECE0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECEA",
+      "name": "DAT_0604ECEA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECF0",
+      "name": "DAT_0604ECF0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ECFC",
+      "name": "DAT_0604ECFC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED08",
+      "name": "DAT_0604ED08",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED14",
+      "name": "DAT_0604ED14",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED20",
+      "name": "DAT_0604ED20",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED34",
+      "name": "DAT_0604ED34",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED5C",
+      "name": "DAT_0604ED5C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED62",
+      "name": "DAT_0604ED62",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED6C",
+      "name": "DAT_0604ED6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604ED78",
+      "name": "DAT_0604ED78",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EDC8",
+      "name": "DAT_0604EDC8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EDE0",
+      "name": "DAT_0604EDE0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EE28",
+      "name": "DAT_0604EE28",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EE58",
+      "name": "DAT_0604EE58",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EE78",
+      "name": "DAT_0604EE78",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EEC0",
+      "name": "DAT_0604EEC0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EF08",
+      "name": "DAT_0604EF08",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 6
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EF2B",
+      "name": "DAT_0604EF2B",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EF4E",
+      "name": "DAT_0604EF4E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EFA8",
+      "name": "DAT_0604EFA8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EFAD",
+      "name": "DAT_0604EFAD",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EFB2",
+      "name": "DAT_0604EFB2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EFF0",
+      "name": "DAT_0604EFF0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604EFFA",
+      "name": "DAT_0604EFFA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F000",
+      "name": "DAT_0604F000",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F028",
+      "name": "DAT_0604F028",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F050",
+      "name": "DAT_0604F050",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F078",
+      "name": "DAT_0604F078",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F0A0",
+      "name": "DAT_0604F0A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F0C0",
+      "name": "DAT_0604F0C0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F0D0",
+      "name": "DAT_0604F0D0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F0D8",
+      "name": "DAT_0604F0D8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F128",
+      "name": "DAT_0604F128",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F12C",
+      "name": "DAT_0604F12C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F164",
+      "name": "DAT_0604F164",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F168",
+      "name": "DAT_0604F168",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F180",
+      "name": "DAT_0604F180",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F184",
+      "name": "DAT_0604F184",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F1C4",
+      "name": "DAT_0604F1C4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F1C8",
+      "name": "DAT_0604F1C8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F1E0",
+      "name": "DAT_0604F1E0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F1E4",
+      "name": "DAT_0604F1E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F214",
+      "name": "DAT_0604F214",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F218",
+      "name": "DAT_0604F218",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F238",
+      "name": "DAT_0604F238",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F23C",
+      "name": "DAT_0604F23C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F2AC",
+      "name": "DAT_0604F2AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F2AE",
+      "name": "DAT_0604F2AE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F2B0",
+      "name": "DAT_0604F2B0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F2D0",
+      "name": "DAT_0604F2D0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F2D4",
+      "name": "DAT_0604F2D4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F344",
+      "name": "DAT_0604F344",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F348",
+      "name": "DAT_0604F348",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F370",
+      "name": "DAT_0604F370",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F374",
+      "name": "DAT_0604F374",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F39C",
+      "name": "DAT_0604F39C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3A0",
+      "name": "DAT_0604F3A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3B8",
+      "name": "DAT_0604F3B8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3BC",
+      "name": "DAT_0604F3BC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3C5",
+      "name": "DAT_0604F3C5",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3CE",
+      "name": "DAT_0604F3CE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3D8",
+      "name": "DAT_0604F3D8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3E4",
+      "name": "DAT_0604F3E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3F4",
+      "name": "DAT_0604F3F4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3F7",
+      "name": "DAT_0604F3F7",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3F8",
+      "name": "DAT_0604F3F8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F3FC",
+      "name": "DAT_0604F3FC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F44C",
+      "name": "DAT_0604F44C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F49C",
+      "name": "DAT_0604F49C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4B0",
+      "name": "DAT_0604F4B0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4B6",
+      "name": "DAT_0604F4B6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4C8",
+      "name": "DAT_0604F4C8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4D4",
+      "name": "DAT_0604F4D4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4E4",
+      "name": "DAT_0604F4E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F4F4",
+      "name": "DAT_0604F4F4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F504",
+      "name": "DAT_0604F504",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F50C",
+      "name": "DAT_0604F50C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F518",
+      "name": "DAT_0604F518",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F524",
+      "name": "DAT_0604F524",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F52E",
+      "name": "DAT_0604F52E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F53A",
+      "name": "DAT_0604F53A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F544",
+      "name": "DAT_0604F544",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F54E",
+      "name": "DAT_0604F54E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F55A",
+      "name": "DAT_0604F55A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F568",
+      "name": "DAT_0604F568",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F575",
+      "name": "DAT_0604F575",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F57C",
+      "name": "DAT_0604F57C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F588",
+      "name": "DAT_0604F588",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F594",
+      "name": "DAT_0604F594",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5A0",
+      "name": "DAT_0604F5A0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5AC",
+      "name": "DAT_0604F5AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5B8",
+      "name": "DAT_0604F5B8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5C4",
+      "name": "DAT_0604F5C4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5D0",
+      "name": "DAT_0604F5D0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5DC",
+      "name": "DAT_0604F5DC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5E4",
+      "name": "DAT_0604F5E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F5F4",
+      "name": "DAT_0604F5F4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F604",
+      "name": "DAT_0604F604",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F614",
+      "name": "DAT_0604F614",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F624",
+      "name": "DAT_0604F624",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F630",
+      "name": "DAT_0604F630",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F63C",
+      "name": "DAT_0604F63C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F64C",
+      "name": "DAT_0604F64C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F65C",
+      "name": "DAT_0604F65C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F668",
+      "name": "DAT_0604F668",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F678",
+      "name": "DAT_0604F678",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F684",
+      "name": "DAT_0604F684",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F6A2",
+      "name": "DAT_0604F6A2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F7E4",
+      "name": "DAT_0604F7E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 3
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F85C",
+      "name": "DAT_0604F85C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F870",
+      "name": "DAT_0604F870",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F99C",
+      "name": "DAT_0604F99C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F9AC",
+      "name": "DAT_0604F9AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F9B4",
+      "name": "DAT_0604F9B4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F9BC",
+      "name": "DAT_0604F9BC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 4
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F9D0",
+      "name": "DAT_0604F9D0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604F9F8",
+      "name": "DAT_0604F9F8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FA48",
+      "name": "DAT_0604FA48",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FA98",
+      "name": "DAT_0604FA98",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FAD4",
+      "name": "DAT_0604FAD4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FADE",
+      "name": "DAT_0604FADE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FAE8",
+      "name": "DAT_0604FAE8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FAF0",
+      "name": "DAT_0604FAF0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FAF8",
+      "name": "DAT_0604FAF8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB00",
+      "name": "DAT_0604FB00",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB08",
+      "name": "DAT_0604FB08",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB10",
+      "name": "DAT_0604FB10",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB28",
+      "name": "DAT_0604FB28",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB40",
+      "name": "DAT_0604FB40",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB58",
+      "name": "DAT_0604FB58",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB70",
+      "name": "DAT_0604FB70",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FB88",
+      "name": "DAT_0604FB88",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FE5C",
+      "name": "DAT_0604FE5C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FE64",
+      "name": "DAT_0604FE64",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FF4E",
+      "name": "DAT_0604FF4E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0604FFC0",
+      "name": "DAT_0604FFC0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605006E",
+      "name": "DAT_0605006E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060500E0",
+      "name": "DAT_060500E0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050154",
+      "name": "DAT_06050154",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050160",
+      "name": "DAT_06050160",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 8
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050228",
+      "name": "DAT_06050228",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050230",
+      "name": "DAT_06050230",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050244",
+      "name": "DAT_06050244",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050288",
+      "name": "DAT_06050288",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050298",
+      "name": "DAT_06050298",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502AC",
+      "name": "DAT_060502AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502B0",
+      "name": "DAT_060502B0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502B4",
+      "name": "DAT_060502B4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502B8",
+      "name": "DAT_060502B8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502BC",
+      "name": "DAT_060502BC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502C0",
+      "name": "DAT_060502C0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502C4",
+      "name": "DAT_060502C4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502C8",
+      "name": "DAT_060502C8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502CC",
+      "name": "DAT_060502CC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502D0",
+      "name": "DAT_060502D0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502DA",
+      "name": "DAT_060502DA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502E4",
+      "name": "DAT_060502E4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502EE",
+      "name": "DAT_060502EE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060502F8",
+      "name": "DAT_060502F8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050302",
+      "name": "DAT_06050302",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605030C",
+      "name": "DAT_0605030C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050316",
+      "name": "DAT_06050316",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050320",
+      "name": "DAT_06050320",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605032A",
+      "name": "DAT_0605032A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605033E",
+      "name": "DAT_0605033E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050352",
+      "name": "DAT_06050352",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050366",
+      "name": "DAT_06050366",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605037A",
+      "name": "DAT_0605037A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605038E",
+      "name": "DAT_0605038E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503A2",
+      "name": "DAT_060503A2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503B6",
+      "name": "DAT_060503B6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503CA",
+      "name": "DAT_060503CA",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503DE",
+      "name": "DAT_060503DE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503E6",
+      "name": "DAT_060503E6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503EE",
+      "name": "DAT_060503EE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503F6",
+      "name": "DAT_060503F6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060503FE",
+      "name": "DAT_060503FE",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050406",
+      "name": "DAT_06050406",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605040E",
+      "name": "DAT_0605040E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050416",
+      "name": "DAT_06050416",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605041E",
+      "name": "DAT_0605041E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050426",
+      "name": "DAT_06050426",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605043A",
+      "name": "DAT_0605043A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605044E",
+      "name": "DAT_0605044E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050462",
+      "name": "DAT_06050462",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050476",
+      "name": "DAT_06050476",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605048A",
+      "name": "DAT_0605048A",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605049E",
+      "name": "DAT_0605049E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060504B2",
+      "name": "DAT_060504B2",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060504C6",
+      "name": "DAT_060504C6",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060504DC",
+      "name": "DAT_060504DC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050590",
+      "name": "DAT_06050590",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050644",
+      "name": "DAT_06050644",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050B78",
+      "name": "DAT_06050B78",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050B84",
+      "name": "DAT_06050B84",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050B90",
+      "name": "DAT_06050B90",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050B9C",
+      "name": "DAT_06050B9C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BA8",
+      "name": "DAT_06050BA8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BB4",
+      "name": "DAT_06050BB4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BC0",
+      "name": "DAT_06050BC0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BCC",
+      "name": "DAT_06050BCC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BD8",
+      "name": "DAT_06050BD8",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BE4",
+      "name": "DAT_06050BE4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BF0",
+      "name": "DAT_06050BF0",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050BFC",
+      "name": "DAT_06050BFC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C08",
+      "name": "DAT_06050C08",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C14",
+      "name": "DAT_06050C14",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C20",
+      "name": "DAT_06050C20",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C48",
+      "name": "DAT_06050C48",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C54",
+      "name": "DAT_06050C54",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C58",
+      "name": "DAT_06050C58",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C60",
+      "name": "DAT_06050C60",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050C6C",
+      "name": "DAT_06050C6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050D2C",
+      "name": "DAT_06050D2C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050D58",
+      "name": "DAT_06050D58",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 2
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050DDC",
+      "name": "DAT_06050DDC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050E7C",
+      "name": "DAT_06050E7C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06050F6C",
+      "name": "DAT_06050F6C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605119C",
+      "name": "DAT_0605119C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605124C",
+      "name": "DAT_0605124C",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060512BC",
+      "name": "DAT_060512BC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060514CC",
+      "name": "DAT_060514CC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x0605156E",
+      "name": "DAT_0605156E",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06051592",
+      "name": "DAT_06051592",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060515AC",
+      "name": "DAT_060515AC",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x060515F4",
+      "name": "DAT_060515F4",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    },
+    {
+      "addr": "0x06051600",
+      "name": "DAT_06051600",
+      "runtime_tier": "unobserved",
+      "static_class": "REAL_ENTRY",
+      "inbound": {
+        "branch": 0,
+        "pool": 1
+      },
+      "expected": null
+    }
+  ]
+}

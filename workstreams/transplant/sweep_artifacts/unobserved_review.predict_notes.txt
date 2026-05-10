@@ -1,0 +1,23 @@
+# Detector reasoning summary (top 50 reason classes)
+
+   304  data: data directive at target (.4byte/.byte/e
+   101  global-FUN-altentry
+    19  sibling-lost: parent terminated with rts (no interveni
+    19  sibling-lost: parent terminated with jmp + pool block 
+    15  sibling-lost: parent terminated with rts + pool block 
+     6  unknown: target is a label without immediate insn
+     4  sibling-lost: parent terminated with jmp (no interveni
+     4  sibling-lost: parent terminated with bra (no interveni
+     3  sibling-lost: parent terminated with bra + pool block 
+     1  data: mid-data at offset 0xdd
+     1  data: mid-data at offset 0x166
+     1  unknown: unexpected directive at target: None
+     1  altentry: predecessor falls through (last insn: mo
+     1  data: mid-data at offset 0xb69
+     1  data: mid-data at offset 0xb6b
+     1  data: mid-data at offset 0xbb7
+     1  data: mid-data at offset 0xe35
+     1  data: mid-data at offset 0xeb7
+     1  data: mid-data at offset 0x12cf
+     1  data: mid-data at offset 0x1301
+     1  data: mid-data at offset 0x147f
