@@ -215,26 +215,34 @@ also use only call-clobbered regs by coincidence).
 - **LOW** — contradictions or only weak evidence
   - Always LOW for AMBIGUOUS
 
-**Style** (how the body is internally written; orthogonal to kind):
-- **A** — register-optimized, likely hand-written
-  - Reads r0-r3 or r8-r14 as if pre-set
-  - Tight register coupling with predecessor or dispatcher
-  - No clean arg/return convention
-  - Compact body, often dispatch-table or state-machine target
-- **B** — conventional C, compiler-emittable
-  - Args used naturally from r4-r7
-  - Has prologue if non-leaf, clean leaf otherwise
-  - Return value pattern in r0
-  - Looks like compiler-emitted code
-- **N/A** — for MERGE decisions where the entry has no body of its own:
+**Style** — classifies *what kind of multi-entry pattern* this entry is
+participating in. Applies ONLY when the entry is a realized member of a
+multi-entry pair. For standalone functions (no labeled sibling at this
+address ± a small offset), Style is N/A.
+
+- **A** — hand-tuned multi-entry. Siblings share register state via a
+  custom calling convention; the entries are coupled by what r0-r3 or
+  r8-r14 hold across the boundary. The pair could not be emitted by a
+  stock C compiler from ordinary C source — it's an assembly-author's
+  optimization.
+- **B** — compiler-emittable multi-entry. The pair could be emitted by
+  a stock C compiler from two C functions sharing a tail (or one
+  function with a skip-prelude alt-entry). Args used naturally from
+  r4-r7; clean prologue if non-leaf; return via r0.
+- **N/A** — not a participating multi-entry member:
   - `data` — the address points at data, not code
-  - `callsite-shifted` — the entry is absorbed into a sibling's asm block;
-    the body bytes become owned by the sibling. Style B applies to the
-    sibling's body, not to the absorbed entry's label. Calling the
-    bypassed entry "Style B" would imply it's a standalone function;
-    after merge it isn't.
-  - `dispatch-target` — the address is a mid-body label inside a
-    dispatcher, not a separate function body
+  - `head` — standalone function with no labeled sibling at ±N; just
+    a regular function on its own
+  - `sibling-lost` (when standalone) — recovered as a standalone
+    function, no bypassed-head partner at ±N
+  - `callsite-shifted` — the entry is absorbed into a sibling's asm
+    block; body bytes owned by the sibling. Style B (if applicable)
+    describes the sibling, not this absorbed label
+  - `dispatch-target` — mid-body dispatch label inside a dispatcher,
+    not a function entry
+
+For `altentry` and `sibling-lost-paired-with-callsite-shifted`, Style A
+vs B is the question.
 
 ### Kind (the structural relationship to the parent function)
 
@@ -317,9 +325,10 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 
 | Decision | Kind | Typical Style | Action |
 |---|---|---|---|
-| KEEP | sibling-lost | B | LIFT to own asm block — note in notes |
 | KEEP | altentry | A or B | preserve as multi-entry, document contract |
-| KEEP | head | B | regular function; nothing special — or remove if confirmed dead |
+| KEEP | sibling-lost paired w/ callsite-shifted | A or B | LIFT to own asm block; absorbs the bypassed partner |
+| KEEP | sibling-lost standalone | N/A | LIFT to own asm block; no partner |
+| KEEP | head | N/A | regular function; nothing special — or remove if confirmed dead |
 | MERGE | callsite-shifted | N/A | absorb into shadowing sibling's asm block; keep `.global` label inside |
 | MERGE | dispatch-target | N/A | fold into parent dispatcher |
 | MERGE | data | N/A | fold into parent's TU as data |
