@@ -112,22 +112,47 @@ load instruction and inspect the next 2-3 insns:
 `pred_last_insns` is non-terminating for all mid-entries by construction,
 so H3 is always Y. Confirm anyway.
 
-**(f) Lost-sibling detector (for PROVIDE-aliases).** This is the most
-common KEEP pattern in this codebase. For `DAT_X = FUN_Y + offset`:
+**(f) Lost-sibling / callsite-shifted detector.** This is the family of
+KEEP/MERGE patterns that the predecessor-terminator + body-shape walk
+distinguishes. For `DAT_X = FUN_Y + offset` (and analogously for global-FUN
+mid-entries — same walk, just starting from the FUN_Y label that contains
+our target):
 1. Open the .s file containing FUN_Y. Find the `.global FUN_Y:` line.
 2. Walk forward through FUN_Y's body to byte-offset `offset`. Track:
    instructions = 2 bytes each, `.4byte` = 4, `.byte 0xXX, 0xYY` = 2,
    labels = 0.
 3. **Look at the bytes immediately BEFORE our position** (skipping pool
-   data). If the last real instruction was `rts` / `rte` / `bra` / `braf`
-   / `jmp` (followed by its delay slot), then FUN_Y terminated cleanly
-   before our address. Combined with valid code at our address (a real
-   first instruction, eventually own `rts`) → this is **sibling-lost**.
+   data). Three sub-cases when the last real instruction was a terminator
+   (`rts` / `rte` / `bra` / `braf` / `jmp` + delay slot):
+   - **Intervening pool block** (`.4byte ...` / `.byte ...` between
+     terminator and us): predecessor terminates cleanly, then its pool
+     data, then we resume code. → **sibling-lost** (we're the recovered
+     lost-symbol function).
+   - **No pool, but a PROVIDE-aliased neighbor at our address ± N**
+     (small N, ≤ ~12 bytes — check race.ld for any `DAT_(addr)` or
+     `sym_(addr)` resolving to our_address − N or our_address + N): the
+     gap between predecessor's rts and us is the body of a sibling entry
+     that is what callers actually target. → **callsite-shifted**.
+     Verify by grepping for pool refs to the neighbor's name and checking
+     for runtime hits at the neighbor's address — if the neighbor is
+     live AND our address has no direct callers, this is the case.
+   - **No pool, no aliased neighbor in the gap, just orphan code or
+     padding**: predecessor terminated cleanly and we're a separate
+     real function (no shadowing). → **head** (regular function; if
+     prior workstreams flagged this `TRACK_DEAD` etc., note that).
 4. If the last real instruction was non-terminating (mov / add / cmp /
-   etc.) directly before our address → **altentry** (true multi-entry).
+   etc.) directly before our address (no terminator anywhere upstream
+   within FUN_Y's body before our offset) → **altentry** (true
+   multi-entry; predecessor really does fall through).
 5. If the bytes at our address don't decode as valid SH-2 (e.g., they
    are pure `.byte` data or first halfword decodes to nothing sensible)
    → **data**.
+
+The CSV's `kind_predicted` column gives a starting hypothesis. For
+`callsite-shifted` candidates in particular, **always verify the
+sibling's live-caller status by-hand** before committing the verdict —
+the heuristic only checks whether a neighbor alias *exists*, not whether
+it has surviving callers.
 
 **Visual signature of sibling-lost** in the .s file:
 ```
@@ -218,10 +243,38 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
   - Optional inline pool block (`.4byte ...` × N entries) belonging to FUN_Y
   - Bytes at our address decode as valid SH-2 code with their own `rts`
   - Often called via pool→jsr (R5 = Y) from elsewhere
+  - This address has at least one surviving caller (pool ref / runtime hit)
 
   Decision: **KEEP**. **Action implied: this function is "lost" and should
   be lifted to its own `int FUN_X(void) asm { }` block in the .c file.**
   Note in the `notes` column: "lost — lift to own asm block".
+
+- **callsite-shifted** — our pipeline labeled this address as a real entry,
+  but **no caller actually targets it**; a nearby PROVIDE-aliased neighbor
+  at `(this_addr ± N)` (small N, typically 2-12 bytes) has the surviving
+  callers instead. The two entries share body bytes via physical adjacency:
+  callers enter at the neighbor, fall through into / past our label, and
+  return via the shared body's `rts`. Detector signature:
+  - Our address has its own valid prologue (or at least looks like a head)
+  - **Zero direct callers** to our exact address (no inbound branch refs,
+    no pool refs, no runtime hits at this address)
+  - A PROVIDE alias `DAT_(this ± N)` exists for small N
+  - That neighbor alias **does** have pool refs / runtime hits
+  - Direction can go either way:
+    - **Negative offset** (`DAT_(this − N)`): neighbor is a prelude that
+      sets up args, then falls through into our body. We are the tail.
+    - **Positive offset** (`DAT_(this + N)`): neighbor is a skip-prelude
+      alt-entry into our body. We are the bypassed head.
+
+  Decision: **MERGE** (into the shadowing sibling's asm block).
+  **Action implied: when the sibling-lost neighbor is lifted, this entry
+  becomes an internal `.global` label inside that block. Keep the symbol
+  so the address is still callable, but don't keep a separate `int FUN_X
+  (void) asm { }` declaration.** Note in `notes` column: "callsite-shifted;
+  callers target DAT_X-N / DAT_X+N; merge into sibling's asm block".
+
+  This is a heuristic-flagged classification. Per-batch review confirms
+  the relationship by inspecting both addresses' inbound refs.
 
 - **altentry** — a true alternate entry into FUN_Y. Predecessor does NOT
   terminate before our address; control can flow into our address either
@@ -230,6 +283,15 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
   there's no prologue at our address. Decision: **KEEP**. Note that
   callers depend on register state set up by the main entry; transplant
   must preserve that contract.
+
+- **head** — a regular function that the mid-entry classifier put on
+  the review pile by mistake. Predecessor terminates cleanly with rts +
+  delay slot (often followed by orphan dead code, but the dead code has
+  no PROVIDE-aliased neighbor that would make it a `callsite-shifted`
+  case). Our address has its own prologue. Decision: **KEEP**. Action:
+  no transplant work needed — it's just a regular function. If prior
+  workstreams flagged it `TRACK_DEAD` or `COVERAGE_BLIND`, note that in
+  the `notes` column for the dead-code workstream.
 
 - **dispatch-target** — Case-B intra-function dispatch label, reached only
   via `braf @rN` table lookup inside FUN_Y itself. Not callable from
@@ -249,6 +311,8 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 |---|---|---|---|
 | KEEP | sibling-lost | B | LIFT to own asm block — note in notes |
 | KEEP | altentry | A or B | preserve as multi-entry, document contract |
+| KEEP | head | B | regular function; nothing special — or remove if confirmed dead |
+| MERGE | callsite-shifted | A or B | absorb into shadowing sibling's asm block; keep `.global` label inside |
 | MERGE | dispatch-target | A | fold into parent dispatcher |
 | MERGE | data | N/A | fold into parent's TU as data |
 | AMBIGUOUS | unknown | (best guess) | human follow-up |

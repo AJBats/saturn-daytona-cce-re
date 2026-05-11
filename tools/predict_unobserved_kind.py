@@ -6,29 +6,39 @@ For each pending row in unobserved_review.csv, walks the parent function's
 
   1. What is at the address (code? data? mid-byte of data?)
   2. What was IMMEDIATELY before the address — terminator + pool block,
-     or non-terminating code?
+     terminator + dead code with aliased neighbor, terminator + orphan
+     dead code, or non-terminating code?
 
-From those two signals, predicts the structural kind:
+From those signals, predicts the structural kind:
 
-    sibling-lost     parent terminates with rts/rte/bra/braf/jmp before
-                     our position; pool block intervenes; new code starts
-                     at our position. Real callable function whose symbol
-                     was stripped, recovered positionally.
+    sibling-lost      parent terminates with rts/rte/bra/braf/jmp before
+                      our position; pool block intervenes; new code starts
+                      at our position. Real callable function whose symbol
+                      was stripped, recovered positionally.
 
-    altentry         parent does NOT terminate before our position; control
-                     can fall through into our position. True multi-entry.
+    callsite-shifted  parent terminates with rts/rte/bra/braf/jmp before
+                      our position; the gap is non-pool code; a PROVIDE
+                      alias exists at (our_addr +/- N) for small N. The
+                      labeled address is bypassed by callers in favor of
+                      the aliased neighbor (which is the true sibling).
+                      HEURISTIC HINT — per-batch review verifies by
+                      checking the neighbor's live-caller status.
 
-    dispatch-target  parent does not terminate, but our position is reached
-                     only via braf @rN dispatch (heuristic — flagged when
-                     the predecessor's last insn block contains braf @rN
-                     within 16 lines back). Mark as candidate; human review.
+    head              parent terminates with rts/rte/etc.; the gap is
+                      non-pool code; no PROVIDE-aliased neighbor exists
+                      at our_addr +/- N. Just a regular function; the
+                      gap is orphan dead code or alignment slack.
 
-    data             our position lands on .byte / .4byte / .2byte content
-                     or in the middle of multi-byte data. Body doesn't
-                     decode as code.
+    altentry          parent does NOT terminate before our position;
+                      control can fall through into our position. True
+                      multi-entry.
 
-    unknown          could not determine (parent .s file not found, offset
-                     calculation failed, etc.)
+    data              our position lands on .byte / .4byte / .2byte content
+                      or in the middle of multi-byte data. Body doesn't
+                      decode as code.
+
+    unknown           could not determine (parent .s file not found,
+                      offset calculation failed, etc.)
 
 Outputs a new column `kind_predicted` in the CSV — does NOT overwrite the
 human `kind` column. Human review can confirm or override the prediction
@@ -224,8 +234,28 @@ def walk_to_offset(s_path, start_line_idx, target_offset):
     return ('eof', {'cur_offset': cur_offset, 'target_offset': target_offset})
 
 
-def predict_kind(walk_result):
-    """Apply the decision rule to a walk_to_offset result."""
+def find_nearby_alias(target_abs, provide_addrs, window=12):
+    """Return (signed_offset, neighbor_addr) of the closest PROVIDE alias
+    within +/- window bytes of target_abs (excluding target_abs itself),
+    or None if no neighbor exists."""
+    best = None
+    for delta in range(1, window + 1):
+        for sign in (-1, +1):
+            cand = target_abs + sign * delta
+            if cand in provide_addrs:
+                if best is None or abs(sign * delta) < abs(best[0]):
+                    best = (sign * delta, cand)
+    return best
+
+
+def predict_kind(walk_result, target_abs=None, provide_addrs=None):
+    """Apply the decision rule to a walk_to_offset result.
+
+    If provide_addrs (set of int addresses with PROVIDE aliases) and
+    target_abs (absolute address of our target) are supplied, the rule
+    also detects `callsite-shifted` — labeled entries whose actual callers
+    target a nearby aliased neighbor instead.
+    """
     status = walk_result[0]
     info = walk_result[1]
 
@@ -250,14 +280,29 @@ def predict_kind(walk_result):
         return 'unknown', f"unexpected directive at target: {info['this_info']}"
 
     # We're at a code instruction. What was before us?
-    if last_terminator is not None and saw_pool:
-        return 'sibling-lost', f"parent terminated with {last_terminator} + pool block before code resumed"
-    if last_terminator is not None and not saw_pool:
-        return 'sibling-lost', f"parent terminated with {last_terminator} (no intervening pool)"
+    if last_terminator is None:
+        # Predecessor really fell through — true multi-entry
+        last_mnem = info['last_real_mnem']
+        return 'altentry', f"predecessor falls through (last insn: {last_mnem})"
 
-    # Predecessor didn't terminate — true multi-entry
-    last_mnem = info['last_real_mnem']
-    return 'altentry', f"predecessor falls through (last insn: {last_mnem})"
+    if saw_pool:
+        # Classic lost-sibling: terminator + intervening pool data
+        return 'sibling-lost', f"parent terminated with {last_terminator} + pool block before code resumed"
+
+    # Terminator with no intervening pool — distinguish callsite-shifted from
+    # orphan-head by checking for nearby PROVIDE-aliased neighbors.
+    if provide_addrs is not None and target_abs is not None:
+        neighbor = find_nearby_alias(target_abs, provide_addrs)
+        if neighbor is not None:
+            delta, neighbor_addr = neighbor
+            direction = 'before' if delta < 0 else 'after'
+            return ('callsite-shifted',
+                    f"parent terminated with {last_terminator}; PROVIDE alias "
+                    f"at {direction} offset {delta:+d} (0x{neighbor_addr:08X}) is "
+                    f"the likely live entry — VERIFY callers")
+
+    # No aliased neighbor in window — orphan dead code or just a regular head
+    return 'head', f"parent terminated with {last_terminator}; gap is orphan dead code or padding"
 
 
 def main():
@@ -278,6 +323,17 @@ def main():
     print(f'# loading PROVIDE chain from {args.src_race}/race.ld')
     provides = load_provides(args.src_race / 'race.ld')
     print(f'# loaded {len(provides)} PROVIDE-aliases')
+
+    # For callsite-shifted detection: every absolute address that is the
+    # target of some PROVIDE alias. Address is encoded in the DAT_ name.
+    provide_addr_set = set()
+    for alias_name in provides:
+        if alias_name.startswith('DAT_'):
+            try:
+                provide_addr_set.add(int(alias_name[4:], 16))
+            except ValueError:
+                pass
+    print(f'# {len(provide_addr_set)} unique PROVIDE-target addresses for neighbor-check')
 
     print(f'# indexing FUN_X locations under {args.src_race}/')
     fun_locs = index_fun_locations(args.src_race)
@@ -303,31 +359,44 @@ def main():
     counts = Counter()
     notes_counter = Counter()
 
+    pred_field_col = header.index('predecessor')
+
     for r in data_rows:
         name = r[name_col]
         addr = r[addr_col]
         sclass = r[sclass_col]
         status = r[status_col]
+        target_abs = int(addr, 16)
 
-        # Skip already-decided rows when filling empty kind
-        # (still produce kind_predicted for audit)
-        if sclass != 'PROVIDE-alias':
-            # global-FUN mid-entries: predecessor info is in pred_last_insns;
-            # for now we just mark 'altentry' since they're all
-            # predecessor-falls-through by construction. (Refine later.)
-            r[pred_col] = 'altentry'
-            r[pred_col + 0]  # sanity touch
-            counts['altentry'] += 1
-            notes_counter['global-FUN-altentry'] += 1
-            continue
+        # Resolve (containing_fn_name, offset_in_fn) for the walker.
+        # PROVIDE-aliases: direct lookup in race.ld.
+        # global-FUN mid-entries: target is a function start itself; walk
+        # its PREDECESSOR function (from the CSV row) up to the offset
+        # within the predecessor where our target lives.
+        if sclass == 'PROVIDE-alias':
+            if name not in provides:
+                r[pred_col] = 'unknown'
+                counts['unknown'] += 1
+                notes_counter['no-provide-entry'] += 1
+                continue
+            fun_name, offset = provides[name]
+        else:
+            pred_name = r[pred_field_col]
+            if not pred_name:
+                r[pred_col] = 'unknown'
+                counts['unknown'] += 1
+                notes_counter['no-predecessor'] += 1
+                continue
+            fun_name = pred_name
+            try:
+                pred_abs = int(pred_name.split('_')[1], 16)
+            except (IndexError, ValueError):
+                r[pred_col] = 'unknown'
+                counts['unknown'] += 1
+                notes_counter[f'bad-predecessor-name:{pred_name}'] += 1
+                continue
+            offset = target_abs - pred_abs
 
-        if name not in provides:
-            r[pred_col] = 'unknown'
-            counts['unknown'] += 1
-            notes_counter['no-provide-entry'] += 1
-            continue
-
-        fun_name, offset = provides[name]
         if fun_name not in fun_locs:
             r[pred_col] = 'unknown'
             counts['unknown'] += 1
@@ -336,11 +405,12 @@ def main():
 
         s_path, start_idx = fun_locs[fun_name]
         result = walk_to_offset(s_path, start_idx, offset)
-        kind, why = predict_kind(result)
+        kind, why = predict_kind(result, target_abs=target_abs,
+                                 provide_addrs=provide_addr_set)
 
         r[pred_col] = kind
         counts[kind] += 1
-        notes_counter[f'{kind}: {why[:40]}'] += 1
+        notes_counter[f'{kind}: {why[:50]}'] += 1
 
         # Optionally fill empty kind column for pending rows
         if args.also_fill_empty_kind and status == 'pending' and not r[kind_col]:
