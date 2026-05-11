@@ -277,21 +277,44 @@ Or read the file, modify in memory, and use Write.
 
 ### Step 7 — report to user
 
-Print a markdown summary of the batch:
+Print a markdown summary of the batch. **Format must be terse and use
+clickable file:line links**, since we'll process hundreds of files and
+the user wants to jump to source quickly from VS Code.
+
+Required columns: `Label | Location | Content | Verdict | Why`.
+
+- **Label**: the original DAT_X or FUN_X symbol name.
+- **Location**: a markdown link of the form
+  `[BASENAME.c:LINE](decomp/race/BASENAME.c#LLINE)`. VS Code's Markdown
+  preview opens the file at the line on click.
+- **Content**: the actual content of that line, in backticks. Show the
+  instruction or data directive (e.g. `mov.l .L_pool, r1` or
+  `.byte 0x00, 0x02`). If the address is mid-byte of a multi-byte
+  directive, note "(mid-byte)" after the content.
+- **Verdict**: `DECISION · kind · style` separated by middot (·).
+  Style only present when DECISION is KEEP. Confidence appears in
+  Why only if it's not HIGH (HIGH is the default and stays implicit).
+- **Why**: 8-15 words. Cite the actual mechanism — caller / consumer
+  pattern / predecessor terminator. No filler.
+
+Example (B001 retrospective):
 
 ```
-# Batch B<NNN> — N decisions
+# Batch B001 — 5 decisions
 
-| Addr | Name | Decision | Conf | Style | Notes |
-|---|---|---|---|---|---|
-| 0x... | FUN_... | KEEP | HIGH | B | clean prologue, bsr from FUN_Y |
-| ... |
+| Label | Location | Content | Verdict | Why |
+|---|---|---|---|---|
+| DAT_06029958 | [FUN_06029810.c:189](decomp/race/FUN_06029810.c#L189) | `.byte 0x06, 0x05` | MERGE · data | head of 4-byte address table; mov.l @(r0,r1) indexed load |
+| DAT_06029A48 | [FUN_06029998.c:108](decomp/race/FUN_06029998.c#L108) | `mov.l .L_pool_06029A5C, r1` | KEEP · sibling-lost · B | memclr leaf; jsr @r1 from FUN_06028000; needs lift |
+| DAT_06029F68 | [FUN_06029D8C.c:268](decomp/race/FUN_06029D8C.c#L268) | `.byte 0x00, 0x00` | MERGE · data | head of 12-byte parallel-array; TABLE[state] byte-indexed load |
+| DAT_06029F6D | [FUN_06029D8C.c:270](decomp/race/FUN_06029D8C.c#L270) | `.byte 0x00, 0x02` (mid-byte) | MERGE · data | offset 5 into same table; TABLE[state+5] second column |
+| DAT_0602A3A4 | [FUN_06029D8C.c:857](decomp/race/FUN_06029D8C.c#L857) | `.byte 0x00, 0x00` | MERGE · data | head of 16-bit signed-delta table after FUN_0602A370 rts |
 
-Tally so far: K KEEP / M MERGE / A AMBIGUOUS / R remaining of 487
+Tally so far: 1 KEEP / 4 MERGE / 0 AMBIGUOUS / 482 remaining of 487
 ```
 
-Stop. Do not auto-process the next batch. Wait for the user to invoke
-`/eval-midentry` again.
+After the table, **stop**. Do not auto-process the next batch. Wait
+for the user to invoke `/eval-midentry` again.
 
 ## Reference: where the data lives
 
