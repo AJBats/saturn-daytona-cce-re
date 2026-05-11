@@ -226,7 +226,15 @@ also use only call-clobbered regs by coincidence).
   - Has prologue if non-leaf, clean leaf otherwise
   - Return value pattern in r0
   - Looks like compiler-emitted code
-- **N/A** — for MERGE decisions where there is no body to characterize (data)
+- **N/A** — for MERGE decisions where the entry has no body of its own:
+  - `data` — the address points at data, not code
+  - `callsite-shifted` — the entry is absorbed into a sibling's asm block;
+    the body bytes become owned by the sibling. Style B applies to the
+    sibling's body, not to the absorbed entry's label. Calling the
+    bypassed entry "Style B" would imply it's a standalone function;
+    after merge it isn't.
+  - `dispatch-target` — the address is a mid-body label inside a
+    dispatcher, not a separate function body
 
 ### Kind (the structural relationship to the parent function)
 
@@ -312,8 +320,8 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 | KEEP | sibling-lost | B | LIFT to own asm block — note in notes |
 | KEEP | altentry | A or B | preserve as multi-entry, document contract |
 | KEEP | head | B | regular function; nothing special — or remove if confirmed dead |
-| MERGE | callsite-shifted | A or B | absorb into shadowing sibling's asm block; keep `.global` label inside |
-| MERGE | dispatch-target | A | fold into parent dispatcher |
+| MERGE | callsite-shifted | N/A | absorb into shadowing sibling's asm block; keep `.global` label inside |
+| MERGE | dispatch-target | N/A | fold into parent dispatcher |
 | MERGE | data | N/A | fold into parent's TU as data |
 | AMBIGUOUS | unknown | (best guess) | human follow-up |
 
