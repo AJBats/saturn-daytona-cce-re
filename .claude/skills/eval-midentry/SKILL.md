@@ -265,32 +265,60 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
   be lifted to its own `int FUN_X(void) asm { }` block in the .c file.**
   Note in the `notes` column: "lost — lift to own asm block".
 
-- **callsite-shifted** — our pipeline labeled this address as a real entry,
-  but **no caller actually targets it**; a nearby PROVIDE-aliased neighbor
-  at `(this_addr ± N)` (small N, typically 2-12 bytes) has the surviving
-  callers instead. The two entries share body bytes via physical adjacency:
-  callers enter at the neighbor, fall through into / past our label, and
-  return via the shared body's `rts`. Detector signature:
-  - Our address has its own valid prologue (or at least looks like a head)
-  - **Zero direct callers** to our exact address (no inbound branch refs,
-    no pool refs, no runtime hits at this address)
-  - A PROVIDE alias `DAT_(this ± N)` exists for small N
-  - That neighbor alias **does** have pool refs / runtime hits
-  - Direction can go either way:
-    - **Negative offset** (`DAT_(this − N)`): neighbor is a prelude that
-      sets up args, then falls through into our body. We are the tail.
-    - **Positive offset** (`DAT_(this + N)`): neighbor is a skip-prelude
-      alt-entry into our body. We are the bypassed head.
+- **callsite-shifted** — Ghidra's label position is shifted from where
+  the function actually begins. The real entry is 2-6 bytes earlier
+  than the labeled address. Always rooted in **Ghidra's prologue-
+  heuristic bias**: Ghidra's auto-function detection latches onto
+  `sts.l pr, @-r15` or callee-save push patterns and skips past any
+  pre-PR-save setup (arg shuffle `mov r4, r1`, pool loads
+  `mov.l .L_pool, rN`, immediate loads `mov #imm, rN`, word-pool loads
+  `mov.w .L_wpool, rN`). When the function's real entry includes such
+  pre-PR-save setup, Ghidra places the label past it.
 
-  Decision: **MERGE** (into the shadowing sibling's asm block).
-  **Action implied: when the sibling-lost neighbor is lifted, this entry
-  becomes an internal `.global` label inside that block. Keep the symbol
-  so the address is still callable, but don't keep a separate `int FUN_X
-  (void) asm { }` declaration.** Note in `notes` column: "callsite-shifted;
-  callers target DAT_X-N / DAT_X+N; merge into sibling's asm block".
+  Two sub-cases based on the evidence available:
 
-  This is a heuristic-flagged classification. Per-batch review confirms
-  the relationship by inspecting both addresses' inbound refs.
+  **(A) Confirmed by live caller** — A PROVIDE alias `DAT_(this ± N)`
+  exists at the suspected real-entry offset AND has surviving callers
+  (pool refs / runtime hits). Example: FUN_0602D382 with DAT_0602D37E
+  at offset −4 (called via pool→jsr from FUN_060336C8). The caller
+  evidence definitively pins the real entry at the aliased neighbor.
+
+  **(B) Suspected by body shape only** — Zero callers anywhere in the
+  build; no PROVIDE-aliased neighbor; BUT the 2-6 bytes immediately
+  before our label decode as arg-shuffle / pool-load patterns that
+  belong structurally to a function entry, not to the predecessor's
+  epilogue. The shift is inferred from the bias profile — Ghidra
+  systematically mis-labels these cases the same way. Example:
+  FUN_0602C6F2 with `mov r4, r1; mov.l .L_pool_0602C75C, r3` at
+  offset −4 (cleaner calling convention if interpreted as part of
+  the function's body).
+
+  Detector signature (covers both sub-cases):
+  - Predecessor terminates cleanly with rts + delay slot before our
+    address
+  - The bytes between predecessor's rts+delay-slot and our label
+    decode as code (NOT pool data — that would be `sibling-lost`)
+  - Those intervening bytes look like compiler-emitted pre-PR-save
+    setup (arg shuffle, pool load, immediate load, word-pool load),
+    NOT like leftover from the predecessor's epilogue
+  - Either:
+    - (A) A PROVIDE alias `DAT_(this ± N)` exists with live callers,
+      OR
+    - (B) No alias exists and no callers exist anywhere — pattern
+      inference only
+
+  Decision: **MERGE** for sub-case A (absorb into the shadowing
+  sibling's asm block; the labeled entry becomes an internal `.global`
+  label). **KEEP** for sub-case B (no sibling to absorb into; the
+  function survives but with a note that the byte boundary may shift
+  during eventual lift).
+
+  Confidence: HIGH for sub-case A (caller evidence); MEDIUM for sub-
+  case B (pattern inference only, unfalsifiable without callers).
+
+  This kind also serves as a **profile marker for Ghidra-prologue-bias
+  mistakes** — building up corpus knowledge of how often this bias
+  fires and what patterns trigger it.
 
 - **altentry** — a true alternate entry into FUN_Y. Predecessor does NOT
   terminate before our address; control can flow into our address either
@@ -302,9 +330,11 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 
 - **head** — a regular function that the mid-entry classifier put on
   the review pile by mistake. Predecessor terminates cleanly with rts +
-  delay slot (often followed by orphan dead code, but the dead code has
-  no PROVIDE-aliased neighbor that would make it a `callsite-shifted`
-  case). Our address has its own prologue. Decision: **KEEP**. Action:
+  delay slot. The bytes immediately before our address are either
+  predecessor-epilogue continuation, true orphan dead code (insns that
+  decode to nothing meaningful in our function-body context), or
+  alignment padding — NOT a recognizable arg-shuffle / pool-load pattern
+  that would suggest a shifted real-entry. Decision: **KEEP**. Action:
   no transplant work needed — it's just a regular function. If prior
   workstreams flagged it `TRACK_DEAD` or `COVERAGE_BLIND`, note that in
   the `notes` column for the dead-code workstream.
@@ -329,7 +359,8 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 | KEEP | sibling-lost paired w/ callsite-shifted | A or B | LIFT to own asm block; absorbs the bypassed partner |
 | KEEP | sibling-lost standalone | N/A | LIFT to own asm block; no partner |
 | KEEP | head | N/A | regular function; nothing special — or remove if confirmed dead |
-| MERGE | callsite-shifted | N/A | absorb into shadowing sibling's asm block; keep `.global` label inside |
+| KEEP | callsite-shifted (sub-case B) | N/A | profile marker for Ghidra-prologue-bias; no live caller; real entry may be 2-6 bytes earlier; tentative |
+| MERGE | callsite-shifted (sub-case A) | N/A | absorb into shadowing sibling's asm block; live caller pins real entry at the aliased neighbor |
 | MERGE | dispatch-target | N/A | fold into parent dispatcher |
 | MERGE | data | N/A | fold into parent's TU as data |
 | AMBIGUOUS | unknown | (best guess) | human follow-up |
