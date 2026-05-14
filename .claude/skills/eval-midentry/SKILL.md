@@ -375,6 +375,38 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
 
       python -c "import struct; b=open('decomp/build/race/race.bin','rb').read(); o=POOL_ADDR-0x06028000; print('0x{:08X}'.format(struct.unpack('>I', b[o:o+4])[0]))"
 
+  **Ghidra `in_rN` signature check** — the strongest disambiguator
+  between dispatch-target (Ghidra hallucination) and a real entry. For
+  any candidate address with a Ghidra reference file at
+  `ghidra_reference/race/FUN_X.c`, read it and look at the function
+  signature plus the variable declarations near the top. If Ghidra
+  emits **`in_rN`** declarations for non-arg registers (anything
+  besides the standard r4-r7 arg slots), the function is **not
+  compilable as standalone C** — it depends on register state set up
+  by code outside its body. That's the definitive signal for
+  dispatch-target.
+
+  Specifically:
+  - `in_r1`, `in_r2`, `in_r3` for general-purpose regs → strong
+    dispatch-target signal (caller must have pre-set those regs)
+  - `in_r8` ... `in_r14` for callee-save regs → very strong dispatch-
+    target signal (these are normally saved/restored, not passed)
+  - `in_mach`, `in_macl`, `in_pr`, `in_t` → STRONGEST signal — these
+    are SH-2 special registers; caller must have just executed
+    dmuls/jsr/etc. with very specific timing. No standalone C function
+    has these as inputs.
+
+  Compare to a clean compiler-emitted real function: Ghidra signature
+  shows only `param_1`, `param_2`, etc. (from r4-r7) with all internal
+  state derived from those params. No `in_rN` for non-arg regs.
+
+  Worked example from B003: FUN_0602E7F6 had
+  `void FUN_0602e7f6(char param_1, char param_2, undefined4 param_3,
+  char *param_4)` PLUS `in_r1`, `in_r2`, `in_r3`. The `in_rN` flagged
+  it as Ghidra-hallucinated mid-entry. Its predecessor FUN_0602E7EC
+  had a clean `void FUN_0602e7ec(byte param_1, char param_2)`
+  signature — the real entry, no `in_rN`.
+
 - **data** — pure data: trailing data table head, byte-table mid-position,
   alignment fill, pool entries. Bytes don't decode as code. Decision:
   **MERGE** (folds into FUN_Y's TU as data).
