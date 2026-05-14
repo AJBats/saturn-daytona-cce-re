@@ -1986,7 +1986,7 @@ FUN_06033BD8:
 .L_pool_06033C34:
     .4byte sym_002F4000  /* 06033C34 = 0x002F4000 */
 .L_pool_06033C38:
-    .4byte sym_060058B4  /* 06033C38 = 0x0602D8B4 */
+    .4byte sym_060058B4  /* 06033C38 = 0x060058B4 (init cross-ref, fixed) */
 .L_pool_06033C3C:
     .4byte DAT_0604F55A  /* 0604F55A = FUN_0604E0F6 + 0x1464 */
 .L_pool_06033C40:
@@ -2194,7 +2194,7 @@ FUN_06033CBE:
 .L_pool_06033DA8:
     .4byte DAT_0604F668  /* 0604F668 = FUN_0604E0F6 + 0x1572 */
 .L_pool_06033DAC:
-    .4byte sym_060058B4  /* 06033DAC = 0x0602D8B4 */
+    .4byte sym_060058B4  /* 06033DAC = 0x060058B4 (init cross-ref, fixed) */
 .L_pool_06033DB0:
     .4byte 0x0000F600  /* 06033DB0 = 0x0000F600 */
 .L_pool_06033DB4:

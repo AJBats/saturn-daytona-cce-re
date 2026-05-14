@@ -9750,7 +9750,7 @@ int FUN_0602F65C(void) asm {
 .L_pool_0602F7B8:
     .4byte DAT_0602D090  /* 0602D090 = FUN_0602D052 + 0x3E */
 .L_pool_0602F7BC:
-    .4byte sym_06005530  /* 0602F7BC = 0x0602D530 */
+    .4byte sym_06005530  /* 0602F7BC = 0x06005530 (init cross-ref, fixed) */
 }
 
 int FUN_0602F7C0(void) asm {

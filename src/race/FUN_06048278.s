@@ -79,7 +79,7 @@ FUN_060482A8:
     nop
     .byte 0x00, 0x00
 .L_pool_060482F4:
-    .4byte sym_060058B4  /* 060202F4 = 0x0602D8B4 */
+    .4byte sym_060058B4  /* 060202F4 = 0x060058B4 (init cross-ref, fixed) */
     mov.w @r4, r7
     shlr2 r5
     shlr r5

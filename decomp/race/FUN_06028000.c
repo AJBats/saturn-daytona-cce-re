@@ -1984,9 +1984,9 @@ int FUN_06028DCA(void) asm {
 .L_pool_06028E54:
     .4byte sym_0605161A  /* 06028E54 = 0x0605161A */
 .L_pool_06028E58:
-    .4byte sym_06005876  /* 06028E58 = 0x0602D876 */
+    .4byte sym_06005876  /* 06028E58 = 0x06005876 (init cross-ref, fixed) */
 .L_pool_06028E5C:
-    .4byte sym_06005530  /* 06028E5C = 0x0602D530 */
+    .4byte sym_06005530  /* 06028E5C = 0x06005530 (init cross-ref, fixed) */
 .L_pool_06028E60:
     .4byte sym_06013AF4  /* 06028E60 = 0x06013AF4 */
 .L_pool_06028E64:
@@ -2273,7 +2273,7 @@ int FUN_06028DCA(void) asm {
 .L_pool_06029064:
     .4byte sym_060072C4  /* 06029064 = 0x0602F2C4 (init cross-ref, fixed) */
 .L_pool_06029068:
-    .4byte sym_06005530  /* 06029068 = 0x0602D530 */
+    .4byte sym_06005530  /* 06029068 = 0x06005530 (init cross-ref, fixed) */
 .L_pool_0602906C:
     .4byte DAT_0602CD62  /* 0602CD62 = FUN_0602CC74 + 0xEE */
 .L_pool_06029070:
@@ -2444,7 +2444,7 @@ int FUN_06028DCA(void) asm {
 .L_pool_060291A0:
     .4byte DAT_0604ECE0  /* 0604ECE0 = FUN_0604E0F6 + 0xBEA */
 .L_pool_060291A4:
-    .4byte sym_060058B4  /* 060291A4 = 0x0602D8B4 */
+    .4byte sym_060058B4  /* 060291A4 = 0x060058B4 (init cross-ref, fixed) */
 .L_pool_060291A8:
     .4byte sym_0605492C  /* 060291A8 = 0x0605492C */
 .L_pool_060291AC:
@@ -2455,7 +2455,7 @@ int FUN_06028DCA(void) asm {
 .L_pool_060291B8:
     .4byte DAT_06047B90  /* 06047B90 = FUN_06047B34 + 0x5C */
 .L_pool_060291BC:
-    .4byte sym_0600581A  /* 060291BC = 0x0602D81A */
+    .4byte sym_0600581A  /* 060291BC = 0x0600581A (init cross-ref, fixed) */
 .L_pool_060291C0:
     .4byte DAT_06044BCC  /* 06044BCC = FUN_06044BCC */
 .L_pool_060291C4:
@@ -2759,7 +2759,7 @@ int FUN_060291E0(void) asm {
 .L_pool_060293F0:
     .4byte DAT_0604ED14  /* 0604ED14 = FUN_0604E0F6 + 0xC1E */
 .L_pool_060293F4:
-    .4byte sym_060058B4  /* 060293F4 = 0x0602D8B4 */
+    .4byte sym_060058B4  /* 060293F4 = 0x060058B4 (init cross-ref, fixed) */
 .L_pool_060293F8:
     .4byte DAT_06044138  /* 06044138 = FUN_06044138 */
 .L_pool_060293FC:
