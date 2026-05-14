@@ -339,10 +339,41 @@ address is in relation to its parent FUN_Y. They're orthogonal axes.
   workstreams flagged it `TRACK_DEAD` or `COVERAGE_BLIND`, note that in
   the `notes` column for the dead-code workstream.
 
-- **dispatch-target** — Case-B intra-function dispatch label, reached only
-  via `braf @rN` table lookup inside FUN_Y itself. Not callable from
-  outside. No prologue, depends on FUN_Y's register state. Decision:
-  **MERGE** (it's a labeled mid-body location, not an entry point).
+- **dispatch-target** — intra-function label that is reached only via
+  intra-function control flow within the parent FUN_Y. Not callable from
+  outside in any meaningful sense. Depends on FUN_Y's register state set
+  up by the parent's prologue or earlier body. Decision: **MERGE** (it's
+  a labeled mid-body location, not an entry point).
+
+  Reach mechanisms (all qualify):
+  - **`braf @rN` table lookup** (Case-B intra-function dispatch — the
+    original prototype). FUN_Y holds a table of branch offsets and
+    dispatches via braf.
+  - **Intra-function `bra <label>`** from within FUN_Y's body targeting
+    our address (a label inside the same function, used as a goto-style
+    state transition).
+  - **Fall-through from earlier code in FUN_Y's body**, including the
+    subtle case where a `bsr` in FUN_Y's body uses our address as its
+    delay slot, and FUN_Y resumes via the bsr's return-trampoline
+    (PR = caller's PC + 4 lands past us). See FUN_0602D81A in B003 for
+    a worked example.
+  - Any combination of the above.
+
+  The unifying property: **only callers from inside FUN_Y reach this
+  address**. There are no external bsr/jsr/bra/braf/bsrf/jmp targeting
+  us, and no live pool refs to our address.
+
+  **Verification before tagging callsite-shifted vs dispatch-target**:
+  if a pool entry comment claims to reference our address (e.g.
+  `/* 060291BC = 0x0602D81A */` on a `.4byte sym_0600XXXX` line),
+  **do not trust the comment alone**. Read the linked binary at the
+  pool's address and check the actual emitted u32. The race build's
+  fixup tooling (fixup_data_tables.py) sometimes annotates pool entries
+  with "+0x28000 fixup" hypotheses in comments that don't reflect the
+  emitted bytes — what the linker actually writes is what callers
+  actually load. Verify with:
+
+      python -c "import struct; b=open('decomp/build/race/race.bin','rb').read(); o=POOL_ADDR-0x06028000; print('0x{:08X}'.format(struct.unpack('>I', b[o:o+4])[0]))"
 
 - **data** — pure data: trailing data table head, byte-table mid-position,
   alignment fill, pool entries. Bytes don't decode as code. Decision:
