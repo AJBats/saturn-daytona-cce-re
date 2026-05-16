@@ -467,12 +467,41 @@ def main():
 
     new_fields = ['direct_callers', 'shifted_callers', 'shift_detail',
                   'predecessor_terminates', 'orphan_count', 'bypass_detected',
-                  'kind_hint', 'verdict_hint']
+                  'kind_hint', 'verdict_hint', 'decision']
     out_fields = list(in_fields) + [f for f in new_fields if f not in in_fields]
 
     counts = defaultdict(int)
     kind_counts = defaultdict(int)
+    decision_counts = defaultdict(int)
     walk_skipped = 0
+
+    # Mechanical KEEP vs MERGE policy:
+    #   KEEP  -- a real callable function entry. May have problems (e.g.,
+    #            caller targets a shifted address that falls into our label)
+    #            but the body is reachable via an external caller, so it
+    #            must be preserved as a function in the transplant.
+    #   MERGE -- a false entrypoint. No caller anywhere targets this label
+    #            (direct or via fallthrough-from-shifted-address). Folding
+    #            it into its parent function loses nothing.
+    # Mapping by kind_hint:
+    #   has-direct-caller  -> KEEP
+    #   callsite-shifted-A -> KEEP (caller targets X-N, fall-through to us)
+    #   callsite-shifted-B -> MERGE (orphan zone, no caller anywhere)
+    #   dispatch-target    -> MERGE (predecessor flows in, no caller)
+    #   head               -> KEEP-FLAG (file-head, no caller -- likely ISR
+    #                          or external/unobserved mechanism; manual confirm)
+    #   unknown            -> '' (DAT_-aliased; needs manual)
+    def compute_decision(kind, direct):
+        if direct > 0:
+            return 'KEEP'
+        if kind == 'callsite-shifted-A':
+            return 'KEEP'
+        if kind in ('callsite-shifted-B', 'dispatch-target'):
+            return 'MERGE'
+        if kind == 'head':
+            return 'KEEP-FLAG'
+        return ''
+
     with args.out_csv.open('w', encoding='utf-8', newline='') as f:
         w = csv.DictWriter(f, fieldnames=out_fields)
         w.writeheader()
@@ -559,9 +588,12 @@ def main():
                     # predecessor falls through into our entry. This is the
                     # classic dispatch-target / fall-through case.
                     r['kind_hint'] = 'dispatch-target'
+            r['decision'] = compute_decision(r['kind_hint'], direct)
             counts[r['verdict_hint']] += 1
             if r['kind_hint']:
                 kind_counts[r['kind_hint']] += 1
+            if r['decision']:
+                decision_counts[r['decision']] += 1
             w.writerow(r)
 
     print()
@@ -571,6 +603,10 @@ def main():
     print()
     print('# Kind-hint distribution (verdict-hint != has-direct-caller):')
     for v, n in sorted(kind_counts.items(), key=lambda x: -x[1]):
+        print(f'    {v:25s} {n}')
+    print()
+    print('# Mechanical decision distribution:')
+    for v, n in sorted(decision_counts.items(), key=lambda x: -x[1]):
         print(f'    {v:25s} {n}')
     if walk_skipped:
         print(f'# walk-back skipped for {walk_skipped} rows (DAT_-aliased or missing label)')
