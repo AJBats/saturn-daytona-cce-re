@@ -1,5 +1,27 @@
 # DaytonaCCEReverse — Project Conventions
 
+---
+
+## ⚠ SOFT REBOOT IN PROGRESS (funcfinder)
+
+**Status:** The project is mid-pivot. The legacy in-tree boundary-repair workflow has been retired; a new AI-driven boundary-discovery pipeline (funcfinder) is replacing it.
+
+**What this means for the working tree:**
+- **`src/`** is the NEW source tree. It is currently empty — it will grow one module at a time as funcfinder produces bedrock boundaries (race first). Layout will be `src/<module>/*.c`.
+- **`archive_src/`** contains the FROZEN legacy snapshot: the previous `src/` (10 module dirs) and the previous root `Makefile`. Reference only — do not edit. See `archive_src/README.LEGACY.md`.
+- **`config/`** does not exist yet. When funcfinder starts emitting a boundary database, it will land here (one file per module).
+- **`Makefile`** does not exist at the project root. A new one will be written from scratch as the new pipeline takes shape.
+- **`validate_build.py`** will FAIL until the new build exists. This is expected and is the gradient the new pipeline is climbing — each module that reaches buildable parity flips its check from red to green.
+- **`tools/`** still contains the legacy boundary-repair toolchain. Most of those tools reference paths under the old `src/` layout (now at `archive_src/src/`) and will fail when invoked. They are not part of the new pipeline.
+
+**Tag for the pre-reboot state:** `pre-funcfinder-reboot` (commit `29f8d5ad` on `master`).
+**Work branch:** `funcfinder-reboot`.
+**Plan:** `workstreams/funcfinder.md`.
+
+**Most of the conventions documented below describe the LEGACY layout.** They remain accurate for `archive_src/` and for `git checkout pre-funcfinder-reboot`, but do not reflect the new tree. This document will be rewritten once the new pipeline reaches a stable shape.
+
+---
+
 ## Mission
 
 **Dual-binary transplant project.**

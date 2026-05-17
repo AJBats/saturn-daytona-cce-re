@@ -102,12 +102,20 @@ do_status() {
         echo "  Clone from: https://github.com/AJBats/SaturnAutoRE"
     fi
 
-    # Source modules
-    if [ -d "$PROJ_ROOT/src/race" ]; then
-        COUNT=$(ls "$PROJ_ROOT/src" | wc -l | tr -d ' ')
-        ok "Source modules ($COUNT modules in src/)"
+    # Legacy source modules (frozen at pre-funcfinder-reboot tag; see archive_src/README.LEGACY.md)
+    if [ -d "$PROJ_ROOT/archive_src/src/race" ]; then
+        COUNT=$(ls "$PROJ_ROOT/archive_src/src" | wc -l | tr -d ' ')
+        ok "Legacy source modules preserved ($COUNT modules in archive_src/src/)"
     else
-        miss "Source modules not found"
+        miss "Legacy source modules not found at archive_src/src/"
+    fi
+
+    # New source tree (grows over time via funcfinder pipeline)
+    if [ -d "$PROJ_ROOT/src" ]; then
+        NEW_COUNT=$(ls "$PROJ_ROOT/src" 2>/dev/null | wc -l | tr -d ' ')
+        ok "New source tree: $NEW_COUNT module(s) at src/ (funcfinder soft reboot)"
+    else
+        miss "New source tree (src/) not yet created -- funcfinder pipeline pending"
     fi
 
     echo ""
