@@ -55,3 +55,23 @@ subsegments:
     type:  code
     file:  tu_06029810
     end:   0x06029921
+  - start: 0x06028DCA
+    type:  code
+    file:  tu_06028000
+    end:   0x0602918B
+  - start: 0x060291E0
+    type:  code
+    file:  tu_06028000
+    end:   0x0602953B
+  - start: 0x06029588
+    type:  code
+    file:  tu_06028000
+    end:   0x060295DD
+  - start: 0x060295DE
+    type:  code
+    file:  tu_06028000
+    end:   0x0602980F
+  - start: 0x06029998
+    type:  code
+    file:  tu_06029998
+    end:   0x06029A47

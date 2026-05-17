@@ -1,0 +1,64 @@
+{
+  "pending_verdict": null,
+  "history": [
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06028DCA",
+      "candidate_start": 100830666,
+      "candidate_end": 100831627,
+      "feedback": [],
+      "ts": 1779053414.6223445
+    },
+    {
+      "verdict": "unsure",
+      "candidate_start_hex": "060291E0",
+      "candidate_start": 100831712,
+      "candidate_end": 100832571,
+      "feedback": [
+        "FUN_060291E0 looks like a function with only tail call exits? however I see a clean rts up ahead in the trailing bytes after 0x0602953C. Is any control flow making it down there? what do you think?"
+      ],
+      "ai_response": "Boundary correct. Tail-call exit via jmp @r2 + mov.l @r15+, r14 delay slot. The rts at 0x060295DA belongs to FUN_06029588 (next next fn), not reachable from FUN_060291E0. Pool zone + padding fills 0x0602953C-0x06029587. Cleared awaiting_ai for re-vote.",
+      "ts": 1779055173.1391764
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060291E0",
+      "candidate_start": 100831712,
+      "candidate_end": 100832571,
+      "feedback": [],
+      "ts": 1779055356.5017805
+    },
+    {
+      "verdict": "approved_with_correction",
+      "candidate_start_hex": "06029588",
+      "candidate_start": 100832648,
+      "oracle_proposed_end": 100832729,
+      "applied_end": 100832733,
+      "feedback": [
+        "rts nop directly after jmp r3 exit, what is going on?"
+      ],
+      "ai_response": "Compiler-emitted dead epilogue. The rts+nop at 0x060295DA-0x060295DD are unreachable (no internal branches target them; jmp @r3 is unconditional). GCC emitted them as 'default function exit' even though all paths actually exit via jmp. Archive convention: include them as part of FUN_06029588. Extended boundary from oracle's 0x060295D9 to 0x060295DD (+4 bytes) and wrote directly to yaml. Round-trip should still hold.",
+      "ts": 1779055428.0909004
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060295DE",
+      "candidate_start": 100832734,
+      "candidate_end": 100833295,
+      "feedback": [],
+      "ts": 1779058218.5239902
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029998",
+      "candidate_start": 100833688,
+      "candidate_end": 100833863,
+      "feedback": [
+        "FUN_06029998  looks straightforward to me, but archive disagress by 100 bytes, curious?"
+      ],
+      "ts": 1779060512.3645518
+    }
+  ],
+  "awaiting_ai": false,
+  "ai_override": null
+}
