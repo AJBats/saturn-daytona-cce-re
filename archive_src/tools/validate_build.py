@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
-"""Build validation for Daytona USA CCE.
+"""Full 3-class build validation for Daytona USA CCE.
 
-Test classes:
-  1. free   — make validate: 8/8 modules byte-identical to retail
-  2. 4shift — make 4shift + screenshot boot test (requires relocation
-              infrastructure — currently not implemented; the make target
-              exits with a 'pending' message)
-
-The historical retail class (separate retail.ld byte-identity) was dropped
-when the build pipeline collapsed to a single yaml-driven flow. See
-archive_src/tools/validate_build.py for the original 3-class version.
+Test procedure:
+  1. make validate       — 8/8 free.ld zero-shift byte-identical to retail
+  2. make validate-retail — 8/8 retail .ld byte-identical to original
+  3. make 4shift + boot  — race +4 shift disc, screenshot boot test
 
 Usage:
-    python tools/validate_build.py                 # all classes
+    python tools/validate_build.py                # all 3 classes
     python tools/validate_build.py --class free    # free zero-shift only
+    python tools/validate_build.py --class retail  # retail .ld only
     python tools/validate_build.py --class 4shift  # shifted + boot test only
 """
 
@@ -58,6 +54,29 @@ def test_free():
     rc, out, err = run_wsl(f'make -C "{projdir}" validate 2>&1', timeout=300)
 
     # Count module-level PASS/FAIL lines (start with "  PASS" or "  FAIL")
+    pass_count = 0
+    fail_count = 0
+    for line in out.strip().split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("PASS ") or stripped.startswith("FAIL "):
+            print(f"  {stripped}")
+            if stripped.startswith("PASS"):
+                pass_count += 1
+            else:
+                fail_count += 1
+
+    passed = pass_count == 8 and fail_count == 0
+    print(f"\n  RESULT: {'PASS' if passed else 'FAIL'} ({pass_count}/8)")
+    return passed
+
+
+def test_retail():
+    """Class 2: make validate-retail — 8/8 retail .ld byte-identical."""
+    header("CLASS 2: Retail build — make validate-retail")
+
+    projdir = wsl_path(PROJECT)
+    rc, out, err = run_wsl(f'make -C "{projdir}" validate-retail 2>&1', timeout=300)
+
     pass_count = 0
     fail_count = 0
     for line in out.strip().split("\n"):
@@ -125,7 +144,7 @@ def main():
     parser = argparse.ArgumentParser(description="Full 3-class build validation")
     parser.add_argument(
         "--class", dest="test_class",
-        choices=["free", "4shift", "all"],
+        choices=["free", "retail", "4shift", "all"],
         default="all", help="Which test class to run (default: all)"
     )
     args = parser.parse_args()
@@ -140,6 +159,17 @@ def main():
             overall = False
             if args.test_class == "all":
                 print("\n  Stopping: free match failed, no point continuing.")
+                results["retail"] = None
+                results["4shift"] = None
+                return print_summary(results, overall)
+
+    if args.test_class in ("retail", "all"):
+        passed = test_retail()
+        results["retail"] = passed
+        if not passed:
+            overall = False
+            if args.test_class == "all":
+                print("\n  Stopping: retail match failed, no point continuing.")
                 results["4shift"] = None
                 return print_summary(results, overall)
 

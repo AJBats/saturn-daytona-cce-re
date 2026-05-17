@@ -5,6 +5,10 @@ build/*
 !build/samples/
 !build/samples/*
 reimpl/build/
+
+# Generated assembly outputs (yaml is source of truth, asm is regenerated)
+asm/
+
 *.o
 *.elf
 *.map

@@ -1,0 +1,57 @@
+options:
+  target_path: build/disc/files/DAYTONA/RACE.BIN
+  vram:        0x06028000
+
+# 39 TUs, ranges inherited from archive_src/src/race/FUN_*.s filenames.
+# Last TU end = 0x06028000 + 169480 - 1 = 0x06051607 (last byte of race.bin).
+tus:
+  - { name: tu_06028000, start: 0x06028000, end: 0x0602980F }
+  - { name: tu_06029810, start: 0x06029810, end: 0x06029997 }
+  - { name: tu_06029998, start: 0x06029998, end: 0x06029A77 }
+  - { name: tu_06029A78, start: 0x06029A78, end: 0x06029C9F }
+  - { name: tu_06029CA0, start: 0x06029CA0, end: 0x06029D8B }
+  - { name: tu_06029D8C, start: 0x06029D8C, end: 0x0602B22B }
+  - { name: tu_0602B22C, start: 0x0602B22C, end: 0x060324E7 }
+  - { name: tu_060324E8, start: 0x060324E8, end: 0x06032E43 }
+  - { name: tu_06032E44, start: 0x06032E44, end: 0x06033DC7 }
+  - { name: tu_06033DC8, start: 0x06033DC8, end: 0x060351CB }
+  - { name: tu_060351CC, start: 0x060351CC, end: 0x0603B6FB }
+  - { name: tu_0603B6FC, start: 0x0603B6FC, end: 0x0603B93F }
+  - { name: tu_0603B940, start: 0x0603B940, end: 0x0603C303 }
+  - { name: tu_0603C304, start: 0x0603C304, end: 0x0604025B }
+  - { name: tu_0604025C, start: 0x0604025C, end: 0x0604256B }
+  - { name: tu_0604256C, start: 0x0604256C, end: 0x0604264B }
+  - { name: tu_0604264C, start: 0x0604264C, end: 0x06042997 }
+  - { name: tu_06042998, start: 0x06042998, end: 0x06042C63 }
+  - { name: tu_06042C64, start: 0x06042C64, end: 0x06042DC3 }
+  - { name: tu_06042DC4, start: 0x06042DC4, end: 0x060433EF }
+  - { name: tu_060433F0, start: 0x060433F0, end: 0x0604345F }
+  - { name: tu_06043460, start: 0x06043460, end: 0x060434CF }
+  - { name: tu_060434D0, start: 0x060434D0, end: 0x0604362F }
+  - { name: tu_06043630, start: 0x06043630, end: 0x060436CF }
+  - { name: tu_060436D0, start: 0x060436D0, end: 0x06043747 }
+  - { name: tu_06043748, start: 0x06043748, end: 0x0604380F }
+  - { name: tu_06043810, start: 0x06043810, end: 0x06043853 }
+  - { name: tu_06043854, start: 0x06043854, end: 0x060438C7 }
+  - { name: tu_060438C8, start: 0x060438C8, end: 0x06043933 }
+  - { name: tu_06043934, start: 0x06043934, end: 0x0604398B }
+  - { name: tu_0604398C, start: 0x0604398C, end: 0x060439F3 }
+  - { name: tu_060439F4, start: 0x060439F4, end: 0x06043C1F }
+  - { name: tu_06043C20, start: 0x06043C20, end: 0x06043CCB }
+  - { name: tu_06043CCC, start: 0x06043CCC, end: 0x0604405F }
+  - { name: tu_06044060, start: 0x06044060, end: 0x06047DEF }
+  - { name: tu_06047DF0, start: 0x06047DF0, end: 0x06048277 }
+  - { name: tu_06048278, start: 0x06048278, end: 0x0604C76B }
+  - { name: tu_0604C76C, start: 0x0604C76C, end: 0x0604D37F }
+  - { name: tu_0604D380, start: 0x0604D380, end: 0x06051607 }
+
+# Verified function subsegments. Grow incrementally as functions are anchored.
+subsegments:
+  - start: 0x06028000
+    type:  code
+    file:  tu_06028000
+    end:   0x06028DC9
+  - start: 0x06029810
+    type:  code
+    file:  tu_06029810
+    end:   0x06029921
