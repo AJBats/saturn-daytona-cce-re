@@ -309,6 +309,202 @@
       "candidate_end": 100838055,
       "feedback": [],
       "ts": 1779073104.507816
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AAA8",
+      "candidate_start": 100838056,
+      "candidate_end": 100838287,
+      "feedback": [
+        "this function passes my sniff test but i cant explain the mismatch pro/epi. The midpoint that archive says i think is hallucinated."
+      ],
+      "ts": 1779074847.9032893
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AB90",
+      "candidate_start": 100838288,
+      "candidate_end": 100838455,
+      "feedback": [],
+      "ts": 1779074873.6213639
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AC38",
+      "candidate_start": 100838456,
+      "candidate_end": 100838935,
+      "feedback": [],
+      "ts": 1779074919.2531927
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AE18",
+      "candidate_start": 100838936,
+      "candidate_end": 100838979,
+      "feedback": [],
+      "ts": 1779074926.62341
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AE44",
+      "candidate_start": 100838980,
+      "candidate_end": 100839027,
+      "feedback": [],
+      "ts": 1779074951.6232333
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AE74",
+      "candidate_start": 100839028,
+      "candidate_end": 100839383,
+      "feedback": [
+        "another pro epi mismatch, otherwise smells clean to me, thoughts?"
+      ],
+      "ts": 1779075359.987309
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AFD8",
+      "candidate_start": 100839384,
+      "candidate_end": 100839443,
+      "feedback": [],
+      "ts": 1779075370.456478
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B014",
+      "candidate_start": 100839444,
+      "candidate_end": 100839679,
+      "feedback": [],
+      "ts": 1779075377.7250414
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B100",
+      "candidate_start": 100839680,
+      "candidate_end": 100839871,
+      "feedback": [],
+      "ts": 1779075379.093023
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B1C0",
+      "candidate_start": 100839872,
+      "candidate_end": 100839963,
+      "feedback": [
+        "slightly shorter than achive here, anyting sus?"
+      ],
+      "ts": 1779075500.2566667
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B22C",
+      "candidate_start": 100839980,
+      "candidate_end": 100841171,
+      "feedback": [],
+      "ts": 1779075591.5094147
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B21C",
+      "candidate_start": 100839964,
+      "candidate_end": 100839979,
+      "feedback": [],
+      "ts": 1779076130.5038166
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602B6D4",
+      "candidate_start": 100841172,
+      "candidate_end": 100842167,
+      "feedback": [],
+      "ts": 1779076195.047053
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602BAB8",
+      "candidate_start": 100842168,
+      "candidate_end": 100842971,
+      "feedback": [],
+      "ts": 1779076211.5907183
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602BDDC",
+      "candidate_start": 100842972,
+      "candidate_end": 100843197,
+      "feedback": [],
+      "ts": 1779076217.1233177
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602BEBE",
+      "candidate_start": 100843198,
+      "candidate_end": 100843551,
+      "feedback": [
+        "archive compare is much shorter, but doesnt name a midpoint. wheres the disagreement?"
+      ],
+      "ts": 1779076511.0378797
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C020",
+      "candidate_start": 100843552,
+      "candidate_end": 100843587,
+      "feedback": [
+        "critical warning given about macl never restored"
+      ],
+      "ts": 1779076811.044741
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C044",
+      "candidate_start": 100843588,
+      "candidate_end": 100843681,
+      "feedback": [],
+      "ts": 1779076820.1163657
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C0A2",
+      "candidate_start": 100843682,
+      "candidate_end": 100844065,
+      "feedback": [],
+      "ts": 1779076849.7232249
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C222",
+      "candidate_start": 100844066,
+      "candidate_end": 100844467,
+      "feedback": [
+        "achive disagrees, thoughts?"
+      ],
+      "ts": 1779077095.9741468
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C3B4",
+      "candidate_start": 100844468,
+      "candidate_end": 100844477,
+      "feedback": [],
+      "ts": 1779077162.0049176
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C3BE",
+      "candidate_start": 100844478,
+      "candidate_end": 100844509,
+      "feedback": [],
+      "ts": 1779077286.8139045
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C3DE",
+      "candidate_start": 100844510,
+      "candidate_end": 100844535,
+      "feedback": [],
+      "ts": 1779077309.1129744
     }
   ],
   "awaiting_ai": false,

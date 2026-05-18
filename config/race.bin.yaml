@@ -163,3 +163,95 @@ subsegments:
     type:  code
     file:  tu_06029D8C
     end:   0x0602AAA7
+  - start: 0x0602AAA8
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AB8F
+  - start: 0x0602AB90
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AC37
+  - start: 0x0602AC38
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AE17
+  - start: 0x0602AE18
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AE43
+  - start: 0x0602AE44
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AE73
+  - start: 0x0602AE74
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AFD7
+  - start: 0x0602AFD8
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602B013
+  - start: 0x0602B014
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602B0FF
+  - start: 0x0602B100
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602B1BF
+  - start: 0x0602B1C0
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602B21B
+  - start: 0x0602B22C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602B6D3
+  - start: 0x0602B21C
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602B22B
+  - start: 0x0602B6D4
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602BAB7
+  - start: 0x0602BAB8
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602BDDB
+  - start: 0x0602BDDC
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602BEBD
+  - start: 0x0602BEBE
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C01F
+  - start: 0x0602C020
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C043
+  - start: 0x0602C044
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C0A1
+  - start: 0x0602C0A2
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C221
+  - start: 0x0602C222
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C3B3
+  - start: 0x0602C3B4
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C3BD
+  - start: 0x0602C3BE
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C3DD
+  - start: 0x0602C3DE
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602C3F7
