@@ -165,6 +165,150 @@
       "candidate_end": 100837871,
       "feedback": [],
       "ts": 1779065507.7798073
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A9F0",
+      "candidate_start": 100837872,
+      "candidate_end": 100838019,
+      "feedback": [
+        "this function looks open and shut, but disagrees with archive. whats your take?"
+      ],
+      "ts": 1779066406.3802934
+    },
+    {
+      "verdict": "rejected",
+      "candidate_start_hex": "0602AAA8",
+      "candidate_start": 100838056,
+      "candidate_end": 100838287,
+      "feedback": [
+        "i approved 9F0, and then expecting to go to A84 instead the tool skips it, says its likely pool/padding. I think this is wrong, tool currenlty on AA8, i think a function was skipped."
+      ],
+      "ts": 1779066497.5162318
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06028000",
+      "candidate_start": 100827136,
+      "candidate_end": 100830665,
+      "feedback": [
+        "no longer seeing any unreachable code anymore, must have been resolved, good job! im seeing \"stack alloc/dealloc mismatch: 12 v 0\" warning in the banner, what do yout hink?"
+      ],
+      "ts": 1779069822.6832042
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06028DCA",
+      "candidate_start": 100830666,
+      "candidate_end": 100831711,
+      "feedback": [],
+      "ts": 1779069858.8189552
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029E90",
+      "candidate_start": 100834960,
+      "candidate_end": 100835187,
+      "feedback": [
+        "ok nowon E90, looks clean to me but banner says \"no prologue register detected\""
+      ],
+      "ts": 1779070280.8307056
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029F74",
+      "candidate_start": 100835188,
+      "candidate_end": 100835303,
+      "feedback": [],
+      "ts": 1779070294.248185
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A2FC",
+      "candidate_start": 100836092,
+      "candidate_end": 100836207,
+      "feedback": [],
+      "ts": 1779070306.480763
+    },
+    {
+      "verdict": "unsure",
+      "candidate_start_hex": "0602A86E",
+      "candidate_start": 100837486,
+      "candidate_end": 100837623,
+      "feedback": [
+        "everything about this function is sus as hell, no archive match, no static callers, pro/epi mismatch. check it out"
+      ],
+      "ts": 1779070408.6826246
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A818",
+      "candidate_start": 100837400,
+      "candidate_end": 100837623,
+      "feedback": [],
+      "ts": 1779070740.967634
+    },
+    {
+      "verdict": "unsure",
+      "candidate_start_hex": "06029958",
+      "candidate_start": 100833624,
+      "candidate_end": 100833687,
+      "feedback": [
+        "this proposed function is all L_pools, but claims 1 static caller and 1 runtime hit. no archive. wahts going on here?"
+      ],
+      "ts": 1779070867.951515
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029810",
+      "candidate_start": 100833296,
+      "candidate_end": 100833687,
+      "feedback": [
+        "this function looks clean to me, but has 0 static callers, 1 runtime hit, is our static caller detector bugged or is this really uncalled code?"
+      ],
+      "ts": 1779071638.7720482
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A370",
+      "candidate_start": 100836208,
+      "candidate_end": 100836675,
+      "feedback": [
+        "the function finishes plainly, but its full of sketchy unknown code in the trialing space. all pool data?"
+      ],
+      "ts": 1779072587.5342019
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060291E0",
+      "candidate_start": 100831712,
+      "candidate_end": 100832647,
+      "feedback": [],
+      "ts": 1779072859.6370094
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029A48",
+      "candidate_start": 100833864,
+      "candidate_end": 100833887,
+      "feedback": [],
+      "ts": 1779073018.8663504
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029A60",
+      "candidate_start": 100833888,
+      "candidate_end": 100833911,
+      "feedback": [],
+      "ts": 1779073042.3195546
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602AA84",
+      "candidate_start": 100838020,
+      "candidate_end": 100838055,
+      "feedback": [],
+      "ts": 1779073104.507816
     }
   ],
   "awaiting_ai": false,

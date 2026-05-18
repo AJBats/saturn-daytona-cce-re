@@ -47,22 +47,6 @@ tus:
 
 # Verified function subsegments. Grow incrementally as functions are anchored.
 subsegments:
-  - start: 0x06028000
-    type:  code
-    file:  tu_06028000
-    end:   0x06028DC9
-  - start: 0x06029810
-    type:  code
-    file:  tu_06029810
-    end:   0x06029921
-  - start: 0x06028DCA
-    type:  code
-    file:  tu_06028000
-    end:   0x0602918B
-  - start: 0x060291E0
-    type:  code
-    file:  tu_06028000
-    end:   0x0602953B
   - start: 0x06029588
     type:  code
     file:  tu_06028000
@@ -127,3 +111,55 @@ subsegments:
     type:  code
     file:  tu_06029D8C
     end:   0x0602A9EF
+  - start: 0x0602A9F0
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AA83
+  - start: 0x06028000
+    type:  code
+    file:  tu_06028000
+    end:   0x06028DC9
+  - start: 0x06028DCA
+    type:  code
+    file:  tu_06028000
+    end:   0x060291DF
+  - start: 0x06029E90
+    type:  code
+    file:  tu_06029D8C
+    end:   0x06029F73
+  - start: 0x06029F74
+    type:  code
+    file:  tu_06029D8C
+    end:   0x06029FE7
+  - start: 0x0602A2FC
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A36F
+  - start: 0x0602A818
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A8F7
+  - start: 0x06029810
+    type:  code
+    file:  tu_06029810
+    end:   0x06029997
+  - start: 0x0602A370
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A543
+  - start: 0x060291E0
+    type:  code
+    file:  tu_06028000
+    end:   0x06029587
+  - start: 0x06029A48
+    type:  code
+    file:  tu_06029998
+    end:   0x06029A5F
+  - start: 0x06029A60
+    type:  code
+    file:  tu_06029998
+    end:   0x06029A77
+  - start: 0x0602AA84
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602AAA7
