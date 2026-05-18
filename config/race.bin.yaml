@@ -1,6 +1,11 @@
 options:
   target_path: build/disc/files/DAYTONA/RACE.BIN
   vram:        0x06028000
+  reference_dir:      archive_src/src/race
+  reference_scan_dir: archive_src
+  runtime_hits_dirs:
+    - build/probes
+    - build/mcp_ipc
 
 # 39 TUs, ranges inherited from archive_src/src/race/FUN_*.s filenames.
 # Last TU end = 0x06028000 + 169480 - 1 = 0x06051607 (last byte of race.bin).
