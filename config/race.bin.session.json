@@ -57,6 +57,114 @@
         "FUN_06029998  looks straightforward to me, but archive disagress by 100 bytes, curious?"
       ],
       "ts": 1779060512.3645518
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029A78",
+      "candidate_start": 100833912,
+      "candidate_end": 100834463,
+      "feedback": [],
+      "ts": 1779064042.1115205
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029CA0",
+      "candidate_start": 100834464,
+      "candidate_end": 100834699,
+      "feedback": [],
+      "ts": 1779064096.1440744
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029D8C",
+      "candidate_start": 100834700,
+      "candidate_end": 100834959,
+      "feedback": [
+        "there's a double nop at the end of this function and the start of the next if we use this ending address. seems sus,"
+      ],
+      "ts": 1779064713.6579347
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029FE8",
+      "candidate_start": 100835304,
+      "candidate_end": 100835399,
+      "feedback": [],
+      "ts": 1779064745.8146086
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A048",
+      "candidate_start": 100835400,
+      "candidate_end": 100835607,
+      "feedback": [],
+      "ts": 1779064766.2491071
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A118",
+      "candidate_start": 100835608,
+      "candidate_end": 100835851,
+      "feedback": [],
+      "ts": 1779064778.1146402
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A20C",
+      "candidate_start": 100835852,
+      "candidate_end": 100836003,
+      "feedback": [],
+      "ts": 1779064853.5118968
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A2A4",
+      "candidate_start": 100836004,
+      "candidate_end": 100836091,
+      "feedback": [],
+      "ts": 1779064859.246126
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A544",
+      "candidate_start": 100836676,
+      "candidate_end": 100836963,
+      "feedback": [],
+      "ts": 1779065237.970409
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A664",
+      "candidate_start": 100836964,
+      "candidate_end": 100837099,
+      "feedback": [],
+      "ts": 1779065258.4166312
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A6EC",
+      "candidate_start": 100837100,
+      "candidate_end": 100837399,
+      "feedback": [],
+      "ts": 1779065265.017393
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A8F8",
+      "candidate_start": 100837624,
+      "candidate_end": 100837719,
+      "feedback": [
+        "Im almost certain this midpoint is actually a hallucination, just roping you in to double check me. curious what you thnk"
+      ],
+      "ts": 1779065502.5035892
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602A958",
+      "candidate_start": 100837720,
+      "candidate_end": 100837871,
+      "feedback": [],
+      "ts": 1779065507.7798073
     }
   ],
   "awaiting_ai": false,

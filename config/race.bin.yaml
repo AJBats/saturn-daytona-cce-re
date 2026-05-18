@@ -75,3 +75,55 @@ subsegments:
     type:  code
     file:  tu_06029998
     end:   0x06029A47
+  - start: 0x06029A78
+    type:  code
+    file:  tu_06029A78
+    end:   0x06029C9F
+  - start: 0x06029CA0
+    type:  code
+    file:  tu_06029CA0
+    end:   0x06029D8B
+  - start: 0x06029D8C
+    type:  code
+    file:  tu_06029D8C
+    end:   0x06029E8F
+  - start: 0x06029FE8
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A047
+  - start: 0x0602A048
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A117
+  - start: 0x0602A118
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A20B
+  - start: 0x0602A20C
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A2A3
+  - start: 0x0602A2A4
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A2FB
+  - start: 0x0602A544
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A663
+  - start: 0x0602A664
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A6EB
+  - start: 0x0602A6EC
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A817
+  - start: 0x0602A8F8
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A957
+  - start: 0x0602A958
+    type:  code
+    file:  tu_06029D8C
+    end:   0x0602A9EF
