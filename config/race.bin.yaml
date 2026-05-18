@@ -352,3 +352,183 @@ subsegments:
     type:  code
     file:  tu_0602B22C
     end:   0x0602D37D
+  - start: 0x0602D37E
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602D391
+  - start: 0x0602D392
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602D4CF
+  - start: 0x0602D4D0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602D78B
+  - start: 0x0602D78C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602D9EF
+  - start: 0x0602D9F0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DAAD
+  - start: 0x0602DAAE
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DBDB
+  - start: 0x0602DBDC
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DC7F
+  - start: 0x0602DC80
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DD41
+  - start: 0x0602DD42
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DD4F
+  - start: 0x0602DD50
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DE5B
+  - start: 0x0602DE5C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DEDF
+  - start: 0x0602DEE0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602DF9B
+  - start: 0x0602DF9C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E03B
+  - start: 0x0602E03C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E093
+  - start: 0x0602E094
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E0FF
+  - start: 0x0602E100
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E265
+  - start: 0x0602E266
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E371
+  - start: 0x0602E372
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E3F3
+  - start: 0x0602E3F4
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E537
+  - start: 0x0602E538
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E595
+  - start: 0x0602E596
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E5A7
+  - start: 0x0602E5A8
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E5BF
+  - start: 0x0602E5C0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E5D7
+  - start: 0x0602E5D8
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E60F
+  - start: 0x0602E610
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E731
+  - start: 0x0602E732
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E737
+  - start: 0x0602E738
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E76F
+  - start: 0x0602E770
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E7EB
+  - start: 0x0602E7EC
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E8AF
+  - start: 0x0602E8B0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E91D
+  - start: 0x0602E91E
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E927
+  - start: 0x0602E928
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602E987
+  - start: 0x0602E988
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EA69
+  - start: 0x0602EA6A
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602ECA9
+  - start: 0x0602ECAA
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602ED59
+  - start: 0x0602ED5A
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602ED83
+  - start: 0x0602ED84
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EDB3
+  - start: 0x0602EDB4
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EDD9
+  - start: 0x0602EDDA
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EE63
+  - start: 0x0602EE64
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EEA3
+  - start: 0x0602EEA4
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EECF
+  - start: 0x0602EED0
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EF0F
+  - start: 0x0602EF10
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EF35
+  - start: 0x0602EF36
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EF5B
+  - start: 0x0602EF5C
+    type:  code
+    file:  tu_0602B22C
+    end:   0x0602EFE3
