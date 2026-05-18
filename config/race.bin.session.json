@@ -6,7 +6,7 @@
       "candidate_start_hex": "06028DCA",
       "candidate_start": 100830666,
       "candidate_end": 100831627,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779053414.6223445
     },
     {
@@ -14,9 +14,7 @@
       "candidate_start_hex": "060291E0",
       "candidate_start": 100831712,
       "candidate_end": 100832571,
-      "feedback": [
-        "FUN_060291E0 looks like a function with only tail call exits? however I see a clean rts up ahead in the trailing bytes after 0x0602953C. Is any control flow making it down there? what do you think?"
-      ],
+      "feedback": "FUN_060291E0 looks like a function with only tail call exits? however I see a clean rts up ahead in the trailing bytes after 0x0602953C. Is any control flow making it down there? what do you think?",
       "ai_response": "Boundary correct. Tail-call exit via jmp @r2 + mov.l @r15+, r14 delay slot. The rts at 0x060295DA belongs to FUN_06029588 (next next fn), not reachable from FUN_060291E0. Pool zone + padding fills 0x0602953C-0x06029587. Cleared awaiting_ai for re-vote.",
       "ts": 1779055173.1391764
     },
@@ -25,7 +23,7 @@
       "candidate_start_hex": "060291E0",
       "candidate_start": 100831712,
       "candidate_end": 100832571,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779055356.5017805
     },
     {
@@ -34,9 +32,7 @@
       "candidate_start": 100832648,
       "oracle_proposed_end": 100832729,
       "applied_end": 100832733,
-      "feedback": [
-        "rts nop directly after jmp r3 exit, what is going on?"
-      ],
+      "feedback": "rts nop directly after jmp r3 exit, what is going on?",
       "ai_response": "Compiler-emitted dead epilogue. The rts+nop at 0x060295DA-0x060295DD are unreachable (no internal branches target them; jmp @r3 is unconditional). GCC emitted them as 'default function exit' even though all paths actually exit via jmp. Archive convention: include them as part of FUN_06029588. Extended boundary from oracle's 0x060295D9 to 0x060295DD (+4 bytes) and wrote directly to yaml. Round-trip should still hold.",
       "ts": 1779055428.0909004
     },
@@ -45,7 +41,7 @@
       "candidate_start_hex": "060295DE",
       "candidate_start": 100832734,
       "candidate_end": 100833295,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779058218.5239902
     },
     {
@@ -53,9 +49,7 @@
       "candidate_start_hex": "06029998",
       "candidate_start": 100833688,
       "candidate_end": 100833863,
-      "feedback": [
-        "FUN_06029998  looks straightforward to me, but archive disagress by 100 bytes, curious?"
-      ],
+      "feedback": "FUN_06029998  looks straightforward to me, but archive disagress by 100 bytes, curious?",
       "ts": 1779060512.3645518
     },
     {
@@ -63,7 +57,7 @@
       "candidate_start_hex": "06029A78",
       "candidate_start": 100833912,
       "candidate_end": 100834463,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064042.1115205
     },
     {
@@ -71,7 +65,7 @@
       "candidate_start_hex": "06029CA0",
       "candidate_start": 100834464,
       "candidate_end": 100834699,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064096.1440744
     },
     {
@@ -79,9 +73,7 @@
       "candidate_start_hex": "06029D8C",
       "candidate_start": 100834700,
       "candidate_end": 100834959,
-      "feedback": [
-        "there's a double nop at the end of this function and the start of the next if we use this ending address. seems sus,"
-      ],
+      "feedback": "there's a double nop at the end of this function and the start of the next if we use this ending address. seems sus,",
       "ts": 1779064713.6579347
     },
     {
@@ -89,7 +81,7 @@
       "candidate_start_hex": "06029FE8",
       "candidate_start": 100835304,
       "candidate_end": 100835399,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064745.8146086
     },
     {
@@ -97,7 +89,7 @@
       "candidate_start_hex": "0602A048",
       "candidate_start": 100835400,
       "candidate_end": 100835607,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064766.2491071
     },
     {
@@ -105,7 +97,7 @@
       "candidate_start_hex": "0602A118",
       "candidate_start": 100835608,
       "candidate_end": 100835851,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064778.1146402
     },
     {
@@ -113,7 +105,7 @@
       "candidate_start_hex": "0602A20C",
       "candidate_start": 100835852,
       "candidate_end": 100836003,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064853.5118968
     },
     {
@@ -121,7 +113,7 @@
       "candidate_start_hex": "0602A2A4",
       "candidate_start": 100836004,
       "candidate_end": 100836091,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779064859.246126
     },
     {
@@ -129,7 +121,7 @@
       "candidate_start_hex": "0602A544",
       "candidate_start": 100836676,
       "candidate_end": 100836963,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779065237.970409
     },
     {
@@ -137,7 +129,7 @@
       "candidate_start_hex": "0602A664",
       "candidate_start": 100836964,
       "candidate_end": 100837099,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779065258.4166312
     },
     {
@@ -145,7 +137,7 @@
       "candidate_start_hex": "0602A6EC",
       "candidate_start": 100837100,
       "candidate_end": 100837399,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779065265.017393
     },
     {
@@ -153,9 +145,7 @@
       "candidate_start_hex": "0602A8F8",
       "candidate_start": 100837624,
       "candidate_end": 100837719,
-      "feedback": [
-        "Im almost certain this midpoint is actually a hallucination, just roping you in to double check me. curious what you thnk"
-      ],
+      "feedback": "Im almost certain this midpoint is actually a hallucination, just roping you in to double check me. curious what you thnk",
       "ts": 1779065502.5035892
     },
     {
@@ -163,7 +153,7 @@
       "candidate_start_hex": "0602A958",
       "candidate_start": 100837720,
       "candidate_end": 100837871,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779065507.7798073
     },
     {
@@ -171,9 +161,7 @@
       "candidate_start_hex": "0602A9F0",
       "candidate_start": 100837872,
       "candidate_end": 100838019,
-      "feedback": [
-        "this function looks open and shut, but disagrees with archive. whats your take?"
-      ],
+      "feedback": "this function looks open and shut, but disagrees with archive. whats your take?",
       "ts": 1779066406.3802934
     },
     {
@@ -181,9 +169,7 @@
       "candidate_start_hex": "0602AAA8",
       "candidate_start": 100838056,
       "candidate_end": 100838287,
-      "feedback": [
-        "i approved 9F0, and then expecting to go to A84 instead the tool skips it, says its likely pool/padding. I think this is wrong, tool currenlty on AA8, i think a function was skipped."
-      ],
+      "feedback": "i approved 9F0, and then expecting to go to A84 instead the tool skips it, says its likely pool/padding. I think this is wrong, tool currenlty on AA8, i think a function was skipped.",
       "ts": 1779066497.5162318
     },
     {
@@ -191,9 +177,7 @@
       "candidate_start_hex": "06028000",
       "candidate_start": 100827136,
       "candidate_end": 100830665,
-      "feedback": [
-        "no longer seeing any unreachable code anymore, must have been resolved, good job! im seeing \"stack alloc/dealloc mismatch: 12 v 0\" warning in the banner, what do yout hink?"
-      ],
+      "feedback": "no longer seeing any unreachable code anymore, must have been resolved, good job! im seeing \"stack alloc/dealloc mismatch: 12 v 0\" warning in the banner, what do yout hink?",
       "ts": 1779069822.6832042
     },
     {
@@ -201,7 +185,7 @@
       "candidate_start_hex": "06028DCA",
       "candidate_start": 100830666,
       "candidate_end": 100831711,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779069858.8189552
     },
     {
@@ -209,9 +193,7 @@
       "candidate_start_hex": "06029E90",
       "candidate_start": 100834960,
       "candidate_end": 100835187,
-      "feedback": [
-        "ok nowon E90, looks clean to me but banner says \"no prologue register detected\""
-      ],
+      "feedback": "ok nowon E90, looks clean to me but banner says \"no prologue register detected\"",
       "ts": 1779070280.8307056
     },
     {
@@ -219,7 +201,7 @@
       "candidate_start_hex": "06029F74",
       "candidate_start": 100835188,
       "candidate_end": 100835303,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779070294.248185
     },
     {
@@ -227,7 +209,7 @@
       "candidate_start_hex": "0602A2FC",
       "candidate_start": 100836092,
       "candidate_end": 100836207,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779070306.480763
     },
     {
@@ -235,9 +217,7 @@
       "candidate_start_hex": "0602A86E",
       "candidate_start": 100837486,
       "candidate_end": 100837623,
-      "feedback": [
-        "everything about this function is sus as hell, no archive match, no static callers, pro/epi mismatch. check it out"
-      ],
+      "feedback": "everything about this function is sus as hell, no archive match, no static callers, pro/epi mismatch. check it out",
       "ts": 1779070408.6826246
     },
     {
@@ -245,7 +225,7 @@
       "candidate_start_hex": "0602A818",
       "candidate_start": 100837400,
       "candidate_end": 100837623,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779070740.967634
     },
     {
@@ -253,9 +233,7 @@
       "candidate_start_hex": "06029958",
       "candidate_start": 100833624,
       "candidate_end": 100833687,
-      "feedback": [
-        "this proposed function is all L_pools, but claims 1 static caller and 1 runtime hit. no archive. wahts going on here?"
-      ],
+      "feedback": "this proposed function is all L_pools, but claims 1 static caller and 1 runtime hit. no archive. wahts going on here?",
       "ts": 1779070867.951515
     },
     {
@@ -263,9 +241,7 @@
       "candidate_start_hex": "06029810",
       "candidate_start": 100833296,
       "candidate_end": 100833687,
-      "feedback": [
-        "this function looks clean to me, but has 0 static callers, 1 runtime hit, is our static caller detector bugged or is this really uncalled code?"
-      ],
+      "feedback": "this function looks clean to me, but has 0 static callers, 1 runtime hit, is our static caller detector bugged or is this really uncalled code?",
       "ts": 1779071638.7720482
     },
     {
@@ -273,9 +249,7 @@
       "candidate_start_hex": "0602A370",
       "candidate_start": 100836208,
       "candidate_end": 100836675,
-      "feedback": [
-        "the function finishes plainly, but its full of sketchy unknown code in the trialing space. all pool data?"
-      ],
+      "feedback": "the function finishes plainly, but its full of sketchy unknown code in the trialing space. all pool data?",
       "ts": 1779072587.5342019
     },
     {
@@ -283,7 +257,7 @@
       "candidate_start_hex": "060291E0",
       "candidate_start": 100831712,
       "candidate_end": 100832647,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779072859.6370094
     },
     {
@@ -291,7 +265,7 @@
       "candidate_start_hex": "06029A48",
       "candidate_start": 100833864,
       "candidate_end": 100833887,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779073018.8663504
     },
     {
@@ -299,7 +273,7 @@
       "candidate_start_hex": "06029A60",
       "candidate_start": 100833888,
       "candidate_end": 100833911,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779073042.3195546
     },
     {
@@ -307,7 +281,7 @@
       "candidate_start_hex": "0602AA84",
       "candidate_start": 100838020,
       "candidate_end": 100838055,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779073104.507816
     },
     {
@@ -315,9 +289,7 @@
       "candidate_start_hex": "0602AAA8",
       "candidate_start": 100838056,
       "candidate_end": 100838287,
-      "feedback": [
-        "this function passes my sniff test but i cant explain the mismatch pro/epi. The midpoint that archive says i think is hallucinated."
-      ],
+      "feedback": "this function passes my sniff test but i cant explain the mismatch pro/epi. The midpoint that archive says i think is hallucinated.",
       "ts": 1779074847.9032893
     },
     {
@@ -325,7 +297,7 @@
       "candidate_start_hex": "0602AB90",
       "candidate_start": 100838288,
       "candidate_end": 100838455,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779074873.6213639
     },
     {
@@ -333,7 +305,7 @@
       "candidate_start_hex": "0602AC38",
       "candidate_start": 100838456,
       "candidate_end": 100838935,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779074919.2531927
     },
     {
@@ -341,7 +313,7 @@
       "candidate_start_hex": "0602AE18",
       "candidate_start": 100838936,
       "candidate_end": 100838979,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779074926.62341
     },
     {
@@ -349,7 +321,7 @@
       "candidate_start_hex": "0602AE44",
       "candidate_start": 100838980,
       "candidate_end": 100839027,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779074951.6232333
     },
     {
@@ -357,9 +329,7 @@
       "candidate_start_hex": "0602AE74",
       "candidate_start": 100839028,
       "candidate_end": 100839383,
-      "feedback": [
-        "another pro epi mismatch, otherwise smells clean to me, thoughts?"
-      ],
+      "feedback": "another pro epi mismatch, otherwise smells clean to me, thoughts?",
       "ts": 1779075359.987309
     },
     {
@@ -367,7 +337,7 @@
       "candidate_start_hex": "0602AFD8",
       "candidate_start": 100839384,
       "candidate_end": 100839443,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779075370.456478
     },
     {
@@ -375,7 +345,7 @@
       "candidate_start_hex": "0602B014",
       "candidate_start": 100839444,
       "candidate_end": 100839679,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779075377.7250414
     },
     {
@@ -383,7 +353,7 @@
       "candidate_start_hex": "0602B100",
       "candidate_start": 100839680,
       "candidate_end": 100839871,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779075379.093023
     },
     {
@@ -391,9 +361,7 @@
       "candidate_start_hex": "0602B1C0",
       "candidate_start": 100839872,
       "candidate_end": 100839963,
-      "feedback": [
-        "slightly shorter than achive here, anyting sus?"
-      ],
+      "feedback": "slightly shorter than achive here, anyting sus?",
       "ts": 1779075500.2566667
     },
     {
@@ -401,7 +369,7 @@
       "candidate_start_hex": "0602B22C",
       "candidate_start": 100839980,
       "candidate_end": 100841171,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779075591.5094147
     },
     {
@@ -409,7 +377,7 @@
       "candidate_start_hex": "0602B21C",
       "candidate_start": 100839964,
       "candidate_end": 100839979,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076130.5038166
     },
     {
@@ -417,7 +385,7 @@
       "candidate_start_hex": "0602B6D4",
       "candidate_start": 100841172,
       "candidate_end": 100842167,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076195.047053
     },
     {
@@ -425,7 +393,7 @@
       "candidate_start_hex": "0602BAB8",
       "candidate_start": 100842168,
       "candidate_end": 100842971,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076211.5907183
     },
     {
@@ -433,7 +401,7 @@
       "candidate_start_hex": "0602BDDC",
       "candidate_start": 100842972,
       "candidate_end": 100843197,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076217.1233177
     },
     {
@@ -441,9 +409,7 @@
       "candidate_start_hex": "0602BEBE",
       "candidate_start": 100843198,
       "candidate_end": 100843551,
-      "feedback": [
-        "archive compare is much shorter, but doesnt name a midpoint. wheres the disagreement?"
-      ],
+      "feedback": "archive compare is much shorter, but doesnt name a midpoint. wheres the disagreement?",
       "ts": 1779076511.0378797
     },
     {
@@ -451,9 +417,7 @@
       "candidate_start_hex": "0602C020",
       "candidate_start": 100843552,
       "candidate_end": 100843587,
-      "feedback": [
-        "critical warning given about macl never restored"
-      ],
+      "feedback": "critical warning given about macl never restored",
       "ts": 1779076811.044741
     },
     {
@@ -461,7 +425,7 @@
       "candidate_start_hex": "0602C044",
       "candidate_start": 100843588,
       "candidate_end": 100843681,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076820.1163657
     },
     {
@@ -469,7 +433,7 @@
       "candidate_start_hex": "0602C0A2",
       "candidate_start": 100843682,
       "candidate_end": 100844065,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779076849.7232249
     },
     {
@@ -477,9 +441,7 @@
       "candidate_start_hex": "0602C222",
       "candidate_start": 100844066,
       "candidate_end": 100844467,
-      "feedback": [
-        "achive disagrees, thoughts?"
-      ],
+      "feedback": "achive disagrees, thoughts?",
       "ts": 1779077095.9741468
     },
     {
@@ -487,7 +449,7 @@
       "candidate_start_hex": "0602C3B4",
       "candidate_start": 100844468,
       "candidate_end": 100844477,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779077162.0049176
     },
     {
@@ -495,7 +457,7 @@
       "candidate_start_hex": "0602C3BE",
       "candidate_start": 100844478,
       "candidate_end": 100844509,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779077286.8139045
     },
     {
@@ -503,8 +465,200 @@
       "candidate_start_hex": "0602C3DE",
       "candidate_start": 100844510,
       "candidate_end": 100844535,
-      "feedback": [],
+      "feedback": "",
       "ts": 1779077309.1129744
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C3F8",
+      "candidate_start": 100844536,
+      "candidate_end": 100844633,
+      "feedback": "",
+      "ts": 1779108550.1224988
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C45A",
+      "candidate_start": 100844634,
+      "candidate_end": 100844953,
+      "feedback": "",
+      "ts": 1779108563.5341444
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C59A",
+      "candidate_start": 100844954,
+      "candidate_end": 100845255,
+      "feedback": "this function looks clean to me but we are disagreeing with reference",
+      "ts": 1779108799.0575874
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C6C8",
+      "candidate_start": 100845256,
+      "candidate_end": 100845293,
+      "feedback": "",
+      "ts": 1779108901.915486
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C6EE",
+      "candidate_start": 100845294,
+      "candidate_end": 100845411,
+      "feedback": "",
+      "ts": 1779109451.3840883
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C764",
+      "candidate_start": 100845412,
+      "candidate_end": 100845507,
+      "feedback": "",
+      "ts": 1779109870.3761885
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C7C4",
+      "candidate_start": 100845508,
+      "candidate_end": 100845651,
+      "feedback": "",
+      "ts": 1779109873.7951148
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C854",
+      "candidate_start": 100845652,
+      "candidate_end": 100845865,
+      "feedback": "",
+      "ts": 1779109875.7822013
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602C92A",
+      "candidate_start": 100845866,
+      "candidate_end": 100846099,
+      "feedback": "",
+      "ts": 1779109881.2894948
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CA14",
+      "candidate_start": 100846100,
+      "candidate_end": 100846373,
+      "feedback": "",
+      "ts": 1779109882.7350106
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CB26",
+      "candidate_start": 100846374,
+      "candidate_end": 100846707,
+      "feedback": "",
+      "ts": 1779109906.8630912
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CC74",
+      "candidate_start": 100846708,
+      "candidate_end": 100846723,
+      "feedback": "",
+      "ts": 1779109934.0241618
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CC84",
+      "candidate_start": 100846724,
+      "candidate_end": 100846945,
+      "feedback": "",
+      "ts": 1779123280.0290244
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CD62",
+      "candidate_start": 100846946,
+      "candidate_end": 100846999,
+      "feedback": "",
+      "ts": 1779123321.6366599
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CD98",
+      "candidate_start": 100847000,
+      "candidate_end": 100847375,
+      "feedback": "",
+      "ts": 1779123962.651115
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602CF10",
+      "candidate_start": 100847376,
+      "candidate_end": 100847673,
+      "feedback": "",
+      "ts": 1779126690.3135707
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D03A",
+      "candidate_start": 100847674,
+      "candidate_end": 100847685,
+      "feedback": "",
+      "ts": 1779126716.3384197
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D046",
+      "candidate_start": 100847686,
+      "candidate_end": 100847697,
+      "feedback": "",
+      "ts": 1779126722.8653646
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D052",
+      "candidate_start": 100847698,
+      "candidate_end": 100847759,
+      "feedback": "",
+      "ts": 1779126732.2394128
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D090",
+      "candidate_start": 100847760,
+      "candidate_end": 100847873,
+      "feedback": "",
+      "ts": 1779126748.8742635
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D102",
+      "candidate_start": 100847874,
+      "candidate_end": 100847929,
+      "feedback": "",
+      "ts": 1779126758.3806398
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D13A",
+      "candidate_start": 100847930,
+      "candidate_end": 100848239,
+      "feedback": "",
+      "ts": 1779127272.932687
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602D270",
+      "candidate_start": 100848240,
+      "candidate_end": 100848509,
+      "feedback": "",
+      "ts": 1779127354.263238
+    },
+    {
+      "verdict": "unsure",
+      "candidate_start_hex": "0602D37E",
+      "candidate_start": 100848510,
+      "candidate_end": 100848529,
+      "feedback": "",
+      "ts": 1779127407.8850982
     }
   ],
   "awaiting_ai": false,
