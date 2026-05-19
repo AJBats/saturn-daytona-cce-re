@@ -892,3 +892,179 @@ subsegments:
     type:  code
     file:  tu_060324E8
     end:   0x06032917
+  - start: 0x06032918
+    type:  code
+    file:  tu_060324E8
+    end:   0x06032AAF
+  - start: 0x06032AB0
+    type:  code
+    file:  tu_060324E8
+    end:   0x06032BAB
+  - start: 0x06032BAC
+    type:  code
+    file:  tu_060324E8
+    end:   0x06032DC7
+  - start: 0x06032DC8
+    type:  code
+    file:  tu_060324E8
+    end:   0x06032E13
+  - start: 0x06032E14
+    type:  code
+    file:  tu_060324E8
+    end:   0x06032E43
+  - start: 0x06032E44
+    type:  code
+    file:  tu_06032E44
+    end:   0x060330AF
+  - start: 0x060330B0
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603310F
+  - start: 0x06033110
+    type:  code
+    file:  tu_06032E44
+    end:   0x060332A3
+  - start: 0x060332A4
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603336B
+  - start: 0x0603336C
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603344D
+  - start: 0x0603344E
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603353B
+  - start: 0x0603353C
+    type:  code
+    file:  tu_06032E44
+    end:   0x060335B3
+  - start: 0x060335B4
+    type:  code
+    file:  tu_06032E44
+    end:   0x060335E3
+  - start: 0x060335E4
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033655
+  - start: 0x06033656
+    type:  code
+    file:  tu_06032E44
+    end:   0x060336C7
+  - start: 0x060336C8
+    type:  code
+    file:  tu_06032E44
+    end:   0x060336F9
+  - start: 0x060336FA
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033717
+  - start: 0x06033718
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603382F
+  - start: 0x06033830
+    type:  code
+    file:  tu_06032E44
+    end:   0x0603396F
+  - start: 0x06033970
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033A77
+  - start: 0x06033A78
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033AAB
+  - start: 0x06033AAC
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033AF9
+  - start: 0x06033AFA
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033B2D
+  - start: 0x06033B2E
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033B61
+  - start: 0x06033B62
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033BD5
+  - start: 0x06033BD6
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033CBD
+  - start: 0x06033CBE
+    type:  code
+    file:  tu_06032E44
+    end:   0x06033DC7
+  - start: 0x06033DC8
+    type:  code
+    file:  tu_06033DC8
+    end:   0x0603447F
+  - start: 0x06034480
+    type:  code
+    file:  tu_06033DC8
+    end:   0x060345B5
+  - start: 0x060345B6
+    type:  code
+    file:  tu_06033DC8
+    end:   0x060345FF
+  - start: 0x06034600
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034647
+  - start: 0x06034648
+    type:  code
+    file:  tu_06033DC8
+    end:   0x0603468D
+  - start: 0x0603468E
+    type:  code
+    file:  tu_06033DC8
+    end:   0x060346E7
+  - start: 0x060346E8
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034737
+  - start: 0x06034738
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034833
+  - start: 0x06034834
+    type:  code
+    file:  tu_06033DC8
+    end:   0x060348AD
+  - start: 0x060348AE
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034903
+  - start: 0x06034904
+    type:  code
+    file:  tu_06033DC8
+    end:   0x060349C7
+  - start: 0x060349C8
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034A55
+  - start: 0x06034A56
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034A9F
+  - start: 0x06034AA0
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034BA1
+  - start: 0x06034BA2
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034C67
+  - start: 0x06034C68
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034C6F
+  - start: 0x06034C70
+    type:  code
+    file:  tu_06033DC8
+    end:   0x06034CEB
