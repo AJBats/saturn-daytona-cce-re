@@ -889,3 +889,41 @@ subsegments:
   - start: 0x060370A0
     type:  code
     end:   0x060371FF
+  - start: 0x06037200
+    type:  code
+    end:   0x06037363
+  - start: 0x06037364
+    type:  code
+    end:   0x0603740D
+  - start: 0x0603740E
+    type:  code
+    end:   0x06037441
+  - start: 0x06037442
+    type:  code
+    end:   0x06037483
+  - start: 0x06037484
+    type:  code
+    end:   0x060374F1
+  - start: 0x060374F2
+    type:  code
+    end:   0x06037591
+  - start: 0x06037592
+    type:  code
+    end:   0x060375F5
+  - start: 0x060375F6
+    type:  code
+    end:   0x06037653
+  - start: 0x06037654
+    type:  code
+    end:   0x06037B97
+    partners: [0x06037BF8]
+  - start: 0x06037B98
+    type:  code
+    end:   0x06037BF7
+  - start: 0x06037BF8
+    type:  code
+    end:   0x06037D57
+    partners: [0x06037654]
+  - start: 0x06037D58
+    type:  code
+    end:   0x06037D73
