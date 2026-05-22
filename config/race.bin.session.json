@@ -2779,6 +2779,78 @@
       "candidate_end": 100901283,
       "feedback": "",
       "ts": 1779474671.6102486
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A1A4",
+      "candidate_start": 100901284,
+      "candidate_end": 100902215,
+      "feedback": "",
+      "ts": 1779475213.2992551
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A548",
+      "candidate_start": 100902216,
+      "candidate_end": 100902419,
+      "feedback": "",
+      "ts": 1779475224.973132
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A614",
+      "candidate_start": 100902420,
+      "candidate_end": 100902479,
+      "feedback": "",
+      "ts": 1779475283.1569424
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A650",
+      "candidate_start": 100902480,
+      "candidate_end": 100902559,
+      "feedback": "",
+      "ts": 1779475285.8134413
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A6A0",
+      "candidate_start": 100902560,
+      "candidate_end": 100902587,
+      "feedback": "",
+      "ts": 1779475288.5818555
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A6BC",
+      "candidate_start": 100902588,
+      "candidate_end": 100902787,
+      "feedback": "",
+      "ts": 1779475290.2995908
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603A784",
+      "candidate_start": 100902788,
+      "candidate_end": 100903699,
+      "feedback": "",
+      "ts": 1779481732.7303667
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603AB14",
+      "candidate_start": 100903700,
+      "candidate_end": 100903781,
+      "feedback": "",
+      "ts": 1779482132.5398798
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603AB66",
+      "candidate_start": 100903782,
+      "candidate_end": 100904703,
+      "feedback": "",
+      "ts": 1779482394.089838
     }
   ],
   "awaiting_ai": false,

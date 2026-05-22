@@ -990,3 +990,33 @@ subsegments:
   - start: 0x06039ED8
     type:  code
     end:   0x0603A1A3
+  - start: 0x0603A1A4
+    type:  code
+    end:   0x0603A547
+  - start: 0x0603A548
+    type:  code
+    end:   0x0603A613
+  - start: 0x0603A614
+    type:  code
+    end:   0x0603A64F
+  - start: 0x0603A650
+    type:  code
+    end:   0x0603A69F
+  - start: 0x0603A6A0
+    type:  code
+    end:   0x0603A6BB
+  - start: 0x0603A6BC
+    type:  code
+    end:   0x0603A783
+  - start: 0x0603A784
+    type:  code
+    end:   0x0603AB13
+    partners: [0x0603AB14, 0x0603AB66]
+  - start: 0x0603AB14
+    type:  code
+    end:   0x0603AB65
+    partners: [0x0603A784, 0x0603AB66]
+  - start: 0x0603AB66
+    type:  code
+    end:   0x0603AEFF
+    partners: [0x0603A784, 0x0603AB14]
