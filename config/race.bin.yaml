@@ -9,12 +9,33 @@ options:
 
 # Verified function subsegments. Grow incrementally as functions are anchored.
 subsegments:
+  - start: 0x06028000
+    type:  code
+    end:   0x06028DC9
+  - start: 0x06028DCA
+    type:  code
+    end:   0x060291DF
+  - start: 0x060291E0
+    type:  code
+    end:   0x06029587
+  - start: 0x06029588
+    type:  code
+    end:   0x060295DD
   - start: 0x060295DE
     type:  code
     end:   0x0602980F
+  - start: 0x06029810
+    type:  code
+    end:   0x06029997
   - start: 0x06029998
     type:  code
     end:   0x06029A47
+  - start: 0x06029A48
+    type:  code
+    end:   0x06029A5F
+  - start: 0x06029A60
+    type:  code
+    end:   0x06029A77
   - start: 0x06029A78
     type:  code
     end:   0x06029C9F
@@ -24,6 +45,12 @@ subsegments:
   - start: 0x06029D8C
     type:  code
     end:   0x06029E8F
+  - start: 0x06029E90
+    type:  code
+    end:   0x06029F73
+  - start: 0x06029F74
+    type:  code
+    end:   0x06029FE7
   - start: 0x06029FE8
     type:  code
     end:   0x0602A047
@@ -39,6 +66,12 @@ subsegments:
   - start: 0x0602A2A4
     type:  code
     end:   0x0602A2FB
+  - start: 0x0602A2FC
+    type:  code
+    end:   0x0602A36F
+  - start: 0x0602A370
+    type:  code
+    end:   0x0602A543
   - start: 0x0602A544
     type:  code
     end:   0x0602A663
@@ -48,6 +81,9 @@ subsegments:
   - start: 0x0602A6EC
     type:  code
     end:   0x0602A817
+  - start: 0x0602A818
+    type:  code
+    end:   0x0602A8F7
   - start: 0x0602A8F8
     type:  code
     end:   0x0602A957
@@ -57,36 +93,6 @@ subsegments:
   - start: 0x0602A9F0
     type:  code
     end:   0x0602AA83
-  - start: 0x06028000
-    type:  code
-    end:   0x06028DC9
-  - start: 0x06028DCA
-    type:  code
-    end:   0x060291DF
-  - start: 0x06029E90
-    type:  code
-    end:   0x06029F73
-  - start: 0x06029F74
-    type:  code
-    end:   0x06029FE7
-  - start: 0x0602A2FC
-    type:  code
-    end:   0x0602A36F
-  - start: 0x0602A818
-    type:  code
-    end:   0x0602A8F7
-  - start: 0x06029810
-    type:  code
-    end:   0x06029997
-  - start: 0x0602A370
-    type:  code
-    end:   0x0602A543
-  - start: 0x06029A48
-    type:  code
-    end:   0x06029A5F
-  - start: 0x06029A60
-    type:  code
-    end:   0x06029A77
   - start: 0x0602AA84
     type:  code
     end:   0x0602AAA7
@@ -120,12 +126,12 @@ subsegments:
   - start: 0x0602B1C0
     type:  code
     end:   0x0602B21B
-  - start: 0x0602B22C
-    type:  code
-    end:   0x0602B6D3
   - start: 0x0602B21C
     type:  code
     end:   0x0602B22B
+  - start: 0x0602B22C
+    type:  code
+    end:   0x0602B6D3
   - start: 0x0602B6D4
     type:  code
     end:   0x0602BAB7
@@ -417,6 +423,9 @@ subsegments:
   - start: 0x0602F51C
     type:  code
     end:   0x0602F563
+  - start: 0x0602F564
+    type:  code
+    end:   0x0602F5B1
   - start: 0x0602F5B2
     type:  code
     end:   0x0602F65B
@@ -492,6 +501,9 @@ subsegments:
   - start: 0x06030824
     type:  code
     end:   0x0603083B
+  - start: 0x0603083C
+    type:  code
+    end:   0x060308BF
   - start: 0x060308C0
     type:  code
     end:   0x06030A1B
@@ -702,6 +714,9 @@ subsegments:
   - start: 0x06033B62
     type:  code
     end:   0x06033BD5
+  - start: 0x06033BD6
+    type:  code
+    end:   0x06033CBD
   - start: 0x06033CBE
     type:  code
     end:   0x06033DC7
@@ -771,6 +786,10 @@ subsegments:
   - start: 0x060351CC
     type:  code
     end:   0x060352E7
+  - start: 0x060352E8
+    type:  code
+    end:   0x0603549F
+    partners: [0x0604D380]
   - start: 0x060354A0
     type:  code
     end:   0x06035623
@@ -813,6 +832,9 @@ subsegments:
   - start: 0x06036790
     type:  code
     end:   0x060368D3
+  - start: 0x060368D4
+    type:  code
+    end:   0x06036913
   - start: 0x06036914
     type:  code
     end:   0x06036947
@@ -867,25 +889,3 @@ subsegments:
   - start: 0x060370A0
     type:  code
     end:   0x060371FF
-  - start: 0x06029588
-    type:  code
-    end:   0x060295DD
-  - start: 0x0603083C
-    type:  code
-    end:   0x060308BF
-  - start: 0x060352E8
-    type:  code
-    end:   0x0603549F
-    partners: [0x0604D380]
-  - start: 0x06033BD6
-    type:  code
-    end:   0x06033CBD
-  - start: 0x060291E0
-    type:  code
-    end:   0x06029587
-  - start: 0x0602F564
-    type:  code
-    end:   0x0602F5B1
-  - start: 0x060368D4
-    type:  code
-    end:   0x06036913
