@@ -2427,8 +2427,99 @@
       "candidate_end": 100889087,
       "feedback": "",
       "ts": 1779161021.4792843
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06037200",
+      "candidate_start": 100889088,
+      "candidate_end": 100889215,
+      "feedback": "",
+      "ts": 1779189588.3622048
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060352E8",
+      "candidate_start": 100881128,
+      "candidate_end": 100881211,
+      "feedback": "",
+      "ts": 1779228037.7087247
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060352E8",
+      "candidate_start": 100881128,
+      "candidate_end": 100881211,
+      "feedback": "",
+      "ts": 1779232320.2495196
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060352E8",
+      "candidate_start": 100881128,
+      "candidate_end": 100881567,
+      "feedback": "",
+      "ts": 1779326436.7083206
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06029588",
+      "candidate_start": 100832648,
+      "candidate_end": 100832733,
+      "feedback": "",
+      "ts": 1779372528.8489072
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603083C",
+      "candidate_start": 100862012,
+      "candidate_end": 100862143,
+      "feedback": "",
+      "ts": 1779372829.0759676
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060352E8",
+      "candidate_start": 100881128,
+      "candidate_end": 100881567,
+      "feedback": "",
+      "ts": 1779378056.6692884
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0602F564",
+      "candidate_start": 100857188,
+      "candidate_end": 100857265,
+      "feedback": "",
+      "ts": 1779401133.8373706
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06033BD6",
+      "candidate_start": 100875222,
+      "candidate_end": 100875453,
+      "feedback": "",
+      "ts": 1779452712.8346236
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060368D4",
+      "candidate_start": 100886740,
+      "candidate_end": 100886803,
+      "feedback": "",
+      "ts": 1779452976.1724398
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060291E0",
+      "candidate_start": 100831712,
+      "candidate_end": 100832647,
+      "feedback": "",
+      "ts": 1779454015.0059378
     }
   ],
   "awaiting_ai": false,
-  "ai_override": null
+  "ai_override": null,
+  "analyze_mode": null,
+  "pending_partners": [],
+  "frontier_simulation": false
 }
