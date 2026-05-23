@@ -1011,7 +1011,7 @@ subsegments:
   - start: 0x0603A784
     type:  code
     end:   0x0603AB13
-    partners: [0x0603AB14, 0x0603AB66]
+    partners: [0x0603AB14, 0x0603AB66, 0x0603AF00]
   - start: 0x0603AB14
     type:  code
     end:   0x0603AB65
@@ -1020,3 +1020,7 @@ subsegments:
     type:  code
     end:   0x0603AEFF
     partners: [0x0603A784, 0x0603AB14]
+  - start: 0x0603AF00
+    type:  code
+    end:   0x0603B247
+    partners: [0x0603A784]

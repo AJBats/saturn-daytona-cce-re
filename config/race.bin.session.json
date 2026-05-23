@@ -2851,6 +2851,14 @@
       "candidate_end": 100904703,
       "feedback": "",
       "ts": 1779482394.089838
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603AF00",
+      "candidate_start": 100904704,
+      "candidate_end": 100905543,
+      "feedback": "",
+      "ts": 1779494952.6930914
     }
   ],
   "awaiting_ai": false,
