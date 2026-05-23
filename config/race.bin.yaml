@@ -1081,3 +1081,96 @@ subsegments:
   - start: 0x0603C994
     type:  code
     end:   0x0603CC67
+  - start: 0x0603CC68
+    type:  code
+    end:   0x0603CD31
+  - start: 0x0603CD32
+    type:  code
+    end:   0x0603CDD7
+  - start: 0x0603CDD8
+    type:  code
+    end:   0x0603CE87
+  - start: 0x0603CE88
+    type:  code
+    end:   0x0603D0C9
+  - start: 0x0603D0CA
+    type:  code
+    end:   0x0603D4CD
+  - start: 0x0603D4CE
+    type:  code
+    end:   0x0603D557
+  - start: 0x0603D558
+    type:  code
+    end:   0x0603D6E3
+  - start: 0x0603D6E4
+    type:  code
+    end:   0x0603D97F
+  - start: 0x0603D980
+    type:  code
+    end:   0x0603DA51
+  - start: 0x0603DA52
+    type:  code
+    end:   0x0603DA77
+  - start: 0x0603DA78
+    type:  code
+    end:   0x0603DAEB
+  - start: 0x0603DAEC
+    type:  code
+    end:   0x0603DB11
+  - start: 0x0603DB12
+    type:  code
+    end:   0x0603DB9B
+  - start: 0x0603DB9C
+    type:  code
+    end:   0x0603DC9B
+  - start: 0x0603DC9C
+    type:  code
+    end:   0x0603DD17
+  - start: 0x0603DD18
+    type:  code
+    end:   0x0603DDAD
+  - start: 0x0603DDAE
+    type:  code
+    end:   0x0603DE67
+  - start: 0x0603DE68
+    type:  code
+    end:   0x0603DEBB
+  - start: 0x0603DEBC
+    type:  code
+    end:   0x0603DEFB
+  - start: 0x0603DEFC
+    type:  code
+    end:   0x0603DF27
+  - start: 0x0603DF28
+    type:  code
+    end:   0x0603DF83
+  - start: 0x0603DF84
+    type:  code
+    end:   0x0603E0B9
+  - start: 0x0603E0BA
+    type:  code
+    end:   0x0603E14B
+  - start: 0x0603E14C
+    type:  code
+    end:   0x0603E33F
+  - start: 0x0603E340
+    type:  code
+    end:   0x0603E393
+  - start: 0x0603E394
+    type:  code
+    end:   0x0603E3E7
+  - start: 0x0603E3E8
+    type:  code
+    end:   0x0603E45B
+  - start: 0x0603E45C
+    type:  code
+    end:   0x0603E471
+  - start: 0x0603E472
+    type:  code
+    end:   0x0603E487
+  - start: 0x0603E488
+    type:  code
+    end:   0x0603E4A3
+  - start: 0x0603E4A4
+    type:  code
+    end:   0x0603E60B
