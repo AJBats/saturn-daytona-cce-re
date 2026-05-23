@@ -1024,3 +1024,60 @@ subsegments:
     type:  code
     end:   0x0603B247
     partners: [0x0603A784]
+  - start: 0x0603B248
+    type:  code
+    end:   0x0603B6FB
+  - start: 0x0603B6FC
+    type:  code
+    end:   0x0603B93F
+  - start: 0x0603B940
+    type:  code
+    end:   0x0603B979
+  - start: 0x0603B97A
+    type:  code
+    end:   0x0603BF9F
+  - start: 0x0603BFA0
+    type:  code
+    end:   0x0603BFE7
+  - start: 0x0603BFE8
+    type:  code
+    end:   0x0603BFFD
+  - start: 0x0603BFFE
+    type:  code
+    end:   0x0603C093
+  - start: 0x0603C094
+    type:  code
+    end:   0x0603C1A9
+  - start: 0x0603C1AA
+    type:  code
+    end:   0x0603C273
+  - start: 0x0603C274
+    type:  code
+    end:   0x0603C2BB
+  - start: 0x0603C2BC
+    type:  code
+    end:   0x0603C303
+  - start: 0x0603C304
+    type:  code
+    end:   0x0603C337
+  - start: 0x0603C338
+    type:  code
+    end:   0x0603C46B
+  - start: 0x0603C46C
+    type:  code
+    end:   0x0603C5CB
+  - start: 0x0603C5CC
+    type:  code
+    end:   0x0603C69F
+  - start: 0x0603C6A0
+    type:  code
+    end:   0x0603C795
+  - start: 0x0603C796
+    type:  code
+    end:   0x0603C96B
+  - start: 0x0603C96C
+    type:  code
+    end:   0x0603C993
+  - start: 0x0603C994
+    type:  code
+    end:   0x0603CC67
