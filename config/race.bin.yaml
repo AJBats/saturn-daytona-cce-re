@@ -566,9 +566,6 @@ subsegments:
     end:   0x06030E43
   - start: 0x06030E44
     type:  code
-    end:   0x06030E47
-  - start: 0x06030E48
-    type:  code
     end:   0x06030EC7
   - start: 0x06030EC8
     type:  code
@@ -1174,3 +1171,98 @@ subsegments:
   - start: 0x0603E4A4
     type:  code
     end:   0x0603E60B
+  - start: 0x0603E60C
+    type:  code
+    end:   0x0603E773
+  - start: 0x0603E774
+    type:  code
+    end:   0x0603E7AF
+  - start: 0x0603E7B0
+    type:  code
+    end:   0x0603E913
+  - start: 0x0603E914
+    type:  code
+    end:   0x0603E951
+  - start: 0x0603E952
+    type:  code
+    end:   0x0603E9A3
+  - start: 0x0603E9A4
+    type:  code
+    end:   0x0603E9E1
+  - start: 0x0603E9E2
+    type:  code
+    end:   0x0603EA6B
+  - start: 0x0603EA6C
+    type:  code
+    end:   0x0603EAA9
+  - start: 0x0603EAAA
+    type:  code
+    end:   0x0603EBE1
+  - start: 0x0603EBE2
+    type:  code
+    end:   0x0603EC3F
+  - start: 0x0603EC40
+    type:  code
+    end:   0x0603EC53
+  - start: 0x0603EC54
+    type:  code
+    end:   0x0603EC85
+  - start: 0x0603EC86
+    type:  code
+    end:   0x0603ECEF
+    entries: [0x0603EC94]
+  - start: 0x0603ECF0
+    type:  code
+    end:   0x0603ED5B
+    entries: [0x0603ED00]
+  - start: 0x0603ED5C
+    type:  code
+    end:   0x0603ED91
+  - start: 0x0603ED92
+    type:  code
+    end:   0x0603EDC7
+  - start: 0x0603EDC8
+    type:  code
+    end:   0x0603EE33
+    entries: [0x0603EDD6]
+  - start: 0x0603EE34
+    type:  code
+    end:   0x0603EE47
+  - start: 0x0603EE48
+    type:  code
+    end:   0x0603EE63
+  - start: 0x0603EE64
+    type:  code
+    end:   0x0603EEBB
+  - start: 0x0603EEBC
+    type:  code
+    end:   0x0603F03B
+    entries: [0x0603EF8E]
+  - start: 0x0603F03C
+    type:  code
+    end:   0x0603F053
+  - start: 0x0603F054
+    type:  code
+    end:   0x0603F0B3
+  - start: 0x0603F0B4
+    type:  code
+    end:   0x0603F10D
+    entries: [0x0603F0C2]
+  - start: 0x0603F10E
+    type:  code
+    end:   0x0603F131
+  - start: 0x0603F132
+    type:  code
+    end:   0x0603F165
+  - start: 0x0603F166
+    type:  code
+    end:   0x0603F457
+  - start: 0x0603F458
+    type:  code
+    end:   0x0603F4AF
+  - start: 0x0603F4B0
+    type:  code
+    end:   0x0603F4BD
+  - start: 0x0603F4BE
+    type:  code
+    end:   0x0603F503
