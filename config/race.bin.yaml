@@ -1651,3 +1651,30 @@ subsegments:
   - start: 0x06044DF4
     type:  code
     end:   0x06044E27
+  - start: 0x06044E28
+    type:  code
+    end:   0x06044E3B
+  - start: 0x06044E3C
+    type:  code
+    end:   0x06044E5F
+  - start: 0x06044E60
+    type:  code
+    end:   0x06044E83
+  - start: 0x06044E84
+    type:  code
+    end:   0x06044EAB
+  - start: 0x06044EAC
+    type:  code
+    end:   0x06044ED3
+  - start: 0x06044ED4
+    type:  code
+    end:   0x06044EF3
+  - start: 0x06044EF4
+    type:  code
+    end:   0x06044F13
+  - start: 0x06044F14
+    type:  code
+    end:   0x06044F2F
+  - start: 0x06044F30
+    type:  code
+    end:   0x06044F63
