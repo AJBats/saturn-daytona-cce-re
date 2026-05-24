@@ -1266,3 +1266,109 @@ subsegments:
   - start: 0x0603F4BE
     type:  code
     end:   0x0603F503
+  - start: 0x0603F504
+    type:  code
+    end:   0x0603F533
+    entries: [0x0603F508]
+  - start: 0x0603F534
+    type:  code
+    end:   0x0603F58B
+  - start: 0x0603F58C
+    type:  code
+    end:   0x0603F5FD
+  - start: 0x0603F5FE
+    type:  code
+    end:   0x0603F61B
+  - start: 0x0603F61C
+    type:  code
+    end:   0x0603F6BD
+  - start: 0x0603F6BE
+    type:  code
+    end:   0x0603F6F7
+  - start: 0x0603F6F8
+    type:  code
+    end:   0x0603F75B
+  - start: 0x0603F75C
+    type:  code
+    end:   0x0603F76F
+  - start: 0x0603F770
+    type:  code
+    end:   0x0603F7B7
+  - start: 0x0603F7B8
+    type:  code
+    end:   0x0603F99B
+  - start: 0x0603F99C
+    type:  code
+    end:   0x0603F9E7
+  - start: 0x0603F9E8
+    type:  code
+    end:   0x0603FA1D
+  - start: 0x0603FA1E
+    type:  code
+    end:   0x0603FA53
+  - start: 0x0603FA54
+    type:  code
+    end:   0x0603FAA7
+  - start: 0x0603FAA8
+    type:  code
+    end:   0x0603FABD
+  - start: 0x0603FABE
+    type:  code
+    end:   0x0603FAD3
+  - start: 0x0603FAD4
+    type:  code
+    end:   0x0603FAE9
+  - start: 0x0603FAEA
+    type:  code
+    end:   0x0603FBCF
+  - start: 0x0603FBD0
+    type:  code
+    end:   0x0603FBFB
+  - start: 0x0603FBFC
+    type:  code
+    end:   0x0603FC0F
+  - start: 0x0603FC10
+    type:  code
+    end:   0x0603FC6F
+  - start: 0x0603FC70
+    type:  code
+    end:   0x0603FC83
+  - start: 0x0603FC84
+    type:  code
+    end:   0x0603FCC3
+  - start: 0x0603FCC4
+    type:  code
+    end:   0x0603FCEF
+  - start: 0x0603FCF0
+    type:  code
+    end:   0x0603FD07
+  - start: 0x0603FD08
+    type:  code
+    end:   0x0603FD1F
+  - start: 0x0603FD20
+    type:  code
+    end:   0x0603FDD7
+  - start: 0x0603FDD8
+    type:  code
+    end:   0x0603FE93
+  - start: 0x0603FE94
+    type:  code
+    end:   0x0603FEE7
+  - start: 0x0603FEE8
+    type:  code
+    end:   0x0603FF47
+  - start: 0x0603FF48
+    type:  code
+    end:   0x0603FF63
+  - start: 0x0603FF64
+    type:  code
+    end:   0x0603FFBB
+  - start: 0x0603FFBC
+    type:  code
+    end:   0x0603FFCF
+  - start: 0x0603FFD0
+    type:  code
+    end:   0x06040017
+  - start: 0x06040018
+    type:  code
+    end:   0x0604002B
