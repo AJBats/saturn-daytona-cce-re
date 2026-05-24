@@ -3843,6 +3843,150 @@
       "candidate_end": 100925483,
       "feedback": "",
       "ts": 1779624846.8674102
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604002C",
+      "candidate_start": 100925484,
+      "candidate_end": 100925547,
+      "feedback": "",
+      "ts": 1779628564.5433292
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604006C",
+      "candidate_start": 100925548,
+      "candidate_end": 100925567,
+      "feedback": "",
+      "ts": 1779628642.9609597
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040080",
+      "candidate_start": 100925568,
+      "candidate_end": 100925613,
+      "feedback": "",
+      "ts": 1779628646.8464477
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060400AE",
+      "candidate_start": 100925614,
+      "candidate_end": 100925635,
+      "feedback": "",
+      "ts": 1779628678.0374107
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060400C4",
+      "candidate_start": 100925636,
+      "candidate_end": 100925687,
+      "feedback": "",
+      "ts": 1779628731.4870892
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060400F8",
+      "candidate_start": 100925688,
+      "candidate_end": 100925803,
+      "feedback": "",
+      "ts": 1779628737.754576
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604016C",
+      "candidate_start": 100925804,
+      "candidate_end": 100926043,
+      "feedback": "",
+      "ts": 1779628744.566146
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604025C",
+      "candidate_start": 100926044,
+      "candidate_end": 100926079,
+      "feedback": "",
+      "ts": 1779628746.7538416
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040280",
+      "candidate_start": 100926080,
+      "candidate_end": 100926487,
+      "feedback": "",
+      "ts": 1779628754.0888267
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040418",
+      "candidate_start": 100926488,
+      "candidate_end": 100926591,
+      "feedback": "",
+      "ts": 1779628755.4546366
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040480",
+      "candidate_start": 100926592,
+      "candidate_end": 100926923,
+      "feedback": "",
+      "ts": 1779628765.6322138
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060405CC",
+      "candidate_start": 100926924,
+      "candidate_end": 100926967,
+      "feedback": "",
+      "ts": 1779628783.0015712
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060405F8",
+      "candidate_start": 100926968,
+      "candidate_end": 100927443,
+      "feedback": "",
+      "ts": 1779630690.1088989
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060407D4",
+      "candidate_start": 100927444,
+      "candidate_end": 100927583,
+      "feedback": "",
+      "ts": 1779630700.9262798
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040860",
+      "candidate_start": 100927584,
+      "candidate_end": 100928099,
+      "feedback": "",
+      "ts": 1779630702.3596475
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040A64",
+      "candidate_start": 100928100,
+      "candidate_end": 100928125,
+      "feedback": "",
+      "ts": 1779630705.8333132
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06040A7E",
+      "candidate_start": 100928126,
+      "candidate_end": 100928395,
+      "feedback": "",
+      "ts": 1779631056.4840937
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060405F8",
+      "candidate_start": 100926968,
+      "candidate_end": 100927443,
+      "feedback": "",
+      "ts": 1779632175.034734
     }
   ],
   "awaiting_ai": false,
@@ -3850,5 +3994,6 @@
   "analyze_mode": null,
   "pending_partners": [],
   "frontier_simulation": false,
-  "pending_entries": {}
+  "pending_entries": {},
+  "audit_mode": null
 }
