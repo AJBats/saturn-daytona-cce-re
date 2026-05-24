@@ -1678,3 +1678,46 @@ subsegments:
   - start: 0x06044F30
     type:  code
     end:   0x06044F63
+  - start: 0x06044F64
+    type:  code
+    end:   0x06044F7F
+  - start: 0x06044F80
+    type:  code
+    end:   0x06044F9B
+  - start: 0x06044F9C
+    type:  code
+    end:   0x06044FB3
+  - start: 0x06044FB4
+    type:  code
+    end:   0x06044FC7
+  - start: 0x06044FC8
+    type:  code
+    end:   0x06044FDB
+  - start: 0x06044FDC
+    type:  code
+    end:   0x06044FEF
+  - start: 0x06044FF0
+    type:  code
+    end:   0x0604505F
+    entries: [0x06045000, 0x06045006]
+  - start: 0x06045060
+    type:  code
+    end:   0x060450D5
+    entries: [0x06045078, 0x0604507E, 0x06045080]
+  - start: 0x060450D6
+    type:  code
+    end:   0x06045153
+    entries: [0x060450EC, 0x060450F2]
+  - start: 0x06045154
+    type:  code
+    end:   0x06045197
+  - start: 0x06045198
+    type:  code
+    end:   0x060451A9
+  - start: 0x060451AA
+    type:  code
+    end:   0x060451BB
+  - start: 0x060451BC
+    type:  code
+    end:   0x060451F7
+    entries: [0x060451BE]

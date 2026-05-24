@@ -4675,19 +4675,114 @@
       "candidate_end": 100945763,
       "feedback": "",
       "ts": 1779637585.802648
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044F64",
+      "candidate_start": 100945764,
+      "candidate_end": 100945791,
+      "feedback": "",
+      "ts": 1779637985.120044
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044F80",
+      "candidate_start": 100945792,
+      "candidate_end": 100945819,
+      "feedback": "",
+      "ts": 1779637994.0384912
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044F9C",
+      "candidate_start": 100945820,
+      "candidate_end": 100945843,
+      "feedback": "",
+      "ts": 1779638004.9612002
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044FB4",
+      "candidate_start": 100945844,
+      "candidate_end": 100945863,
+      "feedback": "",
+      "ts": 1779638012.211663
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044FC8",
+      "candidate_start": 100945864,
+      "candidate_end": 100945883,
+      "feedback": "",
+      "ts": 1779638034.5043664
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044FDC",
+      "candidate_start": 100945884,
+      "candidate_end": 100945903,
+      "feedback": "",
+      "ts": 1779638041.6980388
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06044FF0",
+      "candidate_start": 100945904,
+      "candidate_end": 100946015,
+      "feedback": "",
+      "ts": 1779639030.3620145
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045060",
+      "candidate_start": 100946016,
+      "candidate_end": 100946133,
+      "feedback": "",
+      "ts": 1779639563.9831061
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060450D6",
+      "candidate_start": 100946134,
+      "candidate_end": 100946259,
+      "feedback": "",
+      "ts": 1779639680.2512295
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045154",
+      "candidate_start": 100946260,
+      "candidate_end": 100946327,
+      "feedback": "",
+      "ts": 1779639685.3124757
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045198",
+      "candidate_start": 100946328,
+      "candidate_end": 100946345,
+      "feedback": "",
+      "ts": 1779639688.0726533
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060451AA",
+      "candidate_start": 100946346,
+      "candidate_end": 100946363,
+      "feedback": "",
+      "ts": 1779639690.398892
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060451BC",
+      "candidate_start": 100946364,
+      "candidate_end": 100946423,
+      "feedback": "",
+      "ts": 1779639842.1812248
     }
   ],
   "awaiting_ai": false,
-  "ai_override": {
-    "candidate_start": "0x06044F64",
-    "previous_subseg": {
-      "start": 100945712,
-      "end": 100945763,
-      "type": "code",
-      "file": ""
-    },
-    "candidate_end": "0x06044F7F"
-  },
+  "ai_override": null,
   "analyze_mode": null,
   "pending_partners": [],
   "frontier_simulation": false,
