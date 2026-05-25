@@ -1906,3 +1906,160 @@ subsegments:
   - start: 0x06046520
     type:  code
     end:   0x06046601
+  - start: 0x06046602
+    type:  code
+    end:   0x06046677
+  - start: 0x06046678
+    type:  code
+    end:   0x0604669B
+  - start: 0x0604669C
+    type:  code
+    end:   0x0604670B
+  - start: 0x0604670C
+    type:  code
+    end:   0x0604674D
+  - start: 0x0604674E
+    type:  code
+    end:   0x0604678B
+  - start: 0x0604678C
+    type:  code
+    end:   0x060467AF
+  - start: 0x060467B0
+    type:  code
+    end:   0x0604680B
+  - start: 0x0604680C
+    type:  code
+    end:   0x0604687D
+  - start: 0x0604687E
+    type:  code
+    end:   0x060468AB
+  - start: 0x060468AC
+    type:  code
+    end:   0x06046907
+  - start: 0x06046908
+    type:  code
+    end:   0x0604698B
+  - start: 0x0604698C
+    type:  code
+    end:   0x06046A1F
+  - start: 0x06046A20
+    type:  code
+    end:   0x06046A8F
+  - start: 0x06046A90
+    type:  code
+    end:   0x06046AE7
+  - start: 0x06046AE8
+    type:  code
+    end:   0x06046B3B
+  - start: 0x06046B3C
+    type:  code
+    end:   0x06046B63
+  - start: 0x06046B64
+    type:  code
+    end:   0x06046BD3
+    entries: [0x06046B70]
+  - start: 0x06046BD4
+    type:  code
+    end:   0x06046BF3
+  - start: 0x06046BF4
+    type:  code
+    end:   0x06046C13
+  - start: 0x06046C14
+    type:  code
+    end:   0x06046C2F
+  - start: 0x06046C30
+    type:  code
+    end:   0x06046CCF
+  - start: 0x06046CD0
+    type:  code
+    end:   0x06046CEF
+  - start: 0x06046CF0
+    type:  code
+    end:   0x06046D0F
+  - start: 0x06046D10
+    type:  code
+    end:   0x06046D2F
+  - start: 0x06046D30
+    type:  code
+    end:   0x06046D77
+  - start: 0x06046D78
+    type:  code
+    end:   0x06046D97
+  - start: 0x06046D98
+    type:  code
+    end:   0x06046E0D
+  - start: 0x06046E0E
+    type:  code
+    end:   0x06046E63
+  - start: 0x06046E64
+    type:  code
+    end:   0x06046EBB
+  - start: 0x06046EBC
+    type:  code
+    end:   0x06046FD3
+  - start: 0x06046FD4
+    type:  code
+    end:   0x06047013
+  - start: 0x06047014
+    type:  code
+    end:   0x06047077
+  - start: 0x06047078
+    type:  code
+    end:   0x0604708B
+  - start: 0x0604708C
+    type:  code
+    end:   0x060470A7
+  - start: 0x060470A8
+    type:  code
+    end:   0x060470C3
+  - start: 0x060470C4
+    type:  code
+    end:   0x060470D5
+  - start: 0x060470D6
+    type:  code
+    end:   0x060470EB
+  - start: 0x060470EC
+    type:  code
+    end:   0x060470FD
+  - start: 0x060470FE
+    type:  code
+    end:   0x06047113
+  - start: 0x06047114
+    type:  code
+    end:   0x06047117
+  - start: 0x06047118
+    type:  code
+    end:   0x0604713F
+  - start: 0x06047140
+    type:  code
+    end:   0x06047183
+  - start: 0x06047184
+    type:  code
+    end:   0x060471DB
+  - start: 0x060471DC
+    type:  code
+    end:   0x060471EF
+  - start: 0x060471F0
+    type:  code
+    end:   0x0604720B
+  - start: 0x0604720C
+    type:  code
+    end:   0x06047227
+  - start: 0x06047228
+    type:  code
+    end:   0x06047239
+  - start: 0x0604723A
+    type:  code
+    end:   0x0604724F
+  - start: 0x06047250
+    type:  code
+    end:   0x06047261
+  - start: 0x06047262
+    type:  code
+    end:   0x06047277
+  - start: 0x06047278
+    type:  code
+    end:   0x0604727B
+  - start: 0x0604727C
+    type:  code
+    end:   0x0604728D
