@@ -1721,3 +1721,140 @@ subsegments:
     type:  code
     end:   0x060451F7
     entries: [0x060451BE]
+  - start: 0x060451F8
+    type:  code
+    end:   0x06045217
+  - start: 0x06045218
+    type:  code
+    end:   0x06045237
+  - start: 0x06045238
+    type:  code
+    end:   0x060452CF
+  - start: 0x060452D0
+    type:  code
+    end:   0x060452EF
+  - start: 0x060452F0
+    type:  code
+    end:   0x06045317
+  - start: 0x06045318
+    type:  code
+    end:   0x0604533F
+  - start: 0x06045340
+    type:  code
+    end:   0x06045367
+  - start: 0x06045368
+    type:  code
+    end:   0x060453B7
+    entries: [0x06045378]
+  - start: 0x060453B8
+    type:  code
+    end:   0x0604556B
+    entries: [0x060453C8, 0x060453CC]
+  - start: 0x0604556C
+    type:  code
+    end:   0x0604559B
+  - start: 0x0604559C
+    type:  code
+    end:   0x060455CF
+  - start: 0x060455D0
+    type:  code
+    end:   0x060455E1
+  - start: 0x060455E2
+    type:  code
+    end:   0x06045613
+  - start: 0x06045614
+    type:  code
+    end:   0x0604561F
+  - start: 0x06045620
+    type:  code
+    end:   0x0604562B
+  - start: 0x0604562C
+    type:  code
+    end:   0x0604564F
+  - start: 0x06045650
+    type:  code
+    end:   0x06045663
+  - start: 0x06045664
+    type:  code
+    end:   0x06045677
+  - start: 0x06045678
+    type:  code
+    end:   0x06045697
+  - start: 0x06045698
+    type:  code
+    end:   0x060456A7
+  - start: 0x060456A8
+    type:  code
+    end:   0x060456C1
+  - start: 0x060456C2
+    type:  code
+    end:   0x060456EB
+    entries: [0x060456C8, 0x060456CC]
+  - start: 0x060456EC
+    type:  code
+    end:   0x060456F1
+  - start: 0x060456F2
+    type:  code
+    end:   0x060456FB
+  - start: 0x060456FC
+    type:  code
+    end:   0x06045713
+  - start: 0x06045714
+    type:  code
+    end:   0x06045737
+  - start: 0x06045738
+    type:  code
+    end:   0x06045783
+    partners: [0x060457DC]
+  - start: 0x06045784
+    type:  code
+    end:   0x060457A7
+  - start: 0x060457A8
+    type:  code
+    end:   0x060457B7
+    partners: [0x060457DC]
+  - start: 0x060457B8
+    type:  code
+    end:   0x060457DB
+  - start: 0x060457DC
+    type:  code
+    end:   0x06045831
+    partners: [0x06045738, 0x060457A8]
+    entries: [0x060457E4]
+  - start: 0x06045832
+    type:  code
+    end:   0x06045855
+  - start: 0x06045856
+    type:  code
+    end:   0x060458B3
+  - start: 0x060458B4
+    type:  code
+    end:   0x060458D7
+  - start: 0x060458D8
+    type:  code
+    end:   0x06045933
+  - start: 0x06045934
+    type:  code
+    end:   0x06045957
+  - start: 0x06045958
+    type:  code
+    end:   0x060459C3
+  - start: 0x060459C4
+    type:  code
+    end:   0x06045A2B
+  - start: 0x06045A2C
+    type:  code
+    end:   0x06045A7D
+  - start: 0x06045A7E
+    type:  code
+    end:   0x06045ABF
+  - start: 0x06045AC0
+    type:  code
+    end:   0x06045B0F
+    entries: [0x06045ADC]
+  - start: 0x06045B10
+    type:  code
+    end:   0x06045B47
+  - start: 0x06045B48
+    type:  code
+    end:   0x06045B73

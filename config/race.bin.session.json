@@ -4779,6 +4779,350 @@
       "candidate_end": 100946423,
       "feedback": "",
       "ts": 1779639842.1812248
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060451F8",
+      "candidate_start": 100946424,
+      "candidate_end": 100946455,
+      "feedback": "",
+      "ts": 1779674706.9642184
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045218",
+      "candidate_start": 100946456,
+      "candidate_end": 100946487,
+      "feedback": "",
+      "ts": 1779674839.907704
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045238",
+      "candidate_start": 100946488,
+      "candidate_end": 100946639,
+      "feedback": "",
+      "ts": 1779674915.4567022
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060452D0",
+      "candidate_start": 100946640,
+      "candidate_end": 100946671,
+      "feedback": "",
+      "ts": 1779674934.1780376
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060452F0",
+      "candidate_start": 100946672,
+      "candidate_end": 100946711,
+      "feedback": "",
+      "ts": 1779674936.832138
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045318",
+      "candidate_start": 100946712,
+      "candidate_end": 100946751,
+      "feedback": "",
+      "ts": 1779674938.0556533
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045340",
+      "candidate_start": 100946752,
+      "candidate_end": 100946791,
+      "feedback": "",
+      "ts": 1779674939.18415
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045368",
+      "candidate_start": 100946792,
+      "candidate_end": 100946871,
+      "feedback": "",
+      "ts": 1779707222.1509445
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060453B8",
+      "candidate_start": 100946872,
+      "candidate_end": 100947307,
+      "feedback": "",
+      "ts": 1779707605.5840008
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604556C",
+      "candidate_start": 100947308,
+      "candidate_end": 100947355,
+      "feedback": "",
+      "ts": 1779707607.389855
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604559C",
+      "candidate_start": 100947356,
+      "candidate_end": 100947407,
+      "feedback": "",
+      "ts": 1779707608.467511
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060455D0",
+      "candidate_start": 100947408,
+      "candidate_end": 100947425,
+      "feedback": "",
+      "ts": 1779707609.9886985
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060455E2",
+      "candidate_start": 100947426,
+      "candidate_end": 100947475,
+      "feedback": "",
+      "ts": 1779707611.2659855
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045614",
+      "candidate_start": 100947476,
+      "candidate_end": 100947487,
+      "feedback": "",
+      "ts": 1779707617.477116
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045620",
+      "candidate_start": 100947488,
+      "candidate_end": 100947499,
+      "feedback": "",
+      "ts": 1779707619.535555
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604562C",
+      "candidate_start": 100947500,
+      "candidate_end": 100947535,
+      "feedback": "",
+      "ts": 1779707621.8342397
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045650",
+      "candidate_start": 100947536,
+      "candidate_end": 100947555,
+      "feedback": "",
+      "ts": 1779707627.252434
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045664",
+      "candidate_start": 100947556,
+      "candidate_end": 100947575,
+      "feedback": "",
+      "ts": 1779707628.8192341
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045678",
+      "candidate_start": 100947576,
+      "candidate_end": 100947607,
+      "feedback": "",
+      "ts": 1779707630.2533145
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045698",
+      "candidate_start": 100947608,
+      "candidate_end": 100947623,
+      "feedback": "",
+      "ts": 1779707650.2867687
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060456A8",
+      "candidate_start": 100947624,
+      "candidate_end": 100947649,
+      "feedback": "",
+      "ts": 1779707739.6294785
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060456C2",
+      "candidate_start": 100947650,
+      "candidate_end": 100947691,
+      "feedback": "",
+      "ts": 1779707765.1300247
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060456EC",
+      "candidate_start": 100947692,
+      "candidate_end": 100947697,
+      "feedback": "",
+      "ts": 1779707772.571378
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060456F2",
+      "candidate_start": 100947698,
+      "candidate_end": 100947707,
+      "feedback": "",
+      "ts": 1779707776.4120343
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060456FC",
+      "candidate_start": 100947708,
+      "candidate_end": 100947731,
+      "feedback": "",
+      "ts": 1779707779.139886
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045714",
+      "candidate_start": 100947732,
+      "candidate_end": 100947767,
+      "feedback": "",
+      "ts": 1779707780.9349434
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045738",
+      "candidate_start": 100947768,
+      "candidate_end": 100947843,
+      "feedback": "",
+      "ts": 1779712967.5917914
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045784",
+      "candidate_start": 100947844,
+      "candidate_end": 100947879,
+      "feedback": "",
+      "ts": 1779712976.2091196
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060457A8",
+      "candidate_start": 100947880,
+      "candidate_end": 100947895,
+      "feedback": "",
+      "ts": 1779713206.5756512
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060457B8",
+      "candidate_start": 100947896,
+      "candidate_end": 100947931,
+      "feedback": "",
+      "ts": 1779713212.362415
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060457DC",
+      "candidate_start": 100947932,
+      "candidate_end": 100948017,
+      "feedback": "",
+      "ts": 1779713974.9908798
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045832",
+      "candidate_start": 100948018,
+      "candidate_end": 100948053,
+      "feedback": "",
+      "ts": 1779713977.999146
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045856",
+      "candidate_start": 100948054,
+      "candidate_end": 100948147,
+      "feedback": "",
+      "ts": 1779714051.3517022
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060458B4",
+      "candidate_start": 100948148,
+      "candidate_end": 100948183,
+      "feedback": "",
+      "ts": 1779714053.3117864
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060458D8",
+      "candidate_start": 100948184,
+      "candidate_end": 100948275,
+      "feedback": "",
+      "ts": 1779714104.9011316
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045934",
+      "candidate_start": 100948276,
+      "candidate_end": 100948311,
+      "feedback": "",
+      "ts": 1779714106.9174647
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045958",
+      "candidate_start": 100948312,
+      "candidate_end": 100948419,
+      "feedback": "",
+      "ts": 1779714121.2635276
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "060459C4",
+      "candidate_start": 100948420,
+      "candidate_end": 100948523,
+      "feedback": "",
+      "ts": 1779714133.9976943
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045A2C",
+      "candidate_start": 100948524,
+      "candidate_end": 100948605,
+      "feedback": "",
+      "ts": 1779714311.5019474
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045A7E",
+      "candidate_start": 100948606,
+      "candidate_end": 100948671,
+      "feedback": "",
+      "ts": 1779714315.1194773
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045AC0",
+      "candidate_start": 100948672,
+      "candidate_end": 100948751,
+      "feedback": "",
+      "ts": 1779714723.3896892
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045B10",
+      "candidate_start": 100948752,
+      "candidate_end": 100948807,
+      "feedback": "",
+      "ts": 1779714735.6318276
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "06045B48",
+      "candidate_start": 100948808,
+      "candidate_end": 100948851,
+      "feedback": "",
+      "ts": 1779714750.219283
     }
   ],
   "awaiting_ai": false,
@@ -4786,6 +5130,12 @@
   "analyze_mode": null,
   "pending_partners": [],
   "frontier_simulation": false,
-  "pending_entries": {},
+  "pending_entries": {
+    "0x06045B74": [
+      100948896,
+      100948932,
+      100948934
+    ]
+  },
   "audit_mode": null
 }
