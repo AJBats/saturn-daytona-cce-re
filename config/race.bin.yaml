@@ -2063,3 +2063,193 @@ subsegments:
   - start: 0x0604727C
     type:  code
     end:   0x0604728D
+  - start: 0x0604728E
+    type:  code
+    end:   0x060472CB
+  - start: 0x060472CC
+    type:  code
+    end:   0x06047547
+  - start: 0x06047548
+    type:  code
+    end:   0x06047587
+  - start: 0x06047588
+    type:  code
+    end:   0x0604766F
+  - start: 0x06047670
+    type:  code
+    end:   0x060476CF
+  - start: 0x060476D0
+    type:  code
+    end:   0x06047747
+  - start: 0x06047748
+    type:  code
+    end:   0x0604776F
+  - start: 0x06047770
+    type:  code
+    end:   0x060477B3
+  - start: 0x060477B4
+    type:  code
+    end:   0x060477D3
+  - start: 0x060477D4
+    type:  code
+    end:   0x060477FB
+  - start: 0x060477FC
+    type:  code
+    end:   0x06047865
+    partners: [0x060478B8]
+  - start: 0x06047866
+    type:  code
+    end:   0x060478B7
+  - start: 0x060478B8
+    type:  code
+    end:   0x06047919
+    partners: [0x060477FC]
+  - start: 0x0604791A
+    type:  code
+    end:   0x0604796B
+  - start: 0x0604796C
+    type:  code
+    end:   0x06047985
+  - start: 0x06047986
+    type:  code
+    end:   0x0604799F
+  - start: 0x060479A0
+    type:  code
+    end:   0x060479D5
+  - start: 0x060479D6
+    type:  code
+    end:   0x06047A07
+  - start: 0x06047A08
+    type:  code
+    end:   0x06047A83
+  - start: 0x06047A84
+    type:  code
+    end:   0x06047ADF
+  - start: 0x06047AE0
+    type:  code
+    end:   0x06047AFF
+  - start: 0x06047B00
+    type:  code
+    end:   0x06047B33
+  - start: 0x06047B34
+    type:  code
+    end:   0x06047B8F
+  - start: 0x06047B90
+    type:  code
+    end:   0x06047C63
+  - start: 0x06047C64
+    type:  code
+    end:   0x06047D1F
+    entries: [0x06047C68]
+  - start: 0x06047D20
+    type:  code
+    end:   0x06047D33
+  - start: 0x06047D34
+    type:  code
+    end:   0x06047D4F
+    entries: [0x06047D3C]
+  - start: 0x06047D50
+    type:  code
+    end:   0x06047D67
+  - start: 0x06047D68
+    type:  code
+    end:   0x06047D83
+  - start: 0x06047D84
+    type:  code
+    end:   0x06047DBB
+  - start: 0x06047DBC
+    type:  code
+    end:   0x06047DEF
+  - start: 0x06047DF0
+    type:  code
+    end:   0x06047E0B
+  - start: 0x06047E0C
+    type:  code
+    end:   0x06047E9B
+  - start: 0x06047E9C
+    type:  code
+    end:   0x06047EEF
+  - start: 0x06047EF0
+    type:  code
+    end:   0x06047F17
+  - start: 0x06047F18
+    type:  code
+    end:   0x06047F5B
+  - start: 0x06047F5C
+    type:  code
+    end:   0x06047F6F
+  - start: 0x06047F70
+    type:  code
+    end:   0x06047FC7
+  - start: 0x06047FC8
+    type:  code
+    end:   0x0604800F
+  - start: 0x06048010
+    type:  code
+    end:   0x0604804F
+  - start: 0x06048050
+    type:  code
+    end:   0x0604805B
+  - start: 0x0604805C
+    type:  code
+    end:   0x060480C3
+  - start: 0x060480C4
+    type:  code
+    end:   0x060480D5
+  - start: 0x060480D6
+    type:  code
+    end:   0x0604815F
+  - start: 0x06048160
+    type:  code
+    end:   0x0604817F
+  - start: 0x06048180
+    type:  code
+    end:   0x0604818B
+  - start: 0x0604818C
+    type:  code
+    end:   0x060481A7
+  - start: 0x060481A8
+    type:  code
+    end:   0x060481FB
+  - start: 0x060481FC
+    type:  code
+    end:   0x06048247
+  - start: 0x06048248
+    type:  code
+    end:   0x06048253
+  - start: 0x06048254
+    type:  code
+    end:   0x06048277
+  - start: 0x06048278
+    type:  code
+    end:   0x0604828B
+  - start: 0x0604828C
+    type:  code
+    end:   0x060482A7
+  - start: 0x060482A8
+    type:  code
+    end:   0x060482F7
+  - start: 0x060482F8
+    type:  code
+    end:   0x0604833B
+  - start: 0x0604833C
+    type:  data
+    end:   0x0604C73F
+  - start: 0x0604C740
+    type:  code
+    end:   0x0604C76B
+  - start: 0x0604C76C
+    type:  code
+    end:   0x0604C7A3
+  - start: 0x0604C7A4
+    type:  code
+    end:   0x0604C823
+  - start: 0x0604C824
+    type:  code
+    end:   0x0604C88B
+  - start: 0x0604C88C
+    type:  code
+    end:   0x0604C953
+  - start: 0x0604C954
+    type:  code
+    end:   0x0604CA13
