@@ -2280,3 +2280,45 @@ subsegments:
   - start: 0x0604D580
     type:  code
     end:   0x0604D6B7
+  - start: 0x0604D6B8
+    type:  code
+    end:   0x0604D757
+  - start: 0x0604D758
+    type:  code
+    end:   0x0604D77F
+  - start: 0x0604D780
+    type:  code
+    end:   0x0604D83B
+  - start: 0x0604D83C
+    type:  code
+    end:   0x0604D94B
+  - start: 0x0604D94C
+    type:  code
+    end:   0x0604DAD7
+  - start: 0x0604DAD8
+    type:  code
+    end:   0x0604DB0F
+  - start: 0x0604DB10
+    type:  code
+    end:   0x0604DC3F
+  - start: 0x0604DC40
+    type:  code
+    end:   0x0604DD03
+  - start: 0x0604DD04
+    type:  code
+    end:   0x0604DD33
+  - start: 0x0604DD34
+    type:  code
+    end:   0x0604DE2B
+  - start: 0x0604DE2C
+    type:  code
+    end:   0x0604DEEB
+  - start: 0x0604DEEC
+    type:  code
+    end:   0x0604E113
+  - start: 0x0604E114
+    type:  data
+    end:   0x0604F683
+  - start: 0x0604F684
+    type:  data
+    end:   0x06051607
