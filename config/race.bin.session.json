@@ -6215,6 +6215,87 @@
       "feedback": "",
       "ts": 1779806249.9349487,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CA14",
+      "candidate_start": 100977172,
+      "candidate_end": 100977203,
+      "feedback": "",
+      "ts": 1779843128.6372378,
+      "type": "data"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CA34",
+      "candidate_start": 100977204,
+      "candidate_end": 100977363,
+      "feedback": "",
+      "ts": 1779844474.5886471,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CAD4",
+      "candidate_start": 100977364,
+      "candidate_end": 100978275,
+      "feedback": "",
+      "ts": 1779846151.4183547,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CE64",
+      "candidate_start": 100978276,
+      "candidate_end": 100978415,
+      "feedback": "",
+      "ts": 1779846162.8703167,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CEF0",
+      "candidate_start": 100978416,
+      "candidate_end": 100978499,
+      "feedback": "",
+      "ts": 1779846177.6924598,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CEF0",
+      "candidate_start": 100978416,
+      "candidate_end": 100978499,
+      "feedback": "",
+      "ts": 1779846783.5388246,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604CF44",
+      "candidate_start": 100978500,
+      "candidate_end": 100979583,
+      "feedback": "",
+      "ts": 1779847389.7169058,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604D380",
+      "candidate_start": 100979584,
+      "candidate_end": 100980095,
+      "feedback": "",
+      "ts": 1779847606.8786886,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0604D580",
+      "candidate_start": 100980096,
+      "candidate_end": 100980407,
+      "feedback": "",
+      "ts": 1779847632.2007673,
+      "type": "code"
     }
   ],
   "awaiting_ai": false,

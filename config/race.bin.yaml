@@ -2253,3 +2253,30 @@ subsegments:
   - start: 0x0604C954
     type:  code
     end:   0x0604CA13
+  - start: 0x0604CA14
+    type:  data
+    end:   0x0604CA33
+  - start: 0x0604CA34
+    type:  code
+    end:   0x0604CAD3
+  - start: 0x0604CAD4
+    type:  code
+    end:   0x0604CE63
+    entries: [0x0604CAEC, 0x0604CBA4]
+  - start: 0x0604CE64
+    type:  code
+    end:   0x0604CEEF
+  - start: 0x0604CEF0
+    type:  code
+    end:   0x0604CF43
+  - start: 0x0604CF44
+    type:  code
+    end:   0x0604D37F
+    entries: [0x0604CFE8]
+  - start: 0x0604D380
+    type:  code
+    end:   0x0604D57F
+    partners: [0x060352E8]
+  - start: 0x0604D580
+    type:  code
+    end:   0x0604D6B7
