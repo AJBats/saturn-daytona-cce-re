@@ -14,8 +14,8 @@
 # config/<mod>.bin.yaml files get authored.
 
 PROJDIR := $(shell pwd)
-SATURN_AUTORE_DIR := /mnt/d/Projects/SaturnAutoRE
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
+SPLITTER := $(PROJDIR)/tools/splitter.py
 AS := $(TOOLDIR)/sh-elf-as
 LD := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
@@ -43,14 +43,14 @@ all: validate disc
 
 info:
 	@echo "PROJDIR:           $(PROJDIR)"
-	@echo "SATURN_AUTORE_DIR: $(SATURN_AUTORE_DIR)"
+	@echo "SPLITTER:          $(SPLITTER)"
 	@echo "AS / LD / OBJCOPY: $(AS)"
 	@echo "Targets: race | disc | validate | all | clean | info"
 
 # Splitter generates race.s + race.bin.ld from race.bin.yaml.
-$(RACE_S) $(RACE_LD): $(RACE_YAML) $(SATURN_AUTORE_DIR)/splitter.py
+$(RACE_S) $(RACE_LD): $(RACE_YAML) $(SPLITTER)
 	@mkdir -p $(RACE_ASM_DIR)
-	@$(PYTHON) $(SATURN_AUTORE_DIR)/splitter.py $(RACE_YAML) $(PROJDIR) $(RACE_ASM_DIR)
+	@$(PYTHON) $(SPLITTER) $(RACE_YAML) $(PROJDIR) $(RACE_ASM_DIR)
 
 # Assemble + link + extract binary.
 $(RACE_O): $(RACE_S)
