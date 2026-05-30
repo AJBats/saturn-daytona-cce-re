@@ -6,8 +6,10 @@ build/*
 !build/samples/*
 reimpl/build/
 
-# Generated assembly outputs (yaml is source of truth, asm is regenerated)
-asm/
+# Generated assembly scratch (root asm/ only). The seeder (gen_asm_shims.py)
+# regenerates here; the TRACKED authentic shims live at src/race/asm/ and are
+# NOT ignored (the leading slash anchors this rule to the repo root).
+/asm/
 
 *.o
 *.elf

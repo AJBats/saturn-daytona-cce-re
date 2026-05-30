@@ -3,16 +3,19 @@
 # Run from WSL (toolchain is Linux ELF).
 #
 # The CANONICAL race build is the saturncc hybrid: per-function asm{} shims
-# (generated from the yaml) plus hand-lifted C, all compiled as one unity TU
-# by rcc. The monolith direct-assembly path is kept as `race-mono`, an
-# independent byte-match oracle (no saturncc in the loop).
+# plus hand-lifted C, all compiled as one unity TU by rcc. The shims at
+# src/race/asm/ are TRACKED, authentic source (seeded once from the yaml, then
+# owned and lifted in place) — NOT regenerated per build. The monolith
+# direct-assembly path is kept as `race-mono`, an independent byte-match
+# oracle (no saturncc in the loop).
 #
-#   make race        — build race via saturncc hybrid -> build/race/race.bin
+#   make race        — build race from tracked src/race/asm/ -> build/race/race.bin
 #   make disc        — build race + inject all modules into a rebuilt disc
 #   make validate    — build race + byte-compare all 8 modules vs retail
 #   make all         — validate + disc (default)
-#   make race-shims  — (re)generate the asm{} shims from the yaml (build
-#                      artifacts; does NOT touch the hand-owned src/race/race.c)
+#   make race-seed   — regenerate reference shims from the yaml into the
+#                      GITIGNORED scratch dir (asm/race/shims); reconcile into
+#                      src/race/asm/ by hand. Never clobbers tracked lifts.
 #   make race-mono   — build race via direct splitter -> as (oracle), no rcc
 #   make clean       — remove build outputs and the rebuilt disc
 #   make info        — print configuration
@@ -60,7 +63,7 @@ RACE_O := $(RACE_ASM_DIR)/race.o
 RACE_ELF := $(RACE_ASM_DIR)/race.elf
 RACE_BIN_OUT := $(RACE_ASM_DIR)/race.bin.out
 
-.PHONY: all race race-c race-shims race-mono disc validate 4shift clean info
+.PHONY: all race race-c race-seed race-mono disc validate 4shift clean info
 
 all: validate disc
 
@@ -68,16 +71,15 @@ info:
 	@echo "PROJDIR: $(PROJDIR)"
 	@echo "RCC:     $(RCC)"
 	@echo "Canonical race build: saturncc hybrid (make race)"
-	@echo "Targets: race | race-shims | race-mono | disc | validate | all | clean | info"
+	@echo "Targets: race | race-seed | race-mono | disc | validate | all | clean | info"
 
 # ── Canonical race build: saturncc hybrid ───────────────────────────────
-# Regenerate the asm{} shims (build artifacts) from the yaml. The unity master
-# src/race/race.c is hand-owned (it holds lifted C) and is NOT regenerated here.
-race-shims: $(RACE_YAML) $(SPLITTER)
-	@$(PYTHON) tools/gen_asm_shims.py $(RACE_YAML) $(PROJDIR) $(RACE_SHIM_DIR)
-
-# shims -> unity master -> cpp -> rcc -> as -> ld -> build/race/race.bin
-race: race-shims
+# The per-function shims at src/race/asm/ are TRACKED, authentic source —
+# edited and lifted to C in place. `make race` builds them directly and never
+# regenerates, so your edits are never clobbered.
+#
+# tracked src/race/asm/*.c -> race.c -> cpp -> rcc -> as -> ld -> build/race/race.bin
+race:
 	@cpp -P -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
 	@$(RCC) -target=sh/hitachi $(RACE_C_PP) $(RACE_C_S)
 	@$(AS) $(RACE_C_S) -o $(RACE_C_O)
@@ -90,6 +92,17 @@ race: race-shims
 
 # Back-compat alias.
 race-c: race
+
+# ── Seeder: regenerate shims from the yaml into the GITIGNORED scratch dir ──
+# This is NOT part of `make race`. It produces a fresh reference set under
+# $(RACE_SHIM_DIR) (asm/race/shims, gitignored) from the yaml. It deliberately
+# does NOT write to the tracked src/race/asm/ — so it can never clobber a
+# hand-lifted function. After a yaml correction, run this, then carefully
+# reconcile the regenerated scratch into src/race/asm/ by hand (diff + copy).
+race-seed: $(RACE_YAML) $(SPLITTER)
+	@$(PYTHON) tools/gen_asm_shims.py $(RACE_YAML) $(PROJDIR) $(RACE_SHIM_DIR)
+	@echo "Seeded reference shims -> $(RACE_SHIM_DIR) (gitignored)."
+	@echo "Reconcile into src/race/asm/ deliberately; do NOT bulk-overwrite lifts."
 
 # ── Oracle: monolith direct assembly (no saturncc) ──────────────────────
 # Builds asm/race/race.bin.out for cross-checking; does NOT write build/race.

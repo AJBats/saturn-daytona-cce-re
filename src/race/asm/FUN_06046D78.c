@@ -1,0 +1,20 @@
+/* FUN_06046D78  0x06046D78-0x06046D97  (generated naked asm shim) */
+int FUN_06046D78(void) asm {
+        exts.w r1, r2
+        swap.w r1, r1
+        exts.w r1, r1
+        cmp/gt r3, r1
+        bt .L_06046D92
+        neg r3, r0
+        cmp/gt r1, r0
+        bt .L_06046D92
+        cmp/gt r4, r2
+        bt .L_06046D92
+        neg r4, r0
+        rts
+        cmp/gt r2, r0
+    .L_06046D92:
+        rts
+        nop
+        nop
+}

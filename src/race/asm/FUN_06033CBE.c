@@ -1,0 +1,149 @@
+/* FUN_06033CBE  0x06033CBE-0x06033DC7  (generated naked asm shim) */
+int FUN_06033CBE(void) asm {
+        mov.l r14, @-r15
+        mov.l r13, @-r15
+        mov r5, r13
+        mov.l .L_pool_06033DAC, r3
+        mov.l r12, @-r15
+        mov.l r11, @-r15
+        sts.l pr, @-r15
+        sts.l macl, @-r15
+        jsr @r3
+        mov r6, r14
+        mov r13, r12
+        mov.l .L_pool_06033DB0, r3
+        mov #0x0, r11
+        mov.l .L_pool_06033DB4, r2
+        mov r13, r4
+        add #0x4, r12
+        add #0x1C, r4
+        mov.l @r12+, r7
+        extu.b r14, r5
+        mul.l r3, r5
+        extu.b r14, r13
+        add #0x4, r12
+        sts macl, r5
+        add r2, r5
+        shll2 r13
+        shll2 r13
+        shll2 r13
+        shll r13
+        mov r11, r1
+        cmp/hs r7, r1
+        bt/s .L_06033D18
+        mov r11, r6
+    .L_06033CFE:
+        mov.b @r4, r0
+        tst r0, r0
+        bt .L_06033D0C
+        mov.b @r4+, r2
+        add r13, r2
+        bra .L_06033D10
+        mov.b r2, @r5
+    .L_06033D0C:
+        mov.b @r4+, r3
+        mov.b r3, @r5
+    .L_06033D10:
+        add #0x1, r6
+        cmp/hs r7, r6
+        bf/s .L_06033CFE
+        add #0x1, r5
+    .L_06033D18:
+        mov.l @r12, r7
+        extu.b r14, r3
+        mov r4, r5
+        tst r3, r3
+        bf/s .L_06033D2A
+        shlr2 r7
+        mov.l .L_pool_06033DB8, r6
+        bra .L_06033D2C
+        nop
+    .L_06033D2A:
+        mov.l .L_pool_06033DBC, r6
+    .L_06033D2C:
+        mov #0x0, r2
+        cmp/hs r7, r2
+        bt/s .L_06033D40
+        mov r11, r4
+    .L_06033D34:
+        mov.l @r5+, r3
+        add #0x1, r4
+        mov.l r3, @r6
+        cmp/hs r7, r4
+        bf/s .L_06033D34
+        add #0x4, r6
+    .L_06033D40:
+        mov.w .L_wpool_06033D94, r12
+        extu.b r14, r4
+        mov.l .L_pool_06033DC0, r13
+        mov r5, r0
+        mov.w .L_wpool_06033D96, r7
+        shll8 r4
+        mov.l .L_pool_06033DC4, r1
+        mov r11, r14
+        mov.w .L_wpool_06033D98, r5
+        add r4, r13
+        add r4, r1
+    .L_06033D56:
+        mov #0x1F, r4
+        mov.w @r0+, r6
+        add #0x1, r14
+        mov.w r6, @r13
+        and r6, r4
+        extu.w r4, r4
+        shlr r4
+        extu.w r6, r11
+        mov r11, r2
+        and r7, r2
+        shar r2
+        mov r2, r6
+        and r7, r6
+        or r6, r4
+        mov r11, r6
+        and r5, r6
+        shar r6
+        and r5, r6
+        or r6, r4
+        mov.w r4, @r1
+        cmp/hs r12, r14
+        add #0x2, r13
+        bf/s .L_06033D56
+        add #0x2, r1
+        lds.l @r15+, macl
+        lds.l @r15+, pr
+        mov.l @r15+, r11
+        mov.l @r15+, r12
+        mov.l @r15+, r13
+        rts
+        mov.l @r15+, r14
+    .L_wpool_06033D94:
+        .2byte 0x0080
+    .L_wpool_06033D96:
+        .2byte 0x03E0
+    .L_wpool_06033D98:
+        .2byte 0x7C00
+    .L_wpool_06033D9A:
+        .2byte 0xFFFF
+    .L_pool_06033D9C:
+        .4byte 0x0604F63C
+    .L_pool_06033DA0:
+        .4byte 0x0604F64C
+    .L_pool_06033DA4:
+        .4byte 0x0604F65C
+    .L_pool_06033DA8:
+        .4byte 0x0604F668
+    .L_pool_06033DAC:
+        .4byte 0x060058B4
+    .L_pool_06033DB0:
+        .4byte 0x0000F600
+    .L_pool_06033DB4:
+        .4byte 0x25E41400
+    .L_pool_06033DB8:
+        .4byte 0x002F2CC0
+    .L_pool_06033DBC:
+        .4byte 0x002E2780
+    .L_pool_06033DC0:
+        .4byte 0x25F00600
+    .L_pool_06033DC4:
+        .4byte 0x25F00800
+}

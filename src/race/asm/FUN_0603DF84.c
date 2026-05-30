@@ -1,0 +1,172 @@
+/* FUN_0603DF84  0x0603DF84-0x0603E0B9  (generated naked asm shim) */
+int FUN_0603DF84(void) asm {
+        sts.l pr, @-r15
+        mov.l .L_pool_0603E100, r0
+        add r0, r15
+        mov r15, r13
+        mov.l r0, @-r15
+        mov.l .L_pool_0603E104, r4
+        mov #0x0, r11
+        mov.l r11, @r4
+        add #0x4, r4
+        mov.w r11, @r4
+        mov.l .L_pool_0603E108, r4
+        mov.l .L_pool_0603E10C, r0
+        jsr @r0
+        nop
+        mov.l .L_pool_0603E110, r0
+        mov.l .L_pool_0603E114, r10
+        mov.b @r0, r12
+        mov.l @r10, r14
+        tst r12, r12
+        bt .L_0603DFFE
+        mov.l .L_pool_0603E118, r10
+        bsr FUN_0603DF28
+        mov.l r13, @-r15
+        mov.w .L_wpool_0603E0EC, r5
+        add #0x18, r13
+        bsr FUN_0603DF28
+        add r5, r10
+        mov.l @r15+, r13
+    .L_0603DFBC:
+        ldc r14, gbr
+        mov.l @(72, gbr), r0
+        mov.l @(44, r14), r1
+        shlr16 r0
+        add r0, r1
+        mov.l r1, @(44, r14)
+        mov.w @(152, gbr), r0
+        mov.l r13, @-r15
+        bsr FUN_0603E0BA
+        mov.w r0, @(154, gbr)
+        mov.b r0, @(152, gbr)
+        mov.l r0, @-r15
+        bsr FUN_0603E0BA
+        add #0x18, r13
+        mov.l .L_pool_0603E11C, r1
+        mov.b r0, @(153, gbr)
+        mov.b @r1, r1
+        tst r1, r1
+        mov r0, r1
+        bf .L_0603DFEC
+        mov.l @r15+, r0
+        mov.b r0, @(153, gbr)
+        mov.l r0, @-r15
+        mov r1, r0
+    .L_0603DFEC:
+        mov.l .L_pool_0603E120, r6
+        mov r0, r3
+        mov.b @(r0, r6), r2
+        mov.l @r15+, r0
+        mov.b @(r0, r6), r1
+        cmp/ge r2, r1
+        bt .L_0603E008
+        bra .L_0603E008
+        mov r3, r0
+    .L_0603DFFE:
+        mov.l @r15+, r0
+        sub r0, r15
+        lds.l @r15+, pr
+        rts
+        nop
+    .L_0603E008:
+        mov.l @r15+, r13
+        mov.b r0, @(152, gbr)
+        mov #0x0, r6
+        mov.l .L_pool_0603E104, r4
+        mov.b @(r0, r4), r5
+        tst r5, r5
+        bt .L_0603E018
+        add #0x1, r6
+    .L_0603E018:
+        not r5, r5
+        mov.b r5, @(r0, r4)
+        cmp/eq #0x2, r0
+        bf .L_0603E024
+        bsr FUN_0603EE48
+        nop
+    .L_0603E024:
+        mov r6, r0
+        mov.l .L_pool_0603E124, r4
+        mov.b r0, @(193, gbr)
+        mov.w @r4+, r1
+        mov.w @r4, r2
+        cmp/eq r1, r10
+        bf .L_0603E038
+        mov.l .L_pool_0603E128, r0
+        bra .L_0603E03E
+        nop
+    .L_0603E038:
+        cmp/eq r2, r10
+        bf .L_0603E040
+        mov.l .L_pool_0603E12C, r0
+    .L_0603E03E:
+        mov.l r0, @(168, gbr)
+    .L_0603E040:
+        mov.l .L_pool_0603E130, r0
+        jsr @r0
+        mov r14, r4
+        mov.b @(159, gbr), r0
+        mov.l @(20, r13), r5
+        tst r0, r0
+        mov.b @(149, gbr), r0
+        bf .L_0603E058
+        add #-0x1, r0
+        cmp/gt r5, r0
+        bf .L_0603E09A
+        mov.b r0, @(159, gbr)
+    .L_0603E058:
+        mov.b @(152, gbr), r0
+        cmp/eq #0x1, r0
+        bf .L_0603E09A
+        tst r11, r11
+        bt .L_0603E06C
+        mov.w .L_wpool_0603E0EE, r4
+        mov.l @(132, gbr), r0
+        add r11, r4
+        bra .L_0603E080
+        mov.l r0, @r4
+    .L_0603E06C:
+        mov.l .L_pool_0603E114, r4
+        mov.l .L_pool_0603E110, r5
+        mov.l @r4, r0
+        mov.b @r5, r1
+        dt r1
+        bt .L_0603E080
+        mov #0x40, r1
+        shll2 r1
+        add r1, r0
+        mov.l r0, @r4
+    .L_0603E080:
+        mov.l .L_pool_0603E110, r4
+        mov.l .L_pool_0603E134, r5
+        mov.l .L_pool_0603E108, r6
+        mov.b @r4, r0
+        mov.b @r5, r1
+        add #-0x1, r0
+        add r1, r6
+        add #0x1, r1
+        mov.b r1, @r5
+        mov.b r0, @r4
+        mov.b @(158, gbr), r0
+        bra .L_0603E09C
+        mov.b r0, @r6
+    .L_0603E09A:
+        mov r14, r11
+    .L_0603E09C:
+        mov.l @(132, gbr), r0
+        dt r12
+        bf/s .L_0603DFBC
+        mov r0, r14
+        mov.l .L_pool_0603E138, r4
+        mov.l .L_pool_0603E13C, r0
+        jsr @r0
+        nop
+        bsr FUN_0603E340
+        nop
+        mov.l @r15+, r0
+        sub r0, r15
+        lds.l @r15+, pr
+        rts
+        nop
+}
