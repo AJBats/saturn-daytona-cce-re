@@ -92,7 +92,7 @@ int FUN_0604D94C(void) asm {
     .L_pool_0604D9E4:
         .4byte 0x002DD640
     .L_pool_0604D9E8:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_0604D9EC:
         tst r2, r2
         bt .L_0604DA34
@@ -185,7 +185,7 @@ int FUN_0604D94C(void) asm {
     .L_pool_0604DA84:
         .4byte 0x002DD640
     .L_pool_0604DA88:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_pool_0604DA8C:
         .4byte 0x0604DAB8
     .L_0604DA90:

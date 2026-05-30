@@ -37,7 +37,7 @@ int FUN_06037484(void) asm {
     .L_pool_060374C0:
         .4byte 0x00000038
     .L_pool_060374C4:
-        .4byte 0x06036E6C
+        .4byte FUN_06036E6C
     .L_060374C8:
         mov.l .L_pool_060374D4, r12
         jsr @r12
@@ -47,7 +47,7 @@ int FUN_06037484(void) asm {
     .L_wpool_060374D2:
         .2byte 0x0000
     .L_pool_060374D4:
-        .4byte 0x06036E90
+        .4byte FUN_06036E90
     .L_060374D8:
         mov.l .L_pool_0603751C, r12
         jsr @r12

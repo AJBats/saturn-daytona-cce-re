@@ -248,7 +248,7 @@ int FUN_0602D78C(void) asm {
         rts
         mov.l @r15+, r14
     .L_pool_0602D970:
-        .4byte 0x0602F114
+        .4byte FUN_0602F114
     .L_pool_0602D974:
         .4byte 0x06051F82
     .L_pool_0602D978:

@@ -111,19 +111,19 @@ int FUN_06037BF8(void) asm {
     .L_pool_06037CB4:
         .4byte 0x0000C51E
     .L_pool_06037CB8:
-        .4byte 0x06037B98
+        .4byte FUN_06037B98
     .L_pool_06037CBC:
         .4byte 0x000001C0
     .L_pool_06037CC0:
         .4byte 0x00000001
     .L_pool_06037CC4:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_06037CC8:
-        .4byte 0x06047D20
+        .4byte FUN_06047D20
     .L_pool_06037CCC:
         .4byte 0x06047D3C
     .L_pool_06037CD0:
-        .4byte 0x06048180
+        .4byte FUN_06048180
     .L_pool_06037CD4:
         .4byte 0x06037DDC
     .L_pool_06037CD8:

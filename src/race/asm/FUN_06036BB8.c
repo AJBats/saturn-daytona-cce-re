@@ -167,5 +167,5 @@ int FUN_06036BB8(void) asm {
     .L_wpool_06036CE6:
         .2byte 0x0000
     .L_pool_06036CE8:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
 }

@@ -26,5 +26,5 @@ int FUN_06047DBC(void) asm {
     .L_pool_06047DE8:
         .4byte 0x0000FFF0
     .L_pool_06047DEC:
-        .4byte 0x0604833C
+        .4byte DAT_0604833C
 }

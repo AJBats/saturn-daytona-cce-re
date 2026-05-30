@@ -10,5 +10,5 @@ int FUN_06043F10(void) asm {
     .L_wpool_06043F1E:
         .2byte 0x0000
     .L_pool_06043F20:
-        .4byte 0x060457DC
+        .4byte FUN_060457DC
 }

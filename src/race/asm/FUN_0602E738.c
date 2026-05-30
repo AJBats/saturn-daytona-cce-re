@@ -24,11 +24,11 @@ int FUN_0602E738(void) asm {
     .L_pool_0602E758:
         .4byte 0x06008A5C
     .L_pool_0602E75C:
-        .4byte 0x0602D052
+        .4byte FUN_0602D052
     .L_pool_0602E760:
         .4byte 0x06008BB8
     .L_pool_0602E764:
-        .4byte 0x0602CC84
+        .4byte FUN_0602CC84
     .L_pool_0602E768:
         .4byte 0x25F80110
     .L_pool_0602E76C:

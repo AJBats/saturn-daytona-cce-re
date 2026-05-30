@@ -31,7 +31,7 @@ int FUN_06036CEC(void) asm {
     .L_wpool_06036D22:
         .2byte 0x016A
     .L_pool_06036D24:
-        .4byte 0x06036D52
+        .4byte FUN_06036D52
     .L_06036D28:
         mov.l .L_pool_06036D34, r12
         jsr @r12
@@ -41,7 +41,7 @@ int FUN_06036CEC(void) asm {
     .L_wpool_06036D32:
         .2byte 0x0000
     .L_pool_06036D34:
-        .4byte 0x06036D7C
+        .4byte FUN_06036D7C
     .L_06036D38:
         mov.l .L_pool_06036DE0, r12
         jsr @r12

@@ -37,7 +37,7 @@ int FUN_06033110(void) asm {
     .L_pool_06033154:
         .4byte 0x002FD729
     .L_pool_06033158:
-        .4byte 0x06032AB0
+        .4byte FUN_06032AB0
     .L_0603315C:
         mov.l @(28, r4), r1
         mov.l r1, @r5
@@ -208,7 +208,7 @@ int FUN_06033110(void) asm {
     .L_pool_06033290:
         .4byte 0x002FC08C
     .L_pool_06033294:
-        .4byte 0x06044660
+        .4byte FUN_06044660
     .L_pool_06033298:
         .4byte 0x002FC0A0
     .L_pool_0603329C:

@@ -98,7 +98,7 @@ int FUN_06039202(void) asm {
     .L_pool_060392B0:
         .4byte 0x06054920
     .L_pool_060392B4:
-        .4byte 0x0603DB9C
+        .4byte FUN_0603DB9C
     .L_060392B8:
         mov.w @(4, r4), r0
         mov.w .L_wpool_060393B8, r3

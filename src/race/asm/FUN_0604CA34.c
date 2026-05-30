@@ -17,7 +17,7 @@ int FUN_0604CA34(void) asm {
     .L_pool_0604CA50:
         .4byte 0x0604CA5E
     .L_pool_0604CA54:
-        .4byte 0x0604CA14
+        .4byte DAT_0604CA14
     .L_0604CA58:
         mov #0x0, r0
         rts

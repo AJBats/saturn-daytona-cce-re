@@ -151,11 +151,11 @@ int FUN_0603A1A4(void) asm {
     .L_pool_0603A2B0:
         .4byte 0x00180000
     .L_pool_0603A2B4:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_pool_0603A2B8:
         .4byte 0x06008A5C
     .L_pool_0603A2BC:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_0603A2C0:
         mov.l @(36, r14), r1
         cmp/gt r11, r1
@@ -436,7 +436,7 @@ int FUN_0603A1A4(void) asm {
     .L_pool_0603A4B4:
         .4byte 0x06052928
     .L_pool_0603A4B8:
-        .4byte 0x06042DF8
+        .4byte FUN_06042DF8
     .L_0603A4BC:
         mov.b @r13, r0
         extu.b r0, r0

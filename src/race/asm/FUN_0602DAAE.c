@@ -53,7 +53,7 @@ int FUN_0602DAAE(void) asm {
     .L_pool_0602DB0C:
         .4byte 0x002E1000
     .L_pool_0602DB10:
-        .4byte 0x0604C88C
+        .4byte FUN_0604C88C
     .L_pool_0602DB14:
         .4byte 0x06051F90
     .L_pool_0602DB18:

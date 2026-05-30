@@ -19,7 +19,7 @@ int FUN_06045238(void) asm {
     .L_pool_06045258:
         .4byte 0x06047C68
     .L_pool_0604525C:
-        .4byte 0x06047C64
+        .4byte FUN_06047C64
         mov.l .L_pool_0604526C, r0
         or r4, r0
         mov.l r4, @r0

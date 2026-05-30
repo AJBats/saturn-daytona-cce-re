@@ -49,9 +49,9 @@ int FUN_0602EDDA(void) asm {
     .L_pool_0602EE30:
         .4byte 0x25E6C700
     .L_pool_0602EE34:
-        .4byte 0x0604F684
+        .4byte DAT_0604F684
     .L_pool_0602EE38:
-        .4byte 0x0602D090
+        .4byte FUN_0602D090
     .L_pool_0602EE3C:
         .4byte 0x25E6C70A
     .L_pool_0602EE40:
@@ -69,7 +69,7 @@ int FUN_0602EDDA(void) asm {
     .L_pool_0602EE58:
         .4byte 0x0604D16C
     .L_pool_0602EE5C:
-        .4byte 0x0602D052
+        .4byte FUN_0602D052
     .L_pool_0602EE60:
         .4byte 0x25E6A01A
 }

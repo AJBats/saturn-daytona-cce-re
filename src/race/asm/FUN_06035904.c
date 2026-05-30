@@ -148,7 +148,7 @@ int FUN_06035904(void) asm {
     .L_pool_060359FC:
         .4byte 0x00010000
     .L_pool_06035A00:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_06035A04:
         shar r3
         shar r3

@@ -64,9 +64,9 @@ int FUN_0602DE5C(void) asm {
     .L_0602DECE:
         .2byte 0x10D2
     .L_pool_0602DED0:
-        .4byte 0x0604C88C
+        .4byte FUN_0604C88C
     .L_pool_0602DED4:
-        .4byte 0x0602C222
+        .4byte FUN_0602C222
     .L_pool_0602DED8:
         .4byte 0x060520CD
     .L_pool_0602DEDC:

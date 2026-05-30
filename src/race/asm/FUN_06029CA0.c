@@ -29,7 +29,7 @@ int FUN_06029CA0(void) asm {
     .L_pool_06029CD0:
         .4byte 0x06054925
     .L_pool_06029CD4:
-        .4byte 0x06044DF4
+        .4byte FUN_06044DF4
     .L_06029CD8:
         mov r5, r10
         mov r5, r4
@@ -117,7 +117,7 @@ int FUN_06029CA0(void) asm {
     .L_pool_06029D78:
         .4byte 0x06044D80
     .L_pool_06029D7C:
-        .4byte 0x06044E3C
+        .4byte FUN_06044E3C
     .L_pool_06029D80:
         .4byte 0x060450F2
     .L_pool_06029D84:

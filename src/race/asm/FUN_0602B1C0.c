@@ -38,13 +38,13 @@ int FUN_0602B1C0(void) asm {
     .L_pool_0602B204:
         .4byte 0x0604EDC8
     .L_pool_0602B208:
-        .4byte 0x06044DB8
+        .4byte FUN_06044DB8
     .L_pool_0602B20C:
-        .4byte 0x06044E3C
+        .4byte FUN_06044E3C
     .L_pool_0602B210:
         .4byte 0x06051738
     .L_pool_0602B214:
-        .4byte 0x06045958
+        .4byte FUN_06045958
     .L_pool_0602B218:
-        .4byte 0x06044DF0
+        .4byte FUN_06044DF0
 }

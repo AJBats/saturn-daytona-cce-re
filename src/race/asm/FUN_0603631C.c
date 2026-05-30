@@ -264,7 +264,7 @@ int FUN_0603631C(void) asm {
     .L_wpool_060364EA:
         .2byte 0x0000
     .L_pool_060364EC:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_060364F0:
         .4byte 0x06047D3C
     .L_060364F4:
@@ -400,7 +400,7 @@ int FUN_0603631C(void) asm {
     .L_wpool_060365CE:
         .2byte 0x00FA
     .L_pool_060365D0:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_060365D4:
         cmp/gt r7, r4
         bt .L_060365DA
@@ -469,7 +469,7 @@ int FUN_0603631C(void) asm {
     .L_wpool_0603664A:
         .2byte 0x0068
     .L_pool_0603664C:
-        .4byte 0x06048160
+        .4byte FUN_06048160
     .L_pool_06036650:
         .4byte 0x00000FE0
     .L_06036654:
@@ -517,7 +517,7 @@ int FUN_0603631C(void) asm {
     .L_wpool_0603669E:
         .2byte 0x0068
     .L_pool_060366A0:
-        .4byte 0x06048160
+        .4byte FUN_06048160
     .L_pool_060366A4:
         .4byte 0xFFFFCC00
     .L_pool_060366A8:

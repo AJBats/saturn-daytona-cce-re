@@ -36,7 +36,7 @@ int FUN_0604DD34(void) asm {
     .L_pool_0604DD70:
         .4byte 0x002DC620
     .L_pool_0604DD74:
-        .4byte 0x06047D20
+        .4byte FUN_06047D20
     .L_pool_0604DD78:
         .4byte 0x06047D3C
     .L_0604DD7C:
@@ -85,7 +85,7 @@ int FUN_0604DD34(void) asm {
     .L_pool_0604DDC4:
         .4byte 0x060529A8
     .L_pool_0604DDC8:
-        .4byte 0x0604DE2C
+        .4byte FUN_0604DE2C
     .L_0604DDCC:
         mov.w .L_wpool_0604DDF6, r11
         add r6, r11

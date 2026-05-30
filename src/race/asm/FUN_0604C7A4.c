@@ -56,9 +56,9 @@ int FUN_0604C7A4(void) asm {
     .L_wpool_0604C80E:
         .2byte 0x0000
     .L_pool_0604C810:
-        .4byte 0x0604C740
+        .4byte FUN_0604C740
     .L_pool_0604C814:
-        .4byte 0x06044D74
+        .4byte FUN_06044D74
     .L_pool_0604C818:
         .4byte 0x060450F2
     .L_pool_0604C81C:

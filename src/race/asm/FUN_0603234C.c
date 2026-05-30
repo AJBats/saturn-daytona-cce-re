@@ -220,7 +220,7 @@ int FUN_0603234C(void) asm {
     .L_pool_060324DC:
         .4byte 0x06054910
     .L_pool_060324E0:
-        .4byte 0x06047D68
+        .4byte FUN_06047D68
     .L_pool_060324E4:
         .4byte 0x00008720
 }

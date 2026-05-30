@@ -19,7 +19,7 @@ int FUN_0602ECAA(void) asm {
     .L_pool_0602ECC8:
         .4byte 0x25E3F95C
     .L_pool_0602ECCC:
-        .4byte 0x0604CEF0
+        .4byte FUN_0604CEF0
     .L_pool_0602ECD0:
         .4byte 0x404E8000
     .L_pool_0602ECD4:
@@ -29,7 +29,7 @@ int FUN_0602ECAA(void) asm {
     .L_pool_0602ECDC:
         .4byte 0x0604CFE8
     .L_pool_0602ECE0:
-        .4byte 0x0604CE64
+        .4byte FUN_0604CE64
     .L_pool_0602ECE4:
         .4byte 0x0001B333
     .L_pool_0602ECE8:

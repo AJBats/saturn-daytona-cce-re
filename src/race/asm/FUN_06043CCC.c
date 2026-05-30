@@ -37,11 +37,11 @@ int FUN_06043CCC(void) asm {
     .L_pool_06043D10:
         .4byte 0x06044DBA
     .L_pool_06043D14:
-        .4byte 0x06044E3C
+        .4byte FUN_06044E3C
     .L_pool_06043D18:
         .4byte 0x0604507E
     .L_pool_06043D1C:
-        .4byte 0x06047670
+        .4byte FUN_06047670
     .L_06043D20:
         mov.l .L_pool_06043ECC, r3
         jsr @r3
@@ -272,13 +272,13 @@ int FUN_06043CCC(void) asm {
     .L_pool_06043ED8:
         .4byte 0x06044DBA
     .L_pool_06043EDC:
-        .4byte 0x06044E3C
+        .4byte FUN_06044E3C
     .L_pool_06043EE0:
-        .4byte 0x06047670
+        .4byte FUN_06047670
     .L_pool_06043EE4:
         .4byte 0x060565F8
     .L_pool_06043EE8:
-        .4byte 0x060457DC
+        .4byte FUN_060457DC
     .L_pool_06043EEC:
         .2byte 0xFFFF
     .L_wpool_06043EEE:

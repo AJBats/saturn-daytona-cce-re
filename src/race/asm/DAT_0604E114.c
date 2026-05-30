@@ -17,13 +17,13 @@ void DAT_0604E114(void) asm {
     .L_pool_0604E120:
         .4byte 0x000030A3
     .L_pool_0604E124:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_pool_0604E128:
         .4byte 0x000107AE
     .L_pool_0604E12C:
         .4byte 0x06054934
     .L_pool_0604E130:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_0604E134:
         .4byte 0x00010000
     .L_wpool_0604E138:

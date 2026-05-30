@@ -68,13 +68,13 @@ int FUN_06040E80(void) asm {
     .L_pool_06040EF8:
         .4byte 0x06052E58
     .L_pool_06040EFC:
-        .4byte 0x06040A64
+        .4byte FUN_06040A64
     .L_pool_06040F00:
         .4byte 0x04000000
     .L_pool_06040F04:
         .4byte 0x00320000
     .L_pool_06040F08:
-        .4byte 0x060424B8
+        .4byte FUN_060424B8
     .L_pool_06040F0C:
         .4byte 0x0600795A
     .L_06040F10:
@@ -158,11 +158,11 @@ int FUN_06040E80(void) asm {
     .L_wpool_06040FA2:
         .2byte 0x8000
     .L_pool_06040FA4:
-        .4byte 0x06040DA8
+        .4byte FUN_06040DA8
     .L_pool_06040FA8:
-        .4byte 0x06044D74
+        .4byte FUN_06044D74
     .L_pool_06040FAC:
-        .4byte 0x06044E3C
+        .4byte FUN_06044E3C
     .L_pool_06040FB0:
         .4byte 0x0604507E
     .L_pool_06040FB4:
@@ -172,15 +172,15 @@ int FUN_06040E80(void) asm {
     .L_pool_06040FBC:
         .4byte 0xFFFFC000
     .L_pool_06040FC0:
-        .4byte 0x06044F14
+        .4byte FUN_06044F14
     .L_pool_06040FC4:
-        .4byte 0x06044DF4
+        .4byte FUN_06044DF4
     .L_pool_06040FC8:
         .4byte 0x06052E58
     .L_pool_06040FCC:
         .4byte 0x060566B8
     .L_pool_06040FD0:
-        .4byte 0x06040DCC
+        .4byte FUN_06040DCC
     .L_pool_06040FD4:
         mov.l @(4, r14), r0
         dt r0
@@ -206,7 +206,7 @@ int FUN_06040E80(void) asm {
         rts
         nop
     .L_pool_06040FFC:
-        .4byte 0x06047670
+        .4byte FUN_06047670
     .L_pool_06041000:
-        .4byte 0x060457DC
+        .4byte FUN_060457DC
 }

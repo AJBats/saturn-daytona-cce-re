@@ -124,13 +124,13 @@ int FUN_06038A82(void) asm {
     .L_pool_06038B64:
         .4byte 0x00073330
     .L_pool_06038B68:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_06038B6C:
         .4byte 0x000347AC
     .L_pool_06038B70:
         .4byte 0x060527DC
     .L_pool_06038B74:
-        .4byte 0x0602AAA8
+        .4byte FUN_0602AAA8
     .L_pool_06038B78:
         .4byte 0x06054920
     .L_pool_06038B7C:

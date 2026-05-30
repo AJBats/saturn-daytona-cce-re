@@ -159,7 +159,7 @@ int FUN_06035624(void) asm {
     .L_pool_06035724:
         .4byte 0x00000101
     .L_pool_06035728:
-        .4byte 0x06048160
+        .4byte FUN_06048160
     .L_0603572C:
         dmulu.l r8, r2
         sts macl, r4

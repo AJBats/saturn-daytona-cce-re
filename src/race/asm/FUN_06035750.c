@@ -169,7 +169,7 @@ int FUN_06035750(void) asm {
     .L_wpool_0603586A:
         .2byte 0x00C4
     .L_pool_0603586C:
-        .4byte 0x0604818C
+        .4byte FUN_0604818C
     .L_06035870:
         cmp/ge r5, r3
         bt .L_06035876

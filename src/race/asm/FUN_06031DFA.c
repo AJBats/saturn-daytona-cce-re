@@ -121,7 +121,7 @@ int FUN_06031DFA(void) asm {
     .L_pool_06031ED4:
         .4byte 0x060520D6
     .L_pool_06031ED8:
-        .4byte 0x0602F564
+        .4byte FUN_0602F564
     .L_pool_06031EDC:
         .4byte 0x06052940
     .L_pool_06031EE0:
@@ -137,13 +137,13 @@ int FUN_06031DFA(void) asm {
     .L_pool_06031EF4:
         .4byte 0x25F80108
     .L_pool_06031EF8:
-        .4byte 0x0602F65C
+        .4byte FUN_0602F65C
     .L_pool_06031EFC:
         .4byte 0x06051619
     .L_pool_06031F00:
         .4byte 0x06007CCC
     .L_pool_06031F04:
-        .4byte 0x0602F7C0
+        .4byte FUN_0602F7C0
     .L_06031F08:
         mov.w @(2, r12), r0
         extu.w r0, r0

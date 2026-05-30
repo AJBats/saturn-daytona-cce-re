@@ -38,7 +38,7 @@ int FUN_0604DE2C(void) asm {
     .L_wpool_0604DE6A:
         .2byte 0x0000
     .L_pool_0604DE6C:
-        .4byte 0x0604DE2C
+        .4byte FUN_0604DE2C
     .L_0604DE70:
         shar r4
         add r1, r4
@@ -87,7 +87,7 @@ int FUN_0604DE2C(void) asm {
     .L_pool_0604DEC4:
         .4byte 0x001E0000
     .L_pool_0604DEC8:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_0604DECC:
         .4byte 0x00008000
     .L_pool_0604DED0:

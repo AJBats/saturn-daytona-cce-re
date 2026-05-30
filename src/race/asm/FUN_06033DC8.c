@@ -104,11 +104,11 @@ int FUN_06033DC8(void) asm {
     .L_pool_06033E88:
         .4byte 0x060072C4
     .L_pool_06033E8C:
-        .4byte 0x060295DE
+        .4byte FUN_060295DE
     .L_pool_06033E90:
-        .4byte 0x060351CC
+        .4byte FUN_060351CC
     .L_pool_06033E94:
-        .4byte 0x06030DA2
+        .4byte FUN_06030DA2
     .L_06033E98:
         mov.l .L_pool_06033F84, r3
         jsr @r3
@@ -243,11 +243,11 @@ int FUN_06033DC8(void) asm {
     .L_wpool_06033F82:
         .2byte 0xFFFF
     .L_pool_06033F84:
-        .4byte 0x06037E28
+        .4byte FUN_06037E28
     .L_pool_06033F88:
         .4byte 0x0600751C
     .L_pool_06033F8C:
-        .4byte 0x0602B21C
+        .4byte FUN_0602B21C
     .L_pool_06033F90:
         .4byte 0x06051617
     .L_pool_06033F94:
@@ -271,11 +271,11 @@ int FUN_06033DC8(void) asm {
     .L_pool_06033FB8:
         .4byte 0x0605223D
     .L_pool_06033FBC:
-        .4byte 0x06030D20
+        .4byte FUN_06030D20
     .L_pool_06033FC0:
-        .4byte 0x0602E988
+        .4byte FUN_0602E988
     .L_pool_06033FC4:
-        .4byte 0x0602E094
+        .4byte FUN_0602E094
     .L_06033FC8:
         mov.l .L_pool_060341B8, r3
         mov.b @r3, r1
@@ -557,17 +557,17 @@ int FUN_06033DC8(void) asm {
     .L_pool_060341B8:
         .4byte 0x0601336C
     .L_pool_060341BC:
-        .4byte 0x06031008
+        .4byte FUN_06031008
     .L_pool_060341C0:
         .4byte 0x002FC233
     .L_pool_060341C4:
         .4byte 0x002FD5B9
     .L_pool_060341C8:
-        .4byte 0x0604CA34
+        .4byte FUN_0604CA34
     .L_pool_060341CC:
-        .4byte 0x0602B6D4
+        .4byte FUN_0602B6D4
     .L_pool_060341D0:
-        .4byte 0x0602C3BE
+        .4byte FUN_0602C3BE
     .L_pool_060341D4:
         .4byte 0x06051F48
     .L_pool_060341D8:
@@ -579,21 +579,21 @@ int FUN_06033DC8(void) asm {
     .L_pool_060341E4:
         .4byte 0x06051616
     .L_pool_060341E8:
-        .4byte 0x060313FC
+        .4byte FUN_060313FC
     .L_pool_060341EC:
         .4byte 0x06051CB8
     .L_pool_060341F0:
-        .4byte 0x06030C9E
+        .4byte FUN_06030C9E
     .L_pool_060341F4:
         .4byte 0x06051619
     .L_pool_060341F8:
-        .4byte 0x0603164A
+        .4byte FUN_0603164A
     .L_pool_060341FC:
         .4byte 0x06051617
     .L_pool_06034200:
         .4byte 0x06007FEE
     .L_pool_06034204:
-        .4byte 0x06031848
+        .4byte FUN_06031848
     .L_pool_06034208:
         .4byte 0x060520CD
     .L_0603420C:
@@ -747,7 +747,7 @@ int FUN_06033DC8(void) asm {
     .L_pool_06034320:
         .4byte 0x060078BC
     .L_pool_06034324:
-        .4byte 0x06030C9E
+        .4byte FUN_06030C9E
     .L_pool_06034328:
         .4byte 0x0600795A
     .L_pool_0603432C:
@@ -757,21 +757,21 @@ int FUN_06033DC8(void) asm {
     .L_pool_06034334:
         .4byte 0x002FC21C
     .L_pool_06034338:
-        .4byte 0x06030AFA
+        .4byte FUN_06030AFA
     .L_pool_0603433C:
         .4byte 0x06054921
     .L_pool_06034340:
         .4byte 0x06051617
     .L_pool_06034344:
-        .4byte 0x0604177C
+        .4byte FUN_0604177C
     .L_pool_06034348:
-        .4byte 0x060394A8
+        .4byte FUN_060394A8
     .L_pool_0603434C:
-        .4byte 0x0603976C
+        .4byte FUN_0603976C
     .L_pool_06034350:
         .4byte 0x06051F3E
     .L_pool_06034354:
-        .4byte 0x0602C854
+        .4byte FUN_0602C854
     .L_pool_06034358:
         .4byte 0x06051F54
     .L_pool_0603435C:
@@ -892,11 +892,11 @@ int FUN_06033DC8(void) asm {
     .L_wpool_06034436:
         .2byte 0xFFFF
     .L_pool_06034438:
-        .4byte 0x0602F312
+        .4byte FUN_0602F312
     .L_pool_0603443C:
-        .4byte 0x06030C9E
+        .4byte FUN_06030C9E
     .L_pool_06034440:
-        .4byte 0x06030BA4
+        .4byte FUN_06030BA4
     .L_pool_06034444:
         .4byte 0x06051616
     .L_pool_06034448:
@@ -918,13 +918,13 @@ int FUN_06033DC8(void) asm {
     .L_pool_06034468:
         .4byte 0x06051CB0
     .L_pool_0603446C:
-        .4byte 0x06029A78
+        .4byte FUN_06029A78
     .L_pool_06034470:
-        .4byte 0x0602C044
+        .4byte FUN_0602C044
     .L_pool_06034474:
         .4byte 0x06051619
     .L_pool_06034478:
-        .4byte 0x0602D13A
+        .4byte FUN_0602D13A
     .L_pool_0603447C:
-        .4byte 0x0603234C
+        .4byte FUN_0603234C
 }

@@ -173,15 +173,15 @@ int FUN_0603B6FC(void) asm {
     .L_pool_0603B83C:
         .4byte 0x0605224C
     .L_pool_0603B840:
-        .4byte 0x060456A8
+        .4byte FUN_060456A8
     .L_pool_0603B844:
         .4byte 0x06052094
     .L_pool_0603B848:
-        .4byte 0x060480C4
+        .4byte FUN_060480C4
     .L_pool_0603B84C:
         .4byte 0x002FC233
     .L_pool_0603B850:
-        .4byte 0x06047EF0
+        .4byte FUN_06047EF0
     .L_0603B854:
         cmp/gt r8, r4
         bt .L_0603B85A
@@ -306,7 +306,7 @@ int FUN_0603B6FC(void) asm {
     .L_pool_0603B92C:
         .4byte 0xFFBFC7AF
     .L_pool_0603B930:
-        .4byte 0x060480C4
+        .4byte FUN_060480C4
     .L_pool_0603B934:
         .4byte 0x0008828F
     .L_pool_0603B938:

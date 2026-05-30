@@ -31,7 +31,7 @@ int FUN_0603C094(void) asm {
     .L_wpool_0603C0C6:
         .2byte 0xFFFF
     .L_pool_0603C0C8:
-        .4byte 0x0604C88C
+        .4byte FUN_0604C88C
     .L_pool_0603C0CC:
         .4byte 0x25E6AB18
     .L_pool_0603C0D0:
@@ -49,7 +49,7 @@ int FUN_0603C094(void) asm {
     .L_pool_0603C0E4:
         .4byte 0x25E6A2A2
     .L_pool_0603C0E8:
-        .4byte 0x0603C1AA
+        .4byte FUN_0603C1AA
     .L_0603C0EC:
         mulu.w r11, r14
         mov r12, r5

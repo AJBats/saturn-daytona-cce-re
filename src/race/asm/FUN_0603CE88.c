@@ -267,9 +267,9 @@ int FUN_0603CE88(void) asm {
     .L_pool_0603D088:
         .4byte 0x060529FC
     .L_pool_0603D08C:
-        .4byte 0x0603C5CC
+        .4byte FUN_0603C5CC
     .L_pool_0603D090:
-        .4byte 0x0604025C
+        .4byte FUN_0604025C
     .L_0603D094:
         mov.b r14, @r6
     .L_0603D096:

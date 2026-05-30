@@ -13,15 +13,15 @@ int FUN_060455E2(void) asm {
     .L_wpool_060455F2:
         .2byte 0x0000
     .L_pool_060455F4:
-        .4byte 0x060477B4
+        .4byte FUN_060477B4
     .L_pool_060455F8:
-        .4byte 0x06047A08
+        .4byte FUN_06047A08
     .L_pool_060455FC:
         .4byte 0x0605781A
     .L_pool_06045600:
         .4byte 0x06057C1A
     .L_pool_06045604:
-        .4byte 0x060455D0
+        .4byte FUN_060455D0
     .L_pool_06045608:
         .4byte 0x06007500
     .L_pool_0604560C:

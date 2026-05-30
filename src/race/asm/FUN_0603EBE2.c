@@ -34,17 +34,17 @@ int FUN_0603EBE2(void) asm {
     .L_pool_0603EC20:
         .4byte 0x06044D80
     .L_pool_0603EC24:
-        .4byte 0x06036AA8
+        .4byte FUN_06036AA8
     .L_pool_0603EC28:
         .4byte 0x0604507E
     .L_pool_0603EC2C:
-        .4byte 0x0604002C
+        .4byte FUN_0604002C
     .L_pool_0603EC30:
-        .4byte 0x06047E0C
+        .4byte FUN_06047E0C
     .L_pool_0603EC34:
         .4byte 0x00028000
     .L_pool_0603EC38:
-        .4byte 0x06047D20
+        .4byte FUN_06047D20
     .L_pool_0603EC3C:
-        .4byte 0x0603FFD0
+        .4byte FUN_0603FFD0
 }

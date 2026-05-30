@@ -135,25 +135,25 @@ int FUN_0604208C(void) asm {
     .L_pool_06042180:
         .4byte 0x06050C08
     .L_pool_06042184:
-        .4byte 0x060433F0
+        .4byte FUN_060433F0
     .L_pool_06042188:
         .4byte 0x06052E67
     .L_pool_0604218C:
         .4byte 0x06050C14
     .L_pool_06042190:
-        .4byte 0x06043460
+        .4byte FUN_06043460
     .L_pool_06042194:
-        .4byte 0x060434D0
+        .4byte FUN_060434D0
     .L_pool_06042198:
-        .4byte 0x06042CE4
+        .4byte FUN_06042CE4
     .L_pool_0604219C:
         .4byte 0x06052E88
     .L_pool_060421A0:
         .4byte 0x06052E78
     .L_pool_060421A4:
-        .4byte 0x06043630
+        .4byte FUN_06043630
     .L_pool_060421A8:
-        .4byte 0x0604398C
+        .4byte FUN_0604398C
     .L_060421AC:
         mov r4, r0
         cmp/eq #0x2, r0
@@ -270,19 +270,19 @@ int FUN_0604208C(void) asm {
     .L_pool_06042274:
         .4byte 0x06056A14
     .L_pool_06042278:
-        .4byte 0x060436D0
+        .4byte FUN_060436D0
     .L_pool_0604227C:
         .4byte 0x06052EA4
     .L_pool_06042280:
         .4byte 0x06052E94
     .L_pool_06042284:
-        .4byte 0x06043748
+        .4byte FUN_06043748
     .L_pool_06042288:
         .4byte 0x06052EA8
     .L_pool_0604228C:
         .4byte 0x06056A00
     .L_pool_06042290:
-        .4byte 0x060439F4
+        .4byte FUN_060439F4
     .L_pool_06042294:
         .4byte 0x060569F4
     .L_06042298:
@@ -440,7 +440,7 @@ int FUN_0604208C(void) asm {
     .L_pool_060423B0:
         .4byte 0x06056A4C
     .L_pool_060423B4:
-        .4byte 0x06043854
+        .4byte FUN_06043854
     .L_pool_060423B8:
         .4byte 0x06056A48
     .L_pool_060423BC:
@@ -452,11 +452,11 @@ int FUN_0604208C(void) asm {
     .L_pool_060423C8:
         .4byte 0x0605306C
     .L_pool_060423CC:
-        .4byte 0x060438C8
+        .4byte FUN_060438C8
     .L_pool_060423D0:
         .4byte 0x06056A20
     .L_pool_060423D4:
-        .4byte 0x06043934
+        .4byte FUN_06043934
     .L_pool_060423D8:
-        .4byte 0x060425DC
+        .4byte FUN_060425DC
 }

@@ -82,7 +82,7 @@ int FUN_0602D13A(void) asm {
     .L_pool_0602D1C8:
         .4byte 0x06051F92
     .L_pool_0602D1CC:
-        .4byte 0x0602C0A2
+        .4byte FUN_0602C0A2
     .L_pool_0602D1D0:
         .4byte 0x06052098
     .L_pool_0602D1D4:
@@ -92,11 +92,11 @@ int FUN_0602D13A(void) asm {
     .L_pool_0602D1DC:
         .4byte 0x002FC233
     .L_pool_0602D1E0:
-        .4byte 0x0602E3F4
+        .4byte FUN_0602E3F4
     .L_pool_0602D1E4:
-        .4byte 0x060446F4
+        .4byte FUN_060446F4
     .L_pool_0602D1E8:
-        .4byte 0x06044A9A
+        .4byte FUN_06044A9A
     .L_0602D1EC:
         mov.b @r4, r1
         add #0x1, r1

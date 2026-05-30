@@ -25,7 +25,7 @@ int FUN_0603DEFC(void) asm {
     .L_pool_0603DF1C:
         .4byte 0x06045080
     .L_pool_0603DF20:
-        .4byte 0x0603EBE2
+        .4byte FUN_0603EBE2
     .L_pool_0603DF24:
         .4byte 0x0600795A
 }

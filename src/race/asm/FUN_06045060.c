@@ -12,7 +12,7 @@ int FUN_06045060(void) asm {
     .L_pool_06045070:
         .4byte 0x0000FFF0
     .L_pool_06045074:
-        .4byte 0x0604833C
+        .4byte DAT_0604833C
         mov.l .L_pool_060450E0, r1
         dmuls.l r0, r1
         sts mach, r0

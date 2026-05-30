@@ -67,19 +67,19 @@ int FUN_0603CC68(void) asm {
     .L_pool_0603CCD8:
         .4byte 0x060529AC
     .L_pool_0603CCDC:
-        .4byte 0x06048180
+        .4byte FUN_06048180
     .L_pool_0603CCE0:
         .4byte 0x060529FA
     .L_pool_0603CCE4:
         .4byte 0x060529A8
     .L_pool_0603CCE8:
-        .4byte 0x0603E914
+        .4byte FUN_0603E914
     .L_pool_0603CCEC:
-        .4byte 0x0603EA6C
+        .4byte FUN_0603EA6C
     .L_pool_0603CCF0:
-        .4byte 0x0603E9A4
+        .4byte FUN_0603E9A4
     .L_pool_0603CCF4:
-        .4byte 0x0603E774
+        .4byte FUN_0603E774
     .L_0603CCF8:
         jsr @r12
         mov r14, r4

@@ -167,11 +167,11 @@ int FUN_0602BEBE(void) asm {
     .L_pool_0602BFEC:
         .4byte 0x0605223D
     .L_pool_0602BFF0:
-        .4byte 0x0602DEE0
+        .4byte FUN_0602DEE0
     .L_pool_0602BFF4:
         .4byte 0x06051F40
     .L_pool_0602BFF8:
-        .4byte 0x0602E03C
+        .4byte FUN_0602E03C
     .L_pool_0602BFFC:
         .4byte 0x06054920
     .L_pool_0602C000:

@@ -190,17 +190,17 @@ int FUN_0603D558(void) asm {
     .L_pool_0603D6BC:
         .4byte 0x060529E4
     .L_pool_0603D6C0:
-        .4byte 0x0604C88C
+        .4byte FUN_0604C88C
     .L_pool_0603D6C4:
         .4byte 0x06008A5C
     .L_pool_0603D6C8:
-        .4byte 0x0604CEF0
+        .4byte FUN_0604CEF0
     .L_pool_0603D6CC:
         .4byte 0x40F00000
     .L_pool_0603D6D0:
         .4byte 0x0604CFE8
     .L_pool_0603D6D4:
-        .4byte 0x0604CE64
+        .4byte FUN_0604CE64
     .L_pool_0603D6D8:
         .4byte 0x012D0000
     .L_pool_0603D6DC:

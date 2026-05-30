@@ -48,7 +48,7 @@ int FUN_0602E100(void) asm {
     .L_pool_0602E150:
         .4byte 0x25E6A418
     .L_pool_0602E154:
-        .4byte 0x0602D102
+        .4byte FUN_0602D102
     .L_0602E158:
         mov.l .L_pool_0602E280, r1
         extu.b r4, r14
