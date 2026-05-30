@@ -92,6 +92,38 @@ validate: race
 	@echo "  the legacy implementation that operated on per-function .s files."
 	@exit 1
 
+# --- race C/shim hybrid build (saturncc) ---
+# Per-function asm{} shims generated next to race.s; src/race/race.c is the
+# hand-owned unity master that #includes them in address order. The whole
+# unity TU is compiled by rcc, so lifted C and asm shims interleave freely.
+# NOTE: build/rcc is the working artifact; production should reference
+# build/release/rcc per saturncc's rubber-stamp boundary.
+RCC := /mnt/d/Projects/saturncc/build/rcc
+RACE_SHIM_DIR := $(RACE_ASM_DIR)/shims
+RACE_C_MASTER := $(PROJDIR)/src/race/race.c
+RACE_C_LD := $(PROJDIR)/src/race/race_c.ld
+RACE_C_PP := $(RACE_ASM_DIR)/race_c.pp.c
+RACE_C_S := $(RACE_ASM_DIR)/race_c.s
+RACE_C_O := $(RACE_ASM_DIR)/race_c.o
+RACE_C_ELF := $(RACE_ASM_DIR)/race_c.elf
+RACE_C_BIN := $(RACE_ASM_DIR)/race_c.bin.out
+
+.PHONY: race-shims race-c
+
+# Generate (ungated) a naked asm{} shim .c for every function in the yaml.
+race-shims: $(RACE_YAML) $(SPLITTER)
+	@$(PYTHON) tools/gen_asm_shims.py $(RACE_YAML) $(PROJDIR) $(RACE_SHIM_DIR)
+
+# Compile the unity master through saturncc -> assemble -> link -> binary.
+race-c: race-shims
+	@cpp -P -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
+	@$(RCC) -target=sh/hitachi $(RACE_C_PP) $(RACE_C_S)
+	@$(AS) $(RACE_C_S) -o $(RACE_C_O)
+	@$(LD) -T $(RACE_C_LD) $(RACE_C_O) -o $(RACE_C_ELF)
+	@$(OBJCOPY) -O binary $(RACE_C_ELF) $(RACE_C_BIN)
+	@printf "race_c.bin: %s bytes\n" "$$(wc -c < $(RACE_C_BIN) | tr -d ' ')"
+
 clean:
 	@rm -f $(RACE_S) $(RACE_LD) $(RACE_O) $(RACE_ELF) $(RACE_BIN_OUT)
+	@rm -f $(RACE_C_PP) $(RACE_C_S) $(RACE_C_O) $(RACE_C_ELF) $(RACE_C_BIN)
 	@rm -f $(REBUILT_CUE)

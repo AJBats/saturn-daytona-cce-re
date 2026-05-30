@@ -201,6 +201,33 @@ def collect_global_pool_targets(binary, vram, subsegs):
     return cross_pool
 
 
+# Addresses that are mov.w-ONLY pools (2-byte aligned). An address loaded by
+# mov.l or mova anywhere needs 4-byte alignment and is NOT a word pool, even if
+# mov.w also reads it (loading the high half-word of a long). Populated once by
+# build_global_labels; consulted by every pool-naming site so a pool's label
+# (`.L_wpool_` vs `.L_pool_`) is decided globally and can't disagree between a
+# definition and a load in different subsegs.
+_WORD_POOLS = set()
+
+
+def compute_word_pools(binary, vram, subsegs, cross_pool):
+    word, longs = set(), set()
+    for sub in subsegs:
+        if sub.get("type") != "code":
+            continue
+        p4, p2, mova, _, _ = analyze_subseg(binary, vram, sub["start"], sub["end"])
+        word |= p2
+        longs |= p4 | mova
+    for addr, kind in cross_pool.items():
+        (word if kind == "mov.w" else longs).add(addr)
+    return word - longs
+
+
+def pool_label(addr):
+    """`.L_wpool_` for mov.w-only pools (2-align), else `.L_pool_` (4-align)."""
+    return f".L_wpool_{addr:08X}" if addr in _WORD_POOLS else f".L_pool_{addr:08X}"
+
+
 def build_global_labels(binary, vram, subsegs, pool_priors=None):
     """Walk all declared code subsegs and build address → label_name map for
     targets that need a globally-visible label (cross-section references).
@@ -223,6 +250,10 @@ def build_global_labels(binary, vram, subsegs, pool_priors=None):
     for addr, kind in (pool_priors or {}).items():
         cross_pool.setdefault(addr, kind)
 
+    # Decide word-pool membership globally (used by all pool-naming sites).
+    global _WORD_POOLS
+    _WORD_POOLS = compute_word_pools(binary, vram, subsegs, cross_pool)
+
     global_labels = {}
     for sub in subsegs:
         if sub.get("type") != "code":
@@ -232,7 +263,7 @@ def build_global_labels(binary, vram, subsegs, pool_priors=None):
             if addr in subseg_name_at:
                 global_labels[addr] = subseg_name_at[addr]
             elif addr in cross_pool:
-                global_labels[addr] = f".L_pool_{addr:08X}"
+                global_labels[addr] = pool_label(addr)
             elif addr not in global_labels:
                 global_labels[addr] = f"xref_{addr:08X}"
 
@@ -262,7 +293,7 @@ def symbolize(mnem, pool4, pool2, mova_targets, branch_local, global_labels):
         try:
             addr = int(hex_str, 16)
             if addr in pool4 or addr in pool2 or addr in mova_targets:
-                return f"{head} {before}.L_pool_{addr:08X}{rest}".strip()
+                return f"{head} {before}{pool_label(addr)}{rest}".strip()
             if addr in global_labels:
                 return f"{head} {before}{global_labels[addr]}{rest}".strip()
         except ValueError:
@@ -329,7 +360,7 @@ def emit_subseg_code(binary, vram, sub, global_labels, cross_pool, out):
             _maybe_emit_branch_label()
             off = addr - vram
             value = (binary[off] << 24) | (binary[off + 1] << 16) | (binary[off + 2] << 8) | binary[off + 3]
-            out.append(f".L_pool_{addr:08X}:")
+            out.append(f"{pool_label(addr)}:")
             # Anything referencing the middle of this 4-byte pool means the
             # 4 bytes are really two independent 16-bit values (a mov.w
             # accessing the low half, two packed constants, or code the
@@ -344,7 +375,7 @@ def emit_subseg_code(binary, vram, sub, global_labels, cross_pool, out):
                 lower = value & 0xFFFF
                 out.append(f"    .2byte 0x{upper:04X}")
                 if is_mid_pool2:
-                    out.append(f".L_pool_{mid:08X}:")
+                    out.append(f"{pool_label(mid)}:")
                 if is_mid_branch:
                     out.append(f".L_{mid:08X}:")
                 out.append(f"    .2byte 0x{lower:04X}")
@@ -356,18 +387,22 @@ def emit_subseg_code(binary, vram, sub, global_labels, cross_pool, out):
             _maybe_emit_branch_label()
             off = addr - vram
             value = (binary[off] << 8) | binary[off + 1]
-            out.append(f".L_pool_{addr:08X}:")
+            out.append(f"{pool_label(addr)}:")
             out.append(f"    .2byte 0x{value:04X}")
             addr += 2
             continue
         if is_mova:
-            out.append(f".L_pool_{addr:08X}:")
+            out.append(f"{pool_label(addr)}:")
             # fall through — mova doesn't fix the byte count
 
         if addr in branch_local:
             out.append(f".L_{addr:08X}:")
-        # A cross-ref target landing inside this subseg's body is rare but possible
-        if addr != start and addr in global_labels:
+        # A cross-ref target landing inside this subseg's body is rare but
+        # possible. Skip when global_labels just names the same .L_pool_ label
+        # a pool/mova branch above already emitted for this addr — otherwise
+        # the label is defined twice (e.g. a mova target that is also a
+        # cross-referenced pool word).
+        if addr != start and addr in global_labels and global_labels[addr] != pool_label(addr):
             out.append(f"{global_labels[addr]}:")
 
         off = addr - vram
@@ -398,19 +433,19 @@ def emit_undeclared_range(binary, vram, start, end, global_labels, out, cross_po
             off = addr - vram
             if kind == "mov.l" and addr + 3 <= end and off + 3 < len(binary):
                 value = (binary[off] << 24) | (binary[off+1] << 16) | (binary[off+2] << 8) | binary[off+3]
-                out.append(f".L_pool_{addr:08X}:")
+                out.append(f"{pool_label(addr)}:")
                 out.append(f"    .4byte 0x{value:08X}")
                 addr += 4
                 continue
             if kind == "mov.w" and addr + 1 <= end and off + 1 < len(binary):
                 value = (binary[off] << 8) | binary[off+1]
-                out.append(f".L_pool_{addr:08X}:")
+                out.append(f"{pool_label(addr)}:")
                 out.append(f"    .2byte 0x{value:04X}")
                 addr += 2
                 continue
             if kind == "mova":
                 # mova target: label only, no fixed size — fall through to byte emit
-                out.append(f".L_pool_{addr:08X}:")
+                out.append(f"{pool_label(addr)}:")
 
         if addr in global_labels:
             out.append(f"{global_labels[addr]}:")
