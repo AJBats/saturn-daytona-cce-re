@@ -32,11 +32,11 @@ int FUN_0603EBE2(void) asm {
     .L_pool_0603EC1C:
         .4byte 0x00004000
     .L_pool_0603EC20:
-        .4byte 0x06044D80
+        .4byte FUN_06044D80
     .L_pool_0603EC24:
         .4byte FUN_06036AA8
     .L_pool_0603EC28:
-        .4byte 0x0604507E
+        .4byte FUN_0604507E
     .L_pool_0603EC2C:
         .4byte FUN_0604002C
     .L_pool_0603EC30:

@@ -1,11 +1,15 @@
 /* FUN_06044D74  0x06044D74-0x06044DA7  (generated naked asm shim) */
-int FUN_06044D74(void) asm {
+void FUN_06044D74(void) __naked__ {
+    asm {
         mov.l .L_pool_06044DA0, r4
         mov #-0x20, r1
         mov.w @(2, r1), r0
         cmp/pz r0
         bt .L_06044D80
         mov.l .L_pool_06044DA4, r4
+    }
+    __entry_alias__(FUN_06044D80);
+    asm {
     .L_06044D80:
     xref_06044D80:
         mov #0x1, r1
@@ -28,4 +32,5 @@ int FUN_06044D74(void) asm {
         .4byte 0x0605410C
     .L_pool_06044DA4:
         .4byte 0x0605450C
+    }
 }

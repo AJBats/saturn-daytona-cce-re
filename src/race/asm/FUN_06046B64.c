@@ -1,11 +1,15 @@
 /* FUN_06046B64  0x06046B64-0x06046BD3  (generated naked asm shim) */
-int FUN_06046B64(void) asm {
+void FUN_06046B64(void) __naked__ {
+    asm {
         exts.w r1, r3
         mov r3, r4
         swap.w r1, r1
         exts.w r1, r1
         bra .L_06046B96
         mov r1, r2
+    }
+    __entry_alias__(FUN_06046B70);
+    asm {
     xref_06046B70:
         exts.w r1, r3
         mov r3, r4
@@ -69,4 +73,5 @@ int FUN_06046B64(void) asm {
     .L_06046BD0:
         rts
         nop
+    }
 }

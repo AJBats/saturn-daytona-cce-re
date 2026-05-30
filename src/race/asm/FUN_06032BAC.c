@@ -131,7 +131,7 @@ int FUN_06032BAC(void) asm {
     .L_pool_06032C9C:
         .4byte 0x25C0D100
     .L_pool_06032CA0:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_pool_06032CA4:
         .4byte FUN_06047D20
     .L_pool_06032CA8:

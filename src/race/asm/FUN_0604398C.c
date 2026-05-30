@@ -35,7 +35,7 @@ int FUN_0604398C(void) asm {
         rts
         mov.l @r15+, r14
     .L_pool_060439D0:
-        .4byte 0x06044DBA
+        .4byte FUN_06044DBA
     .L_pool_060439D4:
         .4byte FUN_06044E3C
     .L_pool_060439D8:

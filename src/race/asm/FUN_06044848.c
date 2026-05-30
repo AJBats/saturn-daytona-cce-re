@@ -41,7 +41,7 @@ int FUN_06044848(void) asm {
         bf .L_06044898
         mov.l .L_pool_060448F4, r5
     .L_06044898:
-        bsr xref_060449AC
+        bsr FUN_060449AC
         nop
     .L_0604489C:
         mov.l .L_pool_060448F8, r0
@@ -50,7 +50,7 @@ int FUN_06044848(void) asm {
         bt .L_060448AC
         mov.l .L_pool_060448FC, r4
         mov.l .L_pool_06044900, r5
-        bsr xref_060449AC
+        bsr FUN_060449AC
         nop
     .L_060448AC:
         mov.w .L_wpool_060448CE, r0
@@ -58,7 +58,7 @@ int FUN_06044848(void) asm {
         shll2 r1
         mova .L_pool_06044948, r0
         mov.l @(r0, r1), r5
-        bsr xref_060449AC
+        bsr FUN_060449AC
         mov r14, r4
         mov.l r9, @r8
         lds.l @r15+, pr
@@ -104,7 +104,7 @@ int FUN_06044848(void) asm {
         mov.w @(r0, r4), r1
         shll2 r1
         mova .L_pool_06044948, r0
-        bsr xref_060449AC
+        bsr FUN_060449AC
         mov.l @(r0, r1), r5
         mov #0x12, r0
         mov.b @(r0, r14), r0

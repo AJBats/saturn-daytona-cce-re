@@ -10,7 +10,7 @@ int FUN_06046602(void) asm {
         mov.l @(28, r14), r10
         nop
     .L_06046614:
-        bsr xref_06045AF4
+        bsr FUN_06045AF4
         nop
         bsr FUN_06045FC0
         mov.l @(44, r14), r4

@@ -1,5 +1,6 @@
 /* FUN_0604CAD4  0x0604CAD4-0x0604CE63  (generated naked asm shim) */
-int FUN_0604CAD4(void) asm {
+void FUN_0604CAD4(void) __naked__ {
+    asm {
         mov.l r0, @-r15
         mov.l r4, @-r15
         mov.l r5, @-r15
@@ -12,6 +13,9 @@ int FUN_0604CAD4(void) asm {
         mov.l .L_pool_0604CDD8, r0
         bra .L_0604CBB6
         xor r0, r6
+    }
+    __entry_alias__(FUN_0604CAEC);
+    asm {
         mov.l r0, @-r15
         mov.l r4, @-r15
         mov.l r5, @-r15
@@ -118,6 +122,9 @@ int FUN_0604CAD4(void) asm {
         bra .L_0604CD5E
         mov #0x0, r5
         nop
+    }
+    __entry_alias__(FUN_0604CBA4);
+    asm {
         mov.l r0, @-r15
         mov.l r4, @-r15
         mov.l r5, @-r15
@@ -560,4 +567,5 @@ int FUN_0604CAD4(void) asm {
         .2byte 0x0000
     .L_wpool_0604CE62:
         .2byte 0x0001
+    }
 }

@@ -49,12 +49,12 @@ int FUN_06045958(void) asm {
         nop
     .L_060459B0:
         mov.l r7, @-r15
-        bsr xref_06045ADC
+        bsr FUN_06045ADC
         mov.l @(28, r14), r1
         bsr FUN_06045B48
         nop
         bf .L_0604599E
-        bsr xref_06045BA0
+        bsr FUN_06045BA0
         cmp/eq #0x0, r0
         bra .L_0604599E
         nop

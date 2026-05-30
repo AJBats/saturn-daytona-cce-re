@@ -1,6 +1,10 @@
 /* FUN_06044DB8  0x06044DB8-0x06044DEF  (generated naked asm shim) */
-int FUN_06044DB8(void) asm {
+void FUN_06044DB8(void) __naked__ {
+    asm {
         mov r4, r5
+    }
+    __entry_alias__(FUN_06044DBA);
+    asm {
         add #0x30, r4
         mov.l @(0, r5), r1
         mov.l @(4, r5), r2
@@ -28,4 +32,5 @@ int FUN_06044DB8(void) asm {
         rts
         mov.l r3, @(44, r4)
         nop
+    }
 }

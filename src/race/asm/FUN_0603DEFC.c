@@ -21,9 +21,9 @@ int FUN_0603DEFC(void) asm {
     .L_wpool_0603DF16:
         .2byte 0x01CA
     .L_pool_0603DF18:
-        .4byte 0x06044D80
+        .4byte FUN_06044D80
     .L_pool_0603DF1C:
-        .4byte 0x06045080
+        .4byte FUN_06045080
     .L_pool_0603DF20:
         .4byte FUN_0603EBE2
     .L_pool_0603DF24:

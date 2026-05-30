@@ -57,13 +57,13 @@ int FUN_060407D4(void) asm {
         rts
         nop
     .L_pool_06040844:
-        .4byte 0x06044DBA
+        .4byte FUN_06044DBA
     .L_pool_06040848:
         .4byte FUN_06044E3C
     .L_pool_0604084C:
-        .4byte 0x0604507E
+        .4byte FUN_0604507E
     .L_pool_06040850:
-        .4byte 0x06045006
+        .4byte FUN_06045006
     .L_pool_06040854:
         .4byte 0x060565F0
     .L_pool_06040858:

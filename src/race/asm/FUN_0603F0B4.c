@@ -1,5 +1,6 @@
 /* FUN_0603F0B4  0x0603F0B4-0x0603F10D  (generated naked asm shim) */
-int FUN_0603F0B4(void) asm {
+void FUN_0603F0B4(void) __naked__ {
+    asm {
         sts.l pr, @-r15
         mov.l .L_pool_0603F460, r0
         add r0, r15
@@ -7,6 +8,9 @@ int FUN_0603F0B4(void) asm {
         mov.l r0, @-r15
         bra .L_0603F0D0
         nop
+    }
+    __entry_alias__(FUN_0603F0C2);
+    asm {
         sts.l pr, @-r15
         mov.l .L_pool_0603F460, r0
         add r0, r15
@@ -46,4 +50,5 @@ int FUN_0603F0B4(void) asm {
         lds.l @r15+, pr
         rts
         nop
+    }
 }

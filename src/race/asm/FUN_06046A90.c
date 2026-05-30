@@ -1,7 +1,7 @@
 /* FUN_06046A90  0x06046A90-0x06046AE7  (generated naked asm shim) */
 int FUN_06046A90(void) asm {
         sts.l pr, @-r15
-        bsr xref_06046B70
+        bsr FUN_06046B70
         mov.l @(0, r13), r1
         bsr FUN_06046BF4
         mov.l @(24, gbr), r0

@@ -6,6 +6,6 @@ int FUN_060457A8(void) asm {
         bsr FUN_060459C4
         mov.l r6, @-r15
         mov.l @r15+, r0
-        bra xref_060457E4
+        bra FUN_060457E4
         mov.w r0, @(148, gbr)
 }

@@ -59,13 +59,13 @@ int FUN_06040CF0(void) asm {
         rts
         add #-0x30, r4
     .L_pool_06040D64:
-        .4byte 0x06044DBA
+        .4byte FUN_06044DBA
     .L_pool_06040D68:
         .4byte FUN_06044E3C
     .L_pool_06040D6C:
-        .4byte 0x0604507E
+        .4byte FUN_0604507E
     .L_pool_06040D70:
-        .4byte 0x06045006
+        .4byte FUN_06045006
     .L_pool_06040D74:
         .4byte 0x060568A8
     .L_pool_06040D78:

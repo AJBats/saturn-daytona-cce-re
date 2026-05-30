@@ -1,7 +1,11 @@
 /* FUN_06047C64  0x06047C64-0x06047D1F  (generated naked asm shim) */
-int FUN_06047C64(void) asm {
+void FUN_06047C64(void) __naked__ {
+    asm {
         mov.l .L_pool_06047CF8, r0
         add r0, r4
+    }
+    __entry_alias__(FUN_06047C68);
+    asm {
         tst r4, r4
         bt .L_06047CF2
         mov r15, r3
@@ -114,4 +118,5 @@ int FUN_06047C64(void) asm {
         .2byte 0x040A
     .L_wpool_06047D1E:
         .2byte 0x0009
+    }
 }

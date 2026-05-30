@@ -12,7 +12,7 @@ int FUN_0603F99C(void) asm {
         mov.l r12, @-r15
         mov.l r13, @-r15
         mov.l r14, @-r15
-        bsr xref_0603F8AC
+        bsr FUN_0603F8AC
         mov r0, r8
         mov.l @r15+, r14
         mov.l @r15+, r13

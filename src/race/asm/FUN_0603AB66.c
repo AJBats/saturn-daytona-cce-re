@@ -327,7 +327,7 @@ int FUN_0603AB66(void) asm {
     .L_wpool_0603ADB2:
         .2byte 0x0012
     .L_pool_0603ADB4:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_pool_0603ADB8:
         .4byte 0x006C0000
     .L_pool_0603ADBC:
@@ -494,7 +494,7 @@ int FUN_0603AB66(void) asm {
         bra xref_0603AAFE
         nop
     .L_pool_0603AEEC:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_pool_0603AEF0:
         .4byte FUN_06047D20
     .L_pool_0603AEF4:

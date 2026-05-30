@@ -1,5 +1,6 @@
 /* FUN_060405F8  0x060405F8-0x060407D3  (generated naked asm shim) */
-int FUN_060405F8(void) asm {
+void FUN_060405F8(void) __naked__ {
+    asm {
         and #0x7, r0
         add #-0x6, r0
         cmp/pz r0
@@ -8,6 +9,9 @@ int FUN_060405F8(void) asm {
     .L_06040602:
         rts
         nop
+    }
+    __entry_alias__(FUN_06040606);
+    asm {
         and #0x1F, r0
         add #-0x18, r0
         cmp/pz r0
@@ -15,13 +19,22 @@ int FUN_060405F8(void) asm {
         mov #0x4, r6
         rts
         nop
+    }
+    __entry_alias__(FUN_06040614);
+    asm {
         bra .L_06040634
         mov #0x3, r6
+    }
+    __entry_alias__(FUN_06040618);
+    asm {
         tst #0x2, r0
         bt/s .L_06040634
         mov #0x3, r6
         rts
         nop
+    }
+    __entry_alias__(FUN_06040622);
+    asm {
         tst #0x1, r0
         bf/s .L_06040602
         and #0x1F, r0
@@ -31,6 +44,9 @@ int FUN_060405F8(void) asm {
         mov #0x3, r6
         rts
         nop
+    }
+    __entry_alias__(FUN_06040634);
+    asm {
     .L_06040634:
     xref_06040634:
         tst r6, r6
@@ -104,7 +120,7 @@ int FUN_060405F8(void) asm {
     .L_wpool_060406B2:
         .2byte 0x0575
     .L_pool_060406B4:
-        .4byte 0x06044DBA
+        .4byte FUN_06044DBA
     .L_pool_060406B8:
         .4byte FUN_06044E3C
     .L_pool_060406BC:
@@ -199,13 +215,13 @@ int FUN_060405F8(void) asm {
     .L_wpool_06040766:
         .2byte 0x01D1
     .L_pool_06040768:
-        .4byte 0x0604507E
+        .4byte FUN_0604507E
     .L_pool_0604076C:
-        .4byte 0x06045006
+        .4byte FUN_06045006
     .L_pool_06040770:
-        .4byte 0x060450F2
+        .4byte FUN_060450F2
     .L_pool_06040774:
-        .4byte 0x06044DBA
+        .4byte FUN_06044DBA
     .L_pool_06040778:
         .4byte 0x060565E4
     .L_pool_0604077C:
@@ -259,4 +275,5 @@ int FUN_060405F8(void) asm {
         .2byte 0x0000
     .L_pool_060407D0:
         .4byte FUN_06040860
+    }
 }

@@ -110,9 +110,9 @@ int FUN_0603DB9C(void) asm {
     .L_pool_0603DC6C:
         .4byte FUN_0603F6BE
     .L_pool_0603DC70:
-        .4byte 0x06044D80
+        .4byte FUN_06044D80
     .L_pool_0603DC74:
-        .4byte 0x06045080
+        .4byte FUN_06045080
     .L_pool_0603DC78:
         .4byte FUN_06044E28
     .L_pool_0603DC7C:

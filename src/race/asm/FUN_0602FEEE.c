@@ -20,7 +20,7 @@ int FUN_0602FEEE(void) asm {
     .L_pool_0602FF0C:
         .4byte FUN_06047D20
     .L_pool_0602FF10:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_pool_0602FF14:
         .4byte FUN_06029588
     .L_pool_0602FF18:

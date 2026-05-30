@@ -1,5 +1,6 @@
 /* FUN_0604CF44  0x0604CF44-0x0604D37F  (generated naked asm shim) */
-int FUN_0604CF44(void) asm {
+void FUN_0604CF44(void) __naked__ {
+    asm {
     .L_0604CF44:
         tst r4, r4
         bf .L_0604CFDE
@@ -96,6 +97,9 @@ int FUN_0604CF44(void) asm {
         mov #0x0, r1
         bra .L_0604D0F4
         mov #0x8, r0
+    }
+    __entry_alias__(FUN_0604CFE8);
+    asm {
         mov.l r0, @-r15
         mov.l r1, @-r15
         mov.l r4, @-r15
@@ -832,4 +836,5 @@ int FUN_0604CF44(void) asm {
         .2byte 0x51EB
     .L_wpool_0604D37E:
         .2byte 0x5A7A
+    }
 }

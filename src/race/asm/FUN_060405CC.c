@@ -22,7 +22,7 @@ int FUN_060405CC(void) asm {
         .2byte 0x0046
     .L_wpool_060405E8:
         .2byte 0x0026
-        bra xref_06040634
+        bra FUN_06040634
         mov #0x4, r6
     .L_wpool_060405EE:
         .2byte 0x0000

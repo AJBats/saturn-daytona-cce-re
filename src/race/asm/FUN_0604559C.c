@@ -7,7 +7,7 @@ int FUN_0604559C(void) asm {
         mov.l .L_pool_060455F8, r0
         jsr @r0
         nop
-        bsr xref_06045378
+        bsr FUN_06045378
         nop
         mov.l .L_pool_060455FC, r1
         mov.w .L_wpool_060455EE, r0
@@ -21,7 +21,7 @@ int FUN_0604559C(void) asm {
         mov.l .L_pool_0604560C, r14
         ldc r14, gbr
         mov.w .L_wpool_060455F0, r0
-        bsr xref_060456CC
+        bsr FUN_060456CC
         mov.w r0, @(140, gbr)
         lds.l @r15+, pr
         rts

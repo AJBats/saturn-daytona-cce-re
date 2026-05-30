@@ -1,5 +1,6 @@
 /* FUN_060453B8  0x060453B8-0x0604556B  (generated naked asm shim) */
-int FUN_060453B8(void) asm {
+void FUN_060453B8(void) __naked__ {
+    asm {
         mov.l .L_pool_060453C0, r4
         mov.l .L_pool_060453C4, r14
         bra .L_060453CC
@@ -8,9 +9,15 @@ int FUN_060453B8(void) asm {
         .4byte 0x060454AC
     .L_pool_060453C4:
         .4byte 0x06057C00
+    }
+    __entry_alias__(FUN_060453C8);
+    asm {
     xref_060453C8:
         mov.l .L_pool_06045594, r4
         mov.l .L_pool_06045598, r14
+    }
+    __entry_alias__(FUN_060453CC);
+    asm {
     .L_060453CC:
     xref_060453CC:
         sts.l pr, @-r15
@@ -22,7 +29,7 @@ int FUN_060453B8(void) asm {
         dt r7
         bf/s .L_060453D2
         add #0x4, r2
-        bsr xref_060456CC
+        bsr FUN_060456CC
         ldc r14, gbr
         bsr FUN_06045CCC
         mov #0x0, r4
@@ -414,4 +421,5 @@ int FUN_060453B8(void) asm {
         .2byte 0x0000
     .L_wpool_0604556A:
         .2byte 0x0000
+    }
 }

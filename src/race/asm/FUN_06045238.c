@@ -17,7 +17,7 @@ int FUN_06045238(void) asm {
         bra xref_0604510C
         lds.l @r15+, pr
     .L_pool_06045258:
-        .4byte 0x06047C68
+        .4byte FUN_06047C68
     .L_pool_0604525C:
         .4byte FUN_06047C64
         mov.l .L_pool_0604526C, r0

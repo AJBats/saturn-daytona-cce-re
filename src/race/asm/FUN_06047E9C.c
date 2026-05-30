@@ -9,7 +9,7 @@ int FUN_06047E9C(void) asm {
         sts.l pr, @-r15
         bsr FUN_06047E0C
         mov.l r4, @-r15
-        bsr xref_06047D3C
+        bsr FUN_06047D3C
         mov r0, r4
         mov #-0x1, r3
         shll8 r3

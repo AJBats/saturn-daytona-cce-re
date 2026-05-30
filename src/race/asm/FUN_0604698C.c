@@ -3,7 +3,7 @@ int FUN_0604698C(void) asm {
         tst #0x40, r0
         bt .L_060469CC
         sts.l pr, @-r15
-        bsr xref_06046B70
+        bsr FUN_06046B70
         mov.l @(0, r13), r1
         bsr FUN_06046BF4
         mov.l @(24, gbr), r0

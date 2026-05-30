@@ -8,7 +8,7 @@ int FUN_06045318(void) asm {
         mov.l r9, @-r15
         mov.l r8, @-r15
         sts.l pr, @-r15
-        bsr xref_060453C8
+        bsr FUN_060453C8
         nop
         lds.l @r15+, pr
         mov.l @r15+, r8

@@ -187,7 +187,7 @@ int FUN_0603631C(void) asm {
     .L_pool_0603645C:
         .4byte 0x00300000
     .L_pool_06036460:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_pool_06036464:
         .4byte 0x00000100
     .L_pool_06036468:
@@ -266,7 +266,7 @@ int FUN_0603631C(void) asm {
     .L_pool_060364EC:
         .4byte FUN_06047E0C
     .L_pool_060364F0:
-        .4byte 0x06047D3C
+        .4byte FUN_06047D3C
     .L_060364F4:
         neg r6, r6
         cmp/gt r6, r5
