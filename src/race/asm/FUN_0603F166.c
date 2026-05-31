@@ -249,10 +249,14 @@ int FUN_0603F166(void) asm {
         bra .L_0603F344
         mov.b r0, @(19, gbr)
         nop
-        muls.w r11, r12
-        mov.l @(4, r4), r3
-        mov.l .L_pool_0603F4F0, r1
-        bra .L_wpool_0603F070
+    DAT_0603F33C:
+        /* 8-byte u16 data table, read by this function via `mov.w @r13`
+         * (r13 = DAT_0603F33C). The disassembler mis-decoded it as code;
+         * emitting it as data keeps the values fixed under shift. Byte-identical. */
+        .2byte 0x2CBF
+        .2byte 0x5341
+        .2byte 0xD16B
+        .2byte 0xAE95
     .L_0603F344:
         mov.l @(140, gbr), r0
         tst r0, r0

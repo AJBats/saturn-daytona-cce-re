@@ -4,6 +4,7 @@ int FUN_0604D380(void) asm {
         mov.l .L_pool_0604D3C0, r13
         jsr @r13
         nop
+    DAT_0604D388:
         mov.l .L_pool_0604D3C4, r13
         jsr @r13
         nop
@@ -136,6 +137,7 @@ int FUN_0604D380(void) asm {
         .4byte 0x68F64F17
         rts
         nop
+    DAT_0604D46C:
         sts.l pr, @-r15
         mov.w .L_wpool_0604D496, r13
         mov.l @(r0, r13), r13
@@ -232,6 +234,7 @@ int FUN_0604D380(void) asm {
         nop
     .L_wpool_0604D51E:
         .2byte 0xFFFF
+    DAT_0604D520:
         sts.l pr, @-r15
         mov.l .L_pool_0604D5E4, r13
         jsr @r13
@@ -249,6 +252,7 @@ int FUN_0604D380(void) asm {
         nop
     .L_wpool_0604D53E:
         .2byte 0xFFFF
+    DAT_0604D540:
         sts.l pr, @-r15
         mov.l .L_pool_0604D5E8, r13
         jsr @r13
@@ -273,6 +277,7 @@ int FUN_0604D380(void) asm {
         ldc.l @r15+, gbr
         rts
         nop
+    DAT_0604D570:
         sts.l pr, @-r15
         mov.l .L_pool_0604D5F8, r13
         jsr @r13

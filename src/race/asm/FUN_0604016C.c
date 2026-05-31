@@ -80,6 +80,7 @@ int FUN_0604016C(void) asm {
     .L_060401FC:
         shll r2
         dt r0
+    DAT_06040200:
         bf .L_060401FC
         shlr8 r2
         rts

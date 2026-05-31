@@ -117,7 +117,7 @@ int FUN_0604DEEC(void) asm {
     .L_pool_0604DFC0:
         .4byte 0x06054920
     .L_pool_0604DFC4:
-        .4byte 0x0604E138
+        .4byte DAT_0604E138
     .L_pool_0604DFC8:
         .4byte 0x0605224C
     .L_0604DFCC:
@@ -172,7 +172,7 @@ int FUN_0604DEEC(void) asm {
     .L_pool_0604E020:
         .4byte 0x06054920
     .L_pool_0604E024:
-        .4byte 0x0604E138
+        .4byte DAT_0604E138
     .L_pool_0604E028:
         .4byte 0x0605224C
     .L_0604E02C:

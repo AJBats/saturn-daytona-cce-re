@@ -6,7 +6,7 @@ void FUN_060453B8(void) __naked__ {
         bra .L_060453CC
         nop
     .L_pool_060453C0:
-        .4byte 0x060454AC
+        .4byte DAT_060454AC
     .L_pool_060453C4:
         .4byte 0x06057C00
     }
@@ -38,6 +38,7 @@ void FUN_060453B8(void) __naked__ {
         nop
         nop
     .L_wpool_060453EC:
+    DAT_060453EC:
         .2byte 0x0000
     .L_wpool_060453EE:
         .2byte 0x8000
@@ -230,6 +231,7 @@ void FUN_060453B8(void) __naked__ {
     .L_wpool_060454AA:
         .2byte 0x0000
     .L_wpool_060454AC:
+    DAT_060454AC:
         .2byte 0x0000
     .L_wpool_060454AE:
         .2byte 0x8000

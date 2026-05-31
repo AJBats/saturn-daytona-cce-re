@@ -161,11 +161,11 @@ int FUN_06030090(void) asm {
     .L_pool_060301C0:
         .4byte 0x0605224C
     .L_pool_060301C4:
-        .4byte 0x0604F0A0
+        .4byte DAT_0604F0A0
     .L_pool_060301C8:
         .4byte 0x06008A5C
     .L_pool_060301CC:
-        .4byte 0x0604F0D0
+        .4byte DAT_0604F0D0
     .L_pool_060301D0:
         .4byte 0x000F0000
     .L_pool_060301D4:
@@ -192,6 +192,7 @@ int FUN_06030090(void) asm {
         bra .L_06030250
         mov.b r11, @(r0, r14)
     .L_06030200:
+    DAT_06030200:
         mov #0x30, r0
         mov.b r13, @(r0, r14)
         mov #0x31, r0

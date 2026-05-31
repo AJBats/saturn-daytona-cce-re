@@ -74,7 +74,7 @@ int FUN_0604D580(void) asm {
     .L_pool_0604D5F8:
         .4byte FUN_06037484
     .L_pool_0604D5FC:
-        .4byte 0x0604D388
+        .4byte DAT_0604D388
     .L_0604D600:
         sub r2, r3
         cmp/gt r1, r3

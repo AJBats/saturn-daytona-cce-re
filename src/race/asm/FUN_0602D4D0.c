@@ -255,7 +255,7 @@ int FUN_0602D4D0(void) asm {
     .L_pool_0602D6B0:
         .4byte 0x002E114A
     .L_pool_0602D6B4:
-        .4byte 0x0604EFFA
+        .4byte DAT_0604EFFA
     .L_pool_0602D6B8:
         .4byte 0x0605160A
     .L_pool_0602D6BC:
@@ -309,7 +309,7 @@ int FUN_0602D4D0(void) asm {
     .L_pool_0602D71C:
         .4byte 0x002E1560
     .L_pool_0602D720:
-        .4byte 0x0604EF08
+        .4byte DAT_0604EF08
     .L_0602D724:
         mov r13, r5
         add #0x17, r5

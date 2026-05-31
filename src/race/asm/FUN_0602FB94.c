@@ -168,11 +168,11 @@ int FUN_0602FB94(void) asm {
     .L_pool_0602FCC0:
         .4byte 0x002FC237
     .L_pool_0602FCC4:
-        .4byte 0x0604F028
+        .4byte DAT_0604F028
     .L_pool_0602FCC8:
         .4byte 0x060131C4
     .L_pool_0602FCCC:
-        .4byte 0x0604F050
+        .4byte DAT_0604F050
     .L_pool_0602FCD0:
-        .4byte 0x0604F078
+        .4byte DAT_0604F078
 }

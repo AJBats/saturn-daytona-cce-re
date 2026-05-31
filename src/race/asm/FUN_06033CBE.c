@@ -125,13 +125,13 @@ int FUN_06033CBE(void) asm {
     .L_wpool_06033D9A:
         .2byte 0xFFFF
     .L_pool_06033D9C:
-        .4byte 0x0604F63C
+        .4byte DAT_0604F63C
     .L_pool_06033DA0:
-        .4byte 0x0604F64C
+        .4byte DAT_0604F64C
     .L_pool_06033DA4:
-        .4byte 0x0604F65C
+        .4byte DAT_0604F65C
     .L_pool_06033DA8:
-        .4byte 0x0604F668
+        .4byte DAT_0604F668
     .L_pool_06033DAC:
         .4byte 0x060058B4
     .L_pool_06033DB0:

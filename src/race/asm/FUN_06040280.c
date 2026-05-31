@@ -136,9 +136,9 @@ int FUN_06040280(void) asm {
     .L_pool_06040380:
         .4byte 0x002FC233
     .L_pool_06040384:
-        .4byte 0x0604EC50
+        .4byte DAT_0604EC50
     .L_pool_06040388:
-        .4byte 0x0604EC4C
+        .4byte DAT_0604EC4C
     .L_pool_0604038C:
         .4byte 0x06008A5C
     .L_pool_06040390:

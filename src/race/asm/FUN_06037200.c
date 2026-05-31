@@ -60,8 +60,9 @@ int FUN_06037200(void) asm {
     .L_wpool_06037266:
         .2byte 0x0000
     .L_pool_06037268:
-        .4byte 0x0603726C
+        .4byte DAT_0603726C
     .L_wpool_0603726C:
+    DAT_0603726C:
         .2byte 0x8586
     .L_wpool_0603726E:
         .2byte 0x8788

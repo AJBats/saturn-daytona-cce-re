@@ -187,7 +187,7 @@ int FUN_0604D94C(void) asm {
     .L_pool_0604DA88:
         .4byte FUN_0604818C
     .L_pool_0604DA8C:
-        .4byte 0x0604DAB8
+        .4byte DAT_0604DAB8
     .L_0604DA90:
         cmp/ge r4, r9
         bt .L_0604DA96
@@ -214,6 +214,7 @@ int FUN_0604D94C(void) asm {
         rts
         mov.l r3, @(r0, r6)
     .L_wpool_0604DAB8:
+    DAT_0604DAB8:
         .2byte 0xFFFF
     .L_wpool_0604DABA:
         .2byte 0xFB50

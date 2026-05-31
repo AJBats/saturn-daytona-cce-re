@@ -21,6 +21,7 @@ int FUN_06037D74(void) asm {
     .L_pool_06037D90:
         .4byte FUN_06037B98
     .L_wpool_06037D94:
+    DAT_06037D94:
         .2byte 0x011D
     .L_wpool_06037D96:
         .2byte 0x0122
@@ -57,6 +58,7 @@ int FUN_06037D74(void) asm {
     .L_wpool_06037DB6:
         .2byte 0x0136
     .L_wpool_06037DB8:
+    DAT_06037DB8:
         .2byte 0x0113
     .L_wpool_06037DBA:
         .2byte 0x0118
@@ -93,6 +95,7 @@ int FUN_06037D74(void) asm {
     .L_wpool_06037DDA:
         .2byte 0x012C
     .L_wpool_06037DDC:
+    DAT_06037DDC:
         .2byte 0x00C8
     .L_wpool_06037DDE:
         .2byte 0x00D2
@@ -129,6 +132,7 @@ int FUN_06037D74(void) asm {
     .L_wpool_06037DFE:
         .2byte 0x00DC
     .L_wpool_06037E00:
+    DAT_06037E00:
         .2byte 0x0096
     .L_wpool_06037E02:
         .2byte 0x00A0
@@ -165,6 +169,7 @@ int FUN_06037D74(void) asm {
     .L_wpool_06037E22:
         .2byte 0x00AA
     .L_wpool_06037E24:
+    DAT_06037E24:
         .2byte 0x0000
     .L_wpool_06037E26:
         .2byte 0x0000

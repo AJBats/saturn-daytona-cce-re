@@ -5,6 +5,7 @@ void DAT_0604833C(void) asm {
     .L_wpool_0604833C:
         .2byte 0x0000
     .L_wpool_0604833E:
+    DAT_0604833E:
         .2byte 0x4000
     .L_wpool_06048340:
         .2byte 0x0019
@@ -15152,6 +15153,7 @@ void DAT_0604833C(void) asm {
     .L_wpool_0604C33A:
         .2byte 0x3FFF
     .L_wpool_0604C33C:
+    DAT_0604C33C:
         .2byte 0x0000
     .L_wpool_0604C33E:
         .2byte 0x0014

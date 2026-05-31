@@ -90,11 +90,11 @@ int FUN_06039202(void) asm {
     .L_pool_060392A0:
         .4byte 0x06052804
     .L_pool_060392A4:
-        .4byte 0x06050160
+        .4byte DAT_06050160
     .L_pool_060392A8:
         .4byte 0x060529E4
     .L_pool_060392AC:
-        .4byte 0x0604F9D0
+        .4byte DAT_0604F9D0
     .L_pool_060392B0:
         .4byte 0x06054920
     .L_pool_060392B4:

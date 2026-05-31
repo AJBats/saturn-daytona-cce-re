@@ -15,13 +15,14 @@ int FUN_0604CA34(void) asm {
         nop
         nop
     .L_pool_0604CA50:
-        .4byte 0x0604CA5E
+        .4byte DAT_0604CA5E
     .L_pool_0604CA54:
         .4byte DAT_0604CA14
     .L_0604CA58:
         mov #0x0, r0
         rts
         mov.l @r15+, r2
+    DAT_0604CA5E:
         shll r0
         shll r0
         shll r0

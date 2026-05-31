@@ -50,6 +50,7 @@ int FUN_060439F4(void) asm {
         .4byte FUN_0604507E
     .L_pool_06043A50:
         .4byte FUN_060457DC
+    DAT_06043A54:
         mov.l .L_pool_06043A60, r6
         mov.w .L_wpool_06043A5C, r7
         bra FUN_06043B04
@@ -61,6 +62,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043A60:
         .4byte 0x06056998
     .L_wpool_06043A64:
+    DAT_06043A64:
         .2byte 0xD602
     .L_wpool_06043A66:
         .2byte 0x9701
@@ -74,6 +76,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043A70:
         .4byte 0x060569A4
     .L_wpool_06043A74:
+    DAT_06043A74:
         .2byte 0xD602
     .L_wpool_06043A76:
         .2byte 0x9701
@@ -87,6 +90,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043A80:
         .4byte 0x060569A8
     .L_wpool_06043A84:
+    DAT_06043A84:
         .2byte 0xD602
     .L_wpool_06043A86:
         .2byte 0x9701
@@ -100,6 +104,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043A90:
         .4byte 0x060569AC
     .L_wpool_06043A94:
+    DAT_06043A94:
         .2byte 0xD602
     .L_wpool_06043A96:
         .2byte 0x9701
@@ -113,6 +118,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AA0:
         .4byte 0x060569D0
     .L_wpool_06043AA4:
+    DAT_06043AA4:
         .2byte 0xD602
     .L_wpool_06043AA6:
         .2byte 0x9701
@@ -126,6 +132,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AB0:
         .4byte 0x060569C4
     .L_wpool_06043AB4:
+    DAT_06043AB4:
         .2byte 0xD602
     .L_wpool_06043AB6:
         .2byte 0x9701
@@ -139,6 +146,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AC0:
         .4byte 0x060569CC
     .L_wpool_06043AC4:
+    DAT_06043AC4:
         .2byte 0xD602
     .L_wpool_06043AC6:
         .2byte 0x9701
@@ -152,6 +160,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AD0:
         .4byte 0x06056A10
     .L_wpool_06043AD4:
+    DAT_06043AD4:
         .2byte 0xD602
     .L_wpool_06043AD6:
         .2byte 0x9701
@@ -165,6 +174,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AE0:
         .4byte 0x06056A0C
     .L_wpool_06043AE4:
+    DAT_06043AE4:
         .2byte 0xD602
     .L_wpool_06043AE6:
         .2byte 0x9701
@@ -178,6 +188,7 @@ int FUN_060439F4(void) asm {
     .L_pool_06043AF0:
         .4byte 0x06056A18
     .L_wpool_06043AF4:
+    DAT_06043AF4:
         .2byte 0xD602
     .L_wpool_06043AF6:
         .2byte 0x9701

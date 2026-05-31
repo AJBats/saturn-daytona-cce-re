@@ -35,7 +35,7 @@ int FUN_0603AB14(void) asm {
     .L_pool_0603AB50:
         .4byte FUN_0603F4BE
     .L_pool_0603AB54:
-        .4byte 0x0603B6F8
+        .4byte DAT_0603B6F8
     .L_0603AB58:
         mov #0x0, r4
         mov.w r4, @r6

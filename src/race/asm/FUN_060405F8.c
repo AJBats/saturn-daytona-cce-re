@@ -102,7 +102,7 @@ void FUN_060405F8(void) __naked__ {
     .L_wpool_06040692:
         .2byte 0x0168
     .L_pool_06040694:
-        .4byte 0x06040B50
+        .4byte DAT_06040B50
     .L_06040698:
         mov.l .L_pool_060406B4, r0
         jsr @r0

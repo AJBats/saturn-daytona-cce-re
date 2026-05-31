@@ -295,16 +295,18 @@ void FUN_0604CF44(void) __naked__ {
     .L_pool_0604D154:
         .4byte 0x00800000
     .L_pool_0604D158:
-        .4byte 0x0604EDE0
+    DAT_0604D158:
+        .4byte DAT_0604EDE0
     .L_pool_0604D15C:
-        .4byte 0x0604EE28
+        .4byte DAT_0604EE28
     .L_pool_0604D160:
-        .4byte 0x0604EE58
+        .4byte DAT_0604EE58
     .L_pool_0604D164:
-        .4byte 0x0604EE78
+        .4byte DAT_0604EE78
     .L_pool_0604D168:
-        .4byte 0x0604EEC0
+        .4byte DAT_0604EEC0
     .L_wpool_0604D16C:
+    DAT_0604D16C:
         .2byte 0x002E
     .L_wpool_0604D16E:
         .2byte 0x173A
@@ -313,6 +315,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D172:
         .2byte 0x17A6
     .L_wpool_0604D174:
+    DAT_0604D174:
         .2byte 0x002E
     .L_wpool_0604D176:
         .2byte 0x1872
@@ -325,6 +328,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D17E:
         .2byte 0x1812
     .L_wpool_0604D180:
+    DAT_0604D180:
         .2byte 0x002E
     .L_wpool_0604D182:
         .2byte 0x19CA
@@ -341,6 +345,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D18E:
         .2byte 0x19FC
     .L_wpool_0604D190:
+    DAT_0604D190:
         .2byte 0x002E
     .L_wpool_0604D192:
         .2byte 0x1A2E
@@ -401,6 +406,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D1CA:
         .2byte 0x461C
     .L_wpool_0604D1CC:
+    DAT_0604D1CC:
         .2byte 0x03A0
     .L_wpool_0604D1CE:
         .2byte 0x03A0
@@ -457,6 +463,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D202:
         .2byte 0x0410
     .L_wpool_0604D204:
+    DAT_0604D204:
         .2byte 0x0705
     .L_wpool_0604D206:
         .2byte 0x0705
@@ -485,6 +492,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D21E:
         .2byte 0x0705
     .L_wpool_0604D220:
+    DAT_0604D220:
         .2byte 0x0000
     .L_wpool_0604D222:
         .2byte 0x0002
@@ -499,6 +507,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D22C:
         .2byte 0x0000
     .L_wpool_0604D22E:
+    DAT_0604D22E:
         .2byte 0x0000
     .L_wpool_0604D230:
         .2byte 0x0201
@@ -513,6 +522,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D23A:
         .2byte 0x0000
     .L_wpool_0604D23C:
+    DAT_0604D23C:
         .2byte 0x0000
     .L_wpool_0604D23E:
         .2byte 0x0100
@@ -527,6 +537,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D248:
         .2byte 0x0000
     .L_wpool_0604D24A:
+    DAT_0604D24A:
         .2byte 0x0000
     .L_wpool_0604D24C:
         .2byte 0x0100
@@ -541,6 +552,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D256:
         .2byte 0x0000
     .L_wpool_0604D258:
+    DAT_0604D258:
         .2byte 0x0201
     .L_wpool_0604D25A:
         .2byte 0x0002
@@ -557,6 +569,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D266:
         .2byte 0xFFFF
     .L_wpool_0604D268:
+    DAT_0604D268:
         .2byte 0x0800
     .L_wpool_0604D26A:
         .2byte 0x0000
@@ -613,6 +626,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D29E:
         .2byte 0x0000
     .L_wpool_0604D2A0:
+    DAT_0604D2A0:
         .2byte 0x0320
     .L_wpool_0604D2A2:
         .2byte 0x0000
@@ -725,6 +739,7 @@ void FUN_0604CF44(void) __naked__ {
     .L_wpool_0604D30E:
         .2byte 0x0000
     .L_wpool_0604D310:
+    DAT_0604D310:
         .2byte 0x8D4F
     .L_wpool_0604D312:
         .2byte 0x68F5

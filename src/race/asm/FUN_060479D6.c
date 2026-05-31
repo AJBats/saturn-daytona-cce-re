@@ -20,6 +20,7 @@ int FUN_060479D6(void) asm {
         nop
         nop
     .L_wpool_060479FC:
+    DAT_060479FC:
         .2byte 0x0000
     .L_wpool_060479FE:
         .2byte 0x0000

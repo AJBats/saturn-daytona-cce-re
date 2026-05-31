@@ -37,11 +37,11 @@ void FUN_06045368(void) __naked__ {
     .L_pool_060453A0:
         .4byte FUN_060479D6
     .L_pool_060453A4:
-        .4byte 0x060454AC
+        .4byte DAT_060454AC
     .L_pool_060453A8:
         .4byte 0x06057C00
     .L_pool_060453AC:
-        .4byte 0x060453EC
+        .4byte DAT_060453EC
     .L_pool_060453B0:
         .4byte 0x06057800
     .L_pool_060453B4:

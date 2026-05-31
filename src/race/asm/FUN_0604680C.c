@@ -1,6 +1,8 @@
 /* FUN_0604680C  0x0604680C-0x0604687D  (generated naked asm shim) */
 int FUN_0604680C(void) asm {
         mov.w @(0, r5), r0
+    DAT_0604680E:
+        /* code is written here at runtime from FUN_06045CCC for highly specific behavior */
         mov r6, r8
         shll2 r8
         shll2 r8

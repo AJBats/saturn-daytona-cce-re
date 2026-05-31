@@ -27,8 +27,8 @@ int FUN_0603F4BE(void) asm {
         nop
     .L_0603F4EE:
         shlr r0
-    .L_pool_0603F4F0:
-        .4byte 0x650F4001
+        exts.w r0, r5
+        shlr r0
         movt r4
         cmp/pz r5
         bt .L_0603F4FE

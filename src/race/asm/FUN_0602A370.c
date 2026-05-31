@@ -30,6 +30,7 @@ int FUN_0602A370(void) asm {
         rts
         nop
     .L_wpool_0602A3A4:
+    DAT_0602A3A4:
         .2byte 0x0000
     .L_wpool_0602A3A6:
         .2byte 0x0000

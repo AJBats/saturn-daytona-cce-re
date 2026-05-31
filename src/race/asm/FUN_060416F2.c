@@ -45,17 +45,17 @@ int FUN_060416F2(void) asm {
     .L_pool_06041738:
         .4byte 0x06052E78
     .L_pool_0604173C:
-        .4byte 0x06050C54
+        .4byte DAT_06050C54
     .L_pool_06041740:
         .4byte 0x06056A14
     .L_pool_06041744:
         .4byte 0x06052EA8
     .L_pool_06041748:
-        .4byte 0x06050C6C
+        .4byte DAT_06050C6C
     .L_pool_0604174C:
         .4byte 0x06052E94
     .L_pool_06041750:
-        .4byte 0x06050C60
+        .4byte DAT_06050C60
     .L_pool_06041754:
         .4byte 0x06056A4C
     .L_pool_06041758:

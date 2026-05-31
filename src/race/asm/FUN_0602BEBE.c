@@ -175,7 +175,7 @@ int FUN_0602BEBE(void) asm {
     .L_pool_0602BFFC:
         .4byte 0x06054920
     .L_pool_0602C000:
-        .4byte 0x0604EF08
+        .4byte DAT_0604EF08
     .L_pool_0602C004:
         .4byte 0x06051CB0
     .L_pool_0602C008:

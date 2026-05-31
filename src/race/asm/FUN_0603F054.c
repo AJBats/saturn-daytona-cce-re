@@ -42,7 +42,7 @@ int FUN_0603F054(void) asm {
     .L_pool_0603F098:
         .4byte 0x00000070
     .L_pool_0603F09C:
-        .4byte 0x06050644
+        .4byte DAT_06050644
     .L_pool_0603F0A0:
         .4byte 0xFFFD0F63
     .L_pool_0603F0A4:

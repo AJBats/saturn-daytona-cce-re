@@ -36,7 +36,7 @@ int FUN_0602B1C0(void) asm {
         rts
         nop
     .L_pool_0602B204:
-        .4byte 0x0604EDC8
+        .4byte DAT_0604EDC8
     .L_pool_0602B208:
         .4byte FUN_06044DB8
     .L_pool_0602B20C:

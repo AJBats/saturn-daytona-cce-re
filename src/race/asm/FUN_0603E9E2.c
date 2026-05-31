@@ -20,6 +20,7 @@ int FUN_0603E9E2(void) asm {
         exts.w r4, r4
         mov.l @(36, r0), r1
         mov r1, r3
+    DAT_0603EA0A:
         xtrct r5, r1
         exts.w r1, r1
         mov.l @(96, gbr), r0

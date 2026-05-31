@@ -127,7 +127,7 @@ int FUN_0604D83C(void) asm {
     .L_pool_0604D918:
         .4byte FUN_0604818C
     .L_pool_0604D91C:
-        .4byte 0x0604DAB8
+        .4byte DAT_0604DAB8
     .L_0604D920:
         cmp/ge r5, r2
         bt .L_0604D926

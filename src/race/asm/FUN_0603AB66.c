@@ -333,7 +333,7 @@ int FUN_0603AB66(void) asm {
     .L_pool_0603ADBC:
         .4byte 0x06052834
     .L_pool_0603ADC0:
-        .4byte 0x0603B6F8
+        .4byte DAT_0603B6F8
     .L_0603ADC4:
         tst r8, r8
         bt .L_0603AE08

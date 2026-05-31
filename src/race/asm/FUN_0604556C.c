@@ -21,7 +21,7 @@ int FUN_0604556C(void) asm {
         rts
         nop
     .L_pool_06045594:
-        .4byte 0x060453EC
+        .4byte DAT_060453EC
     .L_pool_06045598:
         .4byte 0x06057800
 }

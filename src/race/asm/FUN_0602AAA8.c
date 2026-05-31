@@ -68,11 +68,11 @@ int FUN_0602AAA8(void) asm {
     .L_pool_0602AB28:
         .4byte 0x04000000
     .L_pool_0602AB2C:
-        .4byte 0x0604E1DC
+        .4byte DAT_0604E1DC
     .L_pool_0602AB30:
         .4byte 0x06054920
     .L_pool_0602AB34:
-        .4byte 0x0604ED78
+        .4byte DAT_0604ED78
     .L_0602AB38:
         cmp/eq r0, r6
         bf/s .L_0602AB40

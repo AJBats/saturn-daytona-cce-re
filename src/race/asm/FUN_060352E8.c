@@ -22,27 +22,29 @@ int FUN_060352E8(void) asm {
     .L_wpool_0603530E:
         .2byte 0x005C
     .L_pool_06035310:
-        .4byte 0x06035314
+        .4byte DAT_06035314
     .L_pool_06035314:
-        .4byte 0x0603533C
+    DAT_06035314:
+        .4byte DAT_0603533C
     .L_pool_06035318:
         .4byte FUN_0604D380
     .L_pool_0603531C:
-        .4byte 0x0604D46C
+        .4byte DAT_0604D46C
     .L_pool_06035320:
-        .4byte 0x0604D520
+        .4byte DAT_0604D520
     .L_pool_06035324:
-        .4byte 0x0604D540
+        .4byte DAT_0604D540
     .L_pool_06035328:
-        .4byte 0x0604D540
+        .4byte DAT_0604D540
     .L_pool_0603532C:
-        .4byte 0x0604D46C
+        .4byte DAT_0604D46C
     .L_pool_06035330:
-        .4byte 0x0604D46C
+        .4byte DAT_0604D46C
     .L_pool_06035334:
-        .4byte 0x0604D46C
+        .4byte DAT_0604D46C
     .L_pool_06035338:
-        .4byte 0x0604D570
+        .4byte DAT_0604D570
+    DAT_0603533C:
         mov r14, r0
         mov.w .L_wpool_06035350, r1
         mov.l @(r0, r1), r2
@@ -217,33 +219,33 @@ int FUN_060352E8(void) asm {
     .L_wpool_06035462:
         .2byte 0x0000
     .L_pool_06035464:
-        .4byte 0x0604D220
+        .4byte DAT_0604D220
     .L_pool_06035468:
-        .4byte 0x0604D22E
+        .4byte DAT_0604D22E
     .L_pool_0603546C:
-        .4byte 0x0604D23C
+        .4byte DAT_0604D23C
     .L_pool_06035470:
-        .4byte 0x0604D24A
+        .4byte DAT_0604D24A
     .L_pool_06035474:
-        .4byte 0x0604D258
+        .4byte DAT_0604D258
     .L_pool_06035478:
-        .4byte 0x0604D204
+        .4byte DAT_0604D204
     .L_pool_0603547C:
         .4byte 0x002E01B4
     .L_pool_06035480:
         .4byte 0x002E01EC
     .L_pool_06035484:
-        .4byte 0x0604D268
+        .4byte DAT_0604D268
     .L_pool_06035488:
-        .4byte 0x0604D1CC
+        .4byte DAT_0604D1CC
     .L_pool_0603548C:
-        .4byte 0x0604D1CC
+        .4byte DAT_0604D1CC
     .L_pool_06035490:
-        .4byte 0x0604D2A0
+        .4byte DAT_0604D2A0
     .L_pool_06035494:
-        .4byte 0x0604D310
+        .4byte DAT_0604D310
     .L_pool_06035498:
         .4byte FUN_06037484
     .L_pool_0603549C:
-        .4byte 0x0604D388
+        .4byte DAT_0604D388
 }

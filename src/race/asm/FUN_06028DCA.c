@@ -538,7 +538,7 @@ int FUN_06028DCA(void) asm {
     .L_pool_0602919C:
         .4byte 0x002BB000
     .L_pool_060291A0:
-        .4byte 0x0604ECE0
+        .4byte DAT_0604ECE0
     .L_pool_060291A4:
         .4byte 0x060058B4
     .L_pool_060291A8:

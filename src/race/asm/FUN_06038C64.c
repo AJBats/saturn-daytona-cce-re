@@ -48,7 +48,7 @@ int FUN_06038C64(void) asm {
     .L_pool_06038CB0:
         .4byte FUN_06048180
     .L_pool_06038CB4:
-        .4byte 0x0604F9B4
+        .4byte DAT_0604F9B4
     .L_06038CB8:
         mov.w .L_wpool_06038DBE, r0
         mov.w @(r0, r14), r3
@@ -211,7 +211,7 @@ int FUN_06038C64(void) asm {
     .L_wpool_06038DCE:
         .2byte 0x00D4
     .L_pool_06038DD0:
-        .4byte 0x0604F9AC
+        .4byte DAT_0604F9AC
     .L_pool_06038DD4:
-        .4byte 0x0604F99C
+        .4byte DAT_0604F99C
 }
