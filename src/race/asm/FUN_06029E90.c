@@ -118,7 +118,9 @@ int FUN_06029E90(void) asm {
     .L_wpool_06029F6A:
         .2byte 0x0000
     .L_wpool_06029F6C:
-        .2byte 0x0002
+        .byte 0x00
+    DAT_06029F6D:
+        .byte 0x02
     .L_wpool_06029F6E:
         .2byte 0x0101
     .L_wpool_06029F70:

@@ -2858,9 +2858,13 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604EC5C:
         .2byte 0x444C
     .L_wpool_0604EC5E:
-        .2byte 0x0043
+        .byte 0x00
+    DAT_0604EC5F:
+        .byte 0x43
     .L_wpool_0604EC60:
-        .2byte 0x533F
+        .byte 0x53
+    DAT_0604EC61:
+        .byte 0x3F
     .L_wpool_0604EC62:
         .2byte 0x4F42
     .L_wpool_0604EC64:
@@ -2924,7 +2928,9 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604ECAA:
         .2byte 0x0307
     .L_wpool_0604ECAC:
-        .2byte 0x0201
+        .byte 0x02
+    DAT_0604ECAD:
+        .byte 0x01
     .L_wpool_0604ECAE:
         .2byte 0x0905
     .L_wpool_0604ECB0:
@@ -2956,7 +2962,7 @@ void DAT_0604E114(void) asm {
     DAT_0604ECC8:
         .4byte DAT_0604ECA0
     .L_pool_0604ECCC:
-        .4byte 0x0604ECAD
+        .4byte DAT_0604ECAD
     .L_pool_0604ECD0:
         .4byte DAT_0604ECBA
     .L_wpool_0604ECD4:
@@ -3573,7 +3579,9 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604EF28:
         .2byte 0x0000
     .L_wpool_0604EF2A:
-        .2byte 0x0007
+        .byte 0x00
+    DAT_0604EF2B:
+        .byte 0x07
     .L_wpool_0604EF2C:
         .2byte 0x0301
     .L_wpool_0604EF2E:
@@ -3705,7 +3713,9 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604EFAA:
         .2byte 0x1D13
     .L_wpool_0604EFAC:
-        .2byte 0x1308
+        .byte 0x13
+    DAT_0604EFAD:
+        .byte 0x08
     .L_wpool_0604EFAE:
         .2byte 0x0D0D
     .L_wpool_0604EFB0:
@@ -4768,7 +4778,9 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604F3C2:
         .2byte 0x1718
     .L_wpool_0604F3C4:
-        .2byte 0x1908
+        .byte 0x19
+    DAT_0604F3C5:
+        .byte 0x08
     .L_wpool_0604F3C6:
         .2byte 0x090A
     .L_wpool_0604F3C8:
@@ -4822,7 +4834,9 @@ void DAT_0604E114(void) asm {
     DAT_0604F3F4:
         .2byte 0x1413
     .L_wpool_0604F3F6:
-        .2byte 0x1215
+        .byte 0x12
+    DAT_0604F3F7:
+        .byte 0x15
     .L_wpool_0604F3F8:
     DAT_0604F3F8:
         .2byte 0x1717
@@ -5224,7 +5238,9 @@ void DAT_0604E114(void) asm {
     .L_wpool_0604F572:
         .2byte 0x494E
     .L_wpool_0604F574:
-        .2byte 0x0043
+        .byte 0x00
+    DAT_0604F575:
+        .byte 0x43
     .L_wpool_0604F576:
         .2byte 0x5378
     .L_wpool_0604F578:

@@ -67,7 +67,7 @@ int FUN_06030BA4(void) asm {
     .L_pool_06030C18:
         .4byte 0x06007BA0
     .L_pool_06030C1C:
-        .4byte 0x0604F3C5
+        .4byte DAT_0604F3C5
     .L_pool_06030C20:
         .4byte 0x06007AF8
 }

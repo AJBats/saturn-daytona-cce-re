@@ -19,6 +19,8 @@ int FUN_06045C9C(void) asm {
         .byte 0x47, 0x7F /* UNKNOWN 0x477F */
         add #0x4, r15
         sts macl, r0
+    DAT_06045CC2:
+        /* code (this + the next 4 slots) is written here at runtime from FUN_06045CCC for highly specific behavior */
         cmp/pz r0
         bf .L_06045CC8
         lds.l @r15+, pr

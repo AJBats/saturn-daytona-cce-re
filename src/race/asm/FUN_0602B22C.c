@@ -292,7 +292,7 @@ int FUN_0602B22C(void) asm {
     .L_wpool_0602B446:
         .2byte 0xFFFF
     .L_pool_0602B448:
-        .4byte 0x0604EF2B
+        .4byte DAT_0604EF2B
     .L_pool_0602B44C:
         .4byte 0x06051CB4
     .L_pool_0602B450:
@@ -639,7 +639,7 @@ int FUN_0602B22C(void) asm {
     .L_pool_0602B6C8:
         .4byte 0x0605160A
     .L_pool_0602B6CC:
-        .4byte 0x0604EFAD
+        .4byte DAT_0604EFAD
     .L_pool_0602B6D0:
         .4byte 0x06051F42
 }
