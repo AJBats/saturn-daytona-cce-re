@@ -3,9 +3,9 @@
 
 Test classes:
   1. free   — make validate: 8/8 modules byte-identical to retail
-  2. 4shift — make 4shift + screenshot boot test (requires relocation
-              infrastructure — currently not implemented; the make target
-              exits with a 'pending' message)
+  2. 4shift — make 4shift (race built with -DRACE_SHIFT=4, shifting everything
+              past the pinned entry TU) + Mednafen screenshot boot test against
+              the golden baseline
 
 The historical retail class (separate retail.ld byte-identity) was dropped
 when the build pipeline collapsed to a single yaml-driven flow. See

@@ -10,6 +10,15 @@
 #include "src/race/asm/FUN_060291E0.c"
 #include "src/race/asm/FUN_06029588.c"
 #include "src/race/asm/FUN_060295DE.c"
+
+// Byte shift test. We have to do it here because init.bin expects 28000 functions
+// to be exactly where they are in order to work.
+#ifdef RACE_SHIFT
+int __race_shift_pad(void) asm {
+    .space RACE_SHIFT
+}
+#endif
+
 #include "src/race/asm/FUN_06029810.c"
 #include "src/race/asm/FUN_06029998.c"
 #include "src/race/asm/FUN_06029A48.c"

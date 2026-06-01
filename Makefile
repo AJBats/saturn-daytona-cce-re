@@ -56,6 +56,14 @@ RACE_C_O := $(RACE_ASM_DIR)/race_c.o
 RACE_C_ELF := $(RACE_ASM_DIR)/race_c.elf
 RACE_C_BIN := $(RACE_ASM_DIR)/race_c.bin.out
 
+# +4 shift variant (relocation test): same race.c built with -DRACE_SHIFT=4,
+# which activates the inert pad at the pinned entry-TU boundary (0x06029810).
+RACE_4SHIFT_PP := $(RACE_ASM_DIR)/race_4shift.pp.c
+RACE_4SHIFT_S := $(RACE_ASM_DIR)/race_4shift.s
+RACE_4SHIFT_O := $(RACE_ASM_DIR)/race_4shift.o
+RACE_4SHIFT_ELF := $(RACE_ASM_DIR)/race_4shift.elf
+RACE_4SHIFT_BIN := $(BUILD_DIR)/race/race_4shift.bin
+
 # monolith oracle chain (direct splitter -> as, no saturncc)
 RACE_S := $(RACE_ASM_DIR)/race.s
 RACE_LD := $(RACE_ASM_DIR)/race.bin.ld
@@ -135,17 +143,26 @@ disc: race
 validate: race
 	@$(PYTHON) $(PROJDIR)/tools/validate_modules.py
 
-# 4shift: build race with +4 shift, inject disc, boot test.
-# Requires code-movement infrastructure (relocatable symbols / per-function
-# sections) — not yet wired in the hybrid pipeline. Stub exits non-zero so
-# validate_build.py reports this class clearly rather than silently passing.
+# 4shift: build race shifted +4 (relocation test) and inject a bootable disc.
+# Same unity master as `make race`, but cpp activates the -DRACE_SHIFT=4 pad at
+# the pinned entry-TU boundary. The entry TU (0x06028000-0x06029810) stays put
+# for init's hardcoded entry + co-located PC-relative pools; everything after
+# shifts +4 and all symbolic FUN_/DAT_ refs relocate with it. validate_build.py
+# boots this disc and screenshot-compares against the golden.
 4shift:
-	@echo "4shift: not yet implemented in the hybrid pipeline."
-	@echo "Blocked on: relocation infrastructure (symbolic refs, per-function"
-	@echo "  placement). See archive_src/Makefile for the legacy implementation."
-	@exit 1
+	@cpp -P -DRACE_SHIFT=4 -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_4SHIFT_PP)
+	@$(RCC) -target=sh/hitachi $(RACE_4SHIFT_PP) $(RACE_4SHIFT_S)
+	@$(AS) $(RACE_4SHIFT_S) -o $(RACE_4SHIFT_O)
+	@$(LD) -T $(RACE_C_LD) $(RACE_4SHIFT_O) -o $(RACE_4SHIFT_ELF)
+	@$(OBJCOPY) -O binary $(RACE_4SHIFT_ELF) $(RACE_4SHIFT_BIN)
+	@printf "race +4 shift: %s bytes -> %s\n" \
+		"$$(wc -c < $(RACE_4SHIFT_BIN) | tr -d ' ')" "$(RACE_4SHIFT_BIN)"
+	@rm -f $(REBUILT_CUE)
+	@$(PYTHON) tools/inject_disc.py --override race:$(RACE_4SHIFT_BIN)
+	@echo "Disc ready (race +4 shift): $(REBUILT_CUE)"
 
 clean:
 	@rm -f $(RACE_C_PP) $(RACE_C_S) $(RACE_C_O) $(RACE_C_ELF) $(RACE_C_BIN)
+	@rm -f $(RACE_4SHIFT_PP) $(RACE_4SHIFT_S) $(RACE_4SHIFT_O) $(RACE_4SHIFT_ELF) $(RACE_4SHIFT_BIN)
 	@rm -f $(RACE_S) $(RACE_LD) $(RACE_O) $(RACE_ELF) $(RACE_BIN_OUT)
 	@rm -f $(REBUILT_CUE)
