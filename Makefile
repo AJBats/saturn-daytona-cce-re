@@ -87,8 +87,14 @@ info:
 # regenerates, so your edits are never clobbered.
 #
 # tracked src/race/asm/*.c -> race.c -> cpp -> rcc -> as -> ld -> build/race/race.bin
+#
+# MOD=<name> activates the `#ifndef MOD_<NAME>` swap blocks hand-written in
+# race.c (e.g. MOD=transplant -> -DMOD_TRANSPLANT). Empty = pristine retail.
+# Use `make MOD=transplant disc` for a bootable modded disc.
+MOD ?=
+MOD_DEF := $(if $(MOD),-DMOD_$(shell echo $(MOD) | tr a-z A-Z),)
 race:
-	@cpp -P -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
+	@cpp -P $(MOD_DEF) -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
 	@$(RCC) -target=sh/hitachi $(RACE_C_PP) $(RACE_C_S)
 	@$(AS) $(RACE_C_S) -o $(RACE_C_O)
 	@$(LD) -T $(RACE_C_LD) $(RACE_C_O) -o $(RACE_C_ELF)
@@ -133,10 +139,18 @@ race-mono: $(RACE_BIN_OUT)
 
 # ── Disc / validation ───────────────────────────────────────────────────
 # Disc is always rebuilt — cheap and avoids stale .cue confusion.
+# With MOD set, race.bin is the modded build (-DMOD_<NAME>); also run the mod's
+# gen_disc_data.py (e.g. transplant's zeroed COL overlay) and inject it.
 disc: race
 	@rm -f $(REBUILT_CUE)
+ifeq ($(MOD),)
 	@$(PYTHON) $(PROJDIR)/tools/inject_disc.py
 	@echo "Disc ready: $(REBUILT_CUE)"
+else
+	@if [ -f $(PROJDIR)/mods/$(MOD)/gen_disc_data.py ]; then $(PYTHON) $(PROJDIR)/mods/$(MOD)/gen_disc_data.py; fi
+	@$(PYTHON) $(PROJDIR)/tools/inject_disc.py --data-overlay $(BUILD_DIR)/mods/$(MOD)/disc
+	@echo "Disc ready ($(MOD) mod): $(REBUILT_CUE)"
+endif
 
 # Byte-compare every module's .bin against retail. Emits 8 PASS/FAIL lines
 # that validate_build.py parses.

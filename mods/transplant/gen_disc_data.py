@@ -30,7 +30,9 @@ COL_HEADER_SIZE = 0x8000
 
 # Set True to zero the dense body instead of embedding DUSA data.
 # Use for poke-drive testing where zeros are a cleaner signal.
-ZERO_BODY_ONLY = False
+# Transplant baseline ("brain-dead car") uses the zeroed COL; flip to False
+# to embed DUSA track data once build/disc_dusa/ is populated.
+ZERO_BODY_ONLY = True
 
 # Per-course extraction specs:
 #   col_file:      CCE COL file (provides header + file size)

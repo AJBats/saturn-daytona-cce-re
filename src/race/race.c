@@ -5,7 +5,11 @@
  * artifacts) freely; do NOT clobber this file.
  * Build: cpp -I<project-root> race.c | rcc -target=sh/hitachi */
 
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_06028000.c"
+#else
+#include "mods/transplant/race/FUN_06028000.c"
+#endif
 #include "src/race/asm/FUN_06028DCA.c"
 #include "src/race/asm/FUN_060291E0.c"
 #include "src/race/asm/FUN_06029588.c"
@@ -270,9 +274,17 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06034CEC.c"
 #include "src/race/asm/FUN_06034D32.c"
 #include "src/race/asm/FUN_06034D90.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_06034F3C.c"
+#else
+#include "mods/transplant/race/FUN_06034F3C.c"
+#endif
 #include "src/race/asm/FUN_060351CC.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_060352E8.c"
+#else
+#include "mods/transplant/race/FUN_060352E8.c"
+#endif
 #include "src/race/asm/FUN_060354A0.c"
 #include "src/race/asm/FUN_06035624.c"
 #include "src/race/asm/FUN_06035750.c"
@@ -291,7 +303,11 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06036914.c"
 #include "src/race/asm/FUN_06036948.c"
 #include "src/race/asm/FUN_06036990.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_06036A70.c"
+#else
+#include "mods/transplant/race/FUN_06036A70.c"
+#endif
 #include "src/race/asm/FUN_06036AA8.c"
 #include "src/race/asm/FUN_06036B60.c"
 #include "src/race/asm/FUN_06036BB8.c"
@@ -319,19 +335,34 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06037BF8.c"
 #include "src/race/asm/FUN_06037D58.c"
 #include "src/race/asm/FUN_06037D74.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_06037E28.c"
+#else
+#include "mods/transplant/race/FUN_06037E28.c"
+#endif
 #include "src/race/asm/FUN_060384C4.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_060385CE.c"
 #include "src/race/asm/FUN_060386D8.c"
 #include "src/race/asm/FUN_06038A82.c"
 #include "src/race/asm/FUN_06038BC4.c"
+#else
+#include "mods/transplant/race/FUN_060385CE.c"
+#include "mods/transplant/race/FUN_060386D8.c"
+#include "mods/transplant/race/FUN_06038A82.c"
+#include "mods/transplant/race/FUN_06038BC4.c"
+#endif
 #include "src/race/asm/FUN_06038C64.c"
 #include "src/race/asm/FUN_06038DD8.c"
 #include "src/race/asm/FUN_06039014.c"
 #include "src/race/asm/FUN_06039110.c"
 #include "src/race/asm/FUN_06039202.c"
 #include "src/race/asm/FUN_0603938A.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_060394A8.c"
+#else
+#include "mods/transplant/race/FUN_060394A8.c"
+#endif
 #include "src/race/asm/FUN_0603976C.c"
 #include "src/race/asm/FUN_06039952.c"
 #include "src/race/asm/FUN_06039AA4.c"
@@ -363,7 +394,11 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0603C304.c"
 #include "src/race/asm/FUN_0603C338.c"
 #include "src/race/asm/FUN_0603C46C.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0603C5CC.c"
+#else
+#include "mods/transplant/race/FUN_0603C5CC.c"
+#endif
 #include "src/race/asm/FUN_0603C6A0.c"
 #include "src/race/asm/FUN_0603C796.c"
 #include "src/race/asm/FUN_0603C96C.c"
@@ -392,14 +427,23 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0603DF84.c"
 #include "src/race/asm/FUN_0603E0BA.c"
 #include "src/race/asm/FUN_0603E14C.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0603E340.c"
 #include "src/race/asm/FUN_0603E394.c"
+#else
+#include "mods/transplant/race/FUN_0603E340.c"
+#include "mods/transplant/race/FUN_0603E394.c"
+#endif
 #include "src/race/asm/FUN_0603E3E8.c"
 #include "src/race/asm/FUN_0603E45C.c"
 #include "src/race/asm/FUN_0603E472.c"
 #include "src/race/asm/FUN_0603E488.c"
 #include "src/race/asm/FUN_0603E4A4.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0603E60C.c"
+#else
+#include "mods/transplant/race/FUN_0603E60C.c"
+#endif
 #include "src/race/asm/FUN_0603E774.c"
 #include "src/race/asm/FUN_0603E7B0.c"
 #include "src/race/asm/FUN_0603E914.c"
@@ -755,6 +799,7 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0604CE64.c"
 #include "src/race/asm/FUN_0604CEF0.c"
 #include "src/race/asm/FUN_0604CF44.c"
+#ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0604D380.c"
 #include "src/race/asm/FUN_0604D580.c"
 #include "src/race/asm/FUN_0604D6B8.c"
@@ -769,5 +814,10 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0604DD34.c"
 #include "src/race/asm/FUN_0604DE2C.c"
 #include "src/race/asm/FUN_0604DEEC.c"
+#else
+/* transplant: FUN_0604D380 TU code region [0x0604D380,0x0604E114) -- 30 dead
+   functions surgically removed (-3008B).*/
+#include "mods/transplant/race/FUN_0604D380.c"
+#endif
 #include "src/race/asm/DAT_0604E114.c"
 #include "src/race/asm/DAT_0604F684.c"
