@@ -1,0 +1,12 @@
+{
+  "requested": 785,
+  "installed": 785,
+  "duplicates": 0,
+  "failed": 0,
+  "total_breakpoints": 785,
+  "cleared_before_install": true,
+  "log_mode": true,
+  "oneshot": false,
+  "dedupe": true,
+  "failures": []
+}

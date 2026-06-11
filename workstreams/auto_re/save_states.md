@@ -3,6 +3,34 @@
 Reference for all save states used by the Explorer and Verifier programs.
 Each entry documents the game state, temporal boundaries, and known constraints.
 
+## transplant_166468_threeseven_racestart.mzs
+
+- **File**: `workstreams/transplant/sweep_artifacts/fresh_sweep/` (TRACKED in
+  git, unlike the .mc0 states below; MCP `save_state` format, loaded via MCP
+  `load_state`)
+- **Mode**: Race (arcade, 40 cars, 1P)
+- **Course**: Three Seven Speedway
+- **Speed**: 0 km/h ("GENTLEMEN START YOUR ENGINES" race-intro splash)
+- **Transmission**: AUTO
+- **Disc**: hybrid-build transplant mod (`make MOD=transplant disc`,
+  race.bin **166,468 bytes** — the size is in the filename on purpose)
+- **Known constraints**:
+  - Valid ONLY for the 166,468-byte transplant race.bin — save states
+    capture the loaded binary. After any deletion batch changes race.bin,
+    re-create via the menu recipe in
+    `workstreams/transplant/sweep_artifacts/fresh_sweep/README.md`.
+  - Boot the matching transplant disc BEFORE load_state (disc reads come
+    from the loaded CUE).
+  - Rolling start follows shortly after load; ~700 frames to green flag.
+  - Poke-playback cursor state is NOT captured — call poke_playback_start
+    fresh after load_state.
+- **Best for**: the standard removal-campaign fixture — probe sweeps and
+  per-deletion-batch regression tests (load → install BPs → rolling start →
+  poke-driven retail lap via `build/samples/retail_lap_poke.csv`), skipping
+  all menu navigation
+- **Avoid for**: retail-behavior observations (transplant NOPs active),
+  any other build of race.bin
+
 ## cce_race_start.mc0
 
 - **Mode**: Race (40 cars, 1P)
