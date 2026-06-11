@@ -1,0 +1,53 @@
+# Symbolic references emitted from DATA subsegments (pristine config).
+# Each is either a real pointer (must relocate) or a misread constant
+# (must stay literal). Audit before relying on any shift/deletion.
+
+src/race/asm/DAT_0604CA14.c:
+    DAT_06040200
+src/race/asm/DAT_0604E114.c:
+    DAT_0604FB10
+    DAT_0604FB28
+    DAT_0604FB40
+    DAT_0604FB58
+    DAT_0604FB70
+    DAT_06050BF0
+    DAT_06050BFC
+    DAT_06050DDC
+    DAT_06050E7C
+    DAT_06050F6C
+    DAT_0605119C
+    DAT_0605124C
+    DAT_060514CC
+    DAT_0605156E
+    DAT_06051592
+    FUN_06047E0C
+    FUN_0604818C
+src/race/asm/DAT_0604F684.c:
+    DAT_06030200
+    DAT_06040200
+    DAT_06043A54
+    DAT_06043A64
+    DAT_06043A74
+    DAT_06043A84
+    DAT_06043A94
+    DAT_06043AA4
+    DAT_06043AB4
+    DAT_06043AC4
+    DAT_06043AD4
+    DAT_06043AE4
+    DAT_06043AF4
+    DAT_0604E1F0
+    DAT_0604E200
+    DAT_0604E210
+    DAT_0604E220
+    DAT_0604E230
+    DAT_0604E240
+    DAT_0604E2A0
+    DAT_0604E340
+    DAT_0604E3D8
+    DAT_0604E4E8
+    DAT_0604E630
+    DAT_0604E8A0
+    DAT_0604E930
+    DAT_0604EA30
+    DAT_0604EAE8
