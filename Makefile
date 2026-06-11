@@ -157,23 +157,27 @@ endif
 validate: race
 	@$(PYTHON) $(PROJDIR)/tools/validate_modules.py
 
-# 4shift: build race shifted +4 (relocation test) and inject a bootable disc.
-# Same unity master as `make race`, but cpp activates the -DRACE_SHIFT=4 pad at
-# the pinned entry-TU boundary. The entry TU (0x06028000-0x06029810) stays put
-# for init's hardcoded entry + co-located PC-relative pools; everything after
-# shifts +4 and all symbolic FUN_/DAT_ refs relocate with it. validate_build.py
-# boots this disc and screenshot-compares against the golden.
+# 4shift: build race shifted +SHIFT bytes (relocation test) and inject a
+# bootable disc. Same unity master as `make race`, but cpp activates the
+# -DRACE_SHIFT=$(SHIFT) pad at the pinned entry-TU boundary. The entry TU
+# (0x06028000-0x06029810) stays put for init's hardcoded entry + co-located
+# PC-relative pools; everything after shifts and all symbolic FUN_/DAT_ refs
+# relocate with it. SHIFT must be a multiple of 4 (mov.l pool alignment).
+# Default 4 — validate_build.py boots that disc and screenshot-compares
+# against the golden. Larger values (e.g. SHIFT=1024) stress-test
+# deletion-scale relocation.
+SHIFT ?= 4
 4shift:
-	@cpp -P -DRACE_SHIFT=4 -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_4SHIFT_PP)
+	@cpp -P -DRACE_SHIFT=$(SHIFT) -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_4SHIFT_PP)
 	@$(RCC) -target=sh/hitachi $(RACE_4SHIFT_PP) $(RACE_4SHIFT_S)
 	@$(AS) $(RACE_4SHIFT_S) -o $(RACE_4SHIFT_O)
 	@$(LD) -T $(RACE_C_LD) $(RACE_4SHIFT_O) -o $(RACE_4SHIFT_ELF)
 	@$(OBJCOPY) -O binary $(RACE_4SHIFT_ELF) $(RACE_4SHIFT_BIN)
-	@printf "race +4 shift: %s bytes -> %s\n" \
+	@printf "race +%s shift: %s bytes -> %s\n" "$(SHIFT)" \
 		"$$(wc -c < $(RACE_4SHIFT_BIN) | tr -d ' ')" "$(RACE_4SHIFT_BIN)"
 	@rm -f $(REBUILT_CUE)
 	@$(PYTHON) tools/inject_disc.py --override race:$(RACE_4SHIFT_BIN)
-	@echo "Disc ready (race +4 shift): $(REBUILT_CUE)"
+	@echo "Disc ready (race +$(SHIFT) shift): $(REBUILT_CUE)"
 
 clean:
 	@rm -f $(RACE_C_PP) $(RACE_C_S) $(RACE_C_O) $(RACE_C_ELF) $(RACE_C_BIN)
