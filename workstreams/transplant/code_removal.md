@@ -26,6 +26,21 @@ Not started. This doc captures the plan, the inventory, and the
 progress log in one place. Append to the removal log as each function
 is deleted and committed.
 
+Prerequisite cleared 2026-06-11: see [relocation_anchors.md](relocation_anchors.md)
+— the only hard external anchor is the entry 0x06028000, and a +500
+whole-binary shift runs the full attract cycle. Compaction removal is safe.
+
+## TODO backlog
+
+- **Zero-caller functions from the funcfinder sweep.** The boundary sweep
+  surfaced many functions with no callers whatsoever (no branch, no pool
+  ref). Small individual sizes, probably a modest total tally, and some
+  risk (SMC targets and runtime-computed dispatch were known zero-caller
+  patterns — see the SMC-patcher findings in the sweep commits). Worth
+  mining `config/race.bin.session.json` / the sweep evidence for a
+  candidate list once the main dead-set removal lands, as a second-pass
+  scavenge for free bytes.
+
 ## Prior attempts (for context, not to re-read)
 
 - **Success** — commit `e5894dc5` (2026-03-23): deleted FUN_060386D8
