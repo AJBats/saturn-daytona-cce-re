@@ -2,6 +2,16 @@
 
 **We're doing it.**
 
+> **STATUS (2026-06-11).** Step 0 (hollowing) is **complete** — brain-dead-car
+> baseline boots and renders, COL reads eliminated, COL-body trick validated.
+> The live mod is the `.c` shim form on the canonical hybrid build:
+> `make MOD=transplant disc` (see `mods/transplant/README.md`; the NOP-status
+> section below describes the legacy `.s` overlay form it was ported from).
+> Budget reality per `HANDOFF_2026-04-29.md`: DUSA needs **~28 KB** (not the
+> 42 KB estimated below), and ~64 KB of race.bin is confirmed dead and
+> deletable. **Next milestone: Step 1, the position writer** — the
+> coordinate-space test.
+
 ## Mission
 
 Replace CCE's driving simulation with Daytona USA '95's driving model.
@@ -508,6 +518,12 @@ safest approach: bring DUSA's math functions and embed them in race.bin.
 They're small (~200 bytes total).
 
 ### 5. Memory Budget
+
+UPDATE 2026-06: superseded by the dead-code census — DUSA player + AI
+pipelines + math + tables = **~28 KB** worst case (`HANDOFF_2026-04-29.md`),
+and ~64 KB of race.bin is confirmed dead, removable on the hybrid build by
+dropping `#include`s (see `code_removal.md`). Budget is comfortable.
+Original estimate kept for the record:
 
 ~44KB confirmed permanent free HWR space (worst case: city course).
 DUSA player pipeline binary: ~42KB estimated. Track data: ~13KB.

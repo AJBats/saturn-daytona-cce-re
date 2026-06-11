@@ -1,27 +1,5 @@
 # DaytonaCCEReverse — Project Conventions
 
----
-
-## ⚠ SOFT REBOOT IN PROGRESS (funcfinder)
-
-**Status:** The project is mid-pivot. The legacy in-tree boundary-repair workflow has been retired; a new AI-driven boundary-discovery pipeline (funcfinder) is replacing it.
-
-**What this means for the working tree:**
-- **`src/`** is the NEW source tree. It is currently empty — it will grow one module at a time as funcfinder produces bedrock boundaries (race first). Layout will be `src/<module>/*.c`.
-- **`archive_src/`** contains the FROZEN legacy snapshot: the previous `src/` (10 module dirs) and the previous root `Makefile`. Reference only — do not edit. See `archive_src/README.LEGACY.md`.
-- **`config/`** does not exist yet. When funcfinder starts emitting a boundary database, it will land here (one file per module).
-- **`Makefile`** does not exist at the project root. A new one will be written from scratch as the new pipeline takes shape.
-- **`validate_build.py`** will FAIL until the new build exists. This is expected and is the gradient the new pipeline is climbing — each module that reaches buildable parity flips its check from red to green.
-- **`tools/`** still contains the legacy boundary-repair toolchain. Most of those tools reference paths under the old `src/` layout (now at `archive_src/src/`) and will fail when invoked. They are not part of the new pipeline.
-
-**Tag for the pre-reboot state:** `pre-funcfinder-reboot` (commit `29f8d5ad` on `master`).
-**Work branch:** `funcfinder-reboot`.
-**Plan:** `workstreams/funcfinder.md`.
-
-**Most of the conventions documented below describe the LEGACY layout.** They remain accurate for `archive_src/` and for `git checkout pre-funcfinder-reboot`, but do not reflect the new tree. This document will be rewritten once the new pipeline reaches a stable shape.
-
----
-
 ## Mission
 
 **Dual-binary transplant project.**
@@ -32,6 +10,69 @@
 Goal: transplant the '95 driving model (physics, AI, car dynamics) into the CCE binary,
 preserving CCE's higher-quality graphics engine while restoring '95-authentic gameplay.
 
+**Active workstream:** the transplant — `workstreams/transplant/README.md`.
+Step 0 (hollowing CCE to a brain-dead rendering frontend) is complete; the
+build-up of DUSA functions (Steps 1–11) is the work in front of us.
+
+## How the project is driven (funcfinder reboot — COMPLETE for race)
+
+The 2026-05 funcfinder soft reboot finished and is now the canonical pipeline.
+The boundary database, the source tree, and the build all live at the project
+root. The pre-reboot world is frozen under `archive_src/` (see Legacy below).
+
+- **`config/race.bin.yaml`** — authoritative boundary database for RACE.BIN:
+  757 subsegments, 100% byte coverage (0x06028000–0x06051607), closed under
+  cross-function calls. `config/race.bin.session.json` is funcfinder session
+  state; `config/race.bin.pool_priors.txt` is pool-symbolization priors.
+- **`src/race/`** — the live source tree. `race.c` is a unity master that
+  `#include`s one tracked per-function shim (`src/race/asm/FUN_*.c` /
+  `DAT_*.c`) per subsegment, in prod-address order (source order = link
+  order). Shims are authentic, hand-owned source — lift them to C in place;
+  never bulk-regenerate over them (`make race-seed` writes to a gitignored
+  scratch dir for exactly this reason).
+- **Root `Makefile`** — the saturncc hybrid build. Run from WSL:
+  `race.c → cpp → rcc (saturncc) → sh-elf-as → sh-elf-ld → objcopy → build/race/race.bin`,
+  byte-identical to retail. Requires the saturncc release artifact at
+  `/mnt/d/Projects/saturncc/build/release/rcc` (stamped via that repo's
+  `saturn/tools/release.sh`).
+- **Other 7 modules** are not yet rebuilt from source — validation picks them
+  up from `build/<mod>/<mod>.bin` (retail bytes from disc extraction) until
+  their `config/<mod>.bin.yaml` files are authored.
+
+### Make targets (run from WSL)
+
+| Target | What |
+|--------|------|
+| `make race` | canonical hybrid build → `build/race/race.bin` |
+| `make validate` | build race + byte-compare all 8 modules vs retail |
+| `make disc` | build race + inject all modules into a bootable rebuilt disc |
+| `make MOD=transplant disc` | bootable modded disc (see Mods) |
+| `make 4shift` | relocation test: `-DRACE_SHIFT=4` pad after the pinned entry TU, bootable disc |
+| `make race-mono` | oracle: direct splitter→as monolith, no saturncc in the loop |
+| `make race-seed` | regenerate reference shims into gitignored `asm/race/shims/`; reconcile into `src/race/asm/` by hand |
+
+### Mods
+
+`make MOD=<name>` defines `-DMOD_<NAME>`, which activates `#ifndef MOD_<NAME>`
+include-swap blocks hand-written in `src/race/race.c`. Override shims live in
+`mods/<name>/race/*.c`. `make MOD=<name> disc` additionally runs
+`mods/<name>/gen_disc_data.py` if present (disc data overlay — the transplant
+mod uses it to preserve the COL header and zero the dense body). With no MOD
+set, all swap blocks compile out and the build is byte-identical to retail (8/8).
+
+### Validation
+
+`python tools/validate_build.py` — **gate on this before every commit**. Two classes:
+
+1. `free` — `make validate`: 8/8 modules byte-identical to retail
+2. `4shift` — shifted race build + Mednafen screenshot boot test vs the golden baseline
+
+### Setup
+
+`./setup.sh` (WSL) — fresh-clone bootstrap: disc extraction to
+`build/disc/files/`, sh-elf toolchain build, Mednafen check.
+`./setup.sh status` shows what's present.
+
 ## Architecture (confirmed from binary analysis)
 
 ### Memory map
@@ -41,18 +82,18 @@ preserving CCE's higher-quality graphics engine while restoring '95-authentic ga
 | High Work RAM | 0x06000000–0x060FFFFF | Layered: init permanent at 0x06005200, sub-modules at 0x06028000 |
 
 ### Module roster
-| src/ dir | Disc file | Load addr | Role | Notes |
-|----------|-----------|-----------|------|-------|
-| `main/`      | `files/0`             | 0x00280000 ✓ | Resident kernel (LWR) | Loaded by BIOS, never replaced |
-| `init/`      | `DAYTONA/0`           | 0x06005200 ✓ | **Permanent dispatcher** (HWR) | Stays resident, orchestrates sub-modules |
-| `race/`      | `DAYTONA/RACE.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | **Race logic — transplant target** |
-| `select/`    | `DAYTONA/SLCT.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Car/track selection |
-| `result/`    | `DAYTONA/RESULT.BIN`  | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
-| `result2p/`  | `DAYTONA/RESULT2P.BIN`| 0x06028000 ? | Sub-module (hot-swapped) | 2P results |
-| `name/`      | `DAYTONA/NAME.BIN`    | 0x06028000 ? | Sub-module (hot-swapped) | Name entry |
-| `demo/`      | `DAYTONA/DEMOTTL.BIN` | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
-| `backup/`    | `DAYTONA/BKUP.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Save/backup |
-| `ending/`    | `DAYTONA/ENDING.BIN`  | 0x06028000 ? | Sub-module (hot-swapped) | Ending sequence |
+| Disc file | Load addr | Role | Notes |
+|-----------|-----------|------|-------|
+| `files/0`             | 0x00280000 ✓ | Resident kernel (LWR) | Loaded by BIOS, never replaced |
+| `DAYTONA/0`           | 0x06005200 ✓ | **Permanent dispatcher** (HWR) | Stays resident, orchestrates sub-modules |
+| `DAYTONA/RACE.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | **Race logic — transplant target** |
+| `DAYTONA/SLCT.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Car/track selection |
+| `DAYTONA/RESULT.BIN`  | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
+| `DAYTONA/RESULT2P.BIN`| 0x06028000 ✓ | Sub-module (hot-swapped) | 2P results |
+| `DAYTONA/NAME.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Name entry |
+| `DAYTONA/BKUP.BIN`    | 0x06028000 ✓ | Sub-module (hot-swapped) | Save/backup |
+| `DAYTONA/ENDING.BIN`  | 0x06028000 ✓ | Sub-module (hot-swapped) | Ending sequence |
+| `DAYTONA/DEMOTTL.BIN` | 0x06028000 ? | VDP2 data bundle | Not code — graphics data only |
 
 - **Init is permanent** — loaded once at 0x06005200 (84KB), never replaced. It is the
   game's main loop and dispatcher.
@@ -61,61 +102,42 @@ preserving CCE's higher-quality graphics engine while restoring '95-authentic ga
 - `main` stays resident in LWR at 0x00280000 permanently.
 - See `docs/boot_story_facts.md` section 17 for full evidence.
 
-## Build pipeline
+## Legacy (frozen — reference only, do not build from these)
 
-### Setup
-```
-./setup.sh          # full setup: disc extraction + Mednafen + module disassembly
-./setup.sh status   # what's present
-./setup.sh clean    # wipe build/
-```
+Three retired generations remain in-tree for lineage and re-validation. Each
+successor was byte-matched against its predecessor before taking over.
 
-### Module disassembly (L2 — auto-generated)
-```
-python tools/split_modules.py         # all 10 modules
-python tools/split_modules.py race    # one module
-```
-Output: `build/modules/<name>/{<name>.s, <name>.ld, <name>_syms.txt}`
+- **`archive_src/`** — the pre-reboot tree (10 module `src/` dirs, old root
+  Makefile, old tools). Frozen. See `archive_src/README.LEGACY.md`.
+  Tag: `pre-funcfinder-reboot` (commit `29f8d5ad` on `master`).
+- **`decomp/`** — the second-generation per-function decomp/override build
+  (`make -C decomp ...`). Fully superseded by the root hybrid build. See
+  `decomp/README.md`.
+- **`mods/transplant/race/*.s`, `mods/nop_resize/`, `mods/decomp/`** — overlay
+  forms for the retired builds. The live transplant overrides are the `.c`
+  shims in `mods/transplant/race/` driven by `race.c` swap blocks.
+- **`tools/`** — mixed vintage. The live pipeline uses `splitter.py`,
+  `gen_asm_shims.py`, `inject_disc.py`, `validate_modules.py`,
+  `validate_build.py`, `screenshot_test.py`. Many other scripts predate the
+  reboot and reference `archive_src/`-era paths; expect them to fail.
 
-Every instruction is emitted as `.byte 0xHI, 0xLO` — byte-identical round-trip guaranteed.
-Function boundaries auto-detected from SH-2 GCC prologue patterns.
+## Completed workstreams (docs are the record; condensed here)
 
-### Round-trip verification
-```
-python tools/_roundtrip_test.py   # verifies main (files/0) builds byte-identically
-```
-Uses `sh-elf-as / sh-elf-ld / sh-elf-objcopy` from `D:/Projects/SaturnReverseTest/tools/sh-elf/`
-(Linux ELF — must run through WSL).
-
-## src/ structure (Option B — module-aware)
-
-`src/<module>/` — hand-annotated assembly (tracked by git)
-- Starts empty; functions are progressively uplifted from `build/modules/<module>.s` (L2)
-  to full SH-2 mnemonics with labels and comments (L3)
-- Reference prior art: `D:/Projects/SaturnReverseTest/asm/` for L3 style examples
-
-## Active workstreams
-
-1. **Driving model mapping** — identify physics/AI/dynamics functions in `race/`
-   for transplanting the '95 driving model. Empirical-first approach using CDL,
-   mem_profile, and watchpoints. See `workstreams/driving_model/`.
-
-## Completed workstreams
-
-- **Byte fog clearing** — two phases. Phase 1 (Ghidra recursive descent) decoded
-  8,835 `.byte` pairs. Phase 2 (medium fog hand review, 12 batches) decoded ~52
-  more instructions (movt, tas.b, IEEE float entries, dispatch thunks) and classified
-  all remaining ~16,900 `.byte` pairs as data or deferred. Zero UNKNOWN instruction
-  types remain. See `docs/DONE_byte_fog_clearing_work.md`, `docs/medium_fog_data.md`,
-  `docs/medium_fog_skips.md`.
-- **Non-uniform shift hardening** — pool loads symbolized (Phase 1) + cross-section
-  jump tables merged and symbolized (Phase 2). Noptest passes with 7 simultaneous
-  NOP shifts (+24 bytes cumulative). 12 intra-function tables remain hardcoded
-  (safe — targets in same function body). See `docs/noptest_divergence_work.md`.
-- **TU reconstruction** — merged 96 translation unit groups (613→222 .s files).
-  See `docs/DONE_tu_reconstruction_work.md`.
-- **HWR load address confirmation** — all sub-modules confirmed at 0x06028000.
-- **+4 uniform shift** — WORKING, boot-tested with full attract mode races.
+- **funcfinder boundary sweep** — AI-driven discovery of every function/data
+  boundary in race.bin from pristine retail bytes; 100% coverage 2026-05-27.
+  Plan doc: `workstreams/funcfinder.md` (DONE).
+- **saturncc hybrid build** — per-function asm shims + lifted C compiled as one
+  unity TU by rcc; byte-matches retail; canonical since 2026-05-30.
+- **Transplant Step 0 (hollowing)** — CCE reduced to a rendering frontend; COL
+  reads eliminated; COL-body trick validated. `workstreams/transplant/`.
+- **Dead-code census** — ~64KB of race.bin confirmed dead across all tracks/modes
+  (sweeps + per-track CDL). `workstreams/transplant/dead_function_census.md`,
+  `HANDOFF_2026-04-29.md`.
+- **Pre-reboot foundations** (legacy tree): byte-fog clearing, TU reconstruction,
+  non-uniform shift hardening, HWR load-address confirmation. Docs under `docs/`
+  and `workstreams/DONE_*.md`; code context is `archive_src/`.
 
 ## Commit discipline
-See `.claude/rules/commit-discipline.md`. Code must run at commit time. Propose before committing.
+
+See `.claude/rules/commit-discipline.md`. Code must run at commit time. Propose
+before committing. Gate on `python tools/validate_build.py`.

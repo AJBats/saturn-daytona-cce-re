@@ -1,5 +1,16 @@
 # Function Finder — Workstream Setup
 
+> **✅ DONE / SUPERSEDED (2026-06).** The funcfinder sweep completed on
+> 2026-05-27: 100% coverage of race.bin, 757 subsegments, closed under
+> cross-function calls. The plan below executed with different mechanics
+> than written — there is no `workstreams/funcfinder/` artifact dir; the
+> output landed as **`config/race.bin.yaml`** (boundary database) +
+> `config/race.bin.session.json` (session state), and the downstream
+> consumer is the root saturncc hybrid build (`make race`), not a splat
+> `prg.yaml`. See git log `d875015f..b8918c83` for the sweep and
+> `5e3bface..d2ae5036` for the build that consumed it. This document is
+> kept as the design record; do not ramp up from it.
+
 **Status:** Planning complete in SaturnAutoRE; **setup work needed here before tool development can begin**
 **Sister project:** [SaturnAutoRE](D:\Projects\SaturnAutoRE) — where the `funcfinder.py` CLI tool will live
 **Supersedes:** The "Remediation Plan (Not Yet Started)" section of [DONE_function_boundaries.md](DONE_function_boundaries.md)

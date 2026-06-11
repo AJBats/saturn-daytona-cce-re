@@ -1,5 +1,13 @@
 # Decomp Workstream — Journal
 
+> **HISTORICAL (2026-06).** This journal documents work on the retired
+> `decomp/` build system (see `decomp/README.md`). The system is superseded
+> by the root hybrid build; decompilation now happens by lifting shims in
+> `src/race/asm/` to C in place. The **bug lessons below remain fully
+> applicable** to that lifting work — especially the three Ghidra traps
+> (pool constants misread as struct fields, dropped r0 return values,
+> dual-use bra-opcode pool entries).
+
 ## 2026-03-24: First decomp session
 
 ### What we decompiled

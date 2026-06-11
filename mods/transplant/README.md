@@ -1,58 +1,46 @@
-# mods/transplant/ -- HISTORICAL
+# mods/transplant/ — The Transplant Mod (LIVE: `.c` shims + `gen_disc_data.py`)
 
-This directory holds the legacy whole-TU asm overlay form of the
-transplant mod that ran against the per-TU `make MOD=transplant` build
-chain. It is **no longer the active mod** -- the live transplant mod is
-driven from [decomp/mods/transplant/](../../decomp/mods/transplant/)
-and built via:
+This directory holds the **live** transplant mod for the canonical saturncc
+hybrid build, plus the legacy `.s` overlays it was ported from.
 
-```
-make -C decomp transplant
-```
-
-## Why it's still here
-
-These five `.s` files are byte-for-byte the source of truth that the
-new system was ported from on 2026-04-28 (commit `baf9c639`). They
-remain on disk so that the port can be re-validated at any time:
+## How to build
 
 ```
-# rebuild the legacy mod
-make MOD=transplant SHIFT=0 all
-
-# rebuild the new mod
-make -C decomp transplant
-
-# byte-compare (will match if FUN_0604D380.s is moved aside, since
-# that overlay is deferred in the new system)
-mv mods/transplant/race/FUN_0604D380.s{,.disabled}
-make MOD=transplant SHIFT=0 all
-cmp build/race/race_free.bin decomp/build/transplant/race/race.bin
-mv mods/transplant/race/FUN_0604D380.s{.disabled,}
+make MOD=transplant disc      # from WSL, at the project root
 ```
 
-The two builds produced byte-identical output during the port (with
-FUN_0604D380.s temporarily disabled to match scope). That equivalence
-is the warrant for the new system.
+`MOD=transplant` defines `-DMOD_TRANSPLANT`, activating the `#ifndef
+MOD_TRANSPLANT` include-swap blocks hand-written in `src/race/race.c` — each
+block swaps a retail shim for an override shim from `race/*.c` here. The
+`disc` target also runs `gen_disc_data.py` (COL header preserved, dense body
+zeroed) and injects the overlay. With no MOD set, the swap blocks compile out
+and race.bin is byte-identical to retail.
 
-## Layout
+## What's live vs legacy in this directory
 
-| File | Role | Ported to new system? |
-|------|------|----------------------|
-| `race/FUN_06028000.s` | TU containing 2 caller-side NOPs | yes -- 1 override |
-| `race/FUN_06033DC8.s` | TU containing FUN_06034F54 NOP + pool drop | yes -- 1 override |
-| `race/FUN_060351CC.s` | TU containing 13 modded functions (player master, helpers) | yes -- 13 overrides |
-| `race/FUN_0603C304.s` | TU containing 3 modded functions (init callbacks, position integration) | yes -- 3 overrides |
-| `race/FUN_0604D380.s` | TU with 30 surgically removed functions (commit ba9cf0de) | **deferred** -- waits on Tier 1 splitter symbolicness |
-| `gen_disc_data.py` | COL header preserve + dense-body zero generator | unchanged -- still used at disc-injection time |
+| Files | Status |
+|-------|--------|
+| `race/FUN_*.c` (15 override shims) | **LIVE** — the current mod, on funcfinder boundaries |
+| `gen_disc_data.py` | **LIVE** — COL disc-data overlay, run by `make MOD=transplant disc` |
+| `race/FUN_*.s` (5 whole-TU overlays) | legacy — gen-1 mod form (see Lineage) |
 
-## Don't edit these files
+The `.c` shims reproduce the mod byte-for-byte against the archive's authentic
+modded race.bin (166,468 bytes) — commit `d09ec461` (2026-06-04). In-module
+pointers are kept symbolic so they track relocation when code is deleted or
+inserted. `TRANSPLANT` comments were preserved verbatim from the source
+overlays.
 
-Any new transplant-mod work belongs in [decomp/mods/transplant/](../../decomp/mods/transplant/).
-The new system handles per-function granularity instead of whole-TU
-copies, which is the friction class that gated further removal work.
+## Lineage (three generations, each byte-matched to its predecessor)
 
-If you find a bug in one of these legacy overlays, fix it in the
-*ported* override in the new tree and re-validate the byte match
-before changing anything here. Touching files here without porting
-leaves the two systems out of sync.
+1. **Gen 1 — whole-TU `.s` overlays** (`race/FUN_*.s` here): ran against the
+   legacy per-TU `make MOD=transplant` chain in the pre-reboot tree
+   (`archive_src/`).
+2. **Gen 2 — `decomp/mods/transplant/`** per-function overrides, built via
+   `make -C decomp transplant`. Ported from gen 1 on 2026-04-28 (commit
+   `baf9c639`), byte-matched. **Retired** — see `decomp/README.md`.
+3. **Gen 3 — this mod's `.c` shims** on the hybrid build. Ported 2026-06-04
+   (commit `d09ec461`), byte-matched against the archive's modded bin.
+
+Fix bugs in the **gen-3 `.c` shims only**. The `.s` files and the `decomp/`
+tree are frozen lineage — they exist so any generation's byte-match warrant
+can be re-derived, not for further development.

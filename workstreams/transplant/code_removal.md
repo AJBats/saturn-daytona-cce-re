@@ -1,5 +1,18 @@
 # Transplant Code Removal — Retry
 
+> **RE-BASELINE (2026-06).** The removal *mechanics* below were designed for
+> the rigid pre-reboot binary, where every deletion was dangerous surgery
+> (delete_function.py, whole-TU excludes, two-phase rts;nop protocol). On the
+> canonical hybrid build (`make race`), removal is: drop the `#include` from
+> `src/race/race.c` (or swap in a stub via a MOD block) and let symbolic
+> relocation move everything after it. The **inventory remains valid** —
+> the dead set (~64KB; `dead_function_census.md`, `HANDOFF_2026-04-29.md`),
+> the leaves-first ordering, and the proof-of-death evidence standards all
+> carry over. The protocol sections are obsolete. Note: deletion-scale shifts
+> (tens of KB) have not yet been boot-tested on the hybrid build — `make
+> 4shift` covers +4 bytes only; do a large-shift smoke test before the first
+> bulk removal.
+
 Physically shrink the transplant mod's race module by deleting NOPped
 function bodies, freeing bytes at the tail of RACE.BIN for DUSA code.
 
