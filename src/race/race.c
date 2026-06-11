@@ -43,12 +43,16 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0602A664.c"
 #include "src/race/asm/FUN_0602A6EC.c"
 #include "src/race/asm/FUN_0602A818.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0602A8F8.c"
+#endif
 #include "src/race/asm/FUN_0602A958.c"
 #include "src/race/asm/FUN_0602A9F0.c"
 #include "src/race/asm/FUN_0602AA84.c"
 #include "src/race/asm/FUN_0602AAA8.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0602AB90.c"
+#endif
 #include "src/race/asm/FUN_0602AC38.c"
 #include "src/race/asm/FUN_0602AE18.c"
 #include "src/race/asm/FUN_0602AE44.c"
@@ -73,7 +77,9 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0602C3F8.c"
 #include "src/race/asm/FUN_0602C45A.c"
 #include "src/race/asm/FUN_0602C59A.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0602C6C8.c"
+#endif
 #include "src/race/asm/FUN_0602C6EE.c"
 #include "src/race/asm/FUN_0602C764.c"
 #include "src/race/asm/FUN_0602C7C4.c"
@@ -123,7 +129,9 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0602E770.c"
 #include "src/race/asm/FUN_0602E7EC.c"
 #include "src/race/asm/FUN_0602E8B0.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0602E91E.c"
+#endif
 #include "src/race/asm/FUN_0602E928.c"
 #include "src/race/asm/FUN_0602E988.c"
 #include "src/race/asm/FUN_0602EA6A.c"
@@ -201,8 +209,10 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06030DA2.c"
 #include "src/race/asm/FUN_06030DAA.c"
 #include "src/race/asm/FUN_06030DB0.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_06030DEE.c"
 #include "src/race/asm/FUN_06030E32.c"
+#endif
 #include "src/race/asm/FUN_06030E44.c"
 #include "src/race/asm/FUN_06030EC8.c"
 #include "src/race/asm/FUN_06031008.c"
@@ -227,7 +237,9 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0603252C.c"
 #include "src/race/asm/FUN_06032674.c"
 #include "src/race/asm/FUN_060328BC.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_06032918.c"
+#endif
 #include "src/race/asm/FUN_06032AB0.c"
 #include "src/race/asm/FUN_06032BAC.c"
 #include "src/race/asm/FUN_06032DC8.c"
@@ -269,7 +281,9 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06034A56.c"
 #include "src/race/asm/FUN_06034AA0.c"
 #include "src/race/asm/FUN_06034BA2.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_06034C68.c"
+#endif
 #include "src/race/asm/FUN_06034C70.c"
 #include "src/race/asm/FUN_06034CEC.c"
 #include "src/race/asm/FUN_06034D32.c"

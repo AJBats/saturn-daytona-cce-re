@@ -3,7 +3,25 @@
 Reference for all save states used by the Explorer and Verifier programs.
 Each entry documents the game state, temporal boundaries, and known constraints.
 
-## transplant_166468_threeseven_racestart.mzs
+## transplant_165660_threeseven_racestart.mzs
+
+- **File**: `workstreams/transplant/sweep_artifacts/fresh_sweep/` (TRACKED in
+  git; MCP `save_state` format, loaded via MCP `load_state`)
+- **Mode**: Race (arcade, 40 cars, 1P)
+- **Course**: Three Seven Speedway
+- **Speed**: 0 km/h ("GENTLEMEN START YOUR ENGINES" race-intro splash)
+- **Transmission**: AUTO
+- **Disc**: hybrid-build transplant mod (`make MOD=transplant disc`,
+  race.bin **165,660 bytes** — deletion batch 1 applied, 2026-06-11)
+- **Known constraints**: same as the retired 166,468 fixture below — valid
+  ONLY for the 165,660-byte transplant race.bin; boot the matching disc
+  before load_state; ~700 frames to green flag; poke cursor not captured.
+- **Best for**: the standard removal-campaign fixture — probe sweeps
+  (probe file: `fresh_sweep/probes_transplant_165660.txt`, 777 entries) and
+  per-deletion-batch regression tests
+- **Avoid for**: retail-behavior observations, any other build of race.bin
+
+## transplant_166468_threeseven_racestart.mzs — STALE (superseded 2026-06-11)
 
 - **File**: `workstreams/transplant/sweep_artifacts/fresh_sweep/` (TRACKED in
   git, unlike the .mc0 states below; MCP `save_state` format, loaded via MCP

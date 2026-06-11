@@ -43,13 +43,28 @@ conservative-safe, but their "alive" verdicts deserve re-filtering).
 
 ## Reusable fixture + recipe
 
-**Save state:** `transplant_166468_threeseven_racestart.mzs` (this
-directory, tracked; cataloged in `workstreams/auto_re/save_states.md`)
-— paused at "GENTLEMEN START YOUR ENGINES", Three Seven arcade, race.bin
-loaded. Valid ONLY for the 166,468-byte transplant build (states capture
+**Current fixture (2026-06-11, deletion batch 1):**
+`transplant_165660_threeseven_racestart.mzs` + probe file
+`probes_transplant_165660.txt` (777 entries, from the post-batch-1
+race_c.elf). The older `transplant_166468_*` state and
+`probes_transplant.txt` are STALE — valid only for the pre-deletion
+166,468-byte build.
+
+**Save state** — paused at "GENTLEMEN START YOUR ENGINES", Three Seven
+arcade, race.bin loaded (cataloged in `workstreams/auto_re/save_states.md`).
+Valid ONLY for the matching-size transplant build (states capture
 the binary). Boot the matching transplant disc before load_state.
 Poke-playback cursor state is NOT in the save state; call
 poke_playback_start fresh after load_state.
+
+**WP-arming gotcha (learned re-creating the batch-1 fixture):** init
+loads race.bin during the license-disclaimer screen (~frame 835 with the
+early BIOS skip) — the attract/rankings host IS race.bin. If you arm the
+0x06028008 watchpoint at boot, it fires there and freezes the machine on
+a black frame (looks like a crash; `status` shows paused=false but the
+cycle counter is frozen). Arm it only right before the final course
+confirm, per the recipe — or skip the WP entirely under human copilot
+and verify the load afterward via read_memory_binary.
 
 **Menu path (transplant build), if the state is stale:**
 1. `boot` → `run_to_frame 164` → tap START (skip BIOS early — **do NOT

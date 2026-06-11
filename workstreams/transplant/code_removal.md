@@ -310,7 +310,7 @@ Append one row per deletion attempt — successes and reverts both.
 
 | Date | Function | Bytes | Callers found | Empirical hits | Result | Commit |
 |------|----------|------:|---------------|----------------|--------|--------|
-| _TBD_ |          |       |               |                |        |        |
+| 2026-06-11 | **Batch 1** (8 zero-inbound T_UNREACH_RETAIL_DEAD leaves): FUN_0602A8F8, FUN_0602AB90, FUN_0602C6C8, FUN_0602E91E, FUN_06030DEE, FUN_06030E32, FUN_06032918, FUN_06034C68 | 814 CSV / **808 net** (6 B alignment re-pad) | 0 (inbound_refs_pristine=0 each; grep of live shims + race_c.ld clean) | 0 in all three evidence legs (static, retail captures, fresh native sweep f9dc200c) | **SUCCESS** — `#ifndef MOD_TRANSPLANT` excludes in race.c; validate 8/8 + 4shift PASS; reloc invariants PASS; transplant race.bin 166,468 → 165,660 B; fixture re-created (`transplant_165660_threeseven_racestart.mzs`); rolling start + 843-frame poke lap clean, HUD/minimap live; 3 new REAL fires vs old lap capture (FUN_060295DE, FUN_0602E266, FUN_0602E372) all T_REACH_RETAIL_LIVE — benign ALIVE-set intel | _this commit_ |
 
 ## Known risks and mitigations
 
