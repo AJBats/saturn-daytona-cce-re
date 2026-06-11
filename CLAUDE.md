@@ -110,9 +110,10 @@ successor was byte-matched against its predecessor before taking over.
 - **`archive_src/`** — the pre-reboot tree (10 module `src/` dirs, old root
   Makefile, old tools). Frozen. See `archive_src/README.LEGACY.md`.
   Tag: `pre-funcfinder-reboot` (commit `29f8d5ad` on `master`).
-- **`decomp/`** — the second-generation per-function decomp/override build
-  (`make -C decomp ...`). Fully superseded by the root hybrid build. See
-  `decomp/README.md`.
+- **`decomp/`** — REMOVED from the tree (2026-06-11). The second-generation
+  per-function decomp/override build (`make -C decomp ...`), fully superseded
+  by the root hybrid build. Recover via tag `legacy-gen2-final`
+  (`git show legacy-gen2-final:decomp/README.md` for its retirement notes).
 - **`mods/transplant/race/*.s`, `mods/nop_resize/`, `mods/decomp/`** — overlay
   forms for the retired builds. The live transplant overrides are the `.c`
   shims in `mods/transplant/race/` driven by `race.c` swap blocks.

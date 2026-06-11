@@ -37,10 +37,11 @@ overlays.
    (`archive_src/`).
 2. **Gen 2 — `decomp/mods/transplant/`** per-function overrides, built via
    `make -C decomp transplant`. Ported from gen 1 on 2026-04-28 (commit
-   `baf9c639`), byte-matched. **Retired** — see `decomp/README.md`.
+   `baf9c639`), byte-matched. **Removed from the tree** — recover via tag
+   `legacy-gen2-final`.
 3. **Gen 3 — this mod's `.c` shims** on the hybrid build. Ported 2026-06-04
    (commit `d09ec461`), byte-matched against the archive's modded bin.
 
-Fix bugs in the **gen-3 `.c` shims only**. The `.s` files and the `decomp/`
-tree are frozen lineage — they exist so any generation's byte-match warrant
-can be re-derived, not for further development.
+Fix bugs in the **gen-3 `.c` shims only**. The `.s` files here (and the gen-2
+tree at tag `legacy-gen2-final`) are frozen lineage — they exist so any
+generation's byte-match warrant can be re-derived, not for further development.

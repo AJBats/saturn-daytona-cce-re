@@ -1,3 +1,0 @@
-# Build artifacts produced by `make` in this directory.
-# Per-module .pp.c / .s / .o / .elf / .bin all live under build/.
-build/
