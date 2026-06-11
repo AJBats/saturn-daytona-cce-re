@@ -6,7 +6,10 @@ void DAT_0604CA14(void) asm {
     .L_wpool_0604CA16:
         .2byte 0x0A08
     .L_pool_0604CA18:
-        .4byte DAT_06040200
+        /* byte-offset entries for shift amounts 4..7 -- NOT a pointer.
+         * The aligned word collides with address 0x06040200; symbolizing
+         * it corrupts the table under relocation. Keep literal. */
+        .4byte 0x06040200
     .L_wpool_0604CA1C:
         .2byte 0x201E
     .L_wpool_0604CA1E:
