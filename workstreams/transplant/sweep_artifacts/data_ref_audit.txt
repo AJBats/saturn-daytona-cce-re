@@ -2,8 +2,6 @@
 # Each is either a real pointer (must relocate) or a misread constant
 # (must stay literal). Audit before relying on any shift/deletion.
 
-src/race/asm/DAT_0604CA14.c:
-    DAT_06040200
 src/race/asm/DAT_0604E114.c:
     DAT_0604FB10
     DAT_0604FB28
@@ -23,8 +21,6 @@ src/race/asm/DAT_0604E114.c:
     FUN_06047E0C
     FUN_0604818C
 src/race/asm/DAT_0604F684.c:
-    DAT_06030200
-    DAT_06040200
     DAT_06043A54
     DAT_06043A64
     DAT_06043A74

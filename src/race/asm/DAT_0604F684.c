@@ -2063,7 +2063,9 @@ void DAT_0604F684(void) asm {
     .L_wpool_0604FEA6:
         .2byte 0x00EE
     .L_pool_0604FEA8:
-        .4byte DAT_06040200
+        /* index-06 struct record (06 04 02 00), not a pointer -- the
+         * 05/07-indexed sibling records flank it. Keep literal. */
+        .4byte 0x06040200
     .L_wpool_0604FEAC:
         .2byte 0x00EE
     .L_wpool_0604FEAE:
@@ -2411,7 +2413,9 @@ void DAT_0604F684(void) asm {
     .L_wpool_06050002:
         .2byte 0x00B4
     .L_pool_06050004:
-        .4byte DAT_06040200
+        /* index-06 struct record (06 04 02 00), not a pointer -- the
+         * 05/07-indexed sibling records flank it. Keep literal. */
+        .4byte 0x06040200
     .L_pool_06050008:
         .4byte 0x00C80703
     .L_wpool_0605000C:
@@ -2576,7 +2580,9 @@ void DAT_0604F684(void) asm {
     .L_wpool_060500AA:
         .2byte 0x0118
     .L_pool_060500AC:
-        .4byte DAT_06030200
+        /* index-06 struct record (06 03 02 00), not a pointer -- the
+         * 05/07-indexed sibling records flank it. Keep literal. */
+        .4byte 0x06030200
     .L_wpool_060500B0:
         .2byte 0x0113
     .L_wpool_060500B2:
