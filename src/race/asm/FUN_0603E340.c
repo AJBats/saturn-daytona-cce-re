@@ -30,6 +30,7 @@ int FUN_0603E340(void) asm {
         mov #0x0, r8
         bsrf r0
         mov.l r13, @-r15
+    .L_0603E378:
         mov.l @(132, gbr), r0
         mov.l @r15+, r13
     .L_0603E37C:
@@ -40,15 +41,15 @@ int FUN_0603E340(void) asm {
         rts
         nop
     .L_pool_0603E388:
-        .2byte 0x0438
+        .2byte FUN_0603E7B0 - .L_0603E378
     .L_wpool_0603E38A:
-        .2byte 0x0438
+        .2byte FUN_0603E7B0 - .L_0603E378
     .L_wpool_0603E38C:
-        .2byte 0x066A
+        .2byte FUN_0603E9E2 - .L_0603E378
     .L_wpool_0603E38E:
-        .2byte 0x0732
+        .2byte FUN_0603EAAA - .L_0603E378
     .L_wpool_0603E390:
-        .2byte 0x05DA
+        .2byte FUN_0603E952 - .L_0603E378
     .L_wpool_0603E392:
-        .2byte 0x05DA
+        .2byte FUN_0603E952 - .L_0603E378
 }

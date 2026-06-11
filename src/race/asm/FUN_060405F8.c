@@ -12,6 +12,7 @@ void FUN_060405F8(void) __naked__ {
     }
     __entry_alias__(FUN_06040606);
     asm {
+    .L_06040606:
         and #0x1F, r0
         add #-0x18, r0
         cmp/pz r0
@@ -22,11 +23,13 @@ void FUN_060405F8(void) __naked__ {
     }
     __entry_alias__(FUN_06040614);
     asm {
+    .L_06040614:
         bra .L_06040634
         mov #0x3, r6
     }
     __entry_alias__(FUN_06040618);
     asm {
+    .L_06040618:
         tst #0x2, r0
         bt/s .L_06040634
         mov #0x3, r6
@@ -35,6 +38,7 @@ void FUN_060405F8(void) __naked__ {
     }
     __entry_alias__(FUN_06040622);
     asm {
+    .L_06040622:
         tst #0x1, r0
         bf/s .L_06040602
         and #0x1F, r0

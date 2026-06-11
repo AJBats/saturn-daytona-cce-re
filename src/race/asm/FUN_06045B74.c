@@ -8,37 +8,37 @@ void FUN_06045B74(void) __naked__ {
         braf r1
         sts.l pr, @-r15
     .L_pool_06045B80:
-        .2byte 0x0044
+        .2byte .L_06045BC4 - .L_pool_06045B80
     .L_wpool_06045B82:
-        .2byte 0x04A4
+        .2byte FUN_06046024 - .L_pool_06045B80
     .L_wpool_06045B84:
-        .2byte 0x04F4
+        .2byte .L_06046074 - .L_pool_06045B80
     .L_wpool_06045B86:
-        .2byte 0x0540
+        .2byte .L_060460C0 - .L_pool_06045B80
     .L_wpool_06045B88:
-        .2byte 0x0560
+        .2byte .L_060460E0 - .L_pool_06045B80
     .L_wpool_06045B8A:
-        .2byte 0x003C
+        .2byte .L_06045BBC - .L_pool_06045B80
     .L_wpool_06045B8C:
-        .2byte 0x05B4
+        .2byte .L_06046134 - .L_pool_06045B80
     .L_wpool_06045B8E:
-        .2byte 0x05D4
+        .2byte .L_06046154 - .L_pool_06045B80
     .L_wpool_06045B90:
-        .2byte 0x05FC
+        .2byte .L_0604617C - .L_pool_06045B80
     .L_wpool_06045B92:
-        .2byte 0x064C
+        .2byte .L_060461CC - .L_pool_06045B80
     .L_wpool_06045B94:
-        .2byte 0x003C
+        .2byte .L_06045BBC - .L_pool_06045B80
     .L_wpool_06045B96:
-        .2byte 0x066C
+        .2byte .L_060461EC - .L_pool_06045B80
     .L_wpool_06045B98:
-        .2byte 0x0694
+        .2byte .L_06046214 - .L_pool_06045B80
     .L_wpool_06045B9A:
-        .2byte 0x06B4
+        .2byte .L_06046234 - .L_pool_06045B80
     .L_wpool_06045B9C:
-        .2byte 0x06DC
+        .2byte .L_0604625C - .L_pool_06045B80
     .L_wpool_06045B9E:
-        .2byte 0x003C
+        .2byte .L_06045BBC - .L_pool_06045B80
     }
     __entry_alias__(FUN_06045BA0);
     asm {
@@ -50,21 +50,22 @@ void FUN_06045B74(void) __naked__ {
         braf r1
         sts.l pr, @-r15
     .L_pool_06045BAC:
-        .2byte 0x0054
+        .2byte .L_06045C00 - .L_pool_06045BAC
     .L_wpool_06045BAE:
-        .2byte 0x06D8
+        .2byte .L_06046284 - .L_pool_06045BAC
     .L_wpool_06045BB0:
-        .2byte 0x06FC
+        .2byte .L_060462A8 - .L_pool_06045BAC
     .L_wpool_06045BB2:
-        .2byte 0x0724
+        .2byte .L_060462D0 - .L_pool_06045BAC
     .L_wpool_06045BB4:
-        .2byte 0x074C
+        .2byte .L_060462F8 - .L_pool_06045BAC
     .L_wpool_06045BB6:
-        .2byte 0x0770
+        .2byte .L_0604631C - .L_pool_06045BAC
     .L_wpool_06045BB8:
-        .2byte 0x0798
+        .2byte .L_06046344 - .L_pool_06045BAC
     .L_wpool_06045BBA:
-        .2byte 0x0010
+        .2byte .L_06045BBC - .L_pool_06045BAC
+    .L_06045BBC:
         lds.l @r15+, pr
         rts
         nop

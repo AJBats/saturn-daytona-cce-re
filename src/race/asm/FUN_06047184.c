@@ -20,6 +20,7 @@ int FUN_06047184(void) asm {
         mov.w @(r0, r1), r0
         bsrf r0
         nop
+    .L_060471AA:
         add #0x8, r10
         mov.b @(153, gbr), r0
         dt r0
@@ -30,35 +31,35 @@ int FUN_06047184(void) asm {
         nop
         nop
     .L_pool_060471BC:
-        .2byte 0x0032
+        .2byte FUN_060471DC - .L_060471AA
     .L_wpool_060471BE:
-        .2byte 0x0046
+        .2byte FUN_060471F0 - .L_060471AA
     .L_wpool_060471C0:
-        .2byte 0x0062
+        .2byte FUN_0604720C - .L_060471AA
     .L_wpool_060471C2:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471C4:
-        .2byte 0x007E
+        .2byte FUN_06047228 - .L_060471AA
     .L_wpool_060471C6:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471C8:
-        .2byte 0x0090
+        .2byte FUN_0604723A - .L_060471AA
     .L_wpool_060471CA:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471CC:
-        .2byte 0x00A6
+        .2byte FUN_06047250 - .L_060471AA
     .L_wpool_060471CE:
-        .2byte 0x00B8
+        .2byte FUN_06047262 - .L_060471AA
     .L_wpool_060471D0:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471D2:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471D4:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471D6:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471D8:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
     .L_wpool_060471DA:
-        .2byte 0x00CE
+        .2byte FUN_06047278 - .L_060471AA
 }

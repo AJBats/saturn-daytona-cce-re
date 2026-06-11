@@ -9,19 +9,20 @@ int FUN_060405CC(void) asm {
         braf r1
         mov.l @r0, r0
     .L_pool_060405DC:
-        .2byte 0x000E
+        .2byte .L_060405EA - .L_pool_060405DC
     .L_wpool_060405DE:
-        .2byte 0x001C
+        .2byte FUN_060405F8 - .L_pool_060405DC
     .L_wpool_060405E0:
-        .2byte 0x002A
+        .2byte .L_06040606 - .L_pool_060405DC
     .L_wpool_060405E2:
-        .2byte 0x0038
+        .2byte .L_06040614 - .L_pool_060405DC
     .L_wpool_060405E4:
-        .2byte 0x003C
+        .2byte .L_06040618 - .L_pool_060405DC
     .L_wpool_060405E6:
-        .2byte 0x0046
+        .2byte .L_06040622 - .L_pool_060405DC
     .L_wpool_060405E8:
-        .2byte 0x0026
+        .2byte .L_06040602 - .L_pool_060405DC
+    .L_060405EA:
         bra FUN_06040634
         mov #0x4, r6
     .L_wpool_060405EE:

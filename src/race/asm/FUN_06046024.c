@@ -41,6 +41,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045C02
         add r14, r12
+    .L_06046074:
         mov r11, r1
         mov r12, r2
         mov #0x60, r3
@@ -80,6 +81,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045C02
         add r14, r11
+    .L_060460C0:
         mov r11, r1
         mov r12, r2
         mov #0x60, r3
@@ -96,6 +98,7 @@ int FUN_06046024(void) asm {
         bra xref_06045BC6
         add r14, r10
         nop
+    .L_060460E0:
         mov r12, r1
         mov r13, r2
         mov #0x60, r3
@@ -139,6 +142,7 @@ int FUN_06046024(void) asm {
         bra xref_06045C02
         add r14, r12
         nop
+    .L_06046134:
         mov r12, r1
         mov r13, r2
         mov #0x60, r3
@@ -155,6 +159,7 @@ int FUN_06046024(void) asm {
         bra xref_06045BC6
         add r14, r12
         nop
+    .L_06046154:
         mov r12, r1
         mov r13, r2
         mov #0x60, r3
@@ -175,6 +180,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045C02
         add r14, r10
+    .L_0604617C:
         mov r13, r1
         mov r10, r2
         mov #0x60, r3
@@ -216,6 +222,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045C02
         add r14, r12
+    .L_060461CC:
         mov r10, r1
         mov r11, r2
         mov #0x60, r3
@@ -232,6 +239,7 @@ int FUN_06046024(void) asm {
         bra xref_06045BC6
         add r14, r13
         nop
+    .L_060461EC:
         mov r11, r1
         mov r12, r2
         mov #0x60, r3
@@ -252,6 +260,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045C02
         add r14, r12
+    .L_06046214:
         mov r13, r1
         mov r10, r2
         mov #0x60, r3
@@ -268,6 +277,7 @@ int FUN_06046024(void) asm {
         bra xref_06045BC6
         add r14, r13
         nop
+    .L_06046234:
         mov r10, r1
         mov r11, r2
         mov #0x60, r3
@@ -288,6 +298,7 @@ int FUN_06046024(void) asm {
         bra xref_06045C02
         add r14, r12
         nop
+    .L_0604625C:
         mov r13, r1
         mov r10, r2
         mov #0x60, r3
@@ -308,6 +319,7 @@ int FUN_06046024(void) asm {
         bra xref_06045C02
         add r14, r12
         nop
+    .L_06046284:
         mov r10, r1
         mov r11, r2
         mov #0x60, r3
@@ -326,6 +338,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045BC6
         add r14, r13
+    .L_060462A8:
         mov r11, r1
         mov r12, r2
         mov #0x60, r3
@@ -346,6 +359,7 @@ int FUN_06046024(void) asm {
         bra xref_06045BC6
         add r14, r12
         nop
+    .L_060462D0:
         mov r11, r1
         mov r12, r2
         mov #0x60, r3
@@ -366,6 +380,7 @@ int FUN_06046024(void) asm {
         bra xref_06045C02
         add r14, r11
         nop
+    .L_060462F8:
         mov r12, r1
         mov r10, r2
         mov #0x60, r3
@@ -384,6 +399,7 @@ int FUN_06046024(void) asm {
         mov.b r0, @(128, gbr)
         bra xref_06045BC6
         add r14, r13
+    .L_0604631C:
         mov r10, r1
         mov r11, r2
         mov #0x60, r3
@@ -404,6 +420,7 @@ int FUN_06046024(void) asm {
         bra xref_06045C02
         add r14, r12
         nop
+    .L_06046344:
         mov r12, r1
         mov r10, r2
         mov #0x60, r3
