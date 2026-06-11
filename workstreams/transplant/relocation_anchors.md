@@ -74,6 +74,36 @@ Note +500 is the **maximum positive** in-place shift: inject_disc.py cannot
 grow race.bin past its retail 83-sector allocation (169,984 B = retail
 +504). Deletion (negative shift) has no such limit.
 
+## Relocation audit — COMPLETE (2026-06-11)
+
+Every relocating byte in race.bin is accounted for. Method: diff the
+zero-shift and +4 builds — data must be shift-invariant and code must be
+position-independent except pool words, so every difference is exactly one
+symbolization decision, and the linker guarantees completeness.
+
+| Class | Count | Verdict |
+|---|---|---|
+| Code-pool words -> subseg starts | 960 | real by construction |
+| Code-pool words -> interior targets | 439 | known deliberate classes (mid-entries, SMC wrapper 0x06047D3C, hidden entry 0x0604CFE8, Duff's jump table, data-record labels); 0 with packed-constant access signature |
+| Data-island words | 101 | audited real (structured pointer arrays, descriptor links); **3 false positives found & fixed** (DAT_0604CA14 + 2x DAT_06040200 / 1x DAT_06030200 in DAT_0604F684 — "index-06 record" address collisions) |
+| bsrf/braf dispatch-table entries | 75 in 7 cross-file tables | **were raw distances — silent deletion landmine — now symbolized** as `.2byte TARGET - ANCHOR` deltas (tools/symbolize_dispatch_tables.py); 13 local tables intentionally raw (files are the atomic deletion unit) |
+| Cross-pad displacement fixups | 0 | no branch crosses the entry-TU pad |
+| Unclassified diffs | 0 | taxonomy exhaustive |
+
+**Archive cross-check:** the pre-reboot tree had symbolized all 19 dispatch
+tables (`.short FUN_x - .L_bsrf_return` in archive_src) — the funcfinder
+reboot regenerated them raw from pristine bytes, silently losing that
+hardening. Today's audit re-found all 19 sites independently (1:1 match,
+171/171 archive entries accounted for) and re-hardened the 7 that cross
+files. The archive's known pool false positive (DAT_0604FFFF packed
+constants) was NOT re-introduced — the new tree has it literal.
+
+**Regression guard:** `tools/check_reloc_invariants.py` (run after
+`make validate`) fails on any new unclassified diff, any new relocating
+word in a data island (vs the audited allowlist
+`sweep_artifacts/data_reloc_allowlist.txt`), or any pool word that grows
+16-bit-half access labels.
+
 ## Consequences for the removal campaign
 
 1. **Compaction is safe.** Delete dead `#include`s; everything after moves
