@@ -2,10 +2,20 @@
 """Build validation for Daytona USA CCE.
 
 Test classes:
-  1. free   — make validate: 8/8 modules byte-identical to retail
-  2. 4shift — make 4shift (race built with -DRACE_SHIFT=4, shifting everything
-              past the pinned entry TU) + Mednafen screenshot boot test against
-              the golden baseline
+  1. free    — make validate: 8/8 modules byte-identical to retail.
+               Runs with SATURNCC_PAD_STRICT=1: any materialized alignment
+               pad is a hard FAIL (the retail layout must produce zero).
+  2. 4shift  — make 4shift (race built with -DRACE_SHIFT=4, shifting
+               everything past the pinned entry TU) + Mednafen screenshot
+               boot test against the golden baseline. Also pad-strict
+               (+4 is 0 mod 4: zero pads expected).
+  3. modwarn — make MOD=transplant race; every saturncc build warning is
+               normalized to a signature and diffed against the approved
+               manifest config/known_warnings.txt. NEW warnings fail;
+               EXPECTED-but-missing warnings fail (layout changed when you
+               didn't think it did). Approve deliberately with:
+                   python tools/validate_build.py --class modwarn --stamp-warnings
+               saturncc *error* lines are never stampable.
 
 The historical retail class (separate retail.ld byte-identity) was dropped
 when the build pipeline collapsed to a single yaml-driven flow. See
@@ -18,11 +28,13 @@ Usage:
 """
 
 import os
+import re
 import sys
 import subprocess
 import argparse
 
 PROJECT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+KNOWN_WARNINGS = os.path.join(PROJECT, "config", "known_warnings.txt")
 REBUILT_CUE = os.path.join(
     PROJECT, "build", "disc", "rebuilt_disc", "daytona_cce_rebuilt.cue"
 )
@@ -55,7 +67,16 @@ def test_free():
     header("CLASS 1: Free build (zero-shift) — make validate")
 
     projdir = wsl_path(PROJECT)
-    rc, out, err = run_wsl(f'make -C "{projdir}" validate 2>&1', timeout=300)
+    rc, out, err = run_wsl(
+        f'SATURNCC_PAD_STRICT=1 make -C "{projdir}" validate 2>&1',
+        timeout=300)
+    if rc != 0 and "PAD_STRICT" in out:
+        print("  STRICT: alignment pad materialized in the zero-pad build:")
+        for line in out.split("\n"):
+            if "pad" in line.lower():
+                print(f"    {line.strip()}")
+        print("\n  RESULT: FAIL (pad in retail-identity build)")
+        return False
 
     # Count module-level PASS/FAIL lines (start with "  PASS" or "  FAIL")
     pass_count = 0
@@ -80,7 +101,9 @@ def test_4shift():
 
     projdir = wsl_path(PROJECT)
     print("  Building race +4 shift disc...")
-    rc, out, err = run_wsl(f'make -C "{projdir}" 4shift 2>&1', timeout=300)
+    rc, out, err = run_wsl(
+        f'SATURNCC_PAD_STRICT=1 make -C "{projdir}" 4shift 2>&1',
+        timeout=300)
 
     if rc != 0:
         print(f"  Build FAILED (rc={rc})")
@@ -121,13 +144,131 @@ def test_4shift():
     return passed
 
 
+WARN_PAD_RX = re.compile(
+    r"PAD:\s*(\d+)\s*byte\(s\)\s*at\s*0x[0-9a-fA-F]+\s+site\s+(\S+)")
+WARN_ERROR_RX = re.compile(r"saturncc.*error", re.IGNORECASE)
+WARN_UNVERIFIED_RX = re.compile(r"dispatch tables UNVERIFIED")
+
+
+def extract_warning_signatures(text):
+    """Normalize saturncc warnings to layout-stable signatures.
+
+    Pad sites are keyed by site label + size (NOT by offset, which moves
+    with every deletion batch). Returns (signatures, error_lines)."""
+    sigs, errors = set(), []
+    for line in text.split("\n"):
+        m = WARN_PAD_RX.search(line)
+        if m:
+            sigs.add(f"PAD:{m.group(2)}:{m.group(1)}")
+            continue
+        if WARN_UNVERIFIED_RX.search(line):
+            # ground-truth checker didn't run: never approvable
+            errors.append(line.strip())
+            continue
+        if WARN_ERROR_RX.search(line):
+            errors.append(line.strip())
+    return sigs, errors
+
+
+def load_known(build_class):
+    known = set()
+    if os.path.exists(KNOWN_WARNINGS):
+        for line in open(KNOWN_WARNINGS):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            cls, _, sig = line.partition("|")
+            if cls == build_class:
+                known.add(sig)
+    return known
+
+
+def stamp_known(build_class, sigs):
+    keep = []
+    if os.path.exists(KNOWN_WARNINGS):
+        keep = [l.rstrip("\n") for l in open(KNOWN_WARNINGS)
+                if l.strip() and not l.strip().startswith("#")
+                and not l.startswith(build_class + "|")]
+    with open(KNOWN_WARNINGS, "w") as f:
+        f.write("# Approved saturncc build warnings, per build class.\n")
+        f.write("# A modwarn validation FAILS on any warning not listed here\n")
+        f.write("# and on any listed warning that stops appearing. Re-stamp\n")
+        f.write("# deliberately after reviewing a layout change:\n")
+        f.write("#   python tools/validate_build.py --class modwarn"
+                " --stamp-warnings\n")
+        f.write("# class|signature\n")
+        for l in keep:
+            f.write(l + "\n")
+        for s in sorted(sigs):
+            f.write(f"{build_class}|{s}\n")
+
+
+def test_modwarn(stamp=False):
+    """Class modwarn: transplant build warnings vs the approved manifest."""
+    header("CLASS MODWARN: transplant build vs known-warnings manifest")
+
+    projdir = wsl_path(PROJECT)
+    print("  Building transplant race (warnings captured)...")
+    rc, out, err = run_wsl(
+        f'make -C "{projdir}" MOD=transplant race 2>&1', timeout=300)
+    if rc != 0:
+        print(f"  Build FAILED (rc={rc})")
+        for line in (out + err).strip().split("\n")[-8:]:
+            print(f"    {line}")
+        print("\n  RESULT: FAIL (build error)")
+        return False
+
+    sigs, errors = extract_warning_signatures(out + "\n" + err)
+    if errors:
+        print("  saturncc ERRORS (never stampable):")
+        for e in errors:
+            print(f"    {e}")
+        print("\n  RESULT: FAIL (saturncc errors)")
+        return False
+
+    if stamp:
+        stamp_known("transplant", sigs)
+        print(f"  Stamped {len(sigs)} warning(s) as approved for class"
+              f" 'transplant':")
+        for s in sorted(sigs):
+            print(f"    {s}")
+        print(f"  Manifest: {KNOWN_WARNINGS}")
+        print("\n  RESULT: PASS (stamped)")
+        return True
+
+    known = load_known("transplant")
+    new = sigs - known
+    gone = known - sigs
+    print(f"  warnings observed: {len(sigs)}, approved: {len(known)}")
+    for s in sorted(sigs & known):
+        print(f"    ok       {s}")
+    for s in sorted(new):
+        print(f"    NEW      {s}")
+    for s in sorted(gone):
+        print(f"    MISSING  {s}")
+    if new:
+        print("\n  New warnings require review. If approved:")
+        print("    python tools/validate_build.py --class modwarn"
+              " --stamp-warnings")
+    if gone:
+        print("\n  Expected warnings vanished: the layout changed in a way")
+        print("  the manifest doesn't describe. Review, then re-stamp.")
+    passed = not new and not gone
+    print(f"\n  RESULT: {'PASS' if passed else 'FAIL'}")
+    return passed
+
+
 def main():
     parser = argparse.ArgumentParser(description="Full 3-class build validation")
     parser.add_argument(
         "--class", dest="test_class",
-        choices=["free", "4shift", "all"],
+        choices=["free", "4shift", "modwarn", "all"],
         default="all", help="Which test class to run (default: all)"
     )
+    parser.add_argument(
+        "--stamp-warnings", action="store_true",
+        help="modwarn: approve the current warning set into"
+             " config/known_warnings.txt instead of diffing against it")
     args = parser.parse_args()
 
     results = {}
@@ -148,6 +289,14 @@ def main():
         results["4shift"] = passed
         if not passed:
             overall = False
+
+    if args.test_class in ("modwarn", "all"):
+        passed = test_modwarn(stamp=args.stamp_warnings)
+        results["modwarn"] = passed
+        if not passed:
+            overall = False
+        print("\n  NOTE: build/race/race.bin now holds the TRANSPLANT build;")
+        print("  run 'make race' for the retail binary if needed downstream.")
 
     return print_summary(results, overall)
 
