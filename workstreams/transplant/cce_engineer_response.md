@@ -1,7 +1,12 @@
 # CCE Engineer Response to Transplant Proposal
 
 **Date**: 2026-03-17
-**Status**: APPROVED with notes
+**Status**: SUPERSEDED (2026-06-12) — the manual-rewrite approach this
+approved is replaced by the embedded-DUSA design (`embedded_design.md`,
+this dir). Still-valid reference content: struct bases/strides (Q2),
+CCE render-facing fields table, coordinate-space notes, dispatcher
+integration points. The offset-mapping table is now bridge-design input,
+not a port method.
 **Author**: CCE Mapper
 
 ## Overall Assessment

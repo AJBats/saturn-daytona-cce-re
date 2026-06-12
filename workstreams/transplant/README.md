@@ -2,6 +2,16 @@
 
 **We're doing it.**
 
+> **ARCHITECTURE SUPERSEDED (2026-06-12).** The transplant now follows the
+> **embedded-DUSA design** — DUSA code runs byte-faithful (modulo relocation)
+> in its own struct layout/coordinate space/track data inside race.bin, with
+> a bridge converting outputs to CCE's car struct. See
+> **`embedded_design.md`** for the adopted architecture, validation strategy,
+> and revised step ladder. This README's "Approach: Incremental Manual
+> Rewrite", per-function adaptation checklist, offset-mapping-as-port-method,
+> and Step 10 constant scaling are superseded; its Step 0 record, COL-trick
+> findings, poke tests, and budget data remain valid reference.
+
 > **STATUS (2026-06-11).** Step 0 (hollowing) is **complete** — brain-dead-car
 > baseline boots and renders, COL reads eliminated, COL-body trick validated.
 > The live mod is the `.c` shim form on the canonical hybrid build:
