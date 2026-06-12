@@ -102,28 +102,20 @@ int FUN_06037E28(void) asm {
         .4byte FUN_06037654
     .L_pool_06037EE4:
         .4byte FUN_06036BB8
-    .L_pool_06037EE8:
-        .2byte 0x002A
-    .L_wpool_06037EEA:
-        .2byte 0x002A
-    .L_wpool_06037EEC:
-        .2byte 0x0158
-    .L_wpool_06037EEE:
-        .2byte 0x018A
-    .L_wpool_06037EF0:
-        .2byte 0x024C
-    .L_wpool_06037EF2:
-        .2byte 0x029C
-    .L_wpool_06037EF4:
-        .2byte 0x0364
-    .L_wpool_06037EF6:
-        .2byte 0x03B0
-    .L_wpool_06037EF8:
-        .2byte 0x0402
-    .L_wpool_06037EFA:
-        .2byte 0x043E
-    .L_wpool_06037EFC:
-        .2byte 0x0578
+    .dispatch_table .L_pool_06037EE8
+    .case .L_06037EFE
+    .case .L_06037EFE
+    .case .L_0603802C
+    .case .L_0603805E
+    .case .L_06038120
+    .case .L_06038170
+    .case .L_06038238
+    .case .L_06038284
+    .case .L_060382D6
+    .case .L_06038312
+    .case .L_0603844C
+    .end_dispatch
+    .L_06037EFE:
         mov #0x20, r3
         mov.w .L_wpool_06038006, r0
         mov.l @(r0, r14), r2
@@ -286,6 +278,7 @@ int FUN_06037E28(void) asm {
         .4byte FUN_06039014
     .L_pool_06038028:
         .4byte FUN_06039110
+    .L_0603802C:
         nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
         nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
@@ -311,6 +304,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         bra .L_06038304
         nop
+    .L_0603805E:
         mov.w .L_wpool_06038144, r0
         mov.l .L_pool_0603814C, r3
         mov.b r11, @(r0, r14)
@@ -409,6 +403,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         bra .L_0603844C
         nop
+    .L_06038120:
         mov.l .L_pool_06038160, r3
         jsr @r3
         mov r14, r4
@@ -458,6 +453,7 @@ int FUN_06037E28(void) asm {
         mov.l .L_pool_06038260, r1
         jsr @r1
         nop
+    .L_06038170:
         mov.w .L_wpool_06038254, r0
         mov.b r11, @(r0, r14)
         mov.l .L_pool_06038264, r3
@@ -560,6 +556,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         bra .L_0603844C
         nop
+    .L_06038238:
         mov.l .L_pool_06038274, r2
         jsr @r2
         mov r14, r4
@@ -607,6 +604,7 @@ int FUN_06037E28(void) asm {
         mov.l .L_pool_06038384, r1
         jsr @r1
         nop
+    .L_06038284:
         nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
         mov.l .L_pool_06038388, r2
@@ -648,6 +646,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         bra .L_0603844C
         nop
+    .L_060382D6:
         nop                         /* TRANSPLANT: was bsr FUN_06038BC4 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
         nop                         /* TRANSPLANT: was jsr @r9 — physics dispatch via FUN_060352E8 */
@@ -679,6 +678,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         bra .L_0603844C
         nop
+    .L_06038312:
         mov.w .L_wpool_06038380, r0
         mov.b r11, @(r0, r14)
         mov.l r11, @(36, r14)

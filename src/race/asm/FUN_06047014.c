@@ -36,36 +36,22 @@ int FUN_06047014(void) asm {
         rts
         nop
         nop
-    .L_pool_06047058:
-        .2byte FUN_06047078 - .L_0604703A
-    .L_wpool_0604705A:
-        .2byte FUN_0604708C - .L_0604703A
-    .L_wpool_0604705C:
-        .2byte FUN_060470A8 - .L_0604703A
-    .L_wpool_0604705E:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047060:
-        .2byte FUN_060470C4 - .L_0604703A
-    .L_wpool_06047062:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047064:
-        .2byte FUN_060470D6 - .L_0604703A
-    .L_wpool_06047066:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047068:
-        .2byte FUN_060470EC - .L_0604703A
-    .L_wpool_0604706A:
-        .2byte FUN_060470FE - .L_0604703A
-    .L_wpool_0604706C:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_0604706E:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047070:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047072:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047074:
-        .2byte FUN_06047114 - .L_0604703A
-    .L_wpool_06047076:
-        .2byte FUN_06047114 - .L_0604703A
+    .dispatch_table .L_pool_06047058
+    .case FUN_06047078
+    .case FUN_0604708C
+    .case FUN_060470A8
+    .case FUN_06047114
+    .case FUN_060470C4
+    .case FUN_06047114
+    .case FUN_060470D6
+    .case FUN_06047114
+    .case FUN_060470EC
+    .case FUN_060470FE
+    .case FUN_06047114
+    .case FUN_06047114
+    .case FUN_06047114
+    .case FUN_06047114
+    .case FUN_06047114
+    .case FUN_06047114
+    .end_dispatch
 }

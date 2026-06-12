@@ -8,12 +8,14 @@ int FUN_06045D80(void) asm {
         mov.w @(r0, r1), r1
         braf r1
         mov.l @(4, r10), r4
+    .L_06045D90:
         mov.l .L_pool_06045DEC, r0
         add r5, r4
         add r6, r4
         dmuls.l r0, r4
         rts
         sts mach, r4
+    .L_06045D9C:
         cmp/ge r6, r4
         bf .L_06045DA2
         mov r6, r4
@@ -31,6 +33,7 @@ int FUN_06045D80(void) asm {
         bt xref_06045D38
         rts
         mov r5, r4
+    .L_06045DB8:
         cmp/ge r6, r4
         bt .L_06045DBE
         mov r6, r4
@@ -43,6 +46,7 @@ int FUN_06045D80(void) asm {
         shll16 r1
         rts
         add r1, r4
+    .L_06045DCC:
         sts.l pr, @-r15
         bsr .L_06045DAA
         nop
@@ -73,14 +77,11 @@ int FUN_06045D80(void) asm {
     .L_wpool_06045DF8:
         .2byte 0x0054
         nop
-    .L_pool_06045DFC:
-        .2byte 0x0000
-    .L_wpool_06045DFE:
-        .2byte 0x000C
-    .L_wpool_06045E00:
-        .2byte 0x001A
-    .L_wpool_06045E02:
-        .2byte 0x0028
-    .L_wpool_06045E04:
-        .2byte 0x003C
+    .dispatch_table .L_pool_06045DFC
+    .case .L_06045D90
+    .case .L_06045D9C
+    .case .L_06045DAA
+    .case .L_06045DB8
+    .case .L_06045DCC
+    .end_dispatch
 }

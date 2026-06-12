@@ -10,31 +10,26 @@ int FUN_060472CC(void) asm {
         braf r0
         nop
         nop
-    .L_pool_060472E0:
-        .2byte 0x0016
-    .L_wpool_060472E2:
-        .2byte 0x0016
-    .L_wpool_060472E4:
-        .2byte 0x0016
-    .L_wpool_060472E6:
-        .2byte 0x001E
-    .L_wpool_060472E8:
-        .2byte 0x0036
-    .L_wpool_060472EA:
-        .2byte 0x004E
-    .L_wpool_060472EC:
-        .2byte 0x00E6
-    .L_wpool_060472EE:
-        .2byte 0x0182
-    .L_wpool_060472F0:
-        .2byte 0x01F6
+    .dispatch_table .L_pool_060472E0
+    .case .L_060472F4
+    .case .L_060472F4
+    .case .L_060472F4
+    .case .L_060472FC
+    .case .L_06047314
+    .case .L_0604732C
+    .case .L_060473C4
+    .case .L_06047460
+    .case .L_060474D4
+    .end_dispatch
         nop
+    .L_060472F4:
         rts
         nop
     .L_wpool_060472F8:
         .2byte 0x0180
     .L_wpool_060472FA:
         .2byte 0x0009
+    .L_060472FC:
         mov.l @(0, r10), r1
         mov.l @(8, r10), r2
         mov.l @(16, r10), r3
@@ -47,6 +42,7 @@ int FUN_060472CC(void) asm {
         rts
         nop
         nop
+    .L_06047314:
         mov.l @(0, r10), r1
         mov.l @(8, r10), r2
         mov.l @(16, r10), r3
@@ -59,6 +55,7 @@ int FUN_060472CC(void) asm {
         mov.b r0, @(155, gbr)
         rts
         nop
+    .L_0604732C:
         mov.b @(165, gbr), r0
         tst r0, r0
         bf .L_0604737A
@@ -136,6 +133,7 @@ int FUN_060472CC(void) asm {
         rts
         nop
         nop
+    .L_060473C4:
         mov.b @(165, gbr), r0
         tst r0, r0
         bf .L_06047414
@@ -215,6 +213,7 @@ int FUN_060472CC(void) asm {
         rts
         nop
         nop
+    .L_06047460:
         sts.l pr, @-r15
         mov.l @(0, r10), r1
         mov.l @(8, r10), r2
@@ -273,6 +272,7 @@ int FUN_060472CC(void) asm {
         rts
         nop
         nop
+    .L_060474D4:
         sts.l pr, @-r15
         mov.l @(0, r10), r1
         mov.l @(8, r10), r2

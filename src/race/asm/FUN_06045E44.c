@@ -14,38 +14,25 @@ int FUN_06045E44(void) asm {
         braf r0
         nop
         nop
-    .L_pool_06045E60:
-        .2byte 0x0022
-    .L_wpool_06045E62:
-        .2byte 0x004A
-    .L_wpool_06045E64:
-        .2byte 0x006A
-    .L_wpool_06045E66:
-        .2byte 0x008A
-    .L_wpool_06045E68:
-        .2byte 0x009A
-    .L_wpool_06045E6A:
-        .2byte 0x0022
-    .L_wpool_06045E6C:
-        .2byte 0x00AE
-    .L_wpool_06045E6E:
-        .2byte 0x0022
-    .L_wpool_06045E70:
-        .2byte 0x0036
-    .L_wpool_06045E72:
-        .2byte 0x0036
-    .L_wpool_06045E74:
-        .2byte 0x006A
-    .L_wpool_06045E76:
-        .2byte 0x006A
-    .L_wpool_06045E78:
-        .2byte 0x0036
-    .L_wpool_06045E7A:
-        .2byte 0x0022
-    .L_wpool_06045E7C:
-        .2byte 0x006A
-    .L_wpool_06045E7E:
-        .2byte 0x0022
+    .dispatch_table .L_pool_06045E60
+    .case .L_06045E80
+    .case .L_06045EA8
+    .case .L_06045EC8
+    .case .L_06045EE8
+    .case .L_06045EF8
+    .case .L_06045E80
+    .case .L_06045F0C
+    .case .L_06045E80
+    .case .L_06045E94
+    .case .L_06045E94
+    .case .L_06045EC8
+    .case .L_06045EC8
+    .case .L_06045E94
+    .case .L_06045E80
+    .case .L_06045EC8
+    .case .L_06045E80
+    .end_dispatch
+    .L_06045E80:
         mov.w @(130, gbr), r0
         mov.w r0, @(6, r7)
         mov.w @(146, gbr), r0
@@ -56,6 +43,7 @@ int FUN_06045E44(void) asm {
         rts
         mov.w r0, @(4, r7)
         nop
+    .L_06045E94:
         mov.w @(130, gbr), r0
         mov.w r0, @(6, r7)
         mov.w @(146, gbr), r0
@@ -66,6 +54,7 @@ int FUN_06045E44(void) asm {
         rts
         mov.w r0, @(4, r7)
         nop
+    .L_06045EA8:
         sts.l pr, @-r15
         bsr FUN_06045FC0
         mov.l @(44, r14), r4
@@ -99,6 +88,7 @@ int FUN_06045E44(void) asm {
         or r2, r0
         rts
         mov.w r0, @(0, r7)
+    .L_06045EE8:
         sts.l pr, @-r15
         bsr FUN_06045FC0
         mov.l @(44, r14), r4
@@ -107,6 +97,7 @@ int FUN_06045E44(void) asm {
         add r1, r0
         bra .L_06045EC8
         mov.w r0, @(28, r7)
+    .L_06045EF8:
         mov.w @(130, gbr), r0
         mov.w r0, @(6, r7)
         mov.w @(146, gbr), r0
@@ -117,6 +108,7 @@ int FUN_06045E44(void) asm {
         bra FUN_06045F46
         mov.w r0, @(4, r7)
         nop
+    .L_06045F0C:
         sts.l pr, @-r15
         bsr FUN_06045F46
         nop

@@ -30,10 +30,11 @@ int FUN_0603FAEA(void) asm {
         mov.w @(r0, r7), r0
         braf r0
         shlr r7
-    .L_pool_0603FB24:
-        .2byte 0x0004
-    .L_wpool_0603FB26:
-        .2byte 0x0050
+    .dispatch_table .L_pool_0603FB24
+    .case .L_0603FB28
+    .case .L_0603FB74
+    .end_dispatch
+    .L_0603FB28:
         cmp/pz r4
         bt .L_0603FB36
         mov.l .L_pool_0603FC68, r6
@@ -74,6 +75,7 @@ int FUN_0603FAEA(void) asm {
         mov #0x4, r0
         bra .L_0603FB94
         mov #0x3, r0
+    .L_0603FB74:
         neg r4, r4
         cmp/pz r4
         bf .L_0603FB92

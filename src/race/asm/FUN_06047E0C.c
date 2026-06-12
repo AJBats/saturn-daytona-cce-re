@@ -44,44 +44,46 @@ int FUN_06047E0C(void) asm {
     .L_06047E58:
         rts
         mov #0x0, r0
+    .L_06047E5C:
         rts
         mov r2, r0
+    .L_06047E60:
         mov.l .L_pool_06047ED0, r0
         rts
         sub r2, r0
+    .L_06047E66:
         mov.l .L_pool_06047ED0, r0
         rts
         add r2, r0
+    .L_06047E6C:
         mov.l .L_pool_06047ED4, r0
         rts
         sub r2, r0
+    .L_06047E72:
         mov.l .L_pool_06047ED4, r0
         sub r0, r2
         rts
         mov r2, r0
+    .L_06047E7A:
         mov.l .L_pool_06047ED8, r0
         rts
         sub r2, r0
+    .L_06047E80:
         mov.l .L_pool_06047ED0, r0
         sub r0, r2
         rts
         mov r2, r0
+    .L_06047E88:
         rts
         neg r2, r0
-    .L_pool_06047E8C:
-        .2byte 0x0004
-    .L_wpool_06047E8E:
-        .2byte 0x0008
-    .L_wpool_06047E90:
-        .2byte 0x0030
-    .L_wpool_06047E92:
-        .2byte 0x0028
-    .L_wpool_06047E94:
-        .2byte 0x0014
-    .L_wpool_06047E96:
-        .2byte 0x000E
-    .L_wpool_06047E98:
-        .2byte 0x001A
-    .L_wpool_06047E9A:
-        .2byte 0x0022
+    .dispatch_table .L_pool_06047E8C
+    .case .L_06047E5C
+    .case .L_06047E60
+    .case .L_06047E88
+    .case .L_06047E80
+    .case .L_06047E6C
+    .case .L_06047E66
+    .case .L_06047E72
+    .case .L_06047E7A
+    .end_dispatch
 }

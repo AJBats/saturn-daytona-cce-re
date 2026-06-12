@@ -8,20 +8,15 @@ int FUN_060405CC(void) asm {
         mov.l .L_pool_060405F4, r0
         braf r1
         mov.l @r0, r0
-    .L_pool_060405DC:
-        .2byte .L_060405EA - .L_pool_060405DC
-    .L_wpool_060405DE:
-        .2byte FUN_060405F8 - .L_pool_060405DC
-    .L_wpool_060405E0:
-        .2byte .L_06040606 - .L_pool_060405DC
-    .L_wpool_060405E2:
-        .2byte .L_06040614 - .L_pool_060405DC
-    .L_wpool_060405E4:
-        .2byte .L_06040618 - .L_pool_060405DC
-    .L_wpool_060405E6:
-        .2byte .L_06040622 - .L_pool_060405DC
-    .L_wpool_060405E8:
-        .2byte .L_06040602 - .L_pool_060405DC
+    .dispatch_table .L_pool_060405DC
+    .case .L_060405EA
+    .case FUN_060405F8
+    .case .L_06040606
+    .case .L_06040614
+    .case .L_06040618
+    .case .L_06040622
+    .case .L_06040602
+    .end_dispatch
     .L_060405EA:
         bra FUN_06040634
         mov #0x4, r6

@@ -7,38 +7,24 @@ void FUN_06045B74(void) __naked__ {
         mov.w @(r0, r1), r1
         braf r1
         sts.l pr, @-r15
-    .L_pool_06045B80:
-        .2byte .L_06045BC4 - .L_pool_06045B80
-    .L_wpool_06045B82:
-        .2byte FUN_06046024 - .L_pool_06045B80
-    .L_wpool_06045B84:
-        .2byte .L_06046074 - .L_pool_06045B80
-    .L_wpool_06045B86:
-        .2byte .L_060460C0 - .L_pool_06045B80
-    .L_wpool_06045B88:
-        .2byte .L_060460E0 - .L_pool_06045B80
-    .L_wpool_06045B8A:
-        .2byte .L_06045BBC - .L_pool_06045B80
-    .L_wpool_06045B8C:
-        .2byte .L_06046134 - .L_pool_06045B80
-    .L_wpool_06045B8E:
-        .2byte .L_06046154 - .L_pool_06045B80
-    .L_wpool_06045B90:
-        .2byte .L_0604617C - .L_pool_06045B80
-    .L_wpool_06045B92:
-        .2byte .L_060461CC - .L_pool_06045B80
-    .L_wpool_06045B94:
-        .2byte .L_06045BBC - .L_pool_06045B80
-    .L_wpool_06045B96:
-        .2byte .L_060461EC - .L_pool_06045B80
-    .L_wpool_06045B98:
-        .2byte .L_06046214 - .L_pool_06045B80
-    .L_wpool_06045B9A:
-        .2byte .L_06046234 - .L_pool_06045B80
-    .L_wpool_06045B9C:
-        .2byte .L_0604625C - .L_pool_06045B80
-    .L_wpool_06045B9E:
-        .2byte .L_06045BBC - .L_pool_06045B80
+    .dispatch_table .L_pool_06045B80
+    .case .L_06045BC4
+    .case FUN_06046024
+    .case .L_06046074
+    .case .L_060460C0
+    .case .L_060460E0
+    .case .L_06045BBC
+    .case .L_06046134
+    .case .L_06046154
+    .case .L_0604617C
+    .case .L_060461CC
+    .case .L_06045BBC
+    .case .L_060461EC
+    .case .L_06046214
+    .case .L_06046234
+    .case .L_0604625C
+    .case .L_06045BBC
+    .end_dispatch
     }
     __entry_alias__(FUN_06045BA0);
     asm {
@@ -49,22 +35,16 @@ void FUN_06045B74(void) __naked__ {
         mov.w @(r0, r1), r1
         braf r1
         sts.l pr, @-r15
-    .L_pool_06045BAC:
-        .2byte .L_06045C00 - .L_pool_06045BAC
-    .L_wpool_06045BAE:
-        .2byte .L_06046284 - .L_pool_06045BAC
-    .L_wpool_06045BB0:
-        .2byte .L_060462A8 - .L_pool_06045BAC
-    .L_wpool_06045BB2:
-        .2byte .L_060462D0 - .L_pool_06045BAC
-    .L_wpool_06045BB4:
-        .2byte .L_060462F8 - .L_pool_06045BAC
-    .L_wpool_06045BB6:
-        .2byte .L_0604631C - .L_pool_06045BAC
-    .L_wpool_06045BB8:
-        .2byte .L_06046344 - .L_pool_06045BAC
-    .L_wpool_06045BBA:
-        .2byte .L_06045BBC - .L_pool_06045BAC
+    .dispatch_table .L_pool_06045BAC
+    .case .L_06045C00
+    .case .L_06046284
+    .case .L_060462A8
+    .case .L_060462D0
+    .case .L_060462F8
+    .case .L_0604631C
+    .case .L_06046344
+    .case .L_06045BBC
+    .end_dispatch
     .L_06045BBC:
         lds.l @r15+, pr
         rts

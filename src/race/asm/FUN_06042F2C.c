@@ -48,37 +48,28 @@ int FUN_06042F2C(void) asm {
         nop
     .L_wpool_06042F7E:
         .2byte 0xFFFF
-    .L_pool_06042F80:
-        .2byte 0x0026
-    .L_wpool_06042F82:
-        .2byte 0x004C
-    .L_wpool_06042F84:
-        .2byte 0x0108
-    .L_wpool_06042F86:
-        .2byte 0x001C
-    .L_wpool_06042F88:
-        .2byte 0x0058
-    .L_wpool_06042F8A:
-        .2byte 0x0072
-    .L_wpool_06042F8C:
-        .2byte 0x007A
-    .L_wpool_06042F8E:
-        .2byte 0x0086
-    .L_wpool_06042F90:
-        .2byte 0x00BC
-    .L_wpool_06042F92:
-        .2byte 0x00CC
-    .L_wpool_06042F94:
-        .2byte 0x00D2
-    .L_wpool_06042F96:
-        .2byte 0x00DC
-    .L_wpool_06042F98:
-        .2byte 0x00FA
+    .dispatch_table .L_pool_06042F80
+    .case .L_06042FA4
+    .case .L_06042FCA
+    .case .L_06043086
+    .case .L_06042F9A
+    .case .L_06042FD6
+    .case .L_06042FF0
+    .case .L_06042FF8
+    .case .L_06043004
+    .case .L_0604303A
+    .case .L_0604304A
+    .case .L_06043050
+    .case .L_0604305A
+    .case .L_06043078
+    .end_dispatch
+    .L_06042F9A:
         mov #0x51, r0
         mov.b @(r0, r14), r2
         mov #0x2, r3
         bra .L_06042FAC
         or r3, r2
+    .L_06042FA4:
         mov #0x51, r0
         mov #-0x3, r3
         mov.b @(r0, r14), r2
@@ -99,12 +90,14 @@ int FUN_06042F2C(void) asm {
         mov r14, r4
         bra .L_06043086
         nop
+    .L_06042FCA:
         mov #0x51, r0
         mov.b @(r0, r14), r2
         mov #0x1, r3
         or r3, r2
         bra .L_06043086
         mov.b r2, @(r0, r14)
+    .L_06042FD6:
         mov r14, r0
         add #0x44, r0
         mov r12, r3
@@ -118,10 +111,12 @@ int FUN_06042F2C(void) asm {
         shar r3
         bra .L_06043086
         mov.b r12, @(r0, r3)
+    .L_06042FF0:
         mov #0x51, r0
         mov.b @(r0, r14), r3
         bra .L_06043000
         or r12, r3
+    .L_06042FF8:
         mov #0x51, r0
         not r12, r12
         mov.b @(r0, r14), r3
@@ -129,6 +124,7 @@ int FUN_06042F2C(void) asm {
     .L_06043000:
         bra .L_06043086
         mov.b r3, @(r0, r14)
+    .L_06043004:
         mov #0x12, r0
         mov.b @(r0, r13), r1
         tst r1, r1
@@ -158,6 +154,7 @@ int FUN_06042F2C(void) asm {
         mov r5, r4
         bra .L_06043086
         nop
+    .L_0604303A:
         mov #0x1, r3
         mov.w .L_wpool_06043064, r0
         mov.b @(r0, r13), r2
@@ -166,15 +163,18 @@ int FUN_06042F2C(void) asm {
         add #0x3, r0
         bra .L_06043086
         mov.l r4, @(r0, r13)
+    .L_0604304A:
         mov.w .L_wpool_06043064, r0
         bra .L_06043054
         mov #-0x2, r3
+    .L_06043050:
         mov.w .L_wpool_06043064, r0
         mov #-0x3, r3
     .L_06043054:
         mov.b @(r0, r13), r2
         bra .L_06043084
         and r3, r2
+    .L_0604305A:
         mov #0x2, r3
         mov.w .L_wpool_06043064, r0
         mov.b @(r0, r13), r2
@@ -192,6 +192,7 @@ int FUN_06042F2C(void) asm {
         .4byte 0x002FC21C
     .L_pool_06043074:
         .4byte 0x0600795A
+    .L_06043078:
         mov.w .L_wpool_0604319E, r0
         mov #0x4, r3
         mov.b r4, @(r0, r13)

@@ -40,16 +40,12 @@ int FUN_0603E340(void) asm {
         lds.l @r15+, pr
         rts
         nop
-    .L_pool_0603E388:
-        .2byte FUN_0603E7B0 - .L_0603E378
-    .L_wpool_0603E38A:
-        .2byte FUN_0603E7B0 - .L_0603E378
-    .L_wpool_0603E38C:
-        .2byte FUN_0603E9E2 - .L_0603E378
-    .L_wpool_0603E38E:
-        .2byte FUN_0603EAAA - .L_0603E378
-    .L_wpool_0603E390:
-        .2byte FUN_0603E952 - .L_0603E378
-    .L_wpool_0603E392:
-        .2byte FUN_0603E952 - .L_0603E378
+    .dispatch_table .L_pool_0603E388
+    .case FUN_0603E7B0
+    .case FUN_0603E7B0
+    .case FUN_0603E9E2
+    .case FUN_0603EAAA
+    .case FUN_0603E952
+    .case FUN_0603E952
+    .end_dispatch
 }
