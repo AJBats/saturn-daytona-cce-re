@@ -202,6 +202,63 @@ Steps 1–9 run at raw native 20 Hz from day one — no constant scaling ever.
 - decomp-1 branch (SaturnReverseTest): frozen reference only; walked
   away 2026-06-12 (final commit a8e1ecf6).
 
+## Execution roadmap — from here to a driving car
+
+Turns the step ladder + prerequisites into an ordered action plan, so a
+fresh session knows the next concrete move, not just the end state.
+
+**Current position (2026-06-13):** funcfinder island mapping on APROG.BIN
+(SaturnReverseTest, `config/aprog.bin.yaml`).
+- Island 1 (player pipeline) **DONE** — Step 1's port source has
+  port-grade boundaries now.
+- Island 2 (shared math/utility, ~5 KB) ~13% — feeds Steps 2–5.
+- Islands 3 (track query), 4 (drones) pending — gate Steps 6 and 9.
+- **⇒ Step 1 is already unblocked.** The other islands gate later steps,
+  not the position writer.
+
+**Phase order from here:**
+
+- **B — Capture corpus tool** (SaturnReverseTest; buildable now, parallel
+  with funcfinder). Retail DUSA in deterministic mode + input playback,
+  dumping the player car struct (0x268) + key globals per tick, host-side
+  via MCP. One artifact, three consumers: Tier-2 lockstep, funcfinder
+  runtime-hits banner, permanent regression baseline. Not yet started.
+- **C — Finish funcfinder islands** (SaturnReverseTest). Island 1 done;
+  math/track/drone windows feed later steps — not all needed before Step 1.
+- **D — CCE-side scaffolding** (DaytonaCCEReverse) — must exist before the
+  first port:
+  1. **DUSA state block**: reserve shadow car array (40×0x268 ≈ 24.9 KB) +
+     globals + track tables in the zeroed COL body (0x00228000+) or an HWR
+     gap; one pointer constant. `gen_disc_data.py` already owns the COL
+     overlay.
+  2. **Transplant build extension**: new DUSA-function shims enter via the
+     existing `#ifndef MOD_TRANSPLANT` include mechanism in `src/race/race.c`.
+  3. **Bridge skeleton**: per-tick shadow car → per-course affine transform
+     → CCE car fields (+0x00/04/08 pos, +0x0E heading, +0x24/34 speed).
+  4. **Tick scheduler**: run DUSA physics every 3rd VBlank (native 20 Hz).
+  5. **Tier-1 reloc checker**: byte-diff a ported function vs DUSA retail,
+     per-function reloc allowlist (analogous to `check_reloc_invariants.py`).
+- **E — Step 1 onward**: the step ladder above, each function through the
+  porting loop below.
+
+**Per-function porting loop (the inner cycle for Steps 1–9):**
+1. Take the funcfinder-verified DUSA function — exact bytes, boundaries,
+   entries/partners.
+2. Make a CCE transplant shim from its asm.
+3. Reanchor relocations: globals pool words → CCE state-block addresses;
+   call targets → ported-function / shared-math CCE addresses; data tables
+   → embedded CCE addresses.
+4. Add to the transplant build (race.c swap block).
+5. **Tier-1 gate**: assemble, byte-diff vs DUSA retail; every diff must be
+   an adjudicated relocation. Bytes-match-modulo-relocs ⇒ behavior identical
+   for all inputs.
+6. Wire into bridge/dispatch; run the step's behavioral gate (+ Tier-2
+   lockstep where the ladder calls for it).
+
+Step 1 is the heaviest because it builds the reusable pieces (state block,
+bridge, scheduler, checker) on top of porting the position writer; Steps 2–9
+are mostly the loop.
+
 ## Key references
 
 - `README.md` (this dir) — Step 0 record, COL trick, poke tests, budget
