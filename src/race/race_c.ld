@@ -13,12 +13,16 @@ SECTIONS
         *(.text*)
     }
 
+    /* C string literals / const data; empty for non-MOD, so free stays identical. */
+    .rodata : {
+        *(.rodata*)
+    }
+
     /DISCARD/ : {
         *(.comment)
         *(.note*)
         *(.eh_frame)
         *(.data*)
-        *(.rodata*)
         *(.bss*)
     }
 }

@@ -877,3 +877,14 @@ int __race_shift_pad(void) asm {
 #endif
 #include "src/race/asm/DAT_0604E114.c"
 #include "src/race/asm/DAT_0604F684.c"
+
+#ifdef MOD_TRANSPLANT
+/* Phase D scaffolding (state block, bridge, 20 Hz scheduler + stub); appended
+ * at module end, reached by symbol via the FUN_06028000 hook. */
+#include "src/race/dusa_state.h"
+#ifdef DUSA_LOG
+#include "mods/transplant/race/dusa_log.c"
+#endif
+#include "mods/transplant/race/dusa_bridge.c"
+#include "mods/transplant/race/dusa_tick_stub.c"
+#endif

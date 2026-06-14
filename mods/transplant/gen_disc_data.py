@@ -9,6 +9,18 @@ Layout of modified COL file:
   0x0000-0x7FFF: CCE header (preserved — init readers need it)
   0x8000+:       DUSA waypoint table + segment table + zero padding
 
+EMBEDDED-DUSA STATE BLOCK (Phase D, src/race/dusa_state.h):
+  The COL dense body loads to guest LWR 0x00228000 (= file offset 0x8000) and
+  is the home of the DUSA state block. While ZERO_BODY_ONLY=True the zeroed body
+  IS the reservation (zeros = correct initial shadow/globals state):
+    file 0x08000 / guest 0x00228000  DUSA_SHADOW_CARS   40 x 0x268 = 0x6140
+    file 0x0E140 / guest 0x0022E140  DUSA_GLOBALS       0x400 reserved
+    file 0x0E540 / guest 0x0022E540  DUSA_TRACK_TABLES  waypoints + segments
+  *** When ZERO_BODY_ONLY flips to False (Step 6), the track-table embed below
+  must be placed at the DUSA_TRACK_TABLES offset (body +0x6540), NOT at body
+  offset 0 as gen_col_with_dusa_data() currently writes it — offset 0 would
+  overwrite the shadow car array. See the warning in that function. ***
+
 DUSA track tables are extracted from CS*_LINE.BIN files:
   Three Seven (CS0_LINE.BIN):
     Segment table:  offset 0x000000, 147 entries × 4 bytes = 588 bytes
@@ -93,6 +105,10 @@ def gen_col_with_dusa_data(col_src, waypoints, segments, dst_path):
               (dusa_total, body_size))
         return None
 
+    # WARNING (embedded-DUSA, Phase D): this writes track tables at body offset
+    # 0 = guest 0x00228000 = DUSA_SHADOW_CARS. That collides with the shadow car
+    # array. Before enabling this path (ZERO_BODY_ONLY=False, ~Step 6), move the
+    # embed to the DUSA_TRACK_TABLES offset (body +0x6540). See module docstring.
     body = waypoints + segments + b'\x00' * (body_size - dusa_total)
 
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)

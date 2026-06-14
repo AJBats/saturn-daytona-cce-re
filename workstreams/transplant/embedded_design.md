@@ -172,6 +172,19 @@ Steps 1–9 run at raw native 20 Hz from day one — no constant scaling ever.
 | Track tables | ~13 KB/course | COL dense body (79 KB free on Three Seven) |
 | Bridge + shim + scheduler | ~1–2 KB | race.bin |
 
+**Note — the "two car structs" cost is mostly two views, not redundancy.**
+Per car we hold a DUSA shadow struct (0x268, simulation state) and CCE's render
+struct (0x1D8, render/HUD/camera state). Only the bridged fields (X/Y/Z +
+heading + speed ≈ ~20 B/car) are truly duplicated; the rest is distinct data
+each engine needs. CCE's 40×0x1D8 array already exists in retail, so the shadow
+array (24.9 KB) is the *only* new allocation, and it fits in COL-body space the
+track-data swap frees. Collapsing the shadow struct into CCE's body + a side
+array is the rejected direct-rewrite: it would require hand-remapping every
+struct offset in every ported function, destroying byte-faithfulness and the
+Tier-1 diff oracle. **Deferred optimization (Step 9+, optional):** allocate full
+DUSA structs only for cars that need full physics (distant drones could use a
+lighter representation). Not a must-solve; pinned for later.
+
 ## Known seams (the honest-costs list — all must eventually be solved)
 
 1. **Event bridging**: CCE-side audiovisual reactions keyed off CCE flags

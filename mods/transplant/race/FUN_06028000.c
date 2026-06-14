@@ -1009,7 +1009,7 @@ int FUN_06028000(void) asm {
         mov.b r14, @r1
     .L_06028742:
         mov.l .L_pool_060287DC, r3
-        nop                         /* TRANSPLANT: was jsr @r3 — FUN_0603976C per-frame entry (reaches FUN_06038DD8 chain) */
+        jsr @r3                      /* TRANSPLANT: dusa_frame (was FUN_0603976C) */
         nop
         mov.l .L_pool_060287E0, r3
         mov.b @r3, r0
@@ -1090,7 +1090,7 @@ int FUN_06028000(void) asm {
     .L_pool_060287D8:
         .4byte 0x06051608
     .L_pool_060287DC:
-        .4byte FUN_0603976C
+        .4byte dusa_frame            /* TRANSPLANT: was FUN_0603976C */
     .L_pool_060287E0:
         .4byte 0x06054921
     .L_pool_060287E4:

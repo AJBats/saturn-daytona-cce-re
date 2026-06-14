@@ -56,3 +56,7 @@ tools/cygnus-2.7-96Q3/
 # Irreproducible per-lap captures used as evidence for the dead-code
 # census + per-track cross-reference work.
 !workstreams/transplant/sweep_artifacts/**/*.bin
+
+# Debug artifacts: saturn_log host-logging output, MCP screenshots
+saturn_log.txt
+mcp_screenshot.png

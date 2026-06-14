@@ -97,8 +97,11 @@ info:
 # Use `make MOD=transplant disc` for a bootable modded disc.
 MOD ?=
 MOD_DEF := $(if $(MOD),-DMOD_$(shell echo $(MOD) | tr a-z A-Z),)
+# DUSA_LOG=1 -> saturn_log host-logging (trapa #0xFF; patched-Mednafen only). Default off.
+DUSA_LOG ?=
+LOG_DEF := $(if $(DUSA_LOG),-DDUSA_LOG,)
 race:
-	@cpp -P $(MOD_DEF) -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
+	@cpp -P $(MOD_DEF) $(LOG_DEF) -I$(PROJDIR) $(RACE_C_MASTER) $(RACE_C_PP)
 	@$(RCC) -target=sh/hitachi $(RACE_C_PP) $(RACE_C_S)
 	@$(AS) $(RACE_C_S) -o $(RACE_C_O)
 	@$(LD) -T $(RACE_C_LD) $(RACE_C_O) -o $(RACE_C_ELF)
