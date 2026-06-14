@@ -40,6 +40,43 @@ OUTPUT_DIR = os.path.join(PROJDIR, 'build', 'mods', 'transplant', 'disc', 'DAYTO
 
 COL_HEADER_SIZE = 0x8000
 
+# DUSA sin/cos table embed (see workstreams/transplant/state_block_loading.md).
+# Track-independent: the same 16 KB goes into every track's COL at a FIXED file
+# offset so it lands at one constant LWR address (DUSA_COS_TABLE = 0x00232000)
+# for all tracks. Captured from running DUSA wram_low 0x002F2F20 (4096 x u32,
+# 16.16 fixed sin; entry[1024]=0x10000=sin90). The ported cos lookup
+# (dusa_06027344/48) reads it. file off 0x12000 = guest 0x00220000+0x12000.
+COS_TABLE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              'data', 'dusa_sin_table.bin')
+COS_TABLE_FILE_OFF = 0x12000
+COS_TABLE_SIZE = 0x4000
+
+
+def load_cos_table():
+    """Read the captured DUSA sin/cos table, or None if absent."""
+    if not os.path.isfile(COS_TABLE_PATH):
+        return None
+    data = open(COS_TABLE_PATH, 'rb').read()
+    if len(data) != COS_TABLE_SIZE:
+        print('  WARN  cos table %s is %d bytes (expected %d) -- skipping'
+              % (COS_TABLE_PATH, len(data), COS_TABLE_SIZE))
+        return None
+    return data
+
+
+def splice_cos_table(body, cos):
+    """Overlay the cos table into a COL body bytearray at COS_TABLE_FILE_OFF
+    (body offset = file offset - COL_HEADER_SIZE). Returns True if applied."""
+    if cos is None:
+        return False
+    boff = COS_TABLE_FILE_OFF - COL_HEADER_SIZE
+    if boff + COS_TABLE_SIZE > len(body):
+        print('  WARN  COL body too small for cos table at 0x%X -- skipping'
+              % COS_TABLE_FILE_OFF)
+        return False
+    body[boff:boff + COS_TABLE_SIZE] = cos
+    return True
+
 # Set True to zero the dense body instead of embedding DUSA data.
 # Use for poke-drive testing where zeros are a cleaner signal.
 # Transplant baseline ("brain-dead car") uses the zeroed COL; flip to False
@@ -124,20 +161,28 @@ def gen_col_with_dusa_data(col_src, waypoints, segments, dst_path):
     }
 
 
-def gen_zeroed_col(col_src, dst_path):
-    """Fallback: preserve header, zero body."""
+def gen_zeroed_col(col_src, dst_path, cos=None):
+    """Preserve header, zero body (= shadow-car/globals scratch + track-table
+    reservation), then splice the DUSA sin/cos table in at its fixed offset."""
     with open(col_src, 'rb') as f:
         data = f.read()
     header = data[:COL_HEADER_SIZE]
+    body = bytearray(len(data) - COL_HEADER_SIZE)
+    cos_ok = splice_cos_table(body, cos)
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
     with open(dst_path, 'wb') as f:
-        f.write(header + b'\x00' * (len(data) - COL_HEADER_SIZE))
-    return len(data)
+        f.write(header + bytes(body))
+    return len(data), cos_ok
 
 
 def main():
     print()
     print('Generating transplant disc data:')
+
+    cos = load_cos_table()
+    if cos is None:
+        print('  WARN  cos table %s not found — cos lookup will read zeros'
+              % COS_TABLE_PATH)
 
     for spec in COURSE_SPECS:
         col_src = os.path.join(RETAIL_DIR, spec['col_file'])
@@ -155,9 +200,10 @@ def main():
             else:
                 print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
                       % (spec['col_file'], spec['line_file']))
-            size = gen_zeroed_col(col_src, dst_path)
-            print('  OK    %-16s  %d bytes (header preserved, body zeroed)'
-                  % (spec['col_file'], size))
+            size, cos_ok = gen_zeroed_col(col_src, dst_path, cos)
+            print('  OK    %-16s  %d bytes (header preserved, body zeroed%s)'
+                  % (spec['col_file'], size,
+                     ', cos table @0x12000' if cos_ok else ''))
             continue
 
         waypoints, segments = extract_dusa_tables(line_src, spec)

@@ -899,4 +899,5 @@ void dusa_align4(void) asm { .align 2 }
 #include "mods/transplant/race/dusa_0602ECCC.c"
 #include "mods/transplant/race/dusa_06027344.c"
 #include "mods/transplant/race/dusa_0602D8BC.c"
+#include "mods/transplant/race/dusa_call_player.c"
 #endif

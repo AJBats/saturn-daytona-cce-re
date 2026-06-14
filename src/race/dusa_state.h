@@ -34,6 +34,12 @@
 #define DUSA_SEED_FLAG      0x0022E148   /* u32: one-shot seed flag */
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
+#define DUSA_SETTLE_CTR     0x0022E158   /* u32: frames since the cos table loaded */
+
+/* Step-1 live-pokeable hardcoded inputs (tune via Mednafen pokes, no rebuild).
+ * Seeded to defaults on the first tick; the tick reads them each frame. */
+#define DUSA_STEP1_SPEED    0x0022E180   /* u32: hardcoded speed */
+#define DUSA_STEP1_HEADING  0x0022E184   /* u32: hardcoded heading (16-bit angle) */
 
 /* volatile guest-RAM accessors */
 #define DUSA_U32(addr) (*(volatile unsigned int   *)(addr))
@@ -41,6 +47,7 @@
 
 void dusa_bridge(void);
 void dusa_frame(void);
+void dusa_call_player(void);   /* asm trampoline: r0/r14=shadow car -> position writer */
 
 /* Host-log debug primitive (trapa #0xFF; PATCHED-MEDNAFEN ONLY). -DDUSA_LOG
  * compiles it in; off -> DLOG() vanishes (no string/.rodata/trapa emitted). */
