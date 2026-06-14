@@ -65,6 +65,14 @@ if LWR wait-states hurt the physics tick, move them to free HWR gaps
 (E: 0x06064E00, 16.5 KB; A: 0x06015200, 15.8 KB). Decide empirically
 at Step 1 — the choice is one pool constant.
 
+**Loading architecture + per-track COL layout (incl. the cos table):
+`state_block_loading.md` (2026-06-14).** The DUSA cos table (16 KB,
+track-independent) also lives in the COL body at a *fixed* file offset
+(→ constant LWR address every track), delivered by `gen_disc_data.py`
+and copied by init.bin unmodified. Chosen over race.bin `.rodata`
+because race.bin's ceiling is only ~12.5 KB above retail (unverified)
+while the mod-shrunk COLs leave the LWR gap abundant.
+
 ### Globals
 
 DUSA's ~15 referenced globals (pad state sym_06063D98, car pointer

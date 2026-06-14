@@ -23,6 +23,12 @@
 #define DUSA_GLOBALS        0x0022E140
 #define DUSA_TRACK_TABLES   0x0022E540
 
+/* Ported-DUSA data homes in the COL body (see state_block_loading.md). Absolute
+ * LWR literals (no linker symbol); ported asm shims reference these by macro. */
+#define DUSA_COS_TABLE      0x00232000   /* 16 KB / 4096 x u32 cos table (file off 0x12000) */
+#define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
+                                            never read in Step 1, populate when drift ported */
+
 /* Phase-D scaffolding scratch (throwaway; replaced at Step 1) */
 #define DUSA_SCHED_PHASE    0x0022E140   /* u32: scheduler phase */
 #define DUSA_SEED_FLAG      0x0022E148   /* u32: one-shot seed flag */

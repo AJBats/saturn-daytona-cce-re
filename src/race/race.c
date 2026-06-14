@@ -887,4 +887,16 @@ int __race_shift_pad(void) asm {
 #endif
 #include "mods/transplant/race/dusa_bridge.c"
 #include "mods/transplant/race/dusa_tick_stub.c"
+
+/* Ported DUSA functions (Step 1). Each is byte-faithful-modulo-relocation to
+ * DUSA retail; gate via tools/check_dusa_port.py. Symbols/labels are dusa_-prefixed
+ * because DUSA port addresses (0x0602xxxx) overlap CCE's own label namespace.
+ * 4-byte alignment (needed so 32-bit pools reproduce retail PC-relative
+ * displacements) is forced by this guard + a trailing `.align 2` in each shim;
+ * rcc rejects __attribute__((aligned)) and file-scope asm(). The Tier-1 gate
+ * catches any alignment miss as a byte diff. */
+void dusa_align4(void) asm { .align 2 }
+#include "mods/transplant/race/dusa_0602ECCC.c"
+#include "mods/transplant/race/dusa_06027344.c"
+#include "mods/transplant/race/dusa_0602D8BC.c"
 #endif
