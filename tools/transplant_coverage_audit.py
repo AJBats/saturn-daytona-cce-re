@@ -54,11 +54,13 @@ OUT_JSON = os.path.join(CCE_ROOT, 'workstreams', 'transplant', 'coverage_audit.j
 HWR_LO, HWR_HI = 0x06000000, 0x06100000      # High Work RAM (loaded modules)
 LWR_LO, LWR_HI = 0x00200000, 0x00300000      # Low Work RAM
 
-# Default anchors: the player physics pipeline. The dispatcher (0x0602EEB8 in the
-# human docs) is intentionally listed -- the audit will report how it resolves
-# against stamped coverage. The two ported writers are belt-and-suspenders (they
-# are inside the dispatcher's closure anyway).
-DEFAULT_ANCHORS = [0x0602EEB8, 0x0602D814, 0x0602D8BC]
+# Default anchors: the player physics pipeline. The dispatcher's TRUE external
+# entry is the jump-table thunk 0x0602ECF2 (static_callers=1); the long-cited
+# "FUN_0602EEB8" is a Ghidra mid-prologue ghost (the r14 push of the normal-path
+# internal block 0x0602EEAC -- a switch case of 0x0602ECF2, reached only via the
+# in-body jump table at 0x0602ED0C, never called from outside). The two ported
+# writers are belt-and-suspenders (inside the dispatcher's closure anyway).
+DEFAULT_ANCHORS = [0x0602ECF2, 0x0602D814, 0x0602D8BC]
 
 _SHELF = os.path.join(CCE_ROOT, 'tools', 'sh-elf', 'bin')
 def _tool(name):

@@ -6,11 +6,11 @@ Mechanically derived from APROG.BIN instruction bytes (objdump) diffed against f
 
 | metric | count |
 |---|---|
-| stamped code subsegs in closure | 31 |
+| stamped code subsegs in closure | 32 |
 | …already ported into CCE | 4 |
-| INTERNAL GAPS — code targets (funcfinder queue) | 1 |
-| INTERNAL GAPS — data tables (funcfinder queue) | 9 |
-| mid-subseg references (review) | 9 |
+| INTERNAL GAPS — code targets (funcfinder queue) | 0 |
+| INTERNAL GAPS — data tables (funcfinder queue) | 0 |
+| mid-subseg references (review) | 18 |
 | external refs (HWR-other / LWR globals) | 27 |
 | **ported functions UNSTAMPED (invariant)** | **0** |
 
@@ -30,7 +30,7 @@ Every `dusa_<hex>` function already in the CCE transplant must be a funcfinder-s
 
 | anchor | resolves to | note |
 |---|---|---|
-| sym_0602EEB8 | sym_0602ECF2 | ⚠ MID-SUBSEG of sym_0602ECF2 (not a recorded entry — funcfinder must split or stamp this entry) |
+| sym_0602ECF2 | sym_0602ECF2 | clean — stamped subseg start |
 | sym_0602D814 | sym_0602D814 | clean — stamped subseg start |
 | sym_0602D8BC | sym_0602D8BC | clean — stamped subseg start |
 
@@ -38,25 +38,7 @@ Every `dusa_<hex>` function already in the CCE transplant must be a funcfinder-s
 
 Addresses inside APROG that ported/closure code references but that land in **no stamped subseg**. Each must be funcfinder-swept and human-stamped before it can appear as a trusted node.
 
-### Code targets (called, unstamped)
-
-| target | referenced by | note |
-|---|---|---|
-| **sym_060302C6** | sym_0602ECF2@602EDA8 | call target with no boundary |
-
-### Data tables (referenced, unstamped)
-
-| address | referenced by | note |
-|---|---|---|
-| **sym_060454CC** | sym_0602F5B6@602F6B6 | data pointer with no boundary |
-| **sym_06045AEC** | sym_0602C7FC@602C86A, sym_0602F5B6@602F5BE | data pointer with no boundary |
-| **sym_0604679C** | sym_0602F71C@602F77A | data pointer with no boundary |
-| **sym_06046F9C** | sym_0602F71C@602F792 | data pointer with no boundary |
-| **sym_0604779C** | sym_0602F17C@602F1AC | data pointer with no boundary |
-| **sym_060477AC** | sym_0602F17C@602F1A2 | data pointer with no boundary |
-| **sym_060477BC** | sym_0602D814@602D830, sym_0602F270@602F2C6, sym_0602F5B6@602F618 | data pointer with no boundary |
-| **sym_060477CC** | sym_0602F17C@602F1D8 | data pointer with no boundary |
-| **sym_060477D8** | sym_0602F474@602F49C | data pointer with no boundary |
+_None — every referenced APROG address is stamped._
 
 ## Mid-subseg references (review)
 
@@ -73,6 +55,15 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_0602EE90 | sym_0602ECF2 | data | sym_0602ECF2@602ED58 |
 | sym_0602F3CC | sym_0602F270 | data | sym_0602F17C@602F23A, sym_0602F270@602F370 |
 | sym_0602FDA1 | sym_0602F99C | data | sym_0602ECF2@602ED18 |
+| sym_060454CC | sym_06042CBC | data | sym_0602F5B6@602F6B6 |
+| sym_06045AEC | sym_06042CBC | data | sym_0602C7FC@602C86A, sym_0602F5B6@602F5BE |
+| sym_0604679C | sym_06042CBC | data | sym_0602F71C@602F77A |
+| sym_06046F9C | sym_06042CBC | data | sym_0602F71C@602F792 |
+| sym_0604779C | sym_06042CBC | data | sym_0602F17C@602F1AC |
+| sym_060477AC | sym_06042CBC | data | sym_0602F17C@602F1A2 |
+| sym_060477BC | sym_06042CBC | data | sym_0602D814@602D830, sym_0602F270@602F2C6, sym_0602F5B6@602F618 |
+| sym_060477CC | sym_06042CBC | data | sym_0602F17C@602F1D8 |
+| sym_060477D8 | sym_06042CBC | data | sym_0602F474@602F49C |
 
 ## Closure — stamped code subsegs reachable from anchors
 
@@ -109,6 +100,7 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_0602F71C | 160 | — | 0 | 2 | — |
 | sym_0602F7BC | 46 | — | 0 | 0 | — |
 | sym_0602FDA4 | 1314 | — | 1 | 18 | — |
+| sym_060302C6 | 630 | — | 0 | 14 | — |
 
 ## External references (catalog — outside APROG)
 
@@ -119,27 +111,27 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_0028D0FA | LWR | sym_0602CDF6@602CF5C |
 | sym_002F0000 | LWR | sym_06027378@602738C |
 | sym_002F2F20 | LWR | sym_06027344@6027350, sym_06027358@6027360 |
-| sym_06063D98 | HWR-ext | sym_0602FDA4@602FE68 |
-| sym_06063D9A | HWR-ext | sym_0602FDA4@602FDD4 |
+| sym_06063D98 | HWR-ext | sym_0602FDA4@602FE68, sym_060302C6@603038C |
+| sym_06063D9A | HWR-ext | sym_0602FDA4@602FDD4, sym_060302C6@60302F8 |
 | sym_06063D9C | HWR-ext | sym_0602FDA4@603004C |
 | sym_06063EEC | HWR-ext | sym_0602CDF6@602CFA6 |
 | sym_06063F48 | HWR-ext | sym_0602FDA4@602FF48 |
 | sym_06063F4A | HWR-ext | sym_0602FDA4@602FFA8 |
 | sym_06078663 | HWR-ext | sym_0602FDA4@6030050 |
-| sym_0607E944 | HWR-ext | sym_0602ECF2@602ED1E, sym_0602EFF0@602EFF4, sym_0602F0E8@602F0E8, sym_0602FDA4@602FDBC |
+| sym_0607E944 | HWR-ext | sym_0602ECF2@602ED1E, sym_0602EFF0@602EFF4, sym_0602F0E8@602F0E8, sym_0602FDA4@602FDBC … |
 | sym_0607E948 | HWR-ext | sym_0602F4B4@602F4D8 |
 | sym_0607EA98 | HWR-ext | sym_0602F4B4@602F4D4 |
 | sym_0607EAC8 | HWR-ext | sym_0602ECF2@602EEC8 |
 | sym_0607EAE0 | HWR-ext | sym_0602F4B4@602F4B4 |
 | sym_0607EAE4 | HWR-ext | sym_0602ECF2@602ECF2 |
-| sym_0607ED88 | HWR-ext | sym_0602FDA4@603006A |
-| sym_0607ED8C | HWR-ext | sym_0602FDA4@602FDC0 |
-| sym_0607ED90 | HWR-ext | sym_0602FDA4@6030068 |
-| sym_06081888 | HWR-ext | sym_0602FDA4@602FE00 |
-| sym_0608188A | HWR-ext | sym_0602FDA4@602FDDA |
-| sym_0608188C | HWR-ext | sym_0602FDA4@602FE70 |
-| sym_0608188E | HWR-ext | sym_0602FDA4@602FED6 |
-| sym_06081890 | HWR-ext | sym_0602FDA4@602FE58 |
-| sym_06081892 | HWR-ext | sym_0602FDA4@602FE44 |
-| sym_06081894 | HWR-ext | sym_0602FDA4@602FE30 |
-| sym_06081896 | HWR-ext | sym_0602FDA4@602FE1C |
+| sym_0607ED88 | HWR-ext | sym_0602FDA4@603006A, sym_060302C6@6030438 |
+| sym_0607ED8C | HWR-ext | sym_0602FDA4@602FDC0, sym_060302C6@60302E2 |
+| sym_0607ED90 | HWR-ext | sym_0602FDA4@6030068, sym_060302C6@6030436 |
+| sym_06081888 | HWR-ext | sym_0602FDA4@602FE00, sym_060302C6@6030324 |
+| sym_0608188A | HWR-ext | sym_0602FDA4@602FDDA, sym_060302C6@60302FE |
+| sym_0608188C | HWR-ext | sym_0602FDA4@602FE70, sym_060302C6@6030394 |
+| sym_0608188E | HWR-ext | sym_0602FDA4@602FED6, sym_060302C6@60303DE |
+| sym_06081890 | HWR-ext | sym_0602FDA4@602FE58, sym_060302C6@603037C |
+| sym_06081892 | HWR-ext | sym_0602FDA4@602FE44, sym_060302C6@6030368 |
+| sym_06081894 | HWR-ext | sym_0602FDA4@602FE30, sym_060302C6@6030354 |
+| sym_06081896 | HWR-ext | sym_0602FDA4@602FE1C, sym_060302C6@6030340 |
