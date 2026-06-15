@@ -34,7 +34,6 @@
 #define DUSA_SEED_FLAG      0x0022E148   /* u32: one-shot seed flag */
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
-#define DUSA_SETTLE_CTR     0x0022E158   /* u32: frames since the cos table loaded */
 
 /* Step-1 live-pokeable hardcoded inputs (tune via Mednafen pokes, no rebuild).
  * Seeded to defaults on the first tick; the tick reads them each frame. */

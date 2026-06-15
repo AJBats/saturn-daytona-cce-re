@@ -16,30 +16,22 @@
  * in Mednafen to tune direction/rate without rebuilding. */
 
 #define DUSA_STEP1_SPEED_DEFAULT    0x00010000   /* hardcoded speed */
-#define DUSA_STEP1_HEADING_DEFAULT  0x00004000   /* 90deg: -X (guess "along the track") */
-#define DUSA_SETTLE_FRAMES          30           /* wait ~1s after cos table loads before first tick */
+#define DUSA_STEP1_HEADING_DEFAULT  0x0000B000   /* ESE: drives roughly down the Three Seven straight */
 
 void dusa_frame(void)
 {
-    unsigned int settle;
-
     /* Run only when our CS0 COL overlay is actually loaded. Outside a Three Seven
      * race (attract demos, other tracks) the shadow/globals region and cos table
      * are garbage; running the writer there would corrupt the rendered car. The
      * embedded sin table's sin(90deg) landmark (entry 1024 = 0x10000) is a
-     * reliable "our overlay is resident" signature. */
+     * reliable "our overlay is resident" signature.
+     *
+     * No settle delay: the AFK probe (2026-06-14) showed the CCE start position
+     * is valid + stable from the first gated frame, so the writer can run
+     * immediately. (Attract-demo crashes are a separate concern -- the writer
+     * still runs in CS0 attract demos and drives them off-track; the real fix is
+     * a player-race gate, not a startup delay.) */
     if (DUSA_U32(DUSA_COS_TABLE + 0x1000) != 0x00010000) {
-        return;
-    }
-
-    /* Settle delay: the cos table loads with the COL, but CCE sets the car's
-     * start position a few frames LATER. Seeding/ticking on the very first gated
-     * frame reads a not-yet-ready position and launches the car off-world ->
-     * immediate crash. Wait a window of frames (re-zeroed per COL load) so the
-     * race state is set before the first tick. */
-    settle = DUSA_U32(DUSA_SETTLE_CTR);
-    if (settle < DUSA_SETTLE_FRAMES) {
-        DUSA_U32(DUSA_SETTLE_CTR) = settle + 1;
         return;
     }
 
