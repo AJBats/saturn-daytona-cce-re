@@ -231,7 +231,7 @@ int FUN_06037E28(void) asm {
         mov.l .L_pool_06038020, r3
         jsr @r3
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
         mov.l .L_pool_06038024, r3
         jsr @r3
@@ -300,7 +300,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         nop    /* bsr FUN_060105CE (linker-resolved) */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
         bra .L_06038304
         nop
@@ -388,7 +388,7 @@ int FUN_06037E28(void) asm {
     .L_060380FE:
         nop                         /* TRANSPLANT: was bsr FUN_060386D8 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
         mov.l .L_pool_06038154, r3
         jsr @r3
@@ -544,7 +544,7 @@ int FUN_06037E28(void) asm {
     .L_0603821C:
         nop                         /* TRANSPLANT: was bsr FUN_060386D8 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
         mov.l .L_pool_0603826C, r3
         jsr @r3
@@ -634,7 +634,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         nop    /* bsr FUN_060105CE (linker-resolved) */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
         mov.l .L_pool_06038390, r2
         jsr @r2
@@ -668,7 +668,7 @@ int FUN_06037E28(void) asm {
         mov r14, r4
         nop    /* bsr FUN_060105CE (linker-resolved) */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
     .L_06038304:
         mov.l .L_pool_06038390, r2
@@ -844,7 +844,7 @@ int FUN_06037E28(void) asm {
     .L_06038444:
         nop                         /* TRANSPLANT: was bsr FUN_060386D8 */  /* TRANSPLANT(was .reloc+.2byte pair) */
         mov r14, r4
-        bsr FUN_06038C64
+        nop                         /* TRANSPLANT: was bsr FUN_06038C64 — body-sway/effect animation (residual wobble) */
         mov r14, r4
     .L_0603844C:
         mov.l .L_pool_060384B4, r3
