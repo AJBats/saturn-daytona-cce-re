@@ -67,3 +67,4 @@ workstreams/transplant/coverage_audit.json
 # Pipeline graph render artifacts (regenerated; the .md tree is the tracked baseline)
 workstreams/transplant/transplant_pipeline.dot
 workstreams/transplant/transplant_pipeline.svg
+workstreams/transplant/transplant_pipeline.png

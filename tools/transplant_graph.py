@@ -85,6 +85,28 @@ EXT_ROLE = {
     0x0607ED90: 'animation table (ext)',
 }
 
+# Collapse runs of consecutive global addresses (one logical struct/table spread
+# over several fields) into a single graph node, so the input fan-out is readable.
+EXT_GROUPS = [
+    (0x06081888, 0x060818A0, 'pad / button table'),
+    (0x06063D90, 0x06063DA0, 'pad state'),
+    (0x06063E00, 0x06064000, 'init / ctrl globals'),
+    (0x0607E900, 0x0607EB00, 'car / opponent globals'),
+    (0x0607EB00, 0x0607EC00, 'track globals'),
+    (0x0607ED80, 0x0607EDA0, 'animation globals'),
+    (0x00200000, 0x002F0000, 'LWR globals'),
+    (0x002F0000, 0x00300000, 'LWR trig/cos tables'),
+]
+
+
+def group_ext(a):
+    """Map an external address to (node_id, label) -- grouped where it falls in a
+    known multi-field struct, else itself."""
+    for lo, hi, lab in EXT_GROUPS:
+        if lo <= a < hi:
+            return ('g%08X' % lo, lab)
+    return (nid(a), EXT_ROLE.get(a, 'global'))
+
 
 def nid(addr):
     return 'n%08X' % addr
@@ -118,6 +140,8 @@ def build():
             if is_code_node(dst):
                 code_edges.append((start, dst, pc))
         for a in c['data_refs']:
+            if start <= a <= c['end']:
+                continue                       # self-internal (jump table / inline pool)
             if is_data_addr(a):
                 data_edges.add((start, a)); data_nodes.add(a)
             else:
@@ -135,13 +159,14 @@ def build():
 def write_dot(g):
     closure, ported = g['closure'], g['ported']
     L = ['digraph pipeline {',
-         '  rankdir=TB; splines=true; bgcolor="white";',
+         '  rankdir=LR; splines=true; bgcolor="white"; concentrate=true;',
+         '  ranksep=0.9; nodesep=0.22;',
          '  node [fontname="Consolas,monospace", fontsize=9];',
          '  edge [fontname="Consolas,monospace", fontsize=8, color="#555555"];',
          '  labelloc="t"; fontsize=13;',
          '  label="DUSA player-physics pipeline -- transplant trust graph\\l'
          'green = ported into CCE  |  white = pending  |  cylinder = data table  |  '
-         'parallelogram = external input\\l";']
+         'parallelogram = external input  |  flow: dispatcher -> ... -> writers\\l";']
     for start, c in closure.items():
         fill = '#b6f0b6' if c['ported'] else '#ffffff'
         pen = '2' if start in (0x0602D814, 0x0602D8BC, 0x0602ECF2) else '1'
@@ -152,10 +177,15 @@ def write_dot(g):
         lab = DATA_ROLE.get(a, 'data')
         L.append('  %s [shape=cylinder, style=filled, fillcolor="#e8e8e8", '
                  'label="%s\\n%08X"];' % (nid(a), lab, a))
-    for a in g['ext_nodes']:
-        lab = EXT_ROLE.get(a, 'global')
+    ext_node_lab = {}                          # grouped: node_id -> label
+    ext_e = set()
+    for src, a in g['ext_edges']:
+        gid, lab = group_ext(a)
+        ext_node_lab[gid] = lab
+        ext_e.add((nid(src), gid))
+    for gid, lab in ext_node_lab.items():
         L.append('  %s [shape=parallelogram, style=filled, fillcolor="#cfe2ff", '
-                 'label="%s\\n%08X"];' % (nid(a), lab, a))
+                 'label="%s"];' % (gid, lab))
     # call edges, labelled with pipeline order when the source is the dispatcher
     disp = 0x0602ECF2
     order = {}
@@ -168,8 +198,8 @@ def write_dot(g):
         L.append('  %s -> %s%s;' % (nid(src), nid(dst), lbl))
     for src, a in sorted(g['data_edges']):
         L.append('  %s -> %s [style=dashed, color="#999999"];' % (nid(src), nid(a)))
-    for src, a in sorted(g['ext_edges']):
-        L.append('  %s -> %s [style=dotted, color="#6699cc"];' % (nid(src), nid(a)))
+    for src_id, gid in sorted(ext_e):
+        L.append('  %s -> %s [style=dotted, color="#6699cc"];' % (src_id, gid))
     L.append('}')
     open(OUT_DOT, 'w', encoding='utf-8').write('\n'.join(L))
 
