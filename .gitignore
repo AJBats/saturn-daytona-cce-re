@@ -60,3 +60,6 @@ tools/cygnus-2.7-96Q3/
 # Debug artifacts: saturn_log host-logging output, MCP screenshots
 saturn_log.txt
 mcp_screenshot.png
+
+# Coverage auditor machine-form output (regenerated; the .md is the tracked baseline)
+workstreams/transplant/coverage_audit.json

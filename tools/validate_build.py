@@ -62,6 +62,29 @@ def header(title):
     print("=" * 60)
 
 
+def test_portstamp():
+    """Class portstamp: every ported dusa_<hex> shim must be a funcfinder-stamped
+    subseg start/recorded entry -- proof its boundary was human-reviewed before we
+    imported it. Pure-Python invariant (yaml only; no WSL/objdump). Cross-repo:
+    reads SaturnReverseTest's aprog.bin.yaml -- a deliberate dependency for this
+    stage (clean up later)."""
+    header("CLASS PORTSTAMP: ported shims vs funcfinder stamps")
+    result = subprocess.run(
+        [sys.executable, os.path.join(PROJECT, "tools",
+                                      "transplant_coverage_audit.py"),
+         "--check-ports"],
+        capture_output=True, text=True, cwd=PROJECT, timeout=60,
+    )
+    for line in result.stdout.strip().split("\n"):
+        print(f"    {line}")
+    if result.stderr.strip():
+        for line in result.stderr.strip().split("\n")[-3:]:
+            print(f"    {line}")
+    passed = result.returncode == 0
+    print(f"\n  RESULT: {'PASS' if passed else 'FAIL'}")
+    return passed
+
+
 def test_free():
     """Class 1: make validate — 8/8 free.ld zero-shift byte-identical to retail."""
     header("CLASS 1: Free build (zero-shift) — make validate")
@@ -262,7 +285,7 @@ def main():
     parser = argparse.ArgumentParser(description="Full 3-class build validation")
     parser.add_argument(
         "--class", dest="test_class",
-        choices=["free", "4shift", "modwarn", "all"],
+        choices=["portstamp", "free", "4shift", "modwarn", "all"],
         default="all", help="Which test class to run (default: all)"
     )
     parser.add_argument(
@@ -273,6 +296,14 @@ def main():
 
     results = {}
     overall = True
+
+    # Cheap precondition first: did we import any un-reviewed boundary? Runs
+    # regardless (no early stop) so the full picture still prints.
+    if args.test_class in ("portstamp", "all"):
+        passed = test_portstamp()
+        results["portstamp"] = passed
+        if not passed:
+            overall = False
 
     if args.test_class in ("free", "all"):
         passed = test_free()
