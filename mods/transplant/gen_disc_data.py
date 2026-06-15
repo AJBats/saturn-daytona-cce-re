@@ -51,6 +51,17 @@ COS_TABLE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 COS_TABLE_FILE_OFF = 0x12000
 COS_TABLE_SIZE = 0x4000
 
+# DUSA gear-ratio table embed (Step 2, see state_block_loading.md). Track-
+# independent static ROM data: 8 x u32 sliced straight from DUSA APROG.BIN
+# (the oracle) so there is no hand-transcription. Lands at a FIXED file offset
+# right after the cos table -> one constant LWR address DUSA_GEAR_TABLE
+# (0x00236000) for all tracks. The ported speed writer (dusa_0602D814) reads it.
+#   APROG sym_060477BC, vram 0x06003000 -> file off 0x060477BC - 0x06003000.
+APROG_PATH = os.path.join(DUSA_DIR, 'APROG.BIN')
+GEAR_TABLE_APROG_OFF = 0x060477BC - 0x06003000   # 0x447BC
+GEAR_TABLE_SIZE = 0x20
+GEAR_TABLE_FILE_OFF = 0x16000
+
 
 def load_cos_table():
     """Read the captured DUSA sin/cos table, or None if absent."""
@@ -62,6 +73,33 @@ def load_cos_table():
               % (COS_TABLE_PATH, len(data), COS_TABLE_SIZE))
         return None
     return data
+
+
+def load_gear_table():
+    """Slice the DUSA gear-ratio table out of APROG.BIN, or None if absent."""
+    if not os.path.isfile(APROG_PATH):
+        return None
+    with open(APROG_PATH, 'rb') as f:
+        f.seek(GEAR_TABLE_APROG_OFF)
+        data = f.read(GEAR_TABLE_SIZE)
+    if len(data) != GEAR_TABLE_SIZE:
+        print('  WARN  APROG.BIN too short for gear table at 0x%X -- skipping'
+              % GEAR_TABLE_APROG_OFF)
+        return None
+    return data
+
+
+def splice_gear_table(body, gear):
+    """Overlay the gear table into a COL body bytearray at GEAR_TABLE_FILE_OFF."""
+    if gear is None:
+        return False
+    boff = GEAR_TABLE_FILE_OFF - COL_HEADER_SIZE
+    if boff + GEAR_TABLE_SIZE > len(body):
+        print('  WARN  COL body too small for gear table at 0x%X -- skipping'
+              % GEAR_TABLE_FILE_OFF)
+        return False
+    body[boff:boff + GEAR_TABLE_SIZE] = gear
+    return True
 
 
 def splice_cos_table(body, cos):
@@ -161,18 +199,20 @@ def gen_col_with_dusa_data(col_src, waypoints, segments, dst_path):
     }
 
 
-def gen_zeroed_col(col_src, dst_path, cos=None):
+def gen_zeroed_col(col_src, dst_path, cos=None, gear=None):
     """Preserve header, zero body (= shadow-car/globals scratch + track-table
-    reservation), then splice the DUSA sin/cos table in at its fixed offset."""
+    reservation), then splice the DUSA sin/cos + gear tables in at their fixed
+    offsets."""
     with open(col_src, 'rb') as f:
         data = f.read()
     header = data[:COL_HEADER_SIZE]
     body = bytearray(len(data) - COL_HEADER_SIZE)
     cos_ok = splice_cos_table(body, cos)
+    gear_ok = splice_gear_table(body, gear)
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
     with open(dst_path, 'wb') as f:
         f.write(header + bytes(body))
-    return len(data), cos_ok
+    return len(data), cos_ok, gear_ok
 
 
 def main():
@@ -183,6 +223,11 @@ def main():
     if cos is None:
         print('  WARN  cos table %s not found — cos lookup will read zeros'
               % COS_TABLE_PATH)
+
+    gear = load_gear_table()
+    if gear is None:
+        print('  WARN  APROG.BIN %s not found — gear table will read zeros '
+              '(speed writer gear_ratio=0 → no acceleration)' % APROG_PATH)
 
     for spec in COURSE_SPECS:
         col_src = os.path.join(RETAIL_DIR, spec['col_file'])
@@ -200,10 +245,14 @@ def main():
             else:
                 print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
                       % (spec['col_file'], spec['line_file']))
-            size, cos_ok = gen_zeroed_col(col_src, dst_path, cos)
+            size, cos_ok, gear_ok = gen_zeroed_col(col_src, dst_path, cos, gear)
+            extras = ''
+            if cos_ok:
+                extras += ', cos table @0x12000'
+            if gear_ok:
+                extras += ', gear table @0x16000'
             print('  OK    %-16s  %d bytes (header preserved, body zeroed%s)'
-                  % (spec['col_file'], size,
-                     ', cos table @0x12000' if cos_ok else ''))
+                  % (spec['col_file'], size, extras))
             continue
 
         waypoints, segments = extract_dusa_tables(line_src, spec)

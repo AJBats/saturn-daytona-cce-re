@@ -26,6 +26,8 @@
 /* Ported-DUSA data homes in the COL body (see state_block_loading.md). Absolute
  * LWR literals (no linker symbol); ported asm shims reference these by macro. */
 #define DUSA_COS_TABLE      0x00232000   /* 16 KB / 4096 x u32 cos table (file off 0x12000) */
+#define DUSA_GEAR_TABLE     0x00236000   /* 32 B / 8 x u32 gear-ratio table (file off 0x16000);
+                                            DUSA sym_060477BC, read by the speed writer (Step 2) */
 #define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
                                             never read in Step 1, populate when drift ported */
 
@@ -35,9 +37,12 @@
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
 
-/* Step-1 live-pokeable hardcoded inputs (tune via Mednafen pokes, no rebuild).
- * Seeded to defaults on the first tick; the tick reads them each frame. */
-#define DUSA_STEP1_SPEED    0x0022E180   /* u32: hardcoded speed */
+/* Live-pokeable hardcoded inputs (tune via Mednafen pokes, no rebuild).
+ * Seeded to defaults on the first tick; the tick reads them each frame.
+ * Step 2: speed (+0x0C) is now REAL -- the speed writer integrates it from the
+ * accel delta (+0xFC) each tick. The old DUSA_STEP1_SPEED fake is retired; that
+ * slot now carries the faked accel delta (Step 3 ports the real force accumulator). */
+#define DUSA_STEP2_ACCEL    0x0022E180   /* u32: hardcoded accel delta written to car[+0xFC] */
 #define DUSA_STEP1_HEADING  0x0022E184   /* u32: hardcoded heading (16-bit angle) */
 
 /* volatile guest-RAM accessors */
