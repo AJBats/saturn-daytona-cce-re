@@ -163,14 +163,26 @@ BRANCH_RX = re.compile(r'\b(bsr|bra|bt|bf|bsr\.s|bra\.s|bt\.s|bf\.s)\s+0x([0-9a-
 ADDR_RX = re.compile(r'^\s*([0-9a-f]+):')
 
 
+def _wsl_hint():
+    """Build the 'run under WSL' invocation for this checkout."""
+    drive = CCE_ROOT[0].lower()
+    path = '/mnt/%s%s' % (drive, CCE_ROOT[2:].replace('\\', '/'))
+    return ("This tool shells out to the Linux sh-elf-objdump and must run under "
+            "WSL.\n  wsl bash -c \"cd %s && python3 tools/<tool>.py\"" % path)
+
+
 def objdump_range(start, end):
     """Disassemble APROG bytes [start, end] (inclusive). Returns raw text."""
-    out = subprocess.run(
-        [OBJDUMP, '-D', '-b', 'binary', '-m', 'sh2', '-EB',
-         '--adjust-vma=0x%X' % APROG_VRAM,
-         '--start-address=0x%X' % start,
-         '--stop-address=0x%X' % (end + 1), APROG],
-        capture_output=True, text=True)
+    try:
+        out = subprocess.run(
+            [OBJDUMP, '-D', '-b', 'binary', '-m', 'sh2', '-EB',
+             '--adjust-vma=0x%X' % APROG_VRAM,
+             '--start-address=0x%X' % start,
+             '--stop-address=0x%X' % (end + 1), APROG],
+            capture_output=True, text=True)
+    except OSError as e:
+        # WinError 193 = trying to exec a Linux ELF on Windows
+        raise AuditError('cannot run objdump (%s).\n%s' % (e, _wsl_hint()))
     return out.stdout
 
 
@@ -375,6 +387,9 @@ def audit(anchors, verbose):
             'entries': d['entries'],
             'ported': (start in ported) or any(e in ported for e in d['entries']),
             'n_calls': len(call_targets), 'n_data': len(data_refs),
+            # raw edges (caller-relative source PC -> ordering) for the graph tool;
+            # excluded from JSON (in-process consumers use them).
+            'call_targets': dict(call_targets), 'data_refs': dict(data_refs),
         }
         for tgt, pc in call_targets.items():
             record_ref(tgt, 'code', start, pc)
@@ -544,7 +559,7 @@ def write_reports(res, anchors):
     js = {
         'anchors': ['0x%08X' % a for a in anchors],
         'closure': {('0x%08X' % k): {kk: vv for kk, vv in v.items()
-                                     if kk != 'refs'}
+                                     if kk not in ('refs', 'call_targets', 'data_refs')}
                     for k, v in closure.items()},
         'internal_gaps': {('0x%08X' % a): {
             'kind': g['kind'],
