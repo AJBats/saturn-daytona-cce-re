@@ -299,6 +299,7 @@ int __race_shift_pad(void) asm {
 #else
 #include "mods/transplant/race/FUN_060352E8.c"
 #endif
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 3 -- UNREACH dead cluster (LIVE + DEAD verdicts, closed under cross-refs) */
 #include "src/race/asm/FUN_060354A0.c"
 #include "src/race/asm/FUN_06035624.c"
 #include "src/race/asm/FUN_06035750.c"
@@ -313,6 +314,7 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_060366EC.c"
 #include "src/race/asm/FUN_06036764.c"
 #include "src/race/asm/FUN_06036790.c"
+#endif
 #include "src/race/asm/FUN_060368D4.c"
 #include "src/race/asm/FUN_06036914.c"
 #include "src/race/asm/FUN_06036948.c"
@@ -325,10 +327,12 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06036AA8.c"
 #include "src/race/asm/FUN_06036B60.c"
 #include "src/race/asm/FUN_06036BB8.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_LIVE (batch 3) */
 #include "src/race/asm/FUN_06036CEC.c"
 #include "src/race/asm/FUN_06036D52.c"
 #include "src/race/asm/FUN_06036D7C.c"
 #include "src/race/asm/FUN_06036DA6.c"
+#endif
 #include "src/race/asm/FUN_06036E6C.c"
 #include "src/race/asm/FUN_06036E90.c"
 #include "src/race/asm/FUN_06036EB4.c"
@@ -336,7 +340,9 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06036FDE.c"
 #include "src/race/asm/FUN_0603704A.c"
 #include "src/race/asm/FUN_060370A0.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 3 -- UNREACH (jump table into removed FUN_06036790) */
 #include "src/race/asm/FUN_06037200.c"
+#endif
 #include "src/race/asm/FUN_06037364.c"
 #include "src/race/asm/FUN_0603740E.c"
 #include "src/race/asm/FUN_06037442.c"
@@ -366,6 +372,9 @@ int __race_shift_pad(void) asm {
 #include "mods/transplant/race/FUN_06038A82.c"
 #include "mods/transplant/race/FUN_06038BC4.c"
 #endif
+/* FUN_06038C64 (body-sway anim, callers unhooked) NOT excluded: surviving
+   FUN_06038BC4 stub shares its trailing literal pool (.L_pool_06038C98..CB0).
+   Recoverable later only by surgically keeping the pool block. */
 #include "src/race/asm/FUN_06038C64.c"
 #include "src/race/asm/FUN_06038DD8.c"
 #include "src/race/asm/FUN_06039014.c"
