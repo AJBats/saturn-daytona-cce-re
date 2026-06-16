@@ -909,5 +909,15 @@ void dusa_align4(void) asm { .align 2 }
 #include "mods/transplant/race/dusa_0602F474.c"
 /* Step 3c: track-force application (call 7b) -> car[+0xE0], read by CCEC. */
 #include "mods/transplant/race/dusa_0602F270.c"
+/* Step 3d: collision response (call 14) -> car impulse/shake fields. C8E2 is
+ * 2-mod-4 aligned in retail; align to 4 then step one real nop (2 bytes) so the
+ * shim lands at 4N+2 and its mov.l @(disp,PC) pool refs resolve. (`.align 2`
+ * alone would 4-align -- the opposite lane.) Verified by validate_build
+ * --class align; see dusa_0602C8E2.c. */
+void dusa_align_c8e2(void) asm {
+        .align 2     /* land on a 4-byte boundary */
+        nop          /* +2 -> C8E2 starts at 4N+2 */
+}
+#include "mods/transplant/race/dusa_0602C8E2.c"
 #include "mods/transplant/race/dusa_call_player.c"
 #endif

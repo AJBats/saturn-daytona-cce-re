@@ -52,6 +52,146 @@ def disasm(start, stop):
     return mn
 
 
+# --- real-assembly emitter ------------------------------------------------
+# Instead of `.2byte 0xWWWW` data dumps, emit actual SH-2 mnemonics with `.L`
+# labels for branch targets and PC-relative pool loads, so the ASSEMBLER computes
+# every displacement. Code stays code; the only frozen things are the literal
+# pool VALUES (and those are symbols at relocation sites). Code vs data is
+# recovered by control flow: literal pools sit after a delayed unconditional
+# transfer (bra/braf/jmp/rts/rte) and run until the next branch target.
+
+UNCOND = ('bra', 'braf', 'jmp', 'rts', 'rte')   # delayed; fallthrough after the
+                                                # delay slot is a literal pool
+
+
+def _norm(text):
+    """objdump mnemonic -> single-spaced, comment ('! ...') stripped."""
+    return re.sub(r'\s+', ' ', text.split('!')[0]).strip()
+
+
+def _is_load(text):
+    """PC-relative literal load? -> (width 'l'|'w', pool_addr) or None."""
+    m = re.match(r'mov\.(l|w) 0x([0-9a-fA-F]+),r\d+$', text)
+    return (m.group(1), int(m.group(2), 16)) if m else None
+
+
+def _branch_target(text):
+    """bra/bsr/bt/bf/bt.s/bf.s target address, or None."""
+    m = re.match(r'(?:bra|bsr|bt|bf|bt\.s|bf\.s) 0x([0-9a-fA-F]+)$', text)
+    return int(m.group(1), 16) if m else None
+
+
+def emit_asm(spec):
+    with open(APROG, 'rb') as f:
+        aprog = f.read()
+
+    def word(a):
+        o = a - APROG_VRAM
+        return (aprog[o] << 8) | aprog[o + 1]
+
+    def long_(a):
+        o = a - APROG_VRAM
+        return (aprog[o] << 24) | (aprog[o + 1] << 16) | (aprog[o + 2] << 8) | aprog[o + 3]
+
+    lines = []
+    for seg in spec['segments']:
+        start, end = seg['start'], seg['end']          # end inclusive
+        mn = disasm(start, end + 1)
+        reloc4 = seg.get('reloc4', {})                  # pool addr -> (symbol, note)
+        bsr = seg.get('bsr', {})                        # addr -> (symbol, note)
+        labels = seg.get('labels', {})                  # addr -> GLOBAL label name
+        data_labels = seg.get('data_labels', {})        # data addr -> in-shim label (e.g. .Lf270_bounds)
+
+        # Pass A: control-flow sweep -> classify code/data, collect pool + branch
+        # targets (only from code so data bytes never masquerade as instructions).
+        is_code = {}
+        pool = {}            # pool addr -> 'l'|'w'
+        btarg = set()
+        mode, a = 'code', start
+        while a <= end:
+            if mode == 'code':
+                is_code[a] = True
+                t = _norm(mn.get(a, ''))
+                ld = _is_load(t)
+                if ld:
+                    pool[ld[1]] = ld[0]
+                bt = _branch_target(t)
+                if bt is not None and not t.startswith('bsr'):
+                    btarg.add(bt)
+                op = t.split(' ', 1)[0]
+                a += 2
+                if op in UNCOND and a <= end:           # emit delay slot, then pool
+                    is_code[a] = True
+                    td = _norm(mn.get(a, ''))
+                    ld = _is_load(td)
+                    if ld:
+                        pool[ld[1]] = ld[0]
+                    a += 2
+                    mode = 'data'
+            else:                                        # data: pool / padding / table
+                if a in btarg or a in labels:            # branch/entry lands here -> code
+                    mode = 'code'
+                    continue
+                is_code[a] = False
+                a += 2
+
+        # Pass B: emit
+        def lab(a):
+            if a in labels:
+                lines.append('        .global %s' % labels[a])
+                lines.append('    %s:' % labels[a])
+            if a in data_labels:
+                lines.append('    %s:' % data_labels[a])
+            if a in btarg:
+                lines.append('    .Lb_%X:' % a)
+
+        a = start
+        while a <= end:
+            lab(a)
+            if is_code.get(a):
+                t = _norm(mn.get(a, '?'))
+                if a in bsr:
+                    sym, note = bsr[a]
+                    lines.append('        bsr %-22s /* %08X  %s */' % (sym, a, note))
+                    a += 2
+                    continue
+                ld = _is_load(t)
+                if ld:
+                    asm = t.replace('0x%x' % ld[1], '.Lp_%X' % ld[1])
+                    lines.append('        %-26s /* %08X */' % (asm, a))
+                    a += 2
+                    continue
+                bt = _branch_target(t)
+                if bt is not None and not t.startswith('bsr'):
+                    asm = t.replace('0x%x' % bt, '.Lb_%X' % bt)
+                    lines.append('        %-26s /* %08X */' % (asm, a))
+                    a += 2
+                    continue
+                lines.append('        %-26s /* %08X */' % (t, a))
+                a += 2
+            else:                                        # data word(s)
+                if a in pool and pool[a] == 'l':
+                    lines.append('    .Lp_%X:' % a)
+                    if a in reloc4:
+                        sym, note = reloc4[a]
+                        lines.append('        .long %-20s /* %08X  retail %08X -- %s */'
+                                     % (sym, a, long_(a), note))
+                    else:
+                        lines.append('        .long 0x%08X         /* %08X */' % (long_(a), a))
+                    a += 4
+                elif a in pool and pool[a] == 'w':
+                    lines.append('    .Lp_%X:' % a)
+                    lines.append('        .word 0x%04X             /* %08X */' % (word(a), a))
+                    a += 2
+                else:
+                    lines.append('        .word 0x%04X             /* %08X */' % (word(a), a))
+                    a += 2
+        if 'space_after' in seg:
+            lines.append('        .space 0x%X                 /* gap to next cluster member (unported %s) */'
+                         % (seg['space_after'], seg.get('space_note', 'functions')))
+    return '\n'.join(lines)
+
+
 def emit(spec):
     with open(APROG, 'rb') as f:
         aprog = f.read()
@@ -111,6 +251,16 @@ SPECS = {
                                     'anim table @060477D8 -> COL body')},
         }],
     },
+    # call 14: collision response. Single callee ECCC (ported); no data tables /
+    # externals. NOTE: starts at 0x0602C8E2 (== 2 mod 4) -- the shim MUST keep
+    # that alignment (it has mov.l @(disp,PC) pool refs) -> placed after a 2-byte
+    # pad guard in race.c so its VMA is 4N+2 like retail.
+    'dusa_0602C8E2': {
+        'segments': [{
+            'start': 0x0602C8E2, 'end': 0x0602CA83,
+            'reloc4': {0x0602C9EC: ('dusa_0602ECCC', 'SH-2 DIVU helper @0602ECCC')},
+        }],
+    },
     # call 7b: track-force application. Code 0x0602F270-0x0602F3CB then an inline
     # 4-entry min/max force-bounds table 0x0602F3CC-0x0602F3EB (same subseg). The
     # bounds-table pool word self-references the table -> in-shim local label
@@ -126,6 +276,7 @@ SPECS = {
                 0x0602F3A0: ('dusa_0602755C', 'fixed-point mul/div helper'),
                 0x0602F3A4: ('.Lf270_bounds', 'inline force-bounds table @0602F3CC (in-shim)'),
             },
+            'data_labels': {0x0602F3CC: '.Lf270_bounds'},  # inline min/max bounds table
         }],
     },
     # CA84+CCD0+CCEC are contiguous in retail (bsr targets adjacent); D7E4 is
@@ -160,4 +311,8 @@ SPECS = {
 }
 
 if __name__ == '__main__':
-    print(emit(SPECS[sys.argv[1]]))
+    spec = SPECS[sys.argv[1]]
+    if '--bytes' in sys.argv:
+        print(emit(spec))           # legacy .2byte data dump
+    else:
+        print(emit_asm(spec))       # real SH-2 assembly (default)

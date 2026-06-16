@@ -29,11 +29,11 @@ int dusa_06027344(void) asm {
         nop
         .space 0x1A8 - (. - dusa_06027344)
     .L_dusa_pw_4EC:
-        .4byte DUSA_COS_TABLE
+        .long DUSA_COS_TABLE
         .space 0x1B8 - (. - dusa_06027344)
     .L_dusa_pw_4FC:
-        .2byte 0x4000               /* +90deg phase: sin via the 0x06027344 entry */
+        .word 0x4000               /* +90deg phase: sin via the 0x06027344 entry */
     .L_dusa_pw_4FE:
-        .2byte 0x3FFC               /* table index mask */
+        .word 0x3FFC               /* table index mask */
         .align 2
 }

@@ -34,7 +34,7 @@ int dusa_0602ECCC(void) asm {
         rts
         mov r0, r1
     .L_dusa_0602ECEC:
-        .4byte 0xFFFFFF00
-        .2byte 0xFF00
+        .long 0xFFFFFF00
+        .word 0xFF00
         .align 2                    /* keep the next ported shim 4-aligned */
 }

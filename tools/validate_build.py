@@ -281,11 +281,33 @@ def test_modwarn(stamp=False):
     return passed
 
 
+def test_align():
+    """Class align: every ported dusa_<addr> shim must sit at the same VMA mod 4
+    as its DUSA-retail source, else its PC-relative mov.l pool loads resolve the
+    wrong word at runtime (a failure the byte gate can miss when a shim is a raw
+    byte dump). Post-assembly check on the transplant race_c.elf. Runs under WSL
+    (the checker shells to sh-elf-readelf)."""
+    header("CLASS ALIGN: ported DUSA shims vs retail mod-4 alignment")
+    projdir = wsl_path(PROJECT)
+    rc, out, err = run_wsl(
+        f'make -C "{projdir}" MOD=transplant race >/dev/null 2>&1 && '
+        f'cd "{projdir}" && python3 tools/check_dusa_alignment.py -v',
+        timeout=300)
+    for line in out.strip().split("\n"):
+        print(f"    {line}")
+    if rc != 0 and err.strip():
+        for line in err.strip().split("\n")[-3:]:
+            print(f"    {line}")
+    passed = rc == 0
+    print(f"\n  RESULT: {'PASS' if passed else 'FAIL'}")
+    return passed
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Full 3-class build validation")
+    parser = argparse.ArgumentParser(description="Full build validation")
     parser.add_argument(
         "--class", dest="test_class",
-        choices=["portstamp", "free", "4shift", "modwarn", "all"],
+        choices=["portstamp", "free", "4shift", "modwarn", "align", "all"],
         default="all", help="Which test class to run (default: all)"
     )
     parser.add_argument(
@@ -328,6 +350,13 @@ def main():
             overall = False
         print("\n  NOTE: build/race/race.bin now holds the TRANSPLANT build;")
         print("  run 'make race' for the retail binary if needed downstream.")
+
+    # align runs after modwarn so it sees the transplant race_c.elf modwarn built.
+    if args.test_class in ("align", "all"):
+        passed = test_align()
+        results["align"] = passed
+        if not passed:
+            overall = False
 
     return print_summary(results, overall)
 

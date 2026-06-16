@@ -2,7 +2,7 @@
 
 Generated from APROG.BIN bytes + funcfinder coverage by `tools/transplant_graph.py`. Every node is a human-stamped subseg; edges are reg-tracked calls + data/input refs. **PORTED** = already in the CCE transplant. Re-run after each step to watch the ported frontier climb toward the inputs.
 
-- code subsegs in closure: **32** (ported **13**)
+- code subsegs in closure: **32** (ported **14**)
 - data tables referenced: **13**  |  external inputs: **27**
 
 ## Call tree (from the dispatcher)
@@ -34,7 +34,7 @@ sym_0602ECF2 [dispatcher] player physics dispatcher (jump-table state machine)  
   sym_0602C690 [13] collision magnitude
     sym_0602C7FC   «data: surface index»
       sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
-  sym_0602C8E2 [14] collision response
+  sym_0602C8E2 [14] collision response ✓PORTED
     sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
   sym_0602CA84 [15] force accumulator ✓PORTED
     sym_0602755C [math] fixed-point multiply ✓PORTED

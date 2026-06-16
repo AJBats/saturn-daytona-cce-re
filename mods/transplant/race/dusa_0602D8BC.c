@@ -62,15 +62,15 @@ int dusa_0602D8BC(void) asm {
         rts
         nop
     .L_dusa_wp_D916:
-        .2byte 0x0250
+        .word 0x0250
     .L_dusa_wp_D918:
-        .2byte 0x018C
+        .word 0x018C
     .L_dusa_wp_D91A:
-        .2byte 0x0190
+        .word 0x0190
     .L_dusa_p_D91C:
-        .4byte dusa_06027344
+        .long dusa_06027344
     .L_dusa_p_D920:
-        .4byte dusa_06027348
+        .long dusa_06027348
         /* --- path 1: car[+0x250] != 0 (drift / table-scaled rotation) --- */
     .L_dusa_D924:
         sts.l pr, @-r15
@@ -95,13 +95,13 @@ int dusa_0602D8BC(void) asm {
         bra .L_dusa_D95E
         nop
     .L_dusa_wp_D94E:
-        .2byte 0x024C
+        .word 0x024C
     .L_dusa_p_D950:
-        .4byte 0x0000000F
+        .long 0x0000000F
     .L_dusa_p_D954:
-        .4byte dusa_0602ECCC
+        .long dusa_0602ECCC
     .L_dusa_p_D958:
-        .4byte 0x00000300
+        .long 0x00000300
     .L_dusa_D95C:
         sub r1, r5
     .L_dusa_D95E:
@@ -164,21 +164,21 @@ int dusa_0602D8BC(void) asm {
         rts
         nop
     .L_dusa_wp_D9D0:
-        .2byte 0x0248
+        .word 0x0248
     .L_dusa_wp_D9D2:
-        .2byte 0x0250
+        .word 0x0250
     .L_dusa_p_D9D4:
-        .4byte DUSA_DRIFT_TABLE
+        .long DUSA_DRIFT_TABLE
     .L_dusa_p_D9D8:
-        .4byte 0x00006AAA
+        .long 0x00006AAA
     .L_dusa_p_D9DC:
-        .4byte dusa_06027344
+        .long dusa_06027344
     .L_dusa_p_D9E0:
-        .4byte dusa_06027348
+        .long dusa_06027348
     .L_dusa_p_D9E4:
-        .4byte 0x0000018C
+        .long 0x0000018C
     .L_dusa_p_D9E8:
-        .4byte 0x00000190
+        .long 0x00000190
         rts
         nop
         .align 2

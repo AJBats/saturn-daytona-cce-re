@@ -70,17 +70,17 @@ int dusa_0602D814(void) asm {
         bra .L_dusa_d87a
         nop
     .L_dusa_d814_fc:
-        .2byte 0x00FC
+        .word 0x00FC
     .L_dusa_d814_dc:
-        .2byte 0x00DC
+        .word 0x00DC
     .L_dusa_d814_e0:
-        .2byte 0x00E0
+        .word 0x00E0
     .L_dusa_d814_gear:
-        .4byte DUSA_GEAR_TABLE      /* retail 0x060477BC; gear-ratio table in COL body */
+        .long DUSA_GEAR_TABLE      /* retail 0x060477BC; gear-ratio table in COL body */
     .L_dusa_d814_k:
-        .4byte 0x0221AC91           /* gear->force scaling constant */
+        .long 0x0221AC91           /* gear->force scaling constant */
     .L_dusa_d814_max:
-        .4byte 0x00002134           /* force-output clamp max (8500) */
+        .long 0x00002134           /* force-output clamp max (8500) */
     .L_dusa_d874:
         cmp/gt r5, r4
         bt .L_dusa_d87a
@@ -97,6 +97,6 @@ int dusa_0602D814(void) asm {
         rts
         nop
     .L_dusa_d814_e8:
-        .2byte 0x00E8
+        .word 0x00E8
         .align 2
 }
