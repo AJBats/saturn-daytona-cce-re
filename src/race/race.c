@@ -907,5 +907,7 @@ void dusa_align4(void) asm { .align 2 }
 #include "mods/transplant/race/dusa_0602F3EC.c"
 #include "mods/transplant/race/dusa_0602F7BC.c"
 #include "mods/transplant/race/dusa_0602F474.c"
+/* Step 3c: track-force application (call 7b) -> car[+0xE0], read by CCEC. */
+#include "mods/transplant/race/dusa_0602F270.c"
 #include "mods/transplant/race/dusa_call_player.c"
 #endif

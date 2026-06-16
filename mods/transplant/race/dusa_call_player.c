@@ -9,6 +9,7 @@
  * Ported stages, in pipeline order:
  *   call  4  dusa_0602F3EC  speed index + drag   -> car[+0x08] (opens CCEC gate)
  *   call  5  dusa_0602F7BC  effect-timer decrements
+ *   call 7b  dusa_0602F270  track-force application -> car[+0xE0] (CCEC deficit)
  *   call  9  dusa_0602F474  animation counter     -> car[+0x114]
  *   call 15  dusa_0602CA84  force accumulator      -> car[+0xFC]
  *   call 18  dusa_0602D814  speed writer           -> car[+0x0C], +0xE0, +0xE8
@@ -38,6 +39,11 @@ void dusa_call_player(void) asm {
         mov r0, r14
         mov.l .L_dusa_p_f7bc, r3
         jsr @r3                      /* call 5: effect timers (r0=car) */
+        nop
+        mov.l .L_dusa_p_shadow0, r0
+        mov r0, r14
+        mov.l .L_dusa_p_f270, r3
+        jsr @r3                      /* call 7b: track-force application (r0=car) */
         nop
         mov.l .L_dusa_p_shadow0, r0
         mov r0, r14
@@ -75,6 +81,8 @@ void dusa_call_player(void) asm {
         .4byte dusa_0602F3EC
     .L_dusa_p_f7bc:
         .4byte dusa_0602F7BC
+    .L_dusa_p_f270:
+        .4byte dusa_0602F270
     .L_dusa_p_f474:
         .4byte dusa_0602F474
     .L_dusa_p_ca84:

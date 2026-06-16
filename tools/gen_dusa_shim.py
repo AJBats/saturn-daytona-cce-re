@@ -111,6 +111,23 @@ SPECS = {
                                     'anim table @060477D8 -> COL body')},
         }],
     },
+    # call 7b: track-force application. Code 0x0602F270-0x0602F3CB then an inline
+    # 4-entry min/max force-bounds table 0x0602F3CC-0x0602F3EB (same subseg). The
+    # bounds-table pool word self-references the table -> in-shim local label
+    # (.Lf270_bounds, R_SH_DIR32). The gear table is an absolute COL-body literal
+    # (allowlisted); 755C is a ported-symbol reloc.
+    'dusa_0602F270': {
+        'segments': [{
+            'start': 0x0602F270, 'end': 0x0602F3EB,
+            'reloc4': {
+                0x0602F2FC: ('DUSA_GEAR_TABLE', 'gear-ratio table @060477BC -> COL body'),
+                0x0602F300: ('dusa_0602755C', 'fixed-point mul/div helper'),
+                0x0602F39C: ('DUSA_GEAR_TABLE', 'gear-ratio table @060477BC -> COL body'),
+                0x0602F3A0: ('dusa_0602755C', 'fixed-point mul/div helper'),
+                0x0602F3A4: ('.Lf270_bounds', 'inline force-bounds table @0602F3CC (in-shim)'),
+            },
+        }],
+    },
     # CA84+CCD0+CCEC are contiguous in retail (bsr targets adjacent); D7E4 is
     # 0x9EE past CCEC's end -> reproduce the gap with .space so the CCEC->D7E4
     # bsr displacement matches retail byte-for-byte.
