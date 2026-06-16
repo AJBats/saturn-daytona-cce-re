@@ -159,16 +159,17 @@ def build():
 # --------------------------------------------------------------------------
 
 def render_col_budget():
-    """A plaintext node = the per-track COL fill panel (three 'filling' bars).
-    Each bar is the same width (= that COL's 100%); coloured segments show usage,
-    so the smallest/tightest track (Three Seven) reads as the fullest bar."""
+    """Return an HTML-table fragment = the per-track COL fill panel (three
+    'filling' bars). Each bar is the same width (= that COL's 100%); coloured
+    segments show usage, so the smallest/tightest track (Three Seven) reads as
+    the fullest bar. Returned string is embedded in the graph's top label."""
     try:
         rows = colb.get_budget()
     except Exception as e:
-        return ['  col_budget [shape=note, label="COL budget unavailable: %s"];'
-                % str(e)[:60]]
+        return '<TABLE BORDER="0"><TR><TD>COL budget unavailable: %s</TD></TR></TABLE>' \
+               % str(e)[:60]
     if not rows:
-        return []
+        return ''
     W = 480
     h = ['<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="3" CELLPADDING="0">',
          '<TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="11"><B>'
@@ -200,7 +201,7 @@ def render_col_budget():
              '&#183; orange=cos &#183; yellow=gear/trac/anim &#183; green=track data(proj) '
              '&#183; white=free</FONT></TD></TR>')
     h.append('</TABLE>')
-    return ['  col_budget [shape=plaintext, label=<' + ''.join(h) + '>];']
+    return ''.join(h)
 
 
 def write_dot(g):
@@ -210,10 +211,18 @@ def write_dot(g):
          '  ranksep=0.9; nodesep=0.22;',
          '  node [fontname="Consolas,monospace", fontsize=9];',
          '  edge [fontname="Consolas,monospace", fontsize=8, color="#555555"];',
-         '  labelloc="t"; fontsize=13;',
-         '  label="DUSA player-physics pipeline -- transplant trust graph\\l'
-         'green = ported into CCE  |  white = pending  |  cylinder = data table  |  '
-         'parallelogram = external input  |  flow: dispatcher -> ... -> writers\\l";']
+         '  labelloc="t"; labeljust="c"; fontsize=13;']
+    # Top label (centered): title + legend + the three COL-budget "filling" bars.
+    budget = render_col_budget()
+    title = ('<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="2">'
+             '<TR><TD ALIGN="LEFT"><FONT POINT-SIZE="13"><B>DUSA player-physics '
+             'pipeline &#8212; transplant trust graph</B></FONT></TD></TR>'
+             '<TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">green = ported into CCE '
+             '&#183; white = pending &#183; cylinder = data table &#183; '
+             'parallelogram = external input &#183; flow: dispatcher &#8594; '
+             'writers</FONT></TD></TR>'
+             '<TR><TD>%s</TD></TR></TABLE>' % budget)
+    L.append('  label=<%s>;' % title)
     for start, c in closure.items():
         fill = '#b6f0b6' if c['ported'] else '#ffffff'
         pen = '2' if start in (0x0602D814, 0x0602D8BC, 0x0602ECF2) else '1'
@@ -247,7 +256,6 @@ def write_dot(g):
         L.append('  %s -> %s [style=dashed, color="#999999"];' % (nid(src), nid(a)))
     for src_id, gid in sorted(ext_e):
         L.append('  %s -> %s [style=dotted, color="#6699cc"];' % (src_id, gid))
-    L.extend(render_col_budget())
     L.append('}')
     open(OUT_DOT, 'w', encoding='utf-8').write('\n'.join(L))
 

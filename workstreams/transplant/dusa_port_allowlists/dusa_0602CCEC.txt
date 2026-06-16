@@ -2,4 +2,4 @@
 # record (the LWR state block never relocates -> no linker symbol). Format:
 #   <func-relative offset>  <expected literal>  # note
 # Verified by tools/check_dusa_port.py against the ported bytes.
-0x0E4  0x00236100   # traction table (DUSA_TRAC_TABLE); DUSA 0x0602E938, embedded in COL body @file 0x16100
+0x0E4  0x00232560   # traction table (DUSA_TRAC_TABLE); DUSA 0x0602E938, embedded in COL body @file 0x12560

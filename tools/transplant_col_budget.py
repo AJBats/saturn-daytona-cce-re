@@ -23,19 +23,31 @@ COL_DIR = os.path.join(ROOT, 'build', 'disc', 'files', 'DAYTONA')
 DUSA_DIR = os.path.join(ROOT, 'build', 'disc_dusa', 'files')
 OUT_MD = os.path.join(ROOT, 'workstreams', 'transplant', 'col_budget.md')
 
-COL_HEADER = 0x8000
-TRACK_START = 0x16600          # DUSA_TRACK_TABLES file offset (track data goes here)
+# Layout comes straight from gen_disc_data.py (the source of truth) so the budget
+# never drifts from what the disc build actually writes.
+import sys
+sys.path.insert(0, os.path.join(ROOT, 'mods', 'transplant'))
+import gen_disc_data as gdd
 
-# Fixed/shared allocation, in file-offset order. (label, start, size, color).
-# Mirrors src/race/dusa_state.h + gen_disc_data.py -- keep in sync.
-FIXED = [
-    ('CCE header',  0x00000, 0x8000, '#9e9e9e'),   # preserved, not ours
-    ('shadow cars', 0x08000, 0x6140, '#1565c0'),
-    ('globals',     0x0E140, 0x0400, '#26c6da'),
-    ('(gap)',       0x0E540, 0x3AC0, '#cfd8dc'),    # reclaimable -- old track reservation
-    ('cos',         0x12000, 0x4000, '#ef6c00'),
-    ('gear/trac/anim', 0x16000, TRACK_START - 0x16000, '#fdd835'),
-]
+COL_HEADER = gdd.COL_HEADER_SIZE
+
+_COLOR = {'DUSA_SHADOW_CARS': '#1565c0', 'DUSA_GLOBALS': '#26c6da',
+          'DUSA_COS_TABLE': '#ef6c00', 'DUSA_GEAR_TABLE': '#fdd835',
+          'DUSA_TRAC_TABLE': '#fdd835', 'DUSA_ANIM_TABLE': '#fdd835'}
+_LABEL = {'DUSA_SHADOW_CARS': 'shadow cars', 'DUSA_GLOBALS': 'globals',
+          'DUSA_COS_TABLE': 'cos', 'DUSA_GEAR_TABLE': 'gear',
+          'DUSA_TRAC_TABLE': 'trac', 'DUSA_ANIM_TABLE': 'anim'}
+
+
+def _fixed_and_track():
+    placed, track_off = gdd.compute_layout()
+    segs = [('CCE header', 0, COL_HEADER, '#9e9e9e')]   # preserved, not ours
+    for macro, off, size, _l, _a in placed:
+        segs.append((_LABEL[macro], off, size, _COLOR[macro]))
+    return segs, track_off
+
+
+FIXED, TRACK_START = _fixed_and_track()
 
 # CCE COL <-> DUSA LINE (track-data source). CS0 embedded size is known (wp+seg);
 # CS1/CS2 use the full LINE file as a conservative upper bound (exact counts TBD).
@@ -94,15 +106,15 @@ def main():
     emit()
     fixed_total = TRACK_START
     emit('Fixed/shared block (identical every track): **%s** through file 0x%X '
-         '(incl. a ~%s reclaimable gap).' % (kb(fixed_total), TRACK_START,
-                                             kb(next(s for l, o, s, c in FIXED if l == '(gap)'))))
+         '(packed, no gap).' % (kb(fixed_total), TRACK_START))
     emit()
-    emit('| course | COL size | fixed | track data (proj.) | free | bar (H=hdr S=shadow g=glob .=gap C=cos t=tbl T=track _=free) |')
+    emit('| course | COL size | fixed | track data (proj.) | free | bar (H=hdr S=shadow g=glob C=cos t=tbl T=track _=free) |')
     emit('|---|---:|---:|---:|---:|---|')
     for r in rows:
         col = r['col']
-        segs = [(s / col, ch) for (_, _, s, _), ch in
-                zip(r['fixed'], 'HSg.Ct')]
+        ch_of = {'CCE header': 'H', 'shadow cars': 'S', 'globals': 'g',
+                 'cos': 'C', 'gear': 't', 'trac': 't', 'anim': 't'}
+        segs = [(s / col, ch_of.get(lbl, 'x')) for (lbl, _o, s, _c) in r['fixed']]
         segs.append((r['track_proj'] / col, 'T'))
         segs.append((r['free'] / col, '_'))
         bar = ascii_bar(segs)
@@ -112,9 +124,9 @@ def main():
         emit('| %s | %s | %s | %s | %s | `%s` |'
              % (r['name'], kb(col), kb(fixed_total), tnote, free, bar))
     emit()
-    emit('Binding budget = the smallest COL (Three Seven). As more ported-data '
-         'tables are added the fixed block grows and Three Seven\'s free shrinks '
-         'first -- watch that bar. ~15 KB is reclaimable (the gap) if it gets tight.')
+    emit('Binding budget = the smallest COL (Three Seven). The fixed block is '
+         'packed (no gap); as more ported-data tables are added it grows and '
+         'Three Seven\'s free shrinks first -- watch that bar.')
     emit()
     os.makedirs(os.path.dirname(OUT_MD), exist_ok=True)
     with open(OUT_MD, 'w') as f:
