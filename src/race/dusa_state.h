@@ -6,10 +6,18 @@
  * C glue uses stack locals + .rodata consts only; no mutable globals
  * (.data/.bss are discarded by race_c.ld).
  *
- * COL body layout (guest 0x00228000 = COL file offset 0x8000):
- *   0x00228000  DUSA_SHADOW_CARS    40 x 0x268   shadow car structs
- *   0x0022E140  DUSA_GLOBALS        0x400        packed globals + scratch
- *   0x0022E540  DUSA_TRACK_TABLES   ~0x3400      waypoints + segments */
+ * COL body layout (guest = 0x00220000 + COL file offset; COL loads at 0x00220000
+ * for every track). FIXED / track-INDEPENDENT data (shadow, globals, cos, gear,
+ * traction, anim) sits at constant low offsets; per-track DUSA track data goes
+ * LAST so it grows into each track's own COL space without disturbing the fixed
+ * tables (each track reads its own COL, and its data fits its own size -- no
+ * uniform padding needed). See the project-col-uniform-size-plan memory.
+ *   0x00228000  DUSA_SHADOW_CARS  40 x 0x268  shadow car structs
+ *   0x0022E140  DUSA_GLOBALS      0x400       packed globals + scratch
+ *   (0x0022E540-0x00232000  ~15 KB reclaimable gap -- old track reservation)
+ *   0x00232000  DUSA_COS_TABLE    0x4000      cos table
+ *   0x00236000  DUSA_GEAR_TABLE   0x20 / 0x100 / 0x18  gear / traction / anim
+ *   0x00236600  DUSA_TRACK_TABLES variable    per-track waypoints + segments (Step 6) */
 
 /* CCE render car array (bridge write target) */
 #define CCE_CAR_BASE        0x0605224C
@@ -21,7 +29,6 @@
 #define DUSA_CAR_COUNT      40
 
 #define DUSA_GLOBALS        0x0022E140
-#define DUSA_TRACK_TABLES   0x0022E540
 
 /* Ported-DUSA data homes in the COL body (see state_block_loading.md). Absolute
  * LWR literals (no linker symbol); ported asm shims reference these by macro. */
@@ -34,6 +41,11 @@
                                             [section*8 + gear*2]; embedded through subseg end. */
 #define DUSA_ANIM_TABLE     0x00236500   /* animation table (file off 0x16500); DUSA 0x060477D8,
                                             5-entry lookup read by dusa_0602F474 (call 9) -> +0x114 */
+/* Per-track DUSA track data (waypoints + segments), placed AFTER the fixed/shared
+ * tables (file off 0x16600). Variable size per track; each fits in its own COL
+ * (Three Seven ~13 KB, Seaside ~161 KB). Reservation only until the Step-6 embed
+ * (gen_disc_data ZERO_BODY_ONLY=False) writes real data here. */
+#define DUSA_TRACK_TABLES   0x00236600
 #define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
                                             never read in Step 1, populate when drift ported */
 

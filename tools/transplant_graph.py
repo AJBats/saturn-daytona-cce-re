@@ -28,6 +28,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import transplant_coverage_audit as cov
+import transplant_col_budget as colb
 
 OUT_DOT = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.dot')
 OUT_MD = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.md')
@@ -157,6 +158,51 @@ def build():
 # DOT
 # --------------------------------------------------------------------------
 
+def render_col_budget():
+    """A plaintext node = the per-track COL fill panel (three 'filling' bars).
+    Each bar is the same width (= that COL's 100%); coloured segments show usage,
+    so the smallest/tightest track (Three Seven) reads as the fullest bar."""
+    try:
+        rows = colb.get_budget()
+    except Exception as e:
+        return ['  col_budget [shape=note, label="COL budget unavailable: %s"];'
+                % str(e)[:60]]
+    if not rows:
+        return []
+    W = 480
+    h = ['<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="3" CELLPADDING="0">',
+         '<TR><TD COLSPAN="2" ALIGN="LEFT"><FONT POINT-SIZE="11"><B>'
+         'COL budget &#8212; per-track fill (each bar = that COL 100&#37;; smallest = binding)'
+         '</B></FONT></TD></TR>']
+    for r in rows:
+        col = r['col']
+        segs = [(s, c) for (_l, _o, s, c) in r['fixed']]
+        segs.append((r['track_proj'], '#43a047'))          # track data (projected)
+        used = sum(s for s, _ in segs)
+        segs.append((max(col - used, 0), '#ffffff'))        # free
+        cells, acc = [], 0
+        for i, (size, color) in enumerate(segs):
+            w = max(W - acc, 1) if i == len(segs) - 1 else int(round(size / col * W))
+            acc += w
+            if w <= 0:
+                continue
+            brd = ' BORDER="1" COLOR="#bbbbbb"' if color == '#ffffff' else ''
+            cells.append('<TD WIDTH="%d" HEIGHT="15" BGCOLOR="%s"%s> </TD>'
+                         % (w, color, brd))
+        note = '' if not r['over'] else ' OVER'
+        lab = ('%s &#160;<FONT POINT-SIZE="8">%.0fK COL &#183; free %.0fK%s</FONT>'
+               % (r['name'], col / 1024.0, r['free'] / 1024.0, note))
+        h.append('<TR><TD ALIGN="RIGHT"><FONT POINT-SIZE="9">%s</FONT></TD>'
+                 '<TD><TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" '
+                 'CELLPADDING="0"><TR>%s</TR></TABLE></TD></TR>' % (lab, ''.join(cells)))
+    h.append('<TR><TD></TD><TD ALIGN="LEFT"><FONT POINT-SIZE="7">'
+             'grey=CCE hdr &#183; blue=shadow &#183; cyan=globals &#183; faint=reclaimable gap '
+             '&#183; orange=cos &#183; yellow=gear/trac/anim &#183; green=track data(proj) '
+             '&#183; white=free</FONT></TD></TR>')
+    h.append('</TABLE>')
+    return ['  col_budget [shape=plaintext, label=<' + ''.join(h) + '>];']
+
+
 def write_dot(g):
     closure, ported = g['closure'], g['ported']
     L = ['digraph pipeline {',
@@ -201,6 +247,7 @@ def write_dot(g):
         L.append('  %s -> %s [style=dashed, color="#999999"];' % (nid(src), nid(a)))
     for src_id, gid in sorted(ext_e):
         L.append('  %s -> %s [style=dotted, color="#6699cc"];' % (src_id, gid))
+    L.extend(render_col_budget())
     L.append('}')
     open(OUT_DOT, 'w', encoding='utf-8').write('\n'.join(L))
 
