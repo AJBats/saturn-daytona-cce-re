@@ -72,6 +72,14 @@ TRAC_TABLE_APROG_OFF = 0x0602E938 - 0x06003000   # 0x2B938
 TRAC_TABLE_SIZE = 0x0602ECCB - 0x0602E938 + 1    # 0x394, through subseg end
 TRAC_TABLE_FILE_OFF = 0x16100
 
+# DUSA animation table embed (Step 3b leaves). The animation counter
+# dusa_0602F474 indexes it [0..4] -> car[+0x114]. Sliced from APROG.BIN at DUSA
+# 0x060477D8 (the exact pool-word ref). Lands at a FIXED file offset -> constant
+# LWR DUSA_ANIM_TABLE 0x00236500.
+ANIM_TABLE_APROG_OFF = 0x060477D8 - 0x06003000   # 0x447D8
+ANIM_TABLE_SIZE = 0x18                            # 5 entries used (0x14); 0x18 with margin
+ANIM_TABLE_FILE_OFF = 0x16500
+
 
 def load_cos_table():
     """Read the captured DUSA sin/cos table, or None if absent."""
@@ -136,6 +144,33 @@ def splice_trac_table(body, trac):
               % TRAC_TABLE_FILE_OFF)
         return False
     body[boff:boff + TRAC_TABLE_SIZE] = trac
+    return True
+
+
+def load_anim_table():
+    """Slice the DUSA animation table out of APROG.BIN, or None if absent."""
+    if not os.path.isfile(APROG_PATH):
+        return None
+    with open(APROG_PATH, 'rb') as f:
+        f.seek(ANIM_TABLE_APROG_OFF)
+        data = f.read(ANIM_TABLE_SIZE)
+    if len(data) != ANIM_TABLE_SIZE:
+        print('  WARN  APROG.BIN too short for anim table at 0x%X -- skipping'
+              % ANIM_TABLE_APROG_OFF)
+        return None
+    return data
+
+
+def splice_anim_table(body, anim):
+    """Overlay the animation table into a COL body bytearray at ANIM_TABLE_FILE_OFF."""
+    if anim is None:
+        return False
+    boff = ANIM_TABLE_FILE_OFF - COL_HEADER_SIZE
+    if boff + ANIM_TABLE_SIZE > len(body):
+        print('  WARN  COL body too small for anim table at 0x%X -- skipping'
+              % ANIM_TABLE_FILE_OFF)
+        return False
+    body[boff:boff + ANIM_TABLE_SIZE] = anim
     return True
 
 
@@ -236,10 +271,10 @@ def gen_col_with_dusa_data(col_src, waypoints, segments, dst_path):
     }
 
 
-def gen_zeroed_col(col_src, dst_path, cos=None, gear=None, trac=None):
+def gen_zeroed_col(col_src, dst_path, cos=None, gear=None, trac=None, anim=None):
     """Preserve header, zero body (= shadow-car/globals scratch + track-table
-    reservation), then splice the DUSA sin/cos + gear + traction tables in at
-    their fixed offsets."""
+    reservation), then splice the DUSA sin/cos + gear + traction + animation
+    tables in at their fixed offsets."""
     with open(col_src, 'rb') as f:
         data = f.read()
     header = data[:COL_HEADER_SIZE]
@@ -247,10 +282,11 @@ def gen_zeroed_col(col_src, dst_path, cos=None, gear=None, trac=None):
     cos_ok = splice_cos_table(body, cos)
     gear_ok = splice_gear_table(body, gear)
     trac_ok = splice_trac_table(body, trac)
+    anim_ok = splice_anim_table(body, anim)
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
     with open(dst_path, 'wb') as f:
         f.write(header + bytes(body))
-    return len(data), cos_ok, gear_ok, trac_ok
+    return len(data), cos_ok, gear_ok, trac_ok, anim_ok
 
 
 def main():
@@ -272,6 +308,11 @@ def main():
         print('  WARN  APROG.BIN %s not found — traction table will read zeros '
               '(force accumulator deficit math degenerates)' % APROG_PATH)
 
+    anim = load_anim_table()
+    if anim is None:
+        print('  WARN  APROG.BIN %s not found — anim table will read zeros '
+              '(animation counter writes +0x114 = 0)' % APROG_PATH)
+
     for spec in COURSE_SPECS:
         col_src = os.path.join(RETAIL_DIR, spec['col_file'])
         line_src = os.path.join(DUSA_DIR, spec['line_file'])
@@ -288,8 +329,8 @@ def main():
             else:
                 print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
                       % (spec['col_file'], spec['line_file']))
-            size, cos_ok, gear_ok, trac_ok = gen_zeroed_col(col_src, dst_path,
-                                                             cos, gear, trac)
+            size, cos_ok, gear_ok, trac_ok, anim_ok = gen_zeroed_col(
+                col_src, dst_path, cos, gear, trac, anim)
             extras = ''
             if cos_ok:
                 extras += ', cos table @0x12000'
@@ -297,6 +338,8 @@ def main():
                 extras += ', gear table @0x16000'
             if trac_ok:
                 extras += ', traction table @0x16100'
+            if anim_ok:
+                extras += ', anim table @0x16500'
             print('  OK    %-16s  %d bytes (header preserved, body zeroed%s)'
                   % (spec['col_file'], size, extras))
             continue

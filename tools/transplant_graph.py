@@ -14,7 +14,7 @@ graph doubles as a progress map: re-draw after each step and watch the ported
 frontier climb from the car-struct writers up toward the inputs.
 
 Outputs (workstreams/transplant/):
-  transplant_pipeline.dot   Graphviz (rendered to .svg if `dot` is on PATH)
+  transplant_pipeline.dot   Graphviz (auto-rendered to .svg + .png if `dot` is on PATH)
   transplant_pipeline.md    readable, git-diffable call tree
 
 Run from WSL (the auditor shells to objdump):
@@ -32,6 +32,7 @@ import transplant_coverage_audit as cov
 OUT_DOT = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.dot')
 OUT_MD = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.md')
 OUT_SVG = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.svg')
+OUT_PNG = os.path.join(cov.CCE_ROOT, 'workstreams', 'transplant', 'transplant_pipeline.png')
 
 # Documented roles (player_pipeline.md / transplant_manifest.md -- the validated
 # 18-call sequence). Semantics, not structure: the edges/ported flags are ground
@@ -280,14 +281,16 @@ def main():
     print('  tree: %s' % rel(OUT_MD))
     dot = shutil.which('dot')
     if dot:
-        r = subprocess.run([dot, '-Tsvg', OUT_DOT, '-o', OUT_SVG],
-                           capture_output=True, text=True)
-        if r.returncode == 0:
-            print('  SVG : %s' % rel(OUT_SVG))
-        else:
-            print('  SVG : (dot failed: %s)' % r.stderr.strip()[:120])
+        for label, out, args in (('SVG', OUT_SVG, ['-Tsvg']),
+                                 ('PNG', OUT_PNG, ['-Tpng', '-Gdpi=150'])):
+            r = subprocess.run([dot] + args + [OUT_DOT, '-o', out],
+                               capture_output=True, text=True)
+            if r.returncode == 0:
+                print('  %s : %s' % (label, rel(out)))
+            else:
+                print('  %s : (dot failed: %s)' % (label, r.stderr.strip()[:120]))
     else:
-        print('  SVG : (graphviz `dot` not found -- render the .dot yourself)')
+        print('  SVG/PNG : (graphviz `dot` not found -- render the .dot yourself)')
     return 0
 
 

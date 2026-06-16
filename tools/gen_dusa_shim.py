@@ -97,6 +97,20 @@ SPECS = {
     'dusa_0602755C': {
         'segments': [{'start': 0x0602755C, 'end': 0x06027573}],
     },
+    # Pipeline leaves (called before CA84), byte-identical except F474's table.
+    'dusa_0602F3EC': {                                   # call 4: speed index + drag
+        'segments': [{'start': 0x0602F3EC, 'end': 0x0602F473}],
+    },
+    'dusa_0602F7BC': {                                   # call 5: effect-timer decrements
+        'segments': [{'start': 0x0602F7BC, 'end': 0x0602F7E9}],
+    },
+    'dusa_0602F474': {                                   # call 9: animation counter -> +0x114
+        'segments': [{
+            'start': 0x0602F474, 'end': 0x0602F4B3,
+            'reloc4': {0x0602F4B0: ('DUSA_ANIM_TABLE',
+                                    'anim table @060477D8 -> COL body')},
+        }],
+    },
     # CA84+CCD0+CCEC are contiguous in retail (bsr targets adjacent); D7E4 is
     # 0x9EE past CCEC's end -> reproduce the gap with .space so the CCEC->D7E4
     # bsr displacement matches retail byte-for-byte.

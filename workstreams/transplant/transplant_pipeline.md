@@ -2,7 +2,7 @@
 
 Generated from APROG.BIN bytes + funcfinder coverage by `tools/transplant_graph.py`. Every node is a human-stamped subseg; edges are reg-tracked calls + data/input refs. **PORTED** = already in the CCE transplant. Re-run after each step to watch the ported frontier climb toward the inputs.
 
-- code subsegs in closure: **32** (ported **9**)
+- code subsegs in closure: **32** (ported **12**)
 - data tables referenced: **13**  |  external inputs: **27**
 
 ## Call tree (from the dispatcher)
@@ -14,14 +14,14 @@ sym_0602ECF2 [dispatcher] player physics dispatcher (jump-table state machine)  
     sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
   sym_0602EFF0 [2] steering rotation (deadzone/clamp/atan2)  «in: car pointer (global)»
     sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
-  sym_0602F3EC [4] speed index + drag
-  sym_0602F7BC [5] effect-timer decrements
+  sym_0602F3EC [4] speed index + drag ✓PORTED
+  sym_0602F7BC [5] effect-timer decrements ✓PORTED
   sym_0602F0E8 [6] collision state check  «in: car pointer (global)»
   sym_0602F270 [7b] track force application  «data: gear-ratio table»
     sym_0602755C [math] fixed-point multiply ✓PORTED
   sym_0602F17C [7a/8] gear state machine  «data: track-force bounds, gear-down thresholds, gear-up thresholds, section scaling»
     sym_0602755C [math] fixed-point multiply ✓PORTED
-  sym_0602F474 [9] animation counter  «data: animation table»
+  sym_0602F474 [9] animation counter ✓PORTED  «data: animation table»
   sym_0602F4B4 [10] opponent proximity  «in: 0607E948, 0607EA98, 0607EAE0»
     sym_0602744C [math] fixed-point helper
       sym_0602755C [math] fixed-point multiply ✓PORTED

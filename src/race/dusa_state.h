@@ -32,6 +32,8 @@
                                             (tail of data subseg sym_0602E8AC), read by the
                                             traction fn dusa_0602CCEC (Step 3). 2D table indexed
                                             [section*8 + gear*2]; embedded through subseg end. */
+#define DUSA_ANIM_TABLE     0x00236500   /* animation table (file off 0x16500); DUSA 0x060477D8,
+                                            5-entry lookup read by dusa_0602F474 (call 9) -> +0x114 */
 #define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
                                             never read in Step 1, populate when drift ported */
 
