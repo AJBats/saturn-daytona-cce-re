@@ -62,6 +62,16 @@ GEAR_TABLE_APROG_OFF = 0x060477BC - 0x06003000   # 0x447BC
 GEAR_TABLE_SIZE = 0x20
 GEAR_TABLE_FILE_OFF = 0x16000
 
+# DUSA traction table embed (Step 3, see state_block_loading.md). The traction
+# fn dusa_0602CCEC reads it as a 2D table (deficit/gear -> traction force).
+# Sliced from APROG.BIN at DUSA 0x0602E938 (the exact pool-word ref) through the
+# end of its funcfinder data subseg sym_0602E8AC (0x0602ECCB) so all indices are
+# covered. Lands at a FIXED file offset -> constant LWR DUSA_TRAC_TABLE 0x00236100.
+#   APROG 0x0602E938, vram 0x06003000 -> file off 0x0602E938 - 0x06003000.
+TRAC_TABLE_APROG_OFF = 0x0602E938 - 0x06003000   # 0x2B938
+TRAC_TABLE_SIZE = 0x0602ECCB - 0x0602E938 + 1    # 0x394, through subseg end
+TRAC_TABLE_FILE_OFF = 0x16100
+
 
 def load_cos_table():
     """Read the captured DUSA sin/cos table, or None if absent."""
@@ -99,6 +109,33 @@ def splice_gear_table(body, gear):
               % GEAR_TABLE_FILE_OFF)
         return False
     body[boff:boff + GEAR_TABLE_SIZE] = gear
+    return True
+
+
+def load_trac_table():
+    """Slice the DUSA traction table out of APROG.BIN, or None if absent."""
+    if not os.path.isfile(APROG_PATH):
+        return None
+    with open(APROG_PATH, 'rb') as f:
+        f.seek(TRAC_TABLE_APROG_OFF)
+        data = f.read(TRAC_TABLE_SIZE)
+    if len(data) != TRAC_TABLE_SIZE:
+        print('  WARN  APROG.BIN too short for traction table at 0x%X -- skipping'
+              % TRAC_TABLE_APROG_OFF)
+        return None
+    return data
+
+
+def splice_trac_table(body, trac):
+    """Overlay the traction table into a COL body bytearray at TRAC_TABLE_FILE_OFF."""
+    if trac is None:
+        return False
+    boff = TRAC_TABLE_FILE_OFF - COL_HEADER_SIZE
+    if boff + TRAC_TABLE_SIZE > len(body):
+        print('  WARN  COL body too small for traction table at 0x%X -- skipping'
+              % TRAC_TABLE_FILE_OFF)
+        return False
+    body[boff:boff + TRAC_TABLE_SIZE] = trac
     return True
 
 
@@ -199,20 +236,21 @@ def gen_col_with_dusa_data(col_src, waypoints, segments, dst_path):
     }
 
 
-def gen_zeroed_col(col_src, dst_path, cos=None, gear=None):
+def gen_zeroed_col(col_src, dst_path, cos=None, gear=None, trac=None):
     """Preserve header, zero body (= shadow-car/globals scratch + track-table
-    reservation), then splice the DUSA sin/cos + gear tables in at their fixed
-    offsets."""
+    reservation), then splice the DUSA sin/cos + gear + traction tables in at
+    their fixed offsets."""
     with open(col_src, 'rb') as f:
         data = f.read()
     header = data[:COL_HEADER_SIZE]
     body = bytearray(len(data) - COL_HEADER_SIZE)
     cos_ok = splice_cos_table(body, cos)
     gear_ok = splice_gear_table(body, gear)
+    trac_ok = splice_trac_table(body, trac)
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
     with open(dst_path, 'wb') as f:
         f.write(header + bytes(body))
-    return len(data), cos_ok, gear_ok
+    return len(data), cos_ok, gear_ok, trac_ok
 
 
 def main():
@@ -228,6 +266,11 @@ def main():
     if gear is None:
         print('  WARN  APROG.BIN %s not found — gear table will read zeros '
               '(speed writer gear_ratio=0 → no acceleration)' % APROG_PATH)
+
+    trac = load_trac_table()
+    if trac is None:
+        print('  WARN  APROG.BIN %s not found — traction table will read zeros '
+              '(force accumulator deficit math degenerates)' % APROG_PATH)
 
     for spec in COURSE_SPECS:
         col_src = os.path.join(RETAIL_DIR, spec['col_file'])
@@ -245,12 +288,15 @@ def main():
             else:
                 print('  WARN  %-16s  (DUSA %s not found — zeroing body only)'
                       % (spec['col_file'], spec['line_file']))
-            size, cos_ok, gear_ok = gen_zeroed_col(col_src, dst_path, cos, gear)
+            size, cos_ok, gear_ok, trac_ok = gen_zeroed_col(col_src, dst_path,
+                                                             cos, gear, trac)
             extras = ''
             if cos_ok:
                 extras += ', cos table @0x12000'
             if gear_ok:
                 extras += ', gear table @0x16000'
+            if trac_ok:
+                extras += ', traction table @0x16100'
             print('  OK    %-16s  %d bytes (header preserved, body zeroed%s)'
                   % (spec['col_file'], size, extras))
             continue

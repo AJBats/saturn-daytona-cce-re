@@ -28,6 +28,10 @@
 #define DUSA_COS_TABLE      0x00232000   /* 16 KB / 4096 x u32 cos table (file off 0x12000) */
 #define DUSA_GEAR_TABLE     0x00236000   /* 32 B / 8 x u32 gear-ratio table (file off 0x16000);
                                             DUSA sym_060477BC, read by the speed writer (Step 2) */
+#define DUSA_TRAC_TABLE     0x00236100   /* traction table (file off 0x16100); DUSA 0x0602E938
+                                            (tail of data subseg sym_0602E8AC), read by the
+                                            traction fn dusa_0602CCEC (Step 3). 2D table indexed
+                                            [section*8 + gear*2]; embedded through subseg end. */
 #define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
                                             never read in Step 1, populate when drift ported */
 
@@ -37,12 +41,10 @@
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
 
-/* Live-pokeable hardcoded inputs (tune via Mednafen pokes, no rebuild).
- * Seeded to defaults on the first tick; the tick reads them each frame.
- * Step 2: speed (+0x0C) is now REAL -- the speed writer integrates it from the
- * accel delta (+0xFC) each tick. The old DUSA_STEP1_SPEED fake is retired; that
- * slot now carries the faked accel delta (Step 3 ports the real force accumulator). */
-#define DUSA_STEP2_ACCEL    0x0022E180   /* u32: hardcoded accel delta written to car[+0xFC] */
+/* Faked driving input: heading. Live-pokeable (tune via Mednafen pokes, no
+ * rebuild); seeded to a default on the first tick, read each frame. Speed
+ * (+0x0C) and the accel delta (+0xFC) are now REAL (ported speed writer + force
+ * accumulator); heading stays faked until the steering chain (Step 5). */
 #define DUSA_STEP1_HEADING  0x0022E184   /* u32: hardcoded heading (16-bit angle) */
 
 /* volatile guest-RAM accessors */

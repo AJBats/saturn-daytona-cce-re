@@ -900,5 +900,8 @@ void dusa_align4(void) asm { .align 2 }
 #include "mods/transplant/race/dusa_06027344.c"
 #include "mods/transplant/race/dusa_0602D814.c"
 #include "mods/transplant/race/dusa_0602D8BC.c"
+#include "mods/transplant/race/dusa_0602755C.c"
+/* Step 3: force accumulator + tributaries (CA84+CCD0+CCEC+D7E4 in one block). */
+#include "mods/transplant/race/dusa_0602CA84.c"
 #include "mods/transplant/race/dusa_call_player.c"
 #endif

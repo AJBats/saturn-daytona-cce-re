@@ -7,7 +7,7 @@ Mechanically derived from APROG.BIN instruction bytes (objdump) diffed against f
 | metric | count |
 |---|---|
 | stamped code subsegs in closure | 32 |
-| …already ported into CCE | 4 |
+| …already ported into CCE | 9 |
 | INTERNAL GAPS — code targets (funcfinder queue) | 0 |
 | INTERNAL GAPS — data tables (funcfinder queue) | 0 |
 | mid-subseg references (review) | 18 |
@@ -22,6 +22,11 @@ Every `dusa_<hex>` function already in the CCE transplant must be a funcfinder-s
 |---|---|
 | sym_06027344 | OK — stamped subseg start |
 | sym_06027348 | OK — recorded entry of sym_06027344 |
+| sym_0602755C | OK — stamped subseg start |
+| sym_0602CA84 | OK — stamped subseg start |
+| sym_0602CCD0 | OK — stamped subseg start |
+| sym_0602CCEC | OK — stamped subseg start |
+| sym_0602D7E4 | OK — stamped subseg start |
 | sym_0602D814 | OK — stamped subseg start |
 | sym_0602D8BC | OK — stamped subseg start |
 | sym_0602ECCC | OK — stamped subseg start |
@@ -73,17 +78,17 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_06027358 | 32 | — | 0 | 1 | — |
 | sym_06027378 | 212 | — | 0 | 1 | — |
 | sym_0602744C | 42 | — | 2 | 0 | — |
-| sym_0602755C | 24 | — | 0 | 0 | — |
+| sym_0602755C | 24 | ✓ | 0 | 0 | — |
 | sym_0602C690 | 364 | — | 2 | 0 | — |
 | sym_0602C7FC | 230 | — | 1 | 1 | — |
 | sym_0602C8E2 | 418 | — | 1 | 0 | — |
-| sym_0602CA84 | 588 | — | 3 | 0 | — |
-| sym_0602CCD0 | 28 | — | 0 | 0 | — |
-| sym_0602CCEC | 266 | — | 2 | 1 | — |
+| sym_0602CA84 | 588 | ✓ | 3 | 0 | — |
+| sym_0602CCD0 | 28 | ✓ | 0 | 0 | — |
+| sym_0602CCEC | 266 | ✓ | 2 | 1 | — |
 | sym_0602CDF6 | 660 | — | 4 | 2 | — |
 | sym_0602D08A | 946 | — | 4 | 0 | — |
 | sym_0602D43C | 936 | — | 4 | 0 | — |
-| sym_0602D7E4 | 48 | — | 0 | 0 | — |
+| sym_0602D7E4 | 48 | ✓ | 0 | 0 | — |
 | sym_0602D814 | 122 | ✓ | 0 | 1 | sym_0602D82A |
 | sym_0602D8BC | 308 | ✓ | 3 | 1 | — |
 | sym_0602ECCC | 38 | ✓ | 0 | 0 | — |
