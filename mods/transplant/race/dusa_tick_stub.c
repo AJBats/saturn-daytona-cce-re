@@ -16,6 +16,7 @@
  * NOTE: filename still says "stub" for git continuity; it is the real tick. */
 
 #define DUSA_STEP1_HEADING_DEFAULT  0x0000B000   /* ESE: down the Three Seven straight */
+#define DUSA_STEP1_SPEED_DEFAULT    0x00010000   /* faked cruise velocity (Step-1 value) */
 
 void dusa_frame(void)
 {
@@ -29,8 +30,9 @@ void dusa_frame(void)
         DUSA_U32(DUSA_SHADOW_CARS + 0x14) = DUSA_U32(CCE_CAR_BASE + 0x04);   /* Y */
         DUSA_U32(DUSA_SHADOW_CARS + 0x18) = DUSA_U32(CCE_CAR_BASE + 0x08);   /* Z */
         DUSA_U32(DUSA_SHADOW_CARS + 0x250) = 0;                              /* normal path */
-        DUSA_U32(DUSA_SHADOW_CARS + 0x0C) = 0;                               /* speed starts at 0 */
+        DUSA_U32(DUSA_SHADOW_CARS + 0x0C) = 0;                               /* speed (faked each frame below) */
         DUSA_U32(DUSA_SHADOW_CARS + 0xDC) = 0;                               /* gear index -> gear_table[0] */
+        DUSA_U32(DUSA_STEP1_SPEED)   = DUSA_STEP1_SPEED_DEFAULT;
         DUSA_U32(DUSA_STEP1_HEADING) = DUSA_STEP1_HEADING_DEFAULT;
         DUSA_U32(DUSA_SEED_FLAG) = 1;
         DLOG("dusa SEED X=%08X Z=%08X\n",
@@ -38,8 +40,12 @@ void dusa_frame(void)
              (int)DUSA_U32(DUSA_SHADOW_CARS + 0x18), 0);
     }
 
-    /* Faked heading, refreshed each frame (live-pokeable). The accel delta
-     * (+0xFC) is NO LONGER faked here -- CA84 writes it inside the trampoline. */
+    /* Faked velocity + heading, refreshed each frame (live-pokeable). Velocity
+     * is injected into car[+0x0C] BEFORE the writers run, so the position writer
+     * always integrates a known speed (exercising the cos lookup) until the
+     * surface stage (call 11) makes the force chain produce real velocity. The
+     * accel delta (+0xFC) is already CA84-driven (~0 without surface). */
+    DUSA_U32(DUSA_SHADOW_CARS + 0x0C) = DUSA_U32(DUSA_STEP1_SPEED);    /* faked velocity */
     DUSA_U32(DUSA_SHADOW_CARS + 0x28) = DUSA_U32(DUSA_STEP1_HEADING);  /* heading (trig input) */
     DUSA_U32(DUSA_SHADOW_CARS + 0x30) = DUSA_U32(DUSA_STEP1_HEADING);  /* writer copies +0x30 -> +0x20 */
 

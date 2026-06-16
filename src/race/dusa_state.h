@@ -59,10 +59,14 @@
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
 
-/* Faked driving input: heading. Live-pokeable (tune via Mednafen pokes, no
- * rebuild); seeded to a default on the first tick, read each frame. Speed
- * (+0x0C) and the accel delta (+0xFC) are now REAL (ported speed writer + force
- * accumulator); heading stays faked until the steering chain (Step 5). */
+/* Faked driving inputs (velocity + heading). Live-pokeable (tune via Mednafen
+ * pokes, no rebuild); seeded to defaults on the first tick, read each frame.
+ * The force chain (CA84 -> +0xFC) and speed writer are wired, but the accel
+ * delta is ~0 until the surface stage (call 11) lands, so velocity is FAKED
+ * here -- written straight into car[+0x0C] before the writers run -- to keep the
+ * car moving (and exercise the cos lookup in the position writer) until the
+ * upstream chain produces real velocity. Heading stays faked until Step 5. */
+#define DUSA_STEP1_SPEED    0x0022E180   /* u32: faked velocity -> car[+0x0C] */
 #define DUSA_STEP1_HEADING  0x0022E184   /* u32: hardcoded heading (16-bit angle) */
 
 /* volatile guest-RAM accessors */
