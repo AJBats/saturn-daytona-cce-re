@@ -101,6 +101,8 @@ def emit_asm(spec):
         bsr = seg.get('bsr', {})                        # addr -> (symbol, note)
         labels = seg.get('labels', {})                  # addr -> GLOBAL label name
         data_labels = seg.get('data_labels', {})        # data addr -> in-shim label (e.g. .Lf270_bounds)
+        code_labels = seg.get('code_labels', {})        # CODE addr -> local label; sweep resumes
+                                                         # code here (jump-table targets / handlers)
 
         # Pass A: control-flow sweep -> classify code/data, collect pool + branch
         # targets (only from code so data bytes never masquerade as instructions).
@@ -129,7 +131,7 @@ def emit_asm(spec):
                     a += 2
                     mode = 'data'
             else:                                        # data: pool / padding / table
-                if a in btarg or a in labels:            # branch/entry lands here -> code
+                if a in btarg or a in labels or a in code_labels:   # code resumes here
                     mode = 'code'
                     continue
                 is_code[a] = False
@@ -140,6 +142,8 @@ def emit_asm(spec):
             if a in labels:
                 lines.append('        .global %s' % labels[a])
                 lines.append('    %s:' % labels[a])
+            if a in code_labels:
+                lines.append('    %s:' % code_labels[a])
             if a in data_labels:
                 lines.append('    %s:' % data_labels[a])
             if a in btarg:
@@ -170,14 +174,16 @@ def emit_asm(spec):
                 lines.append('        %-26s /* %08X */' % (t, a))
                 a += 2
             else:                                        # data word(s)
-                if a in pool and pool[a] == 'l':
+                if a in reloc4:                          # pool-load OR jump-table/data pointer
+                    if a in pool:                        # a load target needs its .Lp_ label
+                        lines.append('    .Lp_%X:' % a)
+                    sym, note = reloc4[a]
+                    lines.append('        .long %-20s /* %08X  retail %08X -- %s */'
+                                 % (sym, a, long_(a), note))
+                    a += 4
+                elif a in pool and pool[a] == 'l':
                     lines.append('    .Lp_%X:' % a)
-                    if a in reloc4:
-                        sym, note = reloc4[a]
-                        lines.append('        .long %-20s /* %08X  retail %08X -- %s */'
-                                     % (sym, a, long_(a), note))
-                    else:
-                        lines.append('        .long 0x%08X         /* %08X */' % (long_(a), a))
+                    lines.append('        .long 0x%08X         /* %08X */' % (long_(a), a))
                     a += 4
                 elif a in pool and pool[a] == 'w':
                     lines.append('    .Lp_%X:' % a)
@@ -282,31 +288,238 @@ SPECS = {
     # CA84+CCD0+CCEC are contiguous in retail (bsr targets adjacent); D7E4 is
     # 0x9EE past CCEC's end -> reproduce the gap with .space so the CCEC->D7E4
     # bsr displacement matches retail byte-for-byte.
+    # Force/collision cluster: CA84 force accumulator + its tributaries (CCD0/CCEC/
+    # D7E4) + the collision-response trio (CDF6 finalize, D08A/D43C collision paths)
+    # that fill the gap between CCEC and D7E4 -- ported as ONE contiguous block so
+    # every internal bsr (CCEC->D7E4, D08A->D7E4, D43C->D7E4) is byte-faithful with
+    # no padding. This replaces the old .space 0x9EE placeholder (which reserved
+    # exactly CDF6+D08A+D43C's 2542 B) with the real functions.
     'dusa_0602CA84': {
-        'segments': [
-            {
-                'start': 0x0602CA84, 'end': 0x0602CDF5,     # CA84+CCD0+CCEC
-                'labels': {0x0602CCD0: 'dusa_0602CCD0',
-                           0x0602CCEC: 'dusa_0602CCEC'},
-                'reloc4': {
-                    0x0602CB80: ('dusa_0602755C', 'fixed-point mul/div helper'),
-                    0x0602CCBC: ('dusa_0602755C', 'fixed-point mul/div helper'),
-                    0x0602CDCC: ('dusa_0602755C', 'fixed-point mul/div helper'),
-                    0x0602CDD0: ('DUSA_TRAC_TABLE', 'traction table @0602E938 -> COL body'),
-                },
-                'bsr': {
-                    0x0602CBCC: ('dusa_0602CCD0', 'bsr CCD0 (gear-limit helper)'),
-                    0x0602CC40: ('dusa_0602CCEC', 'bsr CCEC (traction)'),
-                    0x0602CD76: ('dusa_0602D7E4', 'bsr D7E4 (damping/clamp)'),
-                },
-                'space_after': 0x9EE,
-                'space_note': 'CDF6/D08A/D43C',
+        'segments': [{
+            'start': 0x0602CA84, 'end': 0x0602D813,
+            'labels': {
+                0x0602CCD0: 'dusa_0602CCD0', 0x0602CCEC: 'dusa_0602CCEC',
+                0x0602CDF6: 'dusa_0602CDF6', 0x0602D08A: 'dusa_0602D08A',
+                0x0602D43C: 'dusa_0602D43C', 0x0602D7E4: 'dusa_0602D7E4',
             },
-            {
-                'start': 0x0602D7E4, 'end': 0x0602D813,     # D7E4
-                'labels': {0x0602D7E4: 'dusa_0602D7E4'},
+            'reloc4': {
+                0x0602CB80: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CCBC: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CDCC: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CDD0: ('DUSA_TRAC_TABLE', 'traction table @0602E938 -> COL'),
+                0x0602CE4C: ('dusa_06027348', 'cos lookup'),
+                0x0602CEA0: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CEA4: ('dusa_06027344', 'sin lookup'),
+                0x0602CEA8: ('dusa_0602744C', 'fp arctan helper'),
+                0x0602CED0: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CEFC: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602CFE8: ('dusa_06027348', 'cos lookup'),
+                0x0602D198: ('dusa_06027344', 'sin lookup'),
+                0x0602D240: ('dusa_06027378', 'arctan'),
+                0x0602D244: ('dusa_06027344', 'sin lookup'),
+                0x0602D30C: ('dusa_06027378', 'arctan'),
+                0x0602D38C: ('dusa_0602ECCC', 'DIVU helper'),
+                0x0602D3EC: ('dusa_0602ECCC', 'DIVU helper'),
+                0x0602D554: ('dusa_06027344', 'sin lookup'),
+                0x0602D5FC: ('dusa_06027378', 'arctan'),
+                0x0602D600: ('dusa_06027344', 'sin lookup'),
+                0x0602D6C4: ('dusa_06027378', 'arctan'),
+                0x0602D734: ('dusa_0602ECCC', 'DIVU helper'),
+                0x0602D798: ('dusa_0602ECCC', 'DIVU helper'),
             },
-        ],
+            'bsr': {
+                0x0602CBCC: ('dusa_0602CCD0', 'bsr CCD0 (gear-limit helper)'),
+                0x0602CC40: ('dusa_0602CCEC', 'bsr CCEC (traction)'),
+                0x0602CD76: ('dusa_0602D7E4', 'bsr D7E4 (CCEC -> damping/clamp)'),
+                0x0602D130: ('dusa_0602D7E4', 'bsr D7E4 (D08A -> damping/clamp)'),
+                0x0602D4EA: ('dusa_0602D7E4', 'bsr D7E4 (D43C -> damping/clamp)'),
+            },
+        }],
+    },
+    # Math island: trig/atan/fp helpers + 755C, ported as ONE contiguous cluster
+    # so the shared literal pool (cos/atan ptrs + atan polynomial constants, which
+    # physically lives inside the 274DA subseg) lands at its retail offset and every
+    # PC-relative load + internal bsr is byte-faithful with NO padding. This retires
+    # dusa_06027344's old isolated-port .space hack and absorbs the standalone 755C.
+    #   27344/27348 cos lookup . 27358 trig . 27378 inv-trig . 744C fp-helper
+    #   27476/27498 . 274DA MAC + shared pool . 2754C swap . 27552 mul . 755C divide
+    # cos/atan table ptrs relocate to the COL work-RAM tables (allowlist 060274DA).
+    'dusa_06027344': {
+        'segments': [{
+            'start': 0x06027344, 'end': 0x06027573,
+            'labels': {
+                0x06027348: 'dusa_06027348', 0x06027358: 'dusa_06027358',
+                0x06027378: 'dusa_06027378', 0x0602744C: 'dusa_0602744C',
+                0x06027476: 'dusa_06027476', 0x06027498: 'dusa_06027498',
+                0x060274DA: 'dusa_060274DA', 0x0602754C: 'dusa_0602754C',
+                0x06027552: 'dusa_06027552', 0x0602755C: 'dusa_0602755C',
+            },
+            'reloc4': {
+                0x060274EC: ('DUSA_COS_TABLE', 'cos table @002F2F20 -> COL'),
+                0x060274F0: ('DUSA_ATAN_TABLE', 'atan LUT @002F0000 -> COL'),
+            },
+            'bsr': {
+                0x06027460: ('dusa_0602755C', '744C -> 755C divide'),
+                0x06027464: ('dusa_06027378', '744C -> 27378 arctan'),
+                0x0602749E: ('dusa_060274DA', '27498 -> 274DA MAC'),
+                0x060274A2: ('dusa_06027476', '27498 -> 27476'),
+                0x060274AC: ('dusa_0602755C', '27498 -> 755C divide'),
+            },
+        }],
+    },
+    # call 12: sin/cos(roll) -- single jsr to 27358 (sin+cos pair lookup).
+    'dusa_0602EFCC': {
+        'segments': [{
+            'start': 0x0602EFCC, 'end': 0x0602EFEF,
+            'reloc4': {0x0602EFEC: ('dusa_06027358', 'sin+cos pair lookup')},
+        }],
+    },
+    # call 10: opponent proximity -- jsr to 744C. Reads opponent globals
+    # (0x0607EAE0/EA98/E948) kept as byte-faithful literals (no reloc; opponent
+    # shadow homing is a later step).
+    'dusa_0602F4B4': {
+        'segments': [{
+            'start': 0x0602F4B4, 'end': 0x0602F5B5,
+            'reloc4': {0x0602F57C: ('dusa_0602744C', 'fp arctan helper')},
+        }],
+    },
+    # call 13: collision magnitude (C690) + its surface-index helper C7FC, adjacent
+    # pair (C690 bsr C7FC). C7FC reads the surface-index table 0x06045AEC -- kept as
+    # a byte-faithful literal (surface data homing is a later step).
+    'dusa_0602C690': {
+        'segments': [{
+            'start': 0x0602C690, 'end': 0x0602C8E1,
+            'labels': {0x0602C7FC: 'dusa_0602C7FC'},
+            'reloc4': {
+                0x0602C738: ('dusa_06027348', 'cos lookup'),
+                0x0602C8B4: ('dusa_0602ECCC', 'DIVU helper'),
+            },
+            'bsr': {
+                0x0602C69A: ('dusa_0602C7FC', 'bsr C7FC (surface index)'),
+                0x0602C6A8: ('dusa_0602C7FC', 'bsr C7FC (surface index)'),
+            },
+        }],
+    },
+    # call 11: surface writer (F5B6) + its curve helper F71C, adjacent pair (F5B6
+    # bsr F71C). Gear table -> COL (allowlist dusa_0602F5B6). Surface curve/index
+    # tables (0x060454CC/06045AEC/0604679C/06046F9C) kept as byte-faithful literals
+    # (surface data homing is a later step). F5B6 is 2-mod-4 -> nop pad in race.c.
+    'dusa_0602F5B6': {
+        'segments': [{
+            'start': 0x0602F5B6, 'end': 0x0602F7BB,
+            'labels': {0x0602F71C: 'dusa_0602F71C'},
+            'reloc4': {
+                0x0602F6F8: ('DUSA_GEAR_TABLE', 'gear table @060477BC -> COL'),
+                0x0602F700: ('dusa_0602755C', 'fixed-point divide'),
+                0x0602F714: ('dusa_06027348', 'cos lookup'),
+            },
+            'bsr': {0x0602F6D0: ('dusa_0602F71C', 'bsr F71C (surface curve)')},
+        }],
+    },
+    # call 7a/8: gear state machine. jsr 755C; gear-down/up/section tables
+    # (0604779C/60477AC/060477CC) and the F270 bounds table (0602F3CC) kept as
+    # byte-faithful literals (gear-data homing is a later step). Car via register.
+    'dusa_0602F17C': {
+        'segments': [{
+            'start': 0x0602F17C, 'end': 0x0602F26F,
+            'reloc4': {0x0602F258: ('dusa_0602755C', 'fixed-point divide')},
+        }],
+    },
+    # call 6: collision-state check. Reads the car via the car-pointer global ->
+    # DUSA_CAR_PTR (COL, allowlist). No callees.
+    'dusa_0602F0E8': {
+        'segments': [{
+            'start': 0x0602F0E8, 'end': 0x0602F17B,
+            'reloc4': {0x0602F12C: ('DUSA_CAR_PTR', 'car-pointer global -> COL')},
+        }],
+    },
+    # call 1: input handler. Car via DUSA_CAR_PTR (COL, allowlist); 4x jsr ECCC
+    # (DIVU, R_SH_DIR32). Pad/button/anim globals (06063D9x/6081888/607ED8x) kept
+    # as byte-faithful literals (real-input wiring is a later step).
+    'dusa_0602FDA4': {
+        'segments': [{
+            'start': 0x0602FDA4, 'end': 0x060302C5,
+            'reloc4': {
+                0x0602FDCC: ('DUSA_CAR_PTR', 'car-pointer global -> COL'),
+                0x0602FFA4: ('dusa_0602ECCC', 'DIVU helper'),
+                0x06030004: ('dusa_0602ECCC', 'DIVU helper'),
+                0x060301E4: ('dusa_0602ECCC', 'DIVU helper'),
+                0x06030238: ('dusa_0602ECCC', 'DIVU helper'),
+            },
+        }],
+    },
+    # alt-setup (called by ECF2's init handler). Car via DUSA_CAR_PTR (COL,
+    # allowlist); pad/anim globals kept as byte-faithful literals. 2-mod-4.
+    'dusa_060302C6': {
+        'segments': [{
+            'start': 0x060302C6, 'end': 0x0603053B,
+            'reloc4': {0x060302F0: ('DUSA_CAR_PTR', 'car-pointer global -> COL')},
+        }],
+    },
+    # Dispatcher cluster: ECCC (DIVU) + ECF2 (the player state-machine dispatcher)
+    # + EFCC (sin/cos roll) + EFF0 (steering), ported as ONE contiguous block
+    # (0x0602ECCC-0x0602F0E7) because EFF0 bsr's into ECCC x3. Absorbs the former
+    # standalone dusa_0602ECCC / dusa_0602EFCC shims. ECF2 jsr's the whole pipeline
+    # by pointer (R_SH_DIR32 relocs to the ported symbols); its internal jump table
+    # + init data tables are self-contained. Car/dispatch globals -> COL slots we
+    # own (DUSA_CAR_PTR/DISP_STATE/DISP_SCRATCH; allowlists dusa_0602ECF2/EFF0).
+    'dusa_0602ECCC': {
+        'segments': [{
+            'start': 0x0602ECCC, 'end': 0x0602F0E7,
+            'labels': {
+                0x0602ECF2: 'dusa_0602ECF2', 0x0602EFCC: 'dusa_0602EFCC',
+                0x0602EFF0: 'dusa_0602EFF0',
+            },
+            # ECF2's internal jump table + init-data-table pointers hold ABSOLUTE
+            # addresses inside this cluster -> relocate to in-cluster labels (else
+            # they'd point at retail). code_labels mark the two handlers (jump-table
+            # targets); data_labels mark the jump table + the 4 init data tables.
+            'code_labels': {0x0602ED18: '.L_602ED18', 0x0602EEAC: '.L_602EEAC'},
+            'data_labels': {0x0602ED0C: '.L_602ED0C', 0x0602EDE8: '.L_602EDE8',
+                            0x0602EE20: '.L_602EE20', 0x0602EE58: '.L_602EE58',
+                            0x0602EE90: '.L_602EE90'},
+            'reloc4': {
+                0x0602ED04: ('DUSA_DISP_STATE', 'dispatch state -> COL'),
+                0x0602ED08: ('.L_602ED0C', 'jump-table base'),
+                0x0602ED0C: ('.L_602ED18', 'jump[0] -> setup handler'),
+                0x0602ED10: ('.L_602ED18', 'jump[1] -> setup handler'),
+                0x0602ED14: ('.L_602EEAC', 'jump[2] -> main handler'),
+                0x0602EDC8: ('DUSA_CAR_PTR', 'car-pointer global -> COL'),
+                0x0602EDCC: ('DUSA_DISP_STATE', 'dispatch state -> COL'),
+                0x0602EDD4: ('.L_602EE90', 'init table @EE90 ptr'),
+                0x0602EDD8: ('.L_602EDE8', 'init table @EDE8 ptr'),
+                0x0602EDDC: ('.L_602EE20', 'init table @EE20 ptr'),
+                0x0602EDE0: ('.L_602EE58', 'init table @EE58 ptr'),
+                0x0602EDE4: ('dusa_060302C6', 'alt-setup'),
+                0x0602EF00: ('dusa_0602FDA4', 'call 1 input'),
+                0x0602EF04: ('dusa_0602EFF0', 'call 2 steering'),
+                0x0602EF08: ('DUSA_DISP_SCRATCH', 'dispatch scratch -> COL'),
+                0x0602EF0C: ('dusa_0602F3EC', 'call 4 speed-index'),
+                0x0602EF10: ('dusa_0602F7BC', 'call 5 timers'),
+                0x0602EF14: ('dusa_0602F0E8', 'call 6 collision-check'),
+                0x0602EF18: ('dusa_0602F270', 'call 7b track-force'),
+                0x0602EF64: ('dusa_0602F17C', 'call 7a/8 gear'),
+                0x0602EF68: ('dusa_0602F474', 'call 9 anim'),
+                0x0602EF6C: ('dusa_0602F4B4', 'call 10 opponent'),
+                0x0602EF70: ('dusa_0602F5B6', 'call 11 surface'),
+                0x0602EF74: ('dusa_0602EFCC', 'call 12 sin/cos roll'),
+                0x0602EF78: ('dusa_0602C690', 'call 13 collision-mag'),
+                0x0602EF7C: ('dusa_0602C8E2', 'call 14 collision-resp'),
+                0x0602EF80: ('dusa_0602CA84', 'call 15 force-accum'),
+                0x0602EF84: ('dusa_0602D08A', 'call 16b'),
+                0x0602EF88: ('dusa_0602D43C', 'call 16a'),
+                0x0602EFBC: ('dusa_0602CDF6', 'call 17 finalize'),
+                0x0602EFC0: ('dusa_0602D814', 'call 18 speed-writer'),
+                0x0602EFC4: ('dusa_0602D8BC', 'call 19 position-writer'),
+                0x0602EFEC: ('dusa_06027358', 'sin+cos pair lookup (EFCC)'),
+                0x0602F024: ('DUSA_CAR_PTR', 'car-pointer global -> COL (EFF0)'),
+            },
+            'bsr': {
+                0x0602F040: ('dusa_0602ECCC', 'EFF0 -> ECCC (DIVU)'),
+                0x0602F088: ('dusa_0602ECCC', 'EFF0 -> ECCC (DIVU)'),
+                0x0602F0CA: ('dusa_0602ECCC', 'EFF0 -> ECCC (DIVU)'),
+            },
+        }],
     },
 }
 

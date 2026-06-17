@@ -33,17 +33,21 @@ COL_HEADER = gdd.COL_HEADER_SIZE
 
 _COLOR = {'DUSA_SHADOW_CARS': '#1565c0', 'DUSA_GLOBALS': '#26c6da',
           'DUSA_COS_TABLE': '#ef6c00', 'DUSA_GEAR_TABLE': '#fdd835',
-          'DUSA_TRAC_TABLE': '#fdd835', 'DUSA_ANIM_TABLE': '#fdd835'}
+          'DUSA_TRAC_TABLE': '#fdd835', 'DUSA_ANIM_TABLE': '#fdd835',
+          'DUSA_ATAN_TABLE': '#ab47bc'}
 _LABEL = {'DUSA_SHADOW_CARS': 'shadow cars', 'DUSA_GLOBALS': 'globals',
           'DUSA_COS_TABLE': 'cos', 'DUSA_GEAR_TABLE': 'gear',
-          'DUSA_TRAC_TABLE': 'trac', 'DUSA_ANIM_TABLE': 'anim'}
+          'DUSA_TRAC_TABLE': 'trac', 'DUSA_ANIM_TABLE': 'anim',
+          'DUSA_ATAN_TABLE': 'atan'}
 
 
 def _fixed_and_track():
     placed, track_off = gdd.compute_layout()
     segs = [('CCE header', 0, COL_HEADER, '#9e9e9e')]   # preserved, not ours
     for macro, off, size, _l, _a in placed:
-        segs.append((_LABEL[macro], off, size, _COLOR[macro]))
+        # .get() defaults so a newly-added COL table never crashes the budget tool
+        segs.append((_LABEL.get(macro, macro.replace('DUSA_', '').lower()),
+                     off, size, _COLOR.get(macro, '#bdbdbd')))
     return segs, track_off
 
 
@@ -113,7 +117,7 @@ def main():
     for r in rows:
         col = r['col']
         ch_of = {'CCE header': 'H', 'shadow cars': 'S', 'globals': 'g',
-                 'cos': 'C', 'gear': 't', 'trac': 't', 'anim': 't'}
+                 'cos': 'C', 'gear': 't', 'trac': 't', 'anim': 't', 'atan': 'A'}
         segs = [(s / col, ch_of.get(lbl, 'x')) for (lbl, _o, s, _c) in r['fixed']]
         segs.append((r['track_proj'] / col, 'T'))
         segs.append((r['free'] / col, '_'))

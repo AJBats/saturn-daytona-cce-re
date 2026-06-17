@@ -56,6 +56,11 @@ TRAC_TABLE_SIZE = 0x0602ECCB - 0x0602E938 + 1    # 0x394
 # anim: DUSA APROG 0x060477D8 (5-entry lookup, read by the animation counter).
 ANIM_TABLE_APROG_OFF = 0x060477D8 - 0x06003000
 ANIM_TABLE_SIZE = 0x18                           # 5 entries used (0x14) + margin
+# atan: DUSA work-RAM arctan LUT, runtime base 0x002F0000 (read by inverse-trig
+# sym_06027378). Work-RAM (like cos), so it lives in COL. 0x2000 B = 4096 x u16
+# (index = (angle>>8)<<1, angle < 0x100000). Reserved-zero until the LUT data is
+# captured from a DUSA dump (function runs byte-faithful on zeros meanwhile).
+ATAN_TABLE_SIZE = 0x2000
 
 
 def _slice_aprog(off, size, name):
@@ -107,6 +112,7 @@ LAYOUT = [
     ('DUSA_GEAR_TABLE',  GEAR_TABLE_SIZE, load_gear_table, True),   # allowlist: dusa_0602D814
     ('DUSA_TRAC_TABLE',  TRAC_TABLE_SIZE, load_trac_table, True),   # allowlist: dusa_0602CCEC
     ('DUSA_ANIM_TABLE',  ANIM_TABLE_SIZE, load_anim_table, True),   # allowlist: dusa_0602F474
+    ('DUSA_ATAN_TABLE',  ATAN_TABLE_SIZE, None,            True),   # allowlist: dusa_060274DA (zeroed)
 ]
 
 

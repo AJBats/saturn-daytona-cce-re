@@ -929,11 +929,15 @@ int __race_shift_pad(void) asm {
  * catches any alignment miss as a byte diff. */
 void dusa_align4(void) asm { .align 2 }
 #include "mods/transplant/race/dusa_0602ECCC.c"
+/* Math island cluster (trig/atan/fp helpers + 755C, contiguous so the shared
+ * pool + internal bsr are byte-faithful). Provides dusa_0602755C -- the former
+ * standalone dusa_0602755C.c shim is superseded (no longer included). */
 #include "mods/transplant/race/dusa_06027344.c"
 #include "mods/transplant/race/dusa_0602D814.c"
 #include "mods/transplant/race/dusa_0602D8BC.c"
-#include "mods/transplant/race/dusa_0602755C.c"
-/* Step 3: force accumulator + tributaries (CA84+CCD0+CCEC+D7E4 in one block). */
+/* Force/collision cluster: CA84 (call 15) + CCD0/CCEC/D7E4 tributaries + the
+ * collision-response trio CDF6/D08A/D43C (calls 17/16b/16a) that fill the old
+ * .space gap, all contiguous so internal bsr->D7E4 stay byte-faithful. */
 #include "mods/transplant/race/dusa_0602CA84.c"
 /* Step 3b: upstream pipeline leaves (calls 4/5/9) that feed CA84. */
 #include "mods/transplant/race/dusa_0602F3EC.c"
@@ -951,5 +955,27 @@ void dusa_align_c8e2(void) asm {
         nop          /* +2 -> C8E2 starts at 4N+2 */
 }
 #include "mods/transplant/race/dusa_0602C8E2.c"
+/* call 10 (opponent proximity). EFCC (call 12) is provided by the dispatcher
+ * cluster (dusa_0602ECCC.c) -- its former standalone shim is superseded. */
+#include "mods/transplant/race/dusa_0602F4B4.c"
+/* call 13: collision magnitude + surface-index helper (adjacent pair). */
+#include "mods/transplant/race/dusa_0602C690.c"
+/* call 11: surface writer + curve helper. F5B6 is 2-mod-4 -> nop pad keeps it in
+ * its retail 4N+2 lane (see dusa_align_c8e2). */
+void dusa_align_f5b6(void) asm {
+        .align 2
+        nop
+}
+#include "mods/transplant/race/dusa_0602F5B6.c"
+/* Gear/collision-check/input/alt-setup. Car fetched via DUSA_CAR_PTR (the COL
+ * slot we own) for F0E8/FDA4/302C6. 302C6 is 2-mod-4 -> nop pad. */
+#include "mods/transplant/race/dusa_0602F17C.c"
+#include "mods/transplant/race/dusa_0602F0E8.c"
+#include "mods/transplant/race/dusa_0602FDA4.c"
+void dusa_align_302c6(void) asm {
+        .align 2
+        nop
+}
+#include "mods/transplant/race/dusa_060302C6.c"
 #include "mods/transplant/race/dusa_call_player.c"
 #endif

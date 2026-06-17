@@ -19,7 +19,8 @@
  *   0x00232540  DUSA_GEAR_TABLE   0x20    gear ratios
  *   0x00232560  DUSA_TRAC_TABLE   0x394   traction
  *   0x002328F4  DUSA_ANIM_TABLE   0x18    animation
- *   0x0023290C  DUSA_TRACK_TABLES variable  per-track waypoints+segments (Step 6) */
+ *   0x0023290C  DUSA_ATAN_TABLE   0x2000  arctan LUT (work-RAM, zeroed reserve)
+ *   0x0023490C  DUSA_TRACK_TABLES variable  per-track waypoints+segments (Step 6) */
 
 /* CCE render car array (bridge write target) */
 #define CCE_CAR_BASE        0x0605224C
@@ -45,11 +46,15 @@
                                             [section*8 + gear*2]; embedded through subseg end. */
 #define DUSA_ANIM_TABLE     0x002328F4   /* animation table (file off 0x128F4); DUSA 0x060477D8,
                                             5-entry lookup read by dusa_0602F474 (call 9) -> +0x114 */
+#define DUSA_ATAN_TABLE     0x0023290C   /* arctan LUT (file off 0x1290C, 0x2000 B); DUSA work-RAM
+                                            0x002F0000, read by inverse-trig sym_06027378. Work-RAM
+                                            (like cos) -> COL; zeroed reserve until LUT captured.
+                                            allowlist: dusa_060274DA (the math-island pool subseg). */
 /* Per-track DUSA track data (waypoints + segments), placed AFTER the fixed/shared
- * tables (file off 0x1290C). Variable size per track; each fits in its own COL
+ * tables (file off 0x1490C). Variable size per track; each fits in its own COL
  * (Three Seven ~13 KB, Seaside ~161 KB). Reservation only until the Step-6 embed
  * (gen_disc_data ZERO_BODY_ONLY=False) writes real data here. */
-#define DUSA_TRACK_TABLES   0x0023290C
+#define DUSA_TRACK_TABLES   0x0023490C
 #define DUSA_DRIFT_TABLE    0x0022E200   /* drift-path rotation table; PLACEHOLDER --
                                             never read in Step 1, populate when drift ported */
 
@@ -58,6 +63,17 @@
 #define DUSA_SEED_FLAG      0x0022E148   /* u32: one-shot seed flag */
 #define DUSA_SEED_X         0x0022E14C   /* s32: X captured at seed (wobble anchor) */
 #define DUSA_STUB_TICK      0x0022E150   /* u32: stub tick counter */
+
+/* Dispatcher globals we OWN (option B): the ported dispatcher (ECF2) + the
+ * functions that fetch the car (EFF0/F0E8/FDA4/302C6) reference DUSA work-RAM
+ * globals; we relocate those pool words to these COL slots so the pipeline runs
+ * on OUR shadow car + OUR dispatch state, never touching CCE's live globals.
+ *   DUSA_CAR_PTR    <- DUSA 0x0607E944 (car-pointer global; seed = shadow car)
+ *   DUSA_DISP_STATE <- DUSA 0x0607EAE4 (dispatch state index; seed = 0)
+ *   DUSA_DISP_SCRATCH<- DUSA 0x0607EAC8 (per-frame scratch zeroed by ECF2) */
+#define DUSA_CAR_PTR        0x0022E188   /* u32: holds the shadow-car address */
+#define DUSA_DISP_STATE     0x0022E18C   /* u32: ECF2 dispatch state index */
+#define DUSA_DISP_SCRATCH   0x0022E190   /* u32: ECF2 per-frame scratch */
 
 /* Faked driving inputs (velocity + heading). Live-pokeable (tune via Mednafen
  * pokes, no rebuild); seeded to defaults on the first tick, read each frame.

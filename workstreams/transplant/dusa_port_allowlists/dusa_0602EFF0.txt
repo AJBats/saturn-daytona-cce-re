@@ -1,0 +1,2 @@
+# EFF0 car-pointer global relocated to the COL slot we own.
+0x034  0x0022E188   # DUSA_CAR_PTR (was DUSA 0x0607E944)

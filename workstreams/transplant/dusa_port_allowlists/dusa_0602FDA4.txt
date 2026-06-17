@@ -1,0 +1,3 @@
+# car-pointer global relocated to the COL slot we own (DUSA_CAR_PTR).
+# No linker symbol -> Tier-1 allowlist. <func-rel offset> <literal>.
+0x028  0x0022E188   # DUSA_CAR_PTR (was DUSA 0x0607E944)

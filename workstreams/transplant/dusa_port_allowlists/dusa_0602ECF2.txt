@@ -1,0 +1,5 @@
+# ECF2 dispatch globals relocated to COL slots we own. <func-rel off> <literal>.
+0x012  0x0022E18C   # DUSA_DISP_STATE  (was DUSA 0x0607EAE4)
+0x0D6  0x0022E188   # DUSA_CAR_PTR     (was DUSA 0x0607E944)
+0x0DA  0x0022E18C   # DUSA_DISP_STATE  (was DUSA 0x0607EAE4)
+0x216  0x0022E190   # DUSA_DISP_SCRATCH(was DUSA 0x0607EAC8)
