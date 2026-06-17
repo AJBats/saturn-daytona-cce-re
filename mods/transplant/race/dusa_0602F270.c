@@ -104,7 +104,7 @@ int dusa_0602F270(void) asm {
     .Lp_602F2FA:
         .word 0x00D8             /* 0602F2FA */
     .Lp_602F2FC:
-        .long DUSA_GEAR_TABLE      /* 0602F2FC  retail 060477BC -- gear-ratio table @060477BC -> COL body */
+        .long dusa_dat_gear + 0x20 /* 0602F2FC  retail 060477BC -- gear-ratio table -> race.bin */
     .Lp_602F300:
         .long dusa_0602755C        /* 0602F300  retail 0602755C -- fixed-point mul/div helper */
     .Lb_602F304:
@@ -196,11 +196,11 @@ int dusa_0602F270(void) asm {
         .word 0x00DC             /* 0602F398 */
         .word 0x0000             /* 0602F39A */
     .Lp_602F39C:
-        .long DUSA_GEAR_TABLE      /* 0602F39C  retail 060477BC -- gear-ratio table @060477BC -> COL body */
+        .long dusa_dat_gear + 0x20 /* 0602F39C  retail 060477BC -- gear-ratio table -> race.bin */
     .Lp_602F3A0:
         .long dusa_0602755C        /* 0602F3A0  retail 0602755C -- fixed-point mul/div helper */
     .Lp_602F3A4:
-        .long .Lf270_bounds        /* 0602F3A4  retail 0602F3CC -- inline force-bounds table @0602F3CC (in-shim) */
+        .long dusa_f270_bounds     /* 0602F3A4  retail 0602F3CC -- force-bounds table (global, shared with F17C) */
     .Lb_602F3A8:
         cmp/ge r4,r9               /* 0602F3A8 */
         bt .Lb_602F3AE             /* 0602F3AA */
@@ -224,7 +224,8 @@ int dusa_0602F270(void) asm {
         lds.l @r15+,pr             /* 0602F3C6 */
         rts                        /* 0602F3C8 */
         mov.l r3,@(r0,r6)          /* 0602F3CA */
-    .Lf270_bounds:
+        .global dusa_f270_bounds
+    dusa_f270_bounds:
         .word 0xFFFF             /* 0602F3CC */
         .word 0xFB50             /* 0602F3CE */
         .word 0x0000             /* 0602F3D0 */

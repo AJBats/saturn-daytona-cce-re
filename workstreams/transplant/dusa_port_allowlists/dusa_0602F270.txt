@@ -1,7 +1,5 @@
-# Absolute COL-body literals in dusa_0602F270 (track-force application, call 7b)
-# that have no reloc record (the LWR state block never relocates -> no linker
-# symbol). Format:
-#   <func-relative offset>  <expected literal>  # note
-# Verified by tools/check_dusa_port.py against the ported bytes.
-0x08C  0x00232540   # gear-ratio table (DUSA_GEAR_TABLE); DUSA 0x060477BC, COL body @file 0x12540
-0x12C  0x00232540   # gear-ratio table (DUSA_GEAR_TABLE); 2nd ref (section-change branch)
+# dusa_0602F270 (track-force application, call 7b) has no absolute COL-body
+# literals. Both gear-ratio pool words moved to the race.bin data shim
+# dusa_dat_gear (homed per tools/dusa_homing_map.py) -- now `dusa_dat_gear + 0x20`,
+# R_SH_DIR32 relocs, auto-adjudicated by check_dusa_port.py. The inline force-bounds
+# table is the global symbol dusa_f270_bounds (R_SH_DIR32 too). No allowlist needed.

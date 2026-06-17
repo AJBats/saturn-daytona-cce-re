@@ -48,6 +48,6 @@ int dusa_0602F474(void) asm {
         .word 0x0114             /* 0602F4AC */
         .word 0x0000             /* 0602F4AE */
     .Lp_602F4B0:
-        .long DUSA_ANIM_TABLE      /* 0602F4B0  retail 060477D8 -- anim table @060477D8 -> COL body */
+        .long dusa_dat_gear + 0x3C /* 0602F4B0  retail 060477D8 -- anim table -> race.bin */
         .align 2
 }

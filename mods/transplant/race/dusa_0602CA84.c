@@ -514,7 +514,7 @@ int dusa_0602CA84(void) asm {
     .Lp_602CDCC:
         .long dusa_0602755C        /* 0602CDCC  retail 0602755C -- fixed-point divide */
     .Lp_602CDD0:
-        .long DUSA_TRAC_TABLE      /* 0602CDD0  retail 0602E938 -- traction table @0602E938 -> COL */
+        .long dusa_dat_physics + 0x80 /* 0602CDD0  retail 0602E938 -- traction 2D table -> race.bin */
     .Lp_602CDD4:
         .long 0x23280000         /* 0602CDD4 */
     .Lb_602CDD8:

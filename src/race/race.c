@@ -977,5 +977,12 @@ void dusa_align_302c6(void) asm {
         nop
 }
 #include "mods/transplant/race/dusa_060302C6.c"
+/* Ported DUSA static data, homed into race.bin per tools/dusa_homing_map.py
+ * (small, constant, per-frame-hot physics tables -> fast memory). Generated
+ * byte-for-byte from APROG by tools/gen_dusa_data_shim.py; read by the shims
+ * above via `<sym> + offset` (R_SH_DIR32). dusa_dat_physics carries drift+
+ * traction (the traction 2D table's internal row pointers are relocated). */
+#include "mods/transplant/race/dusa_dat_physics.c"
+#include "mods/transplant/race/dusa_dat_gear.c"
 #include "mods/transplant/race/dusa_call_player.c"
 #endif

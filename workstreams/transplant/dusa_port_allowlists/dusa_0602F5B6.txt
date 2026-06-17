@@ -1,6 +1,6 @@
-# Absolute COL-body literal in the surface writer dusa_0602F5B6 (call 11): the
-# gear-ratio table pool word, relocated from DUSA 0x060477BC to the COL embed.
-# No linker symbol -> Tier-1 allowlist. Format: <func-relative offset> <literal>.
-# (The surface curve/index tables are kept as byte-faithful literals -- not homed
-# yet -- so they need no allowlist entry; they match retail as-is.)
-0x142  0x00232540   # gear-ratio table (DUSA_GEAR_TABLE); DUSA 0x060477BC -> COL file 0x12540
+# dusa_0602F5B6 (surface writer, call 11) has no absolute COL-body literals.
+# The gear-ratio pool word moved to the race.bin data shim dusa_dat_gear (homed
+# per tools/dusa_homing_map.py) -- now `dusa_dat_gear + 0x20`, R_SH_DIR32,
+# auto-adjudicated. The surface curve/index tables remain byte-faithful literals
+# (homed to COL in checkpoint 2); un-homed literals match retail as-is, so they
+# need no allowlist entry until then.

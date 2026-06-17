@@ -76,7 +76,7 @@ int dusa_0602D814(void) asm {
     .L_dusa_d814_e0:
         .word 0x00E0
     .L_dusa_d814_gear:
-        .long DUSA_GEAR_TABLE      /* retail 0x060477BC; gear-ratio table in COL body */
+        .long dusa_dat_gear + 0x20 /* retail 060477BC -- gear-ratio table -> race.bin */
     .L_dusa_d814_k:
         .long 0x0221AC91           /* gear->force scaling constant */
     .L_dusa_d814_max:

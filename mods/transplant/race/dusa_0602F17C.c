@@ -47,9 +47,9 @@ int dusa_0602F17C(void) asm {
     .Lp_602F1BE:
         .word 0x00E0             /* 0602F1BE */
     .Lp_602F1C0:
-        .long 0x060477AC         /* 0602F1C0 */
+        .long dusa_dat_gear + 0x10 /* 0602F1C0  retail 060477AC -- gear-up thr -> race.bin */
     .Lp_602F1C4:
-        .long 0x0604779C         /* 0602F1C4 */
+        .long dusa_dat_gear        /* 0602F1C4  retail 0604779C -- gear-down thr -> race.bin */
     .Lb_602F1C8:
         mov #5,r1                  /* 0602F1C8 */
         mov.l r1,@(r0,r8)          /* 0602F1CA */
@@ -75,7 +75,7 @@ int dusa_0602F17C(void) asm {
     .Lp_602F1F2:
         .word 0x00E0             /* 0602F1F2 */
     .Lp_602F1F4:
-        .long 0x060477CC         /* 0602F1F4 */
+        .long dusa_dat_gear + 0x30 /* 0602F1F4  retail 060477CC -- section scaling -> race.bin */
     .Lb_602F1F8:
         mov #-5,r1                 /* 0602F1F8 */
         mov.l r1,@(r0,r8)          /* 0602F1FA */
@@ -128,11 +128,11 @@ int dusa_0602F17C(void) asm {
         .word 0x00C0             /* 0602F250 */
         .word 0x0000             /* 0602F252 */
     .Lp_602F254:
-        .long 0x060477CC         /* 0602F254 */
+        .long dusa_dat_gear + 0x30 /* 0602F254  retail 060477CC -- section scaling -> race.bin */
     .Lp_602F258:
         .long dusa_0602755C        /* 0602F258  retail 0602755C -- fixed-point divide */
     .Lp_602F25C:
-        .long 0x0602F3CC         /* 0602F25C */
+        .long dusa_f270_bounds     /* 0602F25C  retail 0602F3CC -- F270 clamp bounds (global, in-TU) */
     .Lb_602F260:
         cmp/ge r5,r2               /* 0602F260 */
         bt .Lb_602F266             /* 0602F262 */

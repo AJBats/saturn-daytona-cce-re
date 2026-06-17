@@ -6,7 +6,7 @@ pointer (read straight from the shim, no register-tracking needed -- every
 table/global a function touches is reached through such a pool word). The
 per-line R/W under each is best-effort context. Must be 0 before ECF2 boot.
 
-- **UN-HOMED pool words (gate): 55**   (writes among them: 13)
+- **UN-HOMED pool words (gate): 50**   (writes among them: 13)
 
 ## Un-homed dependencies by target (must home before boot)
   - button table                 x16
@@ -16,7 +16,6 @@ per-line R/W under each is best-effort context. Must be 0 before ECF2 boot.
   - opponent                     x3
   - surface index                x3
   - surface curve1               x2
-  - section scaling              x2
   - anim                         x2
   - pad                          x2
   - ECF2 input flag              x1
@@ -24,9 +23,6 @@ per-line R/W under each is best-effort context. Must be 0 before ECF2 boot.
   - init global                  x1
   - surface curve0               x1
   - surface curve2               x1
-  - gear-up thr                  x1
-  - gear-down thr                x1
-  - F270 bounds(shared)          x1
   - surface buffer               x1
 
 ## DANGER -- un-homed pool words that are WRITTEN (scribble CCE memory)
@@ -93,16 +89,7 @@ per-line R/W under each is best-effort context. Must be 0 before ECF2 boot.
       0602F798  R  surface curve2 @0x6046F9C  <<LITERAL>>
       0602F7B0  R  surface curve1 @0x604679C  <<LITERAL>>
 
-### dusa_0602F17C  (un-homed pool words: 5)
-  pool@0602F1C0  -> gear-up thr          @0x60477AC
-  pool@0602F1C4  -> gear-down thr        @0x604779C
-  pool@0602F1F4  -> section scaling      @0x60477CC
-  pool@0602F254  -> section scaling      @0x60477CC
-  pool@0602F25C  -> F270 bounds(shared)  @0x602F3CC
-      0602F1A6  R  gear-up thr @0x60477AC  <<LITERAL>>
-      0602F1B0  R  gear-down thr @0x604779C  <<LITERAL>>
-      0602F23E  R  F270 bounds(shared) @0x602F3CC  <<LITERAL>>
-      0602F240  R  F270 bounds(shared) @0x602F3CC  <<LITERAL>>
+### dusa_0602F17C  (un-homed pool words: 0)
 
 ### dusa_0602F0E8  (un-homed pool words: 0)
 

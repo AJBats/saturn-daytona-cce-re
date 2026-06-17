@@ -168,7 +168,7 @@ int dusa_0602D8BC(void) asm {
     .L_dusa_wp_D9D2:
         .word 0x0250
     .L_dusa_p_D9D4:
-        .long DUSA_DRIFT_TABLE
+        .long dusa_dat_physics     /* retail 0602E8B8 -- drift-scaling table -> race.bin */
     .L_dusa_p_D9D8:
         .long 0x00006AAA
     .L_dusa_p_D9DC:

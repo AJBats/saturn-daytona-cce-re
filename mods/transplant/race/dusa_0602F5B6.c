@@ -189,7 +189,7 @@ int dusa_0602F5B6(void) asm {
     .Lp_602F6F6:
         .word 0x00F8             /* 0602F6F6 */
     .Lp_602F6F8:
-        .long DUSA_GEAR_TABLE      /* 0602F6F8  retail 060477BC -- gear table @060477BC -> COL */
+        .long dusa_dat_gear + 0x20 /* 0602F6F8  retail 060477BC -- gear-ratio table -> race.bin */
     .Lp_602F6FC:
         .long 0x00019999         /* 0602F6FC */
     .Lp_602F700:
