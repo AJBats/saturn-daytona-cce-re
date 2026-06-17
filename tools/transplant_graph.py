@@ -70,6 +70,20 @@ ROLE = {
     0x0602CCD0: ('helper', 'helper'),
     0x0602CCEC: ('traction', 'traction force (within force accumulator)'),
     0x0602D7E4: ('helper', 'damping / clamp'),
+    # ---- shared-physics subsystem (un-ported; mapped via the 2026-06 funcfinder
+    # islands 0x0600B1A0-E9FF). Roles from data_flow_chains.md + the call graph. ----
+    0x0600E0C0: ('loop', 'per-car iteration loop'),
+    0x0600E71A: ('AI', 'AI physics'), 0x0600E906: ('AI', 'AI physics'),
+    0x0600E99C: ('AI', 'AI physics'), 0x0600E410: ('AI', 'AI physics'),
+    0x0600E47C: ('AI', 'AI physics'), 0x0600E4F2: ('AI', 'AI physics'),
+    0x0600E1D4: ('AI', 'AI physics'),
+    0x0600C5D6: ('disp', 'per-car dispatcher'), 0x0600C74E: ('disp', 'per-car dispatcher'),
+    0x0600C994: ('disp', 'per-car dispatcher'), 0x0600C286: ('disp', 'per-car dispatcher'),
+    0x0600CA96: ('track', 'surface query'), 0x0600CD40: ('track', 'segment query'),
+    0x0600CC38: ('track', 'surface apply'), 0x0600CEBA: ('track', 'segment advance'),
+    0x0600CE66: ('track', 'track progress'),
+    0x0602DB00: ('writer', 'player-range writer'), 0x0602E16C: ('writer', 'writes car[+0xC0]'),
+    0x0602E108: ('writer', 'player-range writer'), 0x06027CA4: ('math', 'writes car[+0x25C]'),
 }
 DATA_ROLE = {
     0x060477BC: 'gear-ratio table', 0x0604779C: 'gear-down thresholds',
@@ -100,6 +114,25 @@ EXT_GROUPS = [
     (0x002F0000, 0x00300000, 'LWR trig/cos tables'),
 ]
 
+# ---- shared-physics subsystem (the disjoint per-frame tick that runs parallel
+# to the player dispatcher; mapped via the 2026-06 funcfinder islands). Anchored
+# at the frame-loop frontier so the audit traces the whole subsystem; it renders
+# in its own cluster so the player-pipeline view stays stable. ----
+SUBSYSTEM_ANCHORS = [0x0600DE40, 0x0600DE54, 0x0600DE70, 0x0600DF66,
+                     0x0600DFD0, 0x0600E060, 0x0602DB00]
+ANCHORS = cov.DEFAULT_ANCHORS + SUBSYSTEM_ANCHORS
+
+# Car-struct seam (from car_struct_audit.py + data_flow_chains.md): subsystem
+# WRITER -> pipeline READER, with the coupling field. This is the ONLY thing
+# tying the two clusters together -- exactly why the port silently depended on it.
+SEAM_EDGES = [
+    (0x0600CA96, 0x0602F5B6, 'surface +0xC8/buf'),
+    (0x0600CD40, 0x0602F17C, 'segment +0x1E4'),
+    (0x0602E16C, 0x0602F270, 'car[+0xC0]'),
+    (0x06027CA4, 0x0602CDF6, 'car[+0x25C]'),
+    (0x0600E1D4, 0x0602EFCC, 'roll +0x24'),
+]
+
 
 def group_ext(a):
     """Map an external address to (node_id, label) -- grouped where it falls in a
@@ -122,7 +155,7 @@ def role_label(addr, ported):
 
 
 def build():
-    res = cov.audit(cov.DEFAULT_ANCHORS, False)
+    res = cov.audit(ANCHORS, False)
     closure = res['closure']
     aprog_end = res['aprog_end']
     ported = res['ported']
@@ -131,6 +164,27 @@ def build():
         return cov.APROG_VRAM <= a < aprog_end
     def is_code_node(a):
         return a in closure
+
+    # Partition the closure: PIPELINE = code nodes reachable from the player
+    # dispatcher anchors; everything else is the SHARED-PHYSICS SUBSYSTEM (reached
+    # only from the frame-loop frontier anchors). Keeps the player-pipeline view
+    # byte-stable while the subsystem is added in its own cluster.
+    adj = {s: [d for d in c['call_targets'] if d in closure]
+           for s, c in closure.items()}
+    def resolve(a):
+        if a in closure:
+            return a
+        for s, c in closure.items():
+            if s <= a <= c['end']:
+                return s
+        return None
+    pipeline, stack = set(), [resolve(a) for a in cov.DEFAULT_ANCHORS]
+    while stack:
+        n = stack.pop()
+        if n is None or n in pipeline:
+            continue
+        pipeline.add(n)
+        stack.extend(adj.get(n, []))
 
     # ---- edges -----------------------------------------------------------
     code_edges = []      # (src, dst, order_pc)
@@ -141,7 +195,9 @@ def build():
         for dst, pc in c['call_targets'].items():
             if is_code_node(dst):
                 code_edges.append((start, dst, pc))
-        for a in c['data_refs']:
+        if start not in pipeline:
+            continue                     # data/input fan-out only for the pipeline,
+        for a in c['data_refs']:         # so the existing view stays stable
             if start <= a <= c['end']:
                 continue                       # self-internal (jump table / inline pool)
             if is_data_addr(a):
@@ -149,8 +205,8 @@ def build():
             else:
                 ext_edges.add((start, a)); ext_nodes.add(a)
 
-    return dict(closure=closure, ported=ported, code_edges=code_edges,
-                data_edges=data_edges, ext_edges=ext_edges,
+    return dict(closure=closure, ported=ported, pipeline=pipeline,
+                code_edges=code_edges, data_edges=data_edges, ext_edges=ext_edges,
                 data_nodes=data_nodes, ext_nodes=ext_nodes, anchors=res['anchors'])
 
 
@@ -218,17 +274,40 @@ def write_dot(g):
              '<TR><TD ALIGN="LEFT"><FONT POINT-SIZE="13"><B>DUSA player-physics '
              'pipeline &#8212; transplant trust graph</B></FONT></TD></TR>'
              '<TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">green = ported into CCE '
-             '&#183; white = pending &#183; cylinder = data table &#183; '
-             'parallelogram = external input &#183; flow: dispatcher &#8594; '
-             'writers</FONT></TD></TR>'
+             '&#183; white = un-ported &#183; cylinder = data table &#183; '
+             'parallelogram = external input &#183; '
+             '<FONT COLOR="#cc3333">red dashed = car-struct seam '
+             '(subsystem &#8594; pipeline reader)</FONT></FONT></TD></TR>'
              '<TR><TD>%s</TD></TR></TABLE>' % budget)
     L.append('  label=<%s>;' % title)
-    for start, c in closure.items():
+
+    pipeline = g['pipeline']
+
+    def node_def(start, c):
         fill = '#b6f0b6' if c['ported'] else '#ffffff'
         pen = '2' if start in (0x0602D814, 0x0602D8BC, 0x0602ECF2) else '1'
-        L.append('  %s [shape=box, style="filled,rounded", fillcolor="%s", '
-                 'penwidth=%s, label="%s"];'
-                 % (nid(start), fill, pen, role_label(start, c['ported']).replace('\n', '\\n')))
+        return ('    %s [shape=box, style="filled,rounded", fillcolor="%s", '
+                'penwidth=%s, label="%s"];'
+                % (nid(start), fill, pen, role_label(start, c['ported']).replace('\n', '\\n')))
+
+    # cluster 1: the player pipeline (unchanged content -> stable view)
+    L.append('  subgraph cluster_pipeline {')
+    L.append('    label="PLAYER PIPELINE -- dispatcher ECF2 closure"; labeljust="l"; '
+             'fontsize=12; style="rounded,filled"; fillcolor="#f3faf3"; color="#7ab87a";')
+    for start, c in closure.items():
+        if start in pipeline:
+            L.append(node_def(start, c))
+    L.append('  }')
+
+    # cluster 2: the shared-physics subsystem (newly mapped, un-ported)
+    L.append('  subgraph cluster_subsystem {')
+    L.append('    label="SHARED-PHYSICS SUBSYSTEM -- un-ported; per-frame tick '
+             'parallel to the dispatcher, off the frame loop"; labeljust="l"; '
+             'fontsize=12; style="rounded,filled"; fillcolor="#fdf6ef"; color="#d8a05a";')
+    for start, c in closure.items():
+        if start not in pipeline:
+            L.append(node_def(start, c))
+    L.append('  }')
     for a in g['data_nodes']:
         lab = DATA_ROLE.get(a, 'data')
         L.append('  %s [shape=cylinder, style=filled, fillcolor="#e8e8e8", '
@@ -256,6 +335,13 @@ def write_dot(g):
         L.append('  %s -> %s [style=dashed, color="#999999"];' % (nid(src), nid(a)))
     for src_id, gid in sorted(ext_e):
         L.append('  %s -> %s [style=dotted, color="#6699cc"];' % (src_id, gid))
+    # car-struct seam: subsystem writer -> pipeline reader (the data coupling that
+    # the call graph can't show -- why the ported pipeline silently needs the subsystem)
+    for w, r, lab in SEAM_EDGES:
+        if w in closure and r in closure:
+            L.append('  %s -> %s [style=dashed, color="#cc3333", fontcolor="#cc3333", '
+                     'fontsize=7, penwidth=1.4, constraint=false, label="%s"];'
+                     % (nid(w), nid(r), lab))
     L.append('}')
     open(OUT_DOT, 'w', encoding='utf-8').write('\n'.join(L))
 

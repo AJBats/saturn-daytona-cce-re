@@ -2,8 +2,8 @@
 
 Mechanically derived from APROG.BIN bytes (objdump) over every funcfinder-stamped DUSA code subseg, reg-tracking the car pointer. Regenerate: `python3 tools/car_struct_audit.py` (WSL). Tool: `tools/car_struct_audit.py`.
 
-- stamped code subsegs scanned: **98** (ported **37**)
-- distinct car-struct offsets touched: **95** (written 72, read 79)
+- stamped code subsegs scanned: **151** (ported **37**)
+- distinct car-struct offsets touched: **97** (written 73, read 81)
 - **SEAM offsets (read by the port, produced by no ported function): 24**
 
 ## THE SEAM — fields the ported pipeline consumes but does not produce
@@ -48,14 +48,15 @@ Per the audit rule: every write is potentially in play. Offsets written by un-po
 | car offset | ported writers | un-ported writers | read by a ported fn? |
 |---|---|---|---|
 | +0x0 | sym_0602D08A, sym_0602D43C | sym_0602D9F0, sym_0602F7EA | YES |
-| +0x8 | sym_0602F3EC | sym_0600E906 | YES |
-| +0xC | sym_0602D814 | sym_0600E1D4, sym_0600E906, sym_0602DB00 | YES |
-| +0x10 | sym_0602D8BC | sym_0600E1D4 | YES |
-| +0x18 | sym_0602D8BC | sym_0600E1D4 | YES |
+| +0x8 | sym_0602F3EC | sym_0600C4F8, sym_0600E906 | YES |
+| +0xC | sym_0602D814 | sym_0600C4F8, sym_0600E1D4, sym_0600E906, sym_0602DB00 | YES |
+| +0x10 | sym_0602D8BC | sym_0600C5D6, sym_0600E1D4 | YES |
+| +0x14 | — | sym_0600C5D6 |  |
+| +0x18 | sym_0602D8BC | sym_0600C5D6, sym_0600E1D4 | YES |
 | +0x1C | — | sym_0600E1D4 | YES |
-| +0x20 | sym_0602D8BC | sym_0600E1D4, sym_0602E16C |  |
+| +0x20 | sym_0602D8BC | sym_0600C5D6, sym_0600C74E, sym_0600E1D4, sym_0602E16C |  |
 | +0x24 | — | sym_0600E1D4 | YES |
-| +0x28 | sym_0602CDF6 | sym_0600E1D4, sym_0600E7C8, sym_0602DB00 | YES |
+| +0x28 | sym_0602CDF6 | sym_0600C74E, sym_0600E1D4, sym_0600E7C8, sym_0602DB00 | YES |
 | +0x2C | sym_0602CDF6 | — | YES |
 | +0x30 | sym_0602CDF6 | sym_0600E1D4, sym_0600E7C8, sym_0600E906, sym_0602DB00 | YES |
 | +0x34 | — | sym_0600E1D4 |  |

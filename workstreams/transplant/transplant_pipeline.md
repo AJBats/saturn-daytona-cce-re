@@ -2,7 +2,7 @@
 
 Generated from APROG.BIN bytes + funcfinder coverage by `tools/transplant_graph.py`. Every node is a human-stamped subseg; edges are reg-tracked calls + data/input refs. **PORTED** = already in the CCE transplant. Re-run after each step to watch the ported frontier climb toward the inputs.
 
-- code subsegs in closure: **32** (ported **32**)
+- code subsegs in closure: **89** (ported **33**)
 - data tables referenced: **13**  |  external inputs: **27**
 
 ## Call tree (from the dispatcher)
@@ -61,4 +61,148 @@ sym_0602ECF2 [dispatcher] player physics dispatcher (jump-table state machine) �
   sym_0602D8BC [19] POSITION WRITER ✓PORTED  «data: drift scaling»
     sym_06027344 [math] sin table lookup ✓PORTED  «in: cos table (LWR)»
     sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
+sym_0600DE40 
+  sym_0600E410 [AI] AI physics
+    sym_0600E71A [AI] AI physics
+      sym_0600D266 
+      sym_0600C4F8 
+        sym_06027552  ✓PORTED
+      sym_0600C5D6 [disp] per-car dispatcher
+        sym_0600CD40 [track] segment query
+          sym_0602744C [math] fixed-point helper ✓PORTED
+            … (see above)
+        sym_0600CA96 [track] surface query
+        sym_0600CF58 
+          sym_0600D0B8 
+          sym_0600D12C 
+          sym_0600D210 
+        sym_0600CC38 [track] surface apply
+        sym_06027552  ✓PORTED
+        sym_0600C8CC 
+          sym_0602744C [math] fixed-point helper ✓PORTED
+            … (see above)
+        sym_06027358 [math] trig helper ✓PORTED  «in: cos table (LWR)»
+        sym_0600C928 
+        sym_0600C7D4 
+          sym_06027358 [math] trig helper ✓PORTED  «in: cos table (LWR)»
+          sym_06027552  ✓PORTED
+        sym_06027EDE 
+      sym_0600CEBA [track] segment advance
+    sym_06027552  ✓PORTED
+  sym_0600E0C0 [loop] per-car iteration loop
+    sym_0600E906 [AI] AI physics
+      sym_0600D266 
+      sym_0600C74E [disp] per-car dispatcher
+        sym_0600CD40 [track] segment query
+          … (see above)
+        sym_0600CA96 [track] surface query
+        sym_0600C8CC 
+          … (see above)
+        sym_0600C970 
+        sym_0600C928 
+        sym_0600C7D4 
+          … (see above)
+        sym_06027EDE 
+      sym_06027552  ✓PORTED
+      sym_0600CEBA [track] segment advance
+    sym_0600E71A [AI] AI physics
+      … (see above)
+    sym_06027CA4 [math] writes car[+0x25C]
+      sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
+sym_0600DE54 
+  sym_0600E99C [AI] AI physics
+    sym_0600E906 [AI] AI physics
+      … (see above)
+    sym_06027552  ✓PORTED
+  sym_0600E0C0 [loop] per-car iteration loop
+    … (see above)
+sym_0600DE70 
+  sym_0600E4F2 [AI] AI physics
+    sym_0602ECF2 [dispatcher] player physics dispatcher (jump-table state machine) ✓PORTED  «data: 0602FDA1»  «in: car pointer (global), scratch global, dispatch state index»
+      … (see above)
+    sym_06027CA4 [math] writes car[+0x25C]
+      … (see above)
+    sym_0600DB64 
+    sym_0600DA7C 
+      sym_0600DB9E 
+        sym_06028400 
+        sym_0600DC74 
+          sym_060284AE 
+      sym_0600DC74 
+        … (see above)
+    sym_0600CE66 [track] track progress
+      sym_0600CD40 [track] segment query
+        … (see above)
+      sym_0600CDD0 
+        sym_0602744C [math] fixed-point helper ✓PORTED
+          … (see above)
+    sym_0600D780 
+      sym_0600D9BC 
+        sym_0600DD88 
+      sym_0600D92C 
+        sym_0600DCC8 
+      sym_0600D84C 
+      sym_0600D8A4 
+        sym_0600D9BC 
+          … (see above)
+    sym_0600C994 [disp] per-car dispatcher
+      sym_0602744C [math] fixed-point helper ✓PORTED
+        … (see above)
+    sym_0602D9F0 
+  sym_0602F7EA 
+    sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
+  sym_0602F99C 
+  sym_0600E0C0 [loop] per-car iteration loop
+    … (see above)
+sym_0600DF66 
+  sym_0600E410 [AI] AI physics
+    … (see above)
+  sym_0600E47C [AI] AI physics
+    sym_0600E7C8 
+      sym_0600D266 
+      sym_0600C4F8 
+        … (see above)
+      sym_0602D88E 
+        sym_0602D8BC [19] POSITION WRITER ✓PORTED  «data: drift scaling»
+          … (see above)
+      sym_0600CEBA [track] segment advance
+      sym_06027552  ✓PORTED
+    sym_06027CA4 [math] writes car[+0x25C]
+      … (see above)
+    sym_0600DA7C 
+      … (see above)
+    sym_0600CE66 [track] track progress
+      … (see above)
+    sym_0600D780 
+      … (see above)
+  sym_0600E0C0 [loop] per-car iteration loop
+    … (see above)
+sym_0600DFD0 
+  sym_0602DB00 [writer] player-range writer
+    sym_0602E16C [writer] writes car[+0xC0]
+      sym_0600DB64 
+      sym_0602F3EC [4] speed index + drag ✓PORTED
+      sym_0602F7BC [5] effect-timer decrements ✓PORTED
+      sym_0600C4F8 
+        … (see above)
+      sym_0602F17C [7a/8] gear state machine ✓PORTED  «data: track-force bounds, gear-down thresholds, gear-up thresholds, section scaling»
+        … (see above)
+      sym_0602ECCC [math] SH-2 DIVU helper ✓PORTED
+      sym_0602E450 
+        sym_06027344 [math] sin table lookup ✓PORTED  «in: cos table (LWR)»
+      sym_0602E4BC 
+        sym_0602744C [math] fixed-point helper ✓PORTED
+          … (see above)
+        sym_0602CCD0 [helper] helper ✓PORTED
+      sym_0600CE66 [track] track progress
+        … (see above)
+  sym_06027CA4 [math] writes car[+0x25C]
+    … (see above)
+  sym_0600E0C0 [loop] per-car iteration loop
+    … (see above)
+sym_0600E060 
+  sym_06027CA4 [math] writes car[+0x25C]
+    … (see above)
+  sym_0600E0C0 [loop] per-car iteration loop
+    … (see above)
 ```
