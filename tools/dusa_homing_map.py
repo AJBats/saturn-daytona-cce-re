@@ -63,8 +63,8 @@ REGIONS = [
            'drift scaling (0x80) + traction 2D table (0x394); read by D8BC, CA84/CCEC'),
     Region('gear', 0x0604779C, 0x54, 'racebin', 'dusa_dat_gear', _ap(0x0604779C),
            'gear down/up-thr + ratio + section-scale + anim; read by F17C/D814/F270/F5B6/F474'),
-    Region('f270_bounds', 0x0602F3CC, 0x20, 'racebin_inline', 'Lf270_bounds', None,
-           'steering clamp bounds, 4 gears x {lo,hi}; already inline in F270 shim'),
+    Region('f270_bounds', 0x0602F3CC, 0x20, 'racebin_inline', 'dusa_f270_bounds', None,
+           'steering clamp bounds, 4 gears x {lo,hi}; global symbol in F270 shim'),
 
     # ---- COL: big static + LWR-resident trig LUTs ----------------------------
     Region('surface', 0x060454CC, 0x22D0, 'col', 'DUSA_SURFACE', _ap(0x060454CC),

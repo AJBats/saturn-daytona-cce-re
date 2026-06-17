@@ -13,12 +13,11 @@
  *
  * Bytes are byte-faithful-modulo-relocation to DUSA retail (gate:
  * tools/check_dusa_port.py --func sym_0602F270). Relocations:
- *   - .4byte DUSA_GEAR_TABLE  (x2: pool @+0x8C/+0x12C, retail 060477BC) --
- *     absolute COL-body literal (no linker symbol) -> dusa_0602F270 allowlist.
- *   - .4byte dusa_0602755C    (x2: pool @+0x90/+0x130) -- R_SH_DIR32, auto-adjudicated.
- *   - .4byte .Lf270_bounds    (pool @+0x134, retail 0602F3CC) -- self-reference
- *     to this shim's own inline bounds table; an in-shim local label so it
- *     relocates with the shim (R_SH_DIR32 vs .text, auto-adjudicated).
+ *   - .long dusa_dat_gear+0x20 (x2: pool @+0x8C/+0x12C, retail 060477BC) --
+ *     gear-ratio table, homed to race.bin (R_SH_DIR32, auto-adjudicated).
+ *   - .long dusa_0602755C     (x2: pool @+0x90/+0x130) -- R_SH_DIR32, auto-adjudicated.
+ *   - .long dusa_f270_bounds  (pool @+0x134, retail 0602F3CC) -- this shim's inline
+ *     bounds table, now a global symbol shared with F17C (R_SH_DIR32).
  * All other pool words are car-struct field offsets (immediates).
  * dusa_-prefixed + trailing .align 2 (32-bit pools). */
 int dusa_0602F270(void) asm {

@@ -22,9 +22,9 @@
  * relocate to in-cluster labels (else they'd point at retail). The pipeline
  * pointers relocate to the ported dusa_* symbols (R_SH_DIR32). Car + dispatch
  * globals -> COL slots we own (DUSA_CAR_PTR/DISP_STATE/DISP_SCRATCH; allowlists
- * dusa_0602ECF2 + dusa_0602EFF0). The 0x0602FDA1 input flag is kept as a literal
- * (shared-data homing later). Real SH-2 assembly; byte-faithful (gate:
- * tools/check_dusa_port.py per entry). */
+ * dusa_0602ECF2 + dusa_0602EFF0). The 0x0602FDA1 input flag is homed to
+ * DUSA_ECF2_FLAG (COL, written -> seeded from APROG; allowlist dusa_0602ECF2).
+ * Real SH-2 assembly; byte-faithful (gate: tools/check_dusa_port.py per entry). */
 int dusa_0602ECCC(void) asm {
         mov.l r3,@-r15             /* 0602ECCC */
         mov #-16,r3                /* 0602ECCE */
@@ -163,7 +163,7 @@ int dusa_0602ECCC(void) asm {
     .Lp_602EDC2:
         .word 0x00CC             /* 0602EDC2 */
     .Lp_602EDC4:
-        .long 0x0602FDA1         /* 0602EDC4 */
+        .long DUSA_ECF2_FLAG         /* 0602EDC4  retail 602FDA1 -- ecf2_flag -> COL */
     .Lp_602EDC8:
         .long DUSA_CAR_PTR         /* 0602EDC8  retail 0607E944 -- car-pointer global -> COL */
     .Lp_602EDCC:

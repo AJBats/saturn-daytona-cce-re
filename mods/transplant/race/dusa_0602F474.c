@@ -7,8 +7,8 @@
  * accel formula.
  *
  * One relocation: the animation-table pool word -- DUSA retail 0x060477D8 -> the
- * COL-body embed DUSA_ANIM_TABLE (absolute LWR literal, no linker symbol ->
- * Tier-1 allowlist). All other pool words are struct offsets (immediates).
+ * race.bin data shim dusa_dat_gear+0x3C (R_SH_DIR32, auto-adjudicated). All other
+ * pool words are struct offsets (immediates).
  * dusa_-prefixed + trailing .align 2 (32-bit pool). */
 int dusa_0602F474(void) asm {
         mov r14,r0                 /* 0602F474 */

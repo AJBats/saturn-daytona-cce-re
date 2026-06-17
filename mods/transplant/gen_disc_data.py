@@ -7,21 +7,26 @@ to LWR base 0x00220000 (file offset X -> guest 0x00220000 + X). Layout, PACKED
 from the header with no gaps:
 
   [CCE header 0x8000]  preserved (init readers need it)
-  [shadow cars][globals][cos][gear][traction][anim]   fixed / track-independent,
-                                                       constant offsets every track
+  [shadow cars][globals]                               CCE-side fixed prefix
+  [surface][cos][atan][pad][surf_buf][car_disp][...]   homed DUSA COL regions
   [track data ...]                                     per-track, LAST (grows into
                                                        that track's own COL space)
   [free]
 
-THIS FILE IS THE SOURCE OF TRUTH for the COL offsets. compute_layout() packs the
-fixed regions; the guest addresses are mirrored as macros in src/race/dusa_state.h
-(the ported asm reads them as absolute literals). To resync after a layout change:
+The homed DUSA COL regions come from tools/dusa_homing_map.py (the single source
+of truth for where every DUSA data region lives). Small hot static tables (gear/
+traction/drift/anim/F270 bounds) are NOT here -- they were homed into race.bin
+(see the homing map). What remains in COL: the big surface block + the LWR trig
+LUTs (cos/atan) + the runtime work-RAM globals (pads/buttons/opponents/dispatch/
+scratch), each carried as one contiguous region.
 
-    python3 mods/transplant/gen_disc_data.py --dryrun   # prints the macros + allowlist values
+To resync src/race/dusa_state.h after a layout change:
 
-paste the output into src/race/dusa_state.h, and update the per-function allowlists
-(workstreams/transplant/dusa_port_allowlists/). A normal run VERIFIES dusa_state.h
-matches the computed layout and warns on drift.
+    python3 mods/transplant/gen_disc_data.py --dryrun   # prints the macros
+
+paste the output into src/race/dusa_state.h. Per-function reloc allowlists are
+regenerated separately (tools/gen_dusa_allowlists.py). A normal run VERIFIES
+dusa_state.h matches the computed layout and warns on drift.
 
 Output goes to build/mods/transplant/disc/ mirroring the ISO layout.
 Called automatically by: make MOD=transplant disc
@@ -39,28 +44,26 @@ DUSA_STATE_H = os.path.join(PROJDIR, 'src', 'race', 'dusa_state.h')
 
 COL_HEADER_SIZE = 0x8000
 LWR_BASE = 0x00220000          # init copies each COL here (verified CS0 + CS2)
-
+APROG_VRAM = 0x06003000
 APROG_PATH = os.path.join(DUSA_DIR, 'APROG.BIN')
 
-# Table sources + sizes (offsets are COMPUTED by compute_layout, not fixed here).
-# cos: captured from running DUSA wram_low 0x002F2F20 (4096 x u32 16.16 sin).
-COS_TABLE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                              'data', 'dusa_sin_table.bin')
-COS_TABLE_SIZE = 0x4000
-# gear: DUSA APROG sym_060477BC (8 x u32), read by the speed writer.
-GEAR_TABLE_APROG_OFF = 0x060477BC - 0x06003000
-GEAR_TABLE_SIZE = 0x20
-# traction: DUSA APROG 0x0602E938 through end of data subseg sym_0602E8AC.
-TRAC_TABLE_APROG_OFF = 0x0602E938 - 0x06003000
-TRAC_TABLE_SIZE = 0x0602ECCB - 0x0602E938 + 1    # 0x394
-# anim: DUSA APROG 0x060477D8 (5-entry lookup, read by the animation counter).
-ANIM_TABLE_APROG_OFF = 0x060477D8 - 0x06003000
-ANIM_TABLE_SIZE = 0x18                           # 5 entries used (0x14) + margin
-# atan: DUSA work-RAM arctan LUT, runtime base 0x002F0000 (read by inverse-trig
-# sym_06027378). Work-RAM (like cos), so it lives in COL. 0x2000 B = 4096 x u16
-# (index = (angle>>8)<<1, angle < 0x100000). Reserved-zero until the LUT data is
-# captured from a DUSA dump (function runs byte-faithful on zeros meanwhile).
-ATAN_TABLE_SIZE = 0x2000
+# COL regions come from the homing map (single source of truth).
+sys.path.insert(0, os.path.join(PROJDIR, 'tools'))
+import dusa_homing_map as hm
+
+# Two CCE-side regions are NOT homed DUSA data; they prefix the packed layout:
+#   shadow car array (bridge source) + a globals/scratch block (scaffolding +
+#   faked inputs in src/race/dusa_state.h). The car/dispatch control slots are
+#   NOT here -- they fold into the DUSA_CAR_BLOCK homing region (option B).
+FIXED_PREFIX = [('DUSA_SHADOW_CARS', 0x6140), ('DUSA_GLOBALS', 0x400)]
+
+# Offsets of the option-B control slots INSIDE the car_disp mirrored block
+# (DUSA addr - car_disp base 0x0607E944), surfaced as dusa_state.h aliases.
+CAR_BLOCK_ALIASES = [
+    ('DUSA_CAR_PTR',     0x0607E944 - hm.CAR_BLOCK_BASE),   # +0    seed = shadow car
+    ('DUSA_DISP_SCRATCH', 0x0607EAC8 - hm.CAR_BLOCK_BASE),  # +0x184 zeroed per frame
+    ('DUSA_DISP_STATE',  0x0607EAE4 - hm.CAR_BLOCK_BASE),   # +0x1A0 dispatch index
+]
 
 
 def _slice_aprog(off, size, name):
@@ -75,44 +78,37 @@ def _slice_aprog(off, size, name):
     return data
 
 
-def load_cos_table():
-    if not os.path.isfile(COS_TABLE_PATH):
+def _load_file(path, size, name):
+    if not os.path.isfile(path):
         return None
-    data = open(COS_TABLE_PATH, 'rb').read()
-    if len(data) != COS_TABLE_SIZE:
-        print('  WARN  cos table %s is %d B (expected %d) -- skipping'
-              % (COS_TABLE_PATH, len(data), COS_TABLE_SIZE))
+    data = open(path, 'rb').read()
+    if len(data) != size:
+        print('  WARN  %s is %d B (expected %d) -- skipping' % (name, len(data), size))
         return None
     return data
 
 
-def load_gear_table():
-    return _slice_aprog(GEAR_TABLE_APROG_OFF, GEAR_TABLE_SIZE, 'gear table')
+def _region_loader(region):
+    """loader() -> bytes|None for a homing-map COL region, derived from its src.
+    'zero' = zeroed reservation; 'seed_aprog' = a written global seeded from its
+    APROG bytes; ('aprog',off)/('file',path) = a verbatim slice/file."""
+    src = region.src
+    if src == 'zero':
+        return None
+    if src == 'seed_aprog':
+        return lambda r=region: _slice_aprog(r.base - APROG_VRAM, r.size, r.name)
+    if isinstance(src, tuple) and src[0] == 'aprog':
+        return lambda r=region, o=src[1]: _slice_aprog(o, r.size, r.name)
+    if isinstance(src, tuple) and src[0] == 'file':
+        p = os.path.join(PROJDIR, src[1])
+        return lambda r=region, p=p: _load_file(p, r.size, r.name)
+    return None
 
 
-def load_trac_table():
-    return _slice_aprog(TRAC_TABLE_APROG_OFF, TRAC_TABLE_SIZE, 'traction table')
-
-
-def load_anim_table():
-    return _slice_aprog(ANIM_TABLE_APROG_OFF, ANIM_TABLE_SIZE, 'anim table')
-
-
-# Packed COL layout: fixed/shared regions in order from the header.
-#   (macro, size, loader)  loader() -> bytes or None for a zeroed reservation.
-# Per-track DUSA track data (DUSA_TRACK_TABLES) is appended LAST (see compute_layout).
-# Tables that have a per-function reloc allowlist are flagged so --dryrun can
-# print the value to copy.
-LAYOUT = [
-    # shadow array is 40 x 0x268 = 0x6040; reserve 0x6140 (+0x100 slack) to keep
-    # DUSA_GLOBALS + the hardcoded scratch slots (DUSA_SEED_FLAG etc.) at 0xE140.
-    ('DUSA_SHADOW_CARS', 0x6140,         None,            False),
-    ('DUSA_GLOBALS',     0x400,          None,            False),
-    ('DUSA_COS_TABLE',   COS_TABLE_SIZE, load_cos_table,  False),  # cos pool is outside the gate
-    ('DUSA_GEAR_TABLE',  GEAR_TABLE_SIZE, load_gear_table, True),   # allowlist: dusa_0602D814
-    ('DUSA_TRAC_TABLE',  TRAC_TABLE_SIZE, load_trac_table, True),   # allowlist: dusa_0602CCEC
-    ('DUSA_ANIM_TABLE',  ANIM_TABLE_SIZE, load_anim_table, True),   # allowlist: dusa_0602F474
-    ('DUSA_ATAN_TABLE',  ATAN_TABLE_SIZE, None,            True),   # allowlist: dusa_060274DA (zeroed)
+# Packed COL layout: fixed prefix, then every homing-map COL region in map order.
+#   (macro, size, loader, allowlisted)
+LAYOUT = [(m, sz, None, False) for (m, sz) in FIXED_PREFIX] + [
+    (r.home, r.size, _region_loader(r), True) for r in hm.col_regions()
 ]
 
 
@@ -125,6 +121,15 @@ def compute_layout():
         placed.append((macro, off, size, loader, allow))
         off = (off + size + 3) & ~3
     return placed, off                       # off == DUSA_TRACK_TABLES file offset
+
+
+def col_addr(macro):
+    """Guest LWR address of a placed COL region macro (or None)."""
+    placed, _ = compute_layout()
+    for m, off, _s, _l, _a in placed:
+        if m == macro:
+            return LWR_BASE + off
+    return None
 
 
 def splice(body, data, file_off, name):
@@ -157,6 +162,10 @@ def verify_state_h():
     placed, track_off = compute_layout()
     want = {m: LWR_BASE + o for (m, o, _s, _l, _a) in placed}
     want['DUSA_TRACK_TABLES'] = LWR_BASE + track_off
+    car_block = want.get('DUSA_CAR_BLOCK')
+    if car_block is not None:
+        for macro, delta in CAR_BLOCK_ALIASES:
+            want[macro] = car_block + delta
     have = parse_state_h_macros()
     bad = [(m, want[m], have.get(m)) for m in want if have.get(m) != want[m]]
     if bad:
@@ -175,15 +184,17 @@ def print_dryrun():
               % (macro, LWR_BASE + off, off, size))
     print('#define %-18s 0x%08X   /* COL file 0x%05X, per-track track data (LAST) */'
           % ('DUSA_TRACK_TABLES', LWR_BASE + track_off, track_off))
-    print('// per-function reloc allowlist values (dusa_port_allowlists/):')
-    for macro, off, _s, _l, allow in placed:
-        if allow:
-            print('//   %-18s 0x%08X' % (macro, LWR_BASE + off))
+    car_block = col_addr('DUSA_CAR_BLOCK')
+    if car_block is not None:
+        print('// option-B control slots inside the DUSA_CAR_BLOCK mirror:')
+        for macro, delta in CAR_BLOCK_ALIASES:
+            print('#define %-18s 0x%08X   /* DUSA_CAR_BLOCK + 0x%X */'
+                  % (macro, car_block + delta, delta))
 
 
 # Set True to zero the dense body instead of embedding per-track track data.
-# The fixed tables (cos/gear/trac/anim) are ALWAYS spliced; this only gates the
-# per-track waypoint/segment embed (Step 6). Baseline transplant uses True.
+# The fixed/shared regions are ALWAYS spliced; this only gates the per-track
+# waypoint/segment embed (Step 6). Baseline transplant uses True.
 ZERO_BODY_ONLY = True
 
 COURSE_SPECS = [
@@ -212,7 +223,7 @@ def extract_dusa_tables(line_path, spec):
 
 
 def build_col(col_src, dst_path, loaded, track_data=None):
-    """Zero the body, splice the packed fixed tables, and (Step 6) the per-track
+    """Zero the body, splice the packed fixed regions, and (Step 6) the per-track
     track data at the computed track offset. Returns (col_size, applied_list)."""
     col = open(col_src, 'rb').read()
     header = col[:COL_HEADER_SIZE]
@@ -221,7 +232,7 @@ def build_col(col_src, dst_path, loaded, track_data=None):
     applied = []
     for macro, off, _size, loader, _a in placed:
         if loader is None:
-            continue                      # zeroed reservation (shadow / globals)
+            continue                      # zeroed reservation
         if splice(body, loaded.get(macro), off, macro):
             applied.append((macro, off))
     if track_data is not None:
@@ -265,7 +276,7 @@ def main():
 
         size, applied = build_col(col_src, dst_path, loaded, track_data)
         tags = ', '.join('%s@0x%X' % (m, o) for m, o in applied)
-        mode = 'body zeroed + fixed tables' if track_data is None else 'fixed tables + track data'
+        mode = 'body zeroed + fixed regions' if track_data is None else 'fixed regions + track data'
         print('  OK    %-16s  %d bytes (%s: %s)' % (spec['col_file'], size, mode, tags))
 
     print()

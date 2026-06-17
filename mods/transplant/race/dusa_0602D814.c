@@ -16,8 +16,8 @@
  * Reads: +0x0C, +0xFC, +0xDC.  Writes: +0x0C, +0xFC, +0xE0, +0xE8.
  *
  * Leaf (no callees). The single relocation is the gear-ratio table pool word:
- * DUSA retail 0x060477BC -> the COL-body embed DUSA_GEAR_TABLE (absolute LWR
- * literal, no linker symbol -> Tier-1 allowlist). The other two 32-bit pools
+ * DUSA retail 0x060477BC -> the race.bin data shim dusa_dat_gear+0x20 (R_SH_DIR32,
+ * auto-adjudicated). The other two 32-bit pools
  * (0x0221AC91 scaling K, 0x00002134 clamp max) are DUSA constants == retail.
  *
  * 4-aligned via the dusa_align4 guard + trailing .align 2 (32-bit pools need the

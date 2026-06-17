@@ -3,10 +3,10 @@
  * one contiguous pair (0x0602F5B6-0x0602F7BB; F5B6 bsr F71C).
  *   dusa_0602F5B6  surface writer: samples the road surface under the car
  *   dusa_0602F71C  surface-curve interpolation
- * Relocations: gear table -> DUSA_GEAR_TABLE (COL, allowlist dusa_0602F5B6),
+ * Relocations: gear-ratio -> dusa_dat_gear+0x20 (race.bin, R_SH_DIR32),
  * .long dusa_0602755C / dusa_06027348 (R_SH_DIR32). The surface curve/index tables
- * (0x060454CC/06045AEC/0604679C/06046F9C) are kept as byte-faithful literals
- * (surface data homing later). F5B6 is 2-mod-4 -> held in lane by a nop pad in
+ * (0x060454CC/06045AEC/0604679C/06046F9C) are homed to COL (DUSA_SURFACE + offsets;
+ * allowlists dusa_0602F5B6 + dusa_0602F71C). F5B6 is 2-mod-4 -> held in lane by a nop pad in
  * race.c. Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py per entry). */
 int dusa_0602F5B6(void) asm {
         sts.l pr,@-r15             /* 0602F5B6 */
@@ -39,7 +39,7 @@ int dusa_0602F5B6(void) asm {
     .Lp_602F5EA:
         .word 0x00E0             /* 0602F5EA */
     .Lp_602F5EC:
-        .long 0x06045AEC         /* 0602F5EC */
+        .long DUSA_SURFACE + 0x620   /* 0602F5EC  retail 6045AEC -- surface -> COL */
     .Lp_602F5F0:
         .long 0x00016666         /* 0602F5F0 */
     .Lp_602F5F4:
@@ -195,7 +195,7 @@ int dusa_0602F5B6(void) asm {
     .Lp_602F700:
         .long dusa_0602755C        /* 0602F700  retail 0602755C -- fixed-point divide */
     .Lp_602F704:
-        .long 0x06045AEC         /* 0602F704 */
+        .long DUSA_SURFACE + 0x620   /* 0602F704  retail 6045AEC -- surface -> COL */
     .Lp_602F708:
         .long 0x0B400000         /* 0602F708 */
     .Lp_602F70C:
@@ -205,7 +205,7 @@ int dusa_0602F5B6(void) asm {
     .Lp_602F714:
         .long dusa_06027348        /* 0602F714  retail 06027348 -- cos lookup */
     .Lp_602F718:
-        .long 0x060454CC         /* 0602F718 */
+        .long DUSA_SURFACE           /* 0602F718  retail 60454CC -- surface -> COL */
         .global dusa_0602F71C
     dusa_0602F71C:
         mov #0,r4                  /* 0602F71C */
@@ -272,7 +272,7 @@ int dusa_0602F5B6(void) asm {
     .Lp_602F78A:
         .word 0x007C             /* 0602F78A */
     .Lp_602F78C:
-        .long 0x0604679C         /* 0602F78C */
+        .long DUSA_SURFACE + 0x12D0  /* 0602F78C  retail 604679C -- surface -> COL */
     .Lb_602F790:
         mov.l @(8,r0),r2           /* 0602F790 */
         mov.l .Lp_602F7A0,r3       /* 0602F792 */
@@ -284,7 +284,7 @@ int dusa_0602F5B6(void) asm {
         shar r4                    /* 0602F79C */
         .word 0x0000             /* 0602F79E */
     .Lp_602F7A0:
-        .long 0x06046F9C         /* 0602F7A0 */
+        .long DUSA_SURFACE + 0x1AD0  /* 0602F7A0  retail 6046F9C -- surface -> COL */
     .Lb_602F7A4:
         rts                        /* 0602F7A4 */
         mov #0,r4                  /* 0602F7A6 */
@@ -298,6 +298,6 @@ int dusa_0602F5B6(void) asm {
         shll r4                    /* 0602F7B4 */
         .word 0x0000             /* 0602F7B6 */
     .Lp_602F7B8:
-        .long 0x0604679C         /* 0602F7B8 */
+        .long DUSA_SURFACE + 0x12D0  /* 0602F7B8  retail 604679C -- surface -> COL */
         .align 2
 }

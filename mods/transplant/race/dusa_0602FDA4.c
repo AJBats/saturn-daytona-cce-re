@@ -3,8 +3,8 @@
  * call 1 -- input handler (throttle/brake/gear/steer). Fetches the car via the
  * car-pointer global -> DUSA_CAR_PTR (COL, allowlist dusa_0602FDA4); 4x jsr ECCC
  * (DIVU, R_SH_DIR32). The pad/button/animation globals (06063D9x / 06081888.. /
- * 0607ED8x) are kept as byte-faithful literals (real-input wiring is a later step).
- * Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py). */
+ * 0607ED8x) are homed to COL (DUSA_PAD_BLOCK / DUSA_BTN_BLOCK / DUSA_ANIM_SCRATCH;
+ * allowlist dusa_0602FDA4). Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py). */
 int dusa_0602FDA4(void) asm {
         mov.l r8,@-r15             /* 0602FDA4 */
         mov.l r9,@-r15             /* 0602FDA6 */
@@ -29,7 +29,7 @@ int dusa_0602FDA4(void) asm {
     .Lp_602FDCC:
         .long DUSA_CAR_PTR         /* 0602FDCC  retail 0607E944 -- car-pointer global -> COL */
     .Lp_602FDD0:
-        .long 0x0607ED8C         /* 0602FDD0 */
+        .long DUSA_ANIM_SCRATCH + 0x4 /* 0602FDD0  retail 607ED8C -- anim_scratch -> COL */
     .Lb_602FDD4:
         mov.l .Lp_602FDF8,r2       /* 0602FDD4 */
         mov.w @r2,r1               /* 0602FDD6 */
@@ -52,9 +52,9 @@ int dusa_0602FDA4(void) asm {
         .word 0x00DE             /* 0602FDF4 */
         .word 0x0000             /* 0602FDF6 */
     .Lp_602FDF8:
-        .long 0x06063D9A         /* 0602FDF8 */
+        .long DUSA_PAD_BLOCK + 0x2   /* 0602FDF8  retail 6063D9A -- pad -> COL */
     .Lp_602FDFC:
-        .long 0x0608188A         /* 0602FDFC */
+        .long DUSA_BTN_BLOCK + 0x2   /* 0602FDFC  retail 608188A -- buttons -> COL */
     .Lb_602FE00:
         mov.l .Lp_602FE18,r2       /* 0602FE00 */
         mov.w @r2,r2               /* 0602FE02 */
@@ -70,7 +70,7 @@ int dusa_0602FDA4(void) asm {
         mov.w r4,@(r0,r3)          /* 0602FE14 */
         .word 0x0000             /* 0602FE16 */
     .Lp_602FE18:
-        .long 0x06081888         /* 0602FE18 */
+        .long DUSA_BTN_BLOCK         /* 0602FE18  retail 6081888 -- buttons -> COL */
     .Lb_602FE1C:
         mov.l .Lp_602FE2C,r2       /* 0602FE1C */
         mov.w @r2,r2               /* 0602FE1E */
@@ -81,7 +81,7 @@ int dusa_0602FDA4(void) asm {
         mov.w r4,@(r0,r3)          /* 0602FE28 */
         .word 0x0000             /* 0602FE2A */
     .Lp_602FE2C:
-        .long 0x06081896         /* 0602FE2C */
+        .long DUSA_BTN_BLOCK + 0xE   /* 0602FE2C  retail 6081896 -- buttons -> COL */
     .Lb_602FE30:
         mov.l .Lp_602FE40,r2       /* 0602FE30 */
         mov.w @r2,r2               /* 0602FE32 */
@@ -92,7 +92,7 @@ int dusa_0602FDA4(void) asm {
         mov.w r4,@(r0,r3)          /* 0602FE3C */
         .word 0x0000             /* 0602FE3E */
     .Lp_602FE40:
-        .long 0x06081894         /* 0602FE40 */
+        .long DUSA_BTN_BLOCK + 0xC   /* 0602FE40  retail 6081894 -- buttons -> COL */
     .Lb_602FE44:
         mov.l .Lp_602FE54,r2       /* 0602FE44 */
         mov.w @r2,r2               /* 0602FE46 */
@@ -103,7 +103,7 @@ int dusa_0602FDA4(void) asm {
         mov.w r4,@(r0,r3)          /* 0602FE50 */
         .word 0x0000             /* 0602FE52 */
     .Lp_602FE54:
-        .long 0x06081892         /* 0602FE54 */
+        .long DUSA_BTN_BLOCK + 0xA   /* 0602FE54  retail 6081892 -- buttons -> COL */
     .Lb_602FE58:
         mov.l .Lp_602FEA0,r2       /* 0602FE58 */
         mov.w @r2,r2               /* 0602FE5A */
@@ -147,11 +147,11 @@ int dusa_0602FDA4(void) asm {
     .Lp_602FE9E:
         .word 0x00A0             /* 0602FE9E */
     .Lp_602FEA0:
-        .long 0x06081890         /* 0602FEA0 */
+        .long DUSA_BTN_BLOCK + 0x8   /* 0602FEA0  retail 6081890 -- buttons -> COL */
     .Lp_602FEA4:
-        .long 0x06063D98         /* 0602FEA4 */
+        .long DUSA_PAD_BLOCK         /* 0602FEA4  retail 6063D98 -- pad -> COL */
     .Lp_602FEA8:
-        .long 0x0608188C         /* 0602FEA8 */
+        .long DUSA_BTN_BLOCK + 0x4   /* 0602FEA8  retail 608188C -- buttons -> COL */
     .Lb_602FEAC:
         mov.w .Lp_602FEBE,r3       /* 0602FEAC */
         mov #-80,r2                /* 0602FEAE */
@@ -206,7 +206,7 @@ int dusa_0602FDA4(void) asm {
     .Lp_602FF00:
         .long 0x0000006C         /* 0602FF00 */
     .Lp_602FF04:
-        .long 0x0608188E         /* 0602FF04 */
+        .long DUSA_BTN_BLOCK + 0x6   /* 0602FF04  retail 608188E -- buttons -> COL */
     .Lp_602FF08:
         .long 0x000000B8         /* 0602FF08 */
     .Lb_602FF0C:
@@ -295,7 +295,7 @@ int dusa_0602FDA4(void) asm {
         .word 0x00A8             /* 0602FF9C */
         .word 0x0000             /* 0602FF9E */
     .Lp_602FFA0:
-        .long 0x06063F48         /* 0602FFA0 */
+        .long DUSA_PAD_BLOCK + 0x1B0 /* 0602FFA0  retail 6063F48 -- pad -> COL */
     .Lp_602FFA4:
         .long dusa_0602ECCC        /* 0602FFA4  retail 0602ECCC -- DIVU helper */
     .Lb_602FFA8:
@@ -350,7 +350,7 @@ int dusa_0602FDA4(void) asm {
     .Lp_602FFFE:
         .word 0x00A8             /* 0602FFFE */
     .Lp_6030000:
-        .long 0x06063F4A         /* 06030000 */
+        .long DUSA_PAD_BLOCK + 0x1B2 /* 06030000  retail 6063F4A -- pad -> COL */
     .Lp_6030004:
         .long dusa_0602ECCC        /* 06030004  retail 0602ECCC -- DIVU helper */
     .Lb_6030008:
@@ -446,13 +446,13 @@ int dusa_0602FDA4(void) asm {
         .word 0x2AF6             /* 0603009C */
         .word 0x0000             /* 0603009E */
     .Lp_60300A0:
-        .long 0x06063D9C         /* 060300A0 */
+        .long DUSA_PAD_BLOCK + 0x4   /* 060300A0  retail 6063D9C -- pad -> COL */
     .Lp_60300A4:
-        .long 0x06078663         /* 060300A4 */
+        .long DUSA_SURF_BUF          /* 060300A4  retail 6078663 -- surf_buf -> COL */
     .Lp_60300A8:
-        .long 0x0607ED90         /* 060300A8 */
+        .long DUSA_ANIM_SCRATCH + 0x8 /* 060300A8  retail 607ED90 -- anim_scratch -> COL */
     .Lp_60300AC:
-        .long 0x0607ED88         /* 060300AC */
+        .long DUSA_ANIM_SCRATCH      /* 060300AC  retail 607ED88 -- anim_scratch -> COL */
     .Lb_60300B0:
         mov.l .Lp_60300F8,r2       /* 060300B0 */
         mov.l .Lp_60300FC,r4       /* 060300B2 */
@@ -496,9 +496,9 @@ int dusa_0602FDA4(void) asm {
     .Lp_60300F6:
         .word 0x00A0             /* 060300F6 */
     .Lp_60300F8:
-        .long 0x0607ED90         /* 060300F8 */
+        .long DUSA_ANIM_SCRATCH + 0x8 /* 060300F8  retail 607ED90 -- anim_scratch -> COL */
     .Lp_60300FC:
-        .long 0x0607ED88         /* 060300FC */
+        .long DUSA_ANIM_SCRATCH      /* 060300FC  retail 607ED88 -- anim_scratch -> COL */
     .Lb_6030100:
         mov.w .Lp_6030112,r3       /* 06030100 */
         mov #-80,r2                /* 06030102 */
@@ -584,7 +584,7 @@ int dusa_0602FDA4(void) asm {
     .Lp_603018C:
         .long 0x00000088         /* 0603018C */
     .Lp_6030190:
-        .long 0x0607ED90         /* 06030190 */
+        .long DUSA_ANIM_SCRATCH + 0x8 /* 06030190  retail 607ED90 -- anim_scratch -> COL */
     .Lb_6030194:
         mov #32,r2                 /* 06030194 */
         tst r1,r2                  /* 06030196 */
@@ -756,9 +756,9 @@ int dusa_0602FDA4(void) asm {
         .word 0x00AC             /* 060302B0 */
         .word 0x0000             /* 060302B2 */
     .Lp_60302B4:
-        .long 0x0607ED90         /* 060302B4 */
+        .long DUSA_ANIM_SCRATCH + 0x8 /* 060302B4  retail 607ED90 -- anim_scratch -> COL */
     .Lp_60302B8:
-        .long 0x0607ED88         /* 060302B8 */
+        .long DUSA_ANIM_SCRATCH      /* 060302B8  retail 607ED88 -- anim_scratch -> COL */
         .word 0x0009             /* 060302BC */
         .word 0x0009             /* 060302BE */
         .word 0x4015             /* 060302C0 */

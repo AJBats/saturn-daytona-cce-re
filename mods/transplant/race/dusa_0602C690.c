@@ -4,7 +4,7 @@
  *   dusa_0602C690  collision magnitude -> populates the collision state C8E2 reads
  *   dusa_0602C7FC  surface-index lookup (bit-scan -> surface table) ; jsr ECCC
  * Relocations: .long dusa_06027348 / dusa_0602ECCC (R_SH_DIR32). The surface-index
- * table 0x06045AEC is kept as a byte-faithful literal (surface data homing later).
+ * table 0x06045AEC is homed to COL (DUSA_SURFACE + 0x620; allowlist dusa_0602C7FC).
  * Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py per entry). */
 int dusa_0602C690(void) asm {
         sts.l pr,@-r15             /* 0602C690 */
@@ -319,7 +319,7 @@ int dusa_0602C690(void) asm {
         .word 0x0096             /* 0602C8AC */
         .word 0x0000             /* 0602C8AE */
     .Lp_602C8B0:
-        .long 0x06045AEC         /* 0602C8B0 */
+        .long DUSA_SURFACE + 0x620   /* 0602C8B0  retail 6045AEC -- surface -> COL */
     .Lp_602C8B4:
         .long dusa_0602ECCC        /* 0602C8B4  retail 0602ECCC -- DIVU helper */
     .Lb_602C8B8:

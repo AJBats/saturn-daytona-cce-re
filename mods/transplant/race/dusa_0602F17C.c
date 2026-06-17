@@ -2,9 +2,9 @@
 /* dusa_0602F17C  (DUSA sym_0602F17C, 0x0602F17C-0x0602F26F, 244 B): player pipeline
  * call 7a/8 -- gear state machine. Entry: r0 = car pointer. Manages gear up/down
  * shifts against the gear-ratio + threshold tables. jsr 755C (R_SH_DIR32). The
- * gear-down/up/section tables (0604779C/60477AC/060477CC) and the shared F270
- * bounds table (0602F3CC) are kept as byte-faithful literals (gear-data homing is
- * a later step). Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py). */
+ * gear-down/up/section tables + the shared F270 bounds table are homed to race.bin
+ * (dusa_dat_gear + offsets, dusa_f270_bounds; R_SH_DIR32). Real SH-2 assembly;
+ * byte-faithful (gate: check_dusa_port.py). */
 int dusa_0602F17C(void) asm {
         mov r0,r14                 /* 0602F17C */
         mov #0,r5                  /* 0602F17E */

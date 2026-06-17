@@ -11,9 +11,9 @@
  *         +0x20 (heading copy via +0x30->+0x20 in path0).
  *
  * Self-contained pools (interleaved at retail offsets). Relocations: cos lookup
- * (dusa_06027344/48 x2 each), DIVU helper (dusa_0602ECCC); the drift table is an
- * absolute COL-body literal (DUSA_DRIFT_TABLE) -> Tier-1 allowlist (drift path
- * never runs in Step 1). All other pool words are DUSA constants == retail. */
+ * (dusa_06027344/48 x2 each), DIVU helper (dusa_0602ECCC); the drift table ->
+ * race.bin data shim dusa_dat_physics (R_SH_DIR32; drift path never runs in
+ * Step 1). All other pool words are DUSA constants == retail. */
 int dusa_0602D8BC(void) asm {
         mov #0, r4
         mov.w .L_dusa_wp_D916, r1

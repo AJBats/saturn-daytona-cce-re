@@ -1,9 +1,15 @@
 # Transplant data-homing plan (RESUME HERE)
 
+> **STATUS 2026-06-17 — DATA HOMING COMPLETE.** A-vs-B resolved to **A** (carry whole
+> contiguous regions); design in `data_inventory.md`. `audit_dusa_data.py` now reports
+> **0 un-homed, 0 writes**. Homing map = `tools/dusa_homing_map.py` (source of truth);
+> `apply_homing.py` + `gen_dusa_allowlists.py` + `gen_dusa_data_shim.py` drive it.
+> CP1 (hot tables -> race.bin) committed `69f2d01b`; CP2 (surface + work-RAM -> COL,
+> car/dispatch fold) ready to commit. **Next: CP3 — flip the tick to ECF2 (§8) + boot.**
+> The sections below are the original pre-homing plan, kept for context.
+
 Durable handoff for the data-homing phase. Written pre-compaction at full fidelity.
-**Post-compaction / new agent: read this doc + `data_audit.md` + the two commits
-below, confirm the plan, resolve the A-vs-B decision (needs investigation), THEN
-proceed.** Do NOT boot on ECF2 until `audit_dusa_data.py` reports 0 un-homed.
+Do NOT boot on ECF2 until `audit_dusa_data.py` reports 0 un-homed (now satisfied).
 
 Branch: `transplant-step3-forces`.
 

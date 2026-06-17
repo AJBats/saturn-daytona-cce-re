@@ -18,10 +18,10 @@
  * assembler computes every displacement). Byte-faithful-modulo-relocation to DUSA
  * retail (gate: tools/check_dusa_port.py per entry). Regenerate with
  * tools/gen_dusa_shim.py. Relocations: pool words -> ported math-island/DIVU
- * symbols (755C/27344/27348/744C/27378/ECCC, R_SH_DIR32) + DUSA_TRAC_TABLE (COL,
- * allowlist dusa_0602CCEC). CDF6 reads a couple absolute init/LWR globals
- * (0x06063EEC, 0x0028D0FA) -- kept as byte-faithful literals (not car-pointer,
- * no reloc; their runtime homing is a later step).
+ * symbols (755C/27344/27348/744C/27378/ECCC, R_SH_DIR32) + the traction 2D table
+ * -> race.bin (dusa_dat_physics+0x80, R_SH_DIR32). CDF6 reads init/LWR globals
+ * (0x06063EEC, 0x0028D0FA), homed to COL (DUSA_PAD_BLOCK+0x154 / DUSA_LWR_GLOBAL;
+ * allowlist dusa_0602CDF6).
  *
  * CA84 + CCEC clobber callee-saved r8-r14 without saving (they run inside the
  * dispatcher in DUSA); the dusa_call_player trampoline preserves r8-r14 + PR. */
@@ -815,11 +815,11 @@ int dusa_0602CA84(void) asm {
     .Lp_602CFE8:
         .long dusa_06027348        /* 0602CFE8  retail 06027348 -- cos lookup */
     .Lp_602CFEC:
-        .long 0x0028D0FA         /* 0602CFEC */
+        .long DUSA_LWR_GLOBAL        /* 0602CFEC  retail 28D0FA -- lwr_global -> COL */
     .Lp_602CFF0:
         .long 0x03200000         /* 0602CFF0 */
     .Lp_602CFF4:
-        .long 0x06063EEC         /* 0602CFF4 */
+        .long DUSA_PAD_BLOCK + 0x154 /* 0602CFF4  retail 6063EEC -- pad -> COL */
     .Lb_602CFF8:
         mov.l .Lp_602D028,r4       /* 0602CFF8 */
         or r4,r6                   /* 0602CFFA */

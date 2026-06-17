@@ -3,8 +3,8 @@
  * call 10 -- opponent proximity. Entry: r0 = car pointer. Scans the opponent-car
  * globals, computes relative bearing via the fp arctan helper (744C), and flags
  * nearby opponents. Single ported reloc: .long dusa_0602744C (R_SH_DIR32). Reads
- * the DUSA opponent-car globals (0x0607EAE0/EA98/E948) kept as byte-faithful
- * literals -- no reloc; opponent shadow homing is a later step.
+ * the opponent-car globals (0x0607EAE0/EA98/E948), homed into the DUSA_CAR_BLOCK
+ * COL mirror (allowlist dusa_0602F4B4); zeroed for bring-up.
  * Real SH-2 assembly; byte-faithful (gate: check_dusa_port.py). */
 int dusa_0602F4B4(void) asm {
         mov.l .Lp_602F4C4,r1       /* 0602F4B4 */
@@ -16,7 +16,7 @@ int dusa_0602F4B4(void) asm {
         nop                        /* 0602F4C0 */
         .word 0x0000             /* 0602F4C2 */
     .Lp_602F4C4:
-        .long 0x0607EAE0         /* 0602F4C4 */
+        .long DUSA_CAR_BLOCK + 0x19C /* 0602F4C4  retail 607EAE0 -- car_disp -> COL */
     .Lb_602F4C8:
         mov.w .Lp_602F51A,r1       /* 0602F4C8 */
         mov.w @(r0,r1),r3          /* 0602F4CA */
@@ -70,9 +70,9 @@ int dusa_0602F4B4(void) asm {
     .Lp_602F51E:
         .word 0x0018             /* 0602F51E */
     .Lp_602F520:
-        .long 0x0607EA98         /* 0602F520 */
+        .long DUSA_CAR_BLOCK + 0x154 /* 0602F520  retail 607EA98 -- car_disp -> COL */
     .Lp_602F524:
-        .long 0x0607E948         /* 0602F524 */
+        .long DUSA_CAR_BLOCK + 0x4   /* 0602F524  retail 607E948 -- car_disp -> COL */
     .Lb_602F528:
         shar r4                    /* 0602F528 */
         add r1,r4                  /* 0602F52A */
