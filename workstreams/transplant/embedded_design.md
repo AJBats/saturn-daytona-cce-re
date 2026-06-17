@@ -6,6 +6,21 @@ in `README.md` (offset-remapped direct rewrite into CCE's car struct).
 The README's Step 0 record, COL-trick findings, and budget data remain
 valid; its "Approach" and per-function adaptation checklist do not.
 
+> **SCOPE CORRECTION (2026-06-17).** The player *dispatcher* (ECF2) closure is
+> ported and boots, but it is **not self-contained**: it reads car-struct fields
+> produced by code OUTSIDE the dispatcher closure that was never ported — the
+> shared track/surface/segment subsystem (`FUN_0600CA96`/`CD40` via the
+> `0x0600E640` per-car loop; Chain 4 of `data_flow_chains.md`), the AI per-car
+> loop (`0x0600E1D4`), and un-ported functions in the player-physics range
+> (`0x0602E16C`/`E108`/`DB00`, `0x06027CA4`). `transplant_graph.py` roots at the
+> dispatcher and only traces stamped reachable code, so these had no edge into
+> the closure and slipped through. The car-struct read/write audit
+> (`tools/car_struct_audit.py` → `car_struct_audit.md`) enumerates the seam;
+> the confirmed exemplar is `car[+0xC8]` (surface pointer derefed by ported
+> `F5B6`, garbage at runtime because its surface-index input is un-produced).
+> **The core driving model is therefore NOT complete** — porting the missing
+> upstream is a prerequisite to the coordinate fit and input bridge below.
+
 ## Decision
 
 Run DUSA's driving model **embedded inside CCE's race.bin, unmodified in
