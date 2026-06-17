@@ -88,6 +88,7 @@
 void dusa_bridge(void);
 void dusa_frame(void);
 void dusa_call_player(void);   /* asm trampoline: r0/r14=shadow car -> position writer */
+void dusa_call_ecf2(void);     /* asm trampoline: real ECF2 dispatcher (reads car-ptr/state) */
 
 /* Host-log debug primitive (trapa #0xFF; PATCHED-MEDNAFEN ONLY). -DDUSA_LOG
  * compiles it in; off -> DLOG() vanishes (no string/.rodata/trapa emitted). */

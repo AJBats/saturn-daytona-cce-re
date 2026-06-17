@@ -985,4 +985,5 @@ void dusa_align_302c6(void) asm {
 #include "mods/transplant/race/dusa_dat_physics.c"
 #include "mods/transplant/race/dusa_dat_gear.c"
 #include "mods/transplant/race/dusa_call_player.c"
+#include "mods/transplant/race/dusa_call_ecf2.c"
 #endif
