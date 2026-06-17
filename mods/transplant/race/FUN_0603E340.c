@@ -1,50 +1,10 @@
-/* FUN_0603E340  0x0603E340-0x0603E393  (generated naked asm shim) */
+/* FUN_0603E340  0x0603E340-0x0603E393  -- TRANSPLANT: dead body stripped (Batch 4).
+ * Was an rts-gate (init->race position integration). The size-preserving gate
+ * kept the body + its .dispatch_table (.case FUN_0603E7B0/E9E2/EAAA/E952)
+ * compiled, falsely pinning that cluster alive. Body removed; entry kept as a
+ * true rts stub. Its registrars (FUN_0603E0BA/E14C) are themselves removed in
+ * this batch, so the slot is never populated -- the stub never executes. */
 int FUN_0603E340(void) asm {
-        mov.l .L_pool_0603E448, r4
-        mov.l .L_pool_0603E44C, r5
-        mov.l @r4, r14
-        mov.b @r5, r13
-        tst r13, r13
-        bf .L_0603E350
         rts
         nop
-    .L_0603E350:
-        rts                         /* TRANSPLANT: kill position integration (reads 0x00220000) */
-    .L_0603E352:
-        nop                         /* was: sts.l pr, @-r15 + ldc r14, gbr */
-        mov.l .L_pool_0603E450, r1
-        mov #0x11, r0
-        mov.b r0, @r1
-        mov.b @(193, gbr), r0
-        tst r0, r0
-        mov.l @(132, gbr), r0
-        bf .L_0603E37C
-        clrmac
-        mov.b @(152, gbr), r0
-        mov.l @(0, r14), r5
-        mov r0, r7
-        mov.l @(8, r14), r6
-        mova .L_pool_0603E388, r0
-        shll r7
-        mov.w @(r0, r7), r0
-        mov #0x0, r8
-        bsrf r0
-        mov.l r13, @-r15
-        mov.l @(132, gbr), r0
-        mov.l @r15+, r13
-    .L_0603E37C:
-        mov r0, r14
-        dt r13
-        bf .L_0603E352
-        lds.l @r15+, pr
-        rts
-        nop
-    .dispatch_table .L_pool_0603E388
-    .case FUN_0603E7B0
-    .case FUN_0603E7B0
-    .case FUN_0603E9E2
-    .case FUN_0603EAAA
-    .case FUN_0603E952
-    .case FUN_0603E952
-    .end_dispatch
 }

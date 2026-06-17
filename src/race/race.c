@@ -315,10 +315,12 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_06036764.c"
 #include "src/race/asm/FUN_06036790.c"
 #endif
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_060368D4.c"
 #include "src/race/asm/FUN_06036914.c"
 #include "src/race/asm/FUN_06036948.c"
 #include "src/race/asm/FUN_06036990.c"
+#endif
 #ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_06036A70.c"
 #else
@@ -422,6 +424,8 @@ int __race_shift_pad(void) asm {
 #ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0603C5CC.c"
 #else
+/* rts stub: FUN_0603CE88 registers FUN_0603C5CC as init's per-frame callback
+   (race modes 0-4), so the symbol must stay and no-op. Dead body stripped. */
 #include "mods/transplant/race/FUN_0603C5CC.c"
 #endif
 #ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
@@ -446,16 +450,20 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0603DB12.c"
 #endif
 #include "src/race/asm/FUN_0603DB9C.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603DC9C.c"
 #include "src/race/asm/FUN_0603DD18.c"
+#endif
 #include "src/race/asm/FUN_0603DDAE.c"
 #include "src/race/asm/FUN_0603DE68.c"
 #include "src/race/asm/FUN_0603DEBC.c"
 #include "src/race/asm/FUN_0603DEFC.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603DF28.c"
 #include "src/race/asm/FUN_0603DF84.c"
 #include "src/race/asm/FUN_0603E0BA.c"
 #include "src/race/asm/FUN_0603E14C.c"
+#endif
 #ifndef MOD_TRANSPLANT
 #include "src/race/asm/FUN_0603E340.c"
 #include "src/race/asm/FUN_0603E394.c"
@@ -463,9 +471,11 @@ int __race_shift_pad(void) asm {
 #include "mods/transplant/race/FUN_0603E340.c"
 #include "mods/transplant/race/FUN_0603E394.c"
 #endif
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603E3E8.c"
 #include "src/race/asm/FUN_0603E45C.c"
 #include "src/race/asm/FUN_0603E472.c"
+#endif
 #include "src/race/asm/FUN_0603E488.c"
 #include "src/race/asm/FUN_0603E4A4.c"
 #ifndef MOD_TRANSPLANT
@@ -476,13 +486,21 @@ int __race_shift_pad(void) asm {
 #ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0603E774.c"
 #endif
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603E7B0.c"
+/* FUN_0603E914: PARSER_GAP wrapper -> FUN_0603E952; only referencers are the
+   already-excluded FUN_0603CC68/CD32, so it drops with the cascade. */
 #include "src/race/asm/FUN_0603E914.c"
 #include "src/race/asm/FUN_0603E952.c"
+#endif
 #include "src/race/asm/FUN_0603E9A4.c"
 #include "src/race/asm/FUN_0603E9E2.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
+/* FUN_0603EA6C: PARSER_GAP wrapper -> FUN_0603EAAA; only referencers are the
+   already-excluded FUN_0603CC68/CD32. */
 #include "src/race/asm/FUN_0603EA6C.c"
 #include "src/race/asm/FUN_0603EAAA.c"
+#endif
 #include "src/race/asm/FUN_0603EBE2.c"
 #include "src/race/asm/FUN_0603EC40.c"
 #include "src/race/asm/FUN_0603EC54.c"
@@ -517,16 +535,21 @@ int __race_shift_pad(void) asm {
 #include "src/race/asm/FUN_0603F770.c"
 #include "src/race/asm/FUN_0603F7B8.c"
 #include "src/race/asm/FUN_0603F99C.c"
+#ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603F9E8.c"
 #include "src/race/asm/FUN_0603FA1E.c"
 #include "src/race/asm/FUN_0603FA54.c"
 #include "src/race/asm/FUN_0603FAA8.c"
 #include "src/race/asm/FUN_0603FABE.c"
+/* FUN_0603FAD4: PARSER_GAP; only referencer is the already-excluded FUN_0603C994. */
 #include "src/race/asm/FUN_0603FAD4.c"
 #include "src/race/asm/FUN_0603FAEA.c"
 #include "src/race/asm/FUN_0603FBD0.c"
+/* FUN_0603FBFC: PARSER_GAP wrapper (bsr FUN_0603FC10), only referencer is the
+   already-excluded FUN_0603C994; pulled into the cut so FC10 can go. */
 #include "src/race/asm/FUN_0603FBFC.c"
 #include "src/race/asm/FUN_0603FC10.c"
+#endif
 #ifndef MOD_TRANSPLANT /* dead-code deletion: T_UNREACH_RETAIL_DEAD */
 #include "src/race/asm/FUN_0603FC70.c"
 #include "src/race/asm/FUN_0603FC84.c"

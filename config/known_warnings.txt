@@ -8,6 +8,8 @@ transplant|PAD:_L_pool_0602C728:2
 transplant|PAD:_L_pool_0602E950:2
 transplant|PAD:_L_pool_06030E50:2
 transplant|PAD:_L_pool_0603DC4C:2
+transplant|PAD:_L_pool_0603DE4C:2
+transplant|PAD:_L_pool_0603EC18:2
 transplant|PAD:_L_pool_0603F71C:2
 transplant|PAD:_L_pool_06041118:2
 transplant|PAD:_L_pool_06045B80:2
