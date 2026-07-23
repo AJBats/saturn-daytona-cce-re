@@ -218,15 +218,62 @@ def pool_byte_set(rows):
     return masked
 
 
-def extract_refs(start, end):
-    """Disassemble [start,end] and return (call_targets, data_refs), each a dict
-    addr -> example source PC. call_targets are reg-tracked jsr/jmp targets + bsr
-    targets + cross-unit branch targets; data_refs are the other address-valued
-    pool words. Inline pool bytes are masked first; light per-basic-block
-    register tracking resolves jsr @rN."""
+def live_rows(seq, idx, start, end, entries=()):
+    """Linear-sweep reachability over the unmasked rows: which row indices can
+    execute, walking from the subseg start (+ recorded entries) through
+    fall-through and direct branch targets. Two hard rules: fall-through never
+    crosses a masked-pool hole (next pc must be pc+2), and the stream stops at
+    `.word` data and unconditional transfers (bra/jmp/braf/rts/rte). Computed
+    `jmp @rN` case bodies are NOT reached — callers must not require liveness
+    for evidence that legitimately lives there (pool loads, reg-tracked jsr).
+
+    Purpose: an unreferenced pool word can decode as a branch (0xAE11 ->
+    phantom `bra`) and pool_byte_set() only masks pool words some in-range
+    mov.l/mov.w names. Liveness is the second gate: branch evidence is only
+    trusted from rows that can actually execute."""
+    live = set()
+    work = [idx[a] for a in (start,) + tuple(entries) if a in idx]
+    while work:
+        i = work.pop()
+        if i in live or i >= len(seq):
+            continue
+        live.add(i)
+        pc, mnem, line = seq[i]
+        if mnem.startswith('.'):               # .word/.byte — data, stream dead
+            continue
+        contiguous = i + 1 < len(seq) and seq[i + 1][0] == pc + 2
+        m = BRANCH_RX.search(line)
+        if m:
+            tgt = int(m.group(2), 16)
+            if start <= tgt <= end and tgt in idx:
+                work.append(idx[tgt])
+            if m.group(1).startswith('bra'):   # unconditional: no fall-through
+                continue
+            if contiguous:                     # bsr/bt/bf fall through
+                work.append(i + 1)
+            continue
+        if mnem.startswith(('rts', 'rte', 'jmp', 'braf')):
+            continue                           # transfers away: no fall-through
+        if contiguous:
+            work.append(i + 1)
+    return live
+
+
+def extract_refs(start, end, entries=()):
+    """Disassemble [start,end] and return (call_targets, data_refs, phantoms),
+    each a dict addr -> example source PC. call_targets are reg-tracked jsr/jmp
+    targets + bsr targets + cross-unit branch targets; data_refs are the other
+    address-valued pool words; phantoms are bsr/bra refs whose site row is not
+    reachable (pool bytes decoding as branches — reported, never trusted).
+    Inline pool bytes are masked first; light per-basic-block register tracking
+    resolves jsr @rN. Pool/jsr evidence is taken from ALL rows (jmp @rN
+    switch-case bodies are unreachable to the linear walk but real)."""
     rows = objdump_rows(start, end)
     masked = pool_byte_set(rows)
-    call_targets, data_refs = {}, {}
+    seq = [(pc, mnem, line) for pc, mnem, line in rows if pc not in masked]
+    idx = {pc: i for i, (pc, _m, _l) in enumerate(seq)}
+    live = live_rows(seq, idx, start, end, entries)
+    call_targets, data_refs, phantoms = {}, {}, {}
     reg = {}                                   # regnum -> pool value
 
     def note(d, addr, pc):
@@ -273,19 +320,26 @@ def extract_refs(start, end):
         m = BRANCH_RX.search(line)
         if m:
             opb, tgt = m.group(1), int(m.group(2), 16)
+            site_live = idx.get(pc) in live
             if opb.startswith('bsr'):
-                note(call_targets, tgt, pc)
-                data_refs.pop(tgt, None)
-                clobber_caller_saved()
+                if site_live:
+                    note(call_targets, tgt, pc)
+                    data_refs.pop(tgt, None)
+                    clobber_caller_saved()
+                else:
+                    note(phantoms, tgt, pc)     # branch decoded from dead bytes
             elif opb.startswith('bra') and not (start <= tgt <= end):
-                note(call_targets, tgt, pc)     # bra out of unit = tail call
-                data_refs.pop(tgt, None)
+                if site_live:
+                    note(call_targets, tgt, pc)  # bra out of unit = tail call
+                    data_refs.pop(tgt, None)
+                else:
+                    note(phantoms, tgt, pc)
             continue                            # branches preserve registers
 
         if mnem.startswith('rts') or mnem.startswith('rte'):
             reg.clear()                         # function boundary
 
-    return call_targets, data_refs
+    return call_targets, data_refs, phantoms
 
 
 # --------------------------------------------------------------------------
@@ -351,6 +405,7 @@ def audit(anchors, verbose):
     internal_gaps = {}      # addr -> {'kind','refs':set()}
     midrefs = {}            # addr -> {'kind','sub_start','refs':set()}
     external = {}           # addr -> {'space','refs':set()}
+    phantom_refs = {}       # addr -> set((src_sub, pc)) — dead-byte branch decodes
 
     def record_ref(val, kind, src_sub, src_pc):
         """Classify a referenced address and file it."""
@@ -380,7 +435,10 @@ def audit(anchors, verbose):
         start = d['start']
         if start in closure:
             continue
-        call_targets, data_refs = extract_refs(start, d['end'])
+        call_targets, data_refs, phantoms = extract_refs(start, d['end'],
+                                                         d['entries'])
+        for tgt, pc in phantoms.items():
+            phantom_refs.setdefault(tgt, set()).add((start, pc))
         closure[start] = {
             'start': start, 'end': d['end'],
             'size': d['end'] - start + 1,
@@ -408,6 +466,7 @@ def audit(anchors, verbose):
         'internal_gaps': internal_gaps,
         'midrefs': midrefs,
         'external': external,
+        'phantom_refs': phantom_refs,
         'ported': ported,
         'ported_stamps': ported_stamps,
         'stamp_violations': stamp_violations,
@@ -449,6 +508,8 @@ def write_reports(res, anchors):
     L.append('| INTERNAL GAPS — data tables (funcfinder queue) | %d |' % len(data_gaps))
     L.append('| mid-subseg references (review) | %d |' % len(mids))
     L.append('| external refs (HWR-other / LWR globals) | %d |' % len(ext))
+    L.append('| phantom branch refs (dead bytes decoded as bsr/bra — excluded) | %d |'
+             % len(res['phantom_refs']))
     L.append('| **ported functions UNSTAMPED (invariant)** | **%d** |\n'
              % len(res['stamp_violations']))
 
@@ -514,6 +575,21 @@ def write_reports(res, anchors):
     if not gaps:
         L.append('_None — every referenced APROG address is stamped._\n')
 
+    if res['phantom_refs']:
+        L.append('## Suspected phantom branch refs (excluded from the queue)\n')
+        L.append('bsr/bra decodes whose site row is NOT reachable from its '
+                 'subseg start/entries — typically an unreferenced pool word '
+                 'that happens to decode as a branch (e.g. `0xAE11` → `bra`). '
+                 'Excluded from INTERNAL GAPS but listed here so a human can '
+                 'rescue one if the liveness walk was wrong (a genuine branch '
+                 'inside a `jmp @rN` switch-case body would land here too).\n')
+        L.append('| decoded target | decoded at | note |')
+        L.append('|---|---|---|')
+        for a in sorted(res['phantom_refs']):
+            L.append('| %s | %s | dead-byte branch decode |'
+                     % (sym(a), _reflist(res['phantom_refs'][a])))
+        L.append('')
+
     if mids:
         L.append('## Mid-subseg references (review)\n')
         L.append('Reference lands inside a stamped subseg but not at its start '
@@ -569,6 +645,8 @@ def write_reports(res, anchors):
             'kind': m['kind'], 'sub_start': '0x%08X' % m['sub_start']}
             for a, m in mids.items()},
         'external': {('0x%08X' % a): e['space'] for a, e in ext.items()},
+        'phantom_refs': {('0x%08X' % a): sorted('0x%08X' % s for s, _ in v)
+                         for a, v in res['phantom_refs'].items()},
     }
     open(OUT_JSON, 'w', encoding='utf-8').write(json.dumps(js, indent=2))
 
@@ -645,6 +723,10 @@ def main():
           % (code_gaps, data_gaps))
     print('  mid-subseg refs: %d   external refs: %d'
           % (len(res['midrefs']), len(res['external'])))
+    if res['phantom_refs']:
+        print('  phantom branch refs excluded (dead-byte decodes): %d  -> %s'
+              % (len(res['phantom_refs']),
+                 ', '.join(sym(a) for a in sorted(res['phantom_refs']))))
     print('  report: %s' % os.path.relpath(OUT_MD, CCE_ROOT))
 
     viol = res['stamp_violations']

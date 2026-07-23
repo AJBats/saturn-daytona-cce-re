@@ -2,8 +2,8 @@
 
 Mechanically derived from APROG.BIN bytes (objdump) over every funcfinder-stamped DUSA code subseg, reg-tracking the car pointer. Regenerate: `python3 tools/car_struct_audit.py` (WSL). Tool: `tools/car_struct_audit.py`.
 
-- stamped code subsegs scanned: **151** (ported **37**)
-- distinct car-struct offsets touched: **97** (written 73, read 81)
+- stamped code subsegs scanned: **182** (ported **37**)
+- distinct car-struct offsets touched: **98** (written 73, read 82)
 - **SEAM offsets (read by the port, produced by no ported function): 24**
 
 ## THE SEAM — fields the ported pipeline consumes but does not produce
@@ -16,8 +16,8 @@ Reconciled vs data_flow_chains.md: **6 FALSE-POSITIVE** (ported producer the reg
 
 | car offset | verdict | basis | ported readers |
 |---|---|---|---|
-| **+0x1C** | GENUINE | un-ported writer sym_0600E1D4 | sym_0602C8E2, sym_0602F5B6 |
-| **+0x24** | GENUINE | un-ported writer sym_0600E1D4 | sym_0602EFCC |
+| **+0x1C** | GENUINE | un-ported writer sym_06005ECC, sym_0600E1D4 | sym_0602C8E2, sym_0602F5B6 |
+| **+0x24** | GENUINE | un-ported writer sym_06005ECC, sym_0600E1D4 | sym_0602EFCC |
 | **+0x25C** | GENUINE | un-ported writer sym_06027CA4 | sym_0602CDF6 |
 | **+0x7C** | UNKNOWN | no documented producer (init / un-stamped subsystem) | sym_0602ECF2, sym_0602F71C |
 | **+0x9E** | UNKNOWN | no documented producer (init / un-stamped subsystem) | sym_0602ECF2, sym_0602FDA4 |
@@ -49,14 +49,14 @@ Per the audit rule: every write is potentially in play. Offsets written by un-po
 |---|---|---|---|
 | +0x0 | sym_0602D08A, sym_0602D43C | sym_0602D9F0, sym_0602F7EA | YES |
 | +0x8 | sym_0602F3EC | sym_0600C4F8, sym_0600E906 | YES |
-| +0xC | sym_0602D814 | sym_0600C4F8, sym_0600E1D4, sym_0600E906, sym_0602DB00 | YES |
+| +0xC | sym_0602D814 | sym_060081F4, sym_0600C4F8, sym_0600E1D4, sym_0600E906, sym_0602DB00 | YES |
 | +0x10 | sym_0602D8BC | sym_0600C5D6, sym_0600E1D4 | YES |
-| +0x14 | — | sym_0600C5D6 |  |
+| +0x14 | — | sym_06005ECC, sym_0600C5D6 |  |
 | +0x18 | sym_0602D8BC | sym_0600C5D6, sym_0600E1D4 | YES |
-| +0x1C | — | sym_0600E1D4 | YES |
+| +0x1C | — | sym_06005ECC, sym_0600E1D4 | YES |
 | +0x20 | sym_0602D8BC | sym_0600C5D6, sym_0600C74E, sym_0600E1D4, sym_0602E16C |  |
-| +0x24 | — | sym_0600E1D4 | YES |
-| +0x28 | sym_0602CDF6 | sym_0600C74E, sym_0600E1D4, sym_0600E7C8, sym_0602DB00 | YES |
+| +0x24 | — | sym_06005ECC, sym_0600E1D4 | YES |
+| +0x28 | sym_0602CDF6 | sym_060085B8, sym_0600C74E, sym_0600E1D4, sym_0600E7C8, sym_0602DB00, sym_06030A06 | YES |
 | +0x2C | sym_0602CDF6 | — | YES |
 | +0x30 | sym_0602CDF6 | sym_0600E1D4, sym_0600E7C8, sym_0600E906, sym_0602DB00 | YES |
 | +0x34 | — | sym_0600E1D4 |  |

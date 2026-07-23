@@ -83,7 +83,7 @@ def build_graph():
     callers = {}     # callee_start -> set(caller_start)
     callees = {}     # caller_start -> set(callee_start)
     for d in code:
-        ct, _ = cov.extract_refs(d['start'], d['end'])
+        ct, _, _ = cov.extract_refs(d['start'], d['end'], d.get('entries') or ())
         for tgt in ct:
             o = owner(tgt)
             if o is not None and o != d['start']:
