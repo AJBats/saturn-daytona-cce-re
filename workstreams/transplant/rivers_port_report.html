@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rivers of Data — Port Reconciliation</title>
+</head>
+<body>
+<style>
+  :root{
+    --ground:#0D141A; --panel:#141E26; --panel2:#18242E; --line:#243440;
+    --ink:#D9E2E8; --muted:#7C8B96; --faint:#4A5A66;
+    --river:#4FB8D8;
+    --ok:#5BC98A; --warn:#E0A93E; --crit:#E06D5D; --unk:#9B8CC9;
+    --mono:ui-monospace,'Cascadia Code','SF Mono',Consolas,Menlo,monospace;
+    --sans:system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--ground)}
+  body{
+    margin:0;color:var(--ink);font:15px/1.55 var(--sans);
+    background:linear-gradient(180deg,#0E161E 0%,#0D141A 340px,#0C1217 100%);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 28px 80px}
+  .eyebrow{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--river)}
+  h1{font:800 clamp(26px,4vw,36px)/1.15 var(--sans);letter-spacing:-.02em;margin:10px 0 6px;text-wrap:balance}
+  .sub{color:var(--muted);max-width:66ch;margin:0 0 6px}
+  .stamp{font:500 12px var(--mono);color:var(--faint)}
+  h2{font:700 19px/1.3 var(--sans);letter-spacing:-.01em;margin:0 0 4px;text-wrap:balance}
+  .sect{margin-top:44px}
+  .sect>p.lead{color:var(--muted);margin:2px 0 18px;max-width:74ch}
+  code,.addr{font:500 12.5px var(--mono);color:var(--ink)}
+  .addr{color:var(--river)}
+
+  /* verdict banner */
+  .verdict{
+    margin-top:30px;border:1px solid var(--line);border-left:4px solid var(--river);
+    background:var(--panel);border-radius:6px;padding:20px 24px;
+  }
+  .verdict b{color:var(--ink)}
+  .verdict p{margin:0;max-width:78ch;color:var(--ink)}
+  .verdict p+p{margin-top:10px;color:var(--muted)}
+
+  /* numbers strip */
+  .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+  .num{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+  .num .v{font:700 22px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+  .num .k{font:600 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+  .num.ok .v{color:var(--ok)} .num.warn .v{color:var(--warn)} .num.crit .v{color:var(--crit)} .num.unk .v{color:var(--unk)}
+
+  /* pills */
+  .pill{display:inline-block;font:700 10px/1 var(--mono);letter-spacing:.08em;padding:4px 8px;border-radius:3px;white-space:nowrap}
+  .pill.ok{background:rgba(91,201,138,.14);color:var(--ok)}
+  .pill.warn{background:rgba(224,169,62,.14);color:var(--warn)}
+  .pill.crit{background:rgba(224,109,93,.16);color:var(--crit)}
+  .pill.unk{background:rgba(155,140,201,.16);color:var(--unk)}
+  .pill.info{background:rgba(79,184,216,.13);color:var(--river)}
+
+  /* manifest scorecard */
+  .score{display:flex;flex-direction:column;gap:8px}
+  .row{
+    display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:start;
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:13px 16px;
+  }
+  .row .id{font:700 13px var(--mono);color:var(--faint);padding-top:2px}
+  .row .what b{display:block;font-size:14.5px}
+  .row .what span{color:var(--muted);font-size:13px;display:block;margin-top:3px;max-width:64ch}
+  .row .st{padding-top:2px;text-align:right}
+  .row .st small{display:block;font:500 11px var(--mono);color:var(--faint);margin-top:6px}
+  .row.s-ok{border-left:3px solid var(--ok)}
+  .row.s-warn{border-left:3px solid var(--warn)}
+  .row.s-crit{border-left:3px solid var(--crit)}
+  .row.s-unk{border-left:3px solid var(--unk)}
+
+  /* chains */
+  .chain{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:10px}
+  .chain .hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .chain .hd b{font-size:14.5px}
+  .chain .hd .note{font-size:12.5px;color:var(--muted)}
+  .flow{display:flex;align-items:center;gap:0;margin-top:11px;overflow-x:auto;padding-bottom:4px}
+  .node{
+    flex:0 0 auto;font:600 11.5px var(--mono);padding:6px 10px;border-radius:4px;
+    border:1px solid var(--line);background:var(--panel2);white-space:nowrap;
+  }
+  .node small{display:block;font-weight:500;font-size:10px;color:var(--muted);letter-spacing:.04em}
+  .node.ok{border-color:rgba(91,201,138,.5);color:var(--ok)}
+  .node.warn{border-color:rgba(224,169,62,.55);color:var(--warn)}
+  .node.crit{border-color:rgba(224,109,93,.6);color:var(--crit)}
+  .node.unk{border-color:rgba(155,140,201,.55);color:var(--unk)}
+  .node.dim{color:var(--muted)}
+  .link{flex:0 0 auto;width:26px;height:2px;background:var(--faint);position:relative}
+  .link.ok{background:rgba(91,201,138,.55)}
+  .link.crit{background:rgba(224,109,93,.65)}
+  .link.crit::after{content:'✕';position:absolute;top:-8px;left:8px;font:700 10px var(--mono);color:var(--crit)}
+
+  /* seam grid */
+  .band{margin-top:16px}
+  .band h3{font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px}
+  .band.b-ok h3{color:var(--ok)} .band.b-warn h3{color:var(--warn)} .band.b-unk h3{color:var(--unk)}
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
+  .chip{border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:8px 10px}
+  .chip .o{font:700 13px var(--mono)}
+  .chip small{display:block;font:500 10.5px var(--mono);color:var(--muted);margin-top:3px;line-height:1.45}
+  .b-ok .chip .o{color:var(--ok)} .b-warn .chip .o{color:var(--warn)} .b-unk .chip .o{color:var(--unk)}
+  .chip.hot{border-color:rgba(224,109,93,.55)}
+  .chip.hot .o{color:var(--crit)}
+
+  /* wrong list */
+  ol.wrong{margin:14px 0 0;padding:0;list-style:none;counter-reset:w}
+  ol.wrong li{
+    counter-increment:w;position:relative;padding:12px 16px 12px 52px;
+    background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-bottom:8px;max-width:100%;
+  }
+  ol.wrong li::before{
+    content:counter(w,decimal-leading-zero);position:absolute;left:16px;top:13px;
+    font:700 12px var(--mono);color:var(--faint);
+  }
+  ol.wrong b{font-size:14px}
+  ol.wrong p{margin:3px 0 0;color:var(--muted);font-size:13.5px;max-width:78ch}
+
+  /* path */
+  .path{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+  .step{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--river);border-radius:6px;padding:14px 16px}
+  .step .n{font:700 11px var(--mono);letter-spacing:.1em;color:var(--river)}
+  .step b{display:block;margin-top:6px;font-size:14px}
+  .step p{margin:5px 0 0;color:var(--muted);font-size:12.5px}
+  .step.done{border-top-color:var(--ok)} .step.done .n{color:var(--ok)}
+
+  .foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);font:500 11.5px var(--mono);line-height:1.7}
+  @media (prefers-reduced-motion:no-preference){ .chip,.node{transition:border-color .15s} }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">DUSA → CCE Transplant · Re-grounding Report · 2026-07-04</div>
+  <h1>Rivers of Data — what got ported, what didn't</h1>
+  <p class="sub">Reconciling the driving-model reverse engineering (<code>data_flow_chains.md</code> “Stream to Ocean” + <code>transplant_manifest.md</code>) against the actual port state, the funcfinder closure, and the car-struct seam audit.</p>
+  <p class="stamp">sources: SaturnReverseTest/workstreams/driving_model · DaytonaCCEReverse/workstreams/transplant · coverage_audit 2026-07-04 · car_struct_audit 2026-07-04</p>
+
+  <div class="verdict">
+    <p><b>The research was right, and it was never fully executed.</b> The manifest chose “Option 3 — bring DUSA physics + AI + track data + collision as a complete package,” and it explicitly marked the track/surface/segment functions <b>SHARED</b>. The port shipped <b>section 1a only</b> — the 18-call player pipeline — and “porting complete” got attached to that slice. The car didn’t move because Chain 4’s springs (13.1&nbsp;KB of track tables) and their shared readers were documented as <i>inputs</i> but never carried as <i>cargo</i>.</p>
+    <p>Everything since (seam audit, subsystem stamping, gap closure) has been re-deriving manifest sections 1b/1d from bytes — with funcfinder rigor the skeleton manifest never had. That’s why it feels non-mechanical: we’re not off the map, we’re surveying the parts of the map that were sketched but never walked.</p>
+  </div>
+
+  <div class="nums">
+    <div class="num ok"><div class="v">9.8 KB</div><div class="k">ported · 33 subsegs · boots</div></div>
+    <div class="num warn"><div class="v">18.3 KB</div><div class="k">closure not ported · 85 subsegs (upper bound)</div></div>
+    <div class="num crit"><div class="v">13.1 KB</div><div class="k">track data not landed (COL zeroed)</div></div>
+    <div class="num warn"><div class="v">13 + 5</div><div class="k">funcfinder gaps · code + data (was 23)</div></div>
+    <div class="num unk"><div class="v">24 / 15</div><div class="k">seam offsets / still unknown</div></div>
+    <div class="num"><div class="v">~8.0 KB</div><div class="k">race.bin headroom vs retail</div></div>
+  </div>
+
+  <div class="sect">
+    <h2>Manifest scorecard — the “complete package,” section by section</h2>
+    <p class="lead">Every section the ages-ago research enumerated, and where it stands today.</p>
+    <div class="score">
+      <div class="row s-ok">
+        <div class="id">§1a</div>
+        <div class="what"><b>Player physics pipeline — 18 calls</b>
+          <span>FDA4 input → EFF0 steering → F3EC drag → F5B6 surface → CA84 force accumulator → D814 speed → D8BC position, + tributaries. All 18 ported, data-homed, executing on the real ECF2 dispatcher in Mednafen.</span></div>
+        <div class="st"><span class="pill ok">PORTED · BOOTS</span><small>33 subsegs · 9.8 KB</small></div>
+      </div>
+      <div class="row s-warn">
+        <div class="id">§1b</div>
+        <div class="what"><b>AI pipeline + SHARED track/surface/segment</b>
+          <span>Per-car loop (E0C0/E71A…), and the functions the manifest itself flagged <b>SHARED</b> with the player: CA96 (surface), CD40 (segment), CEBA (segment advance). This is the “missing subsystem” the seam audit rediscovered via garbage <code>car[+0xC8]</code>.</span></div>
+        <div class="st"><span class="pill warn">STAMPED · NOT PORTED</span><small>the 2026-06 funcfinder islands</small></div>
+      </div>
+      <div class="row s-unk">
+        <div class="id">§1c</div>
+        <div class="what"><b>Collision — emergent, no detection code</b>
+          <span>Manifest: “as long as player + AI + shared track system are all transplanted, collisions work automatically.” A conditional promise — unverifiable until §1b + §2b land.</span></div>
+        <div class="st"><span class="pill unk">CONDITIONAL</span><small>depends on 1a+1b+2b</small></div>
+      </div>
+      <div class="row s-warn">
+        <div class="id">§1d</div>
+        <div class="what"><b>Frame orchestration</b>
+          <span>C010 orchestrator + DF20 player wrapper marked REQUIRED; rendering calls marked NOT NEEDED. Frame-loop frontier now stamped; port-vs-cut decision is exactly Phase 2’s poison gate (proven hazard: <code>06008318</code> in the “render” range writes seam field <code>+0xB8</code>).</span></div>
+        <div class="st"><span class="pill warn">STAMPED · CUT/PORT TBD</span><small>Phase-2 gate decides</small></div>
+      </div>
+      <div class="row s-ok">
+        <div class="id">§1e</div>
+        <div class="what"><b>Shared math — 57 functions</b>
+          <span>sin/cos/atan2/isqrt/fixed-point at 0x06027xxx. The player-pipeline subset is ported (self-contained, inline pools — §2d confirmed no external LUTs). Remainder rides in with §1b.</span></div>
+        <div class="st"><span class="pill ok">CORE PORTED</span><small>rest stamped, low risk</small></div>
+      </div>
+      <div class="row s-ok">
+        <div class="id">§2a</div>
+        <div class="what"><b>Physics lookup tables</b>
+          <span>Gear ratios/thresholds, traction constants, drift scaling, track-force bounds, button masks — homed into race.bin shims + COL (commits 69f2d01b, 3eddcdf5). <code>audit_dusa_data</code>: 0 un-homed.</span></div>
+        <div class="st"><span class="pill ok">HOMED</span><small>CP1 + CP2 complete</small></div>
+      </div>
+      <div class="row s-crit">
+        <div class="id">§2b</div>
+        <div class="what"><b>Track data — the springs of Chain 4</b>
+          <span>Surface/waypoint table 784×16 = 12,544 B + segment table 147×4 = 588 B, per track. Still <b>zeroed in the COL body</b> (phase-2 data). Root cause of “the car doesn’t move”: F5B6 dereferences a surface pointer nobody produced.</span></div>
+        <div class="st"><span class="pill crit">NOT LANDED</span><small>couples to coords + start grid</small></div>
+      </div>
+      <div class="row s-crit">
+        <div class="id">§2c</div>
+        <div class="what"><b>AI / shared tables</b>
+          <span>AI speed, collision-speed, gear-shift-timing tables (0x06045xxx) — sizes were still “dump needed” in the manifest. Untouched.</span></div>
+        <div class="st"><span class="pill crit">NOT LANDED</span><small>sizes still TBD</small></div>
+      </div>
+      <div class="row s-ok">
+        <div class="id">§3</div>
+        <div class="what"><b>Globals</b>
+          <span>Car pointers, car count, work-RAM blocks — homed for the ported set (DUSA_CAR_BLOCK, pad/btn blocks, ECF2 flag) via the homing map.</span></div>
+        <div class="st"><span class="pill ok">HOMED</span><small>for §1a scope</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>The seven chains — springs → rivers → ocean</h2>
+    <p class="lead">Chain status from the rivers doc mapped onto today’s port. Six of seven flow; the one that doesn’t is the one whose springs were never landed.</p>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 1 · Throttle → Speed → Position</b><span class="pill ok">FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">C button<small>spring</small></div><div class="link ok"></div>
+        <div class="node ok">FDA4 → +0x74<small>throttle ramp</small></div><div class="link ok"></div>
+        <div class="node ok">CA84 force accum<small>7-step formula</small></div><div class="link ok"></div>
+        <div class="node ok">D814 → +0x0C<small>speed</small></div><div class="link ok"></div>
+        <div class="node ok">D8BC → +0x10/+0x18<small>ocean · position</small></div>
+      </div>
+      <div class="hd" style="margin-top:8px"><span class="note">Caveat: formula input <code>+0x7C</code> (gear state) was “source unknown” in the doc — still unknown today (seam row).</span></div>
+    </div>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 2 · Steering → Heading</b><span class="pill ok">FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">LEFT/RIGHT<small>spring</small></div><div class="link ok"></div>
+        <div class="node ok">EFF0 deadzone<small>+0xAC → +0xB0</small></div><div class="link ok"></div>
+        <div class="node ok">F0E8 EMA<small>→ +0xD0</small></div><div class="link ok"></div>
+        <div class="node ok">CDF6 converge<small>→ +0x30</small></div><div class="link ok"></div>
+        <div class="node ok">D8BC copy<small>ocean · +0x20 heading</small></div>
+      </div>
+      <div class="hd" style="margin-top:8px"><span class="note">Caveat: CDF6 reads <code>+0x25C</code> (target angle) — producer <code>06027CA4</code> identified by the audit, un-ported (GENUINE seam).</span></div>
+    </div>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 3 · Brake → Deceleration</b><span class="pill ok">FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">B button<small>spring</small></div><div class="link ok"></div>
+        <div class="node ok">FDA4 → +0x90<small>brake ramp</small></div><div class="link ok"></div>
+        <div class="node ok">F0E8 copy<small>+0x94 → +0x84</small></div><div class="link ok"></div>
+        <div class="node ok">CA84 net force<small>throttle − brake</small></div>
+      </div>
+    </div>
+
+    <div class="chain" style="border-color:rgba(224,109,93,.4)">
+      <div class="hd"><b>Chain 4 · Surface / Track Data → Physics</b><span class="pill crit">BROKEN — THE ROOT CAUSE</span></div>
+      <div class="flow">
+        <div class="node crit">track tables<small>12,544 + 588 B · NOT LANDED</small></div><div class="link crit"></div>
+        <div class="node warn">CA96 surface<small>stamped · not ported</small></div><div class="link crit"></div>
+        <div class="node warn">CD40 segment<small>stamped · not ported</small></div><div class="link crit"></div>
+        <div class="node ok">F5B6 surface writer<small>ported · reads garbage</small></div><div class="link crit"></div>
+        <div class="node dim">+0xEC/F0/F4/11C<small>→ CA84 force formula</small></div>
+      </div>
+      <div class="hd" style="margin-top:8px"><span class="note">The doc knew: “FUN_0600CA96 (shared code, NOT in player pipeline).” Springs documented, cargo never shipped. Also the only physics code that reads position back (<code>+0x10</code>) — the loop that closes the model.</span></div>
+    </div>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 5 · Traction Feedback Loop</b><span class="pill ok">FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">D814 → +0xE0<small>gear-scaled speed</small></div><div class="link ok"></div>
+        <div class="node ok">CCEC traction<small>→ +0x110</small></div><div class="link ok"></div>
+        <div class="node ok">F17C gear FSM<small>tables homed</small></div><div class="link ok"></div>
+        <div class="node ok">CA84 next frame<small>loop closed</small></div>
+      </div>
+    </div>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 6 · Manual Gear</b><span class="pill ok">FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">UP/DOWN<small>spring</small></div><div class="link ok"></div>
+        <div class="node ok">FDA4 → +0xDE/+0xDC<small>lockstep write</small></div>
+      </div>
+    </div>
+
+    <div class="chain">
+      <div class="hd"><b>Chain 7 · Drag Accumulators</b><span class="pill warn">HALF-FLOWS</span></div>
+      <div class="flow">
+        <div class="node ok">F3EC drag<small>+0x48/+0x50</small></div><div class="link crit"></div>
+        <div class="node warn">shared system<small>CA96/C928 · not ported</small></div><div class="link crit"></div>
+        <div class="node dim">surface energy<small>indirect force path</small></div>
+      </div>
+      <div class="hd" style="margin-top:8px"><span class="note">Drag is computed but its effect routes through the un-ported shared system — currently a river into sand.</span></div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>The seam — 24 fields the port reads that nobody ported writes</h2>
+    <p class="lead">From <code>car_struct_audit.py</code> (re-run 2026-07-04). The 15 UNKNOWNs are the open question your “other subsystems” instinct points at — each is either an init-once value, a stamped-but-unported writer, or a subsystem we haven't met.</p>
+    <div class="band b-ok">
+      <h3>6 · false positives — ported producer exists, reg-tracker missed it</h3>
+      <div class="chips">
+        <div class="chip"><span class="o">+0x50</span><small>F3EC drag accum</small></div>
+        <div class="chip"><span class="o">+0x68</span><small>F0E8 state copy</small></div>
+        <div class="chip"><span class="o">+0xC0</span><small>CCEC traction out</small></div>
+        <div class="chip"><span class="o">+0x100</span><small>EFCC sin(roll)</small></div>
+        <div class="chip"><span class="o">+0x104</span><small>EFCC cos(roll)</small></div>
+        <div class="chip"><span class="o">+0x140</span><small>C690 force-mag X</small></div>
+      </div>
+    </div>
+    <div class="band b-warn">
+      <h3>3 · genuine — producer known, un-ported (= real work)</h3>
+      <div class="chips">
+        <div class="chip"><span class="o">+0x1C</span><small>AI loop 0600E1D4 · read by C8E2, F5B6</small></div>
+        <div class="chip"><span class="o">+0x24</span><small>AI loop 0600E1D4 · roll → EFCC sin/cos</small></div>
+        <div class="chip"><span class="o">+0x25C</span><small>06027CA4 · target angle → CDF6</small></div>
+      </div>
+    </div>
+    <div class="band b-unk">
+      <h3>15 · unknown — no documented producer · the discovery frontier</h3>
+      <div class="chips">
+        <div class="chip"><span class="o">+0x7C</span><small>rivers: “source unknown” (explicit)</small></div>
+        <div class="chip hot"><span class="o">+0xB8</span><small>gated by F0E8, untraced · frame-loop 06008318 writes it (poison exemplar)</small></div>
+        <div class="chip"><span class="o">+0x1BC</span><small>gated by F0E8, untraced · 06008640 r/w</small></div>
+        <div class="chip"><span class="o">+0x250</span><small>drift gate/counter — used, producer untraced</small></div>
+        <div class="chip"><span class="o">+0xD6</span><small>proximity counter (named, no producer)</small></div>
+        <div class="chip"><span class="o">+0x9E</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0xCC</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0xCE</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0xE4</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0xF8</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0x120</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0x124</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0x128</span><small>not in rivers doc</small></div>
+        <div class="chip"><span class="o">+0x150</span><small>not in rivers doc · read by CA84 + 06030EE0</small></div>
+        <div class="chip"><span class="o">+0x252</span><small>not in rivers doc</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <h2>What the research got wrong — the honest list</h2>
+    <ol class="wrong">
+      <li><b>“All gaps CLOSED” was a comprehension claim, not a port manifest.</b>
+        <p>It meant “we understand how position/heading are computed.” The springs’ <i>producers</i> (shared code, track tables) sat outside that scope by design — correct as documentation, fatal as a shipping list.</p></li>
+      <li><b>The dispatcher was a Ghidra ghost.</b>
+        <p>Manifest names FUN_0602EEB8 as the pipeline dispatcher; it’s a mid-prologue artifact. The true external entry is <span class="addr">0x0602ECF2</span> (found during the port; corrected in the audit tooling).</p></li>
+      <li><b>Execution stopped at §1a and nobody flagged it.</b>
+        <p>Option 3 said “complete package”; Steps 1–11 built up the player pipeline only, and “porting complete” got declared at the §1a boundary. The manifest’s own SHARED markers were the warning that went unread.</p></li>
+      <li><b>The byte-closure keeps finding structure the manifest never saw.</b>
+        <p>The 0601D5F4 tail-call dispatcher cluster (“unknown game system”), sibling handlers 06008730/060086C0, the 06026xxx cluster, hidden thunk 06030EFC, tail-call target 06036068. Skeleton status (“sizes TBD, PENDING”) was real — it was never funcfinder-verified.</p></li>
+      <li><b>The 20fps→30fps ×2/3 scaling catalog is dead weight.</b>
+        <p>Not wrong — superseded. The embedded-DUSA design runs the model at its native 20&nbsp;Hz tick, so per-frame constants stay untouched. Ignore that section when porting.</p></li>
+      <li><b>“Collision is emergent” is still a hypothesis.</b>
+        <p>Plausible, empirically motivated — and untestable until AI cars + shared track system + track data all exist on the CCE side.</p></li>
+    </ol>
+  </div>
+
+  <div class="sect">
+    <h2>Path back to mechanical</h2>
+    <p class="lead">The port felt mechanical when the map was trusted. It becomes mechanical again when the three convergence criteria close.</p>
+    <div class="path">
+      <div class="step done"><div class="n">DONE</div><b>Subsystem stamped</b><p>Round-1 islands: 23 gaps → 13. Closure 89 → 118 subsegs. Commits 1d34f0a0, 566fa78e.</p></div>
+      <div class="step"><div class="n">STEP 1</div><b>Close criterion 1</b><p>Round-2 islands: 13 code + 5 data gaps (only new territory: 0x06026xxx). Internal gaps → 0.</p></div>
+      <div class="step"><div class="n">STEP 2</div><b>Resolve the 15 unknowns</b><p>Write census + runtime watchpoints per seam field → every producer named or confirmed init/external. Answers “are there more subsystems?” with evidence.</p></div>
+      <div class="step"><div class="n">STEP 3</div><b>Build the Phase-2 poison gate</b><p>Whole-memory homing inventory → every read homed, every write classified. Produces the true cut list (shrinks 18.3 KB) and the true data budget.</p></div>
+      <div class="step"><div class="n">STEP 4</div><b>Then — and only then — resize CCE</b><p>Reopen the deletion campaign against real numbers (~19.8 KB retail-dead mine waiting) and land track data in the COL.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    rivers of data = SaturnReverseTest/workstreams/driving_model/data_flow_chains.md · manifest = transplant_manifest.md<br>
+    port truth = DaytonaCCEReverse coverage_audit.md + car_struct_audit.md (regenerate under WSL) · convergence = subsystem_completeness_handoff.md
+  </div>
+</div>
+</body>
+</html>
