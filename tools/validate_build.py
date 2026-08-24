@@ -40,17 +40,24 @@ REBUILT_CUE = os.path.join(
 )
 
 
-def wsl_path(win_path):
-    drive = win_path[0].lower()
-    rest = win_path[2:].replace("\\", "/")
+def wsl_path(path):
+    """Map a Windows path to its WSL mount. Identity when already on Linux."""
+    if sys.platform.startswith("linux"):
+        return path
+    drive = path[0].lower()
+    rest = path[2:].replace("\\", "/")
     return f"/mnt/{drive}{rest}"
 
 
 def run_wsl(cmd, timeout=300):
-    """Run a command in WSL, return (returncode, stdout, stderr)."""
+    """Run a command in WSL (directly when already inside WSL/Linux),
+    return (returncode, stdout, stderr)."""
+    if sys.platform.startswith("linux"):
+        argv = ["bash", "-c", cmd]
+    else:
+        argv = ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", cmd]
     result = subprocess.run(
-        ["wsl", "-d", "Ubuntu", "-e", "bash", "-c", cmd],
-        capture_output=True, text=True, timeout=timeout,
+        argv, capture_output=True, text=True, timeout=timeout,
     )
     return result.returncode, result.stdout, result.stderr
 

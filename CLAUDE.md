@@ -5,7 +5,7 @@
 **Dual-binary transplant project.**
 
 - **Source**: Daytona USA CCE (Circuit Edition, 1996) — Saturn port
-- **Donor**: Daytona USA (1995) — Saturn port (see `D:/Projects/SaturnReverseTest`)
+- **Donor**: Daytona USA (1995) — Saturn port (see sibling project `../SaturnReverseTest`)
 
 Goal: transplant the '95 driving model (physics, AI, car dynamics) into the CCE binary,
 preserving CCE's higher-quality graphics engine while restoring '95-authentic gameplay.
@@ -33,8 +33,13 @@ root. The pre-reboot world is frozen under `archive_src/` (see Legacy below).
 - **Root `Makefile`** — the saturncc hybrid build. Run from WSL:
   `race.c → cpp → rcc (saturncc) → sh-elf-as → sh-elf-ld → objcopy → build/race/race.bin`,
   byte-identical to retail. Requires the saturncc release artifact at
-  `/mnt/d/Projects/saturncc/build/release/rcc` (stamped via that repo's
-  `saturn/tools/release.sh`).
+  `../saturncc/build/release/rcc` (sibling repo; override with
+  `make SATURNCC=/path`; stamped via that repo's `saturn/tools/release.sh`).
+
+All sibling projects (`saturncc`, `SaturnAutoRE`, `SaturnReverseTest`) live
+next to this repo — currently `/mnt/wsl/usbssd/Projects/` (ext4 USB drive in
+WSL). The automation Mednafen is a Windows exe run via WSL interop; it reads
+the ext4 mount fine.
 - **Other 7 modules** are not yet rebuilt from source — validation picks them
   up from `build/<mod>/<mod>.bin` (retail bytes from disc extraction) until
   their `config/<mod>.bin.yaml` files are authored.

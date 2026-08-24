@@ -2,9 +2,9 @@
   "mcpServers": {
     "mednafen": {
       "type": "stdio",
-      "command": "python",
+      "command": "python3",
       "args": [
-        "D:/Projects/SaturnAutoRE/mednafen/mcp_server.py",
+        "../SaturnAutoRE/mednafen/mcp_server.py",
         "--ipc-dir",
         "build/mcp_ipc",
         "--home-dir",

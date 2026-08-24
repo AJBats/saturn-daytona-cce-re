@@ -93,8 +93,8 @@ do_status() {
         miss "sh-elf-gcc not built"
     fi
 
-    # SaturnAutoRE (Mednafen debug emulator)
-    SATURN_AUTO_RE="D:/Projects/SaturnAutoRE"
+    # SaturnAutoRE (Mednafen debug emulator) — sibling of this project
+    SATURN_AUTO_RE="$(dirname "$PROJ_ROOT")/SaturnAutoRE"
     if [ -d "$SATURN_AUTO_RE/mednafen" ]; then
         ok "SaturnAutoRE Mednafen ($SATURN_AUTO_RE/mednafen/)"
     else
@@ -300,7 +300,8 @@ do_setup() {
 
     step "5. Debug emulator (SaturnAutoRE Mednafen)"
 
-    SATURN_AUTO_RE="D:/Projects/SaturnAutoRE"
+    # Sibling of this project
+    SATURN_AUTO_RE="$(dirname "$PROJ_ROOT")/SaturnAutoRE"
 
     if [ -d "$SATURN_AUTO_RE/mednafen" ]; then
         ok "SaturnAutoRE found at $SATURN_AUTO_RE"

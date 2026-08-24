@@ -29,16 +29,18 @@
 PROJDIR := $(shell pwd)
 TOOLDIR := $(PROJDIR)/tools/sh-elf/bin
 SPLITTER := $(PROJDIR)/tools/splitter.py
+# saturncc repo — a sibling of this project (override: make SATURNCC=/path ...)
+SATURNCC ?= $(abspath $(PROJDIR)/../saturncc)
 # sh-elf-as via the saturncc pad-tripwire wrapper: assembles identically,
 # then reports any materialized .balign pads to stderr (silent at zero,
 # the expected free-build state). SATURNCC_PAD_STRICT=1 turns pads into
 # build failures for byte-identity gates.
-AS := SATURNCC_AS=$(TOOLDIR)/sh-elf-as SH_NM=$(TOOLDIR)/sh-elf-nm SH_OBJDUMP=$(TOOLDIR)/sh-elf-objdump bash /mnt/d/Projects/saturncc/saturn/tools/as_pad_wrap.sh
+AS := SATURNCC_AS=$(TOOLDIR)/sh-elf-as SH_NM=$(TOOLDIR)/sh-elf-nm SH_OBJDUMP=$(TOOLDIR)/sh-elf-objdump bash $(SATURNCC)/saturn/tools/as_pad_wrap.sh
 LD := $(TOOLDIR)/sh-elf-ld
 OBJCOPY := $(TOOLDIR)/sh-elf-objcopy
 PYTHON := python3
 # saturncc rubber-stamped release artifact (never the working tree's build/rcc).
-RCC := /mnt/d/Projects/saturncc/build/release/rcc
+RCC := $(SATURNCC)/build/release/rcc
 
 CONFIG_DIR := $(PROJDIR)/config
 ASM_DIR := $(PROJDIR)/asm

@@ -47,6 +47,26 @@ TRACE = [
 SCREENSHOT_FRAME = 1990
 
 
+def make_isolated_home():
+    """Per-run emulator home: curated cfg + BIOS, fresh save state.
+
+    Runs must not share battery-backup/SMPC saves (attract-mode state lives
+    in backup RAM) or the boot timeline diverges between runs."""
+    src = os.path.join(AUTORE_DIR, "mednafen", "home")
+    home = os.path.join(PROJECT, "build", "screenshot_test_home")
+    os.makedirs(os.path.join(home, "firmware"), exist_ok=True)
+    shutil.copy2(os.path.join(src, "mednafen.cfg"), home)
+    for f in os.listdir(os.path.join(src, "firmware")):
+        shutil.copy2(os.path.join(src, "firmware", f),
+                     os.path.join(home, "firmware", f))
+    # Wipe mutable per-run state left by previous test runs
+    sav = os.path.join(home, "sav")
+    if os.path.isdir(sav):
+        for f in os.listdir(sav):
+            os.remove(os.path.join(sav, f))
+    return home
+
+
 def main():
     parser = argparse.ArgumentParser(description="CCE screenshot boot test")
     parser.add_argument("cue",
@@ -92,12 +112,21 @@ def main():
     print(f"Screenshot at frame {SCREENSHOT_FRAME}")
 
     # Launch
-    bot = MednafenBot(ipc_dir, args.cue, show=args.show, verbose=args.verbose)
+    bot = MednafenBot(ipc_dir, args.cue, show=args.show, verbose=args.verbose,
+                      home_dir=make_isolated_home())
     print("Launching Mednafen...", end="", flush=True)
     if not bot.start():
         print(" FAIL: Mednafen did not start")
         sys.exit(1)
     print(" ready")
+
+    # Fixed RTC seed — without this the Saturn clock comes from host wall
+    # time and the BIOS/attract timeline diverges run to run (flaky compares).
+    if bot.send_and_wait("deterministic", "ok deterministic") is None:
+        print("FAIL: could not enable deterministic mode")
+        bot.quit()
+        sys.exit(1)
+    print("Deterministic mode (fixed RTC)")
 
     if args.show:
         bot.send_and_wait("show_window", "ok show_window")
