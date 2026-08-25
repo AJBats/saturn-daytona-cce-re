@@ -6,13 +6,13 @@ Mechanically derived from APROG.BIN instruction bytes (objdump) diffed against f
 
 | metric | count |
 |---|---|
-| stamped code subsegs in closure | 119 |
+| stamped code subsegs in closure | 130 |
 | …already ported into CCE | 33 |
-| INTERNAL GAPS — code targets (funcfinder queue) | 12 |
-| INTERNAL GAPS — data tables (funcfinder queue) | 5 |
-| mid-subseg references (review) | 71 |
-| external refs (HWR-other / LWR globals) | 121 |
-| phantom branch refs (dead bytes decoded as bsr/bra — excluded) | 11 |
+| INTERNAL GAPS — code targets (funcfinder queue) | 6 |
+| INTERNAL GAPS — data tables (funcfinder queue) | 0 |
+| mid-subseg references (review) | 80 |
+| external refs (HWR-other / LWR globals) | 129 |
+| phantom branch refs (dead bytes decoded as bsr/bra — excluded) | 13 |
 | **ported functions UNSTAMPED (invariant)** | **0** |
 
 ## Ported-function stamp check (invariant)
@@ -83,28 +83,12 @@ Addresses inside APROG that ported/closure code references but that land in **no
 
 | target | referenced by | note |
 |---|---|---|
-| **sym_06008460** | sym_0603053C@6030870, sym_06030A9C@6030B1C | call target with no boundary |
-| **sym_060084CA** | sym_06008418@6008456 | call target with no boundary |
-| **sym_060086C0** | sym_06008640@6008688 | call target with no boundary |
-| **sym_06008730** | sym_060085B8@60085F6, sym_06008640@6008656 | call target with no boundary |
-| **sym_0601DB84** | sym_0601D5F4@601D610, sym_0601D6D4@601D6E2, sym_0601D6F8@601D706, sym_0601D72C@601D73A … | call target with no boundary |
-| **sym_06026DBC** | sym_06005ECC@6005EF2, sym_060061C8@60061DC | call target with no boundary |
-| **sym_06026E0C** | sym_06005ECC@6005EF8, sym_060061C8@60061E2 | call target with no boundary |
-| **sym_06026EDE** | sym_06005ECC@6005F04, sym_060061C8@60061E8 | call target with no boundary |
-| **sym_06026FFC** | sym_06005ECC@6005F0C, sym_060061C8@60061F2 | call target with no boundary |
-| **sym_060322E8** | sym_0603226C@60322B8 | call target with no boundary |
-| **sym_06032304** | sym_0603226C@603227E | call target with no boundary |
-| **sym_06036068** | sym_06035340@603536A | call target with no boundary |
-
-### Data tables (referenced, unstamped)
-
-| address | referenced by | note |
-|---|---|---|
-| **sym_06030F1C** | sym_0603053C@6030748 | data pointer with no boundary |
-| **sym_06030F74** | sym_0603053C@6030858 | data pointer with no boundary |
-| **sym_06030F98** | sym_0603053C@603085C | data pointer with no boundary |
-| **sym_06030FBC** | sym_0603053C@603062E, sym_06030A9C@6030B50 | data pointer with no boundary |
-| **sym_06030FBE** | sym_0603053C@6030542, sym_06030A9C@6030B02 | data pointer with no boundary |
+| **sym_060084CA** | sym_06008418@6008456, sym_06008460@600849E | call target with no boundary |
+| **sym_0603253C** | sym_06032304@60324F6 | call target with no boundary |
+| **sym_06032584** | sym_06032304@6032506 | call target with no boundary |
+| **sym_0603268C** | sym_06032304@60324FE | call target with no boundary |
+| **sym_06032E6C** | sym_06032304@60324EE | call target with no boundary |
+| **sym_06032EA4** | sym_06032304@6032532 | call target with no boundary |
 
 ## Suspected phantom branch refs (excluded from the queue)
 
@@ -123,6 +107,8 @@ bsr/bra decodes whose site row is NOT reachable from its subseg start/entries �
 | sym_0602F95E | sym_0602F99C@602FD38 | dead-byte branch decode |
 | sym_0603072E | sym_06030A9C@6030B7E | dead-byte branch decode |
 | sym_06030DFE | sym_0603053C@603093E | dead-byte branch decode |
+| sym_060321C0 | sym_06032304@60323E6 | dead-byte branch decode |
+| sym_06032E18 | sym_06032304@60323B4 | dead-byte branch decode |
 
 ## Mid-subseg references (review)
 
@@ -154,11 +140,17 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_0602FDA0 | sym_0602F99C | data | sym_0602F99C@602FB70 |
 | sym_0602FDA1 | sym_0602F99C | data | sym_0602ECF2@602ED18, sym_0602F99C@602FB3E |
 | sym_06030B68 | sym_06030A9C | code | sym_0603053C@6030636 |
+| sym_06030F74 | sym_06030F1C | data | sym_0603053C@6030858 |
+| sym_06030F98 | sym_06030F1C | data | sym_0603053C@603085C |
+| sym_06030FBC | sym_06030F1C | data | sym_0603053C@603062E, sym_06030A9C@6030B50 |
+| sym_06030FBE | sym_06030F1C | data | sym_0603053C@6030542, sym_06030A9C@6030B02 |
+| sym_06032334 | sym_06032304 | code | sym_06032304@6032370 |
 | sym_060351C4 | sym_06035168 | code | sym_06035168@6035174 |
 | sym_06035260 | sym_06035228 | data | sym_06035280@603528C |
 | sym_060352AA | sym_06035280 | code | sym_06035280@6035296 |
 | sym_06035338 | sym_06035280 | data | sym_06035340@6035352 |
 | sym_060353BE | sym_06035340 | code | sym_06035340@603535E |
+| sym_06036086 | sym_0603605C | code | sym_0603605C@6036072 |
 | sym_06044640 | sym_06042CBC | data | sym_06005ECC@6005F10, sym_060061C8@60061F8 |
 | sym_0604464C | sym_06042CBC | data | sym_06005ECC@6005F08, sym_060061C8@60061F0 |
 | sym_06044658 | sym_06042CBC | data | sym_06005ECC@6005F18, sym_060061C8@6006200 |
@@ -169,6 +161,7 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_060446A0 | sym_06042CBC | data | sym_06005ECC@6005F48 |
 | sym_060446AC | sym_06042CBC | data | sym_06005ECC@60060B0 |
 | sym_060453B4 | sym_06042CBC | data | sym_06008418@6008450, sym_06008640@6008698 |
+| sym_060453BC | sym_06042CBC | data | sym_06008460@6008498 |
 | sym_060453C4 | sym_06042CBC | data | sym_06008640@6008686 |
 | sym_060453CC | sym_06042CBC | data | sym_06008318@6008332 |
 | sym_0604540C | sym_06042CBC | data | sym_060081F4@6008228 |
@@ -184,6 +177,7 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_060477D8 | sym_06042CBC | data | sym_0602F474@602F49C |
 | sym_060477EC | sym_06042CBC | data | sym_0600C4F8@600C53C |
 | sym_0604A50C | sym_06042CBC | data | sym_0601D7D0@601D7FE |
+| sym_0605A016 | sym_06042CBC | data | sym_06008730@6008880 |
 | sym_0605A1C4 | sym_06042CBC | data | sym_0602D9F0@602DA88, sym_0602DB00@602DB94, sym_0602E16C@602E3B4 |
 | sym_0605A1D0 | sym_06042CBC | data | sym_0602E16C@602E3A0 |
 | sym_0605A1E0 | sym_06042CBC | data | sym_0600C970@600C984 |
@@ -201,6 +195,7 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_06061240 | sym_06042CBC | data | sym_06027CA4@6027D18, sym_06027EDE@6027F48 |
 | sym_06061270 | sym_06042CBC | data | sym_06027CA4@6027CE6, sym_06027EDE@6027F20 |
 | sym_0606128A | sym_06042CBC | data | sym_06027CA4@6027EB0 |
+| sym_060623B0 | sym_06042CBC | data | sym_06032304@6032304 |
 
 ## Closure — stamped code subsegs reachable from anchors
 
@@ -212,8 +207,11 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_060081F4 | 292 | — | 2 | 5 | — |
 | sym_06008318 | 256 | — | 1 | 4 | — |
 | sym_06008418 | 72 | — | 2 | 3 | — |
+| sym_06008460 | 106 | — | 2 | 3 | — |
 | sym_060085B8 | 136 | — | 1 | 5 | — |
 | sym_06008640 | 128 | — | 2 | 5 | — |
+| sym_060086C0 | 112 | — | 2 | 3 | — |
+| sym_06008730 | 412 | — | 0 | 6 | — |
 | sym_0600A8BC | 88 | — | 0 | 2 | — |
 | sym_0600C4F8 | 222 | — | 1 | 4 | — |
 | sym_0600C5D6 | 376 | — | 11 | 5 | — |
@@ -267,6 +265,11 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_0601D778 | 36 | — | 1 | 2 | — |
 | sym_0601D79C | 52 | — | 1 | 3 | — |
 | sym_0601D7D0 | 480 | — | 1 | 11 | — |
+| sym_0601DB84 | 26 | — | 0 | 1 | — |
+| sym_06026DBC | 60 | — | 0 | 1 | — |
+| sym_06026E02 | 44 | — | 0 | 2 | sym_06026E0C |
+| sym_06026EDE | 76 | — | 1 | 2 | — |
+| sym_06026FFC | 60 | — | 0 | 2 | — |
 | sym_06027344 | 20 | ✓ | 0 | 1 | sym_06027348 |
 | sym_06027358 | 32 | ✓ | 0 | 1 | — |
 | sym_06027378 | 212 | ✓ | 0 | 1 | — |
@@ -317,6 +320,8 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_06030A9C | 1092 | — | 4 | 11 | — |
 | sym_06030EE0 | 28 | — | 0 | 1 | — |
 | sym_0603226C | 124 | — | 2 | 0 | — |
+| sym_060322E8 | 28 | — | 0 | 2 | — |
+| sym_06032304 | 568 | — | 7 | 6 | — |
 | sym_06033020 | 92 | — | 0 | 2 | — |
 | sym_06034900 | 132 | — | 1 | 1 | — |
 | sym_06034F78 | 104 | — | 0 | 0 | — |
@@ -325,6 +330,7 @@ Reference lands inside a stamped subseg but not at its start or a recorded entry
 | sym_06035228 | 88 | — | 0 | 0 | — |
 | sym_06035280 | 192 | — | 1 | 1 | — |
 | sym_06035340 | 248 | — | 2 | 1 | — |
+| sym_0603605C | 160 | — | 1 | 1 | sym_06036068 |
 
 ## External references (catalog — outside APROG)
 
@@ -368,10 +374,11 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_06063F4A | HWR-ext | sym_0602FDA4@602FFA8 |
 | sym_06063F50 | HWR-ext | sym_06027CA4@6027D1C, sym_06027EDE@6027F4C |
 | sym_06078634 | HWR-ext | sym_0600DE70@600DF24 |
-| sym_06078635 | HWR-ext | sym_0600DE70@600DEDC, sym_0600E4F2@600E5A4 |
+| sym_06078635 | HWR-ext | sym_06008730@600886A, sym_0600DE70@600DEDC, sym_0600E4F2@600E5A4 |
 | sym_06078644 | HWR-ext | sym_0600DB9E@600DBB6 |
 | sym_06078654 | HWR-ext | sym_060085B8@6008606 |
 | sym_06078663 | HWR-ext | sym_0602FDA4@6030050 |
+| sym_0607866C | HWR-ext | sym_06008730@6008866 |
 | sym_0607866D | HWR-ext | sym_0603053C@6030758, sym_06030A9C@6030AD8 |
 | sym_06078680 | HWR-ext | sym_0600C5D6@600C5EA, sym_0600C74E@600C758 |
 | sym_06078698 | HWR-ext | sym_0600DA7C@600DA86, sym_0600DB9E@600DBAA |
@@ -392,7 +399,7 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_06078900 | HWR-ext | sym_0600DE70@600DEA6, sym_0600E0C0@600E0D4, sym_0600E4F2@600E510 |
 | sym_06078B68 | HWR-ext | sym_0600DFD0@600DFE6, sym_0600E060@600E078 |
 | sym_0607E940 | HWR-ext | sym_060061C8@60061D2, sym_06008318@600831A, sym_060085B8@60085BC, sym_06008640@6008640 … |
-| sym_0607E944 | HWR-ext | sym_06005ECC@6005EE6, sym_060081F4@60081F8, sym_06008418@600841C, sym_0600C5D6@600C634 … |
+| sym_0607E944 | HWR-ext | sym_06005ECC@6005EE6, sym_060081F4@60081F8, sym_06008418@600841C, sym_06008460@6008464 … |
 | sym_0607E948 | HWR-ext | sym_0600DFD0@600DFE8, sym_0600E060@600E07A, sym_0600E4F2@600E514, sym_0602F4B4@602F4D8 … |
 | sym_0607EA98 | HWR-ext | sym_0600DE40@600DE42, sym_0600DE54@600DE56, sym_0600DE70@600DE8E, sym_0600DF66@600DF68 … |
 | sym_0607EA9C | HWR-ext | sym_0600CD40@600CDA4, sym_0600CDD0@600CE0C, sym_0600CEBA@600CF0A, sym_0600D780@600D79E … |
@@ -409,15 +416,17 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_0607EAEC | HWR-ext | sym_06030A06@6030A74 |
 | sym_0607EB84 | HWR-ext | sym_0600CE66@600CEA2, sym_0600CEBA@600CEC0 |
 | sym_0607EB88 | HWR-ext | sym_0600C994@600C9AA, sym_0600CA96@600CAE4, sym_0600CC38@600CC90, sym_0600EA18@600EA82 |
-| sym_0607EBC4 | HWR-ext | sym_060081F4@6008278, sym_06008418@6008428, sym_060085B8@6008608, sym_06008640@600867A … |
-| sym_0607EBD0 | HWR-ext | sym_06008318@6008378, sym_06008640@600868C, sym_0600CEBA@600CF20, sym_0600DCC8@600DD34 … |
+| sym_0607EBBC | HWR-ext | sym_06008730@600881C |
+| sym_0607EBC4 | HWR-ext | sym_060081F4@6008278, sym_06008418@6008428, sym_06008460@6008470, sym_060085B8@6008608 … |
+| sym_0607EBD0 | HWR-ext | sym_06008318@6008378, sym_06008640@600868C, sym_060086C0@60086C4, sym_0600CEBA@600CF20 … |
 | sym_0607EBD4 | HWR-ext | sym_060081F4@6008206, sym_060085B8@60085CA |
 | sym_0607EBDC | HWR-ext | sym_0600C5D6@600C5E6 |
 | sym_0607EBE0 | HWR-ext | sym_06008318@6008392 |
+| sym_0607EBEC | HWR-ext | sym_060086C0@6008708 |
 | sym_0607EBF4 | HWR-ext | sym_0600D92C@600D944 |
 | sym_0607EBF8 | HWR-ext | sym_0600D92C@600D974 |
 | sym_0607ED88 | HWR-ext | sym_0600DE70@600DE88, sym_0602FDA4@603006A, sym_060302C6@6030438 |
-| sym_0607ED8C | HWR-ext | sym_0600DE70@600DE84, sym_0602FDA4@602FDC0, sym_060302C6@60302E2 |
+| sym_0607ED8C | HWR-ext | sym_06008730@6008874, sym_0600DE70@600DE84, sym_0602FDA4@602FDC0, sym_060302C6@60302E2 |
 | sym_0607ED90 | HWR-ext | sym_0602FDA4@6030068, sym_060302C6@6030436 |
 | sym_06081888 | HWR-ext | sym_0602FDA4@602FE00, sym_060302C6@6030324 |
 | sym_0608188A | HWR-ext | sym_0602FDA4@602FDDA, sym_060302C6@60302FE |
@@ -427,9 +436,11 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_06081892 | HWR-ext | sym_0602FDA4@602FE44, sym_060302C6@6030368 |
 | sym_06081894 | HWR-ext | sym_0602FDA4@602FE30, sym_060302C6@6030354 |
 | sym_06081896 | HWR-ext | sym_0602FDA4@602FE1C, sym_060302C6@6030340 |
-| sym_06082A25 | HWR-ext | sym_0602E16C@602E3FE, sym_06033020@603302E |
+| sym_06082A20 | HWR-ext | sym_060322E8@60322F0, sym_06032304@6032314 |
+| sym_06082A24 | HWR-ext | sym_060322E8@60322E8, sym_06032304@60324AC |
+| sym_06082A25 | HWR-ext | sym_0602E16C@602E3FE, sym_06032304@603243E, sym_06033020@603302E |
 | sym_06082A26 | HWR-ext | sym_0602DB00@602DB30, sym_0602E16C@602E40A |
-| sym_06082A28 | HWR-ext | sym_06033020@603304E |
+| sym_06082A28 | HWR-ext | sym_06032304@6032448, sym_06033020@603304E |
 | sym_06082A2C | HWR-ext | sym_0602DB00@602DB58, sym_0602E16C@602E3F4 |
 | sym_06082A30 | HWR-ext | sym_0602DB00@602DC32, sym_0602E16C@602E3AE |
 | sym_06082A34 | HWR-ext | sym_0602DB00@602DB9E, sym_0602E16C@602E3A6 |
@@ -442,14 +453,17 @@ Globals / cross-module data. Not funcfinder-on-APROG work; resolve when the refe
 | sym_06085FF4 | HWR-ext | sym_0601D7D0@601D80A |
 | sym_06086034 | HWR-ext | sym_0601D7D0@601D822 |
 | sym_0608604C | HWR-ext | sym_0601D5F4@601D618, sym_0601D6D4@601D6EA, sym_0601D6F8@601D70E, sym_0601D72C@601D742 … |
-| sym_06086050 | HWR-ext | sym_0601D5F4@601D5F8 |
+| sym_06086050 | HWR-ext | sym_0601D5F4@601D5F8, sym_0601DB84@601DB84 |
 | sym_06086054 | HWR-ext | sym_0600DB9E@600DC62, sym_0601D7D0@601D7E4, sym_0602F99C@602FAA6 |
 | sym_06086056 | HWR-ext | sym_0601D7D0@601D924 |
 | sym_06086058 | HWR-ext | sym_0601D7D0@601D7EA |
 | sym_06087060 | HWR-ext | sym_0601D7D0@601D7E8 |
 | sym_06087804 | HWR-ext | sym_0600C5D6@600C5F2 |
 | sym_06089595 | HWR-ext | sym_0603053C@603075E, sym_06030A9C@6030ADE |
-| sym_06089EDC | HWR-ext | sym_06005ECC@6006194, sym_060061C8@600624E |
+| sym_06089EDC | HWR-ext | sym_06005ECC@6006194, sym_060061C8@600624E, sym_06026DBC@6026DBC, sym_06026E02@6026E04 … |
+| sym_06089EE0 | HWR-ext | sym_06026E02@6026E02 |
+| sym_0608A4E0 | HWR-ext | sym_06026EDE@6026EE0 |
+| sym_0608A520 | HWR-ext | sym_06026FFC@6027004 |
 | sym_060A6000 | HWR-ext | sym_06027CA4@6027D66, sym_06027EDE@6027F92, sym_0603053C@60308D2, sym_06030A9C@6030AF6 |
 | sym_060BF000 | HWR-ext | sym_06027CA4@6027D60, sym_06027EDE@6027EF6 |
 | sym_060C2000 | HWR-ext | sym_06027CA4@6027D44, sym_06027EDE@6027EF4 |

@@ -54,13 +54,30 @@ OUT_JSON = os.path.join(CCE_ROOT, 'workstreams', 'transplant', 'coverage_audit.j
 HWR_LO, HWR_HI = 0x06000000, 0x06100000      # High Work RAM (loaded modules)
 LWR_LO, LWR_HI = 0x00200000, 0x00300000      # Low Work RAM
 
-# Default anchors: the player physics pipeline. The dispatcher's TRUE external
-# entry is the jump-table thunk 0x0602ECF2 (static_callers=1); the long-cited
+# Default anchors — ALL roots of the driving-model closure. A bare run must
+# audit the full web; auditing only a subset silently under-reports gaps as 0
+# (the closure is rooted, so anything not reachable from the anchors is
+# invisible, not "clear").
+#
+# Player physics pipeline: the dispatcher's TRUE external entry is the
+# jump-table thunk 0x0602ECF2 (static_callers=1); the long-cited
 # "FUN_0602EEB8" is a Ghidra mid-prologue ghost (the r14 push of the normal-path
 # internal block 0x0602EEAC -- a switch case of 0x0602ECF2, reached only via the
 # in-body jump table at 0x0602ED0C, never called from outside). The two ported
 # writers are belt-and-suspenders (inside the dispatcher's closure anyway).
-DEFAULT_ANCHORS = [0x0602ECF2, 0x0602D814, 0x0602D8BC]
+#
+# Shared-physics subsystem (the parallel per-frame half with no call edge from
+# the dispatcher — see workstreams/transplant/subsystem_completeness_handoff.md):
+# the AI per-car loop, track-query chain, and frame-loop physics writers. These
+# were previously passed by hand via --anchor on every run; a bare run scoped
+# to the player pipeline alone and printed a false "0 gaps".
+DEFAULT_ANCHORS = [
+    # player pipeline
+    0x0602ECF2, 0x0602D814, 0x0602D8BC,
+    # shared-physics subsystem roots
+    0x0600DE40, 0x0600DE54, 0x0600DE70, 0x0600DF66,
+    0x0600DFD0, 0x0600E060, 0x0602DB00,
+]
 
 _SHELF = os.path.join(CCE_ROOT, 'tools', 'sh-elf', 'bin')
 def _tool(name):
