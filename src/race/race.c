@@ -473,7 +473,7 @@ int __race_shift_pad(void) asm {
 #endif
 #ifndef MOD_TRANSPLANT /* dead-code deletion: batch 4 -- rts-gate cascade (position-integration subtree no longer pinned) */
 #include "src/race/asm/FUN_0603E3E8.c"
-#include "src/race/asm/FUN_0603E45C.c"
+#include "src/race/asm/FUN_0603E45A.c"
 #include "src/race/asm/FUN_0603E472.c"
 #endif
 #include "src/race/asm/FUN_0603E488.c"

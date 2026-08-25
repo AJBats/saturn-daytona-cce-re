@@ -1158,8 +1158,8 @@ subsegments:
     end:   0x0603E3E7
   - start: 0x0603E3E8
     type:  code
-    end:   0x0603E45B
-  - start: 0x0603E45C
+    end:   0x0603E459
+  - start: 0x0603E45A
     type:  code
     end:   0x0603E471
   - start: 0x0603E472

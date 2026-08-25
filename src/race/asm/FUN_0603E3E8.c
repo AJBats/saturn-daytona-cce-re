@@ -12,7 +12,7 @@ int FUN_0603E3E8(void) asm {
         bf .L_0603E408
         cmp/eq #0x4, r0
         bf .L_0603E408
-        bsr .L_0603E45A
+        bsr FUN_0603E45A
         mov #0x0, r4
         bra .L_0603E43A
         nop
@@ -21,7 +21,7 @@ int FUN_0603E3E8(void) asm {
         bf .L_0603E418
         cmp/eq #0x4, r0
         bt .L_0603E418
-        bsr .L_0603E45A
+        bsr FUN_0603E45A
         mov #0x0, r4
         bra .L_0603E43A
         nop
@@ -31,7 +31,7 @@ int FUN_0603E3E8(void) asm {
         bf .L_0603E42A
         cmp/eq #0x3, r0
         bf .L_0603E42A
-        bsr .L_0603E45A
+        bsr FUN_0603E45A
         mov #0x1, r4
         bra .L_0603E43A
         nop
@@ -40,7 +40,7 @@ int FUN_0603E3E8(void) asm {
         bf .L_0603E43A
         cmp/eq #0x0, r0
         bf .L_0603E43A
-        bsr .L_0603E45A
+        bsr FUN_0603E45A
         mov #0x1, r4
         bra .L_0603E43A
         nop
@@ -62,6 +62,4 @@ int FUN_0603E3E8(void) asm {
         lds.l @r15+, pr
         rts
         nop
-    .L_0603E45A:
-        mov.l r0, @-r15
 }

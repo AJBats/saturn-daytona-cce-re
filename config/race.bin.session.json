@@ -6476,38 +6476,56 @@
       "feedback": "",
       "ts": 1779887863.1739154,
       "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603E3E8",
+      "candidate_start": 100918248,
+      "candidate_end": 100918361,
+      "feedback": "",
+      "ts": 1787662157.8166015,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603E3E8",
+      "candidate_start": 100918248,
+      "candidate_end": 100918361,
+      "feedback": "",
+      "ts": 1787662628.5917168,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603E45A",
+      "candidate_start": 100918362,
+      "candidate_end": 100918385,
+      "feedback": "",
+      "ts": 1787662640.4411736,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603E3E8",
+      "candidate_start": 100918248,
+      "candidate_end": 100918361,
+      "feedback": "",
+      "ts": 1787662823.4725235,
+      "type": "code"
+    },
+    {
+      "verdict": "approved",
+      "candidate_start_hex": "0603E472",
+      "candidate_start": 100918386,
+      "candidate_end": 100918407,
+      "feedback": "",
+      "ts": 1787662833.076104,
+      "type": "code"
     }
   ],
   "awaiting_ai": false,
-  "ai_override": {
-    "attn": [
-      "0x0602A0A2",
-      "0x0604599A",
-      "0x06045B78",
-      "0x06045B7C",
-      "0x06045B80",
-      "0x06045BBA",
-      "0x06045BBC"
-    ]
-  },
-  "analyze_mode": {
-    "blocks": [
-      {
-        "start": 100835400,
-        "end": 100835607
-      },
-      {
-        "start": 100948312,
-        "end": 100948419
-      },
-      {
-        "start": 100948852,
-        "end": 100949051
-      }
-    ],
-    "active_block": 2,
-    "label": "batch2 ILLEGAL-COMMAND fault chain (retail addrs; fault seen on transplant build at -0x1662 == 2 mod 4): blk1 = FUN_0602A048, per-frame service entry init calls via RAM slot (call site 0602A0A2 -> FUN_06045958); blk2 = FUN_06045958, calls dispatcher at 0604599A -> FUN_06045B74; blk3 = FUN_06045B74 TU, braf dispatcher pair: mova@06045B78 (PC&~3 based) finds table 06045B80; braf@06045B7C adds from PC+4; retail invariant: table base 06045B80 == braf+4. When the function lands at 2 mod 4, GAS pads 2 bytes before the 4-aligned table (adjusting bt+mova) but the .2byte deltas are pool-anchored, so braf lands every dispatch 2 bytes short: intended 06045BBC (null-return epilogue) -> landed on table word 06045BBA (=0x0010, illegal opcode) -> init exception screen."
-  },
+  "ai_override": null,
+  "analyze_mode": null,
   "pending_partners": [],
   "frontier_simulation": false,
   "pending_entries": {},
