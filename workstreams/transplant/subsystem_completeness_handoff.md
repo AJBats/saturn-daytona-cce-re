@@ -1,5 +1,21 @@
 # Shared-physics subsystem — completeness & porting handoff (2026-06-17)
 
+> **PHASE 1 COMPLETE (2026-08-25).** The funcfinder closure is CLOSED:
+> `transplant_coverage_audit.py` reports **0 code + 0 data INTERNAL GAPS**
+> over all 10 anchors (now baked into DEFAULT_ANCHORS — a bare run audits the
+> full closure; commit 04649797). Final map: 147 code subsegs + 80 data
+> tables; graph regenerated (`transplant_pipeline.svg`). Closing commits:
+> SaturnReverseTest 79c8ef92 + 5f2eea7a, CCE 548ae405. The gap tables below
+> are HISTORICAL — the queue is empty. Convergence criterion 1 of 3 is met;
+> criteria 2 (orphan car-struct reads) and 3 (whole-memory homing/poison
+> gate) are the open work: **Phase 2, tooling still to build.** Noteworthy
+> boundary shapes found while closing: the 0603605C shift helper (real
+> prologue before the long-cited 06036068 entry, which is a recorded
+> tail-jump alt entry), and 06031A28 + 06031D1A stamped as a contiguous
+> PARTNER pair (guard fragment bt's into A28's loop-bottom — cannot stand
+> alone; its jump table 06031D78 holds ABSOLUTE addresses into A28's body:
+> relocation-sensitive cargo).
+
 Durable handoff for the next agent. Reading order: this doc → `car_struct_audit.md`
 → `coverage_audit.md` → `transplant_pipeline.png`. Memory: `project_car_struct_seam`,
 `project_data_homing`.
@@ -21,8 +37,8 @@ along — it just lived in "shared code," outside the closure we traced.
 | layer | count | status |
 |---|---|---|
 | Player pipeline (18-call ECF2 closure) | 33 | **ported** |
-| Shared-physics subsystem | 56 | **stamped, NOT ported** |
-| Next layer (referenced, un-stamped) | **23** | **not even stamped — closure NOT closed** |
+| Shared-physics subsystem + all deeper layers | 114 | **stamped, NOT ported** |
+| Referenced, un-stamped | **0** | **closure CLOSED 2026-08-25** |
 
 Import list trajectory: **32 → 89 → (89 + 23 + an unknown further tail)**. It keeps
 growing as we trace deeper. It terminates at math leaves + the frame/render cut —
@@ -37,7 +53,7 @@ Subsystem islands stamped this session (committed to SaturnReverseTest `main`:
 Re-run after every stamping/porting pass. Complete iff ALL THREE hold:
 
 1. **`transplant_coverage_audit.py` INTERNAL GAPS (code) == 0** — every called
-   function is funcfinder-stamped. **Currently: 23.**
+   function is funcfinder-stamped. **MET 2026-08-25 (was 23).**
 2. **`car_struct_audit.py`: no orphan reads** — every car-struct field the import
    set READS has a producer in the stamped set, or is confirmed init/external.
 3. **Whole-memory homing: no unclassified writes** — every WRITE the import set

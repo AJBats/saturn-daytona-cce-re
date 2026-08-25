@@ -263,7 +263,9 @@ def render_col_budget():
 def write_dot(g):
     closure, ported = g['closure'], g['ported']
     L = ['digraph pipeline {',
-         '  rankdir=LR; splines=true; bgcolor="white"; concentrate=true;',
+         # no concentrate: graphviz 2.43 (WSL) hard-errors on concentrate+clusters
+         # at this graph size ("rebuiltd_vlists: lead is null")
+         '  rankdir=LR; splines=true; bgcolor="white";',
          '  ranksep=0.9; nodesep=0.22;',
          '  node [fontname="Consolas,monospace", fontsize=9];',
          '  edge [fontname="Consolas,monospace", fontsize=8, color="#555555"];',
