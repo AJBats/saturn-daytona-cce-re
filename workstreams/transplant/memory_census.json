@@ -8,7 +8,8 @@
     16,
     20,
     24,
-    32
+    32,
+    492
    ],
    "car_w": [
     20,
@@ -186,10 +187,15 @@
    "car_r": [
     8,
     12,
-    184
+    184,
+    188,
+    476
    ],
    "car_w": [
-    12
+    12,
+    184,
+    472,
+    476
    ],
    "unres_r": 2,
    "unres_w": 0,
@@ -217,8 +223,17 @@
    "start": 100696856,
    "end": 100697111,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    184,
+    188,
+    476
+   ],
+   "car_w": [
+    184,
+    212,
+    472,
+    476
+   ],
    "unres_r": 2,
    "unres_w": 1,
    "reads": {
@@ -237,6 +252,7 @@
     101182432
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER",
     "UNKNOWN-WRITES"
    ]
@@ -245,8 +261,12 @@
    "start": 100697112,
    "end": 100697183,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    444
+   ],
+   "car_w": [
+    532
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -262,15 +282,19 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "06008460": {
    "start": 100697184,
    "end": 100697289,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    444
+   ],
+   "car_w": [
+    532
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -286,15 +310,20 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "060084CA": {
    "start": 100697290,
    "end": 100697527,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    444,
+    468
+   ],
+   "car_w": [
+    468
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -333,6 +362,7 @@
     101156460
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -342,10 +372,14 @@
    "ported": false,
    "car_r": [
     48,
-    188
+    188,
+    352,
+    444,
+    492
    ],
    "car_w": [
-    40
+    40,
+    492
    ],
    "unres_r": 0,
    "unres_w": 0,
@@ -375,8 +409,12 @@
    "start": 100697664,
    "end": 100697791,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    444
+   ],
+   "car_w": [
+    212
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -393,7 +431,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "060086C0": {
@@ -401,7 +439,12 @@
    "end": 100697903,
    "ported": false,
    "car_r": [],
-   "car_w": [],
+   "car_w": [
+    188,
+    440,
+    444,
+    520
+   ],
    "unres_r": 8,
    "unres_w": 0,
    "reads": {
@@ -421,6 +464,7 @@
     101182444
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -430,9 +474,23 @@
    "ported": false,
    "car_r": [
     4,
-    188
+    188,
+    440,
+    444,
+    448,
+    452
    ],
-   "car_w": [],
+   "car_w": [
+    188,
+    212,
+    436,
+    440,
+    444,
+    452,
+    456,
+    460,
+    464
+   ],
    "unres_r": 11,
    "unres_w": 0,
    "reads": {
@@ -456,6 +514,7 @@
     101156460
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -546,11 +605,19 @@
    "ported": false,
    "car_r": [
     8,
-    12
+    12,
+    184,
+    188,
+    212,
+    252,
+    404,
+    408
    ],
    "car_w": [
     8,
-    12
+    12,
+    212,
+    252
    ],
    "unres_r": 0,
    "unres_w": 0,
@@ -580,13 +647,22 @@
     12,
     16,
     24,
-    40
+    40,
+    184,
+    353,
+    396,
+    400,
+    408,
+    444,
+    516,
+    520
    ],
    "car_w": [
     16,
     20,
     24,
-    32
+    32,
+    516
    ],
    "unres_r": 1,
    "unres_w": 0,
@@ -621,7 +697,8 @@
     4,
     16,
     24,
-    40
+    40,
+    492
    ],
    "car_w": [
     32,
@@ -711,9 +788,12 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    492
    ],
-   "car_w": [],
+   "car_w": [
+    508
+   ],
    "unres_r": 7,
    "unres_w": 3,
    "reads": {
@@ -726,6 +806,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
+    "CAR-WRITER",
     "UNKNOWN-WRITES"
    ]
   },
@@ -733,8 +814,15 @@
    "start": 100715158,
    "end": 100715407,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    492,
+    504,
+    508
+   ],
+   "car_w": [
+    504,
+    508
+   ],
    "unres_r": 9,
    "unres_w": 8,
    "reads": {
@@ -747,6 +835,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
+    "CAR-WRITER",
     "UNKNOWN-WRITES"
    ]
   },
@@ -754,8 +843,15 @@
    "start": 100715576,
    "end": 100715839,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    492,
+    504,
+    508
+   ],
+   "car_w": [
+    504,
+    508
+   ],
    "unres_r": 12,
    "unres_w": 8,
    "reads": {
@@ -768,6 +864,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
+    "CAR-WRITER",
     "UNKNOWN-WRITES"
    ]
   },
@@ -777,9 +874,13 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    484
    ],
-   "car_w": [],
+   "car_w": [
+    388,
+    484
+   ],
    "unres_r": 5,
    "unres_w": 0,
    "reads": {
@@ -792,7 +893,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600CDD0": {
@@ -801,9 +902,15 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    388,
+    480,
+    484
    ],
-   "car_w": [],
+   "car_w": [
+    388,
+    484
+   ],
    "unres_r": 4,
    "unres_w": 0,
    "reads": {
@@ -816,7 +923,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600CE66": {
@@ -824,9 +931,14 @@
    "end": 100716217,
    "ported": false,
    "car_r": [
-    3
+    3,
+    388,
+    492
    ],
-   "car_w": [],
+   "car_w": [
+    388,
+    492
+   ],
    "unres_r": 1,
    "unres_w": 2,
    "reads": {
@@ -839,6 +951,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
+    "CAR-WRITER",
     "UNKNOWN-WRITES"
    ]
   },
@@ -846,8 +959,12 @@
    "start": 100716218,
    "end": 100716375,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    388
+   ],
+   "car_w": [
+    388
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -862,7 +979,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600CF58": {
@@ -871,9 +988,15 @@
    "ported": false,
    "car_r": [
     4,
-    8
+    8,
+    508,
+    528,
+    548
    ],
-   "car_w": [],
+   "car_w": [
+    504,
+    508
+   ],
    "unres_r": 2,
    "unres_w": 0,
    "reads": {
@@ -886,15 +1009,20 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600D0B8": {
    "start": 100716728,
    "end": 100716843,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    508
+   ],
+   "car_w": [
+    504,
+    516
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -907,7 +1035,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600D12C": {
@@ -916,9 +1044,15 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    280,
+    508,
+    564
    ],
-   "car_w": [],
+   "car_w": [
+    504,
+    516
+   ],
    "unres_r": 8,
    "unres_w": 0,
    "reads": {
@@ -930,15 +1064,20 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600D210": {
    "start": 100717072,
    "end": 100717157,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    508
+   ],
+   "car_w": [
+    504,
+    516
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -951,7 +1090,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600D266": {
@@ -974,8 +1113,14 @@
    "start": 100718464,
    "end": 100718667,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    492,
+    552
+   ],
+   "car_w": [
+    488,
+    552
+   ],
    "unres_r": 1,
    "unres_w": 1,
    "reads": {
@@ -998,6 +1143,7 @@
     101072668
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER",
     "UNKNOWN-WRITES"
    ]
@@ -1006,8 +1152,13 @@
    "start": 100718668,
    "end": 100718755,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    488,
+    492
+   ],
+   "car_w": [
+    488
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -1026,6 +1177,7 @@
     101072672
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -1034,7 +1186,8 @@
    "end": 100718891,
    "ported": false,
    "car_r": [
-    3
+    3,
+    492
    ],
    "car_w": [],
    "unres_r": 3,
@@ -1063,8 +1216,16 @@
    "start": 100718892,
    "end": 100719035,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    540,
+    556,
+    560
+   ],
+   "car_w": [
+    556,
+    560,
+    576
+   ],
    "unres_r": 0,
    "unres_w": 1,
    "reads": {
@@ -1088,6 +1249,7 @@
     101182452
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER",
     "UNKNOWN-WRITES"
    ]
@@ -1096,8 +1258,12 @@
    "start": 100719036,
    "end": 100719227,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    552
+   ],
+   "car_w": [
+    552
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -1125,6 +1291,7 @@
     101072676
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -1132,7 +1299,9 @@
    "start": 100719228,
    "end": 100719459,
    "ported": false,
-   "car_r": [],
+   "car_r": [
+    184
+   ],
    "car_w": [],
    "unres_r": 5,
    "unres_w": 5,
@@ -1154,9 +1323,12 @@
    "end": 100719517,
    "ported": false,
    "car_r": [
-    2
+    2,
+    348
    ],
-   "car_w": [],
+   "car_w": [
+    348
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -1178,6 +1350,7 @@
     101182140
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -1241,7 +1414,8 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    480
    ],
    "car_w": [],
    "unres_r": 3,
@@ -1283,7 +1457,8 @@
    "ported": false,
    "car_r": [
     16,
-    24
+    24,
+    480
    ],
    "car_w": [],
    "unres_r": 5,
@@ -1646,8 +1821,16 @@
    "start": 100722458,
    "end": 100722631,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    484,
+    520,
+    552
+   ],
+   "car_w": [
+    504,
+    520,
+    552
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -1660,7 +1843,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "0600E7C8": {
@@ -1669,11 +1852,18 @@
    "ported": false,
    "car_r": [
     12,
-    40
+    40,
+    484,
+    520,
+    552,
+    604
    ],
    "car_w": [
     40,
-    48
+    48,
+    504,
+    520,
+    552
    ],
    "unres_r": 2,
    "unres_w": 0,
@@ -1698,12 +1888,15 @@
    "ported": false,
    "car_r": [
     12,
-    32
+    32,
+    552
    ],
    "car_w": [
     8,
     12,
-    48
+    48,
+    540,
+    552
    ],
    "unres_r": 0,
    "unres_w": 2,
@@ -1727,9 +1920,12 @@
    "end": 100723223,
    "ported": false,
    "car_r": [
-    12
+    12,
+    492
    ],
-   "car_w": [],
+   "car_w": [
+    552
+   ],
    "unres_r": 1,
    "unres_w": 0,
    "reads": {
@@ -1748,6 +1944,7 @@
     101182160
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER"
    ]
   },
@@ -2003,7 +2200,9 @@
    "start": 100784080,
    "end": 100784559,
    "ported": false,
-   "car_r": [],
+   "car_r": [
+    540
+   ],
    "car_w": [],
    "unres_r": 10,
    "unres_w": 10,
@@ -2403,7 +2602,9 @@
    "start": 100826276,
    "end": 100826845,
    "ported": false,
-   "car_r": [],
+   "car_r": [
+    492
+   ],
    "car_w": [
     604
    ],
@@ -2441,7 +2642,9 @@
    "start": 100826846,
    "end": 100827331,
    "ported": false,
-   "car_r": [],
+   "car_r": [
+    492
+   ],
    "car_w": [],
    "unres_r": 12,
    "unres_w": 2,
@@ -3508,7 +3711,9 @@
    "car_r": [
     0,
     12,
-    20
+    20,
+    92,
+    132
    ],
    "car_w": [
     0
@@ -3548,7 +3753,11 @@
     0,
     8,
     12,
-    20
+    20,
+    92,
+    184,
+    444,
+    492
    ],
    "car_w": [],
    "unres_r": 14,
@@ -3707,7 +3916,9 @@
    "car_r": [
     48
    ],
-   "car_w": [],
+   "car_w": [
+    364
+   ],
    "unres_r": 21,
    "unres_w": 2,
    "reads": {
@@ -3742,6 +3953,7 @@
     101225877
    ],
    "class": [
+    "CAR-WRITER",
     "GLOBAL-WRITER",
     "UNKNOWN-WRITES"
    ]
@@ -3751,10 +3963,14 @@
    "end": 100862619,
    "ported": false,
    "car_r": [
-    48
+    48,
+    352,
+    592
    ],
    "car_w": [
-    40
+    40,
+    484,
+    592
    ],
    "unres_r": 2,
    "unres_w": 1,
@@ -3842,8 +4058,12 @@
    "start": 100863712,
    "end": 100863739,
    "ported": false,
-   "car_r": [],
-   "car_w": [],
+   "car_r": [
+    336
+   ],
+   "car_w": [
+    336
+   ],
    "unres_r": 0,
    "unres_w": 0,
    "reads": {
@@ -3855,7 +4075,7 @@
    "hw_w": [],
    "glob_w": [],
    "class": [
-    "PURE/LEAF"
+    "CAR-WRITER"
    ]
   },
   "06031A28": {
@@ -4177,7 +4397,11 @@
    "start": 100878592,
    "end": 100878723,
    "ported": false,
-   "car_r": [],
+   "car_r": [
+    92,
+    184,
+    444
+   ],
    "car_w": [],
    "unres_r": 0,
    "unres_w": 0,

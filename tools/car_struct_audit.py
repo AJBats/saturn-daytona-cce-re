@@ -149,17 +149,28 @@ def scan_subseg(start, end, ported_set):
             reg[int(m.group(1))] = int(m.group(2), 16)
             continue
 
-        m = IDX_RD.search(line)                # @(r0,rN) -> rD   (r0 = car)
+        # @(r0,rN) is symmetric addition; the pipeline convention is car in r0
+        # + offset in rN, but the shared-physics subsystem mirrors it (offset
+        # pool-loaded into r0, car base in rN -- e.g. 06008318's +0xB8 write).
+        # Credit whichever orientation has a car-tagged base + resolved offset.
+        def idx_off(rn):
+            if 0 in car:
+                return reg.get(rn)
+            if rn in car:
+                return reg.get(0)
+            return None
+
+        m = IDX_RD.search(line)                # @(r0,rN) -> rD
         if m:
-            off = reg.get(int(m.group(2)))
-            if 0 in car and off is not None and 0 <= off < OFF_CAP:
+            off = idx_off(int(m.group(2)))
+            if off is not None and 0 <= off < OFF_CAP:
                 acc.append((off, 'r', SZ[m.group(1)]))
             clear(int(m.group(3)))
             continue
         m = IDX_WR.search(line)                # rS -> @(r0,rN)
         if m:
-            off = reg.get(int(m.group(3)))
-            if 0 in car and off is not None and 0 <= off < OFF_CAP:
+            off = idx_off(int(m.group(3)))
+            if off is not None and 0 <= off < OFF_CAP:
                 acc.append((off, 'w', SZ[m.group(1)]))
             continue
         m = DSP_RD.search(line)                # @(d,rN) -> rD
